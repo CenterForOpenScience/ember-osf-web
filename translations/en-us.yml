@@ -486,6 +486,7 @@ validationErrors:
     new_folder_name: 'Folder name must not be blank.'
     year_format: 'Please specify a valid year.'
     no_updated_responses: 'No changes have been made in this update.'
+    moderator_comment: 'Please provide feedback for your decision.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:

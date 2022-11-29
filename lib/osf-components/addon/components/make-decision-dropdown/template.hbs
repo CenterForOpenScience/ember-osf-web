@@ -35,7 +35,7 @@
                             name='moderatorAction'
                             @type='radio'
                             @value={{option}}
-                            @checked={{if (eq this.decisionTrigger option) true false}}
+                            @checked={{if (eq (get this.changeset 'decisionTrigger') option) true false}}
                             {{on 'click' (fn this.updateDecisionTrigger option)}}
                         />
                         {{t (get this.actionTriggerToLabelKey option)}}
@@ -54,21 +54,28 @@
                 {{this.commentTextArea.label}}
                 <Textarea
                     data-test-moderation-dropdown-comment
-                    @value={{this.comment}}
+                    @value={{this.changeset.comment}}
                     placeholder={{this.commentTextArea.placeholder}}
                     local-class='Comment'
                 />
             </label>
-            <Button
-                data-test-moderation-dropdown-submit
-                data-analytics-name='Submit decision'
-                @type='create'
-                disabled={{or (not this.decisionTrigger) this.submitDecision.isRunning}}
-                local-class='SubmitButton'
-                {{on 'click' (queue (perform this.submitDecision) dd.close)}}
-            >
-                {{t 'osf-components.makeDecisionDropdown.submit'}}
-            </Button>
+            <div>
+                <ValidationErrors
+                    local-class='error-message'
+                    @changeset={{this.changeset}}
+                    @key='comment'
+                />
+                <Button
+                    data-test-moderation-dropdown-submit
+                    data-analytics-name='Submit decision'
+                    @type='create'
+                    disabled={{or this.changeset.isInvalid this.submitDecision.isRunning}}
+                    local-class='SubmitButton'
+                    {{on 'click' (queue (perform this.submitDecision) dd.close)}}
+                >
+                    {{t 'osf-components.makeDecisionDropdown.submit'}}
+                </Button>
+            </div>
         {{else}}
             <div data-test-no-moderator-actions>
                 {{t 'osf-components.makeDecisionDropdown.noModeratorActions'}}

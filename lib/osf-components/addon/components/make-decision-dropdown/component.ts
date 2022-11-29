@@ -4,10 +4,11 @@ import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
-import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { validatePresence } from 'ember-changeset-validations/validators';
 import Toast from 'ember-toastr/services/toast';
 import RouterService from '@ember/routing/router-service';
 
@@ -42,8 +43,18 @@ import {
     SchemaResponseActionTriggerToLabelMapKey,
     SchemaResponseActionTriggerToDescriptionKey,
 } from 'ember-osf-web/models/schema-response-action';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 type AllActionTriggers = ReviewActionTrigger | SchemaResponseActionTrigger | CollectionSubmissionActionTrigger;
+
+const CommentRequiredTriggers = [
+    ReviewActionTrigger.RejectSubmission,
+    ReviewActionTrigger.RejectWithdrawal,
+    ReviewActionTrigger.ForceWithdraw,
+    SchemaResponseActionTrigger.RejectRevision,
+    CollectionSubmissionActionTrigger.Reject,
+    CollectionSubmissionActionTrigger.ModeratorRemove,
+];
 interface Args {
     registration: RegistrationModel;
     collectionSubmission: CollectionSubmissionModel;
@@ -56,9 +67,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @service toast!: Toast;
     @service router!: RouterService;
 
-    @tracked decisionTrigger?: AllActionTriggers;
-    @tracked comment?: string;
-
+    changeset!: BufferedChangeset;
     actionTriggerToLabelKey: {};
     actionTriggerToDescriptionKey: {};
 
@@ -78,6 +87,14 @@ export default class MakeDecisionDropdown extends Component<Args> {
             this.actionTriggerToLabelKey = CollectionSubmissionActionTriggerToLabelMapKey;
             this.actionTriggerToDescriptionKey = CollectionSubmissionActionTriggerToDescriptionKey;
         }
+        this.changeset = buildChangeset(
+            {
+                comment: undefined,
+                decisionTrigger: undefined,
+            },
+            this.decisionDropdownValidations,
+        );
+        this.changeset.validate();
     }
 
     get latestRevision() {
@@ -189,6 +206,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @task
     @waitFor
     async submitDecision() {
+        if (this.changeset.isInvalid) {
+            return;
+        }
         if (this.args.registration) {
             await taskFor(this.submitRegistrationDecision).perform();
         } else {
@@ -199,28 +219,30 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @task
     @waitFor
     async submitRegistrationDecision() {
-        if (this.decisionTrigger) {
+        const decisionTrigger = this.changeset.get('decisionTrigger');
+        const comment = this.changeset.get('comment');
+        if (decisionTrigger) {
             const isSchemaResponseAction = ([
                 SchemaResponseActionTrigger.RejectRevision, SchemaResponseActionTrigger.AcceptRevision,
-            ] as AllActionTriggers[]).includes(this.decisionTrigger);
+            ] as AllActionTriggers[]).includes(decisionTrigger);
             const actionType = isSchemaResponseAction ? 'schema-response-action' : 'review-action';
             const target = isSchemaResponseAction ? this.args.registration.schemaResponses.firstObject
                 : this.args.registration;
             const newAction = this.store.createRecord(actionType, {
-                actionTrigger: this.decisionTrigger,
-                comment: (this.comment ? this.comment : undefined),
+                actionTrigger: decisionTrigger,
+                comment: (comment ? comment : undefined),
                 target,
             });
             try {
                 await newAction.save();
                 this.toast.success(this.intl.t('osf-components.makeDecisionDropdown.success'));
-                if (this.decisionTrigger === ReviewActionTrigger.RejectSubmission) {
+                if (decisionTrigger === ReviewActionTrigger.RejectSubmission) {
                     this.router.transitionTo(
                         'registries.branded.moderation.submitted',
                         this.args.registration.provider.get('id'),
                         { queryParams: { state: RegistrationReviewStates.Rejected } },
                     );
-                } else if (this.decisionTrigger === SchemaResponseActionTrigger.RejectRevision) {
+                } else if (decisionTrigger === SchemaResponseActionTrigger.RejectRevision) {
                     this.router.transitionTo(
                         'registries.branded.moderation.submitted',
                         this.args.registration.provider.get('id'),
@@ -228,13 +250,12 @@ export default class MakeDecisionDropdown extends Component<Args> {
                     );
                 }
                 this.args.registration.reload();
+                this.reset();
                 if (this.args.afterSubmit) {
                     this.args.afterSubmit();
                 }
             } catch (e) {
                 this.catchError(e);
-            } finally {
-                this.reset();
             }
         }
     }
@@ -242,31 +263,33 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @task
     @waitFor
     async submitCollectionSubmissionDecision() {
-        if (this.decisionTrigger) {
+        const decisionTrigger = this.changeset.get('decisionTrigger');
+        const comment = this.changeset.get('comment');
+        if (decisionTrigger) {
             const target = this.args.collectionSubmission;
             const newAction = this.store.createRecord('collection-submission-action', {
-                actionTrigger: this.decisionTrigger,
-                comment: (this.comment ? this.comment : undefined),
+                actionTrigger: decisionTrigger,
+                comment: (comment ? comment : undefined),
                 target,
             });
             try {
                 await newAction.save();
                 this.toast.success(this.intl.t('osf-components.makeDecisionDropdown.success'));
                 this.args.collectionSubmission.reload();
+                this.reset();
                 if (this.args.afterSubmit) {
                     this.args.afterSubmit();
                 }
             } catch (e) {
                 this.catchError(e);
-            } finally {
-                this.reset();
             }
         }
     }
 
     @action
     updateDecisionTrigger(trigger: ReviewActionTrigger) {
-        this.decisionTrigger = trigger;
+        this.changeset.set('decisionTrigger', trigger);
+        this.changeset.validate();
     }
 
     catchError(e: ErrorDocument) {
@@ -276,7 +299,29 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     reset() {
-        this.decisionTrigger = undefined;
-        this.comment = undefined;
+        this.changeset.rollback();
+    }
+
+    decisionDropdownValidations = {
+        comment: this.commentValidation.bind(this),
+        decisionTrigger: validatePresence({
+            presence: true,
+            ignoreBlank: true,
+            allowBlank: false,
+            allowNone: false,
+        }),
+    };
+
+    commentValidation() {
+        const decisionTrigger = this.changeset.get('decisionTrigger');
+        const comment = this.changeset.get('comment');
+        if (decisionTrigger && CommentRequiredTriggers.includes(decisionTrigger) && !comment) {
+            return {
+                context: {
+                    type: 'moderator_comment',
+                },
+            };
+        }
+        return true;
     }
 }
