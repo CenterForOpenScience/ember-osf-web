@@ -170,6 +170,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
         try {
             this.changeset.save();
             this.inEditMode = false;
+            this.saveErrored = false;
         } catch (e) {
             this.saveErrored = true;
             const errorTitle = this.intl.t('osf-components.file-metadata-manager.error-saving-metadata');
