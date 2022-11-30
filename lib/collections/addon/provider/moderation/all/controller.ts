@@ -25,7 +25,7 @@ export default class CollectionsModerationAllController extends Controller {
     get query() {
         return {
             filter: {
-                reviews_state: [this.state],
+                reviews_state: this.state,
             },
             // TBD: '-modified'?? Check if API has dateModified based on actions
             sort: this.sort,
