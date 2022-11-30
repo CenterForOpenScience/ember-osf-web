@@ -72,13 +72,15 @@ module('Collections | Acceptance | moderation | all', hooks => {
             creator: server.create('user'),
             reviewsState: CollectionSubmissionReviewStates.Pending,
             collection: primaryCollection,
-            guid: server.create('node', {id: 'accept', title: 'To be accepted'}),
+            guid: server.create('node', { id: 'accept', title: 'To be accepted' }),
+            id: 'accept',
         });
         server.create('collection-submission', {
             creator: server.create('user'),
             reviewsState: CollectionSubmissionReviewStates.Pending,
             collection: primaryCollection,
-            guid: server.create('node', {id: 'reject', title: 'To be rejected'}),
+            guid: server.create('node', { id: 'reject', title: 'To be rejected' }),
+            id: 'reject',
         });
         const provider = server.create('collection-provider', {
             id: 'studyswap',

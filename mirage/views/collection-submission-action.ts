@@ -1,18 +1,23 @@
-import { HandlerContext, NormalizedRequestAttrs, Request, Schema } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Schema } from 'ember-cli-mirage';
+import Collection from 'ember-osf-web/models/collection';
 import CollectionSubmissionAction,
 { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
-import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
+import CollectionSubmission,
+{ CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 
-export function createSubmissionAction(this: HandlerContext, schema: Schema, request: Request) {
+export function createSubmissionAction(this: HandlerContext, schema: Schema) {
     const attrs = this.normalizedRequestAttrs('collection-submission-action') as
         Partial<NormalizedRequestAttrs<CollectionSubmissionAction>>;
-    const submissionId = request.params.submissionID;
     const userId = schema.roots.first().currentUserId;
     let collectionSubmissionAction;
-    if (userId && submissionId) {
+    if (userId) {
         const currentUser = schema.users.find(userId);
-        const submission = schema.collectionSubmissions.find(submissionId);
-        const { trigger, comment } = attrs as any; // cast attrs to any because `actionTrigger` does not exist on type
+        // cast attrs to any because `actionTrigger` does not exist on type
+        const { trigger, comment, targetId } = attrs as any;
+        const [nodeId, collectionId] = targetId.split('-');
+        const collection = schema.collections.find(collectionId) as ModelInstance<Collection>;
+        const submission = collection.collectionSubmissions.models
+            .find(sub => sub.id === nodeId) as ModelInstance<CollectionSubmission>;
         collectionSubmissionAction = schema.collectionSubmissionActions.create({
             creator: currentUser,
             target: submission,

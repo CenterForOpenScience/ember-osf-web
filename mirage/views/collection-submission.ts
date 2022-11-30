@@ -7,7 +7,7 @@ import { process } from './utils';
 export function getCollectionSubmissions(this: HandlerContext, schema: Schema, request: Request) {
     const { parentID: collectionId } = request.params;
     const reviewsStateFilter = request.queryParams['filter[reviews_state]'] ||
-        [CollectionSubmissionReviewStates.Pending, CollectionSubmissionReviewStates.Accepted];
+        CollectionSubmissionReviewStates.Accepted;
     const idFilter = request.queryParams['filter[id]'];
     const collection = schema.collections.find(collectionId);
 
@@ -19,7 +19,7 @@ export function getCollectionSubmissions(this: HandlerContext, schema: Schema, r
         });
     }
     let collectionSubmissions = collection.collectionSubmissions.models.filter(
-        (submission => submission.reviewsState && reviewsStateFilter.includes(submission.reviewsState)),
+        (submission => submission.reviewsState && reviewsStateFilter === submission.reviewsState),
     );
     if (idFilter) {
         collectionSubmissions = collectionSubmissions.filter(

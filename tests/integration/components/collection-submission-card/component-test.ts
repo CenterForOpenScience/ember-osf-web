@@ -30,7 +30,7 @@ module('Integration | Component | collection-submission-card', hooks => {
         this.collection = await store.findRecord('collection', collection.id);
         const mirageNode = server.create('node');
         this.node = await store.findRecord('node', mirageNode.id);
-        const submissionId = `${collection.id}-${mirageNode.id}`;
+        const submissionId = `${mirageNode.id}-${collection.id}`;
 
         const currentUser = server.create('user', 'loggedIn');
         const mirageSubmission = server.create('collection-submission', {

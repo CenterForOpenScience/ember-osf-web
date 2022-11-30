@@ -336,7 +336,7 @@ export default function(this: Server) {
         path: '/collection_submissions/:parentID/actions',
         relatedModelName: 'collection-submission-action',
     });
-    this.post('/collection_submissions/:submissionID/actions/', createSubmissionAction);
+    this.post('/collection_submission_actions/', createSubmissionAction);
     osfResource(this, 'collection-submission-action', {
         only: ['show'],
     });
