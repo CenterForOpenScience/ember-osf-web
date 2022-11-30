@@ -1,18 +1,16 @@
-<div data-test-submission-card={{this.project.id}} local-class='page-container'>
+<div data-test-submission-card={{this.projectId}} local-class='page-container'>
     <div local-class='icon-container {{this.iconClass}}'>
         <FaIcon data-test-submission-card-icon @icon={{this.icon}} @size='2x'/>
     </div>
     <div local-class='text-container'>
         <div local-class='project-title'>
-            {{#if this.project}}
-                <OsfLink
-                    data-test-submission-card-title
-                    @route='resolve-guid'
-                    @models={{array this.project.id}}
-                >
-                    {{this.project.title}}
-                </OsfLink>
-            {{/if}}
+            <OsfLink
+                data-test-submission-card-title
+                @route='resolve-guid'
+                @models={{array this.projectId}}
+            >
+                {{this.projectTitle}}
+            </OsfLink>
         </div>
         <dl local-class='project-metadata'>
             {{#each this.projectMetadata as |metadataField|}}
@@ -25,13 +23,15 @@
             {{/each}}
         </dl>
         {{#if this.fetchActions.isRunning}}
-            <LoadingIndicator />
+            <LoadingIndicator @dark={{true}}/>
         {{else}}
-            <div data-test-submission-card-latest-action local-class='moderation-details'>
-                <ReviewActionsList::ReviewAction
-                    @reviewAction={{this.latestAction}}
-                />
-            </div>
+            {{#if this.latestAction}}
+                <div data-test-submission-card-latest-action local-class='moderation-details'>
+                    <ReviewActionsList::ReviewAction
+                        @reviewAction={{this.latestAction}}
+                    />
+                </div>
+            {{/if}}
         {{/if}}
     </div>
     {{#if this.showDecisionDropdown}}

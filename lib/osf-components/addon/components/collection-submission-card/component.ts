@@ -12,7 +12,6 @@ import CollectionSubmissionModel,
     CollectionSubmissionReviewStates,
     SubmissionIconMap,
 } from 'ember-osf-web/models/collection-submission';
-import NodeModel from 'ember-osf-web/models/node';
 import { taskFor } from 'ember-concurrency-ts';
 import CollectionSubmissionAction from 'ember-osf-web/models/collection-submission-action';
 
@@ -36,9 +35,10 @@ export default class CollectionSubmissionCard extends Component<CollectionSubmis
      */
      @service intl!: Intl;
     /**
-     * The tracked project
+     * The tracked project properties
      */
-    @tracked project?: NodeModel;
+    @tracked projectId: string;
+    @tracked projectTitle: string;
     /**
      * The moderation details
      */
@@ -56,7 +56,8 @@ export default class CollectionSubmissionCard extends Component<CollectionSubmis
     constructor(owner: unknown, args: CollectionSubmissionModelArguments) {
         super(owner, args);
         taskFor(this.fetchActions).perform();
-        taskFor(this.loadProject).perform();
+        this.projectId = this.args.submission.guid.get('id');
+        this.projectTitle = this.args.submission.guid.get('title');
     }
 
     get icon() {
@@ -85,15 +86,5 @@ export default class CollectionSubmissionCard extends Component<CollectionSubmis
     async fetchActions() {
         const allActions = await this.args.submission.queryHasMany('collectionSubmissionActions');
         this.latestAction = allActions[0];
-    }
-
-    /**
-     * Get the project
-     */
-    @task
-    @waitFor
-    async loadProject() {
-        const project = await this.store.findRecord('node', this.args.submission.guid.get('id'));
-        this.project = project;
     }
 }
