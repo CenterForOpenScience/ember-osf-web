@@ -117,6 +117,11 @@ export default class FileMetadataManagerComponent extends Component<Args> {
         });
         this.metadataRecord = await guidRecord.customMetadata as CustomFileMetadataRecordModel;
         this.changeset = buildChangeset(this.metadataRecord, null);
+        this.changeset.languageObject = {
+            code: this.metadataRecord.language,
+            name: this.languageFromCode,
+        };
+        this.changeset.execute();
     }
 
     @task
@@ -151,6 +156,11 @@ export default class FileMetadataManagerComponent extends Component<Args> {
             this.saveErrored = false;
         }
         this.changeset.rollback();
+        this.changeset.languageObject = {
+            code: this.metadataRecord.language,
+            name: this.languageFromCode,
+        };
+        this.changeset.execute();
         this.inEditMode = false;
     }
 

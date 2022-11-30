@@ -7,8 +7,8 @@ import CustomFileMetadataRecord from 'ember-osf-web/models/custom-file-metadata-
 export default Factory.extend<CustomFileMetadataRecord>({
     title: faker.lorem.sentence(),
     description: faker.lorem.sentence(),
-    resourceTypeGeneral: 'text',
-    language: 'en-US',
+    resourceTypeGeneral: 'Text',
+    language: 'eng',
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
