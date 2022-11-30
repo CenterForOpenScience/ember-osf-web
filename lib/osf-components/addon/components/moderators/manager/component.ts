@@ -101,11 +101,13 @@ export default class ModeratorManagerComponent extends Component {
     @waitFor
     async loadCurrentModerator() {
         try {
+            const providerType = this.provider.modelName === 'collection-provider' ? 'collections' : 'registrations';
             if (this.currentUser.currentUserId) {
                 this.currentModerator = await this.store.findRecord('moderator', this.currentUser.currentUserId,
                     {
                         adapterOptions: {
                             providerId: this.provider.id,
+                            providerType,
                         },
                     });
             }
