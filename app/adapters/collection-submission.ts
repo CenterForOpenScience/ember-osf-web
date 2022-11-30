@@ -11,9 +11,9 @@ export default class CollectionSubmissionAdapter extends OsfAdapter {
     urlForHybridGuid(id: string): string {
         const splitId = id.split('-');
 
-        assert('ID for findRecord should be in the format: collectionId-collectionSubmissionId', splitId.length === 2);
+        assert('ID for findRecord should be in the format: collectionSubmissionId-collectionId', splitId.length === 2);
 
-        const [collectionId, collectionSubmissionId] = splitId;
+        const [collectionSubmissionId, collectionId] = splitId;
 
         return `${this.urlPrefix()}/collections/${collectionId}/collection_submissions/${collectionSubmissionId}`;
     }

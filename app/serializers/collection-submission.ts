@@ -48,7 +48,7 @@ export default class CollectionSubmissionSerializer extends OsfSerializer {
             }
         }
 
-        return `${collectionId}-${resourceId}`;
+        return `${resourceId}-${collectionId}`;
     }
 }
 
