@@ -210,7 +210,7 @@ module('Integration | Component | make-decision-dropdown', hooks => {
                     guid,
                     reviewsState,
                 });
-                const submissionId = mirageCollection.id + '-' + mirageSubmission.id;
+                const submissionId = mirageSubmission.id + '-' + mirageSubmission.id;
                 const store = this.owner.lookup('service:store');
                 const collectionSubmission = await store.findRecord('collection-submission', submissionId);
                 this.set('collectionSubmission', collectionSubmission);
