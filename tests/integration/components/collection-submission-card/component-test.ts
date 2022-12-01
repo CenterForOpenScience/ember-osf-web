@@ -62,7 +62,7 @@ module('Integration | Component | collection-submission-card', hooks => {
             .containsText('Submission accepted', 'Latest action shown');
         await click('[data-test-moderation-dropdown-button]');
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('Submit button is disabled');
-        assert.dom('[data-test-moderation-dropdown-decision-label="moderator_remove"]').exists('Accept option shown');
+        assert.dom('[data-test-moderation-dropdown-decision-label="remove"]').exists('Remove option shown');
         await click('[data-test-moderation-dropdown-button]');
 
         this.submission.reviewsState = CollectionSubmissionReviewStates.Pending;

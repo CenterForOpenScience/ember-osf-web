@@ -281,9 +281,9 @@ module('Integration | Component | review-actions', hooks => {
             'Collection submission action wrapper shows reject string',
         );
 
-        action.set('actionTrigger', CollectionSubmissionActionTrigger.ModeratorRemove);
+        action.set('actionTrigger', CollectionSubmissionActionTrigger.Remove);
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        pastTenseString = t('collections.actions.triggerPastTense.moderator_remove');
+        pastTenseString = t('collections.actions.triggerPastTense.remove');
         assert.dom('[data-test-review-action-wrapper]').containsText(
             t('osf-components.reviewActionsList.reviewAction.collectionModeratorAction',
                 { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
@@ -326,9 +326,9 @@ module('Integration | Component | review-actions', hooks => {
             'Collection submission action wrapper shows resubmit string',
         );
 
-        action.set('actionTrigger', CollectionSubmissionActionTrigger.AdminRemove);
+        action.set('actionTrigger', CollectionSubmissionActionTrigger.Remove);
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        pastTenseString = t('collections.actions.triggerPastTense.admin_remove');
+        pastTenseString = t('collections.actions.triggerPastTense.remove');
         assert.dom('[data-test-review-action-wrapper]').containsText(
             t('osf-components.reviewActionsList.reviewAction.collectionContributorAction',
                 { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),

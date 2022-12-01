@@ -30,12 +30,6 @@ export interface MirageSubmissionAction {
      * The actionTrigger determines the trigger used to affect the project
      */
     actionTrigger: CollectionSubmissionActionTrigger;
-    /**
-     * The isAdminRemove determines if the collection submission resubmit
-     * actionTrigger's fromState is from the removal of admin project or
-     * collection moderator.
-     */
-    isAdminRemove?: boolean;
 }
 
 /**

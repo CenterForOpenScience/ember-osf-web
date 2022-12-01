@@ -81,7 +81,7 @@ module('Integration | Component | make-decision-dropdown', hooks => {
             commentPlaceholder: 'osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
         },
         [CollectionSubmissionReviewStates.Accepted]: {
-            actions: [CollectionSubmissionActionTrigger.ModeratorRemove],
+            actions: [CollectionSubmissionActionTrigger.Remove],
             commentLabel: 'osf-components.makeDecisionDropdown.justificationForRemoval',
             commentPlaceholder: 'osf-components.makeDecisionDropdown.justificationForRemovalPlaceholder',
         },
@@ -224,7 +224,7 @@ module('Integration | Component | make-decision-dropdown', hooks => {
                     assert.dom(`[data-test-moderation-dropdown-decision-checkbox=${actionTrigger}]`)
                         .isNotChecked(`'${actionTrigger}' checkbox option is not checked by default`);
                     assert.dom('[data-test-moderation-dropdown-decision-label]').hasAnyText();
-                    const expectedLabel = actionTrigger === CollectionSubmissionActionTrigger.ModeratorRemove ?
+                    const expectedLabel = actionTrigger === CollectionSubmissionActionTrigger.Remove ?
                         'removeCollectionSubmission' : actionTrigger + 'CollectionSubmission';
                     assert.dom(`[data-test-moderation-dropdown-decision-label=${actionTrigger}]`).hasText(
                         t(`osf-components.makeDecisionDropdown.${expectedLabel}`),

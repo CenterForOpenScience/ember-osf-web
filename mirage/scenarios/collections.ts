@@ -119,7 +119,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             license: licensesAcceptable[0],
             title: `Admin Removed Project - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
-                CollectionSubmissionActionTrigger.AdminRemove,
+                CollectionSubmissionActionTrigger.Remove,
                 'Thanks for being part of our project',
             ),
         }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Removed);
@@ -136,7 +136,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             license: licensesAcceptable[0],
             title: `Moderator Removed Project - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
-                CollectionSubmissionActionTrigger.ModeratorRemove,
+                CollectionSubmissionActionTrigger.Remove,
                 'Thanks for being part of our project',
             ),
         }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Removed);
@@ -224,15 +224,11 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
  *
  * @params actionTrigger The specified action on project moderation
  * @params comment The optional comment/justification the moderation
- * @params isAdminRemove The optional attribute of how to determine the
- * fromState of a resubmit from either a project admin or collection moderator
- * removal
  *
  * @returns a mirage submission action interface
  */
 function buildInitialCollectionSubmissionActionArguments(
     actionTrigger: CollectionSubmissionActionTrigger, comment?: string,
-    isAdminRemove?: boolean,
 ): MirageSubmissionAction{
 
     const pastDateCreated = faker.random.number({
@@ -250,7 +246,6 @@ function buildInitialCollectionSubmissionActionArguments(
         dateCreated: faker.date.past(pastDateCreated),
         dateModified: faker.date.past(pastDateModified),
         actionTrigger,
-        isAdminRemove,
     } as MirageSubmissionAction;
 }
 
@@ -373,7 +368,7 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     projectBuilderArgument.server.create('collection-submission-action', {
         fromState: CollectionSubmissionReviewStates.Accepted,
         toState: CollectionSubmissionReviewStates.Removed,
-        actionTrigger: CollectionSubmissionActionTrigger.AdminRemove,
+        actionTrigger: CollectionSubmissionActionTrigger.Remove,
         comment: 'I am taking my project private.',
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
@@ -423,7 +418,7 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     projectBuilderArgument.server.create('collection-submission-action', {
         fromState: CollectionSubmissionReviewStates.Accepted,
         toState: CollectionSubmissionReviewStates.Removed,
-        actionTrigger: CollectionSubmissionActionTrigger.ModeratorRemove,
+        actionTrigger: CollectionSubmissionActionTrigger.Remove,
         comment: 'Your last chance is over buddy.',
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,

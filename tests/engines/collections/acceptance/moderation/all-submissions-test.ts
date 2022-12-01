@@ -150,7 +150,7 @@ module('Collections | Acceptance | moderation | all', hooks => {
         await click('[data-test-submissions-type="accepted"]');
         await click('[data-test-moderation-dropdown-button]');
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('submit button is disabled');
-        await click('[data-test-moderation-dropdown-decision-label="moderator_remove"]');
+        await click('[data-test-moderation-dropdown-decision-label="remove"]');
         assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
         await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
         triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);

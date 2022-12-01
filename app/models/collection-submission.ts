@@ -43,7 +43,7 @@ export type ActionableCollectionSubmissionStates =
     CollectionSubmissionReviewStates.Accepted | CollectionSubmissionReviewStates.Pending;
 
 export const collectionSubmissionStateToDecisionMap = {
-    [CollectionSubmissionReviewStates.Accepted]: [CollectionSubmissionActionTrigger.ModeratorRemove],
+    [CollectionSubmissionReviewStates.Accepted]: [CollectionSubmissionActionTrigger.Remove],
     [CollectionSubmissionReviewStates.Pending]:
         [CollectionSubmissionActionTrigger.Accept, CollectionSubmissionActionTrigger.Reject],
 };

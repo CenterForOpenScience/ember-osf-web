@@ -11,8 +11,7 @@ export enum CollectionSubmissionActionTrigger {
     Resubmit = 'resubmit',
     Accept = 'accept',
     Reject = 'reject',
-    ModeratorRemove = 'moderator_remove',
-    AdminRemove = 'admin_remove',
+    Remove = 'remove',
 }
 
 const TriggerToPastTenseTranslationKey: Record<CollectionSubmissionActionTrigger, string> = {
@@ -20,19 +19,18 @@ const TriggerToPastTenseTranslationKey: Record<CollectionSubmissionActionTrigger
     resubmit: 'collections.actions.triggerPastTense.resubmit',
     accept: 'collections.actions.triggerPastTense.accept',
     reject: 'collections.actions.triggerPastTense.reject',
-    moderator_remove: 'collections.actions.triggerPastTense.moderator_remove',
-    admin_remove: 'collections.actions.triggerPastTense.admin_remove',
+    remove: 'collections.actions.triggerPastTense.remove',
 };
 
 type ModeratorActionTriggers =
     CollectionSubmissionActionTrigger.Accept |
     CollectionSubmissionActionTrigger.Reject |
-    CollectionSubmissionActionTrigger.ModeratorRemove;
+    CollectionSubmissionActionTrigger.Remove;
 
 export const CollectionSubmissionActionTriggerToLabelMapKey: Record<ModeratorActionTriggers, string> = {
     [CollectionSubmissionActionTrigger.Accept]: 'osf-components.makeDecisionDropdown.acceptCollectionSubmission',
     [CollectionSubmissionActionTrigger.Reject]: 'osf-components.makeDecisionDropdown.rejectCollectionSubmission',
-    [CollectionSubmissionActionTrigger.ModeratorRemove]:
+    [CollectionSubmissionActionTrigger.Remove]:
         'osf-components.makeDecisionDropdown.removeCollectionSubmission',
 };
 export const CollectionSubmissionActionTriggerToDescriptionKey: Record<ModeratorActionTriggers, string> = {
@@ -40,7 +38,7 @@ export const CollectionSubmissionActionTriggerToDescriptionKey: Record<Moderator
         'osf-components.makeDecisionDropdown.acceptCollectionSubmissionDescription',
     [CollectionSubmissionActionTrigger.Reject]:
         'osf-components.makeDecisionDropdown.rejectCollectionSubmissionDescription',
-    [CollectionSubmissionActionTrigger.ModeratorRemove]:
+    [CollectionSubmissionActionTrigger.Remove]:
         'osf-components.makeDecisionDropdown.removeCollectionSubmissionDescription',
 };
 
