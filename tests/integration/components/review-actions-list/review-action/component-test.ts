@@ -285,8 +285,8 @@ module('Integration | Component | review-actions', hooks => {
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         pastTenseString = t('collections.actions.triggerPastTense.remove');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.collectionModeratorAction',
-                { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
+            t('osf-components.reviewActionsList.reviewAction.collectionAction',
+                { action: pastTenseString, user: 'Superb Mario', date: dateString }),
             'Collection submission action wrapper shows moderator remove string',
         );
     });
@@ -330,8 +330,8 @@ module('Integration | Component | review-actions', hooks => {
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         pastTenseString = t('collections.actions.triggerPastTense.remove');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.collectionContributorAction',
-                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
+            t('osf-components.reviewActionsList.reviewAction.collectionAction',
+                { action: pastTenseString, user: 'Superb Mario', date: dateString }),
             'Collection submission action wrapper shows admin remove string',
         );
     });

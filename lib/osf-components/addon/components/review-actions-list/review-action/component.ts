@@ -120,10 +120,15 @@ export default class ReviewAction extends Component<Args> {
             [
                 CollectionSubmissionActionTrigger.Submit,
                 CollectionSubmissionActionTrigger.Resubmit,
-                CollectionSubmissionActionTrigger.Remove,
             ];
-
-        if (collectionContributorActions.includes(reviewAction.actionTrigger)) {
+        if (reviewAction.actionTrigger === CollectionSubmissionActionTrigger.Remove) {
+            return this.intl.t('osf-components.reviewActionsList.reviewAction.collectionAction',
+                {
+                    action: reviewAction.triggerPastTense,
+                    user: reviewAction.creator.get('fullName'),
+                    date: formattedTimeSince(reviewAction.dateModified),
+                });
+        } else if (collectionContributorActions.includes(reviewAction.actionTrigger)) {
             return this.intl.t('osf-components.reviewActionsList.reviewAction.collectionContributorAction',
                 {
                     action: reviewAction.triggerPastTense,

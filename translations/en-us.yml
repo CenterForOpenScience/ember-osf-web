@@ -2130,6 +2130,7 @@ osf-components:
             registrationSubmitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
             revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
             revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
+            collectionAction: 'Submission {action} {date} by {user}'
             collectionContributorAction: 'Submission {action} {date} by contributor {contributor}'
             collectionModeratorAction: 'Submission {action} {date} by moderator {moderator}'
 
