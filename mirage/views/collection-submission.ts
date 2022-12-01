@@ -9,7 +9,8 @@ export function getCollectionSubmissions(this: HandlerContext, schema: Schema, r
     const reviewsStateQps = request.queryParams['filter[reviews_state]'] ||
         CollectionSubmissionReviewStates.Accepted;
     const reviewsStateFilter = reviewsStateQps.split(',');
-    const idFilter = request.queryParams['filter[id]'].split(',');
+    const idQps = request.queryParams['filter[id]'];
+    const idFilter = idQps ? idQps.split(',') : [];
     const collection = schema.collections.find(collectionId);
 
     if (!collection) {
@@ -22,7 +23,7 @@ export function getCollectionSubmissions(this: HandlerContext, schema: Schema, r
     let collectionSubmissions = collection.collectionSubmissions.models.filter(
         (submission => submission.reviewsState && reviewsStateFilter.includes(submission.reviewsState)),
     );
-    if (idFilter) {
+    if (idFilter.length) {
         collectionSubmissions = collectionSubmissions.filter(
             (submission => submission.id && idFilter.includes(submission.id)),
         );
