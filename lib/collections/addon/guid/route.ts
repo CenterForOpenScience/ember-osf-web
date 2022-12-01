@@ -46,7 +46,7 @@ export default class Guid extends Route {
         } else {
             collectedItemId = guid;
             collection = await provider.primaryCollection;
-            cgmId = `${collection.id}-${guid}`;
+            cgmId = `${guid}-${collection.id}`;
         }
 
         try {

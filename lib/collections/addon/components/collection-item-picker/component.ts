@@ -89,10 +89,13 @@ export default class CollectionItemPicker extends Component {
 
         // Filter out nodes that are already in the current collection
         const nodeIds = nodes.mapBy('id').join();
+        const unsubmittableReviewsStates = [
+            CollectionSubmissionReviewStates.Accepted, CollectionSubmissionReviewStates.Pending,
+        ].join();
         const cgm = await this.collection.queryHasMany('collectionSubmissions', {
             filter: {
                 id: nodeIds,
-                reviews_state: [CollectionSubmissionReviewStates.Accepted, CollectionSubmissionReviewStates.Pending],
+                reviews_state: unsubmittableReviewsStates,
             },
         });
 

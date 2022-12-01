@@ -243,7 +243,7 @@ module('Collections | Acceptance | submit', hooks => {
         });
         const licensesAcceptable = server.schema.licenses.all().models;
         server.create('collection-submission', {
-            id: `${primaryCollection.id}-${nodeAlreadyAdded.id}`,
+            id: nodeAlreadyAdded.id,
             creator: currentUser,
             collection: primaryCollection,
             guid: nodeAlreadyAdded,

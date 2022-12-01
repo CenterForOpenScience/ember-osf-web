@@ -6,9 +6,10 @@ import { process } from './utils';
 
 export function getCollectionSubmissions(this: HandlerContext, schema: Schema, request: Request) {
     const { parentID: collectionId } = request.params;
-    const reviewsStateFilter = request.queryParams['filter[reviews_state]'] ||
+    const reviewsStateQps = request.queryParams['filter[reviews_state]'] ||
         CollectionSubmissionReviewStates.Accepted;
-    const idFilter = request.queryParams['filter[id]'];
+    const reviewsStateFilter = reviewsStateQps.split(',');
+    const idFilter = request.queryParams['filter[id]'].split(',');
     const collection = schema.collections.find(collectionId);
 
     if (!collection) {
@@ -19,7 +20,7 @@ export function getCollectionSubmissions(this: HandlerContext, schema: Schema, r
         });
     }
     let collectionSubmissions = collection.collectionSubmissions.models.filter(
-        (submission => submission.reviewsState && reviewsStateFilter === submission.reviewsState),
+        (submission => submission.reviewsState && reviewsStateFilter.includes(submission.reviewsState)),
     );
     if (idFilter) {
         collectionSubmissions = collectionSubmissions.filter(
