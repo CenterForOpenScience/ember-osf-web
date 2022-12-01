@@ -15,6 +15,7 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import CollectionSubmission, { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
+import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -204,7 +205,11 @@ export default class Submit extends Component {
         }
 
         try {
-            await this.collectionSubmission.destroyRecord();
+            const newAction = this.store.createRecord('collection-submission-action', {
+                actionTrigger: CollectionSubmissionActionTrigger.Remove,
+                target: this.collectionSubmission,
+            });
+            await newAction.save();
 
             this.toast.success(this.intl.t(`${this.intlKeyPrefix}remove_success`, {
                 title: this.collectionItem.title,
