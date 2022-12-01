@@ -30,7 +30,7 @@ export function createSubmissionAction(this: HandlerContext, schema: Schema) {
         case CollectionSubmissionActionTrigger.Accept:
             submission.reviewsState = CollectionSubmissionReviewStates.Accepted;
             break;
-        case CollectionSubmissionActionTrigger.ModeratorRemove:
+        case CollectionSubmissionActionTrigger.Remove:
             submission.reviewsState = CollectionSubmissionReviewStates.Removed;
             break;
         case CollectionSubmissionActionTrigger.Reject:

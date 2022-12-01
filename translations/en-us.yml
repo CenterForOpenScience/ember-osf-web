@@ -994,8 +994,7 @@ collections:
             resubmit: resubmitted
             accept: accepted
             reject: rejected
-            moderator_remove: 'moderator removed'
-            admin_remove: 'admin removed'
+            remove: 'removed'
 registries:
     header:
         osf_registrations: 'OSF Registrations'

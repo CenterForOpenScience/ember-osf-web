@@ -53,7 +53,7 @@ const CommentRequiredTriggers = [
     ReviewActionTrigger.ForceWithdraw,
     SchemaResponseActionTrigger.RejectRevision,
     CollectionSubmissionActionTrigger.Reject,
-    CollectionSubmissionActionTrigger.ModeratorRemove,
+    CollectionSubmissionActionTrigger.Remove,
 ];
 interface Args {
     registration: RegistrationModel;

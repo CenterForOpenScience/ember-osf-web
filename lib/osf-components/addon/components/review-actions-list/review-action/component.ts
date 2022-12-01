@@ -120,7 +120,7 @@ export default class ReviewAction extends Component<Args> {
             [
                 CollectionSubmissionActionTrigger.Submit,
                 CollectionSubmissionActionTrigger.Resubmit,
-                CollectionSubmissionActionTrigger.AdminRemove,
+                CollectionSubmissionActionTrigger.Remove,
             ];
 
         if (collectionContributorActions.includes(reviewAction.actionTrigger)) {
