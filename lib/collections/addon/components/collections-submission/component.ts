@@ -80,14 +80,24 @@ export default class Submit extends Component {
     @dropTask
     @waitFor
     async checkForExistingSubmission(collectionItem: Node) {
-        const filter = {
-            id: collectionItem.id,
-            reviews_state: [CollectionSubmissionReviewStates.Rejected, CollectionSubmissionReviewStates.Removed].join(),
-        };
-        const existingSubmission = await this.collection.queryHasMany('collectionSubmissions', { filter });
-        if (existingSubmission.length) {
+        // making two calls since the API doesn't support OR filtering yet
+        const existingRejectedSubmission = await this.collection.queryHasMany('collectionSubmissions', {
+            filter: {
+                id: collectionItem.id,
+                reviews_state: CollectionSubmissionReviewStates.Rejected,
+            },
+        });
+        const existingRemovedSubmission = await this.collection.queryHasMany('collectionSubmissions', {
+            filter: {
+                id: collectionItem.id,
+                reviews_state: CollectionSubmissionReviewStates.Removed,
+            },
+        });
+        if (existingRejectedSubmission.length || existingRemovedSubmission.length) {
+            const existingSubmission = existingRejectedSubmission.length ? existingRejectedSubmission[0] :
+                existingRemovedSubmission[0];
             this.collectionSubmission.deleteRecord();
-            this.set('collectionSubmission', existingSubmission[0]);
+            this.set('collectionSubmission', existingSubmission);
             this.set('showResubmitModal', true);
         } else {
             // No existing submission
