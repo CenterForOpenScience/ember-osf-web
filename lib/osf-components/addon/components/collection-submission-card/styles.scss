@@ -21,6 +21,7 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
+        overflow: hidden;
     }
 
     .button-container {
@@ -36,6 +37,7 @@
 
 .project-title {
     height: 25px;
+    max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
