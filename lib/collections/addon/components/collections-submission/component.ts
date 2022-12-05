@@ -190,7 +190,6 @@ export default class Submit extends Component {
 
             const resubmitAction = this.store.createRecord('collection-submission-action', {
                 actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
-                comment: 'Resubmitting',
                 target: this.collectionSubmission,
             });
             await resubmitAction.save();
