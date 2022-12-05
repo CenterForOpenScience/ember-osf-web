@@ -188,6 +188,12 @@ export default class Submit extends Component {
             }
             await this.collectionSubmission.save();
 
+            const resubmitAction = this.store.createRecord('collection-submission-action', {
+                actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
+                target: this.collectionSubmission,
+            });
+            await resubmitAction.save();
+
             this.collectionItem.set('collectable', false);
 
             this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
