@@ -13,6 +13,7 @@ import { taskFor } from 'ember-concurrency-ts';
 
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
+import { resourceTypeGeneralOptions } from 'ember-osf-web/models/custom-metadata';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { languageCodes, LanguageCode } from 'ember-osf-web/utils/languages';
@@ -22,37 +23,6 @@ import { tracked } from '@glimmer/tracking';
 interface Args {
     node: (AbstractNodeModel);
 }
-
-export const resourceTypeGeneralOptions = [
-    'Audiovisual',
-    'Book',
-    'BookChapter',
-    'Collection',
-    'ComputationalNotebook',
-    'ConferencePaper',
-    'ConferenceProceeding',
-    'DataPaper',
-    'Dataset',
-    'Dissertation',
-    'Event',
-    'Image',
-    'InteractiveResource',
-    'Journal',
-    'JournalArticle',
-    'Model',
-    'OutputManagementPlan',
-    'PeerReview',
-    'PhysicalObject',
-    'Preprint',
-    'Report',
-    'Service',
-    'Software',
-    'Sound',
-    'Standard',
-    'Text',
-    'Workflow',
-    'Other',
-];
 
 export interface NodeMetadataManager {
     edit: () => void;
@@ -86,9 +56,13 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @tracked isEditingFunding = false;
     @tracked isEditingResources = false;
     @tracked userCanEdit!: boolean;
-    @or( 'getGuidMetadata.isRunning', 'cancel.isRunning') isGatheringData!: boolean;
+    @or(
+        'getGuidMetadata.isRunning',
+        'cancelMetadata.isRunning',
+        'cancelNode.isRunning',
+    ) isGatheringData!: boolean;
+    @or('saveNode.isRunning', 'saveMetadata.isRunning') isSaving!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
-    @alias('save.isRunning') isSaving!: boolean;
     @alias('node.id') nodeId!: string;
     @tracked guidType!: string | undefined;
     resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
@@ -134,8 +108,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
 
     get languageFromCode(){
         if (this.metadata?.language){
-            const languages = this.languageCodes.filter(item => item.code === this.metadata.language);
-            const language = languages[0];
+            const language = this.languageCodes.find(item => item.code === this.metadata.language);
             if(language){
                 return language.name;
             }
@@ -180,7 +153,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     async cancelNode(){
         if (this.saveErrored){
             await this.node.reload();
-            this.saveErrored = false;
+            this.saveNodeErrored = false;
         }
         this.nodeChangeset.rollback();
         this.isEditingDescription = false;

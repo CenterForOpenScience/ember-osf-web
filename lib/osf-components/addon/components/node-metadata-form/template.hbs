@@ -12,6 +12,7 @@
             data-test-cancel-editing-node-description-button
             aria-label={{t 'general.cancel'}}
             data-analytics-name='Cancel editing node description'
+            disabled={{@manager.isSaving}}
             {{on 'click' @manager.cancelNode}}
         >
             {{t 'general.cancel'}}
@@ -20,6 +21,7 @@
             data-test-save-resource-metadata-button
             aria-label={{t 'general.save'}}
             data-analytics-name='Save resource metadata'
+            disabled={{@manager.isSaving}}
             {{on 'click' @manager.saveNode}}
         >
             {{t 'general.save'}}
@@ -67,6 +69,7 @@
             data-test-cancel-editing-resource-metadata-button
             aria-label={{t 'general.cancel'}}
             data-analytics-name='Cancel editing resource metadata'
+            disabled={{@manager.isSaving}}
             {{on 'click' @manager.cancelMetadata}}
         >
             {{t 'general.cancel'}}
@@ -75,6 +78,7 @@
             data-test-save-resource-metadata-button
             aria-label={{t 'general.save'}}
             data-analytics-name='Save resource metadata'
+            disabled={{@manager.isSaving}}
             {{on 'click' @manager.saveMetadata}}
         >
             {{t 'general.save'}}
@@ -98,7 +102,7 @@
                 <dt>{{t 'osf-components.node-metadata-form.resource-type'}}</dt>
                 <dd>{{@manager.metadataRecord.resourceTypeGeneral}}</dd>
                 <dt>{{t 'osf-components.node-metadata-form.resource-language'}}</dt>
-                <dd>{{@manager.langaugeFromCode}}</dd>
+                <dd>{{@manager.languageFromCode}}</dd>
             </dl>
         </div>
     {{/if}}
@@ -107,6 +111,7 @@
             data-test-cancel-editing-funding-metadata-button
             aria-label={{t 'general.cancel'}}
             data-analytics-name='Cancel editing funding metadata'
+            disabled={{@manager.isSaving}}
             {{on 'click' @manager.cancelMetadata}}
         >
             {{t 'general.cancel'}}
@@ -115,6 +120,7 @@
             data-test-save-funding-metadata-button
             aria-label={{t 'general.save'}}
             data-analytics-name='Save funding metadata'
+            disabled={{@manager.isSaving}}
             {{on 'click' @manager.saveMetadata}}
         >
             {{t 'general.save'}}
@@ -154,26 +160,26 @@
     {{/if}}
 </FormControls>
 
+<div>
     <div>
-        <div>
-            {{t 'osf-components.node-metadata-form.contributors'}}
-            {{#unless @manager.inEditMode}}
-                <a 
-                    href={{concat '/' @manager.nodeId '/contributors/'}}
-                >
-                    <FaIcon @icon='pencil-alt' />
-                </a>
-            {{/unless}}
-        </div>
-        <div>
-            <ContributorList
-                data-test-target-contributors
-                @model={{@manager.node}}
-                @shouldLinkUsers={{true}}
-                @shouldTruncate={{false}}
-            />
-        </div>
+        {{t 'osf-components.node-metadata-form.contributors'}}
+        {{#unless @manager.inEditMode}}
+            <a 
+                href={{concat '/' @manager.nodeId '/contributors/'}}
+            >
+                <FaIcon @icon='pencil-alt' />
+            </a>
+        {{/unless}}
     </div>
+    <div>
+        <ContributorList
+            data-test-target-contributors
+            @model={{@manager.node}}
+            @shouldLinkUsers={{true}}
+            @shouldTruncate={{false}}
+        />
+    </div>
+</div>
 {{#if @manager.node.isRegistration}}
     <div>
         <div>{{t 'osf-components.node-metadata-form.subjects'}}</div>
@@ -189,10 +195,10 @@
         </Subjects::Manager>
     </div>
 {{/if}}
-    <div>
-        <div>{{t 'osf-components.node-metadata-form.tags'}}</div>
-        <TagsWidget
-            @taggable={{@manager.node}}
-            @readOnly={{not @manager.userCanEdit}}
-        />
-    </div>
+<div>
+    <div>{{t 'osf-components.node-metadata-form.tags'}}</div>
+    <TagsWidget
+        @taggable={{@manager.node}}
+        @readOnly={{not @manager.userCanEdit}}
+    />
+</div>

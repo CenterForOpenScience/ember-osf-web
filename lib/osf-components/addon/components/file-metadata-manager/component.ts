@@ -13,6 +13,7 @@ import { taskFor } from 'ember-concurrency-ts';
 
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
+import { resourceTypeGeneralOptions } from 'ember-osf-web/models/custom-metadata';
 import FileModel from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
@@ -23,7 +24,6 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 import LicenseModel from 'ember-osf-web/models/license';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import { LanguageCode, languageCodes } from 'ember-osf-web/utils/languages';
-import { resourceTypeGeneralOptions } from 'osf-components/components/node-metadata-manager/component';
 
 interface Args {
     file: FileModel;
@@ -89,8 +89,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
 
     get languageFromCode(){
         if (this.metadataRecord?.language){
-            const languages = this.languageCodes.filter(item => item.code === this.metadataRecord.language);
-            const language = languages[0];
+            const language = this.languageCodes.find(item => item.code === this.metadataRecord.language);
             if(language){
                 return language.name;
             }
@@ -168,7 +167,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @waitFor
     async save(){
         try {
-            this.changeset.save();
+            await this.changeset.save();
             this.inEditMode = false;
             this.saveErrored = false;
         } catch (e) {
