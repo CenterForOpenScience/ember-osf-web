@@ -41,6 +41,7 @@ export default class ModeratorManagerComponent extends Component {
     provider!: ProviderModel;
     permissionOptions = Object.values(PermissionGroup);
     reloadModeratorList?: () => void;
+    afterSelfRemoval?: () => void;
 
     @tracked currentModerator?: ModeratorModel;
 
@@ -83,6 +84,9 @@ export default class ModeratorManagerComponent extends Component {
                 'osf-components.moderators.removedModeratorSuccess',
                 { userName: moderator.fullName },
             ));
+            if (moderator.id === this.currentUser.currentUserId && this.afterSelfRemoval) {
+                this.afterSelfRemoval();
+            }
         } catch (e) {
             const errorMessage = this.intl.t(
                 'osf-components.moderators.removedModeratorError',
