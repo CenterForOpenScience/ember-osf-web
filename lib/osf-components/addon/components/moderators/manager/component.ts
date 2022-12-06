@@ -77,6 +77,7 @@ export default class ModeratorManagerComponent extends Component {
     @task
     @waitFor
     async removeModeratorTask(moderator: ModeratorModel) {
+        const isSelfRemoval = moderator.id === this.currentUser.currentUserId;
         try {
             await moderator.destroyRecord();
 
@@ -84,7 +85,7 @@ export default class ModeratorManagerComponent extends Component {
                 'osf-components.moderators.removedModeratorSuccess',
                 { userName: moderator.fullName },
             ));
-            if (moderator.id === this.currentUser.currentUserId && this.afterSelfRemoval) {
+            if (isSelfRemoval && this.afterSelfRemoval) {
                 this.afterSelfRemoval();
             }
         } catch (e) {
@@ -95,7 +96,7 @@ export default class ModeratorManagerComponent extends Component {
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
         } finally {
-            if (this.reloadModeratorList) {
+            if (this.reloadModeratorList && !isSelfRemoval) {
                 this.reloadModeratorList();
             }
         }
