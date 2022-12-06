@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { action, notifyPropertyChange } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
@@ -13,8 +13,10 @@ import { taskFor } from 'ember-concurrency-ts';
 
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
+import { resourceTypeGeneralOptions } from 'ember-osf-web/models/custom-metadata';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import { languageCodes, LanguageCode } from 'ember-osf-web/utils/languages';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from '@glimmer/tracking';
 
@@ -44,12 +46,29 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @tracked metadata!: CustomItemMetadataRecordModel;
     node: (AbstractNodeModel) = this.args.node;
     @tracked changeset!: BufferedChangeset;
-    @tracked inEditMode = false;
+    @tracked nodeChangeset!: BufferedChangeset;
+    @or(
+        'isEditingDescription',
+        'isEditingFunding',
+        'isEditingResources',
+    ) inEditMode!: boolean;
+    @tracked isEditingDescription = false;
+    @tracked isEditingFunding = false;
+    @tracked isEditingResources = false;
     @tracked userCanEdit!: boolean;
-    @alias( 'getGuidMetadata.isRunning') isGatheringData!: boolean;
+    @or(
+        'getGuidMetadata.isRunning',
+        'cancelMetadata.isRunning',
+        'cancelNode.isRunning',
+    ) isGatheringData!: boolean;
+    @or('saveNode.isRunning', 'saveMetadata.isRunning') isSaving!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
-    @alias('save.isRunning') isSaving!: boolean;
+    @alias('node.id') nodeId!: string;
     @tracked guidType!: string | undefined;
+    resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
+    languageCodes: LanguageCode[] = languageCodes;
+    saveErrored = false;
+    saveNodeErrored = false;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -75,30 +94,101 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
                 resolve: false,
             });
             this.guidType = guidRecord.referentType;
-            this.metadata = guidRecord.customMetadata as CustomItemMetadataRecordModel;
+            this.metadata = await guidRecord.customMetadata as CustomItemMetadataRecordModel;
             notifyPropertyChange(this, 'metadata');
             this.changeset = buildChangeset(this.metadata, null);
+            this.changeset.languageObject = {
+                code: this.metadata.language,
+                name: this.languageFromCode,
+            };
+            this.changeset.execute();
+            this.nodeChangeset = buildChangeset(this.node, null);
         }
     }
 
-    @action
-    edit(){
-        this.inEditMode = true;
+    get languageFromCode(){
+        if (this.metadata?.language){
+            const language = this.languageCodes.find(item => item.code === this.metadata.language);
+            if(language){
+                return language.name;
+            }
+        }
+        return '';
     }
 
     @action
-    cancel(){
+    editDescription(){
+        this.isEditingDescription = true;
+    }
+
+    @action
+    editResources(){
+        this.isEditingResources = true;
+    }
+
+    @action
+    editFunding(){
+        this.isEditingFunding = true;
+    }
+
+    @task
+    @waitFor
+    async cancelMetadata(){
+        if (this.saveErrored){
+            await this.metadata.reload();
+            this.saveErrored = false;
+        }
         this.changeset.rollback();
-        this.inEditMode = false;
+        this.changeset.languageObject = {
+            code: this.metadata.language,
+            name: this.languageFromCode,
+        };
+        this.changeset.execute();
+        this.isEditingFunding = false;
+        this.isEditingResources = false;
+    }
+
+    @task
+    @waitFor
+    async cancelNode(){
+        if (this.saveErrored){
+            await this.node.reload();
+            this.saveNodeErrored = false;
+        }
+        this.nodeChangeset.rollback();
+        this.isEditingDescription = false;
+    }
+
+    @action
+    changeLanguage(selected: LanguageCode) {
+        const language = selected ? selected.code : '';
+        this.changeset.set('language', language);
     }
 
     @restartableTask
     @waitFor
-    async save(){
+    async saveMetadata(){
         try {
-            this.changeset.execute();
-            this.inEditMode = false;
+            await this.changeset.save();
+            this.isEditingFunding = false;
+            this.isEditingResources = false;
+            this.saveErrored = false;
         } catch (e) {
+            this.saveErrored = true;
+            const errorTitle = this.intl.t('osf-components.item-metadata-manager.error-saving-metadata');
+            this.toast.error(getApiErrorMessage(e), errorTitle);
+        }
+    }
+
+    @restartableTask
+    @waitFor
+    async saveNode(){
+        try {
+            await this.nodeChangeset.save();
+            this.isEditingDescription = false;
+            this.saveNodeErrored = false;
+        } catch (e) {
+            this.saveNodeErrored = true;
             const errorTitle = this.intl.t('osf-components.item-metadata-manager.error-saving-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
         }

@@ -150,6 +150,8 @@ file_detail:
     license: 'License'
     institutions: 'Affiliated institutions'
     contributors: 'Contributors'
+    osf_map: 'OSF-MAP'
+    schema: 'Schema'
 dashboard:
     page_title: Home
     title: Dashboard
@@ -1856,6 +1858,8 @@ osf-components:
         next_slide: 'Next slide'
         go_to_slide: 'Go to slide {slideIndex}'
     node-metadata-form:
+        description: 'Description'
+        metadata-header: 'Metadata'
         resource-information: 'Resource Information'
         contributors: 'Contributors'
         funding-information: 'Funding/Support Information'

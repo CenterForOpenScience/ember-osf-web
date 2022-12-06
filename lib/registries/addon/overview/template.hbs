@@ -62,6 +62,8 @@
                 <layout.leftNavOld as |leftNav|>
                     <leftNav.link data-analytics-name='Overview' @route='registries.overview.index'
                         @models={{array this.registration.id}} @icon='home' @label={{t 'registries.overview.title'}} />
+                    <leftNav.link data-analytics-name='Metadata' @route='registries.overview.metadata'
+                        @models={{array this.registration.id}} @icon='info-circle' @label={{t 'registries.overview.metadata'}} />
                     <leftNav.link data-analytics-name='Files' 
                         @route='registries.overview.files'
                         @models={{array this.registration.id}}

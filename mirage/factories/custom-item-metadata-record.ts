@@ -5,8 +5,8 @@ import CustomItemMetadataRecord from 'ember-osf-web/models/custom-item-metadata-
 
 
 export default Factory.extend<CustomItemMetadataRecord>({
-    resourceTypeGeneral: 'collection',
-    language: 'en-US',
+    resourceTypeGeneral: 'Collection',
+    language: 'eng',
     funders: [
         {
             funder_name: faker.lorem.words(3),

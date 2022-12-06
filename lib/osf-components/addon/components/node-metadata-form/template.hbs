@@ -1,81 +1,206 @@
 <h2>
-    {{@manager.node.title}}
+    {{t 'osf-components.node-metadata-form.metadata-header'}}
 </h2>
-{{#if @manager.userCanEdit}}
-    <Button
-        data-test-edit-metadata-button
-        data-analytics-name='Edit metadata'
-        {{on 'click' @manager.edit}}
-    >
-        {{t 'osf-components.node-metadata-form.edit-button'}}
-    </Button>
-{{/if}}
-<div>{{@manager.node.description}}</div>
-{{#if @manager.inEditMode}}
-    <Button
-        data-test-cancel-editing-metadata-button
-        aria-label={{t 'general.cancel'}}
-        data-analytics-name='Cancel editing metadata'
-        {{on 'click' @manager.cancel}}
-    >
-        {{t 'general.cancel'}}
-    </Button>
-    <Button
-        data-test-save-metadata-button
-        aria-label={{t 'general.save'}}
-        data-analytics-name='Save metadata'
-        {{on 'click' @manager.save}}
-    >
-        {{t 'general.save'}}
-    </Button>
-{{else}}
-    <div>
-        <div>{{t 'osf-components.node-metadata-form.resource-information'}}</div>
-        <dl>
-            <dt>{{t 'osf-components.node-metadata-form.resource-type'}}</dt>
-            <dd>{{@manager.metadataRecord.resourceTypeGeneral}}</dd>
-            <dt>{{t 'osf-components.node-metadata-form.resource-language'}}</dt>
-            <dd>{{@manager.metadataRecord.language}}</dd>
-        </dl>
-    </div>
-
-    <div>
-        <div>{{t 'osf-components.node-metadata-form.contributors'}}</div>
+<FormControls @changeset={{@manager.nodeChangeset}} as |form|>
+    {{#if @manager.isEditingDescription}}
+        <form.textarea
+            data-test-description-field
+            @valuePath='description'
+            @label={{t 'osf-components.node-metadata-form.description'}}
+        />
+        <Button
+            data-test-cancel-editing-node-description-button
+            aria-label={{t 'general.cancel'}}
+            data-analytics-name='Cancel editing node description'
+            disabled={{@manager.isSaving}}
+            {{on 'click' @manager.cancelNode}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            data-test-save-node-description-button
+            aria-label={{t 'general.save'}}
+            data-analytics-name='Save node description'
+            disabled={{@manager.isSaving}}
+            {{on 'click' @manager.saveNode}}
+        >
+            {{t 'general.save'}}
+        </Button>
+    {{else}}
         <div>
-            <ContributorList
-                data-test-target-contributors
-                @model={{@manager.node}}
-                @shouldLinkUsers={{true}}
-                @shouldTruncate={{false}}
-            />
+            {{t 'osf-components.node-metadata-form.description'}}
+            {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                <Button
+                    data-test-edit-node-description-button
+                    data-analytics-name='Edit Node Description'
+                    aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                    {{on 'click' @manager.editDescription}}
+                >
+                    <FaIcon @icon='pencil-alt' />
+                </Button>
+            {{/if}}
         </div>
-    </div>
+        <div>{{@manager.node.description}}</div>
+    {{/if}}
+</FormControls>
+<FormControls @changeset={{@manager.changeset}} as |form|>
+    {{#if @manager.isEditingResources}}
+        <form.select
+            data-test-select-resource-type
+            @options={{@manager.resourceTypeGeneralOptions}}
+            @label={{t 'osf-components.node-metadata-form.resource-type'}}
+            @valuePath='resourceTypeGeneral'
+            as |option|
+        >
+            {{option}}
+        </form.select>
 
-    <div>
-        <div>{{t 'osf-components.node-metadata-form.funding-information'}}</div>
-        {{#each @manager.metadataRecord.funders as |funder|}}
+        <form.select
+            data-test-select-resource-language
+            @options={{@manager.languageCodes}}
+            @label={{t 'osf-components.node-metadata-form.resource-language'}}
+            @onchange={{@manager.changeLanguage}}
+            @valuePath='languageObject'
+            as |option|
+        >
+            {{option.name}}
+        </form.select>
+        <Button
+            data-test-cancel-editing-resource-metadata-button
+            aria-label={{t 'general.cancel'}}
+            data-analytics-name='Cancel editing resource metadata'
+            disabled={{@manager.isSaving}}
+            {{on 'click' @manager.cancelMetadata}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            data-test-save-resource-metadata-button
+            aria-label={{t 'general.save'}}
+            data-analytics-name='Save resource metadata'
+            disabled={{@manager.isSaving}}
+            {{on 'click' @manager.saveMetadata}}
+        >
+            {{t 'general.save'}}
+        </Button>
+    {{else}}
+        <div>
+            <div>
+                {{t 'osf-components.node-metadata-form.resource-information'}}
+                {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                    <Button
+                        data-test-edit-resource-metadata-button
+                        data-analytics-name='Edit Resource Metadata'
+                        aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                        {{on 'click' @manager.editResources}}
+                    >
+                        <FaIcon @icon='pencil-alt' />
+                    </Button>
+                {{/if}}
+            </div>
             <dl>
-                <dt>{{t 'osf-components.node-metadata-form.funder'}}</dt>
-                <dd>{{funder.funder_name}}</dd>
-
-                <dt>{{t 'osf-components.node-metadata-form.award-title'}}</dt>
-                <dd>{{funder.award_title}}</dd>
-
-                <dt>{{t 'osf-components.node-metadata-form.award-info-uri'}}</dt>
-                <dd>{{funder.award_uri}}</dd>
-
-                <dt>{{t 'osf-components.node-metadata-form.award-number'}}</dt>
-                <dd>{{funder.award_number}}</dd>
+                <dt>{{t 'osf-components.node-metadata-form.resource-type'}}</dt>
+                <dd>{{@manager.metadataRecord.resourceTypeGeneral}}</dd>
+                <dt>{{t 'osf-components.node-metadata-form.resource-language'}}</dt>
+                <dd>{{@manager.languageFromCode}}</dd>
             </dl>
-        {{/each}}
-    </div>
+        </div>
+    {{/if}}
+    {{#if @manager.isEditingFunding}}
+        <Button
+            data-test-cancel-editing-funding-metadata-button
+            aria-label={{t 'general.cancel'}}
+            data-analytics-name='Cancel editing funding metadata'
+            disabled={{@manager.isSaving}}
+            {{on 'click' @manager.cancelMetadata}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            data-test-save-funding-metadata-button
+            aria-label={{t 'general.save'}}
+            data-analytics-name='Save funding metadata'
+            disabled={{@manager.isSaving}}
+            {{on 'click' @manager.saveMetadata}}
+        >
+            {{t 'general.save'}}
+        </Button>
 
+    {{else}}
+        <div>
+            <div>
+                {{t 'osf-components.node-metadata-form.funding-information'}}
+                {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                    <Button
+                        data-test-edit-funding-metadata-button
+                        data-analytics-name='Edit Funding Metadata'
+                        aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                        {{on 'click' @manager.editFunding}}
+                    >
+                        <FaIcon @icon='pencil-alt' />
+                    </Button>
+                {{/if}}
+            </div>
+            {{#each @manager.metadataRecord.funders as |funder|}}
+                <dl>
+                    <dt>{{t 'osf-components.node-metadata-form.funder'}}</dt>
+                    <dd>{{funder.funder_name}}</dd>
+
+                    <dt>{{t 'osf-components.node-metadata-form.award-title'}}</dt>
+                    <dd>{{funder.award_title}}</dd>
+
+                    <dt>{{t 'osf-components.node-metadata-form.award-info-uri'}}</dt>
+                    <dd>{{funder.award_uri}}</dd>
+
+                    <dt>{{t 'osf-components.node-metadata-form.award-number'}}</dt>
+                    <dd>{{funder.award_number}}</dd>
+                </dl>
+            {{/each}}
+        </div>
+    {{/if}}
+</FormControls>
+
+<div>
     <div>
-        <div>{{t 'osf-components.node-metadata-form.tags'}}</div>
-        <TagsWidget
-            @taggable={{@manager.node}}
-            @readOnly={{true}}
-            @inline={{true}}
+        {{t 'osf-components.node-metadata-form.contributors'}}
+        {{#unless @manager.inEditMode}}
+            <a
+                data-test-edit-contributors
+                aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                href={{concat '/' @manager.nodeId '/contributors/'}}
+            >
+                <FaIcon @icon='pencil-alt' />
+            </a>
+        {{/unless}}
+    </div>
+    <div>
+        <ContributorList
+            data-test-target-contributors
+            @model={{@manager.node}}
+            @shouldLinkUsers={{true}}
+            @shouldTruncate={{false}}
         />
     </div>
+</div>
+{{#if @manager.node.isRegistration}}
+    <div>
+        <div>{{t 'osf-components.node-metadata-form.subjects'}}</div>
+        <Subjects::Manager
+            @model={{@manager.node}}
+            @provider={{@manager.node.provider}}
+            @doesAutosave={{false}}
+            as |subjectsManager|
+        >
+            <Subjects::Widget
+                @subjectsManager={{subjectsManager}}
+            />
+        </Subjects::Manager>
+    </div>
 {{/if}}
+<div>
+    <div>{{t 'osf-components.node-metadata-form.tags'}}</div>
+    <TagsWidget
+        @taggable={{@manager.node}}
+        @readOnly={{not @manager.userCanEdit}}
+    />
+</div>
