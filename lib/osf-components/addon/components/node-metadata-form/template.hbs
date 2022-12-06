@@ -18,9 +18,9 @@
             {{t 'general.cancel'}}
         </Button>
         <Button
-            data-test-save-resource-metadata-button
+            data-test-save-node-description-button
             aria-label={{t 'general.save'}}
-            data-analytics-name='Save resource metadata'
+            data-analytics-name='Save node description'
             disabled={{@manager.isSaving}}
             {{on 'click' @manager.saveNode}}
         >
@@ -164,7 +164,9 @@
     <div>
         {{t 'osf-components.node-metadata-form.contributors'}}
         {{#unless @manager.inEditMode}}
-            <a 
+            <a
+                data-test-edit-contributors
+                aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
                 href={{concat '/' @manager.nodeId '/contributors/'}}
             >
                 <FaIcon @icon='pencil-alt' />

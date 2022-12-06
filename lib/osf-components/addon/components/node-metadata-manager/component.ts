@@ -158,13 +158,11 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
         this.nodeChangeset.rollback();
         this.isEditingDescription = false;
     }
+
     @action
-    changeLanguage(selected: LanguageCode){
-        if(selected){
-            this.changeset.set('language', selected.code);
-        } else {
-            this.changeset.set('language', '');
-        }
+    changeLanguage(selected: LanguageCode) {
+        const language = selected ? selected.code : '';
+        this.changeset.set('language', language);
     }
 
     @restartableTask
