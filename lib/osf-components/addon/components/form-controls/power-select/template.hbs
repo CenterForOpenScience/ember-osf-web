@@ -16,6 +16,8 @@
         <PowerSelect
             @options={{this.options}}
             @onChange={{this.updateChangeset}}
+            @placeholder={{@placeholder}}
+            @searchPlaceholder={{@searchPlaceholder}}
             @searchField={{@searchField}}
             @searchEnabled={{@searchEnabled}}
             @selected={{or (get @changeset this.valuePath) null}}

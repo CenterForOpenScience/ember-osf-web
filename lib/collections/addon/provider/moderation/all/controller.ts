@@ -15,6 +15,12 @@ export default class CollectionsModerationAllController extends Controller {
     @tracked state?: CollectionSubmissionReviewStates;
     @tracked sort = '-date_created';
 
+    states = [
+        CollectionSubmissionReviewStates.Pending,
+        CollectionSubmissionReviewStates.Accepted,
+        CollectionSubmissionReviewStates.Rejected,
+        CollectionSubmissionReviewStates.Removed,
+    ];
     submissionIconMap = SubmissionIconMap;
     reloadSubmissionList?: (page?: number) => void; // bound by paginated-list
 

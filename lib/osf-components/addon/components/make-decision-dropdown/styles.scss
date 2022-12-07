@@ -1,10 +1,6 @@
 .TriggerDiv {
     height: 100%;
-}
-
-.TriggerButton {
-    height: 100%;
-    vertical-align: top;
+    composes: CreateButton from '../button/styles.scss';
 }
 
 .Dropdown {
