@@ -84,7 +84,10 @@ export default class CollectionSubmissionCard extends Component<CollectionSubmis
     @task
     @waitFor
     async fetchActions() {
-        const allActions = await this.args.submission.queryHasMany('collectionSubmissionActions');
+        const allActions = await this.args.submission.queryHasMany('collectionSubmissionActions',
+            {
+                sort: '-date_modified',
+            });
         this.latestAction = allActions[0];
     }
 }
