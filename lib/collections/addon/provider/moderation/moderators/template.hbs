@@ -1,6 +1,6 @@
 <Moderators::Manager
     @provider={{this.model}}
-    @afterSelfRemoval={{this.afterSelfRemoval}}
+    @afterSelfRemoval={{perform this.refetchProvider this.model.id}}
     as |moderatorManager|
 >
     <Moderators::List
