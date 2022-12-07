@@ -1,17 +1,15 @@
 <ResponsiveDropdown
     @horizontalPosition='right'
+    @buttonStyling={{true}}
     as |dd|
 >
-    <dd.trigger local-class='TriggerDiv'>
-        <Button
-            data-test-moderation-dropdown-button
-            data-analytics-name='Display Moderation Actions'
-            local-class='TriggerButton'
-            @type='create'
-        >
-            {{t 'osf-components.makeDecisionDropdown.makeDecision'}}
-            <FaIcon @icon='caret-down' />
-        </Button>
+    <dd.trigger
+        local-class='TriggerDiv'
+        data-test-moderation-dropdown-button
+        data-analytics-name='Display Moderation Actions'
+    >
+        {{t 'osf-components.makeDecisionDropdown.makeDecision'}}
+        <FaIcon @icon='caret-down' />
     </dd.trigger>
     <dd.content local-class='Dropdown'>
         {{#if @collectionSubmission}}

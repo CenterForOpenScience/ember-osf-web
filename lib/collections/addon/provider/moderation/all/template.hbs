@@ -1,5 +1,5 @@
 <nav local-class='tab-wrapper'>
-    {{#each (array 'pending' 'accepted' 'rejected' 'removed') as |state| }}
+    {{#each this.states as |state| }}
         {{#let (eq this.state state) as |selected| }}
             <a
                 data-test-submissions-type={{state}}

@@ -12,6 +12,7 @@
     :global(.cp-Panel-toggle) {
         display: block;
         padding: 1em;
+        color: $color-link-dark;
 
         &:global(.cp-is-open),
         &:hover {
