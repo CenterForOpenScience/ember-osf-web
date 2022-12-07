@@ -58,6 +58,10 @@ export default class Submit extends Component {
     @tracked showResubmitModal = false;
 
     @bool('provider.reviewsWorkflow') collectionIsModerated!: boolean;
+    @computed('collectionSubmission.reviewsState')
+    get isAccepted() {
+        return this.collectionSubmission.reviewsState === CollectionSubmissionReviewStates.Accepted;
+    }
 
     /**
      * Leaves the current route for the discover route (currently home for collections)
