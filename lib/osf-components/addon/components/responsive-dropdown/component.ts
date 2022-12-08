@@ -56,12 +56,15 @@ export default class ResponsiveDropdown extends Component {
         document.querySelector('body')!.classList.add('modal-open');
 
         const [, content] = args;
-        const { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
-        content.style.marginLeft = `${-(dropdownWidth / 2)}px`;
-        content.style.marginTop = `${-(dropdownHeight / 2)}px`;
-        content.style.top = `${pos.style.top}px`;
-        content.style.left = '50%';
+        content.style.position = 'fixed';
+        content.style.top = '50%'; // move top of div to center of screen
+        content.style.left = '50%'; // move left of div to center of screen
+        content.style.transform = 'translate(-50%, -50%)'; // move div to top-left by -50% of its own height/width
         content.style.right = '';
+        content.style.bottom = '';
+        content.style.maxHeight = '90%';
+        content.style.maxWidth = '90%';
+        content.style.overflow = 'auto';
 
         return {
             horizontalPosition: null,
