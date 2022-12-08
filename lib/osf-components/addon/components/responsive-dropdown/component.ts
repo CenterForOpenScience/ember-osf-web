@@ -63,7 +63,6 @@ export default class ResponsiveDropdown extends Component {
         content.style.right = '';
         content.style.bottom = '';
         content.style.maxHeight = '90%';
-        content.style.maxWidth = '90%';
         content.style.overflow = 'auto';
 
         return {
