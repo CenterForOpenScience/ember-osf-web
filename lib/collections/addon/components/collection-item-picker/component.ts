@@ -106,7 +106,7 @@ export default class CollectionItemPicker extends Component {
 
         // Collection-submissions IDs are the same as node IDs
         const cgmCompoundIds: string[] = cgm.mapBy('id');
-        const cgmSimpleIds: string[] = cgmCompoundIds.map(id => id.split('-')[1]);
+        const cgmSimpleIds: string[] = cgmCompoundIds.map(id => id.split('-')[0]);
         const filteredNodes = nodes.filter(({ id }) => !cgmSimpleIds.includes(id));
         const { meta } = nodes;
         const hasMore = meta.total > meta.per_page * this.page;
