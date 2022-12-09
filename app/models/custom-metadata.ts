@@ -35,7 +35,7 @@ export const resourceTypeGeneralOptions = [
 ];
 
 export default class CustomMetadataModel extends OsfModel {
-    @attr('fixstring') resourceTypeGeneral?: string;
+    @attr('fixstring') resourceTypeGeneral?: typeof resourceTypeGeneralOptions[number];
 
     @belongsTo('guid', { inverse: 'customMetadata' })
     guid!: AsyncBelongsTo<GuidModel> & GuidModel;
