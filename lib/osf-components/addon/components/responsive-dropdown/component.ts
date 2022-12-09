@@ -55,16 +55,6 @@ export default class ResponsiveDropdown extends Component {
         // Prevent body scroll when modal is open
         document.querySelector('body')!.classList.add('modal-open');
 
-        const [, content] = args;
-        content.style.position = 'fixed';
-        content.style.top = '50%'; // move top of div to center of screen
-        content.style.left = '50%'; // move left of div to center of screen
-        content.style.transform = 'translate(-50%, -50%)'; // move div to top-left by 50% of its own height/width
-        content.style.right = '';
-        content.style.bottom = '';
-        content.style.maxHeight = '90%';
-        content.style.overflow = 'auto';
-
         return {
             horizontalPosition: null,
             verticalPosition: null,
