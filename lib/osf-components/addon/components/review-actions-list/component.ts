@@ -59,7 +59,11 @@ export default class ReviewActionsList extends Component<Args> {
             }
             if (this.args.collectionSubmission) {
                 const submission = this.args.collectionSubmission;
-                this.reviewActions = await submission.collectionSubmissionActions as CollectionSubmissionActionModel[];
+                this.reviewActions = await submission.queryHasMany ('collectionSubmissionActions',
+                    {
+                        sort: '-date_modified',
+                    });
+
             }
         } catch (e) {
             captureException(e);
