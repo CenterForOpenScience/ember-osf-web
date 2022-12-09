@@ -46,7 +46,8 @@ export default class Submit extends Component {
     readonly provider!: CollectionProvider;
     readonly collection!: Collection;
 
-    collectionSubmission!: CollectionSubmission;
+    @tracked collectionSubmission!: CollectionSubmission;
+
     collectionItem: Node | null = null;
     isProjectSelectorValid = false;
     sections = Section;
@@ -58,6 +59,10 @@ export default class Submit extends Component {
     @tracked showResubmitModal = false;
 
     @bool('provider.reviewsWorkflow') collectionIsModerated!: boolean;
+
+    get isAccepted() {
+        return this.collectionSubmission.reviewsState === CollectionSubmissionReviewStates.Accepted;
+    }
 
     /**
      * Leaves the current route for the discover route (currently home for collections)

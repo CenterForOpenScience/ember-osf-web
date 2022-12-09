@@ -175,7 +175,7 @@
             local-class='last-buttons'
         >
             <div class='col-xs-12'>
-                {{#if this.edit}}
+                {{#if (and this.edit this.isAccepted)}}
                     <DeleteButton
                         data-test-collections-remove-button
                         local-class='remove-button'
