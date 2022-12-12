@@ -147,9 +147,15 @@ export default class Submit extends Component {
 
             this.collectionItem.set('collectable', false);
 
-            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
-                title: this.collectionItem.title,
-            }));
+            if (this.provider.reviewsWorkflow === 'pre-moderation' && operation === 'add') {
+                this.toast.success(this.intl.t(`${this.intlKeyPrefix}add_premoderation_save_success`, {
+                    title: this.collectionItem.title,
+                }));
+            } else {
+                this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
+                    title: this.collectionItem.title,
+                }));
+            }
 
             await timeout(1000);
             this.resetPageDirty();
@@ -184,8 +190,6 @@ export default class Submit extends Component {
 
         this.collectionSubmission.set('guid', this.collectionItem);
 
-        const operation = this.edit ? 'update' : 'add';
-
         try {
             if (!this.collectionItem.public) {
                 this.collectionItem.set('public', true);
@@ -200,17 +204,23 @@ export default class Submit extends Component {
             await resubmitAction.save();
 
             this.collectionItem.set('collectable', false);
+            if (this.provider.reviewsWorkflow === 'pre-moderation') {
+                this.toast.success(this.intl.t(`${this.intlKeyPrefix}resubmit_premoderation_save_success`, {
+                    title: this.collectionItem.title,
+                }));
+            } else {
+                this.toast.success(this.intl.t(`${this.intlKeyPrefix}add_save_success`, {
+                    title: this.collectionItem.title,
+                }));
+            }
 
-            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
-                title: this.collectionItem.title,
-            }));
 
             await timeout(1000);
             this.resetPageDirty();
             // TODO: external-link-to / waffle for project main page
             window.location.href = getHref(this.collectionItem.links.html!);
         } catch (e) {
-            const errorMessage = this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
+            const errorMessage = this.intl.t(`${this.intlKeyPrefix}resubmit_save_error`, {
                 title: this.collectionItem.title,
             });
             captureException(e, { errorMessage });

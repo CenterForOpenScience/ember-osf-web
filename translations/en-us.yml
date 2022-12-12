@@ -901,9 +901,12 @@ collections:
         add_button: 'Add to collection'
         update_button: Update
         add_save_success: '{title} has been added to the collection.'
+        add_premoderation_save_success: '{title} has been submitted to the collection.'
+        resubmit_premoderation_save_success: '{title} has been resubmitted to the collection.'
         update_save_success: '{title} has been updated in the collection.'
         add_save_error: 'Error adding {title} to the collection.'
         update_save_error: 'Error updating {title} in the collection.'
+        resubmit_save_error: 'Error resubmitting {title} in the collection.'
         remove_button: 'Remove from collection'
         remove_modal_title: 'Remove from collection'
         remove_modal_body: 'Are you sure you want to remove {title} from the collection?'
