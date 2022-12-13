@@ -4,6 +4,7 @@ import { waitFor } from '@ember/test-waiters';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import Intl from 'ember-intl/services/intl';
 import moment from 'moment';
 
 import Institution from 'ember-osf-web/models/institution';
@@ -23,14 +24,17 @@ import OwnCloudFile from 'ember-osf-web/packages/files/own-cloud-file';
 import S3File from 'ember-osf-web/packages/files/s3-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import RegistrationModel from 'ember-osf-web/models/registration';
+import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
 
 export default class GuidFile extends Route {
     @service('head-tags') headTagsService!: HeadTagsService;
+    @service intl!: Intl;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
     @service currentUser!: CurrentUserService;
 
     headTags?: HeadTagDef[];
+    metadata!: CustomFileMetadataRecordModel;
 
     @task
     @waitFor
@@ -40,11 +44,15 @@ export default class GuidFile extends Route {
         const dateModified = model.dateModified;
         const institutions = await model.target.get('affiliatedInstitutions');
         const metaTagsData = {
-            title: model.name,
+            title: this.metadata.title ? this.metadata.title : model.name,
             identifier: model.guid,
             publishedDate: dateCreated ? moment(dateCreated).format('YYYY-MM-DD') : undefined,
             modifiedDate: dateModified ? moment(dateModified).format('YYYY-MM-DD') : undefined,
             institution: institutions.map((institution: Institution) => institution.get('name')),
+            description: this.metadata.description ?
+                this.metadata.description :
+                this.intl.t('general.hosted_on_the_osf'),
+            language: this.metadata.language ? this.metadata.language : undefined,
         };
         this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
         this.headTagsService.collectHeadTags();
@@ -55,6 +63,8 @@ export default class GuidFile extends Route {
         const { guid } = params;
         try {
             const file = await this.store.findRecord('file', guid, {include: 'target'});
+            this.metadata = await this.store.findRecord('custom-file-metadata-record', guid);
+
             const target = await file.target as unknown as RegistrationModel;
             if (target.withdrawn === true) {
                 this.transitionTo('guid-registration', target.id);
