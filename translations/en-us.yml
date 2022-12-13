@@ -85,6 +85,7 @@ general:
     project: project
     component: component
     hosted_on_the_osf: 'Hosted on OSF'
+    presented_by_osf: 'Presented by OSF'
     please_confirm: 'Please confirm'
     required: Required
     options: Options
