@@ -21,7 +21,7 @@
             data-test-save-node-description-button
             aria-label={{t 'general.save'}}
             data-analytics-name='Save node description'
-            disabled={{@manager.isSaving}}
+            disabled={{or (not @manager.nodeChangeset.isDirty) @manager.isSaving}}
             {{on 'click' @manager.saveNode}}
         >
             {{t 'general.save'}}
@@ -40,9 +40,37 @@
                 </Button>
             {{/if}}
         </div>
-        <div>{{@manager.node.description}}</div>
+        <ExpandablePreview data-test-display-node-description>
+            {{@manager.node.description}}
+        </ExpandablePreview>
     {{/if}}
 </FormControls>
+
+{{#unless @manager.node.isAnonymous}}
+    <div  data-test-contributors-list>
+        <div>
+            {{t 'osf-components.node-metadata-form.contributors'}}
+            {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                <a
+                    data-test-edit-contributors
+                    aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                    href={{concat '/' @manager.nodeId '/contributors/'}}
+                >
+                    <FaIcon @icon='pencil-alt' />
+                </a>
+            {{/if}}
+        </div>
+        <div>
+            <ContributorList
+                data-test-target-contributors
+                @model={{@manager.node}}
+                @shouldLinkUsers={{true}}
+                @shouldTruncate={{false}}
+            />
+        </div>
+    </div>
+{{/unless}}
+
 <FormControls @changeset={{@manager.changeset}} as |form|>
     {{#if @manager.isEditingResources}}
         <form.select
@@ -78,7 +106,7 @@
             data-test-save-resource-metadata-button
             aria-label={{t 'general.save'}}
             data-analytics-name='Save resource metadata'
-            disabled={{@manager.isSaving}}
+            disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
             {{on 'click' @manager.saveMetadata}}
         >
             {{t 'general.save'}}
@@ -100,90 +128,69 @@
             </div>
             <dl>
                 <dt>{{t 'osf-components.node-metadata-form.resource-type'}}</dt>
-                <dd>{{@manager.metadataRecord.resourceTypeGeneral}}</dd>
+                <dd data-test-display-resource-type-general>{{@manager.metadataRecord.resourceTypeGeneral}}</dd>
                 <dt>{{t 'osf-components.node-metadata-form.resource-language'}}</dt>
-                <dd>{{@manager.languageFromCode}}</dd>
+                <dd data-test-display-resource-language>{{@manager.languageFromCode}}</dd>
             </dl>
         </div>
     {{/if}}
-    {{#if @manager.isEditingFunding}}
-        <Button
-            data-test-cancel-editing-funding-metadata-button
-            aria-label={{t 'general.cancel'}}
-            data-analytics-name='Cancel editing funding metadata'
-            disabled={{@manager.isSaving}}
-            {{on 'click' @manager.cancelMetadata}}
-        >
-            {{t 'general.cancel'}}
-        </Button>
-        <Button
-            data-test-save-funding-metadata-button
-            aria-label={{t 'general.save'}}
-            data-analytics-name='Save funding metadata'
-            disabled={{@manager.isSaving}}
-            {{on 'click' @manager.saveMetadata}}
-        >
-            {{t 'general.save'}}
-        </Button>
-
-    {{else}}
-        <div>
+    {{#unless @manager.node.isAnonymous}}
+        {{#if @manager.isEditingFunding}}
+            <Button
+                data-test-cancel-editing-funding-metadata-button
+                aria-label={{t 'general.cancel'}}
+                data-analytics-name='Cancel editing funding metadata'
+                disabled={{@manager.isSaving}}
+                {{on 'click' @manager.cancelMetadata}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                data-test-save-funding-metadata-button
+                aria-label={{t 'general.save'}}
+                data-analytics-name='Save funding metadata'
+                disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
+                {{on 'click' @manager.saveMetadata}}
+            >
+                {{t 'general.save'}}
+            </Button>
+        {{else}}
             <div>
-                {{t 'osf-components.node-metadata-form.funding-information'}}
-                {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
-                    <Button
-                        data-test-edit-funding-metadata-button
-                        data-analytics-name='Edit Funding Metadata'
-                        aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
-                        {{on 'click' @manager.editFunding}}
-                    >
-                        <FaIcon @icon='pencil-alt' />
-                    </Button>
-                {{/if}}
+                <div>
+                    {{t 'osf-components.node-metadata-form.funding-information'}}
+                    {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                        <Button
+                            data-test-edit-funding-metadata-button
+                            data-analytics-name='Edit Funding Metadata'
+                            aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                            {{on 'click' @manager.editFunding}}
+                        >
+                            <FaIcon @icon='pencil-alt' />
+                        </Button>
+                    {{/if}}
+                </div>
+                {{#each @manager.metadataRecord.funders as |funder|}}
+                    <dl>
+                        <dt>{{t 'osf-components.node-metadata-form.funder'}}</dt>
+                        <dd data-test-display-funder-name={{funder.funder_name}}>{{funder.funder_name}}</dd>
+                        <dt>{{t 'osf-components.node-metadata-form.award-title'}}</dt>
+                        <dd data-test-display-funder-award-title={{funder.funder_name}}>{{funder.award_title}}</dd>
+
+                        <dt>{{t 'osf-components.node-metadata-form.award-info-uri'}}</dt>
+                        <dd data-test-display-funder-award-uri={{funder.funder_name}}>{{funder.award_uri}}</dd>
+
+                        <dt>{{t 'osf-components.node-metadata-form.award-number'}}</dt>
+                        <dd data-test-display-funder-award-number={{funder.funder_name}}>{{funder.award_number}}</dd>
+                    </dl>
+                {{/each}}
             </div>
-            {{#each @manager.metadataRecord.funders as |funder|}}
-                <dl>
-                    <dt>{{t 'osf-components.node-metadata-form.funder'}}</dt>
-                    <dd>{{funder.funder_name}}</dd>
+        {{/if}}
+    {{/unless}}
 
-                    <dt>{{t 'osf-components.node-metadata-form.award-title'}}</dt>
-                    <dd>{{funder.award_title}}</dd>
-
-                    <dt>{{t 'osf-components.node-metadata-form.award-info-uri'}}</dt>
-                    <dd>{{funder.award_uri}}</dd>
-
-                    <dt>{{t 'osf-components.node-metadata-form.award-number'}}</dt>
-                    <dd>{{funder.award_number}}</dd>
-                </dl>
-            {{/each}}
-        </div>
-    {{/if}}
 </FormControls>
 
-<div>
-    <div>
-        {{t 'osf-components.node-metadata-form.contributors'}}
-        {{#unless @manager.inEditMode}}
-            <a
-                data-test-edit-contributors
-                aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
-                href={{concat '/' @manager.nodeId '/contributors/'}}
-            >
-                <FaIcon @icon='pencil-alt' />
-            </a>
-        {{/unless}}
-    </div>
-    <div>
-        <ContributorList
-            data-test-target-contributors
-            @model={{@manager.node}}
-            @shouldLinkUsers={{true}}
-            @shouldTruncate={{false}}
-        />
-    </div>
-</div>
 {{#if @manager.node.isRegistration}}
-    <div>
+    <div data-test-subjects-list>
         <div>{{t 'osf-components.node-metadata-form.subjects'}}</div>
         <Subjects::Manager
             @model={{@manager.node}}
@@ -197,6 +204,7 @@
         </Subjects::Manager>
     </div>
 {{/if}}
+
 <div>
     <div>{{t 'osf-components.node-metadata-form.tags'}}</div>
     <TagsWidget

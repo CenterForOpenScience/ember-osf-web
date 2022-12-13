@@ -151,7 +151,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @task
     @waitFor
     async cancelNode(){
-        if (this.saveErrored){
+        if (this.saveNodeErrored){
             await this.node.reload();
             this.saveNodeErrored = false;
         }
