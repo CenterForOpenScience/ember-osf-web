@@ -51,7 +51,7 @@ export default class GuidFile extends Route {
             institution: institutions.map((institution: Institution) => institution.get('name')),
             description: this.metadata.description ?
                 this.metadata.description :
-                this.intl.t('general.hosted_on_the_osf'),
+                this.intl.t('general.presented_by_osf'),
             language: this.metadata.language ? this.metadata.language : undefined,
         };
         this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
