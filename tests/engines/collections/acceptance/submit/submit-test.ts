@@ -5,6 +5,7 @@ import faker from 'faker';
 import { module, test } from 'qunit';
 
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
+import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
@@ -202,11 +203,99 @@ module('Collections | Acceptance | submit', hooks => {
         await click('[data-test-collections-submit-submit-button]');
         assert.dom('[data-test-collection-submission-confirmation-modal-header]')
             .exists({ count: 1 }, 'confirmation modal is displayed');
-
+        assert.dom('[data-test-collection-submission-confirmation-modal-body]').exists();
+        assert.dom('[data-test-collection-submission-confirmation-modal-moderated-body]')
+            .doesNotExist('No moderation message is displayed for non-moderated collections');
         await percySnapshot('Collections | Acceptance | submit | confirm public modal');
 
         await click('[data-test-collection-submission-confirmation-modal-cancel-button]');
         assert.dom('[data-test-collection-submission-confirmation-modal-header]')
             .doesNotExist('confirmation modal is dismissed');
+
+        collectionProvider.reviewsWorkflow = 'pre-moderation';
+        await click('[data-test-collections-submit-submit-button]');
+        assert.dom('[data-test-collection-submission-confirmation-modal-body]').exists();
+        assert.dom('[data-test-collection-submission-confirmation-modal-moderated-body]')
+            .exists('Moderation message is displayed for moderated collections');
+    });
+
+    test('it resubmits', async function(assert) {
+        server.loadFixtures('licenses');
+        const currentUser = server.create('user', 'loggedIn');
+        const primaryCollection = server.create('collection', {
+            volumeChoices: [],
+            issueChoices: [],
+            statusChoices: [],
+            programAreaChoices: [],
+            studyDesignChoices: [],
+            schoolTypeChoices: [],
+        });
+        const nodeAlreadyAdded = server.create('node', {
+            title: 'Node to be added to collection',
+            currentUserPermissions: Object.values(Permission),
+            tags: faker.lorem.words(5).split(' '),
+            license: server.schema.licenses.all().models[0],
+        });
+        server.create('contributor', {
+            node: nodeAlreadyAdded,
+            users: currentUser,
+            index: 0,
+        });
+        const licensesAcceptable = server.schema.licenses.all().models;
+        server.create('collection-submission', {
+            id: nodeAlreadyAdded.id,
+            creator: currentUser,
+            collection: primaryCollection,
+            guid: nodeAlreadyAdded,
+            reviewsState: CollectionSubmissionReviewStates.Rejected,
+        });
+        const provider = server.create('collection-provider', {
+            id: 'studyswap',
+            primaryCollection,
+            licensesAcceptable,
+        });
+
+        await visit(`/collections/${provider.id}/submit`);
+
+        // open item picker
+        await untrackedClick('[data-test-collections-item-picker] .ember-power-select-trigger');
+        // select node
+        const nodeOption = document.querySelector(
+            `[data-test-collections-node-title="${nodeAlreadyAdded.title}"]`,
+        );
+        if (nodeOption) {
+            await untrackedClick(nodeOption);
+        }
+
+        /* Project metadata */
+        await click('[data-test-project-metadata-save-button]');
+        /* Project contributors */
+        await click('[data-test-submit-section-continue]');
+
+        /* Collection metadata */
+        await untrackedClick('[data-test-metadata-field="collected_type_label"] .ember-power-select-trigger');
+        const firstCollectedTypeOption = document.querySelector('.ember-power-select-option');
+        if (firstCollectedTypeOption) {
+            await untrackedClick(firstCollectedTypeOption);
+        } else {
+            throw new Error('could not find collected type option');
+        }
+
+        assert.dom('[data-test-collection-metadata] [data-test-submit-section-continue]')
+            .isNotDisabled('metadata continue is not disabled');
+        await untrackedClick('[data-test-collection-metadata] [data-test-submit-section-continue]');
+
+        /* Resubmit modal */
+        await click('[data-test-collections-submit-submit-button]');
+        assert.dom('[data-test-collection-submission-confirmation-modal-header]')
+            .exists({ count: 1 }, 'confirmation modal is displayed');
+        assert.dom('[data-test-collection-submission-confirmation-modal-body]').doesNotExist();
+        assert.dom('[data-test-collection-submission-confirmation-modal-moderated-body]')
+            .doesNotExist('No moderation message is displayed for non-moderated collections');
+        assert.dom('[data-test-collection-submission-confirmation-modal-resubmit]')
+            .exists('Resubmit message is displayed');
+        assert.dom('[data-test-collection-submission-confirmation-modal-resubmit-button]')
+            .exists('Resubmit button is displayed');
+        assert.dom('[data-test-collection-submission-confirmation-modal-add-button]').doesNotExist();
     });
 });

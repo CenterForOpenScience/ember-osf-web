@@ -1,12 +1,13 @@
 {{page-title (t 'collections.general.brand' name=this.theme.provider.name)}}
 <ThemeStyles />
 {{#if this.theme.isProvider}}
-    {{branded-navbar
-        translateKey='collections.general.brand'
-        brandRoute='provider.discover'
-        signupUrl=this.signupUrl
-        loginAction=(action 'login')
-        addLinkKey='collections.navbar.add'
-    }}
+    <BrandedNavbar
+        @translateKey='collections.general.brand'
+        @brandRoute='provider.discover'
+        @signupUrl={{this.signupUrl}}
+        @loginAction={{this.login}}
+        @addLinkKey='collections.navbar.add'
+        @displayModerationButton={{this.isDisplayModerationButton}}
+    />
 {{/if}}
 {{outlet}}

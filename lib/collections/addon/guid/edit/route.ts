@@ -22,9 +22,9 @@ export default class GuidEdit extends Route.extend(ConfirmationMixin, {}) {
     }
 
     // This tells ember-onbeforeunload's ConfirmationMixin whether or not to stop transitions
-    @computed('controller.{isPageDirty,isCollectedMetadatumDirty}')
+    @computed('controller.{isPageDirty,isCollectionSubmissionDirty}')
     get isPageDirty() {
         const controller = this.controller as EditController;
-        return () => controller.isPageDirty || controller.isCollectedMetadatumDirty;
+        return () => controller.isPageDirty || controller.isCollectionSubmissionDirty;
     }
 }

@@ -3,14 +3,15 @@ import OsfAdapter from './osf-adapter';
 
 interface ModeratorAdapterOptions {
     providerId: string;
+    providerType: 'registrations' | 'collections';
 }
 
 export default class ModeratorAdapter extends OsfAdapter {
     parentRelationship = 'provider';
     urlForFindRecord(id: string, _: string | number, snapshot: DS.Snapshot): string {
         const adapterOptions = snapshot.adapterOptions as ModeratorAdapterOptions;
-        const { providerId } = adapterOptions;
-        return `${this.urlPrefix()}/providers/registrations/${providerId}/moderators/${id}`;
+        const { providerId, providerType } = adapterOptions;
+        return `${this.urlPrefix()}/providers/${providerType}/${providerId}/moderators/${id}`;
     }
 }
 

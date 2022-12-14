@@ -1,17 +1,21 @@
 import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
+import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
+import { tracked } from '@glimmer/tracking';
 import { dropTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission, { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
+import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -41,7 +45,8 @@ export default class Submit extends Component {
     readonly edit = false;
     readonly provider!: CollectionProvider;
     readonly collection!: Collection;
-    readonly collectedMetadatum!: CollectedMetadatum;
+
+    @tracked collectionSubmission!: CollectionSubmission;
 
     collectionItem: Node | null = null;
     isProjectSelectorValid = false;
@@ -51,6 +56,13 @@ export default class Submit extends Component {
     showCancelDialog = false;
     intlKeyPrefix = 'collections.collections_submission.';
     showSubmitModal = false;
+    @tracked showResubmitModal = false;
+
+    @bool('provider.reviewsWorkflow') collectionIsModerated!: boolean;
+
+    get isAccepted() {
+        return this.collectionSubmission.reviewsState === CollectionSubmissionReviewStates.Accepted;
+    }
 
     /**
      * Leaves the current route for the discover route (currently home for collections)
@@ -72,6 +84,40 @@ export default class Submit extends Component {
 
     @dropTask
     @waitFor
+    async checkForExistingSubmission(collectionItem: Node) {
+        // making two calls since the API doesn't support OR filtering yet
+        const existingRejectedSubmission = await this.collection.queryHasMany('collectionSubmissions', {
+            filter: {
+                id: collectionItem.id,
+                reviews_state: CollectionSubmissionReviewStates.Rejected,
+            },
+        });
+        const existingRemovedSubmission = await this.collection.queryHasMany('collectionSubmissions', {
+            filter: {
+                id: collectionItem.id,
+                reviews_state: CollectionSubmissionReviewStates.Removed,
+            },
+        });
+        if (existingRejectedSubmission.length || existingRemovedSubmission.length) {
+            const existingSubmission = existingRejectedSubmission.length ? existingRejectedSubmission[0] :
+                existingRemovedSubmission[0];
+            this.collectionSubmission.deleteRecord();
+            this.set('collectionSubmission', existingSubmission);
+            this.set('showResubmitModal', true);
+        } else {
+            // No existing submission
+            // Delete old unsaved submission
+            this.store.peekAll('collection-submission').findBy('isNew', true)?.deleteRecord();
+            this.set('collectionSubmission', this.store.createRecord('collection-submission', {
+                collection: this.collection,
+                creator: this.currentUser.user,
+            }));
+            this.set('showResubmitModal', false);
+        }
+    }
+
+    @dropTask
+    @waitFor
     async save() {
         if (!this.collectionItem) {
             return;
@@ -79,7 +125,7 @@ export default class Submit extends Component {
 
         const validatedModels = await Promise.all([
             this.collectionItem!.validate(),
-            this.collectedMetadatum.validate(),
+            this.collectionSubmission.validate(),
         ]);
 
         const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
@@ -88,7 +134,7 @@ export default class Submit extends Component {
             return;
         }
 
-        this.collectedMetadatum.set('guid', this.collectionItem);
+        this.collectionSubmission.set('guid', this.collectionItem);
 
         const operation = this.edit ? 'update' : 'add';
 
@@ -97,13 +143,19 @@ export default class Submit extends Component {
                 this.collectionItem.set('public', true);
                 await this.collectionItem.save();
             }
-            await this.collectedMetadatum.save();
+            await this.collectionSubmission.save();
 
             this.collectionItem.set('collectable', false);
 
-            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
-                title: this.collectionItem.title,
-            }));
+            if (this.provider.reviewsWorkflow === 'pre-moderation' && operation === 'add') {
+                this.toast.success(this.intl.t(`${this.intlKeyPrefix}add_premoderation_save_success`, {
+                    title: this.collectionItem.title,
+                }));
+            } else {
+                this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
+                    title: this.collectionItem.title,
+                }));
+            }
 
             await timeout(1000);
             this.resetPageDirty();
@@ -118,13 +170,101 @@ export default class Submit extends Component {
         }
     }
 
-    @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
+    @dropTask
+    @waitFor
+    async resubmit() {
+        if (!this.collectionItem) {
+            return;
+        }
+
+        const validatedModels = await Promise.all([
+            this.collectionItem!.validate(),
+            this.collectionSubmission.validate(),
+        ]);
+
+        const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
+
+        if (invalid) {
+            return;
+        }
+
+        this.collectionSubmission.set('guid', this.collectionItem);
+
+        try {
+            if (!this.collectionItem.public) {
+                this.collectionItem.set('public', true);
+                await this.collectionItem.save();
+            }
+            await this.collectionSubmission.save();
+
+            const resubmitAction = this.store.createRecord('collection-submission-action', {
+                actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
+                target: this.collectionSubmission,
+            });
+            await resubmitAction.save();
+
+            this.collectionItem.set('collectable', false);
+            if (this.provider.reviewsWorkflow === 'pre-moderation') {
+                this.toast.success(this.intl.t(`${this.intlKeyPrefix}resubmit_premoderation_save_success`, {
+                    title: this.collectionItem.title,
+                }));
+            } else {
+                this.toast.success(this.intl.t(`${this.intlKeyPrefix}add_save_success`, {
+                    title: this.collectionItem.title,
+                }));
+            }
+
+
+            await timeout(1000);
+            this.resetPageDirty();
+            // TODO: external-link-to / waffle for project main page
+            window.location.href = getHref(this.collectionItem.links.html!);
+        } catch (e) {
+            const errorMessage = this.intl.t(`${this.intlKeyPrefix}resubmit_save_error`, {
+                title: this.collectionItem.title,
+            });
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @dropTask
+    @waitFor
+    async removeSubmission() {
+        if (!this.collectionItem) {
+            return;
+        }
+
+        try {
+            const newAction = this.store.createRecord('collection-submission-action', {
+                actionTrigger: CollectionSubmissionActionTrigger.Remove,
+                target: this.collectionSubmission,
+            });
+            await newAction.save();
+
+            this.toast.success(this.intl.t(`${this.intlKeyPrefix}remove_success`, {
+                title: this.collectionItem.title,
+            }));
+
+            this.resetPageDirty();
+            // TODO: external-link-to / waffle for project main page
+            window.location.href = getHref(this.collectionItem.links.html!);
+        } catch (e) {
+            const errorMessage = this.intl.t(`${this.intlKeyPrefix}remove_error`, {
+                title: this.collectionItem.title,
+            });
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @computed('collectionSubmission.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
     get choiceFields(): Array<{ label: string, value: string | undefined }> {
-        return this.collectedMetadatum.displayChoiceFields
+        return this.collectionSubmission.displayChoiceFields
             .map(field => ({
                 name: field,
                 label: `collections.collection_metadata.${underscore(field)}_label`,
-                value: this.collectedMetadatum[field],
+                value: this.collectionSubmission[field],
             }));
     }
 
@@ -146,6 +286,8 @@ export default class Submit extends Component {
         this.setProperties({
             collectionItem,
         });
+
+        taskFor(this.checkForExistingSubmission).perform(collectionItem);
 
         this.nextSection();
     }

@@ -1,7 +1,7 @@
 import { attr, belongsTo, hasMany, AsyncHasMany, AsyncBelongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 
-import CollectedMetadatumModel, { choiceFields } from './collected-metadatum';
+import CollectionSubmissionModel, { choiceFields } from './collection-submission';
 import CollectionProviderModel from './collection-provider';
 import NodeModel from './node';
 import OsfModel from './osf-model';
@@ -42,12 +42,12 @@ export default class CollectionModel extends OsfModel {
     @hasMany('registration', { inverse: null })
     linkedRegistrations!: AsyncHasMany<RegistrationModel>;
 
-    @hasMany('collected-metadatum', { inverse: 'collection' })
-    collectedMetadata!: AsyncHasMany<CollectedMetadatumModel>;
+    @hasMany('collection-submission', { inverse: 'collection' })
+    collectionSubmissions!: AsyncHasMany<CollectionSubmissionModel>;
 
     @computed(`{${choicesFields.join()}}.length`)
     get displayChoicesFields() {
-        return choicesFields.filter(field => !!this[field].length);
+        return choicesFields.filter(field => !!this[field].length );
     }
 }
 
