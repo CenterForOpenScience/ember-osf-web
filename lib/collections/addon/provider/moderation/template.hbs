@@ -22,6 +22,7 @@
             {{#let 'collections.provider.moderation.moderators' as |moderatorsRoute|}}
                 <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
                     <OsfLink
+                        data-analytics-name='collection-moderation-moderators-tab'
                         data-test-collections-moderation-moderators-tab
                         @route={{moderatorsRoute}}
                         @models={{array this.model.id}}
