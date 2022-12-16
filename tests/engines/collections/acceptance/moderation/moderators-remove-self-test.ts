@@ -47,7 +47,7 @@ module('Collections | Acceptance | moderation | moderators | remove self', hooks
         await click('[data-test-confirm-delete]');
 
         // Then I verify the user is re-routed to the discover page
-        assert.equal(currentRouteName(), 'collections.discover', 'Users are rerouted to discover page.');
+        assert.equal(currentRouteName(), 'collections.provider.discover', 'Users are rerouted to discover page.');
 
         // Given the previous-moderator no longer has permission
 
