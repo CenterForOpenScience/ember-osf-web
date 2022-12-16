@@ -10,7 +10,7 @@ module('Collections | Acceptance | moderation | moderators | remove self', hooks
     setupEngineApplicationTest(hooks, 'collections');
     setupMirage(hooks);
 
-    test('it removes a self collection moderator', async assert => {
+    test('Can remove self as a collection moderator', async assert => {
         // Given I create a collection, collection-provider and a second moderator
         server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
@@ -23,10 +23,10 @@ module('Collections | Acceptance | moderation | moderators | remove self', hooks
         // When I visit the discover page
         await visit(`/collections/${provider.id}/discover`);
 
-        // When I click on the moderation tab
+        // And I click on the moderation tab
         await click('[data-test-branded-navbar-moderation]');
 
-        // When I click on the moderators tab
+        // And I click on the moderators tab
         await click('[data-test-collections-moderation-moderators-tab]');
 
         // Then I assert both moderators exist
@@ -37,7 +37,9 @@ module('Collections | Acceptance | moderation | moderators | remove self', hooks
 
         // When I click on the delete button as myself
         await click('[data-test-delete-button]');
-        // When I delete, I have to update the provider permissions manually to
+
+        // And I delete the permissions
+        // I have to update the provider permissions manually to
         // simulate the server response
         provider.update({permissions: []});
 
