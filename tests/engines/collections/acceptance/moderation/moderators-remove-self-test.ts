@@ -46,6 +46,11 @@ module('Collections | Acceptance | moderation | moderators | remove self', hooks
         // When I click on the confirm remove moderator dialog
         await click('[data-test-confirm-delete]');
 
+        // Then I verify the user is re-routed to the discover page
+        assert.equal(currentRouteName(), 'collections.discover', 'Users are rerouted to discover page.');
+
+        // Given the previous-moderator no longer has permission
+
         // Then I verify the moderation button is no longer visable
         assert.dom('[data-test-branded-navbar-moderation]').doesNotExist('The moderation button does not exist.');
 
