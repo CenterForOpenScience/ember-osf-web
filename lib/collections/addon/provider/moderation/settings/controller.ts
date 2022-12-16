@@ -10,10 +10,6 @@ export default class ModerationSettingsController extends Controller {
 
     @computed('providerId')
     get subscriptionIds() {
-        return this.providerId
-            ? [
-                `${this.providerId}_new_pending_submissions`,
-            ]
-            : [];
+        return `${this.providerId}_new_pending_submissions`;
     }
 }
