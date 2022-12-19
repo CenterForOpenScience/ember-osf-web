@@ -486,6 +486,7 @@ validationErrors:
     new_folder_name: 'Folder name must not be blank.'
     year_format: 'Please specify a valid year.'
     no_updated_responses: 'No changes have been made in this update.'
+    moderator_comment: 'Please provide feedback for your decision.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
@@ -692,6 +693,7 @@ contributor_list:
 app_components:
     branded_navbar:
         my_osf_projects: 'My OSF Projects'
+        moderation: 'Moderation'
         on_the_osf: 'On the OSF:'
     brand_color_inputs:
         primary_label: 'Brand Primary Color'
@@ -899,14 +901,25 @@ collections:
         add_button: 'Add to collection'
         update_button: Update
         add_save_success: '{title} has been added to the collection.'
+        add_premoderation_save_success: '{title} has been submitted to the collection.'
+        resubmit_premoderation_save_success: '{title} has been resubmitted to the collection.'
         update_save_success: '{title} has been updated in the collection.'
         add_save_error: 'Error adding {title} to the collection.'
         update_save_error: 'Error updating {title} in the collection.'
+        resubmit_save_error: 'Error resubmitting {title} in the collection.'
+        remove_button: 'Remove from collection'
+        remove_modal_title: 'Remove from collection'
+        remove_modal_body: 'Are you sure you want to remove {title} from the collection?'
+        remove_success: '{title} has been removed from the collection.'
+        remove_error: 'Error removing {title} from the collection.'
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
     collection_submission_confirmation_modal:
         header: 'Submit project'
-        body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.'
+        body: 'Once submitted to the collection, the project will be made public. It can later be made private again.'
+        body_moderated: 'A moderator will review your submission before it is included in the collection.'
+        body_resubmit: 'This project was removed or rejected from this collection. Do you want to resubmit it?'
         add_button: 'Add to collection'
+        resubmit: 'Resubmit'
     collection_item_picker:
         after_options:
             loading: Loading…
@@ -958,6 +971,33 @@ collections:
         source: Source
         tag: Tag
         type: Type
+    moderation:
+        header: 'Collections Moderation'
+        all:
+            title: 'All Items'
+            tabLabel:
+                pending: 'View pending submissions'
+                accepted: 'View accepted submissions'
+                rejected: 'View rejected submissions'
+                removed: 'View removed submissions'
+            pending: 'Pending'
+            accepted: 'Accepted'
+            rejected: 'Rejected'
+            removed: 'Removed'
+            noSubmissions: 'No submissions'
+        moderators:
+            title: 'Moderators'
+        settings:
+            title: 'Settings'
+            heading: 'Configure review state notification preferences'
+            paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
+    actions:
+        triggerPastTense:
+            submit: submitted
+            resubmit: resubmitted
+            accept: accepted
+            reject: rejected
+            remove: 'removed'
 registries:
     header:
         osf_registrations: 'OSF Registrations'
@@ -998,14 +1038,6 @@ registries:
             title: 'Withdrawal Requests'
         moderators:
             title: Moderators
-            nameHeader: Name
-            permissionHeader: Permission
-            addedNewModeratorSuccess: 'Successfully added {userName} as {permission}'
-            addedNewModeratorError: 'Error adding {permission}'
-            removedModeratorSuccess: 'Successfully removed {userName}'
-            removedModeratorError: 'Error removing {permission}'
-            updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
-            updatedModeratorPermissionError: 'Error updating permission to {permission}'
         settings:
             title: 'Settings'
             heading: 'Configure reviews notification preferences'
@@ -1515,20 +1547,6 @@ registries:
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
         pending_moderation: 'No registrations found with updates pending'
-    reviewActionsList:
-        failedToLoadActions: 'Failed to load registration moderation history'
-        noActionsFound: 'No moderation history found for this registration'
-        hide: Hide
-        show: 'Show full history'
-    reviewAction:
-        acceptSubmission: 'Registration {action} {date} by {moderator} with no embargo'
-        acceptEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
-        moderatorAction: 'Registration {action} {date} by moderator {moderator}'
-        contributorAction: 'Registration {action} {date} by contributor {contributor}'
-        submitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
-        submitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
-        revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
-        revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
@@ -1561,30 +1579,6 @@ registries:
         noResponses: 'No responses updated'
     sharingIcons:
         label: 'Share this registration via {mediaType}'
-    makeDecisionDropdown:
-        makeDecision: 'Make Decision'
-        acceptSubmission: 'Accept submission'
-        acceptSubmissionDescription: 'Registration will appear in search results and be made public. Embargoed registrations will only become public after embargo end date.'
-        rejectSubmission: 'Reject submission'
-        rejectSubmissionDescription: 'Registration will not appear in search results and will return to a private draft state'
-        forceWithdraw: 'Force withdraw'
-        forceWithdrawDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and a subset of the metadata available'
-        acceptWithdrawal: 'Accept withdrawal'
-        acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
-        rejectWithdrawal: 'Reject withdrawal'
-        rejectWithdrawalDescription: 'Registration will remain fully public'
-        acceptRevision: 'Accept update'
-        acceptRevisionDescription: 'Update will be accepted and registration will be updated'
-        rejectRevision: 'Reject update'
-        rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
-        submit: 'Submit'
-        success: 'Successfully submitted moderator decision.'
-        failure: 'Failed to submit moderator decision.'
-        additionalComment: 'Additional comment'
-        additionalCommentPlaceholder: 'Add remarks to registration admins'
-        justificationForWithdrawal: 'Justification for Withdrawal'
-        justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
-        noModeratorActions: 'No moderator decisions can be made at this time'
     myRegistrationsList:
         noGeneral: 'This page allows you to search and quickly access your registrations.'
         noRegistrations: "You don't have any submitted registrations. Create one with the button below."
@@ -2125,6 +2119,23 @@ osf-components:
                 button: 'Remove contributor'
             success: 'You have successfully removed {contributorName}.'
             errorHeading: 'Could not remove contributor. '
+    reviewActionsList:
+        failedToLoadActions: 'Failed to load moderation history'
+        noActionsFound: 'No moderation history found'
+        hide: Hide
+        show: 'Show full history'
+        reviewAction:
+            acceptRegistrationSubmission: 'Registration {action} {date} by {moderator} with no embargo'
+            acceptRegistrationEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
+            registrationModeratorAction: 'Registration {action} {date} by moderator {moderator}'
+            registrationContributorAction: 'Registration {action} {date} by contributor {contributor}'
+            registrationSubmitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
+            registrationSubmitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
+            revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
+            revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
+            collectionAction: 'Submission {action} {date} by {user}'
+            collectionContributorAction: 'Submission {action} {date} by contributor {contributor}'
+            collectionModeratorAction: 'Submission {action} {date} by moderator {moderator}'
 
 
     subscriptions:
@@ -2135,6 +2146,14 @@ osf-components:
         success: 'Notification frequency updated.'
         error: 'Error updating notification frequency.'
     moderators:
+        nameHeader: Name
+        permissionHeader: Permission
+        addedNewModeratorSuccess: 'Successfully added {userName} as {permission}'
+        addedNewModeratorError: 'Error adding {permission}'
+        removedModeratorSuccess: 'Successfully removed {userName}'
+        removedModeratorError: 'Error removing {permission}'
+        updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
+        updatedModeratorPermissionError: 'Error updating permission to {permission}'
         remove:
             modal:
                 title: 'Confirm moderator removal'
@@ -2145,13 +2164,47 @@ osf-components:
                 heading: 'Add a moderator'
                 add: 'Add'
                 selectUser: 'Select user'
+                findUserByName: 'Find user by name'
                 selectPermission: 'Select permission'
                 cancel: 'Cancel'
                 searchByName: 'Search user by name'
                 inviteByEmail: 'Invite user by email'
                 email: 'Email'
                 fullName: 'Full name'
-
+    makeDecisionDropdown:
+        makeDecision: 'Make Decision'
+        acceptSubmission: 'Accept submission'
+        acceptSubmissionDescription: 'Registration will appear in search results and be made public. Embargoed registrations will only become public after embargo end date.'
+        rejectSubmission: 'Reject submission'
+        rejectSubmissionDescription: 'Registration will not appear in search results and will return to a private draft state'
+        forceWithdraw: 'Force withdraw'
+        forceWithdrawDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and a subset of the metadata available'
+        acceptWithdrawal: 'Accept withdrawal'
+        acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
+        rejectWithdrawal: 'Reject withdrawal'
+        rejectWithdrawalDescription: 'Registration will remain fully public'
+        acceptRevision: 'Accept update'
+        acceptRevisionDescription: 'Update will be accepted and registration will be updated'
+        rejectRevision: 'Reject update'
+        rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
+        acceptCollectionSubmission: 'Accept submission'
+        acceptCollectionSubmissionDescription: 'Project will appear in search results and be associated with the collection'
+        rejectCollectionSubmission: 'Reject submission'
+        rejectCollectionSubmissionDescription: 'Project will not appear in search results nor be associated with the collection'
+        removeCollectionSubmission: 'Remove submission'
+        removeCollectionSubmissionDescription: 'Collection will be removed from the collection and no longer appear in search results'
+        submit: 'Submit'
+        success: 'Successfully submitted moderator decision.'
+        failure: 'Failed to submit moderator decision.'
+        additionalComment: 'Additional comment'
+        additionalCommentPlaceholder: 'Add remarks to {targetType} admins'
+        registration: registration
+        project: project
+        justificationForWithdrawal: 'Justification for Withdrawal'
+        justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
+        justificationForRemoval: 'Justification for Removal'
+        justificationForRemovalPlaceholder: 'Provide justification for removal'
+        noModeratorActions: 'No moderator decisions can be made at this time'
 settings:
     toggleNav: 'Toggle navigation'
     profile:

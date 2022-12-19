@@ -36,6 +36,7 @@
                         as |form|
                     >
                         <form.select
+                            @placeholder={{t 'osf-components.moderators.add.modal.findUserByName'}}
                             @search={{perform this.searchUser}}
                             @valuePath={{'user'}}
                             @label={{t 'osf-components.moderators.add.modal.selectUser'}}
