@@ -11,7 +11,7 @@ module('Collections | Acceptance | moderation | settings', hooks => {
     setupMirage(hooks);
 
     test('it renders settings for collection moderators', async function(assert) {
-        // Given I create a collection, collection-provider and a second submission
+        // Given I create a collection, collection-provider and a second subscription
         server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         const provider = server.create('collection-provider', {
@@ -49,7 +49,7 @@ module('Collections | Acceptance | moderation | settings', hooks => {
         // And the settings tab is active
         assert.dom('[data-test-collections-moderation-settings-tab]').hasClass('active', 'settings is active tab');
 
-        // And the new pending submissions option exists
+        // And only the new pending submissions option exists
         const eventNames = this.element.querySelectorAll('[data-test-subscription-event-name]');
         assert.equal(eventNames.length, 1, 'The expected event names do not exist.');
         assert.dom(eventNames[0]).hasText('New pending submissions',
