@@ -31,15 +31,15 @@ module('Integration | Component | make-decision-dropdown | collection', hooks =>
             commentPlaceholder: 'Add remarks to project admins',
             checkboxLabel: ['Accept Request', 'Reject Request'],
             // eslint-disable-next-line max-len
-            checkboxDescription: ['Project will appear in search results and be associated with the collection' , 'Project will not appear in search results nor be associated with the collection'],
+            checkboxDescription: ['Request will appear in search results and be associated with the collection' , 'Request will not appear in search results nor be associated with the collection'],
         },
         [CollectionSubmissionReviewStates.Accepted]: {
             actions: [CollectionSubmissionActionTrigger.Remove],
             commentLabel: 'Justification for Removal',
             commentPlaceholder: 'Provide justification for removal',
-            checkboxLabel: ['Remove submission'],
+            checkboxLabel: ['Remove item'],
             // eslint-disable-next-line max-len
-            checkboxDescription: ['Collection will be removed from the collection and no longer appear in search results'],
+            checkboxDescription: ['Item will be removed from the collection and no longer appear in search results'],
         },
         [CollectionSubmissionReviewStates.InProgress]: {
             actions: [],
@@ -146,10 +146,10 @@ module('Integration | Component | make-decision-dropdown | collection', hooks =>
 
                 if (testCase.actions.length) {
                     assert.dom('[data-test-moderation-dropdown-action-label]')
-                        .hasText(testCase.commentLabel as string,
+                        .hasText(testCase.commentLabel!,
                             'Comment label has the right text');
                     assert.dom('[data-test-moderation-dropdown-comment]')
-                        .hasAttribute('placeholder', testCase.commentPlaceholder as string,
+                        .hasAttribute('placeholder', testCase.commentPlaceholder!,
                             'Comment placeholder has the right text');
                     assert.dom('[data-test-moderation-dropdown-submit]')
                         .isDisabled('Submit button is disabled by default');
