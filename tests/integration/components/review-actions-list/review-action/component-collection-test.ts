@@ -12,7 +12,7 @@ interface ThisTestContext extends TestContext {
     collectionSubmissionAction: CollectionSubmissionAction;
 }
 
-module('Integration | Component | Collection | Moderator | review-actions', hooks => {
+module('Integration | Component | Collection | Admin or Moderator | review-actions', hooks => {
     setupRenderingTest(hooks);
     setupIntl(hooks);
     setupMirage(hooks);
@@ -31,11 +31,10 @@ module('Integration | Component | Collection | Moderator | review-actions', hook
         this.collectionSubmissionAction = await this.store.findRecord('collection-submission-action', mirageAction.id);
     });
 
-    // Collection Moderator actions
     test('Collection submission: Moderator accept action', async function(this: ThisTestContext, assert) {
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Accept;
 
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Request accepted 2 days ago by moderator Superb Mario',
@@ -47,7 +46,7 @@ module('Integration | Component | Collection | Moderator | review-actions', hook
     test('Collection submission: Moderator reject action', async function(this: ThisTestContext, assert) {
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Reject;
 
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Request rejected 2 days ago by moderator Superb Mario',
             'Collection submission action wrapper shows reject string',
@@ -57,7 +56,7 @@ module('Integration | Component | Collection | Moderator | review-actions', hook
     test('Collection submission: Moderator remove action', async function(this: ThisTestContext, assert) {
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Remove;
 
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Item removed 2 days ago by Superb Mario',
             'Collection submission action wrapper shows moderator remove string',
@@ -65,7 +64,7 @@ module('Integration | Component | Collection | Moderator | review-actions', hook
     });
 });
 
-module('Integration | Component | Collection | Admin | review-actions', hooks => {
+module('Integration | Component | Collection | Project Admin | review-actions', hooks => {
     setupRenderingTest(hooks);
     setupIntl(hooks);
     setupMirage(hooks);
@@ -84,13 +83,12 @@ module('Integration | Component | Collection | Admin | review-actions', hooks =>
         this.collectionSubmissionAction = await this.store.findRecord('collection-submission-action', mirageAction.id);
     });
 
-    // Collection Admin actions
-    test('Collection submission: Admin remove action', async function(this: ThisTestContext, assert) {
+    test('Collection submission: Project Admin remove action', async function(this: ThisTestContext, assert) {
 
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Remove;
 
 
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Item removed 2 days ago by Superb Mario',
@@ -99,11 +97,11 @@ module('Integration | Component | Collection | Admin | review-actions', hooks =>
         assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
     });
 
-    test('Collection submission: Admin resubmit action', async function(this: ThisTestContext, assert) {
+    test('Collection submission: Project Admin resubmit action', async function(this: ThisTestContext, assert) {
 
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Resubmit;
 
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Request resubmitted 2 days ago by contributor Superb Mario',
             'Collection submission action wrapper shows resubmit string',
