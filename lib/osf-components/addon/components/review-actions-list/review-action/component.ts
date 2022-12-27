@@ -114,6 +114,19 @@ export default class ReviewAction extends Component<Args> {
             });
     }
 
+    /**
+     * determineModeratorOrAdminAction
+     *
+     * @description The remove action trigger can either be initiated by an admin
+     * or a moderator and there is no way to distinguish between which user
+     * took the action
+     * @param actionTrigger The requested action
+     * @returns a boolean if the action is removed
+     */
+    determineModeratorOrAdminAction(actionTrigger: CollectionSubmissionActionTrigger): boolean {
+        return actionTrigger === CollectionSubmissionActionTrigger.Remove;
+    }
+
     get collectionsTranslationString() {
         const reviewAction = this.args.reviewAction as CollectionSubmissionActionModel;
         const collectionContributorActions =
@@ -121,7 +134,7 @@ export default class ReviewAction extends Component<Args> {
                 CollectionSubmissionActionTrigger.Submit,
                 CollectionSubmissionActionTrigger.Resubmit,
             ];
-        if (reviewAction.actionTrigger === CollectionSubmissionActionTrigger.Remove) {
+        if (this.determineModeratorOrAdminAction(reviewAction.actionTrigger)) {
             return this.intl.t('osf-components.reviewActionsList.reviewAction.collectionAction',
                 {
                     action: reviewAction.triggerPastTense,

@@ -5,10 +5,14 @@ import { setupIntl } from 'ember-intl/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
 
-import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
+import CollectionSubmissionModel, { CollectionSubmissionReviewStates} from 'ember-osf-web/models/collection-submission';
 import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
 import { module, test } from 'qunit';
 import { Permission } from 'ember-osf-web/models/osf-model';
+
+interface ThisTestContext extends TestContext {
+    collectionSubmission: CollectionSubmissionModel;
+}
 
 module('Integration | Component | make-decision-dropdown | collection', hooks => {
     setupRenderingTest(hooks);
@@ -52,10 +56,7 @@ module('Integration | Component | make-decision-dropdown | collection', hooks =>
         },
     };
 
-    async function buildCollectionScenarios(
-        testContext: TestContext,
-        reviewsState: CollectionSubmissionReviewStates,
-    ): Promise<void> {
+    hooks.beforeEach(async function(this: ThisTestContext) {
         // Given the scenario needs to be created for a collection
         // to have a submission request in a certain review state
 
@@ -91,21 +92,21 @@ module('Integration | Component | make-decision-dropdown | collection', hooks =>
             creator: currentUser,
             collection: mirageCollection,
             guid,
-            reviewsState,
         });
 
         // And the collectionSubmission is stored in state
         const submissionId = mirageSubmission.id + '-' + mirageSubmission.id;
-        const store = testContext.owner.lookup('service:store');
+        const store = this.owner.lookup('service:store');
         const collectionSubmission = await store.findRecord('collection-submission', submissionId);
-        testContext.set('collectionSubmission', collectionSubmission);
-    }
+        this.collectionSubmission = collectionSubmission;
+    });
 
     // Dynamic creating of all test cases based on the review states
     for (const reviewsState of (Object.keys(collectionSubmissionTestCases) as CollectionSubmissionReviewStates[])) {
         test(`shows actions for collection submission state: ${reviewsState}`,
-            async function(this: TestContext, assert) {
-                await buildCollectionScenarios(this, reviewsState);
+            async function(this: ThisTestContext, assert) {
+
+                this.collectionSubmission.reviewsState = reviewsState;
 
                 const testCase = collectionSubmissionTestCases[reviewsState];
 
