@@ -29,7 +29,6 @@ module('Integration | Component | Collection | Moderator | review-actions', hook
             }),
         });
         this.collectionSubmissionAction = await this.store.findRecord('collection-submission-action', mirageAction.id);
-        this.set('reviewAction', this.collectionSubmissionAction);
     });
 
     // Collection Moderator actions
@@ -83,7 +82,6 @@ module('Integration | Component | Collection | Admin | review-actions', hooks =>
             }),
         });
         this.collectionSubmissionAction = await this.store.findRecord('collection-submission-action', mirageAction.id);
-        this.set('reviewAction', this.collectionSubmissionAction);
     });
 
     // Collection Admin actions
