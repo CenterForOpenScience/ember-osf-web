@@ -59,7 +59,7 @@ module('Integration | Component | collection-submission-card', hooks => {
         assert.dom('[data-test-submission-card-icon]').hasAttribute('data-icon', 'check', 'Accepted icon shown');
         assert.dom('[data-test-submission-card-title]').containsText(this.node.title, 'Node title shown');
         assert.dom('[data-test-submission-card-latest-action]').containsText(
-            'Request accepted 2 days ago by moderator Monte Glover',
+            'Request accepted 2 days ago by moderator',
             'Latest action shown',
         );
         assert.dom('[data-test-submission-card-latest-action]').containsText(
