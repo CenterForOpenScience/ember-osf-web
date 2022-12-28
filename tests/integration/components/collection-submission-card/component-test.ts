@@ -62,10 +62,6 @@ module('Integration | Component | collection-submission-card', hooks => {
             'Request accepted 2 days ago by moderator',
             'Latest action shown',
         );
-        assert.dom('[data-test-submission-card-latest-action]').containsText(
-            'I really love this project.',
-            'Latest action shown',
-        );
         await click('[data-test-moderation-dropdown-button]');
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('Submit button is disabled');
         assert.dom('[data-test-moderation-dropdown-decision-label="remove"]').exists('Remove option shown');
