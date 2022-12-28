@@ -58,8 +58,14 @@ module('Integration | Component | collection-submission-card', hooks => {
         assert.dom(`[data-test-submission-card=${this.node.id}]`).exists();
         assert.dom('[data-test-submission-card-icon]').hasAttribute('data-icon', 'check', 'Accepted icon shown');
         assert.dom('[data-test-submission-card-title]').containsText(this.node.title, 'Node title shown');
-        assert.dom('[data-test-submission-card-latest-action]')
-            .containsText('Submission accepted', 'Latest action shown');
+        assert.dom('[data-test-submission-card-latest-action]').containsText(
+            'Request accepted 2 days ago by moderator Monte Glover',
+            'Latest action shown',
+        );
+        assert.dom('[data-test-submission-card-latest-action]').containsText(
+            'I really love this project.',
+            'Latest action shown',
+        );
         await click('[data-test-moderation-dropdown-button]');
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('Submit button is disabled');
         assert.dom('[data-test-moderation-dropdown-decision-label="remove"]').exists('Remove option shown');

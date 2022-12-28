@@ -35,7 +35,7 @@ module('Integration | Component | make-decision-dropdown | collection', hooks =>
             commentPlaceholder: 'Add remarks to project admins',
             checkboxLabel: ['Accept Request', 'Reject Request'],
             // eslint-disable-next-line max-len
-            checkboxDescription: ['Request will appear in search results and be associated with the collection' , 'Request will not appear in search results nor be associated with the collection'],
+            checkboxDescription: ['Submission will appear in search results and be associated with the collection' , 'Submission will not appear in search results nor be associated with the collection'],
         },
         [CollectionSubmissionReviewStates.Accepted]: {
             actions: [CollectionSubmissionActionTrigger.Remove],
