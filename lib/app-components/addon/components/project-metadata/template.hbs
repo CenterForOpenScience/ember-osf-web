@@ -1,7 +1,5 @@
-<ValidatedModelForm
-    @onSave={{action this.onSave}}
-    @onError={{action this.onError}}
-    @model={{this.node}}
+<FormControls
+    @changeset={{this.changeset}}
     as |form|
 >
     <div class='col-md-6'>
@@ -73,10 +71,11 @@
             data-test-project-metadata-save-button
             data-analytics-name='Save metadata'
             disabled={{form.submitting}}
+            @onClick={{perform this.save}}
             @buttonType='submit'
             @type='primary'
         >
             {{t 'app_components.submit_section.save'}}
         </BsButton>
     </div>
-</ValidatedModelForm>
+</FormControls>
