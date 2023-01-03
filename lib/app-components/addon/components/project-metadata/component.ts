@@ -70,7 +70,7 @@ export default class ProjectMetadata extends Component {
                 this.onError();
             }
         } else {
-            this.toast.error(this.intl.t('app_components.project_metadata.save_error'));
+            this.toast.error(this.intl.t('app_components.project_metadata.invalid_metadata'));
         }
     }
 
@@ -85,7 +85,6 @@ export default class ProjectMetadata extends Component {
         this.analytics.click('button', 'Collections - Submit - Remove tag');
         this.node.set('tags', this.node.tags.slice().removeAt(index));
     }
-
 
     @action
     onSave() {
