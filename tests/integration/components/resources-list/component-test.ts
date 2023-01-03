@@ -1,7 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -27,7 +26,9 @@ module('Integration | Component | ResourcesList', hooks => {
         this.registration = await this.store.findRecord('registration', mirageRegistration.id);
         await render(hbs`<ResourcesList @registration={{this.registration}} />`);
         assert.dom('[data-test-add-resource-section]')
-            .containsText(t('osf-components.resources-list.add_instructions'), 'Add resource instructions shown');
+            .hasText('Link a DOI from a repository to your registration by clicking the green “+” button.' +
+            ' Contributors affirmed to adhere to the criteria for each badge.'
+            , 'Add resource instructions shown');
         assert.dom('[data-test-resource-help-link]').exists('Help link exists');
         assert.dom('[data-test-resource-card-type]').exists('resource cards shown');
     });
@@ -36,7 +37,9 @@ module('Integration | Component | ResourcesList', hooks => {
         const mirageRegistration = server.create('registration', 'withResources');
         this.registration = await this.store.findRecord('registration', mirageRegistration.id);
         await render(hbs`<ResourcesList @registration={{this.registration}} />`);
-        assert.dom('[data-test-add-resource-section]').doesNotExist('Add resource section not shown');
+        assert.dom('[data-test-add-resource-section]')
+            .hasText('Contributors affirmed to adhere to the criteria for each badge.',
+                'Add resource instructions shown');
         assert.dom('[data-test-resource-card-type]').exists('resource cards shown');
     });
 });
