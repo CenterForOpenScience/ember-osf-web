@@ -1730,7 +1730,8 @@ routes:
         email: Email
 osf-components:
     resources-list:
-        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
+        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
+        add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
         help_doc_link: 'Learn more about linking resources to your registration'
         add_button_aria_label: 'Add resource'
         data: Data
