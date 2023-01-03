@@ -139,28 +139,28 @@
     </div>
 
     {{#if @extendedFields}}
-        <div local-class='Field'>
-            <EditableField::DoiManager @node={{this.registration}} as |doiManager|>
-                <EditableField
-                    data-analytics-scope='DOI'
-                    @manager={{doiManager}}
-                    @hasCustomButtons={{true}}
-                    @title={{t 'registries.registration_metadata.registration_doi'}}
-                    @name='doi'
-                    @editHeader={{t 'registries.registration_metadata.create_doi'}}
-                    as |field|
-                >
-                    <field.edit>
-                        <NodeDoiCreate @manager={{doiManager}} />
-                    </field.edit>
-                    <field.display>
-                        <NodeDoi @manager={{doiManager}} />
-                    </field.display>
-                </EditableField>
-            </EditableField::DoiManager>
-        </div>
-
         {{#unless this.registration.isAnonymous}}
+            <div local-class='Field'>
+                <EditableField::DoiManager @node={{this.registration}} as |doiManager|>
+                    <EditableField
+                        data-analytics-scope='DOI'
+                        @manager={{doiManager}}
+                        @hasCustomButtons={{true}}
+                        @title={{t 'registries.registration_metadata.registration_doi'}}
+                        @name='doi'
+                        @editHeader={{t 'registries.registration_metadata.create_doi'}}
+                        as |field|
+                    >
+                        <field.edit>
+                            <NodeDoiCreate @manager={{doiManager}} />
+                        </field.edit>
+                        <field.display>
+                            <NodeDoi @manager={{doiManager}} />
+                        </field.display>
+                    </EditableField>
+                </EditableField::DoiManager>
+            </div>
+
             <div local-class='Field'>
                 <EditableField::PublicationDoiManager @node={{this.registration}} as |pubDoiManager|>
                     <EditableField
