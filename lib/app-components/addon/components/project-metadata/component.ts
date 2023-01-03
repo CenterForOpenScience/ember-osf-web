@@ -15,6 +15,7 @@ import Node from 'ember-osf-web/models/node';
 import { validateNodeLicense } from 'ember-osf-web/packages/registration-schema/validations';
 import Analytics from 'ember-osf-web/services/analytics';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import styles from './styles';
 import template from './template';
 
@@ -67,7 +68,7 @@ export default class ProjectMetadata extends Component {
                 await this.changeset.save();
                 this.onSave();
             } catch (e) {
-                this.onError();
+                this.onError(e);
             }
         } else {
             this.toast.error(this.intl.t('app_components.project_metadata.invalid_metadata'));
@@ -93,7 +94,8 @@ export default class ProjectMetadata extends Component {
     }
 
     @action
-    onError() {
+    onError(e: Error) {
+        captureException(e);
         this.toast.error(this.intl.t('app_components.project_metadata.save_error'));
     }
 }
