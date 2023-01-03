@@ -2229,7 +2229,9 @@ settings:
             title: Employment
     account:
         affiliatedInstitutions:
+            affiliatedInstitutions: 'Affiliated institutions'
             noAffiliations: 'You have no affiliations.'
+            helpText: 'Some help texts here'
             deleteModalTitle: 'Delete affiliated institutions'
             deleteModalBody: 'Are you sure you want to delete your affiliation to <b>{institutionName}</b>?'
             deleteError: 'Could not delete affiliated institutions. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}'
