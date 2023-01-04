@@ -768,6 +768,7 @@ app_components:
         field_license_placeholder: ""
         field_tags_label: 'Tags:'
         field_tags_placeholder: 'Add a tag'
+        invalid_metadata: 'Please enter all the necessary fields.'
         save_success: 'Project Metadata saved.'
         save_error: 'Unable to save Project Metadata.'
     query_syntax:
