@@ -64,7 +64,7 @@ module('Integration | Component | make-decision-dropdown | collection', hooks =>
         server.loadFixtures('licenses');
         // And a user is created
         const currentUser = server.create('user', 'loggedIn');
-        // And licenses are addee
+        // And licenses are added
         const licensesAcceptable = server.schema.licenses.all().models;
         // And a collection provider is created
         const provider = server.create('collection-provider', 'currentUserIsModerator');
@@ -84,10 +84,10 @@ module('Integration | Component | make-decision-dropdown | collection', hooks =>
             users: currentUser,
             index: 0,
         });
-        // And a moderator is assignede
+        // And a moderator is assigned
         server.create('moderator', { provider });
         // And a collection submission is created
-        const mirageSubmission = server.create('collection-submission', {
+        server.create('collection-submission', {
             id: guid.id,
             creator: currentUser,
             collection: mirageCollection,
@@ -95,7 +95,7 @@ module('Integration | Component | make-decision-dropdown | collection', hooks =>
         });
 
         // And the collectionSubmission is stored in state
-        const submissionId = mirageSubmission.id + '-' + mirageSubmission.id;
+        const submissionId = guid.id + '-' + mirageCollection.id;
         const store = this.owner.lookup('service:store');
         const collectionSubmission = await store.findRecord('collection-submission', submissionId);
         this.collectionSubmission = collectionSubmission;
