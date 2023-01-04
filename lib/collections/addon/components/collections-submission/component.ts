@@ -57,6 +57,7 @@ export default class Submit extends Component {
     intlKeyPrefix = 'collections.collections_submission.';
     showSubmitModal = false;
     @tracked showResubmitModal = false;
+    @tracked removeReason = '';
 
     @bool('provider.reviewsWorkflow') collectionIsModerated!: boolean;
 
@@ -239,7 +240,9 @@ export default class Submit extends Component {
             const newAction = this.store.createRecord('collection-submission-action', {
                 actionTrigger: CollectionSubmissionActionTrigger.Remove,
                 target: this.collectionSubmission,
+                comment: this.removeReason,
             });
+
             await newAction.save();
 
             this.toast.success(this.intl.t(`${this.intlKeyPrefix}remove_success`, {

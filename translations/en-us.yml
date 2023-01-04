@@ -910,6 +910,7 @@ collections:
         remove_button: 'Remove from collection'
         remove_modal_title: 'Remove from collection'
         remove_modal_body: 'Are you sure you want to remove {title} from the collection?'
+        remove_reason_placeholder: 'Optional reason for removal'
         remove_success: '{title} has been removed from the collection.'
         remove_error: 'Error removing {title} from the collection.'
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
