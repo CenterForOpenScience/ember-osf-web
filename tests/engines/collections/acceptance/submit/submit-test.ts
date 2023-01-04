@@ -60,6 +60,9 @@ module('Collections | Acceptance | submit', hooks => {
 
         await percySnapshot('Collections | Acceptance | submit | project metadata');
 
+        await untrackedClick('[data-test-project-metadata-save-button]');
+
+        assert.dom('[data-test-validation-errors="license"]').exists('Validation error: license is required');
         await fillIn('[data-test-project-metadata-title] input', newTitle);
         await fillIn('[data-test-project-metadata-description] textarea', newDescription);
         // open license picker
@@ -68,6 +71,7 @@ module('Collections | Acceptance | submit', hooks => {
         const firstLicenseOption = document.querySelector('.ember-power-select-option');
         if (firstLicenseOption) {
             await untrackedClick(firstLicenseOption);
+            assert.dom('[data-test-validation-errors="license"]').doesNotExist('License validation error gone');
         }
         // remove third tag
         await untrackedClick(`[data-test-project-metadata-tag="${nodeToBeAdded.tags[2]}"] + .emberTagInput-remove`);
