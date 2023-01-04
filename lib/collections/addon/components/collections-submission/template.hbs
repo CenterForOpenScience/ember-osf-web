@@ -188,6 +188,7 @@
                         {{t (concat this.intlKeyPrefix 'remove_modal_body') title=this.collectionItem.title}}
                         <div>
                             <Textarea
+                                data-test-collections-remove-reason
                                 local-class='remove-textarea'
                                 @placeholder={{t (concat this.intlKeyPrefix 'remove_reason_placeholder')}}
                                 @value={{this.removeReason}}

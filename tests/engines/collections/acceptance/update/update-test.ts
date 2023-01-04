@@ -214,5 +214,6 @@ module('Collections | Acceptance | update', hooks => {
         assert.dom('[data-test-delete-modal-body]').containsText(
             t('collections.collections_submission.remove_modal_body', {title: nodeAdded.title}),
         );
+        assert.dom('[data-test-collections-remove-reason]').exists('remove reason textarea exists');
     });
 });
