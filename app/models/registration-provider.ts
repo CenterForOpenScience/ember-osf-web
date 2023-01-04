@@ -5,8 +5,7 @@ import ReviewActionModel from 'ember-osf-web/models/review-action';
 import { computed } from '@ember/object';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import BrandModel from './brand';
-import ModeratorModel from './moderator';
-import ProviderModel, { ReviewPermissions } from './provider';
+import ProviderModel from './provider';
 import RegistrationModel from './registration';
 
 export default class RegistrationProviderModel extends ProviderModel {
@@ -19,9 +18,6 @@ export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('registration-schema', { inverse: null })
     schemas!: AsyncHasMany<RegistrationSchemaModel> | RegistrationSchemaModel[];
 
-    @hasMany('moderator', { inverse: 'provider' })
-    moderators!: AsyncHasMany<ModeratorModel> | ModeratorModel[];
-
     @hasMany('review-action', { inverse: null })
     actions!: AsyncHasMany<ReviewActionModel> | ReviewActionModel[];
 
@@ -31,19 +27,8 @@ export default class RegistrationProviderModel extends ProviderModel {
     @attr('boolean')
     brandedDiscoveryPage?: boolean;
 
-    @attr('array')
-    permissions!: ReviewPermissions[];
-
     @attr('boolean')
     allowBulkUploads!: boolean;
-
-    @computed('permissions')
-    get currentUserCanReview() {
-        if (this.permissions) {
-            return this.permissions.includes(ReviewPermissions.ViewSubmissions);
-        }
-        return false;
-    }
 
     @computed('description')
     get htmlSafeDescription() {

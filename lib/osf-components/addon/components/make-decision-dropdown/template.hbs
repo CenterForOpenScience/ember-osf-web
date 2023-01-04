@@ -1,0 +1,83 @@
+<ResponsiveDropdown
+    @horizontalPosition='right'
+    @buttonStyling={{true}}
+    as |dd|
+>
+    <dd.trigger
+        local-class='TriggerDiv'
+        data-test-moderation-dropdown-button
+        data-analytics-name='Display Moderation Actions'
+    >
+        {{t 'osf-components.makeDecisionDropdown.makeDecision'}}
+        <FaIcon @icon='caret-down' />
+    </dd.trigger>
+    <dd.content local-class='Dropdown'>
+        {{#if @collectionSubmission}}
+            <ReviewActionsList @collectionSubmission={{@collectionSubmission}} />
+        {{else}}
+            {{#if this.revisionIsPending}}
+                <ReviewActionsList @revision={{this.latestRevision}} />
+            {{else}}
+                <ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+            {{/if}}
+        {{/if}}
+        {{#if this.hasModeratorActions}}
+            {{#each this.moderatorActions as |option|}}
+                <div>
+                    <label
+                        data-test-moderation-dropdown-decision-label={{option}}
+                    >
+                        <Input
+                            data-test-moderation-dropdown-decision-checkbox={{option}}
+                            data-analytics-name='Select checkbox for {{option}}'
+                            name='moderatorAction'
+                            @type='radio'
+                            @value={{option}}
+                            @checked={{if (eq (get this.changeset 'decisionTrigger') option) true false}}
+                            {{on 'click' (fn this.updateDecisionTrigger option)}}
+                        />
+                        {{t (get this.actionTriggerToLabelKey option)}}
+                    </label>
+                    <p
+                        data-test-moderation-dropdown-decision-description={{option}}
+                        local-class='Description'
+                    >
+                        {{t (get this.actionTriggerToDescriptionKey option)}}
+                    </p>
+                </div>
+            {{/each}}
+            <label
+                data-test-moderation-dropdown-action-label
+            >
+                {{this.commentTextArea.label}}
+                <Textarea
+                    data-test-moderation-dropdown-comment
+                    @value={{this.changeset.comment}}
+                    placeholder={{this.commentTextArea.placeholder}}
+                    local-class='Comment'
+                />
+            </label>
+            <div>
+                <ValidationErrors
+                    local-class='error-message'
+                    @changeset={{this.changeset}}
+                    @key='comment'
+                />
+                <Button
+                    data-test-moderation-dropdown-submit
+                    data-analytics-name='Submit decision'
+                    @type='create'
+                    disabled={{or this.changeset.isInvalid this.submitDecision.isRunning}}
+                    local-class='SubmitButton'
+                    {{on 'click' (queue (perform this.submitDecision) dd.close)}}
+                >
+                    {{t 'osf-components.makeDecisionDropdown.submit'}}
+                </Button>
+            </div>
+        {{else}}
+            <div data-test-no-moderator-actions>
+                {{t 'osf-components.makeDecisionDropdown.noModeratorActions'}}
+            </div>
+        {{/if}}
+    </dd.content>
+</ResponsiveDropdown>

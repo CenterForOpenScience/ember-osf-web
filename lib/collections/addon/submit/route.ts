@@ -11,7 +11,7 @@ import Intl from 'ember-intl/services/intl';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -22,7 +22,7 @@ import SubmissionController from './controller';
 interface TaskInstanceResult {
     provider: CollectionProvider;
     collection: Collection;
-    collectedMetadatum: CollectedMetadatum;
+    collectionSubmission: CollectionSubmission;
 }
 
 @requireAuth()
@@ -41,7 +41,7 @@ export default class Submit extends Route.extend(ConfirmationMixin) {
         const provider = this.theme.provider as CollectionProvider;
         const collection = await provider.primaryCollection;
 
-        const collectedMetadatum = this.store.createRecord('collected-metadatum', {
+        const collectionSubmission = this.store.createRecord('collection-submission', {
             collection,
             creator: this.currentUser.user,
         });
@@ -49,7 +49,7 @@ export default class Submit extends Route.extend(ConfirmationMixin) {
         return {
             provider,
             collection,
-            collectedMetadatum,
+            collectionSubmission,
         } as TaskInstanceResult;
     }
 

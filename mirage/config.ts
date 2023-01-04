@@ -4,6 +4,8 @@ import config from 'ember-get-config';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
+import { createCollectionSubmission, getCollectionSubmissions } from './views/collection-submission';
+import { createSubmissionAction } from './views/collection-submission-action';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { addContributor, createBibliographicContributor } from './views/contributor';
@@ -21,7 +23,7 @@ import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
 import { summaryMetrics } from './views/institution';
 import { postCountedUsage } from './views/metrics';
-import { addModerator } from './views/moderator';
+import { addCollectionModerator, addRegistrationModerator } from './views/moderator';
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
@@ -288,7 +290,7 @@ export default function(this: Server) {
         path: '/providers/registrations/:parentID/moderators/',
         relatedModelName: 'moderator',
     });
-    this.post('providers/registrations/:parentID/moderators', addModerator);
+    this.post('providers/registrations/:parentID/moderators', addRegistrationModerator);
     osfNestedResource(this, 'registration-provider', 'registrations', {
         only: ['show', 'update', 'delete'],
         path: '/providers/registrations/:parentID/registrations/',
@@ -310,13 +312,34 @@ export default function(this: Server) {
     this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
+    osfNestedResource(this, 'collection-provider', 'moderators', {
+        path: '/providers/collections/:parentID/moderators',
+        except: ['create'],
+        relatedModelName: 'moderator',
+    });
+    this.post('providers/collections/:parentID/moderators', addCollectionModerator);
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
         path: 'providers/collections/:parentID/licenses/',
     });
-    osfNestedResource(this, 'collection', 'collectedMetadata', {
-        path: 'collections/:parentID/collected_metadata/',
+    osfNestedResource(this, 'collection', 'collectionSubmissions', {
+        path: 'collections/:parentID/collection_submissions/',
     });
+    this.get('collections/:parentID/collection_submissions', getCollectionSubmissions);
+    this.post('collections/:parentID/collection_submissions/', createCollectionSubmission);
     this.post('/search/collections/', searchCollections);
+    osfResource(this, 'collection-submission', {
+        only: ['index', 'show', 'update', 'delete'],
+        path: '/collection_submissions',
+    });
+    osfNestedResource(this, 'collection-submission', 'collectionSubmissionActions', {
+        only: ['index'],
+        path: '/collection_submissions/:parentID/actions',
+        relatedModelName: 'collection-submission-action',
+    });
+    this.post('/collection_submission_actions/', createSubmissionAction);
+    osfResource(this, 'collection-submission-action', {
+        only: ['show'],
+    });
 
     osfResource(this, 'custom-file-metadata-record', { only: ['show', 'update'] });
     osfResource(this, 'custom-item-metadata-record', { only: ['show', 'update'] });

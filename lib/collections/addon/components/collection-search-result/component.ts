@@ -9,7 +9,7 @@ import { localClassNames } from 'ember-css-modules';
 import ModelRegistry from 'ember-data/types/registries/model';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import Preprint from 'ember-osf-web/models/preprint';
@@ -38,7 +38,7 @@ export default class CollectionSearchResult extends Component {
     showBody = false;
     facetContexts!: FacetContext[];
     queryParams: string[] | null = null;
-    result!: CollectedMetadatum;
+    result!: CollectionSubmission;
 
     @alias('result.guid.content') item!: Collectable;
     @alias('item.constructor.modelName') type!: CollectableType;

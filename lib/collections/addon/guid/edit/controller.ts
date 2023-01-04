@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import config from 'ember-get-config';
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import Node from 'ember-osf-web/models/node';
@@ -10,14 +10,14 @@ import Node from 'ember-osf-web/models/node';
 export default class GuidEdit extends Controller {
     @alias('model.taskInstance.value.provider') provider!: CollectionProvider;
     @alias('model.taskInstance.value.collection') collection!: Collection;
-    @alias('model.taskInstance.value.collectedMetadatum') collectedMetadatum!: CollectedMetadatum;
+    @alias('model.taskInstance.value.collectionSubmission') collectionSubmission!: CollectionSubmission;
     @alias('model.taskInstance.value.collectionItem') collectionItem!: Node;
 
     isPageDirty = false;
 
-    @computed('collectedMetadatum.hasDirtyAttributes')
-    get isCollectedMetadatumDirty() {
-        return this.collectedMetadatum.hasDirtyAttributes;
+    @computed('collectionSubmission.hasDirtyAttributes')
+    get isCollectionSubmissionDirty() {
+        return this.collectionSubmission.hasDirtyAttributes;
     }
 
     @action
