@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
-import { not } from '@ember/object/computed';
+import { or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 import Media from 'ember-responsive';
@@ -16,7 +16,7 @@ import template from './template';
 export default class ResponsiveDropdown extends Component {
     @service media!: Media;
 
-    @not('media.isDesktop') useOverlay!: boolean;
+    @or('media.isMobile', 'media.isTablet') useOverlay!: boolean;
 
     // eslint-disable-next-line ember/no-ember-testing-in-module-scope
     inTestMode = Ember.testing;
@@ -54,14 +54,6 @@ export default class ResponsiveDropdown extends Component {
 
         // Prevent body scroll when modal is open
         document.querySelector('body')!.classList.add('modal-open');
-
-        const [, content] = args;
-        const { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
-        content.style.marginLeft = `${-(dropdownWidth / 2)}px`;
-        content.style.marginTop = `${-(dropdownHeight / 2)}px`;
-        content.style.top = `${pos.style.top}px`;
-        content.style.left = '50%';
-        content.style.right = '';
 
         return {
             horizontalPosition: null,

@@ -1,0 +1,44 @@
+.tab-wrapper {
+    font-size: 15px;
+    background-color: $color-bg-gray-light;
+    border-bottom: 1px solid $color-border-gray;
+    padding: 10px 20px;
+}
+
+.tab {
+    padding-right: 15px;
+    color: $color-link-dark;
+
+    &.selected {
+        font-weight: 700;
+        position: relative;
+    }
+}
+
+.sort-button {
+    margin-right: 15px;
+}
+
+.list {
+    ul {
+        margin: 0;
+    }
+}
+
+.empty {
+    border: 1px solid $color-border-gray;
+    padding: 15px;
+}
+
+.pending {
+    color: $color-text-black;
+}
+
+.accepted {
+    color: $brand-success;
+}
+
+.rejected,
+.removed {
+    color: $brand-danger;
+}

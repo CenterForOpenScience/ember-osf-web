@@ -11,6 +11,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
         this.set('noop', () => { /* noop */ });
         await render(hbs`
         {{collection-submission-confirmation-modal
+            resubmitToCollection=(action this.noop)
             openModal=true addToCollection=(action this.noop)
             cancel=(action this.noop)
         }}`);
@@ -20,11 +21,32 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
         assert.dom('[data-test-collection-submission-confirmation-modal-body]').hasText(
             t('collections.collection_submission_confirmation_modal.body').toString(),
         );
+        assert.dom('[data-test-collection-submission-confirmation-modal-body]').doesNotHaveTextContaining(
+            t('collections.collection_submission_confirmation_modal.body_moderated'),
+        );
+
         assert.dom('[data-test-collection-submission-confirmation-modal-cancel-button]').hasText(
             t('general.cancel').toString(),
         );
         assert.dom('[data-test-collection-submission-confirmation-modal-add-button]').hasText(
             t('collections.collection_submission_confirmation_modal.add_button').toString(),
+        );
+    });
+
+    test('it renders for moderated', async function(assert) {
+        this.set('noop', () => { /* noop */ });
+        await render(hbs`
+        {{collection-submission-confirmation-modal
+            collectionIsModerated=true
+            resubmitToCollection=(action this.noop)
+            openModal=true addToCollection=(action this.noop)
+            cancel=(action this.noop)
+        }}`);
+        assert.dom('[data-test-collection-submission-confirmation-modal-body]').containsText(
+            t('collections.collection_submission_confirmation_modal.body'),
+        );
+        assert.dom('[data-test-collection-submission-confirmation-modal-moderated-body]').containsText(
+            t('collections.collection_submission_confirmation_modal.body_moderated'),
         );
     });
 
@@ -36,7 +58,8 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
         });
         await render(hbs`
         {{collection-submission-confirmation-modal
-            openModal=true
+            resubmitToCollection=(action this.noop)
+            showResubmitModal=false openModal=true
             addToCollection=(action this.externalSaveAction)
             cancel=(action this.noop)
         }}`);
@@ -51,10 +74,30 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
         });
         await render(hbs`
         {{collection-submission-confirmation-modal
+            resubmitToCollection=(action this.noop)
             openModal=true
             addToCollection=(action this.noop)
             cancel=(action this.externalCancelAction)
         }}`);
         await click('[data-test-collection-submission-confirmation-modal-cancel-button]');
+    });
+
+    test('Resubmit workflow', async function(assert) {
+        this.set('noop', () => { /* noop */ });
+        this.set('resubmit', () => assert.ok(true));
+        await render(hbs`
+        {{collection-submission-confirmation-modal
+            resubmitToCollection=(action this.resubmit)
+            openModal=true 
+            addToCollection=(action this.noop)
+            showResubmitModal=true
+            cancel=(action this.noop)
+        }}`);
+        assert.dom('[data-test-collection-submission-confirmation-modal-resubmit]').hasText(
+            t('collections.collection_submission_confirmation_modal.body_resubmit'),
+        );
+        assert.dom('[data-test-collection-submission-confirmation-modal-body]').doesNotExist();
+        assert.dom('[data-test-collection-submission-confirmation-modal-add-button]').doesNotExist();
+        await click('[data-test-collection-submission-confirmation-modal-resubmit-button]');
     });
 });

@@ -1,7 +1,10 @@
 <CollectionSubmissionConfirmationModal
     @openModal={{this.showSubmitModal}}
+    @resubmitToCollection={{action (perform this.resubmit)}}
     @addToCollection={{action (perform this.save)}}
     @cancel={{action this.resetShowSubmitModal}}
+    @showResubmitModal={{this.showResubmitModal}}
+    @collectionIsModerated={{this.collectionIsModerated}}
 />
 <div class='submit-header' local-class='header'>
     <h1>{{t (concat this.intlKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
@@ -146,7 +149,7 @@
                 <CollectionMetadata
                     data-test-collection-metadata
                     @collection={{this.collection}}
-                    @collectedMetadatum={{this.collectedMetadatum}}
+                    @collectionSubmission={{this.collectionSubmission}}
                     @continue={{action this.nextSection}}
                 />
             </section.active>
@@ -171,37 +174,60 @@
             class='row'
             local-class='last-buttons'
         >
-            <div class='col-xs-12 text-right'>
-                <button
-                    data-test-collections-submit-cancel-button
-                    type='button'
-                    class='btn btn-default'
-                    {{action this.cancel}}
-                >
-                    {{t (concat this.intlKeyPrefix 'cancel')}}
-                </button>
-                {{#if this.edit}}
-                    <button
-                        data-test-collections-submit-update-button
-                        data-analytics-name='Update'
-                        type='button'
-                        class='btn btn-success'
-                        {{action (perform this.save)}}
+            <div class='col-xs-12'>
+                {{#if (and this.edit this.isAccepted)}}
+                    <DeleteButton
+                        data-test-collections-remove-button
+                        local-class='remove-button'
+                        @delete={{action (perform this.removeSubmission)}}
+                        @disabled={{this.removeSubmission.isRunning}}
+                        @buttonLabel={{t (concat this.intlKeyPrefix 'remove_button')}}
+                        @modalTitle={{t (concat this.intlKeyPrefix 'remove_modal_title')}}
+                        @confirmButtonText={{t (concat this.intlKeyPrefix 'remove_button')}}
                     >
-                        {{t (concat this.intlKeyPrefix 'update' '_button')}}
-                    </button>
-                {{else}}
-                    <button
-                        data-test-collections-submit-submit-button
-                        data-analytics-name='Submit'
-                        type='button'
-                        class='btn btn-success'
-                        disabled={{not (eq this.activeSection this.sections.submit)}}
-                        {{on 'click' this.setShowSubmitModal}}
-                    >
-                        {{t (concat this.intlKeyPrefix 'add' '_button')}}
-                    </button>
+                        {{t (concat this.intlKeyPrefix 'remove_modal_body') title=this.collectionItem.title}}
+                        <div>
+                            <Textarea
+                                data-test-collections-remove-reason
+                                local-class='remove-textarea'
+                                @placeholder={{t (concat this.intlKeyPrefix 'remove_reason_placeholder')}}
+                                @value={{this.removeReason}}
+                            />
+                        </div>
+                    </DeleteButton>
                 {{/if}}
+                <div class='text-right'>
+                    <button
+                        data-test-collections-submit-cancel-button
+                        type='button'
+                        class='btn btn-default'
+                        {{action this.cancel}}
+                    >
+                        {{t (concat this.intlKeyPrefix 'cancel')}}
+                    </button>
+                    {{#if this.edit}}
+                        <button
+                            data-test-collections-submit-update-button
+                            data-analytics-name='Update'
+                            type='button'
+                            class='btn btn-success'
+                            {{action (perform this.save)}}
+                        >
+                            {{t (concat this.intlKeyPrefix 'update' '_button')}}
+                        </button>
+                    {{else}}
+                        <button
+                            data-test-collections-submit-submit-button
+                            data-analytics-name='Submit'
+                            type='button'
+                            class='btn btn-success'
+                            disabled={{not (eq this.activeSection this.sections.submit)}}
+                            {{on 'click' this.setShowSubmitModal}}
+                        >
+                            {{t (concat this.intlKeyPrefix 'add' '_button')}}
+                        </button>
+                    {{/if}}
+                </div>
             </div>
         </section>
     </SubmitSections>

@@ -1,11 +1,6 @@
-import OsfSerializer from './osf-serializer';
+import ActionSerializer from './action';
 
-export default class ReviewActionSerializer extends OsfSerializer {
-    // Because `trigger` is a private method on DS.Model
-    attrs: any = {
-        ...this.attrs, // from OsfSerializer
-        actionTrigger: 'trigger',
-    };
+export default class ReviewActionSerializer extends ActionSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {

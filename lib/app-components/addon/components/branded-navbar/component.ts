@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import Session from 'ember-simple-auth/services/session';
@@ -30,6 +31,8 @@ export default class BrandedNavbar extends Component {
     campaign = `${this.theme.id}-collections`;
 
     myProjectsUrl = serviceLinks.myProjects;
+
+    @alias('theme.provider.id') providerId!: string;
 
     @computed('intl.locale', 'theme.provider', 'translateKey')
     get brandTitle(): string {

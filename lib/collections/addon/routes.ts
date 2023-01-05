@@ -18,5 +18,10 @@ export default buildRoutes(function() {
         this.route('guid', { path: '/:guid' }, function() {
             this.route('edit');
         });
+        this.route('moderation', function() {
+            this.route('all');
+            this.route('moderators');
+            this.route('settings');
+        });
     });
 });
