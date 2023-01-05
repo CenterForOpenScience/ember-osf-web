@@ -24,7 +24,7 @@ module('Collections | Acceptance | discover', hooks => {
             users: currentUser,
             index: 0,
         });
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: nodeAdded,
             id: nodeAdded.id,
@@ -56,7 +56,7 @@ module('Collections | Acceptance | discover', hooks => {
             currentUserPermissions: Object.values(Permission),
             dateModified: new Date('2018-01-01'),
         });
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: node1,
             id: node1.id,
@@ -67,7 +67,7 @@ module('Collections | Acceptance | discover', hooks => {
             currentUserPermissions: Object.values(Permission),
             dateModified: new Date('2017-01-01'),
         });
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: node2,
             id: node2.id,
@@ -78,7 +78,7 @@ module('Collections | Acceptance | discover', hooks => {
             currentUserPermissions: Object.values(Permission),
             dateModified: new Date('2019-01-01'),
         });
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: node3,
             id: node3.id,
@@ -114,7 +114,7 @@ module('Collections | Acceptance | discover', hooks => {
             title: 'This is node1',
             currentUserPermissions: Object.values(Permission),
         });
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: node1,
             id: node1.id,
@@ -124,7 +124,7 @@ module('Collections | Acceptance | discover', hooks => {
             title: 'This is node2',
             currentUserPermissions: Object.values(Permission),
         });
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: node2,
             id: node2.id,
@@ -161,7 +161,7 @@ module('Collections | Acceptance | discover', hooks => {
         collection.programAreaChoices.sort();
         collection.statusChoices.sort();
         collection.volumeChoices.sort();
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: node1,
             id: node1.id,
@@ -176,7 +176,7 @@ module('Collections | Acceptance | discover', hooks => {
             title: 'This is node2',
             currentUserPermissions: Object.values(Permission),
         });
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: node2,
             id: node2.id,

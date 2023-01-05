@@ -13,7 +13,6 @@ export interface MirageCollection extends Collection {
 export default Factory.extend<MirageCollection>({
     id: guid('collection'),
     afterCreate: guidAfterCreate,
-
     title: faker.lorem.sentence(),
     dateCreated: faker.date.past(2, new Date(2019, 0, 0)),
     dateModified: faker.date.past(2, new Date(2019, 0, 0)),

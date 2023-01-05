@@ -31,6 +31,8 @@ export enum RegistrationReviewStates {
 export type NonActionableRegistrationStates = RegistrationReviewStates.Initial
     | RegistrationReviewStates.Withdrawn | RegistrationReviewStates.Rejected;
 
+export type ActionableRegistrationStates = Exclude<RegistrationReviewStates, NonActionableRegistrationStates>;
+
 export type ActionableRevisionStates = RevisionReviewStates.RevisionPendingModeration;
 
 export type ReviewsStateToDecisionMap =

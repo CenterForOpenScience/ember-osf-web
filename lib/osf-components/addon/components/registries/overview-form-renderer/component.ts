@@ -76,6 +76,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
                 {
                     adapterOptions: {
                         providerId: this.registration.provider.get('id'),
+                        providerType: 'registrations',
                     },
                 });
         } catch (e) {

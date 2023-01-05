@@ -1,9 +1,9 @@
 {{#if this.useExternalLink}}
     <a href={{@provider.domain}}>
-        <img src={{this.logoAsset}} alt={{@provider.name}}>
+        <img local-class='provider-logo' src={{this.logoAsset}} alt={{@provider.name}}>
     </a>
 {{else}}
     {{#link-to 'provider.discover' @provider.id}}
-        <img src={{this.logoAsset}} alt={{@provider.name}}>
+        <img local-class='provider-logo' src={{this.logoAsset}} alt={{@provider.name}}>
     {{/link-to}}
 {{/if}}

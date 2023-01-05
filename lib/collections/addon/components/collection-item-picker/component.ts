@@ -13,6 +13,7 @@ import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 
 import styles from './styles';
 import template from './template';
@@ -88,13 +89,24 @@ export default class CollectionItemPicker extends Component {
 
         // Filter out nodes that are already in the current collection
         const nodeIds = nodes.mapBy('id').join();
-        const cgm = await this.collection.queryHasMany('collectedMetadata', {
-            'filter[id]': nodeIds,
+        // making two calls since the API doesn't    OR filtering yet
+        const cgmAccepted = await this.collection.queryHasMany('collectionSubmissions', {
+            filter: {
+                id: nodeIds,
+                reviews_state: CollectionSubmissionReviewStates.Accepted,
+            },
         });
+        const cgmPending = await this.collection.queryHasMany('collectionSubmissions', {
+            filter: {
+                id: nodeIds,
+                reviews_state: CollectionSubmissionReviewStates.Pending,
+            },
+        });
+        const cgm = cgmAccepted.concat(cgmPending);
 
-        // Collected-metadata IDs are the same as node IDs
+        // Collection-submissions IDs are the same as node IDs
         const cgmCompoundIds: string[] = cgm.mapBy('id');
-        const cgmSimpleIds: string[] = cgmCompoundIds.map(id => id.split('-')[1]);
+        const cgmSimpleIds: string[] = cgmCompoundIds.map(id => id.split('-')[0]);
         const filteredNodes = nodes.filter(({ id }) => !cgmSimpleIds.includes(id));
         const { meta } = nodes;
         const hasMore = meta.total > meta.per_page * this.page;

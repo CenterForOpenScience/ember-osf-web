@@ -1,7 +1,6 @@
-import OsfAdapter from './osf-adapter';
+import ActionAdapter from './action';
 
-export default class SchemaResponseActionAdapter extends OsfAdapter {
-    parentRelationship = 'target';
+export default class SchemaResponseActionAdapter extends ActionAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {

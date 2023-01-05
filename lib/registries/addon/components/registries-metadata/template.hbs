@@ -139,49 +139,51 @@
     </div>
 
     {{#if @extendedFields}}
-        <div local-class='Field'>
-            <EditableField::DoiManager @node={{this.registration}} as |doiManager|>
-                <EditableField
-                    data-analytics-scope='DOI'
-                    @manager={{doiManager}}
-                    @hasCustomButtons={{true}}
-                    @title={{t 'registries.registration_metadata.registration_doi'}}
-                    @name='doi'
-                    @editHeader={{t 'registries.registration_metadata.create_doi'}}
-                    as |field|
-                >
-                    <field.edit>
-                        <NodeDoiCreate @manager={{doiManager}} />
-                    </field.edit>
-                    <field.display>
-                        <NodeDoi @manager={{doiManager}} />
-                    </field.display>
-                </EditableField>
-            </EditableField::DoiManager>
-        </div>
+        {{#unless this.registration.isAnonymous}}
+            <div local-class='Field'>
+                <EditableField::DoiManager @node={{this.registration}} as |doiManager|>
+                    <EditableField
+                        data-analytics-scope='DOI'
+                        @manager={{doiManager}}
+                        @hasCustomButtons={{true}}
+                        @title={{t 'registries.registration_metadata.registration_doi'}}
+                        @name='doi'
+                        @editHeader={{t 'registries.registration_metadata.create_doi'}}
+                        as |field|
+                    >
+                        <field.edit>
+                            <NodeDoiCreate @manager={{doiManager}} />
+                        </field.edit>
+                        <field.display>
+                            <NodeDoi @manager={{doiManager}} />
+                        </field.display>
+                    </EditableField>
+                </EditableField::DoiManager>
+            </div>
 
-        <div local-class='Field'>
-            <EditableField::PublicationDoiManager @node={{this.registration}} as |pubDoiManager|>
-                <EditableField
-                    data-analytics-scope='Publication DOI'
-                    @manager={{pubDoiManager}}
-                    @title={{t 'registries.registration_metadata.publication_doi'}}
-                    @name='publication DOI'
-                    @hasCustomButtons={{true}}
-                    as |field|
-                >
-                    <field.edit>
-                        <NodePublicationDoiEditable @manager={{pubDoiManager}} />
-                    </field.edit>
-                    <field.display>
-                        <NodePublicationDoi @manager={{pubDoiManager}} />
-                    </field.display>
-                </EditableField>
-            </EditableField::PublicationDoiManager>
-        </div>
+            <div local-class='Field'>
+                <EditableField::PublicationDoiManager @node={{this.registration}} as |pubDoiManager|>
+                    <EditableField
+                        data-analytics-scope='Publication DOI'
+                        @manager={{pubDoiManager}}
+                        @title={{t 'registries.registration_metadata.publication_doi'}}
+                        @name='publication DOI'
+                        @hasCustomButtons={{true}}
+                        as |field|
+                    >
+                        <field.edit>
+                            <NodePublicationDoiEditable @manager={{pubDoiManager}} />
+                        </field.edit>
+                        <field.display>
+                            <NodePublicationDoi @manager={{pubDoiManager}} />
+                        </field.display>
+                    </EditableField>
+                </EditableField::PublicationDoiManager>
+            </div>
+        {{/unless}}
 
-        <div local-class='Field'>
-            {{#if this.provider}}
+        {{#if this.provider}}
+            <div local-class='Field'>
                 <Subjects::Manager
                     @model={{this.registration}}
                     @provider={{this.provider}}
@@ -210,27 +212,29 @@
                         </EditableField>
                     </EditableField::SubjectFieldManager>
                 </Subjects::Manager>
-            {{/if}}
-        </div>
+            </div>
+        {{/if}}
 
-        <div local-class='Field'>
-            <EditableField::InstitutionsManager @node={{this.registration}} as |institutionsManager|>
-                <EditableField
-                    data-analytics-scope='Affiliated institutions'
-                    @manager={{institutionsManager}}
-                    @title={{t 'registries.registration_metadata.affiliated_institutions'}}
-                    @name='affiliated institutions'
-                    as |field|
-                >
-                    <field.edit>
-                        <InstitutionSelectList @manager={{institutionsManager}} />
-                    </field.edit>
-                    <field.display>
-                        <InstitutionsList @manager={{institutionsManager}} />
-                    </field.display>
-                </EditableField>
-            </EditableField::InstitutionsManager>
-        </div>
+        {{#unless this.registration.isAnonymous}}
+            <div local-class='Field'>
+                <EditableField::InstitutionsManager @node={{this.registration}} as |institutionsManager|>
+                    <EditableField
+                        data-analytics-scope='Affiliated institutions'
+                        @manager={{institutionsManager}}
+                        @title={{t 'registries.registration_metadata.affiliated_institutions'}}
+                        @name='affiliated institutions'
+                        as |field|
+                    >
+                        <field.edit>
+                            <InstitutionSelectList @manager={{institutionsManager}} />
+                        </field.edit>
+                        <field.display>
+                            <InstitutionsList @manager={{institutionsManager}} />
+                        </field.display>
+                    </EditableField>
+                </EditableField::InstitutionsManager>
+            </div>
+        {{/unless}}
 
         <div local-class='Field'>
             <div local-class='Field'>

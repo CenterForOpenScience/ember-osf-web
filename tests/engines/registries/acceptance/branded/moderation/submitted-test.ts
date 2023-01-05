@@ -40,7 +40,7 @@ module('Registries | Acceptance | branded.moderation | submitted', hooks => {
             id: currentUser.id,
             user: currentUser,
             provider: this.registrationProvider,
-        }, 'asModerator');
+        });
         await visit('/registries/sbmit/moderation/submitted');
         await percySnapshot('moderation submitted page: no registrations');
         assert.equal(currentRouteName(), 'registries.branded.moderation.submitted',
@@ -180,7 +180,7 @@ module('Registries | Acceptance | branded.moderation | submitted', hooks => {
             id: currentUser.id,
             user: currentUser,
             provider: this.registrationProvider,
-        }, 'asModerator');
+        });
         await visit('/registries/sbmit/moderation/submitted?state=embargo');
         assert.equal(currentRouteName(), 'registries.branded.moderation.submitted',
             'On the submitted page of registries reviews');
@@ -195,7 +195,7 @@ module('Registries | Acceptance | branded.moderation | submitted', hooks => {
             id: currentUser.id,
             user: currentUser,
             provider: this.registrationProvider,
-        }, 'asModerator');
+        });
         await visit('/registries/sbmit/moderation/submitted?state=embargooooo');
         assert.equal(currentRouteName(), 'registries.branded.moderation.submitted',
             'On the submitted page of registries reviews');

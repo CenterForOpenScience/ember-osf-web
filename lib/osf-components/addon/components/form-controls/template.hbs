@@ -1,4 +1,5 @@
 {{yield (hash
+    changeset=@changeset
     checkboxes=(
         component
         'validated-input/checkboxes'
@@ -42,6 +43,8 @@
         'form-controls/power-select'
         changeset=@changeset
         shouldShowMessages=this.shouldShowMessages
+        placeholder=@placeholder
+        searchPlaceholder=@searchPlaceholder
         disabled=this.disabled
         onchange=@onchange
         searchField=@searchField

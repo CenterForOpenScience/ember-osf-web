@@ -1,6 +1,7 @@
 {{#if this.showDiscard}}
     <button
         data-test-submit-section-discard
+        data-analytics-name='Discard'
         type='button'
         class='btn btn-default'
         {{on 'click' this.discard}}
@@ -14,6 +15,7 @@
 {{/if}}
 <button
     data-test-submit-section-continue
+    data-analytics-name='Continue'
     type='button'
     class='btn btn-primary'
     disabled={{this.continueDisabled}}
