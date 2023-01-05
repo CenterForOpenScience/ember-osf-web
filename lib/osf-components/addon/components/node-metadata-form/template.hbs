@@ -136,7 +136,7 @@
     {{/if}}
     {{#unless @manager.node.isAnonymous}}
         {{#if @manager.isEditingFunding}}
-            <FundingMetadata />
+            <FundingMetadata @changeset={{@manager.changeset}} />
             <Button
                 data-test-cancel-editing-funding-metadata-button
                 aria-label={{t 'general.cancel'}}

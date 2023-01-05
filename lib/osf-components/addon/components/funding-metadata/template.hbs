@@ -1,1 +1,57 @@
-Aloha
+<Panel local-class='panel' ...attributes as |panel|>
+    <panel.heading @title={{'Funding/Support information'}} />
+    <panel.body>
+        {{#each this.funderObjects as |item|}}
+            <Button
+                {{on 'click' (fn this.delete item)}}
+            >
+                Delete
+            </Button>
+            <div>
+                <label>
+                    Funder name
+                    <ValidatedInput::Text
+                        @model={{item}}
+                        @onKeyUp={{this.saveToChangeset}}
+                        @valuePath='funder_name'
+                    />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Award title
+                    <ValidatedInput::Text
+                        @model={{item}}
+                        @onKeyUp={{this.saveToChangeset}}
+                        @valuePath='award_title'
+                    />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Award info URI
+                    <ValidatedInput::Text
+                        @model={{item}}
+                        @onKeyUp={{this.saveToChangeset}}
+                        @valuePath='award_uri'
+                    />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Award number
+                    <ValidatedInput::Text
+                        @model={{item}}
+                        @onKeyUp={{this.saveToChangeset}}
+                        @valuePath='award_number'
+                    />
+                </label>
+            </div>
+        {{/each}}
+        <Button
+            {{on 'click' this.addAnother}}
+        >
+            Add another
+        </Button>
+    </panel.body>
+</Panel>
