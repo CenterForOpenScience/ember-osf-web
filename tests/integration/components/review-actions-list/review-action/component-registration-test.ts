@@ -10,13 +10,12 @@ import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/model
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import UserModel from 'ember-osf-web/models/user';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
-import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
 
 interface ThisTestContext extends TestContext {
     reviewAction: ReviewActionModel;
 }
 
-module('Integration | Component | review-actions', hooks => {
+module('Integration | Component | Registration | review-actions', hooks => {
     setupRenderingTest(hooks);
     setupIntl(hooks);
     setupMirage(hooks);
@@ -244,95 +243,5 @@ module('Integration | Component | review-actions', hooks => {
         assert.dom('[data-test-review-action-wrapper]')
             .doesNotContainText('moderator', 'Review action does not mention moderator');
         assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
-    });
-
-    // Collection Moderator actions
-    test('Collection submission: Moderator actions', async function(this: ThisTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        const collection = server.create('collection');
-        const mirageAction = server.create('collection-submission-action', {
-            actionTrigger: CollectionSubmissionActionTrigger.Accept,
-            creator: server.create('user', { fullName: 'Superb Mario' }, 'loggedIn'),
-            target: server.create('collection-submission', {
-                guid: server.create('node', 'withContributors'),
-                collection,
-            }),
-        });
-        const action = await this.store.findRecord('collection-submission-action', mirageAction.id);
-        const dateString = formattedTimeSince(action.dateModified);
-        let pastTenseString = t('collections.actions.triggerPastTense.accept');
-        this.set('reviewAction', action);
-
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
-        assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.collectionModeratorAction',
-                { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
-            'Collection submission action wrapper shows accept string',
-        );
-        assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
-
-        action.set('actionTrigger', CollectionSubmissionActionTrigger.Reject);
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        pastTenseString = t('collections.actions.triggerPastTense.reject');
-        assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.collectionModeratorAction',
-                { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
-            'Collection submission action wrapper shows reject string',
-        );
-
-        action.set('actionTrigger', CollectionSubmissionActionTrigger.Remove);
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        pastTenseString = t('collections.actions.triggerPastTense.remove');
-        assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.collectionAction',
-                { action: pastTenseString, user: 'Superb Mario', date: dateString }),
-            'Collection submission action wrapper shows moderator remove string',
-        );
-    });
-
-    // Collection Admin actions
-    test('Collection submission: Admin actions', async function(this: ThisTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        const collection = server.create('collection');
-        const mirageAction = server.create('collection-submission-action', {
-            actionTrigger: CollectionSubmissionActionTrigger.Submit,
-            creator: server.create('user', { fullName: 'Superb Mario' }, 'loggedIn'),
-            target: server.create('collection-submission', {
-                guid: server.create('node', 'withContributors'),
-                collection,
-            }),
-        });
-        const action = await this.store.findRecord('collection-submission-action', mirageAction.id);
-        const dateString = formattedTimeSince(action.dateModified);
-        let pastTenseString = t('collections.actions.triggerPastTense.submit');
-        this.set('reviewAction', action);
-
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
-        assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.collectionContributorAction',
-                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
-            'Collection submission action wrapper shows submit string',
-        );
-        assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
-
-        action.set('actionTrigger', CollectionSubmissionActionTrigger.Resubmit);
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        pastTenseString = t('collections.actions.triggerPastTense.resubmit');
-        assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.collectionContributorAction',
-                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
-            'Collection submission action wrapper shows resubmit string',
-        );
-
-        action.set('actionTrigger', CollectionSubmissionActionTrigger.Remove);
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        pastTenseString = t('collections.actions.triggerPastTense.remove');
-        assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.collectionAction',
-                { action: pastTenseString, user: 'Superb Mario', date: dateString }),
-            'Collection submission action wrapper shows admin remove string',
-        );
     });
 });
