@@ -51,6 +51,7 @@ export default class OverviewHeader extends Component {
                 {
                     adapterOptions: {
                         providerId: this.registration.provider.get('id'),
+                        providerType: 'registrations',
                     },
                 });
         } catch (e) {

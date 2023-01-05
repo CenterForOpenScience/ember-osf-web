@@ -1,0 +1,45 @@
+<div data-test-submission-card={{this.projectId}} local-class='page-container'>
+    <div local-class='icon-container {{this.iconClass}}'>
+        <FaIcon data-test-submission-card-icon @icon={{this.icon}} @size='2x'/>
+    </div>
+    <div local-class='text-container'>
+        <div local-class='project-title'>
+            <OsfLink
+                data-test-submission-card-title
+                @route='resolve-guid'
+                @models={{array this.projectId}}
+            >
+                {{this.projectTitle}}
+            </OsfLink>
+        </div>
+        <dl local-class='project-metadata'>
+            {{#each this.projectMetadata as |metadataField|}}
+                <dt local-class='metadata-field-label'>
+                    {{t metadataField.label}}
+                </dt>
+                <dd local-class='metadata-field-value'>
+                    {{metadataField.value}}
+                </dd>
+            {{/each}}
+        </dl>
+        {{#if this.fetchActions.isRunning}}
+            <LoadingIndicator @dark={{true}}/>
+        {{else}}
+            {{#if this.latestAction}}
+                <div data-test-submission-card-latest-action local-class='moderation-details'>
+                    <ReviewActionsList::ReviewAction
+                        @reviewAction={{this.latestAction}}
+                    />
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+    {{#if this.showDecisionDropdown}}
+        <div local-class='button-container'>
+            <MakeDecisionDropdown
+                @collectionSubmission={{@submission}}
+                @afterSubmit={{@afterSubmit}}
+            />
+        </div>
+    {{/if}}
+</div>

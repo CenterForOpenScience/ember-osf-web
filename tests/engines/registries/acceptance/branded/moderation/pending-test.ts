@@ -41,7 +41,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
             id: currentUser.id,
             user: currentUser,
             provider: this.registrationProvider,
-        }, 'asModerator');
+        });
         await visit('/registries/sbmit/moderation/pending');
         await percySnapshot('moderation pending page: updates not allowed');
         assert.equal(currentRouteName(), 'registries.branded.moderation.pending',
@@ -60,7 +60,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
             id: currentUser.id,
             user: currentUser,
             provider: this.registrationProvider,
-        }, 'asModerator');
+        });
         await visit('/registries/sbmit/moderation/pending');
         await percySnapshot('moderation pending page: no registrations');
         assert.equal(currentRouteName(), 'registries.branded.moderation.pending',
@@ -188,7 +188,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
             id: currentUser.id,
             user: currentUser,
             provider: this.registrationProvider,
-        }, 'asModerator');
+        });
         await visit('/registries/sbmit/moderation/pending?state=pending_moderation');
         assert.equal(currentRouteName(), 'registries.branded.moderation.pending',
             'On the pending page of registries reviews');
@@ -204,7 +204,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
             id: currentUser.id,
             user: currentUser,
             provider: this.registrationProvider,
-        }, 'asModerator');
+        });
         await visit('/registries/sbmit/moderation/pending?state=donkey_kong');
         assert.equal(currentRouteName(), 'registries.branded.moderation.pending',
             'On the pending page of registries reviews');
