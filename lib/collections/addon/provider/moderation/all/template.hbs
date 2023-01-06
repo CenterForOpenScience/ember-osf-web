@@ -16,6 +16,16 @@
             </a>
         {{/let}}
     {{/each}}
+    <div local-class='sort-wrapper'>
+        <PowerSelect
+            @options={{this.sortOptions}}
+            @selected={{this.sort}}
+            @onChange={{action this.onSortChange}}
+            as |sort|
+        >
+            {{sort.label}}
+        </PowerSelect>
+    </div>
 </nav>
 <PaginatedList::HasMany
     @model={{this.model}}

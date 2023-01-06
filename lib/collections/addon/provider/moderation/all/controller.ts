@@ -2,18 +2,24 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import IntlService from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 
 import { CollectionSubmissionReviewStates, SubmissionIconMap } from 'ember-osf-web/models/collection-submission';
 
+interface SortOption {
+    label: string;
+    value: string;
+}
 
 export default class CollectionsModerationAllController extends Controller {
+    @service intl!: IntlService;
     @service media!: Media;
 
     queryParams = ['state'];
 
     @tracked state?: CollectionSubmissionReviewStates;
-    @tracked sort = '-date_created';
+    @tracked sort = { label: this.intl.t('collections.moderation.all.sort.date_descending'), value: '-date_created' };
 
     states = [
         CollectionSubmissionReviewStates.Pending,
@@ -22,6 +28,12 @@ export default class CollectionsModerationAllController extends Controller {
         CollectionSubmissionReviewStates.Removed,
     ];
     submissionIconMap = SubmissionIconMap;
+    sortOptions: SortOption[]  = [
+        { label: this.intl.t('collections.moderation.all.sort.date_descending'), value: '-date_modified' },
+        { label: this.intl.t('collections.moderation.all.sort.date_ascending'), value: 'date_modified' },
+        { label: this.intl.t('collections.moderation.all.sort.title_ascending'), value: 'title' },
+        { label: this.intl.t('collections.moderation.all.sort.title_descending'), value: '-title' },
+    ];
     reloadSubmissionList?: (page?: number) => void; // bound by paginated-list
 
     get isMobile() {
@@ -33,9 +45,13 @@ export default class CollectionsModerationAllController extends Controller {
             filter: {
                 reviews_state: this.state,
             },
-            // TBD: '-modified'?? Check if API has dateModified based on actions
-            sort: this.sort,
+            sort: this.sort.value,
         };
+    }
+
+    @action
+    onSortChange(option: SortOption) {
+        this.sort = option;
     }
 
     @action

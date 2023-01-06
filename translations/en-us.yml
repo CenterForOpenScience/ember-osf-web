@@ -982,6 +982,11 @@ collections:
                 accepted: 'View accepted submissions'
                 rejected: 'View rejected submissions'
                 removed: 'View removed submissions'
+            sort:
+                date_descending: 'Date (newest first)'
+                date_ascending: 'Date (oldest first)'
+                title_descending: 'Title (Z-A)'
+                title_ascending: 'Title (A-Z)'
             pending: 'Pending'
             accepted: 'Accepted'
             rejected: 'Rejected'
