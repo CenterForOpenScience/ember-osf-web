@@ -1,6 +1,6 @@
 <BsModal
     @open={{@openModal}}
-    @onSubmit={{if @showResubmitModal (action @resubmitToCollection) (action @addToCollection)}}
+    @onSubmit={{if @showResubmitModal (action @resubmitToCollection this.removeReason) (action @addToCollection)}}
     @onHidden={{action @cancel}}
     as |modal|
 >
@@ -14,6 +14,14 @@
             <p data-test-collection-submission-confirmation-modal-resubmit>
                 {{t 'collections.collection_submission_confirmation_modal.body_resubmit'}}
             </p>
+            <div>
+                <Textarea
+                    data-test-collection-submission-confirmation-model-reason
+                    local-class='remove-textarea'
+                    @placeholder={{t 'collections.collection_submission_confirmation_modal.resubmit_reason_placeholder'}}
+                    @value={{this.removeReason}}
+                />
+            </div>
         {{else}}
             <p data-test-collection-submission-confirmation-modal-body>
                 {{t 'collections.collection_submission_confirmation_modal.body'}}
