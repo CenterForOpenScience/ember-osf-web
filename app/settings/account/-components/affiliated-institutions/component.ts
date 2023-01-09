@@ -1,4 +1,3 @@
-// import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import CurrentUserService from 'ember-osf-web/services/current-user';
