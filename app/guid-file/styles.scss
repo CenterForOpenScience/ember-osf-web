@@ -17,6 +17,7 @@
     align-items: end;
     justify-content: space-between;
     padding: 0 20px 20px;
+    align-items: center;
 }
 
 .FlexContainerRow > h2 {
@@ -78,7 +79,47 @@
 .RightContainer {
     margin: 0 20px;
     
+    h2:nth-of-type(2) {
+        margin-bottom: 1vh;
+    }
+
+    h3 {
+        font-weight: 800;
+        font-size: 15px;
+        margin-top: 4px;
+    }
+
     h2 {
-        margin-bottom: 20px;
+        padding-bottom: 1vh;
+    }
+
+    div {
+        margin-bottom: 2vh;
+    }
+
+    div:nth-of-type(1) {
+        margin-bottom: 0;
+    }
+
+    span:nth-of-type(1) {
+        display: block;
+        padding-bottom: 1vh;
+    }
+}
+
+.metadata-title-edit-download {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+
+    button {
+        margin-left: 12vw;
+    }
+
+    svg {
+        height: 1.4em;
     }
 }
