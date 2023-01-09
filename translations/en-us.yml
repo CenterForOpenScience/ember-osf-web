@@ -2231,9 +2231,9 @@ settings:
         affiliatedInstitutions:
             affiliatedInstitutions: 'Affiliated institutions'
             noAffiliations: 'You have no affiliations.'
-            helpText: 'Some help texts here'
+            helpText: 'Affiliated Institutions allow you to connect to the OSF using the same login and password you use for your institution or organization. <br>Affiliated Institutions can be removed from your profile here.'
             deleteModalTitle: 'Delete affiliated institutions'
-            deleteModalBody: 'Are you sure you want to delete your affiliation to <b>{institutionName}</b>?'
+            deleteModalBody: 'Are you sure you want to delete your affiliation to <b>{institutionName}</b>? This will remove the affiliation from your OSF content. The affiliation will be restored if you use your institution''s single sign-on in the future.'
             deleteError: 'Could not delete affiliated institutions. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}'
         deactivation:
             title: 'Deactivate account'

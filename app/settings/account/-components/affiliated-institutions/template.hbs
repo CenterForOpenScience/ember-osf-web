@@ -6,7 +6,7 @@
     <panel.heading @title={{t 'settings.account.affiliatedInstitutions.affiliatedInstitutions'}} />
     <panel.body>
         <p data-test-affiliated-institutions-help-text>
-            {{t 'settings.account.affiliatedInstitutions.helpText'}}
+            {{t 'settings.account.affiliatedInstitutions.helpText' htmlSafe=true}}
         </p>
         <hr local-class='description-list-separator'>
         <PaginatedList::HasMany
