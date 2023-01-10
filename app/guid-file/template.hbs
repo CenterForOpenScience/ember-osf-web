@@ -69,31 +69,29 @@
             {{#if this.metadataOpened}}
                 <div local-class='RightContainer'>
                     <FileMetadataManager @file={{this.model.fileModel}} as |manager|>
-                        <div local-class='metadata-title-edit-download'>
-                            <h2>
-                                {{t 'file_detail.file_metadata'}}
-                            </h2>
-                            {{#unless manager.inEditMode}}
-                                {{#if manager.userCanEdit}}
-                                    <Button
-                                        data-test-edit-metadata-button
-                                        aria-label={{t 'general.edit'}}
-                                        data-analytics-name='Edit metadata'
-                                        @layout='fake-link'
-                                        {{on 'click' manager.edit}}
-                                    >
-                                        <FaIcon @icon='pencil-alt' />
-                                    </Button>
-                                {{/if}}
-                                <OsfLink
-                                    data-test-download-button
-                                    aria-label={{t 'general.download'}}
-                                    @href='#'
+                        <h2>
+                            {{t 'file_detail.file_metadata'}}
+                        </h2>
+                        {{#unless manager.inEditMode}}
+                            {{#if manager.userCanEdit}}
+                                <Button
+                                    data-test-edit-metadata-button
+                                    aria-label={{t 'general.edit'}}
+                                    data-analytics-name='Edit metadata'
+                                    @layout='fake-link'
+                                    {{on 'click' manager.edit}}
                                 >
-                                    <FaIcon @icon='download' />
-                                </OsfLink>
-                            {{/unless}}
-                        </div>
+                                    <FaIcon @icon='pencil-alt' />
+                                </Button>
+                            {{/if}}
+                            <OsfLink
+                                data-test-download-button
+                                aria-label={{t 'general.download'}}
+                                @href='#'
+                            >
+                                <FaIcon @icon='download' />
+                            </OsfLink>
+                        {{/unless}}
                         {{#if manager.isGatheringData}}
                             <LoadingIndicator @dark={{true}} />
                         {{else}}
@@ -148,57 +146,57 @@
                                     {{t 'general.save'}}
                                 </Button>
                             {{else}}
-                                <h3>{{t 'file_detail.title'}}</h3>
+                                <div>{{t 'file_detail.title'}}</div>
                                 <div data-test-file-title>{{manager.metadataRecord.title}}</div>
-                                <h3>{{t 'file_detail.description'}}</h3>
+                                <div>{{t 'file_detail.description'}}</div>
                                 <div data-test-file-description>{{manager.metadataRecord.description}}</div>
-                                <h3>{{t 'file_detail.resource_type_general'}}</h3>
+                                <div>{{t 'file_detail.resource_type_general'}}</div>
                                 <div data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</div>
-                                <h3>{{t 'file_detail.language'}}</h3>
+                                <div>{{t 'file_detail.language'}}</div>
                                 <div data-test-file-language>{{manager.languageFromCode}}</div>
                                 <h2>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
                                 <div>
                                     {{#each manager.targetMetadata.funders as |funder|}}
-                                        <h3>{{t 'file_detail.funder'}}</h3>
+                                        <div>{{t 'file_detail.funder'}}</div>
                                         <div data-test-target-funder-name={{funder.funder_name}}>
                                             {{funder.funder_name}}
                                         </div>
-                                        <h3>{{t 'file_detail.award_title'}}</h3>
+                                        <div>{{t 'file_detail.award_title'}}</div>
                                         <div data-test-target-funder-award-title={{funder.funder_name}}>
                                             {{funder.award_title}}
                                         </div>
-                                        <h3>{{t 'file_detail.award_uri'}}</h3>
+                                        <div>{{t 'file_detail.award_uri'}}</div>
                                         <div data-test-target-funder-award-uri={{funder.funder_name}}>
                                             {{funder.award_uri}}
                                         </div>
-                                        <h3>{{t 'file_detail.award_number'}}</h3>
+                                        <div>{{t 'file_detail.award_number'}}</div>
                                         <div data-test-target-funder-award-number={{funder.funder_name}}>
                                             {{funder.award_number}}
                                         </div>
                                     {{/each}}
                                 </div>
-                                <h3>{{t 'file_detail.title'}}</h3>
+                                <div>{{t 'file_detail.title'}}</div>
                                 <div data-test-target-title>{{manager.target.title}}</div>
-                                <h3>{{t 'file_detail.description'}}</h3>
+                                <div>{{t 'file_detail.description'}}</div>
                                 <div data-test-target-description>{{manager.target.description}}</div>
-                                <h3>{{t 'file_detail.contributors'}}</h3>
+                                <div>{{t 'file_detail.contributors'}}</div>
                                 <ContributorList
                                     data-test-target-contributors
                                     @model={{manager.target}}
                                     @shouldLinkUsers={{true}}
                                     @shouldTruncate={{false}}
                                 />
-                                <h3>{{t 'file_detail.institutions'}}</h3>
+                                <div>{{t 'file_detail.institutions'}}</div>
                                 <div data-test-target-institutions>
                                     {{#each this.targetInstitutions as |institution|}}
                                         <div>{{institution.name}}</div>
                                     {{/each}}
                                 </div>
-                                <h3>{{t 'file_detail.license'}}</h3>
+                                <div>{{t 'file_detail.license'}}</div>
                                 <div data-test-target-license-name>{{manager.targetLicense.name}}</div>
-                                <h3>{{t 'file_detail.resource_type_general'}}</h3>
+                                <div>{{t 'file_detail.resource_type_general'}}</div>
                                 <div data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</div>
-                                <h3>{{t 'file_detail.language'}}</h3>
+                                <div>{{t 'file_detail.language'}}</div>
                                 <div data-test-target-language>{{manager.targetMetadata.language}}</div>
                             {{/if}}
                         {{/if}}
