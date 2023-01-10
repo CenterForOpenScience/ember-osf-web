@@ -11,6 +11,8 @@ import Toast from 'ember-toastr/services/toast';
 import { BufferedChangeset } from 'validated-changeset';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import CollectionProviderModel from 'ember-osf-web/models/collection-provider';
+import LicenseModel from 'ember-osf-web/models/license';
 import Node from 'ember-osf-web/models/node';
 import { validateNodeLicense } from 'ember-osf-web/packages/registration-schema/validations';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -18,21 +20,6 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import styles from './styles';
 import template from './template';
-
-const nodeValidations = {
-    title: [
-        validatePresence({ presence: true, ignoreBlank: true, type: 'empty' }),
-    ],
-    description: [
-        validatePresence({ presence: true, ignoreBlank: true, type: 'empty' }),
-    ],
-    license: [
-        validatePresence({ presence: true, ignoreBlank: true, type: 'mustSelect' }),
-    ],
-    nodeLicense: [
-        validateNodeLicense(),
-    ],
-};
 
 @layout(template, styles)
 @tagName('')
@@ -42,14 +29,30 @@ export default class ProjectMetadata extends Component {
     @service store!: Store;
     @service toast!: Toast;
 
+    provider!: CollectionProviderModel;
     node!: Node;
     changeset!: BufferedChangeset;
+
+    nodeValidations = {
+        title: [
+            validatePresence({ presence: true, ignoreBlank: true, type: 'empty' }),
+        ],
+        description: [
+            validatePresence({ presence: true, ignoreBlank: true, type: 'empty' }),
+        ],
+        license: [
+            this.validateCollectionLicense(),
+        ],
+        nodeLicense: [
+            validateNodeLicense(),
+        ],
+    };
 
     @requiredAction continue!: () => void;
 
     init() {
         super.init();
-        this.changeset = buildChangeset(this.node, nodeValidations);
+        this.changeset = buildChangeset(this.node, this.nodeValidations);
     }
 
     @task
@@ -62,7 +65,7 @@ export default class ProjectMetadata extends Component {
     @task
     @waitFor
     async save() {
-        this.changeset.validate();
+        await this.changeset.validate();
         if (this.changeset.isValid) {
             try {
                 await this.changeset.save();
@@ -73,6 +76,29 @@ export default class ProjectMetadata extends Component {
         } else {
             this.toast.error(this.intl.t('app_components.project_metadata.invalid_metadata'));
         }
+    }
+
+    validateCollectionLicense() {
+        return async (_: unknown, currentLicense: LicenseModel) => {
+            const licensesAcceptable = await this.provider.queryHasMany('licensesAcceptable', {
+                page: { size: 20 },
+            });
+            if (!currentLicense) {
+                return {
+                    context: {
+                        type: 'mustSelect',
+                    },
+                };
+            }
+            if (!licensesAcceptable.includes(currentLicense)) {
+                return {
+                    context: {
+                        type: 'license_not_accepted',
+                    },
+                };
+            }
+            return true;
+        };
     }
 
     @action

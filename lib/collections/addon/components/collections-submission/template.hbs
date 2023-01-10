@@ -55,6 +55,7 @@
             <section.active>
                 {{#if this.collectionItem}}
                     <ProjectMetadata
+                        @provider={{this.provider}}
                         @node={{this.collectionItem}}
                         @makePublicOnSave={{true}}
                         @continue={{action this.nextSection}}

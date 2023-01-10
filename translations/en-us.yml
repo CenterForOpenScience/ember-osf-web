@@ -487,6 +487,7 @@ validationErrors:
     year_format: 'Please specify a valid year.'
     no_updated_responses: 'No changes have been made in this update.'
     moderator_comment: 'Please provide feedback for your decision.'
+    license_not_accepted: 'Please select a license that is accepted by this collection.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
