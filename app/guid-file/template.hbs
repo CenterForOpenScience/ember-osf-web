@@ -96,6 +96,12 @@
                             <LoadingIndicator @dark={{true}} />
                         {{else}}
                             {{#if manager.inEditMode}}
+                                <label>
+                                    {{t 'file_detail.schema'}}
+                                    <select>
+                                        <option value='OSF-MAP'>{{t 'file_detail.osf_map'}}</option>
+                                    </select>
+                                </label>
                                 <FormControls @changeset={{manager.changeset}} as |form|>
                                     <form.textarea
                                         data-test-title-field
