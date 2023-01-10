@@ -6,25 +6,38 @@ import { module, test } from 'qunit';
 
 module('Integration | Component | collection-submission-confirmation-modal', hooks => {
     setupEngineRenderingTest(hooks, 'collections');
+    let externalSaveClicked = false;
+    let externalCancelClicked = false;
+    let externalResubmitClicked = false;
 
     hooks.beforeEach(async function(this: TestContext) {
-        this.set('noop', () => {/* noop */});
-        this.set('noop2', () => {/* noop */});
-        this.set('noop3', () => {/* noop */});
+        externalSaveClicked = false;
+        externalCancelClicked = false;
+        externalResubmitClicked = false;
+
+        this.set('externalResubmitAction', () => {
+            externalResubmitClicked = true;
+        });
+        this.set('externalSaveAction', () => {
+            externalSaveClicked = true;
+        });
+        this.set('externalCancelAction', () => {
+            externalCancelClicked = true;
+        });
     });
 
     test('it renders', async function(this: TestContext, assert) {
         await render(
             hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
-                @resubmitToCollection={{ action (action this.noop)}}
+                @resubmitToCollection={{ this.externalResubmitAction }}
                 @openModal=true
-                @addToCollection={{ action this.noop2}}
-                @cancel={{ action this.noop3}}
+                @addToCollection={{ this.externalSaveAction}}
+                @cancel={{ this.externalCancelAction }}
             />`,
         );
-        assert.dom('[data-test-collection-submission-confirmation-modal-header]').hasText(
-            t('collections.collection_submission_confirmation_modal.header').toString(),
-        );
+        assert.dom('[data-test-collection-submission-confirmation-modal-header]')
+            .hasText('a', 'The modal header is wrong');
+
         assert.dom('[data-test-collection-submission-confirmation-modal-body]').hasText(
             t('collections.collection_submission_confirmation_modal.body').toString(),
         );
@@ -46,14 +59,15 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
     });
 
     test('it renders for moderated', async function(assert) {
-        this.set('noop', () => { /* noop */ });
-        await render(hbs`
-        {{collection-submission-confirmation-modal
-            collectionIsModerated=true
-            resubmitToCollection=(action this.noop)
-            openModal=true addToCollection=(action this.noop)
-            cancel=(action this.noop)
-        }}`);
+        await render(
+            hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
+                @collectionIsModerated=true
+                @resubmitToCollection={{ this.externalResubmitAction }}
+                @openModal=true
+                @addToCollection={{ this.externalSaveAction}}
+                @cancel={{ this.externalCancelAction }}
+            />`,
+        );
         assert.dom('[data-test-collection-submission-confirmation-modal-body]').containsText(
             t('collections.collection_submission_confirmation_modal.body'),
         );
@@ -63,46 +77,45 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
     });
 
     test('Add to collection button calls addToCollection action', async function(assert) {
-        assert.expect(1);
-        this.set('noop', () => { /* noop */ });
-        this.set('externalSaveAction', () => {
-            assert.ok(true);
-        });
-        await render(hbs`
-        {{collection-submission-confirmation-modal
-            resubmitToCollection=(action this.noop)
-            showResubmitModal=false openModal=true
-            addToCollection=(action this.externalSaveAction)
-            cancel=(action this.noop)
-        }}`);
-        await click('[data-test-collection-submission-confirmation-modal-add-button]');
+        await render(
+            hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
+                @openModal=true
+                showResubmitModal=false
+                @resubmitToCollection={{ this.externalResubmitAction }}
+                @addToCollection={{ this.externalSaveAction}}
+                @cancel={{ this.externalCancelAction }}
+            />`,
+        );
+        assert.dom('[data-test-collection-submission-confirmation-modal-add-button]')
+            .hasText('Add to collection', 'The to collection button is wrong');
+        await click('[ data-test-collection-submission-confirmation-modal-add-button]');
+        assert.true(externalSaveClicked);
+
     });
 
     test('Cancel button calls cancel action', async function(assert) {
-        assert.expect(1);
-        this.set('noop', () => { /* noop */ });
-        this.set('externalCancelAction', () => {
-            assert.ok(true);
-        });
-        await render(hbs`
-        {{collection-submission-confirmation-modal
-            resubmitToCollection=(action this.noop)
-            openModal=true
-            addToCollection=(action this.noop)
-            cancel=(action this.externalCancelAction)
-        }}`);
+        await render(
+            hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
+                @openModal=true
+                @resubmitToCollection={{ this.externalResubmitAction }}
+                @addToCollection={{ this.externalSaveAction}}
+                @cancel={{ this.externalCancelAction}}
+            />`,
+        );
+        assert.dom('[data-test-collection-submission-confirmation-modal-cancel-button]')
+            .hasText('Cancel', 'The cancel button is wrong');
         await click('[data-test-collection-submission-confirmation-modal-cancel-button]');
+        assert.true(externalCancelClicked);
     });
 
     test('Resubmit workflow', async function(assert) {
-        this.set('resubmit', () => assert.ok(true));
         await render(
             hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
-                @resubmitToCollection={{ action this.resubmit }}
+                @resubmitToCollection={{ this.externalResubmitAction }}
                 @openModal=true
-                @addToCollection={{ action this.noop}}
+                @addToCollection={{ this.externalSaveAction}}
                 @showResubmitModal=true
-                @cancel={{ action this.noop2}}
+                @cancel={{ this.externalCancelAction }}
             />`,
         );
         assert.dom('[data-test-collection-submission-confirmation-modal-resubmit]').hasText(
@@ -113,6 +126,11 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
             .exists('The collection submission confirmation modal reason does not exist.');
         assert.dom('[data-test-collection-submission-confirmation-modal-body]').doesNotExist();
         assert.dom('[data-test-collection-submission-confirmation-modal-add-button]').doesNotExist();
+
+        assert.dom('[data-test-collection-submission-confirmation-modal-resubmit-button]')
+            .hasText('Resubmit', 'The resubmit button is wrong');
+
         await click('[data-test-collection-submission-confirmation-modal-resubmit-button]');
+        assert.true(externalResubmitClicked);
     });
 });
