@@ -768,6 +768,7 @@ app_components:
         field_license_placeholder: ""
         field_tags_label: 'Tags:'
         field_tags_placeholder: 'Add a tag'
+        invalid_metadata: 'Please enter all the necessary fields.'
         save_success: 'Project Metadata saved.'
         save_error: 'Unable to save Project Metadata.'
     query_syntax:
@@ -910,6 +911,7 @@ collections:
         remove_button: 'Remove from collection'
         remove_modal_title: 'Remove from collection'
         remove_modal_body: 'Are you sure you want to remove {title} from the collection?'
+        remove_reason_placeholder: 'Optional reason for removal'
         remove_success: '{title} has been removed from the collection.'
         remove_error: 'Error removing {title} from the collection.'
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
@@ -1660,7 +1662,7 @@ meetings:
             image_alt: 'Meeting logo image'
             add_your: 'Add your'
             send_email: 'Send an email to the following address(es) from the email account you would like used on the OSF:'
-            email_text: 'For {typeName}, email <a href="{emailAddress}">{emailAddress}</a>'
+            email_text_mail_to: 'For {typeName}, email <a href="mailto:{emailAddress}">{emailAddress}</a>'
             format_header: 'The format of the email should be as follows:'
             subject: Subject
             message_body: 'Message body'
@@ -1728,7 +1730,8 @@ routes:
         email: Email
 osf-components:
     resources-list:
-        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
+        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
+        add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
         help_doc_link: 'Learn more about linking resources to your registration'
         add_button_aria_label: 'Add resource'
         data: Data
@@ -2133,9 +2136,9 @@ osf-components:
             registrationSubmitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
             revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
             revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
-            collectionAction: 'Submission {action} {date} by {user}'
-            collectionContributorAction: 'Submission {action} {date} by contributor {contributor}'
-            collectionModeratorAction: 'Submission {action} {date} by moderator {moderator}'
+            collectionAction: 'Item {action} {date} by {user}'
+            collectionContributorAction: 'Request {action} {date} by contributor {contributor}'
+            collectionModeratorAction: 'Request {action} {date} by moderator {moderator}'
 
 
     subscriptions:
@@ -2187,12 +2190,12 @@ osf-components:
         acceptRevisionDescription: 'Update will be accepted and registration will be updated'
         rejectRevision: 'Reject update'
         rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
-        acceptCollectionSubmission: 'Accept submission'
-        acceptCollectionSubmissionDescription: 'Project will appear in search results and be associated with the collection'
-        rejectCollectionSubmission: 'Reject submission'
-        rejectCollectionSubmissionDescription: 'Project will not appear in search results nor be associated with the collection'
-        removeCollectionSubmission: 'Remove submission'
-        removeCollectionSubmissionDescription: 'Collection will be removed from the collection and no longer appear in search results'
+        acceptCollectionSubmission: 'Accept Request'
+        acceptCollectionSubmissionDescription: 'Submission will appear in search results and be associated with the collection'
+        rejectCollectionSubmission: 'Reject Request'
+        rejectCollectionSubmissionDescription: 'Submission will not appear in search results nor be associated with the collection'
+        removeCollectionSubmission: 'Remove item'
+        removeCollectionSubmissionDescription: 'Item will be removed from the collection and no longer appear in search results'
         submit: 'Submit'
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
