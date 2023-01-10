@@ -101,7 +101,6 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
         await render(
             hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
                 @openModal=true
-                showResubmitModal=false
                 @resubmitToCollection={{ this.externalResubmitAction }}
                 @addToCollection={{ this.externalSaveAction}}
                 @cancel={{ this.externalCancelAction }}
@@ -144,13 +143,14 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
     });
 
     test('Resubmit workflow', async function(assert) {
+
         // Given the component is rendered
         await render(
             hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
                 @resubmitToCollection={{ this.externalResubmitAction }}
+                @showResubmitModal=true
                 @openModal=true
                 @addToCollection={{ this.externalSaveAction}}
-                @showResubmitModal=true
                 @cancel={{ this.externalCancelAction }}
             />`,
         );
@@ -178,7 +178,6 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
         // When I click on the resubmit button
         await click('[data-test-collection-submission-confirmation-modal-resubmit-button]');
 
-        // Then I verify the action was handled
         assert.true(externalResubmitClicked);
     });
 });
