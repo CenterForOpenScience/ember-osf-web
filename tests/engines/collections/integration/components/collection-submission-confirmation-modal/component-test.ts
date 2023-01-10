@@ -27,6 +27,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
     });
 
     test('it renders', async function(this: TestContext, assert) {
+        // Given the component is rendered
         await render(
             hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
                 @resubmitToCollection={{ this.externalResubmitAction }}
@@ -35,25 +36,36 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
                 @cancel={{ this.externalCancelAction }}
             />`,
         );
+        // Then I assert the modal header text
         assert.dom('[data-test-collection-submission-confirmation-modal-header]')
-            .hasText('a', 'The modal header is wrong');
+            .hasText('Submit project', 'The modal header is wrong');
 
-        assert.dom('[data-test-collection-submission-confirmation-modal-body]').hasText(
-            t('collections.collection_submission_confirmation_modal.body').toString(),
-        );
+        // And I assert the modal body text
+        assert.dom('[data-test-collection-submission-confirmation-modal-body]')
+            .hasText(
+                // eslint-disable-next-line max-len
+                'Once submitted to the collection, the project will be made public. It can later be made private again.',
+                'The modal body test is wrong',
+            );
+
+        // And I assert the body moderated text doesnot appear
         assert.dom('[data-test-collection-submission-confirmation-modal-body]').doesNotHaveTextContaining(
             t('collections.collection_submission_confirmation_modal.body_moderated'),
         );
 
-        assert.dom('[data-test-collection-submission-confirmation-modal-cancel-button]').hasText(
-            t('general.cancel').toString(),
-        );
-        assert.dom('[data-test-collection-submission-confirmation-modal-add-button]').hasText(
-            t('collections.collection_submission_confirmation_modal.add_button').toString(),
-        );
+        // And I assert the cancel button text is correct
+        assert.dom('[data-test-collection-submission-confirmation-modal-cancel-button]')
+            .hasText('Cancel', 'The cancel button text is missing');
 
+        // And I assert the add to collection button is correct
+        assert.dom('[data-test-collection-submission-confirmation-modal-add-button]')
+            .hasText('Add to collection', 'The add to collection button is not correct.');
+
+        // And I assert he modal resubmit does not exist
         assert.dom('[data-test-collection-submission-confirmation-modal-resubmit]')
             .doesNotExist('The resubmit text is visible');
+
+        // And The modal reason text does not exit
         assert.dom('[data-test-collection-submission-confirmation-modal-reason]')
             .doesNotExist('The collection submission confirmation modal reason does exists.');
     });
