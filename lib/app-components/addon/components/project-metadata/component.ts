@@ -81,16 +81,11 @@ export default class ProjectMetadata extends Component {
 
     validateCollectionLicense() {
         return async (_: unknown, newValue: LicenseModel, oldValue: Promise<LicenseModel>, changes: Partial<Node>) => {
-            const licensesAcceptable = await this.provider.queryHasMany('licensesAcceptable', {
-                page: { size: 20 },
-            });
-
             // if the license has not changed, use the old value to validate
             let currentLicense = newValue;
             if (!changes.license) {
                 currentLicense = await oldValue;
             }
-
             if (!currentLicense) {
                 return {
                     context: {
@@ -98,6 +93,13 @@ export default class ProjectMetadata extends Component {
                     },
                 };
             }
+
+            const licensesAcceptable = await this.provider.queryHasMany('licensesAcceptable', {
+                filter: {
+                    name: currentLicense.name,
+                },
+            });
+
             if (!licensesAcceptable.includes(currentLicense)) {
                 return {
                     context: {
