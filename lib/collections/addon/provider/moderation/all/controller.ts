@@ -19,7 +19,7 @@ export default class CollectionsModerationAllController extends Controller {
     queryParams = ['state'];
 
     @tracked state?: CollectionSubmissionReviewStates;
-    @tracked sort = { label: this.intl.t('collections.moderation.all.sort.date_descending'), value: '-date_created' };
+    @tracked sort = { label: this.intl.t('collections.moderation.all.sort.date_descending'), value: '-date_modified' };
 
     states = [
         CollectionSubmissionReviewStates.Pending,
