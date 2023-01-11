@@ -71,7 +71,6 @@
     flex-direction: column;
     height: 95%;
     margin: 0 20px;
-    width: 28vw;
 
     dt {
         font-size: 17px;
@@ -127,12 +126,28 @@
     white-space: nowrap;
     width: 100%;
 
+    svg {
+        height: 1.5em;
+    }
+}
+
+.edit-download-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 1vw;
+    grid-gap: 2vw;
+
+    a,
     button {
-        margin: 0 2vw 0 12vw;
+        padding: 0.7vw 1.1vw;
     }
 
-    svg {
-        height: 1.4em;
+    button:active,
+    button:focus,
+    a:active,
+    a:focus {
+        background: #efefef;
     }
 }
 

@@ -73,26 +73,28 @@
                             <h2 local-class='metadata-heading'>
                                 {{t 'file_detail.file_metadata'}}
                             </h2>
-                            {{#unless manager.inEditMode}}
-                                {{#if manager.userCanEdit}}
-                                    <Button
-                                        data-test-edit-metadata-button
-                                        aria-label={{t 'general.edit'}}
-                                        data-analytics-name='Edit metadata'
-                                        @layout='fake-link'
-                                        {{on 'click' manager.edit}}
+                            <div local-class='edit-download-buttons'>
+                                {{#unless manager.inEditMode}}
+                                    {{#if manager.userCanEdit}}
+                                        <Button
+                                            data-test-edit-metadata-button
+                                            aria-label={{t 'general.edit'}}
+                                            data-analytics-name='Edit metadata'
+                                            @layout='fake-link'
+                                            {{on 'click' manager.edit}}
+                                        >
+                                            <FaIcon @icon='pencil-alt' />
+                                        </Button>
+                                    {{/if}}
+                                    <OsfLink
+                                        data-test-download-button
+                                        aria-label={{t 'general.download'}}
+                                        @href='#'
                                     >
-                                        <FaIcon @icon='pencil-alt' />
-                                    </Button>
-                                {{/if}}
-                                <OsfLink
-                                    data-test-download-button
-                                    aria-label={{t 'general.download'}}
-                                    @href='#'
-                                >
-                                    <FaIcon @icon='download' />
-                                </OsfLink>
-                            {{/unless}}
+                                        <FaIcon @icon='download' />
+                                    </OsfLink>
+                                {{/unless}}
+                            </div>
                         </div>
                         {{#if manager.isGatheringData}}
                             <LoadingIndicator @dark={{true}} />
