@@ -7,6 +7,7 @@
 .main-column {
     flex-grow: 3;
     z-index: 1;
+    margin-top: 1.4vh;
 
     h3 {
         text-overflow: ellipsis;
@@ -22,7 +23,6 @@
     flex-basis: 300px;
     flex-direction: column;
     flex-grow: 1;
-    margin-top: 1.4vh;
 
     &.is-closed {
         display: none;
@@ -48,7 +48,7 @@
     z-index: 1;
 }
 
-.slider {
+.lider {
     position: absolute;
     width: 100%;
     height: 100%;
