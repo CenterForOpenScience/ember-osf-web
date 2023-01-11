@@ -167,9 +167,11 @@
                                     <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
                                     <dt>{{t 'file_detail.language'}}</dt>
                                     <dd data-test-file-language>{{manager.languageFromCode}}</dd>
-                                    <h2 local-class='node-type-heading'>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
-                                    <div>
-                                        {{#each manager.targetMetadata.funders as |funder|}}
+                                </dl>
+                                <h2 local-class='node-type-heading'>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
+                                <div>
+                                    {{#each manager.targetMetadata.funders as |funder|}}
+                                        <dl>
                                             <dt>{{t 'file_detail.funder'}}</dt>
                                             <dd data-test-target-funder-name={{funder.funder_name}}>
                                                 {{funder.funder_name}}
@@ -186,8 +188,10 @@
                                             <dd data-test-target-funder-award-number={{funder.funder_name}}>
                                                 {{funder.award_number}}
                                             </dd>
-                                        {{/each}}
-                                    </div>
+                                        </dl>
+                                    {{/each}}
+                                </div>
+                                <dl>
                                     <dt>{{t 'file_detail.title'}}</dt>
                                     <dd data-test-target-title>{{manager.target.title}}</dd>
                                     <dt>{{t 'file_detail.description'}}</dt>
@@ -200,7 +204,7 @@
                                         @shouldLinkUsers={{true}}
                                         @shouldTruncate={{false}}
                                     />
-                                    <dt>{{t 'file_detail.institutions'}}</dt>
+                                    <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
                                     <div data-test-target-institutions>
                                         {{#each this.targetInstitutions as |institution|}}
                                             <dd>{{institution.name}}</dd>

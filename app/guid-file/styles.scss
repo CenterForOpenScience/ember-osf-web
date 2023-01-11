@@ -90,20 +90,6 @@
         line-height: 1.1;
         margin-bottom: 20px;
     }
-
-    span:nth-of-type(1) {
-        padding-bottom: 1vh;
-
-        a:nth-of-type(n+2),
-        span {
-            margin-left: -0.7vw;
-            padding-left: 0;
-        }
-
-        span:last-of-type() {
-            padding-left: 0.7vw;
-        }
-    }
 }
 
 .metadata-heading {
@@ -112,7 +98,6 @@
 
 .node-type-heading {
     border-top: 2px solid #ddd;
-    margin-top: 40px;
     border-top: 2px solid rgb(221, 221, 221);
     padding-top: 30px;
 }
@@ -189,11 +174,6 @@
     font-weight: 600;
 }
 
-.contributor-list {
-    display: inline-flex;
-    flex-direction: row;
-    overflow-x: scroll;
-    text-align: left;
-    white-space: pre;
-    width: 100%;
+.affiliated-institutions {
+    margin-top: 14px;
 }
