@@ -7,14 +7,14 @@
             <OsfLink
                 data-test-project-link
                 data-analytics-name='Linked project'
-                local-class='ProjectLink'
+                local-class='project-link'
                 @route={{if (eq this.model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
                 @models={{array this.model.fileModel.target.id}}
             >
                 {{this.model.fileModel.target.title}}
             </OsfLink>
         </h3>
-        <div local-class='FlexContainerRow'>
+        <div local-class='flex-container-row'>
             <h2 data-test-filename>
                 {{this.model.displayName}}
                 {{#if this.viewedVersion}}
@@ -25,7 +25,7 @@
         </div>
     </:header>
     <:body>
-        <div data-test-file-renderer id='mfrIframeParent' local-class='FileRenderer'>
+        <div data-test-file-renderer id='mfrIframeParent' local-class='file-renderer'>
             <FileRenderer
                 @download={{this.model.links.download}}
                 @version={{this.viewedVersion}}
@@ -35,9 +35,9 @@
     <:right>
         {{#if (or this.model.shouldShowTags this.model.shouldShowRevisions) }}
             {{#if this.revisionsOpened}}
-                <section data-test-revisions-tab local-class='FileDetail__revisions'>
-                    <h2 local-class='FileDetail__right-section-heading'>{{t 'general.revisions'}}</h2>
-                    <ol local-class='FileDetail__revision-list' reversed>
+                <section data-test-revisions-tab local-class='file-detail-revisions'>
+                    <h2 local-class='file-detail-right-section-heading'>{{t 'general.revisions'}}</h2>
+                    <ol local-class='file-detail-revision-list' reversed>
                         <hr aria-hidden='true'>
                         {{#if this.model.getRevisions.isRunning}}
                             <LoadingIndicator @dark={{true}} />
@@ -57,7 +57,7 @@
                 </section>
             {{/if}}
             {{#if this.tagsOpened}}
-                <div local-class='RightContainer'>
+                <div local-class='right-container'>
                     <h2>{{t 'general.tags'}}</h2>
                     <TagsWidget
                         @taggable={{this.model.fileModel}}
@@ -67,10 +67,10 @@
                 </div>
             {{/if}}
             {{#if this.metadataOpened}}
-                <div local-class='RightContainer'>
+                <div local-class='right-container'>
                     <FileMetadataManager @file={{this.model.fileModel}} as |manager|>
                         <div local-class='metadata-title-edit-download'>
-                            <h2>
+                            <h2 local-class='metadata-heading'>
                                 {{t 'file_detail.file_metadata'}}
                             </h2>
                             {{#unless manager.inEditMode}}
@@ -98,55 +98,63 @@
                             <LoadingIndicator @dark={{true}} />
                         {{else}}
                             {{#if manager.inEditMode}}
-                                <FormControls @changeset={{manager.changeset}} as |form|>
-                                    <form.textarea
-                                        data-test-title-field
-                                        @valuePath='title'
-                                        @label={{t 'file_detail.title'}}
-                                    />
-                                    <form.textarea
-                                        data-test-description-field
-                                        @valuePath='description'
-                                        @label={{t 'file_detail.description'}}
-                                    />
-                                    <form.select
-                                        data-test-select-resource-type
-                                        @options={{manager.resourceTypeGeneralOptions}}
-                                        @label={{t 'file_detail.resource_type_general'}}
-                                        @valuePath='resourceTypeGeneral'
-                                        as |option|
-                                    >
-                                        {{option}}
-                                    </form.select>
-                                    <form.select
-                                        data-test-select-resource-language
-                                        @options={{manager.languageCodes}}
-                                        @label={{t 'file_detail.language'}}
-                                        @onchange={{manager.changeLanguage}}
-                                        @valuePath='languageObject'
-                                        as |option|
-                                    >
-                                        {{option.name}}
-                                    </form.select>
-                                </FormControls>
-                                <Button
-                                    data-test-cancel-editing-metadata-button
-                                    aria-label={{t 'general.cancel'}}
-                                    data-analytics-name='Cancel editing metadata'
-                                    @layout='fake-link'
-                                    {{on 'click' manager.cancel}}
-                                >
-                                    {{t 'general.cancel'}}
-                                </Button>
-                                <Button
-                                    data-test-save-metadata-button
-                                    aria-label={{t 'general.save'}}
-                                    data-analytics-name='Save metadata'
-                                    @layout='fake-link'
-                                    {{on 'click' manager.save}}
-                                >
-                                    {{t 'general.save'}}
-                                </Button>
+                                <div local-class='metadata-form-and-buttons'>
+                                    <div local-class='edit-metadata-form'>
+                                        <FormControls @changeset={{manager.changeset}} as |form|>
+                                            <form.textarea
+                                                data-test-title-field
+                                                @valuePath='title'
+                                                @label={{t 'file_detail.title'}}
+                                            />
+                                            <form.textarea
+                                                data-test-description-field
+                                                @valuePath='description'
+                                                @label={{t 'file_detail.description'}}
+                                            />
+                                            <form.select
+                                                data-test-select-resource-type
+                                                @options={{manager.resourceTypeGeneralOptions}}
+                                                @label={{t 'file_detail.resource_type_general'}}
+                                                @valuePath='resourceTypeGeneral'
+                                                as |option|
+                                            >
+                                                {{option}}
+                                            </form.select>
+                                            <form.select
+                                                data-test-select-resource-language
+                                                @options={{manager.languageCodes}}
+                                                @label={{t 'file_detail.language'}}
+                                                @onchange={{manager.changeLanguage}}
+                                                @valuePath='languageObject'
+                                                as |option|
+                                            >
+                                                {{option.name}}
+                                            </form.select>
+                                        </FormControls>
+                                    </div>
+                                    <div local-class='edit-metadata-save-cancel-buttons'>
+                                        <Button
+                                            data-test-cancel-editing-metadata-button
+                                            aria-label={{t 'general.cancel'}}
+                                            data-analytics-name='Cancel editing metadata'
+                                            @layout='fake-link'
+                                            local-class='cancel-edit-button'
+                                            {{on 'click' manager.cancel}}
+                                        >
+                                            {{t 'general.cancel'}}
+                                        </Button>
+                                        <Button
+                                            data-test-save-metadata-button
+                                            aria-label={{t 'general.save'}}
+                                            data-analytics-name='Save metadata'
+                                            @layout='fake-link'
+                                            local-class='save-edit-button'
+                                            {{on 'click' manager.save}}
+                                        >
+                                            {{t 'general.save'}}
+                                        </Button>
+                                    </div>
+                                </div>
                             {{else}}
                                 <dl>
                                     <dt>{{t 'file_detail.title'}}</dt>
@@ -157,7 +165,7 @@
                                     <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
                                     <dt>{{t 'file_detail.language'}}</dt>
                                     <dd data-test-file-language>{{manager.languageFromCode}}</dd>
-                                    <h2>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
+                                    <h2 local-class='node-type-heading'>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
                                     <div>
                                         {{#each manager.targetMetadata.funders as |funder|}}
                                             <dt>{{t 'file_detail.funder'}}</dt>
@@ -216,7 +224,7 @@
                 <BsButton
                     data-test-file-renderer-button
                     data-analytics-name='File renderer button'
-                    local-class='SlideButtons {{if this.rightColumnClosed 'Active'}}'
+                    local-class='slide-buttons {{if this.rightColumnClosed 'active'}}'
                     @size='lg'
                     @onClick={{this.toggleFileRenderer}}
                 >
@@ -227,7 +235,7 @@
                 aria-label={{if this.metadataOpened (t 'file_detail.close_metadata') (t 'file_detail.view_metadata')}}
                 data-test-metadata-button
                 data-analytics-name='Metadata button'
-                local-class='SlideButtons {{if this.metadataOpened 'Active'}}'
+                local-class='slide-buttons {{if this.metadataOpened 'active'}}'
                 @size='lg'
                 @onClick={{this.toggleMetadata}}
             >
@@ -238,7 +246,7 @@
                     aria-label={{if this.revisionsOpened (t 'file_detail.close_revisions') (t 'file_detail.view_revisions')}}
                     data-test-versions-button
                     data-analytics-name='Versions button'
-                    local-class='SlideButtons {{if this.revisionsOpened 'Active'}}'
+                    local-class='slide-buttons {{if this.revisionsOpened 'active'}}'
                     @size='lg'
                     @onClick={{this.toggleRevisions}}
                 >
@@ -250,7 +258,7 @@
                     aria-label={{if this.tagsOpened (t 'file_detail.close_tags') (t 'file_detail.view_tags')}}
                     data-test-tags-button
                     data-analytics-name='Tags button'
-                    local-class='SlideButtons {{if this.tagsOpened 'Active'}}'
+                    local-class='slide-buttons {{if this.tagsOpened 'active'}}'
                     @size='lg'
                     @onClick={{this.toggleTags}}
                 >
