@@ -18,20 +18,15 @@
 }
 
 .RightColumn {
-    flex-grow: 1;
     border-left: 1px solid #ddd;
-    flex-basis: 300px;
     display: inline-flex;
+    flex-basis: 300px;
     flex-direction: column;
+    flex-grow: 1;
     margin-top: 1.4vh;
 
     &.is-closed {
         display: none;
-    }
-
-    h2 {
-        font-weight: 700;
-        font-size: 22px;
     }
 
     h2:nth-of-type(2) {

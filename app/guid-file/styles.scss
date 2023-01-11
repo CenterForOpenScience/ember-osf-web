@@ -1,9 +1,9 @@
 .ContentBackground {
     display: flex;
     flex-grow: 1;
-    z-index: 1;
     justify-content: center;
     position: relative;
+    z-index: 1;
 }
 
 .MainColumn {
@@ -14,18 +14,16 @@
 .FlexContainerRow {
     display: flex;
     flex-direction: row;
-    align-items: end;
     justify-content: space-between;
     padding: 0 20px 20px;
-    align-items: center;
 }
 
 .FlexContainerRow > h2 {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: 70vw;
     height: 40px;
+    max-width: 70vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ProjectLink {
@@ -33,16 +31,16 @@
 }
 
 .FileRenderer {
-    padding: 0 20px 20px;
     height: 90vh;
     margin-bottom: 15px;
+    padding: 0 20px 20px;
 }
 
 .SlideButtons {
-    margin: 20px 20px 0;
+    background-color: $color-bg-white;
     border: 0;
     color: $color-link-dark;
-    background-color: $color-bg-white;
+    margin: 20px 20px 0;
 
     @media (max-width: 767px) {
         margin: 0;
@@ -78,19 +76,34 @@
 
 .RightContainer {
     margin: 0 20px;
-    
+    width: 28vw;
+
+    dt,
+    dd {
+        background-color: #fff;
+        color: #000;
+        margin-bottom: 1vh;
+
+        dt {
+            font-size: 17px;
+        }
+    }
+
     h2:nth-of-type(2) {
         margin-bottom: 1vh;
     }
 
-    h3 {
-        font-weight: 800;
-        font-size: 15px;
-        margin-top: 4px;
+    h2 {
+        font-size: 31.5px;
+        font-weight: 300;
+        line-height: 1.1;
+        padding-bottom: 1vh;
     }
 
-    h2 {
-        padding-bottom: 1vh;
+    dl > h2 {
+        border-top: 2px solid #ddd;
+        padding-top: 3vh;
+        margin-top: 4vh;
     }
 
     div {
@@ -102,18 +115,36 @@
     }
 
     span:nth-of-type(1) {
-        display: block;
         padding-bottom: 1vh;
+
+        a:nth-of-type(n+2),
+        span {
+            margin-left: -0.7vw;
+            padding-left: 0;
+        }
+
+        span:last-of-type() {
+            padding-left: 0.7vw;
+        }
     }
 }
 
-.metadata-title-edit-download {
+.contributor-list {
     display: inline-flex;
     flex-direction: row;
+    overflow-x: scroll;
+    text-align: left;
+    white-space: pre;
     width: 100%;
-    justify-content: space-between;
+}
+
+.metadata-title-edit-download {
     align-items: center;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin-bottom: 0;
+    width: 100%;
 
     button {
         margin-left: 12vw;
