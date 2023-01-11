@@ -115,7 +115,8 @@
     border-top: 2px solid #ddd;
     padding-top: 3vh;
     margin-top: 4vh;
-
+    border-top: 2px solid rgb(221, 221, 221);
+    padding-top: 4vh;
 }
 
 .metadata-title-edit-download {
@@ -145,8 +146,10 @@
 
     button:active,
     button:focus,
+    button:hover,
     a:active,
-    a:focus {
+    a:focus,
+    a:hover {
         background: #efefef;
     }
 }
