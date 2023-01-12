@@ -1936,6 +1936,12 @@ osf-components:
         md5_description: 'MD5 is an algorithm used to verify data integrity.'
         copy_success: 'Successfully copied to clipboard'
         copy_failed: 'Failed to copy to clipboard'
+    funding-metadata:
+        funder_name: 'Funder name'
+        award_title: 'Award title'
+        award_info_uri: 'Award info URI'
+        award_number: 'Award number'
+        add_another: 'Add another'
     move_file_modal:
         move_header: 'Move {itemCount, plural, one {# item} other {# items}}'
         copy_header: 'Copy {itemCount, plural, one {# item} other {# items}}'

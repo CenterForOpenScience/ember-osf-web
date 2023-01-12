@@ -1,57 +1,60 @@
-<Panel local-class='panel' ...attributes as |panel|>
-    <panel.heading @title={{'Funding/Support information'}} />
-    <panel.body>
-        {{#each this.funderObjects as |item|}}
-            <Button
-                {{on 'click' (fn this.delete item)}}
+{{#each this.funderObjects as |item|}}
+    <Button
+        {{on 'click' (fn this.delete item)}}
+    >
+        {{t 'general.delete'}}
+    </Button>
+    <div>
+        <label>
+            {{t 'osf-components.funding-metadata.funder_name'}}
+            <PowerSelect
+                @searchEnabled={{true}}
+                @search={{perform this.searchFunders}}
+                @onChange={{fn this.selectFunder item}}
+                @selected={{item}}
+                as |options|
             >
-                Delete
-            </Button>
-            <div>
-                <label>
-                    Funder name
-                    <ValidatedInput::Text
-                        @model={{item}}
-                        @onKeyUp={{this.saveToChangeset}}
-                        @valuePath='funder_name'
-                    />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Award title
-                    <ValidatedInput::Text
-                        @model={{item}}
-                        @onKeyUp={{this.saveToChangeset}}
-                        @valuePath='award_title'
-                    />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Award info URI
-                    <ValidatedInput::Text
-                        @model={{item}}
-                        @onKeyUp={{this.saveToChangeset}}
-                        @valuePath='award_uri'
-                    />
-                </label>
-            </div>
-            <div>
-                <label>
-                    Award number
-                    <ValidatedInput::Text
-                        @model={{item}}
-                        @onKeyUp={{this.saveToChangeset}}
-                        @valuePath='award_number'
-                    />
-                </label>
-            </div>
-        {{/each}}
-        <Button
-            {{on 'click' this.addAnother}}
-        >
-            Add another
-        </Button>
-    </panel.body>
-</Panel>
+                {{#if options.name}}
+                    {{options.name}}    
+                {{else}}
+                    {{options.funder_name}}
+                {{/if}}
+            </PowerSelect>
+        </label>
+    </div>
+    <div>
+        <label>
+            {{t 'osf-components.funding-metadata.award_title'}}
+            <ValidatedInput::Text
+                @model={{item}}
+                @onKeyUp={{this.saveToChangeset}}
+                @valuePath='award_title'
+            />
+        </label>
+    </div>
+    <div>
+        <label>
+            {{t 'osf-components.funding-metadata.award_info_uri'}}
+            <ValidatedInput::Text
+                @model={{item}}
+                @onKeyUp={{this.saveToChangeset}}
+                @valuePath='award_uri'
+            />
+        </label>
+    </div>
+    <div>
+        <label>
+            {{t 'osf-components.funding-metadata.award_number'}}
+            <ValidatedInput::Text
+                @model={{item}}
+                @onKeyUp={{this.saveToChangeset}}
+                @valuePath='award_number'
+            />
+        </label>
+    </div>
+{{/each}}
+<Button
+    {{on 'click' this.addAnother}}
+>
+    {{t 'osf-components.funding-metadata.add_another'}}
+</Button>
