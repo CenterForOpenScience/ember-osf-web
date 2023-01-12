@@ -140,8 +140,9 @@
 .metadata-form-and-buttons {
     display: flex;
     flex-direction: column;
+    grid-gap: 20px;
     height: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .edit-metadata-form {
