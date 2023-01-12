@@ -67,7 +67,7 @@
                 </div>
             {{/if}}
             {{#if this.metadataOpened}}
-                <div local-class='right-container'>
+                <div local-class='right-container {{if this.isMobile 'Mobile'}}'>
                     <FileMetadataManager @file={{this.model.fileModel}} as |manager|>
                         <div local-class='metadata-title-edit-download'>
                             <h2 local-class='metadata-heading'>
