@@ -1,0 +1,64 @@
+.container {
+    background-color: #fff;
+    display: inline-flex;
+    flex-direction: column;
+
+    div {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+    }
+
+    dd {
+        margin: 14px 0;
+    }
+
+    dl {
+        margin-bottom: 0;
+    }
+
+    dt {
+        align-items: flex-end;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 5px;
+    }
+
+    h2 {
+        font-weight: 300;
+        font-size: 30px;
+        color: #263947;
+    }
+}
+
+.contributor-list {
+    flex-direction: column;
+
+    dt > a {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        color: #000;
+        padding: 7px 12px;
+    }
+}
+
+.resource-type-and-language {
+    flex-direction: column;
+}
+
+.subjects {
+    flex-direction: column;
+}
+
+.funders {
+    flex-direction: column;
+}
+
+.tags {
+    flex-direction: row;
+
+    dl {
+        width: 100%;
+        margin: 0 0 14px;
+    }
+}
