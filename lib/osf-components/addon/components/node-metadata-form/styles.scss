@@ -13,14 +13,10 @@
         }
     }
 
-    div {
+    div:not(.resource-edit) {
         display: flex;
         justify-content: space-between;
         margin: 5px 0;
-
-        div {
-            width: 100%;
-        }
     }
 
     dd {
@@ -43,6 +39,11 @@
         font-size: 30px;
         color: #263947;
     }
+}
+
+.ember-basic-dropdown-trigger,
+.ember-power-select-trigger {
+    width: 600px;
 }
 
 .edit-metadata-description {
@@ -85,8 +86,21 @@
     }
 }
 
+.resource-language-cancel-save-buttons {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        width: 100%;
+    }
+}
+
 .resource-type-and-language {
     flex-direction: column;
+
+    div {
+        width: 250px;
+    }
 }
 
 .resource-select {
@@ -120,4 +134,17 @@
         width: 100%;
         margin: 0 0 14px;
     }
+}
+
+.resource-edit {
+    display: block;
+
+    div {
+        display: block;
+        width: 250px;
+    }
+}
+
+.resource-edit > div {
+    display: block;
 }

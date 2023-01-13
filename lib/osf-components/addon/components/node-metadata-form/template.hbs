@@ -81,48 +81,53 @@
             </dl>
         </div>
     {{/unless}}
+
     <FormControls @changeset={{@manager.changeset}} as |form|>
         {{#if @manager.isEditingResources}}
-            <form.select
-                data-test-select-resource-type
-                @label={{t 'osf-components.node-metadata-form.resource-type'}}
-                local-class='resource-select'
-                @options={{@manager.resourceTypeGeneralOptions}}
-                @valuePath='resourceTypeGeneral'
-                as |option|
-            >
-                {{option}}
-            </form.select>
-            <form.select
-                data-test-select-resource-language
-                @options={{@manager.languageCodes}}
-                @label={{t 'osf-components.node-metadata-form.resource-language'}}
-                @onchange={{@manager.changeLanguage}}
-                @valuePath='languageObject'
-                as |option|
-            >
-                {{option.name}}
-            </form.select>
-            <BsButton
-                aria-label={{t 'general.cancel'}}
-                data-analytics-name='Cancel editing resource metadata'
-                data-test-cancel-editing-resource-metadata-button
-                disabled={{@manager.isSaving}}
-                @type='secondary'
-                @onClick={{@manager.cancelMetadata}}
-            >
-                {{t 'general.cancel'}}
-            </BsButton>
-            <BsButton
-                aria-label={{t 'general.save'}}
-                data-analytics-name='Save resource metadata'
-                data-test-save-resource-metadata-button
-                disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
-                @type='primary'
-                @onClick={{@manager.saveMetadata}}
-            >
-                {{t 'general.save'}}
-            </BsButton>
+            <div local-class='resource-edit'>
+                <form.select
+                    data-test-select-resource-type
+                    @label={{t 'osf-components.node-metadata-form.resource-type'}}
+                    local-class='resource-select'
+                    @options={{@manager.resourceTypeGeneralOptions}}
+                    @valuePath='resourceTypeGeneral'
+                    as |option|
+                >
+                    {{option}}
+                </form.select>
+                <form.select
+                    data-test-select-resource-language
+                    @options={{@manager.languageCodes}}
+                    @label={{t 'osf-components.node-metadata-form.resource-language'}}
+                    @onchange={{@manager.changeLanguage}}
+                    @valuePath='languageObject'
+                    as |option|
+                >
+                    {{option.name}}
+                </form.select>
+            </div>
+            <div local-class='resource-language-cancel-save-buttons'>
+                <BsButton
+                    aria-label={{t 'general.cancel'}}
+                    data-analytics-name='Cancel editing resource metadata'
+                    data-test-cancel-editing-resource-metadata-button
+                    disabled={{@manager.isSaving}}
+                    @type='secondary'
+                    @onClick={{@manager.cancelMetadata}}
+                >
+                    {{t 'general.cancel'}}
+                </BsButton>
+                <BsButton
+                    aria-label={{t 'general.save'}}
+                    data-analytics-name='Save resource metadata'
+                    data-test-save-resource-metadata-button
+                    disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
+                    @type='primary'
+                    @onClick={{@manager.saveMetadata}}
+                >
+                    {{t 'general.save'}}
+                </BsButton>
+            </div>
         {{else}}
             <div local-class='resource-type-and-language'>
                 <dl>
