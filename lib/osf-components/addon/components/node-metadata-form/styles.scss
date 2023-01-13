@@ -47,7 +47,13 @@
 }
 
 .subjects {
-    flex-direction: column;
+    div {
+        display: block;
+    }
+
+    dl {
+        width: 100%;
+    }
 }
 
 .funders {
