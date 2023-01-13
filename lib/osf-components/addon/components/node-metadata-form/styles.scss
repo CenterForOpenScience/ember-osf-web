@@ -3,6 +3,17 @@
     display: inline-flex;
     flex-direction: column;
 
+    button,
+    svg {
+        color: #337ab7;
+
+        &:focus,
+        &:hover {
+            background: #efefef;
+            color: #000;
+        }
+    }
+
     div {
         display: flex;
         justify-content: space-between;
