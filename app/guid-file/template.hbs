@@ -136,21 +136,23 @@
                                     </div>
                                     <div local-class='edit-metadata-save-cancel-buttons'>
                                         <Button
-                                            data-test-cancel-editing-metadata-button
                                             aria-label={{t 'general.cancel'}}
                                             data-analytics-name='Cancel editing metadata'
+                                            data-test-cancel-editing-metadata-button
                                             @layout='fake-link'
                                             local-class='cancel-edit-button'
+                                            @type='secondary'
                                             {{on 'click' manager.cancel}}
                                         >
                                             {{t 'general.cancel'}}
                                         </Button>
                                         <Button
-                                            data-test-save-metadata-button
                                             aria-label={{t 'general.save'}}
                                             data-analytics-name='Save metadata'
+                                            data-test-save-metadata-button
                                             @layout='fake-link'
                                             local-class='save-edit-button'
+                                            @type='primary'
                                             {{on 'click' manager.save}}
                                         >
                                             {{t 'general.save'}}
