@@ -921,6 +921,7 @@ collections:
         body: 'Once submitted to the collection, the project will be made public. It can later be made private again.'
         body_moderated: 'A moderator will review your submission before it is included in the collection.'
         body_resubmit: 'This project was removed or rejected from this collection. Do you want to resubmit it?'
+        resubmit_reason_placeholder: 'Optional reason to resubmit project.'
         add_button: 'Add to collection'
         resubmit: 'Resubmit'
     collection_item_picker:
