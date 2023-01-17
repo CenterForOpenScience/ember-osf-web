@@ -95,6 +95,19 @@ export function validateNodeLicense() {
         if (!validateLicenseTarget || validateLicenseTarget?.requiredFields?.length === 0) {
             return true;
         }
+
+        if (validateLicenseTarget.requiredFields?.includes('year')) {
+            const year = validateNodeLicenseTarget?.year;
+            const regex = /^((?!(0))[0-9]{4})$/;
+            if (year && !regex.test(year)) {
+                return {
+                    context: {
+                        type: 'year_format',
+                    },
+                };
+            }
+        }
+
         const missingFieldsList: Array<keyof NodeLicense> = [];
         for (const item of validateLicenseTarget.requiredFields) {
             if (!validateNodeLicenseTarget || !validateNodeLicenseTarget[item]) {
