@@ -134,6 +134,10 @@
 .tags {
     flex-direction: row;
 
+    a {
+        background: inherit;
+    }
+
     dd > div {
         width: 100%;
     }
