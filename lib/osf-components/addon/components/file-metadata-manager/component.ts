@@ -71,6 +71,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('save.isRunning') isSaving!: boolean;
+    @alias('file.apiMeta.isAnonymous') isAnonymous!: boolean;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -90,6 +91,16 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     get languageFromCode(){
         if (this.metadataRecord?.language){
             const language = this.languageCodes.find(item => item.code === this.metadataRecord.language);
+            if(language){
+                return language.name;
+            }
+        }
+        return '';
+    }
+
+    get targetLanguageFromCode(){
+        if (this.targetMetadata?.language){
+            const language = this.languageCodes.find(item => item.code === this.targetMetadata.language);
             if(language){
                 return language.name;
             }
