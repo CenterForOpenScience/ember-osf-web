@@ -11,16 +11,14 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
-import FileModel from 'ember-osf-web/models/file';
 import RegistrationModel from 'ember-osf-web/models/registration';
-import { FileMetadataManager } from 'osf-components/components/file-metadata-manager/component';
-import CurrentUser from 'ember-osf-web/services/current-user';
+import a11yAudit from 'ember-a11y-testing/test-support/audit';
+import { Permission } from 'ember-osf-web/models/osf-model';
+import { MirageFile } from 'ember-osf-web/mirage/factories/file';
 
 interface ThisTestContext extends TestContext {
     registration: ModelInstance<RegistrationModel>;
-    file: ModelInstance<FileModel>;
-    manager: FileMetadataManager;
-    currentUser: CurrentUser;
+    file: ModelInstance<MirageFile>;
 }
 
 module('Acceptance | guid file | registration files', hooks => {
@@ -114,6 +112,7 @@ module('Acceptance | guid file | registration files', hooks => {
 
     // Test file metadata
     test('view metadata', async function(this: ThisTestContext, assert) {
+        const nodeNoun = ['Registration','Project','Component'];
         setBreakpoint('desktop');
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
@@ -149,9 +148,9 @@ module('Acceptance | guid file | registration files', hooks => {
             'File metadata resource language text is properly set.');
         assert.dom('[data-test-file-language]').exists();
         // Metadata node word
-        assert.dom('[data-test-metadata-node]').containsText('Metadata',
-            'File metadata node text is properly set.');
-
+        const nodeNounElement = document.querySelectorAll('[data-test-metadata-node]')[0].textContent;
+        const nounFound = nodeNoun.some(r => nodeNounElement?.includes(r));
+        assert.equal(nounFound, true, 'Node noun properly set.');
         // Funder metadata
         assert.dom('[data-test-target-funder-div]').exists();
         // Funder name
@@ -172,58 +171,61 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-target-funder-award-number]').exists();
 
         // Target title
-        assert.dom('[data-test-target-title-label]').hasText('Title',
+        assert.dom('[data-test-file-title-label]').hasText('Title',
             'File metadata target title text is properly set.');
-        assert.dom('[data-test-target-title]').exists();
+        assert.dom('[data-test-file-title]').exists();
         // Target description
-        assert.dom('[data-test-target-description-label]').hasText('Description',
+        assert.dom('[data-test-file-description-label]').hasText('Description',
             'File metadata target description text is properly set.');
-        assert.dom('[data-test-target-description]').exists();
+        assert.dom('[data-test-file-description]').exists();
         // Target contributors
-        assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
+        assert.dom('[data-test-file-contributors-label]').hasText('Contributors',
             'File metadata contributor text is properly set.');
-        assert.dom('[data-test-target-contributors]').exists();
+        assert.dom('[data-test-file-contributors]').exists();
         // Target Institutions label
-        assert.dom('[data-test-target-institutions-label]').hasText('Affiliated institutions',
+        assert.dom('[data-test-file-institutions-label]').hasText('Affiliated institutions',
             'File affiliated institutions text is properly set.');
-        assert.dom('[data-test-target-institutions]').exists();
+        assert.dom('[data-test-file-institutions]').exists();
         // Target license name
-        assert.dom('[data-test-target-license-name-label]').hasText('License',
+        assert.dom('[data-test-file-license-name-label]').hasText('License',
             'File metadata target license name text is properly set.');
-        assert.dom('[data-test-target-license-name]').exists();
+        assert.dom('[data-test-file-license-name]').exists();
         // Target resource type
-        assert.dom('[data-test-target-resource-type-label]').hasText('Resource type',
+        assert.dom('[data-test-file-resource-type-label]').hasText('Resource type',
             'File metadata target resource type text is properly set.');
-        assert.dom('[data-test-target-resource-type]').exists();
+        assert.dom('[data-test-file-resource-type]').exists();
         // Target language
-        assert.dom('[data-test-target-language-label]').hasText('Resource language',
+        assert.dom('[data-test-file-language-label]').hasText('Resource language',
             'File metadata target language text is properly set.');
-        assert.dom('[data-test-target-language]').exists();
+        assert.dom('[data-test-file-language]').exists();
 
         // Verify metadata edit form and cancel button
         assert.dom('[data-test-right-column]').exists();
         assert.dom('[data-test-download-button]').exists();
-        await click('[data-test-edit-metadata-button]');
-        assert.dom('[data-test-title-field]').exists();
-        assert.dom('[data-test-description-field]').exists();
-        assert.dom('[data-test-select-resource-type]').exists();
-        assert.dom('[data-test-select-resource-language]').exists();
-        assert.dom('[data-test-cancel-editing-metadata-button]').exists();
-        assert.dom('[data-test-save-metadata-button]').exists();
-        await click('[data-test-cancel-editing-metadata-button]');
-        assert.dom('[data-test-edit-metadata-form]').isNotVisible();
-
-        // Verify save button functionality
-        await click('[data-test-edit-metadata-button]');
-        await percySnapshot(assert);
-        const textField = document.querySelectorAll('textarea')[0];
-        textField.textContent = 'Test Content for Acceptance | guid file | registration files:: view metadata test.';
-        assert.dom('[data-test-title-field]')
-            .containsText('Test Content for Acceptance | guid file | registration files:: view metadata test.',
-                'Verified updated metadata title field for test.');
-        await percySnapshot(assert);
-        await click('[data-test-save-metadata-button]');
+        if (this.file.target.currentUserPermissions.includes(Permission.Write)) {
+            await click('[data-test-edit-metadata-button]');
+            assert.dom('[data-test-title-field]').exists();
+            assert.dom('[data-test-description-field]').exists();
+            assert.dom('[data-test-select-resource-type]').exists();
+            assert.dom('[data-test-select-resource-language]').exists();
+            assert.dom('[data-test-cancel-editing-metadata-button]').exists();
+            assert.dom('[data-test-save-metadata-button]').exists();
+            await click('[data-test-cancel-editing-metadata-button]');
+            assert.dom('[data-test-edit-metadata-form]').isNotVisible();
+            await click('[data-test-edit-metadata-button]');
+            await percySnapshot(assert);
+            const textField = document.querySelectorAll('textarea')[0];
+            textField.textContent = 'Test Content for Acceptance | guid file | registration files: view metadata test.';
+            assert.dom('[data-test-title-field]')
+                .containsText('Test Content for Acceptance | guid file | registration files:: view metadata test.',
+                    'Verified updated metadata title field for test.');
+            await percySnapshot(assert);
+            await click('[data-test-save-metadata-button]');
+        }
         assert.dom('[data-test-edit-metadata-form]').isNotVisible();
         assert.dom('[data-test-metadata-tab]').isVisible();
+
+        // A11y testing
+        await a11yAudit();
     });
 });
