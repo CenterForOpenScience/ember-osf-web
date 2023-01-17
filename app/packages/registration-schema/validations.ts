@@ -130,27 +130,6 @@ export function validateNodeLicense() {
     };
 }
 
-export function validateNodeLicenseYear() {
-    return (_: unknown, __: unknown, ___: unknown, changes: any, content: LicensedContent) => {
-        let validateYearTarget;
-        if (content.nodeLicense && 'year' in content.nodeLicense) {
-            validateYearTarget = content.nodeLicense.year;
-        }
-        if (changes?.nodeLicense && 'year' in changes.nodeLicense) {
-            validateYearTarget = changes.nodeLicense.year;
-        }
-        const regex = /^((?!(0))[0-9]{4})$/;
-        if (typeof validateYearTarget !== 'undefined' && !regex.test(validateYearTarget)) {
-            return {
-                context: {
-                    type: 'year_format',
-                },
-            };
-        }
-        return true;
-    };
-}
-
 export function validateSubjects() {
     return (_: unknown, __: unknown, ___: unknown, ____: unknown, content: DraftRegistration) => {
         const subjects = content.hasMany('subjects').value();
