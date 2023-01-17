@@ -124,6 +124,10 @@
     dl {
         width: 100%;
     }
+
+    dd > div {
+        flex-direction: column-reverse;
+    }
 }
 
 .funders {
