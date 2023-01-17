@@ -81,8 +81,9 @@ export default class ProjectMetadata extends Component {
     validateCollectionLicense() {
         return async (_: unknown, newValue: LicenseModel, oldValue: Promise<LicenseModel>, changes: Partial<Node>) => {
             // if the license has not changed, use the old value to validate
+            // changes.license may exist even if the license has not changed
             let currentLicense = newValue;
-            if (!changes.license) {
+            if (!changes.license || !changes.license.id) {
                 currentLicense = await oldValue;
             }
             if (!currentLicense) {
