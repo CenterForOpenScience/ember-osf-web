@@ -14,7 +14,7 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import CollectionProviderModel from 'ember-osf-web/models/collection-provider';
 import LicenseModel from 'ember-osf-web/models/license';
 import Node from 'ember-osf-web/models/node';
-import { validateNodeLicense, validateNodeLicenseYear } from 'ember-osf-web/packages/registration-schema/validations';
+import { validateNodeLicense } from 'ember-osf-web/packages/registration-schema/validations';
 import Analytics from 'ember-osf-web/services/analytics';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import captureException from 'ember-osf-web/utils/capture-exception';
@@ -45,7 +45,6 @@ export default class ProjectMetadata extends Component {
         ],
         nodeLicense: [
             validateNodeLicense(),
-            validateNodeLicenseYear(),
         ],
     };
 
