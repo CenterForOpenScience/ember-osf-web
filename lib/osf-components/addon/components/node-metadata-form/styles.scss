@@ -1,16 +1,23 @@
 .container {
-    background-color: #fff;
+    background-color: $color-bg-white;
     display: inline-flex;
     flex-direction: column;
 
-    svg {
-        color: #337ab7;
+    button,
+    a {
+        background: $color-bg-white;
+    }
 
-        &:focus,
-        &:hover {
-            background: #efefef;
-            color: #000;
-        }
+    svg {
+        color: $color-text-blue-dark;
+    }
+
+    button:focus,
+    button:hover,
+    a:focus,
+    a:hover {
+        background: $color-bg-gray-light;
+        color: $color-link-black;
     }
 
     div:not(.resource-edit) {
@@ -37,7 +44,7 @@
     h2 {
         font-weight: 300;
         font-size: 30px;
-        color: #263947;
+        color: $color-text-gray-blue;
     }
 }
 
@@ -76,11 +83,11 @@
     flex-direction: column;
 
     dt > a {
-        background: #efefef;
+        background: $color-bg-white;
         background-image: none;
         border: 1px solid transparent;
         border-radius: 2px;
-        color: #000;
+        color: $color-link-black;
         font-size: 14px;
         padding: 6px 12px;
     }
