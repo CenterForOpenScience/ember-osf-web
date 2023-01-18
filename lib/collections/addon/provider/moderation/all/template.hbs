@@ -16,7 +16,7 @@
             </a>
         {{/let}}
     {{/each}}
-    <div local-class='sort-wrapper'>
+    <div data-test-submission-sort local-class='sort-wrapper'>
         <PowerSelect
             @options={{this.sortOptions}}
             @selected={{this.sort}}
