@@ -1,8 +1,8 @@
-<div local-class='Container'>
+<div local-class='container'>
     {{#if @isMobile}}
-        <div local-class='MainColumn' data-test-main-column-mobile>
+        <div local-class='main-column' data-test-main-column-mobile>
             {{yield to='header'}}
-            <div local-class='RightButtons'>
+            <div local-class='right-buttons'>
                 {{yield to='rightButtons'}}
             </div>
             <div>
@@ -14,14 +14,14 @@
             </div>
         </div>
     {{else}}
-        <div local-class='MainColumn' data-test-main-column>
+        <div local-class='main-column'>
             {{yield to='header'}}
             {{yield to='body'}}
         </div>
-        <div local-class='RightColumn {{if @rightColumnClosed 'is-closed'}}' data-test-right-column>
+        <div local-class='right-column {{if @rightColumnClosed 'is-closed'}}'>
             {{yield to='right'}}
         </div>
-        <div local-class='RightButtons' data-test-right-buttons>
+        <div local-class='right-buttons'>
             {{yield to='rightButtons'}}
         </div>
     {{/if}}
