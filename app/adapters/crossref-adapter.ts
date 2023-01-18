@@ -1,10 +1,12 @@
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
+import config from 'ember-get-config';
+
+const { support: { supportEmail } } = config;
 
 export default class CrossrefAdapter extends JSONAPIAdapter {
     host = 'https://api.crossref.org';
-    mailto = 'support@osf.io';
 
     get headers() {
         return {
@@ -13,7 +15,7 @@ export default class CrossrefAdapter extends JSONAPIAdapter {
     }
 
     query(_: any, __: any, q: any) {
-        return super.query(_, __, { ...q, mailto: this.mailto });
+        return super.query(_, __, { ...q, mailto: supportEmail });
     }
 
     buildURL<K extends keyof ModelRegistry>(

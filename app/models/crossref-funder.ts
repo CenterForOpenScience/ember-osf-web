@@ -9,6 +9,6 @@ export default class CrossrefFunderModel extends Model {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        crossrefFunder: CrossrefFunderModel;
+        'crossref-funder': CrossrefFunderModel;
     } // eslint-disable-line semi
 }
