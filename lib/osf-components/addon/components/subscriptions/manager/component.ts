@@ -14,6 +14,8 @@ import SubscriptionModel, { SubscriptionFrequency } from 'ember-osf-web/models/s
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import template from './template';
 
+type SubscriptionType = 'subscription' | 'registration-subscription' | 'collection-subscription';
+
 @tagName('')
 @layout(template)
 export default class SubscriptionsManager extends Component {
@@ -22,6 +24,7 @@ export default class SubscriptionsManager extends Component {
     @service intl!: Intl;
     // optional arguments
     subscriptionIds?: string[];
+    type: SubscriptionType = 'subscription';
 
     // tracked properties
     @tracked subscriptions: ArrayProxy<SubscriptionModel> | SubscriptionModel[] | null = null;
@@ -31,11 +34,11 @@ export default class SubscriptionsManager extends Component {
     async fetchSubscriptions() {
         try {
             if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
-                this.subscriptions = await this.store.query('subscription', {
+                this.subscriptions = await this.store.query(this.type, {
                     'filter[id]': this.subscriptionIds.join(','),
                 });
             } else {
-                this.subscriptions = await this.store.findAll('subscription');
+                this.subscriptions = await this.store.findAll(this.type);
             }
         } catch (e) {
             captureException(e);
