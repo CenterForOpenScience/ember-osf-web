@@ -351,6 +351,8 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
+    osfResource(this, 'collection-subscription', { only: ['index', 'show', 'update'] });
+    osfResource(this, 'registration-subscription', { only: ['index', 'show', 'update'] });
 
     // Waterbutler namespace
     this.namespace = '/wb';
