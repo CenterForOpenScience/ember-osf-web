@@ -12,6 +12,8 @@ import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/sch
 import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
 import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 
+type LicensedContent = DraftRegistration | NodeModel;
+
 export const NodeLicenseFields: Record<keyof NodeLicense, string> = {
     copyrightHolders: 'Copyright Holders',
     year: 'Year',
@@ -78,7 +80,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel | D
 }
 
 export function validateNodeLicense() {
-    return async (_: unknown, __: unknown, ___: unknown, changes: DraftRegistration, content: DraftRegistration) => {
+    return async (_: unknown, __: unknown, ___: unknown, changes: LicensedContent, content: LicensedContent) => {
         let validateLicenseTarget = await content.license;
         let validateNodeLicenseTarget = content.nodeLicense;
         if (changes?.license && Object.keys(changes.license).length
@@ -116,7 +118,7 @@ export function validateNodeLicense() {
 }
 
 export function validateNodeLicenseYear() {
-    return (_: unknown, __: unknown, ___: unknown, changes: any, content: DraftRegistration) => {
+    return (_: unknown, __: unknown, ___: unknown, changes: any, content: LicensedContent) => {
         let validateYearTarget;
         if (content.nodeLicense && 'year' in content.nodeLicense) {
             validateYearTarget = content.nodeLicense.year;
