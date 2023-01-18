@@ -67,7 +67,7 @@ export default class FundingMetadata extends Component<Args> {
     @action
     selectFunder(item: FunderObjects, funder: CrossrefFunderModel) {
         item.funder_identifier = funder.uri;
-        item.funder_identifierType = 'Crossref Funder URI';
+        item.funder_identifier_type = 'Crossref Funder URI';
         item.funder_name = funder.name;
         this.saveToChangeset();
         this.validateFunderObjects();
@@ -78,7 +78,7 @@ export default class FundingMetadata extends Component<Args> {
         this.funderObjects.pushObject({
             funder_name: '',
             funder_identifier: '',
-            funder_identifierType: '',
+            funder_identifier_type: '',
             award_number: '',
             award_title: '',
             award_uri: '',

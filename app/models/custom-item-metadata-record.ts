@@ -5,7 +5,7 @@ import CustomMetadataModel from 'ember-osf-web/models/custom-metadata';
 export interface Funder {
     funder_name?: string;
     funder_identifier?: string;
-    funder_identifierType?: string;
+    funder_identifier_type?: string;
     award_number?: string;
     award_uri?: string;
     award_title?: string;
