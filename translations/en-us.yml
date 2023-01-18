@@ -1942,6 +1942,7 @@ osf-components:
         award_info_uri: 'Award info URI'
         award_number: 'Award number'
         add_another: 'Add another'
+        error: '"Funder name", "Award title" ,"Award info URI" or "Award number" has to be specified.'
     move_file_modal:
         move_header: 'Move {itemCount, plural, one {# item} other {# items}}'
         copy_header: 'Copy {itemCount, plural, one {# item} other {# items}}'

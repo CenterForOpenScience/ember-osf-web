@@ -136,25 +136,29 @@
     {{/if}}
     {{#unless @manager.node.isAnonymous}}
         {{#if @manager.isEditingFunding}}
-            <FundingMetadata @changeset={{@manager.changeset}} />
-            <Button
-                data-test-cancel-editing-funding-metadata-button
-                aria-label={{t 'general.cancel'}}
-                data-analytics-name='Cancel editing funding metadata'
-                disabled={{@manager.isSaving}}
-                {{on 'click' @manager.cancelMetadata}}
-            >
-                {{t 'general.cancel'}}
-            </Button>
-            <Button
-                data-test-save-funding-metadata-button
-                aria-label={{t 'general.save'}}
-                data-analytics-name='Save funding metadata'
-                disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
-                {{on 'click' @manager.saveMetadata}}
-            >
-                {{t 'general.save'}}
-            </Button>
+            <FundingMetadata @changeset={{@manager.changeset}} as |funding|>
+                <Button
+                    data-test-cancel-editing-funding-metadata-button
+                    aria-label={{t 'general.cancel'}}
+                    data-analytics-name='Cancel editing funding metadata'
+                    disabled={{@manager.isSaving}}
+                    {{on 'click' @manager.cancelMetadata}}
+                >
+                    {{t 'general.cancel'}}
+                </Button>
+                <Button
+                    data-test-save-funding-metadata-button
+                    aria-label={{t 'general.save'}}
+                    data-analytics-name='Save funding metadata'
+                    disabled={{or (not @manager.changeset.isDirty) @manager.isSaving (not funding.isValid)}}
+                    {{on 'click' (queue
+                        funding.validate 
+                        @manager.saveMetadata)
+                    }}
+                >
+                    {{t 'general.save'}}
+                </Button>
+            </FundingMetadata>
         {{else}}
             <div>
                 <div>
