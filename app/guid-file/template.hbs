@@ -76,13 +76,13 @@
                             <div local-class='edit-download-buttons'>
                                 {{#unless manager.inEditMode}}
                                     {{#if manager.userCanEdit}}
-                                           <BsButton
-                                              data-test-edit-metadata-button
-                                              aria-label={{t 'general.edit'}}
-                                              data-analytics-name='Edit metadata'
-                                              @layout='fake-link'
-                                              @onClick={{@manager.edit}}
-                                            >
+                                       <BsButton
+                                          data-test-edit-metadata-button
+                                          aria-label={{t 'general.edit'}}
+                                          data-analytics-name='Edit metadata'
+                                          @layout='fake-link'
+                                          @onClick={{@manager.edit}}
+                                        >
                                             <FaIcon @icon='pencil-alt' />
                                         </BsButton>
                                     {{/if}}
