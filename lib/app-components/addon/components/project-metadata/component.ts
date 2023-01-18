@@ -83,7 +83,7 @@ export default class ProjectMetadata extends Component {
             // if the license has not changed, use the old value to validate
             // changes.license may exist even if the license has not changed
             let currentLicense = newValue;
-            if (!changes.license || !changes.license.id) {
+            if (!changes.license?.id) {
                 currentLicense = await oldValue;
             }
             if (!currentLicense) {
