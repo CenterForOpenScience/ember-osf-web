@@ -134,8 +134,9 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @task
     @waitFor
     async cancelMetadata(){
-        if (this.saveErrored){
+        if (this.saveErrored) {
             await this.metadata.reload();
+            this.metadata.rollbackAttributes();
             this.saveErrored = false;
         }
         this.changeset.rollback();
