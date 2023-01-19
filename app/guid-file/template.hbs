@@ -70,7 +70,7 @@
                 <div local-class='right-container {{if this.isMobile 'Mobile'}}' data-test-metadata-tab>
                     <FileMetadataManager @file={{this.model.fileModel}} as |manager|>
                         <div local-class='metadata-title-edit-download'>
-                            <h2 local-class='metadata-heading'>
+                            <h2 local-class='metadata-heading' data-test-metadata-header>
                                 {{t 'file_detail.file_metadata'}}
                             </h2>
                             <div local-class='edit-download-buttons'>
