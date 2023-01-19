@@ -2,13 +2,25 @@
     <div class='container'>
         <div class='row'>
             <div class='col-xs-12'>
-                <h2>{{t 'registries.index.services.top.heading'}}</h2>
-                <p class='m-b-lg'>{{t 'registries.index.services.top.paragraph'}}</p>
+                <h2
+                    data-test-registries-list-header
+                >
+                    {{t 'registries.index.services.top.heading'}}
+                </h2>
+                <p
+                    data-test-registries-list-paragraph
+                    class='m-b-lg'
+                >
+                    {{t 'registries.index.services.top.paragraph'}}
+                </p>
             </div>
         </div>
     </div>
     <div class='container'>
-        <div class='row p-v-md'>
+        <div
+            data-test-registries-list-row-one
+            class='row p-v-md'
+        >
             <div class='col-sm-3 text-center'>
                 <a href='https://osf.io/registries/darpaasist' aria-label={{t 'registries.index.services.asist'}}>
                     <img
@@ -28,7 +40,7 @@
                 </a>
             </div>
             <div class='col-sm-3 text-center'>
-                <a href='https://osf.io/registries/characterlabregistry' aria-label={{t 'registries.index.services.characterlab'}}>
+                <a href='https://osf.io/registries/dam' aria-label={{t 'registries.index.services.characterlab'}}>
                     <img
                         alt={{concat (t 'registries.index.services.dam') (t 'registries.index.services.logo')}}
                         local-class='ServicesList__ProviderLogo'
@@ -46,8 +58,11 @@
                 </a>
             </div>
         </div>
-        <div class='row p-v-md'>
-            <div class='col-sm-3 text-center'>
+        <div
+            data-test-registries-list-row-two
+            class='row p-v-md'
+        >
+            <div class='col-sm-4 text-center'>
                 <a href='https://osf.io/registries/metascience' aria-label={{t 'registries.index.services.metascience'}}>
                     <img
                         alt='{{concat (t 'registries.index.services.metascience') (t 'registries.index.services.logo')}}'
@@ -56,7 +71,7 @@
                     />
                 </a>
             </div>
-            <div class='col-sm-6 text-center'>
+            <div class='col-sm-4 text-center'>
                 <a href='https://osf.io/registries/rwe' aria-label={{t 'registries.index.services.rwe'}}>
                     <img
                         alt='{{concat (t 'registries.index.services.rwe') (t 'registries.index.services.logo')}}'
@@ -65,7 +80,7 @@
                     />
                 </a>
             </div>
-            <div class='col-sm-6 text-center'>
+            <div class='col-sm-4 text-center'>
                 <a href='https://osf.io/registries/youthstudy' aria-label={{t 'registries.index.services.youth'}}>
                     <img
                         alt='{{concat (t 'registries.index.services.youth') (t 'registries.index.services.logo')}}'
@@ -77,11 +92,14 @@
         </div>
     </div>
     <div class='row p-v-md'>
-        <div class='col-md-12 text-center'>
+        <div
+            class='col-md-12 text-center'
+        >
             <a
+                data-test-registries-list-contact-link
+                data-analytics-name='Index - Contact'
                 href='mailto:contact@osf.io'
                 class='btn btn-info btn-lg'
-                onclick={{action 'click' 'link' 'Index - Contact' target=this.analytics}}
             >
                 {{t 'registries.index.services.bottom.contact'}}
             </a>
