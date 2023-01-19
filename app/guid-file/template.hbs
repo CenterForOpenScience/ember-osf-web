@@ -156,53 +156,6 @@
                                     </div>
                                 </div>
                             {{else}}
-                                <div data-test-file-title-label>{{t 'file_detail.title'}}</div>
-                                <div data-test-file-title>{{manager.metadataRecord.title}}</div>
-                                <div data-test-file-description-label>{{t 'file_detail.description'}}</div>
-                                <div data-test-file-description>{{manager.metadataRecord.description}}</div>
-                                <div data-test-file-resource-type-label>{{t 'file_detail.resource_type_general'}}</div>
-                                <div data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</div>
-                                <div data-test-file-language-label>{{t 'file_detail.language'}}</div>
-                                <div data-test-file-language>{{manager.languageFromCode}}</div>
-                                <h2 data-test-metadata-node>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
-                                <div data-test-target-funder-div>
-                                    {{#each manager.targetMetadata.funders as |funder|}}
-                                        <div data-test-target-funder-name-label>{{t 'file_detail.funder'}}</div>
-                                        <div data-test-target-funder-name={{funder.funder_name}}>
-                                            {{funder.funder_name}}
-                                        </div>
-                                        <div data-test-target-funder-award-title-label>{{t 'file_detail.award_title'}}</div>
-                                        <div data-test-target-funder-award-title={{funder.funder_name}}>
-                                            {{funder.award_title}}
-                                        </div>
-                                        <div data-test-target-funder-award-uri-label>{{t 'file_detail.award_uri'}}</div>
-                                        <div data-test-target-funder-award-uri={{funder.funder_name}}>
-                                            {{funder.award_uri}}
-                                        </div>
-                                        <div data-test-target-funder-award-number-label>{{t 'file_detail.award_number'}}</div>
-                                        <div data-test-target-funder-award-number={{funder.funder_name}}>
-                                            {{funder.award_number}}
-                                        </div>
-                                    {{/each}}
-                                </div>
-                                <div data-test-target-title-label>{{t 'file_detail.title'}}</div>
-                                <div data-test-target-title>{{manager.target.title}}</div>
-                                <div data-test-target-description-label>{{t 'file_detail.description'}}</div>
-                                <div data-test-target-description>{{manager.target.description}}</div>
-                                <div data-test-target-contributors-label>{{t 'file_detail.contributors'}}</div>
-                                <ContributorList
-                                    data-test-file-contributors
-                                    @model={{manager.target}}
-                                    @shouldLinkUsers={{true}}
-                                    @shouldTruncate={{false}}
-                                />
-                                <div data-test-file-institutions-label>{{t 'file_detail.institutions'}}</div>
-                                <div data-test-file-institutions>
-                                    {{#each this.targetInstitutions as |institution|}}
-                                        <div>{{institution.name}}</div>
-                                    {{/each}}
-                                </div>
-                            {{else}}
                                 <dl>
                                     <dt data-test-file-title-label>{{t 'file_detail.title'}}</dt>
                                     <dd data-test-file-title>{{manager.metadataRecord.title}}</dd>
@@ -255,18 +208,11 @@
                                             <dd>{{institution.name}}</dd>
                                         {{/each}}
                                     </div>
-                                    <div local-class='affiliated-institutions' data-test-file-institutions-label>{{t 'file_detail.institutions'}}</div>
-                                    <div data-test-file-institutions>
-                                        {{#each this.targetInstitutions as |institution|}}
-                                            <div>{{institution.name}}</div>
-                                        {{/each}}
-                                    </div>
-                                    <div data-test-file-license-name-label>{{t 'file_detail.license'}}</div>
-                                    <div data-test-file-license-name>{{manager.targetLicense.name}}</div>
-                                    <div data-test-file-resource-type-label>{{t 'file_detail.resource_type_general'}}</div>
-                                    <div data-test-file-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</div>
-                                    <div data-test-file-language-label>{{t 'file_detail.language'}}</div>
-                                    <div data-test-file-language>{{manager.targetMetadata.language}}</div>
+                                     <dd data-test-target-license-name>{{manager.targetLicense.name}}</dd>
+                                    <dt>{{t 'file_detail.resource_type_general'}}</dt>
+                                    <dd data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</dd>
+                                    <dt>{{t 'file_detail.language'}}</dt>
+                                    <dd data-test-target-language>{{manager.targetMetadata.language}}</dd>
                                 </dl>
                             {{/if}}
                         {{/if}}
