@@ -215,4 +215,40 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'Metascience Registrylogo',
                 'The image alt tag is correct.');
     });
+
+    test('the registries services list Real World Evidence Registry', async function(this: TestContext, assert) {
+        // Given the component is rendered
+        await render(hbs`<RegistriesServicesList />`);
+
+        // Given I find the node
+        const node = document.querySelector('[data-test-registries-list-row-two] > div:nth-child(2) > a ');
+
+        // Then I validate the link
+        assert.dom(node)
+            .hasAttribute('href',
+                'https://osf.io/registries/rwe',
+                'The a href link is correct.');
+
+        // And I validate the link aria-label
+        assert.dom(node)
+            .hasAttribute('aria-label',
+                'Real World Evidence Registry',
+                'The a aria-label is correct.');
+
+        // Given I find the image node
+        const imageNode = node?.querySelector('img');
+
+        // Then I validate the image source
+        assert.dom(imageNode)
+            .hasAttribute('src',
+                // eslint-disable-next-line max-len
+                '/engines-dist/registries/assets/img/provider_logos/RWE_logo-89ce7d56f5a5f89205b69c42000ff082.png',
+                'The image src is correct.');
+
+        // And I validate the image alt tag
+        assert.dom(imageNode)
+            .hasAttribute('alt',
+                'Real World Evidence Registrylogo',
+                'The image alt tag is correct.');
+    });
 });
