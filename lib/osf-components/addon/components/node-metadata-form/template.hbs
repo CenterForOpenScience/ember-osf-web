@@ -111,7 +111,6 @@
                     data-analytics-name='Cancel editing resource metadata'
                     data-test-cancel-editing-resource-metadata-button
                     disabled={{@manager.isSaving}}
-                    {{!-- @layout='fake-link' --}}
                     @type='secondary'
                     {{on 'click' @manager.cancelMetadata}}
                 >
@@ -122,7 +121,6 @@
                     data-analytics-name='Save resource metadata'
                     data-test-save-resource-metadata-button
                     disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
-                    {{!-- @layout='fake-link' --}}
                     @type='primary'
                     {{on 'click' @manager.saveMetadata}}
                 >
@@ -141,7 +139,6 @@
                                 aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
                                 {{on 'click' @manager.editResources}}
                                 @layout='fake-link'
-                                {{!-- @type='secondary' --}}
                             >
                                 <FaIcon @icon='pencil-alt' />
                             </Button>
@@ -154,28 +151,29 @@
         {{/if}}
         {{#unless @manager.node.isAnonymous}}
             {{#if @manager.isEditingFunding}}
-                <Button
-                    data-test-cancel-editing-funding-metadata-button
-                    aria-label={{t 'general.cancel'}}
-                    data-analytics-name='Cancel editing funding metadata'
-                    disabled={{@manager.isSaving}}
-                    {{on 'click' @manager.cancelMetadata}}
-                    {{!-- @layout='fake-link' --}}
-                    @type='secondary'
-                >
-                    {{t 'general.cancel'}}
-                </Button>
-                <Button
-                    data-test-save-funding-metadata-button
-                    aria-label={{t 'general.save'}}
-                    data-analytics-name='Save funding metadata'
-                    disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
-                    {{on 'click' @manager.saveMetadata}}
-                    {{!-- @layout='fake-link' --}}
-                    @type='primary'
-                >
-                    {{t 'general.save'}}
-                </Button>
+                <FundingMetadata @changeset={{@manager.changeset}} as |funding|>
+                    <Button
+                        data-test-cancel-editing-funding-metadata-button
+                        aria-label={{t 'general.cancel'}}
+                        data-analytics-name='Cancel editing funding metadata'
+                        disabled={{@manager.isSaving}}
+                        {{on 'click' @manager.cancelMetadata}}
+                    >
+                        {{t 'general.cancel'}}
+                    </Button>
+                    <Button
+                        data-test-save-funding-metadata-button
+                        aria-label={{t 'general.save'}}
+                        data-analytics-name='Save funding metadata'
+                        disabled={{or (not @manager.changeset.isDirty) @manager.isSaving (not funding.isValid)}}
+                        {{on 'click' (queue
+                            funding.validate
+                            @manager.saveMetadata)
+                        }}
+                    >
+                        {{t 'general.save'}}
+                    </Button>
+                </FundingMetadata>
             {{else}}
                 <div local-class='funders'>
                     <dl>
