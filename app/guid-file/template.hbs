@@ -128,6 +128,8 @@
                                                 @label={{t 'file_detail.language'}}
                                                 @onchange={{manager.changeLanguage}}
                                                 @valuePath='languageObject'
+                                                @searchField='name'
+                                                @searchEnabled=true
                                                 as |option|
                                             >
                                                 {{option.name}}
@@ -167,53 +169,57 @@
                                     <dd data-test-file-language>{{manager.languageFromCode}}</dd>
                                 </dl>
                                 <h2 local-class='node-type-heading'>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
-                                <div>
-                                    {{#each manager.targetMetadata.funders as |funder|}}
-                                        <dl>
-                                            <dt>{{t 'file_detail.funder'}}</dt>
-                                            <dd data-test-target-funder-name={{funder.funder_name}}>
-                                                {{funder.funder_name}}
-                                            </dd>
-                                            <dt>{{t 'file_detail.award_title'}}</dt>
-                                            <dd data-test-target-funder-award-title={{funder.funder_name}}>
-                                                {{funder.award_title}}
-                                            </dd>
-                                            <dt>{{t 'file_detail.award_uri'}}</dt>
-                                            <dd data-test-target-funder-award-uri={{funder.funder_name}}>
-                                                {{funder.award_uri}}
-                                            </dd>
-                                            <dt>{{t 'file_detail.award_number'}}</dt>
-                                            <dd data-test-target-funder-award-number={{funder.funder_name}}>
-                                                {{funder.award_number}}
-                                            </dd>
-                                        </dl>
-                                    {{/each}}
-                                </div>
+                                {{#unless manager.isAnonymous}}
+                                    <div>
+                                        {{#each manager.targetMetadata.funders as |funder|}}
+                                            <dl>
+                                                <dt>{{t 'file_detail.funder'}}</dt>
+                                                <dd data-test-target-funder-name={{funder.funder_name}}>
+                                                    {{funder.funder_name}}
+                                                </dd>
+                                                <dt>{{t 'file_detail.award_title'}}</dt>
+                                                <dd data-test-target-funder-award-title={{funder.funder_name}}>
+                                                    {{funder.award_title}}
+                                                </dd>
+                                                <dt>{{t 'file_detail.award_uri'}}</dt>
+                                                <dd data-test-target-funder-award-uri={{funder.funder_name}}>
+                                                    {{funder.award_uri}}
+                                                </dd>
+                                                <dt>{{t 'file_detail.award_number'}}</dt>
+                                                <dd data-test-target-funder-award-number={{funder.funder_name}}>
+                                                    {{funder.award_number}}
+                                                </dd>
+                                            </dl>
+                                        {{/each}}
+                                    </div>
+                                {{/unless}}
                                 <dl>
                                     <dt>{{t 'file_detail.title'}}</dt>
                                     <dd data-test-target-title>{{manager.target.title}}</dd>
                                     <dt>{{t 'file_detail.description'}}</dt>
                                     <dd data-test-target-description>{{manager.target.description}}</dd>
-                                    <dt>{{t 'file_detail.contributors'}}</dt>
-                                    <ContributorList
-                                        data-test-target-contributors
-                                        local-class='contributor-list'
-                                        @model={{manager.target}}
-                                        @shouldLinkUsers={{true}}
-                                        @shouldTruncate={{false}}
-                                    />
-                                    <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
-                                    <div data-test-target-institutions>
-                                        {{#each this.targetInstitutions as |institution|}}
-                                            <dd>{{institution.name}}</dd>
-                                        {{/each}}
-                                    </div>
+                                    {{#unless manager.isAnonymous}}
+                                        <dt>{{t 'file_detail.contributors'}}</dt>
+                                        <ContributorList
+                                            data-test-target-contributors
+                                            local-class='contributor-list'
+                                            @model={{manager.target}}
+                                            @shouldLinkUsers={{true}}
+                                            @shouldTruncate={{false}}
+                                        />
+                                        <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
+                                        <div data-test-target-institutions>
+                                            {{#each this.targetInstitutions as |institution|}}
+                                                <dd>{{institution.name}}</dd>
+                                            {{/each}}
+                                        </div>
+                                    {{/unless}}
                                     <dt>{{t 'file_detail.license'}}</dt>
                                     <dd data-test-target-license-name>{{manager.targetLicense.name}}</dd>
                                     <dt>{{t 'file_detail.resource_type_general'}}</dt>
                                     <dd data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</dd>
                                     <dt>{{t 'file_detail.language'}}</dt>
-                                    <dd data-test-target-language>{{manager.targetMetadata.language}}</dd>
+                                    <dd data-test-target-language>{{manager.targetLanguageFromCode}}</dd>
                                 </dl>
                             {{/if}}
                         {{/if}}

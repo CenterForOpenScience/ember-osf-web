@@ -5,19 +5,11 @@ import { selectChoose } from 'ember-power-select/test-support';
 import { module, test } from 'qunit';
 
 import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
-import { languageCodes } from 'ember-osf-web/utils/languages';
 import { TestContext } from 'ember-test-helpers';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import fillIn from '@ember/test-helpers/dom/fill-in';
 
-
-function languageFromCode(languageCode: string){
-    const language = languageCodes.find(item => item.code === languageCode);
-    if(language){
-        return language.name;
-    }
-    return '';
-}
+import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
 
 module('Acceptance | guid-node/metadata', hooks => {
     setupOSFApplicationTest(hooks);
@@ -36,7 +28,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
         assert.dom('[data-test-display-resource-language]')
-            .containsText(languageFromCode(metadataRecord.language), 'Language is correct');
+            .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText(metadataRecord.resourceTypeGeneral, 'Resource type is correct');
         assert.dom('[data-test-display-node-description]')
@@ -77,7 +69,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
         assert.dom('[data-test-display-resource-language]')
-            .containsText(languageFromCode(metadataRecord.language), 'Language is correct');
+            .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText(metadataRecord.resourceTypeGeneral, 'Resource type is correct');
         assert.dom('[data-test-display-node-description]')
@@ -114,7 +106,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
         assert.dom('[data-test-display-resource-language]')
-            .containsText(languageFromCode(metadataRecord.language), 'Language is correct');
+            .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText(metadataRecord.resourceTypeGeneral, 'Resource type is correct');
         assert.dom('[data-test-display-node-description]')
@@ -152,7 +144,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         await selectChoose('[data-test-select-resource-language]', 'Esperanto');
         await click('[data-test-cancel-editing-resource-metadata-button]');
         assert.dom('[data-test-display-resource-language]')
-            .containsText(languageFromCode(metadataLanguageOriginal), 'Language is unchanged');
+            .containsText(languageFromLanguageCode(metadataLanguageOriginal), 'Language is unchanged');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText(metadataResourceTypeOriginal, 'Resource type is unchanged');
         await click('[data-test-edit-resource-metadata-button]');
