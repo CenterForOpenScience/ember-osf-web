@@ -15,6 +15,8 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     server.create('user-setting', { user: currentUser });
     const firstNode = server.create('node', 'withAffiliatedInstitutions');
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
+    const component = server.create('node', {id: 'cmpnt', parent: firstNode}, 'withFiles', 'withStorage');
+    server.create('contributor', { node: component, users: currentUser, index: 0, permission: Permission.Admin });
     const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');

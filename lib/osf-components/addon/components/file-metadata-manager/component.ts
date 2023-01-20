@@ -56,6 +56,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @tracked targetMetadata!: CustomItemMetadataRecordModel;
     file: FileModel = this.args.file;
     @tracked target!: (NodeModel | RegistrationModel);
+    @tracked targetParent!: (NodeModel | RegistrationModel);
     @tracked targetInstitutions!: InstitutionModel[];
     @tracked targetLicense!: LicenseModel;
     @tracked changeset!: BufferedChangeset;
@@ -112,6 +113,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @waitFor
     async getTarget() {
         this.target = await this.file.target as NodeModel;
+        this.targetParent = await this.target.get('parent');
         this.targetLicense = await this.target.license;
         this.targetInstitutions = await this.target.affiliatedInstitutions as InstitutionModel[];
         this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
@@ -190,7 +192,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
             if (this.target.isRegistration) {
                 return 'registration';
             }
-            if (this.target.parent.id) {
+            if (this.targetParent) {
                 return 'component';
             }
         }
