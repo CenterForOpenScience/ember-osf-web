@@ -20,6 +20,8 @@ import { languageCodes, LanguageCode } from 'ember-osf-web/utils/languages';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from '@glimmer/tracking';
 
+import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
+
 interface Args {
     node: (AbstractNodeModel);
 }
@@ -107,13 +109,8 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     }
 
     get languageFromCode(){
-        if (this.metadata?.language){
-            const language = this.languageCodes.find(item => item.code === this.metadata.language);
-            if(language){
-                return language.name;
-            }
-        }
-        return '';
+        const languageCode = this.metadata?.language || '';
+        return languageFromLanguageCode(languageCode);
     }
 
     @action
@@ -134,8 +131,9 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @task
     @waitFor
     async cancelMetadata(){
-        if (this.saveErrored){
+        if (this.saveErrored) {
             await this.metadata.reload();
+            this.metadata.rollbackAttributes();
             this.saveErrored = false;
         }
         this.changeset.rollback();

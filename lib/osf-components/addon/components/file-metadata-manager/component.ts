@@ -47,6 +47,14 @@ export interface FileMetadataManager {
     isGatheringData: boolean;
 }
 
+export function languageFromLanguageCode(languageCode: string){
+    const language = languageCodes.find(item => item.code === languageCode);
+    if(language){
+        return language.name;
+    }
+    return '';
+}
+
 export default class FileMetadataManagerComponent extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
@@ -56,6 +64,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @tracked targetMetadata!: CustomItemMetadataRecordModel;
     file: FileModel = this.args.file;
     @tracked target!: (NodeModel | RegistrationModel);
+    @tracked targetParent!: (NodeModel | RegistrationModel);
     @tracked targetInstitutions!: InstitutionModel[];
     @tracked targetLicense!: LicenseModel;
     @tracked changeset!: BufferedChangeset;
@@ -71,6 +80,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('save.isRunning') isSaving!: boolean;
+    @alias('file.apiMeta.isAnonymous') isAnonymous!: boolean;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -88,19 +98,20 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     }
 
     get languageFromCode(){
-        if (this.metadataRecord?.language){
-            const language = this.languageCodes.find(item => item.code === this.metadataRecord.language);
-            if(language){
-                return language.name;
-            }
-        }
-        return '';
+        const languageCode = this.metadataRecord?.language || '';
+        return languageFromLanguageCode(languageCode);
+    }
+
+    get targetLanguageFromCode(){
+        const languageCode = this.targetMetadata?.language || '';
+        return languageFromLanguageCode(languageCode);
     }
 
     @task
     @waitFor
     async getTarget() {
         this.target = await this.file.target as NodeModel;
+        this.targetParent = await this.target.get('parent');
         this.targetLicense = await this.target.license;
         this.targetInstitutions = await this.target.affiliatedInstitutions as InstitutionModel[];
         this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
@@ -179,7 +190,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
             if (this.target.isRegistration) {
                 return 'registration';
             }
-            if (this.target.parent.id) {
+            if (this.targetParent) {
                 return 'component';
             }
         }
