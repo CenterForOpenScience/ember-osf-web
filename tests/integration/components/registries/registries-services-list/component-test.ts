@@ -107,4 +107,40 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'Character Lab Registrylogo',
                 'The image alt tag is correct.');
     });
+
+    test('the registries services list Dam Registry', async function(this: TestContext, assert) {
+        // Given the component is rendered
+        await render(hbs`<RegistriesServicesList />`);
+
+        // Given I find the node
+        const node = document.querySelector('[data-test-registries-list-row-one] > div:nth-child(3) > a ');
+
+        // Then I validate the link
+        assert.dom(node)
+            .hasAttribute('href',
+                'https://osf.io/registries/dam',
+                'The a href link is correct.');
+
+        // And I validate the link aria-label
+        assert.dom(node)
+            .hasAttribute('aria-label',
+                'Stiftelsen Dam Registry',
+                'The a aria-label is correct.');
+
+        // Given I find the image node
+        const imageNode = node?.querySelector('img');
+
+        // Then I validate the image source
+        assert.dom(imageNode)
+            .hasAttribute('src',
+                // eslint-disable-next-line max-len
+                '/engines-dist/registries/assets/img/provider_logos/dam-_logo-5c39e88b57d4bd5d154ae245e19eec36.png',
+                'The image src is correct.');
+
+        // And I validate the image alt tag
+        assert.dom(imageNode)
+            .hasAttribute('alt',
+                'Stiftelsen Dam Registrylogo',
+                'The image alt tag is correct.');
+    });
 });
