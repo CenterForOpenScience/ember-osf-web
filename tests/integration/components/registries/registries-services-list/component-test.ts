@@ -37,14 +37,38 @@ module('Integration | Component | registries | registries-services-list', hooks 
     });
 
 
-    test('the registries services list asist', async function(this: TestContext, assert) {
+    test('the registries services list DARPA ASIST', async function(this: TestContext, assert) {
         // Given the component is rendered
         await render(hbs`<RegistriesServicesList />`);
 
-        // And the first link is validated
-        assert.dom('[data-test-registries-list-row-one] > div:nth-child(1) > a ')
+        // Given I find the node
+        const node = document.querySelector('[data-test-registries-list-row-one] > div:nth-child(1) > a ');
+
+        // Then I validate the link
+        assert.dom(node)
             .hasAttribute('href',
                 'https://osf.io/registries/darpaasist',
-                'The header paragraph is correct.');
+                'The a href link is correct.');
+
+        // And I validate the link aria-label
+        assert.dom(node)
+            .hasAttribute('aria-label',
+                'DARPA ASIST Registry',
+                'The a aria-label is correct.');
+
+        // Given I find the image node
+        const imageNode = node?.querySelector('img');
+
+        // Then I validate the image source
+        assert.dom(imageNode)
+            .hasAttribute('src',
+                '/engines-dist/registries/assets/img/provider_logos/ASIST_logo.png',
+                'The image src is correct.');
+
+        // And I validate the image alt tag
+        assert.dom(imageNode)
+            .hasAttribute('alt',
+                'DARPA ASIST Registrylogo',
+                'The image alt tag is correct.');
     });
 });
