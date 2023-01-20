@@ -207,13 +207,13 @@
                                             @shouldLinkUsers={{true}}
                                             @shouldTruncate={{false}}
                                         />
+                                        <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
+                                        <div data-test-target-institutions>
+                                            {{#each this.targetInstitutions as |institution|}}
+                                                <dd>{{institution.name}}</dd>
+                                            {{/each}}
+                                        </div>
                                     {{/unless}}
-                                    <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
-                                    <div data-test-target-institutions>
-                                        {{#each this.targetInstitutions as |institution|}}
-                                            <dd>{{institution.name}}</dd>
-                                        {{/each}}
-                                    </div>
                                     <dt>{{t 'file_detail.license'}}</dt>
                                     <dd data-test-target-license-name>{{manager.targetLicense.name}}</dd>
                                     <dt>{{t 'file_detail.resource_type_general'}}</dt>

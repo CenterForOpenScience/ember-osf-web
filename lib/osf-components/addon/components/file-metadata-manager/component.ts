@@ -47,6 +47,14 @@ export interface FileMetadataManager {
     isGatheringData: boolean;
 }
 
+export function languageFromLanguageCode(languageCode: string){
+    const language = languageCodes.find(item => item.code === languageCode);
+    if(language){
+        return language.name;
+    }
+    return '';
+}
+
 export default class FileMetadataManagerComponent extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
@@ -90,23 +98,13 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     }
 
     get languageFromCode(){
-        if (this.metadataRecord?.language){
-            const language = this.languageCodes.find(item => item.code === this.metadataRecord.language);
-            if(language){
-                return language.name;
-            }
-        }
-        return '';
+        const languageCode = this.metadataRecord?.language || '';
+        return languageFromLanguageCode(languageCode);
     }
 
     get targetLanguageFromCode(){
-        if (this.targetMetadata?.language){
-            const language = this.languageCodes.find(item => item.code === this.targetMetadata.language);
-            if(language){
-                return language.name;
-            }
-        }
-        return '';
+        const languageCode = this.targetMetadata?.language || '';
+        return languageFromLanguageCode(languageCode);
     }
 
     @task
