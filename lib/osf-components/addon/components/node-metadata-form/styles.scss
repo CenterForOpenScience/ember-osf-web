@@ -3,25 +3,16 @@
     display: inline-flex;
     flex-direction: column;
 
-    button,
-    a {
-        background: $color-bg-white;
-    }
-
     svg {
         color: $color-text-blue-dark;
     }
 
-    button:focus,
-    button:hover,
-    a:focus,
-    a:hover {
-        background: $color-bg-gray-light;
+    svg:hover,
+    svg:focus {
         color: $color-link-black;
     }
 
     div:not(.resource-edit) {
-        display: flex;
         justify-content: space-between;
         margin: 5px 0;
     }
@@ -57,14 +48,6 @@
     flex-direction: column;
 
     div {
-        width: 100%;
-    }
-
-    div > div {
-        width: 100%;
-    }
-
-    div {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -82,14 +65,17 @@
 .contributor-list {
     flex-direction: column;
 
+    dt {
+        margin: 0 5px 0 0;
+    }
+
     dt > a {
         background: $color-bg-white;
         background-image: none;
         border: 1px solid transparent;
         border-radius: 2px;
-        color: $color-link-black;
+        // color: $color-link-black;
         font-size: 14px;
-        padding: 6px 12px;
     }
 }
 

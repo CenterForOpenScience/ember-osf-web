@@ -10,41 +10,41 @@
                     @label={{t 'osf-components.node-metadata-form.description'}}
                     @valuePath='description'
                 />
-                <BsButton
+                <Button
                     aria-label={{t 'general.cancel'}}
                     data-analytics-name='Cancel editing node description'
                     data-test-cancel-editing-node-description-button
                     disabled={{@manager.isSaving}}
-                    @onClick={{@manager.cancelNode}}
+                    {{on 'click' @manager.cancelNode}}
                     @type='secondary'
                 >
                     {{t 'general.cancel'}}
-                </BsButton>
-                <BsButton
+                </Button>
+                <Button
                     aria-label={{t 'general.save'}}
                     data-analytics-name='Save node description'
                     data-test-save-node-description-button
                     disabled={{or (not @manager.nodeChangeset.isDirty) @manager.isSaving}}
-                    @onClick={{@manager.saveNode}}
+                    {{on 'click' @manager.saveNode}}
                     @type='primary'
                 >
                     {{t 'general.save'}}
-                </BsButton>
+                </Button>
             </div>
         {{else}}
             <dl>
                 <dt>
                     {{t 'osf-components.node-metadata-form.description'}}
                     {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
-                        <BsButton
+                        <Button
                             aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
                             data-analytics-name='Edit Node Description'
                             data-test-edit-node-description-button
-                            @onClick={{@manager.editDescription}}
-                            @type='secondary'
+                            {{on 'click' @manager.editDescription}}
+                            @layout='fake-link'
                         >
                             <FaIcon @icon='pencil-alt' />
-                        </BsButton>
+                        </Button>
                     {{/if}}
                 </dt>
                 <dd>
@@ -106,26 +106,28 @@
                 </form.select>
             </div>
             <div local-class='resource-language-cancel-save-buttons'>
-                <BsButton
+                <Button
                     aria-label={{t 'general.cancel'}}
                     data-analytics-name='Cancel editing resource metadata'
                     data-test-cancel-editing-resource-metadata-button
                     disabled={{@manager.isSaving}}
+                    {{!-- @layout='fake-link' --}}
                     @type='secondary'
-                    @onClick={{@manager.cancelMetadata}}
+                    {{on 'click' @manager.cancelMetadata}}
                 >
                     {{t 'general.cancel'}}
-                </BsButton>
-                <BsButton
+                </Button>
+                <Button
                     aria-label={{t 'general.save'}}
                     data-analytics-name='Save resource metadata'
                     data-test-save-resource-metadata-button
                     disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
+                    {{!-- @layout='fake-link' --}}
                     @type='primary'
-                    @onClick={{@manager.saveMetadata}}
+                    {{on 'click' @manager.saveMetadata}}
                 >
                     {{t 'general.save'}}
-                </BsButton>
+                </Button>
             </div>
         {{else}}
             <div local-class='resource-type-and-language'>
@@ -133,15 +135,16 @@
                     <dt>
                         {{t 'osf-components.node-metadata-form.resource-information'}}
                         {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
-                            <BsButton
+                            <Button
                                 data-test-edit-resource-metadata-button
                                 data-analytics-name='Edit Resource Metadata'
                                 aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
-                                @onClick={{@manager.editResources}}
-                                @type='secondary'
+                                {{on 'click' @manager.editResources}}
+                                @layout='fake-link'
+                                {{!-- @type='secondary' --}}
                             >
                                 <FaIcon @icon='pencil-alt' />
-                            </BsButton>
+                            </Button>
                         {{/if}}
                     </dt>
                     <dd data-test-display-resource-type-general>{{t 'osf-components.node-metadata-form.resource-type'}} {{@manager.metadataRecord.resourceTypeGeneral}}</dd>
@@ -151,41 +154,43 @@
         {{/if}}
         {{#unless @manager.node.isAnonymous}}
             {{#if @manager.isEditingFunding}}
-                <BsButton
+                <Button
                     data-test-cancel-editing-funding-metadata-button
                     aria-label={{t 'general.cancel'}}
                     data-analytics-name='Cancel editing funding metadata'
                     disabled={{@manager.isSaving}}
-                    @onClick={{@manager.cancelMetadata}}
+                    {{on 'click' @manager.cancelMetadata}}
+                    {{!-- @layout='fake-link' --}}
                     @type='secondary'
                 >
                     {{t 'general.cancel'}}
-                </BsButton>
-                <BsButton
+                </Button>
+                <Button
                     data-test-save-funding-metadata-button
                     aria-label={{t 'general.save'}}
                     data-analytics-name='Save funding metadata'
                     disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
-                    @onClick={{@manager.saveMetadata}}
+                    {{on 'click' @manager.saveMetadata}}
+                    {{!-- @layout='fake-link' --}}
                     @type='primary'
                 >
                     {{t 'general.save'}}
-                </BsButton>
+                </Button>
             {{else}}
                 <div local-class='funders'>
                     <dl>
                         <dt>
                             {{t 'osf-components.node-metadata-form.funding-information'}}
                             {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
-                                <BsButton
+                                <Button
                                     data-test-edit-funding-metadata-button
                                     data-analytics-name='Edit Funding Metadata'
                                     aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
-                                    @onClick={{@manager.editFunding}}
-                                    @type='secondary'
+                                    {{on 'click' @manager.editFunding}}
+                                    @layout='fake-link'
                                 >
                                     <FaIcon @icon='pencil-alt' />
-                                </BsButton>
+                                </Button>
                             {{/if}}
                         </dt>
                         {{#each @manager.metadataRecord.funders as |funder|}}
