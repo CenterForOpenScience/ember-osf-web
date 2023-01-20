@@ -56,6 +56,12 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'DARPA ASIST Registry',
                 'The a aria-label is correct.');
 
+        // And I validate the data analytics name
+        assert.dom(node)
+            .hasAttribute('data-analytics-name',
+                'asist - Registry',
+                'The a aria-label is correct.');
+
         // Given I find the image node
         const imageNode = node?.querySelector('img');
 
@@ -89,6 +95,12 @@ module('Integration | Component | registries | registries-services-list', hooks 
         assert.dom(node)
             .hasAttribute('aria-label',
                 'Character Lab Registry',
+                'The a aria-label is correct.');
+
+        // And I validate the data analytics name
+        assert.dom(node)
+            .hasAttribute('data-analytics-name',
+                'characterlab - Registry',
                 'The a aria-label is correct.');
 
         // Given I find the image node
@@ -127,6 +139,12 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'Stiftelsen Dam Registry',
                 'The a aria-label is correct.');
 
+        // And I validate the data analytics name
+        assert.dom(node)
+            .hasAttribute('data-analytics-name',
+                'dam - Registry',
+                'The a aria-label is correct.');
+
         // Given I find the image node
         const imageNode = node?.querySelector('img');
 
@@ -161,6 +179,12 @@ module('Integration | Component | registries | registries-services-list', hooks 
         assert.dom(node)
             .hasAttribute('aria-label',
                 'egap Registry',
+                'The a aria-label is correct.');
+
+        // And I validate the data analytics name
+        assert.dom(node)
+            .hasAttribute('data-analytics-name',
+                'egap - Registry',
                 'The a aria-label is correct.');
 
         // Given I find the image node
@@ -199,6 +223,12 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'Metascience Registry',
                 'The a aria-label is correct.');
 
+        // And I validate the data analytics name
+        assert.dom(node)
+            .hasAttribute('data-analytics-name',
+                'Metascience - Registry',
+                'The a aria-label is correct.');
+
         // Given I find the image node
         const imageNode = node?.querySelector('img');
 
@@ -235,6 +265,12 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'Real World Evidence Registry',
                 'The a aria-label is correct.');
 
+        // And I validate the data analytics name
+        assert.dom(node)
+            .hasAttribute('data-analytics-name',
+                'RWE - Registry',
+                'The a aria-label is correct.');
+
         // Given I find the image node
         const imageNode = node?.querySelector('img');
 
@@ -269,6 +305,12 @@ module('Integration | Component | registries | registries-services-list', hooks 
         assert.dom(node)
             .hasAttribute('aria-label',
                 'YOUth Study Registry',
+                'The a aria-label is correct.');
+
+        // And I validate the data analytics name
+        assert.dom(node)
+            .hasAttribute('data-analytics-name',
+                'YOUth - Registry',
                 'The a aria-label is correct.');
 
         // Given I find the image node
