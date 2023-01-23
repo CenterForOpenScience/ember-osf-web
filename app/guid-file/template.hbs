@@ -196,19 +196,19 @@
                                     </div>
                                 {{/unless}}
                                 <dl>
-                                    <dt data-test-file-title-label>{{t 'file_detail.title'}}</dt>
-                                    <dd data-test-file-title>{{manager.target.title}}</dd>
-                                    <dt data-test-file-description-label>{{t 'file_detail.description'}}</dt>
-                                    <dd data-test-file-description>{{manager.target.description}}</dd>
-                                    <dt data-test-file-contributors-label>{{t 'file_detail.contributors'}}</dt>
+                                    <dt data-test-target-title-label>{{t 'file_detail.title'}}</dt>
+                                    <dd data-test-target-title>{{manager.target.title}}</dd>
+                                    <dt data-test-target-description-label>{{t 'file_detail.description'}}</dt>
+                                    <dd data-test-target-description>{{manager.target.description}}</dd>
+                                    <dt data-test-target-contributors-label>{{t 'file_detail.contributors'}}</dt>
                                     <ContributorList
-                                        data-test-file-contributors
+                                        data-test-target-contributors
                                         local-class='contributor-list'
                                         @model={{manager.target}}
                                         @shouldLinkUsers={{true}}
                                         @shouldTruncate={{false}}
                                     />
-                                    <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
+                                    <dt local-class='affiliated-institutions' data-test-target-institutions-label>{{t 'file_detail.institutions'}}</dt>
                                     <div data-test-target-institutions>
                                         {{#each this.targetInstitutions as |institution|}}
                                             <dd>{{institution.name}}</dd>

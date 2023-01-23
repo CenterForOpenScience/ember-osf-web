@@ -2,23 +2,26 @@ import {
     currentURL,
     visit,
 } from '@ember/test-helpers';
+import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
+
 import { module, test } from 'qunit';
 
+import { MirageFile } from 'ember-osf-web/mirage/factories/file';
+import { MirageNode } from 'ember-osf-web/mirage/factories/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import RegistrationModel from 'ember-osf-web/models/registration';
-import a11yAudit from 'ember-a11y-testing/test-support/audit';
-import { Permission } from 'ember-osf-web/models/osf-model';
-import { MirageFile } from 'ember-osf-web/mirage/factories/file';
 
 interface ThisTestContext extends TestContext {
     registration: ModelInstance<RegistrationModel>;
     file: ModelInstance<MirageFile>;
+    node: ModelInstance<MirageNode>;
 }
 
 module('Acceptance | guid file | registration files', hooks => {
@@ -28,6 +31,19 @@ module('Acceptance | guid file | registration files', hooks => {
     hooks.beforeEach(function(this: ThisTestContext) {
         this.registration = server.create('registration');
         this.file = server.create('file', { target: this.registration, name: 'Test File' });
+        this.node = server.create(
+            'node',
+            {
+                _anonymized: false,
+            },
+            'currentUserAdmin',
+            'withAffiliatedInstitutions',
+            'withContributors',
+            'withDoi',
+            'withFiles',
+            'withLicense',
+            'withRegistrations',
+        );
     });
 
     test('Desktop view', async function(this: ThisTestContext, assert) {
@@ -147,7 +163,8 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-file-language-label]').hasText('Resource language',
             'File metadata resource language text is properly set.');
         assert.dom('[data-test-file-language]').exists();
-        // Metadata node word
+
+        // Metadata node type
         const nodeNounElement = document.querySelectorAll('[data-test-metadata-node]')[0].textContent;
         const nounFound = nodeNoun.some(r => nodeNounElement?.includes(r));
         assert.equal(nounFound, true, 'Node noun properly set.');
@@ -169,41 +186,38 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-target-funder-award-number-label]').hasText('Award number',
             'File metadata award number text is properly set.');
         assert.dom('[data-test-target-funder-award-number]').exists();
-
         // Target title
-        assert.dom('[data-test-file-title-label]').hasText('Title',
+        assert.dom('[data-test-target-title-label]').hasText('Title',
             'File metadata target title text is properly set.');
-        assert.dom('[data-test-file-title]').exists();
+        assert.dom('[data-test-target-title]').exists();
         // Target description
-        assert.dom('[data-test-file-description-label]').hasText('Description',
+        assert.dom('[data-test-target-description-label]').hasText('Description',
             'File metadata target description text is properly set.');
-        assert.dom('[data-test-file-description]').exists();
+        assert.dom('[data-test-target-description]').exists();
         // Target contributors
-        assert.dom('[data-test-file-contributors-label]').hasText('Contributors',
+        assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
             'File metadata contributor text is properly set.');
-        assert.dom('[data-test-file-contributors]').exists();
+        assert.dom('[data-test-target-contributors]').exists();
         // Target Institutions label
-        assert.dom('[data-test-file-institutions-label]').hasText('Affiliated institutions',
+        assert.dom('[data-test-target-institutions-label]').hasText('Affiliated institutions',
             'File affiliated institutions text is properly set.');
-        assert.dom('[data-test-file-institutions]').exists();
-        // Target license name
-        assert.dom('[data-test-file-license-name-label]').hasText('License',
-            'File metadata target license name text is properly set.');
-        assert.dom('[data-test-file-license-name]').exists();
-        // Target resource type
-        assert.dom('[data-test-file-resource-type-label]').hasText('Resource type',
-            'File metadata target resource type text is properly set.');
-        assert.dom('[data-test-file-resource-type]').exists();
-        // Target language
-        assert.dom('[data-test-file-language-label]').hasText('Resource language',
-            'File metadata target language text is properly set.');
-        assert.dom('[data-test-file-language]').exists();
+        assert.dom('[data-test-target-institutions]').exists();
+    });
 
-        // Verify metadata edit form and cancel button
-        assert.dom('[data-test-right-column]').exists();
-        assert.dom('[data-test-download-button]').exists();
+    // Test metadata save and cancel buttons
+    test('save and cancel', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+        assert.equal(currentURL(), `/--file/${this.file.guid}`);
+
+        // Verify download
+        if (!this.node._anonymized) {
+            assert.dom('[data-test-download-button]').exists();
+        }
+
+        // Verify edit
         if (this.file.target.currentUserPermissions.includes(Permission.Write)) {
             await click('[data-test-edit-metadata-button]');
+            // Verify editable fields are present
             assert.dom('[data-test-title-field]').exists();
             assert.dom('[data-test-description-field]').exists();
             assert.dom('[data-test-select-resource-type]').exists();
@@ -213,19 +227,61 @@ module('Acceptance | guid file | registration files', hooks => {
             await click('[data-test-cancel-editing-metadata-button]');
             assert.dom('[data-test-edit-metadata-form]').isNotVisible();
             await click('[data-test-edit-metadata-button]');
+
+            // Screenshot before changes
             await percySnapshot(assert);
-            const textField = document.querySelectorAll('textarea')[0];
-            textField.textContent = 'Test Content for Acceptance | guid file | registration files: view metadata test.';
+            // Update Title
+            const editTitleTextArea = document.querySelectorAll('textarea')[0];
+            editTitleTextArea.textContent = 'A test title.';
             assert.dom('[data-test-title-field]')
-                .containsText('Test Content for Acceptance | guid file | registration files:: view metadata test.',
-                    'Verified updated metadata title field for test.');
+                .containsText('A test title.', 'Metadata title field updates.');
+            // Update Description
+            const editDescriptionTextArea = document.querySelectorAll('textarea')[1];
+            editDescriptionTextArea.textContent = 'A test description.';
+            assert.dom('[data-test-title-field]')
+                .containsText('A test description.', 'Metadata description field updates.');
+            // Update Resource Type
+            const resourceTypeDropdown = document.querySelectorAll('[data-test-power-select-dropdown]')[0];
+            await click(resourceTypeDropdown);
+            const resourceTypeList = document.evaluate(
+                'count(//ul[@role="listbox"]/li)',
+                document,
+                null,
+                XPathResult.ANY_TYPE, null,
+            );
+            const resourceTypeListLength = resourceTypeList.numberValue;            // should be in range 0-tens
+            const resourceOptionRandom = Math.floor(resourceTypeListLength * Math.random() - 1);
+            const resourceOption = `data-option-index="${resourceOptionRandom}"`;
+            const resourceElement = document.querySelectorAll(resourceOption)[0];
+            await click(resourceElement);
+            // Resource Language
+            const resourceLanguageDropdown = document.querySelectorAll('[data-test-power-select-dropdown]')[1];
+            await click(resourceLanguageDropdown);
+            const resourceLanguageList  = document.evaluate(
+                'count(//ul[@role="listbox"]/li)',
+                document,
+                null,
+                XPathResult.ANY_TYPE, null,
+            );
+            const resourceLanguageListLength = resourceLanguageList.numberValue;    // should be in range 0-hundreds
+            const languageOptionRandom = Math.floor(resourceLanguageListLength * Math.random() - 1);
+            const languageOption = `data-option-index="${languageOptionRandom}"`;
+            const languageElement = document.querySelectorAll(languageOption)[0];
+            await click(languageElement);
+            // Screenshot after changes
             await percySnapshot(assert);
+            // Save changes
             await click('[data-test-save-metadata-button]');
         }
+        // Verify form properly closes
         assert.dom('[data-test-edit-metadata-form]').isNotVisible();
         assert.dom('[data-test-metadata-tab]').isVisible();
+    });
 
-        // A11y testing
+    // Verify A11y testing
+    test('a11y testing', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+        assert.equal(currentURL(), `/--file/${this.file.guid}`);
         await a11yAudit();
     });
 });
