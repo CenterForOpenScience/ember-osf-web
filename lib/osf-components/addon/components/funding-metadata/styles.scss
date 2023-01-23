@@ -1,0 +1,10 @@
+.funding-metadata {
+    :global(.ember-basic-dropdown-trigger),
+    :global(.ember-power-select-trigger) {
+        width: 550px;
+    }
+
+    input {
+        width: 550px;
+    }
+}
