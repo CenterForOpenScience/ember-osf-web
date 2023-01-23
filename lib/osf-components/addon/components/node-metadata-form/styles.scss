@@ -1,0 +1,154 @@
+.container {
+    background-color: $color-bg-white;
+    display: inline-flex;
+    flex-direction: column;
+
+    svg {
+        color: $color-text-blue-dark;
+    }
+
+    svg:hover,
+    svg:focus {
+        color: $color-link-black;
+    }
+
+    div:not(.resource-edit) {
+        justify-content: space-between;
+        margin: 5px 0;
+    }
+
+    dd {
+        margin: 14px 0;
+    }
+
+    dl {
+        margin-bottom: 0;
+    }
+
+    dt {
+        align-items: flex-end;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 0 5px;
+    }
+
+    h2 {
+        font-weight: 300;
+        font-size: 30px;
+        color: $color-text-gray-blue;
+    }
+}
+
+.ember-basic-dropdown-trigger,
+.ember-power-select-trigger {
+    width: 600px;
+}
+
+.edit-metadata-description {
+    flex-direction: column;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            height: 125px;
+        }
+    }
+}
+
+.contributor-list {
+    flex-direction: column;
+
+    dt {
+        margin: 0 5px 0 0;
+    }
+
+    dt > a {
+        background: $color-bg-white;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        font-size: 14px;
+    }
+}
+
+.resource-language-cancel-save-buttons {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        width: 100%;
+    }
+}
+
+.resource-type-and-language {
+    flex-direction: column;
+
+    div {
+        width: 250px;
+    }
+}
+
+.resource-select {
+    div {
+        width: 250px;
+    }
+}
+
+.subjects {
+    // div {
+    //     display: block;
+    // }
+
+    dl {
+        width: 100%;
+    }
+
+    dd > div {
+        flex-direction: column-reverse;
+    }
+}
+
+.funders {
+    flex-direction: column;
+}
+
+.tags {
+    flex-direction: row;
+
+    a {
+        background: inherit;
+    }
+
+    dd > div {
+        width: 100%;
+    }
+
+    dl {
+        width: 100%;
+        margin: 0 0 14px;
+    }
+
+    input {
+        margin-top: 10px;
+    }
+}
+
+.resource-edit {
+    display: block;
+
+    div {
+        display: block;
+        width: 250px;
+    }
+}
+
+.resource-edit > div {
+    display: block;
+}
