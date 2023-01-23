@@ -104,8 +104,6 @@
                 >
                     {{option.name}}
                 </form.select>
-            </div>
-            <div local-class='resource-language-cancel-save-buttons'>
                 <Button
                     aria-label={{t 'general.cancel'}}
                     data-analytics-name='Cancel editing resource metadata'
@@ -157,6 +155,7 @@
                         aria-label={{t 'general.cancel'}}
                         data-analytics-name='Cancel editing funding metadata'
                         disabled={{@manager.isSaving}}
+                        @type='secondary'
                         {{on 'click' @manager.cancelMetadata}}
                     >
                         {{t 'general.cancel'}}
@@ -166,6 +165,7 @@
                         aria-label={{t 'general.save'}}
                         data-analytics-name='Save funding metadata'
                         disabled={{or (not @manager.changeset.isDirty) @manager.isSaving (not funding.isValid)}}
+                        @type='primary'
                         {{on 'click' (queue
                             funding.validate
                             @manager.saveMetadata)
