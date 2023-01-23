@@ -80,7 +80,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('save.isRunning') isSaving!: boolean;
-    @alias('file.apiMeta.isAnonymous') isAnonymous!: boolean;
+    @alias('file.apiMeta.anonymous') isAnonymous!: boolean;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
