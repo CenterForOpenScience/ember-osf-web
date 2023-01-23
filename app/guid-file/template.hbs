@@ -86,13 +86,15 @@
                                             <FaIcon @icon='pencil-alt' />
                                         </Button>
                                     {{/if}}
-                                    <OsfLink
-                                        data-test-download-button
-                                        aria-label={{t 'general.download'}}
-                                        @href='#'
-                                    >
-                                        <FaIcon @icon='download' />
-                                    </OsfLink>
+                                    {{#unless manager.isAnonymous}}
+                                        <OsfLink
+                                            data-test-download-button
+                                            aria-label={{t 'general.download'}}
+                                            @href='#'
+                                        >
+                                            <FaIcon @icon='download' />
+                                        </OsfLink>
+                                    {{/unless}}
                                 {{/unless}}
                             </div>
                         </div>
