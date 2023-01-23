@@ -39,11 +39,6 @@
     }
 }
 
-.ember-basic-dropdown-trigger,
-.ember-power-select-trigger {
-    width: 600px;
-}
-
 .edit-metadata-description {
     flex-direction: column;
 
@@ -78,15 +73,6 @@
     }
 }
 
-.resource-language-cancel-save-buttons {
-    display: flex;
-    flex-direction: column;
-
-    button {
-        width: 100%;
-    }
-}
-
 .resource-type-and-language {
     flex-direction: column;
 
@@ -102,10 +88,6 @@
 }
 
 .subjects {
-    // div {
-    //     display: block;
-    // }
-
     dl {
         width: 100%;
     }
@@ -146,6 +128,11 @@
     div {
         display: block;
         width: 250px;
+    }
+
+    :global(.ember-basic-dropdown-trigger),
+    :global(.ember-power-select-trigger) {
+        width: 600px;
     }
 }
 
