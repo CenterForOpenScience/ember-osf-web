@@ -405,4 +405,34 @@ export function registrationScenario(
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
+
+    const intitial = server.create('registration', {
+        id: 'initial',
+        title: 'Initial Model: Contributor View',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Initial,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.RevisionInProgress,
+        currentUserPermissions: [Permission.Write],
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
+
+    server.create('schema-response', {
+        id: 'copyEditInitial',
+        revisionJustification: 'Copy Edit',
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: intitial,
+    });
 }
