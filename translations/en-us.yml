@@ -1398,6 +1398,10 @@ registries:
     form_view:
         none_selected: 'None selected'
     overview:
+        initial:
+            text: 'Pending'
+            short_description: 'Pending admin contributor approval'
+            long_description: 'This registration is awaiting decision by the admin contributors. An email will notify all registration contributors of the decision.'
         files:
             outputFeaturePopoverHeading: 'New feature!'
             outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
