@@ -37,11 +37,8 @@ module('Acceptance | guid file | registration files', hooks => {
                 _anonymized: false,
             },
             'currentUserAdmin',
-            'withAffiliatedInstitutions',
             'withContributors',
-            'withDoi',
             'withFiles',
-            'withLicense',
             'withRegistrations',
         );
     });
