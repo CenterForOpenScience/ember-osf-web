@@ -76,15 +76,15 @@
                             <div local-class='edit-download-buttons'>
                                 {{#unless manager.inEditMode}}
                                     {{#if manager.userCanEdit}}
-                                        <BsButton
+                                        <Button
                                           data-test-edit-metadata-button
                                           aria-label={{t 'general.edit'}}
                                           data-analytics-name='Edit metadata'
                                           @layout='fake-link'
-                                          @onClick={{@manager.edit}}
+                                          {{on 'click' @manager.edit}}
                                         >
                                             <FaIcon @icon='pencil-alt' />
-                                        </BsButton>
+                                        </Button>
                                     {{/if}}
                                     {{#unless manager.isAnonymous}}
                                         <OsfLink
