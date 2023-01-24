@@ -23,7 +23,9 @@ import NodeModel from 'ember-osf-web/models/node';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import LicenseModel from 'ember-osf-web/models/license';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import { LanguageCode, languageCodes } from 'ember-osf-web/utils/languages';
+import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 
 interface Args {
     file: FileModel;
@@ -45,6 +47,7 @@ export interface FileMetadataManager {
     userCanEdit: boolean;
     isDirty: boolean;
     isGatheringData: boolean;
+    metadataDownloadUrl: string;
 }
 
 export function languageFromLanguageCode(languageCode: string){
@@ -55,10 +58,21 @@ export function languageFromLanguageCode(languageCode: string){
     return '';
 }
 
+export function metadataDownloadUrlBuilder(guid: string, currentUser: CurrentUser){
+    let url = `/${guid}/metadata/`;
+    const { viewOnlyToken } = currentUser;
+    url = addQueryParam(url, 'format', 'datacite-json');
+    if (viewOnlyToken) {
+        url = addQueryParam(url, 'view_only', viewOnlyToken);
+    }
+    return url;
+}
+
 export default class FileMetadataManagerComponent extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service currentUser!: CurrentUser;
 
     @tracked metadataRecord!: CustomFileMetadataRecordModel;
     @tracked targetMetadata!: CustomItemMetadataRecordModel;
@@ -105,6 +119,10 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     get targetLanguageFromCode(){
         const languageCode = this.targetMetadata?.language || '';
         return languageFromLanguageCode(languageCode);
+    }
+
+    get metadataDownloadUrl() {
+        return metadataDownloadUrlBuilder(this.file.guid, this.currentUser);
     }
 
     @task

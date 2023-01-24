@@ -90,7 +90,8 @@
                                         <OsfLink
                                             data-test-download-button
                                             aria-label={{t 'general.download'}}
-                                            @href='#'
+                                            @href={{manager.metadataDownloadUrl}}
+                                            @target='_blank'
                                         >
                                             <FaIcon @icon='download' />
                                         </OsfLink>
