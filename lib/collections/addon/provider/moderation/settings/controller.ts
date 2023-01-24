@@ -7,6 +7,9 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 export default class ModerationSettingsController extends Controller {
     userSettingsLink = pathJoin(config.OSF.url, 'settings', 'notifications');
     @alias('model.id') providerId?: string;
+    get options() {
+        return { providerId: this.providerId };
+    }
 
     @computed('providerId')
     get subscriptionIds() {

@@ -25,6 +25,7 @@ export default class SubscriptionsManager extends Component {
     // optional arguments
     subscriptionIds?: string[];
     type: SubscriptionType = 'subscription';
+    options: any = {};
 
     // tracked properties
     @tracked subscriptions: ArrayProxy<SubscriptionModel> | SubscriptionModel[] | null = null;
@@ -36,9 +37,10 @@ export default class SubscriptionsManager extends Component {
             if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
                 this.subscriptions = await this.store.query(this.type, {
                     'filter[id]': this.subscriptionIds.join(','),
+                    ...this.options,
                 });
             } else {
-                this.subscriptions = await this.store.findAll(this.type);
+                this.subscriptions = await this.store.findAll(this.type, this.options);
             }
         } catch (e) {
             captureException(e);
