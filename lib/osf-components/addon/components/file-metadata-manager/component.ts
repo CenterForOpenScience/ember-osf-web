@@ -48,7 +48,6 @@ export interface FileMetadataManager {
     isDirty: boolean;
     isGatheringData: boolean;
     metadataDownloadUrl: string;
-    selectedLanguage: string;
 }
 
 export function languageFromLanguageCode(languageCode: string){

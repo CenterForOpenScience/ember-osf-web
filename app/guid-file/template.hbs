@@ -134,7 +134,7 @@
                                                 @valuePath='languageObject'
                                                 @searchField='name'
                                                 @searchEnabled={{true}}
-                                                @searchPlaceholder={{t 'file_detail.choose_language'}}
+                                                @placeholder={{t 'file_detail.choose_language'}}
                                                 as |option|
                                             >
                                                 {{option.name}}
@@ -188,7 +188,9 @@
                                         {{/if}}
                                     </dl>
                                 {{else}}
-                                    {{t 'file_detail.enter_metadata'}}
+                                    {{#if manager.userCanEdit}}
+                                        {{t 'file_detail.enter_metadata'}}
+                                    {{/if}}
                                 {{/if}}
                                 <h2 local-class='node-type-heading'>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
                                 {{#unless manager.isAnonymous}}
