@@ -22,6 +22,7 @@
             {{#let 'collections.provider.moderation.moderators' as |moderatorsRoute|}}
                 <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
                     <OsfLink
+                        data-analytics-name='Collection moderation moderators tab'
                         data-test-collections-moderation-moderators-tab
                         @route={{moderatorsRoute}}
                         @models={{array this.model.id}}
@@ -33,6 +34,7 @@
             {{#let 'collections.provider.moderation.settings' as |settingsRoute|}}
                 <nav.item @active={{eq this.target.currentRouteName settingsRoute}}>
                     <OsfLink
+                        data-analytics-name='Collection moderation settings tab'
                         data-test-collections-moderation-settings-tab
                         @route={{settingsRoute}}
                         @models={{array this.model.id}}

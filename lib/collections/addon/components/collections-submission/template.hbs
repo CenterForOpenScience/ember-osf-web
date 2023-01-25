@@ -1,4 +1,4 @@
-<CollectionSubmissionConfirmationModal
+<CollectionsSubmission::CollectionSubmissionConfirmationModal
     @openModal={{this.showSubmitModal}}
     @resubmitToCollection={{action (perform this.resubmit)}}
     @addToCollection={{action (perform this.save)}}
@@ -55,6 +55,7 @@
             <section.active>
                 {{#if this.collectionItem}}
                     <ProjectMetadata
+                        @provider={{this.provider}}
                         @node={{this.collectionItem}}
                         @makePublicOnSave={{true}}
                         @continue={{action this.nextSection}}
@@ -183,9 +184,18 @@
                         @disabled={{this.removeSubmission.isRunning}}
                         @buttonLabel={{t (concat this.intlKeyPrefix 'remove_button')}}
                         @modalTitle={{t (concat this.intlKeyPrefix 'remove_modal_title')}}
-                        @modalBody={{t (concat this.intlKeyPrefix 'remove_modal_body') title=this.collectionItem.title}}
                         @confirmButtonText={{t (concat this.intlKeyPrefix 'remove_button')}}
-                    />
+                    >
+                        {{t (concat this.intlKeyPrefix 'remove_modal_body') title=this.collectionItem.title}}
+                        <div>
+                            <Textarea
+                                data-test-collections-remove-reason
+                                local-class='remove-textarea'
+                                @placeholder={{t (concat this.intlKeyPrefix 'remove_reason_placeholder')}}
+                                @value={{this.removeReason}}
+                            />
+                        </div>
+                    </DeleteButton>
                 {{/if}}
                 <div class='text-right'>
                     <button

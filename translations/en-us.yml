@@ -487,6 +487,7 @@ validationErrors:
     year_format: 'Please specify a valid year.'
     no_updated_responses: 'No changes have been made in this update.'
     moderator_comment: 'Please provide feedback for your decision.'
+    license_not_accepted: 'Please select a license that is accepted by this collection.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
@@ -768,6 +769,7 @@ app_components:
         field_license_placeholder: ""
         field_tags_label: 'Tags:'
         field_tags_placeholder: 'Add a tag'
+        invalid_metadata: 'Please enter all the necessary fields.'
         save_success: 'Project Metadata saved.'
         save_error: 'Unable to save Project Metadata.'
     query_syntax:
@@ -910,6 +912,7 @@ collections:
         remove_button: 'Remove from collection'
         remove_modal_title: 'Remove from collection'
         remove_modal_body: 'Are you sure you want to remove {title} from the collection?'
+        remove_reason_placeholder: 'Optional reason for removal'
         remove_success: '{title} has been removed from the collection.'
         remove_error: 'Error removing {title} from the collection.'
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
@@ -918,6 +921,7 @@ collections:
         body: 'Once submitted to the collection, the project will be made public. It can later be made private again.'
         body_moderated: 'A moderator will review your submission before it is included in the collection.'
         body_resubmit: 'This project was removed or rejected from this collection. Do you want to resubmit it?'
+        resubmit_reason_placeholder: 'Optional reason to resubmit project.'
         add_button: 'Add to collection'
         resubmit: 'Resubmit'
     collection_item_picker:
@@ -1660,7 +1664,7 @@ meetings:
             image_alt: 'Meeting logo image'
             add_your: 'Add your'
             send_email: 'Send an email to the following address(es) from the email account you would like used on the OSF:'
-            email_text: 'For {typeName}, email <a href="{emailAddress}">{emailAddress}</a>'
+            email_text_mail_to: 'For {typeName}, email <a href="mailto:{emailAddress}">{emailAddress}</a>'
             format_header: 'The format of the email should be as follows:'
             subject: Subject
             message_body: 'Message body'
@@ -1728,7 +1732,8 @@ routes:
         email: Email
 osf-components:
     resources-list:
-        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
+        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
+        add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
         help_doc_link: 'Learn more about linking resources to your registration'
         add_button_aria_label: 'Add resource'
         data: Data
@@ -2133,9 +2138,9 @@ osf-components:
             registrationSubmitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
             revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
             revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
-            collectionAction: 'Submission {action} {date} by {user}'
-            collectionContributorAction: 'Submission {action} {date} by contributor {contributor}'
-            collectionModeratorAction: 'Submission {action} {date} by moderator {moderator}'
+            collectionAction: 'Item {action} {date} by {user}'
+            collectionContributorAction: 'Request {action} {date} by contributor {contributor}'
+            collectionModeratorAction: 'Request {action} {date} by moderator {moderator}'
 
 
     subscriptions:
@@ -2187,12 +2192,12 @@ osf-components:
         acceptRevisionDescription: 'Update will be accepted and registration will be updated'
         rejectRevision: 'Reject update'
         rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
-        acceptCollectionSubmission: 'Accept submission'
-        acceptCollectionSubmissionDescription: 'Project will appear in search results and be associated with the collection'
-        rejectCollectionSubmission: 'Reject submission'
-        rejectCollectionSubmissionDescription: 'Project will not appear in search results nor be associated with the collection'
-        removeCollectionSubmission: 'Remove submission'
-        removeCollectionSubmissionDescription: 'Collection will be removed from the collection and no longer appear in search results'
+        acceptCollectionSubmission: 'Accept Request'
+        acceptCollectionSubmissionDescription: 'Submission will appear in search results and be associated with the collection'
+        rejectCollectionSubmission: 'Reject Request'
+        rejectCollectionSubmissionDescription: 'Submission will not appear in search results nor be associated with the collection'
+        removeCollectionSubmission: 'Remove item'
+        removeCollectionSubmissionDescription: 'Item will be removed from the collection and no longer appear in search results'
         submit: 'Submit'
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
@@ -2228,6 +2233,13 @@ settings:
         employment:
             title: Employment
     account:
+        affiliatedInstitutions:
+            affiliatedInstitutions: 'Affiliated institutions'
+            noAffiliations: 'You have no affiliations.'
+            helpText: 'Affiliated Institutions connect your OSF account to your institution or organization. <br>Affiliated Institutions can be removed from your profile here.'
+            deleteModalTitle: 'Delete affiliated institutions'
+            deleteModalBody: 'Are you sure you want to delete your affiliation to <b>{institutionName}</b>? This will remove the affiliation from your OSF content. The affiliation will be restored if you use your institution''s single sign-on in the future.'
+            deleteError: 'Could not delete affiliated institutions. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}'
         deactivation:
             title: 'Deactivate account'
             body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="https://help.osf.io/">merging your accounts</a>.'

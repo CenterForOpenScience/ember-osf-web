@@ -10,13 +10,13 @@ import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import License from 'ember-osf-web/models/license';
-import Node from 'ember-osf-web/models/node';
+import Node, { NodeLicense } from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Provider from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 
-import ValidatedModelForm from 'osf-components/components/validated-model-form/component';
+import FormControls from 'osf-components/components/form-controls/component';
 import styles from './styles';
 import template from './template';
 
@@ -27,7 +27,7 @@ export default class LicensePicker extends Component {
     @service theme!: Theme;
     @service intl!: Intl;
 
-    form?: ValidatedModelForm<'node'>;
+    form?: FormControls;
     node!: Node;
     placeholder = this.intl.t('registries.registration_metadata.select_license');
 
@@ -36,7 +36,7 @@ export default class LicensePicker extends Component {
     helpLink = 'https://help.osf.io/';
 
     @alias('theme.provider') provider!: Provider;
-    @alias('node.license') selected!: License;
+    @alias('form.changeset.license') selected!: License;
 
     @sort('selected.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
@@ -65,7 +65,27 @@ export default class LicensePicker extends Component {
 
     @action
     changeLicense(selected: License) {
-        this.node.setNodeLicenseDefaults(selected.requiredFields);
+        this.selected = selected;
+        this.setNodeLicenseDefaults(selected.requiredFields);
+    }
+
+    setNodeLicenseDefaults(requiredFields: Array<keyof NodeLicense>): void {
+        const { changeset } = this.form!;
+        const {
+            copyrightHolders = '',
+            year = new Date().getUTCFullYear().toString(),
+        } = (changeset.get('nodeLicense') || {});
+
+        const nodeLicenseDefaults: NodeLicense = {
+            copyrightHolders,
+            year,
+        };
+        // Only set the required fields on nodeLicense
+        const props = requiredFields.reduce(
+            (acc, val) => ({ ...acc, [val]: nodeLicenseDefaults[val] }),
+            {},
+        );
+        changeset.set('nodeLicense', props);
     }
 
     @action
