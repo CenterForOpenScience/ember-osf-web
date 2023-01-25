@@ -13,7 +13,6 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import { MirageFile } from 'ember-osf-web/mirage/factories/file';
-import { MirageNode } from 'ember-osf-web/mirage/factories/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import RegistrationModel from 'ember-osf-web/models/registration';
@@ -21,7 +20,6 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 interface ThisTestContext extends TestContext {
     registration: ModelInstance<RegistrationModel>;
     file: ModelInstance<MirageFile>;
-    node: ModelInstance<MirageNode>;
 }
 
 module('Acceptance | guid file | registration files', hooks => {
@@ -31,13 +29,6 @@ module('Acceptance | guid file | registration files', hooks => {
     hooks.beforeEach(function(this: ThisTestContext) {
         this.registration = server.create('registration');
         this.file = server.create('file', { target: this.registration, name: 'Test File' });
-        this.node = server.create(
-            'node',
-            'currentUserAdmin',
-            'withContributors',
-            'withFiles',
-            'withRegistrations',
-        );
     });
 
     test('Desktop view', async function(this: ThisTestContext, assert) {
@@ -122,8 +113,17 @@ module('Acceptance | guid file | registration files', hooks => {
 
     // Test file metadata
     test('view metadata', async function(this: ThisTestContext, assert) {
+        const node = server.create('node', {
+            id: 'mtadt',
+            currentUserPermissions: [],
+        });
+
+        const metadataRecord = await this.owner.lookup('service:store')
+            .findRecord('custom-item-metadata-record', node.id);
         const nodeNoun = ['Registration','Project','Component'];
+
         setBreakpoint('desktop');
+
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
@@ -164,9 +164,19 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.equal(nounFound, true, 'Node noun properly set.');
         // Funder metadata
         assert.dom('[data-test-target-funder-div]').exists();
-        // Funder name
         assert.dom('[data-test-target-funder-name-label]').hasText('Funder',
             'File metadata funder text is properly set.');
+        const originalFunders = metadataRecord.funders;
+        for (const funder of originalFunders) {
+            assert.dom(`[data-test-display-funder-name="${funder.funder_name}"]`)
+                .containsText(funder.funder_name, `Funder name is unchanged for ${funder.funder_name}`);
+            assert.dom(`[data-test-display-funder-award-title="${funder.funder_name}"]`)
+                .containsText(funder.award_title, `Funder award title is unchanged for ${funder.funder_name}`);
+            assert.dom(`[data-test-display-funder-award-uri="${funder.funder_name}"]`)
+                .containsText(funder.award_uri,  `Funder award URI is unchanged for ${funder.funder_name}`);
+            assert.dom(`[data-test-display-funder-award-number="${funder.funder_name}"`)
+                .containsText(funder.award_number,  `Funder award number is unchanged for ${funder.funder_name}`);
+        }
         assert.dom('[data-test-target-funder-name]').exists();
         // Award title
         assert.dom('[data-test-target-funder-award-title-label]').hasText('Award title',
@@ -198,13 +208,18 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-target-institutions]').exists();
     });
 
-    // Test metadata save and cancel buttons
+    // Test metadata save and cancel buttons with contributors
     test('save and cancel', async function(this: ThisTestContext, assert) {
+        const node = server.create('node', {
+            id: 'mtadt',
+            currentUserPermissions: [Permission.Write],
+        });
+
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
         // Verify download
-        if (!this.node._anonymized) {
+        if (!node.isAnonymous) {
             assert.dom('[data-test-download-button]').exists();
         }
 
@@ -248,7 +263,7 @@ module('Acceptance | guid file | registration files', hooks => {
             const resourceOption = `data-option-index="${resourceOptionRandom}"`;
             const resourceElement = document.querySelectorAll(resourceOption)[0];
             await click(resourceElement);
-            // Resource Language
+            // Update Resource Language
             const resourceLanguageDropdown = document.querySelectorAll('[data-test-power-select-dropdown]')[1];
             await click(resourceLanguageDropdown);
             const resourceLanguageList  = document.evaluate(
@@ -277,5 +292,19 @@ module('Acceptance | guid file | registration files', hooks => {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
         await a11yAudit();
+
+        // verify metadata
+        await click('[data-test-metadata-button]');
+        await a11yAudit();
+
+        // verify versions
+        await click('[data-test-versions-button]');
+        await a11yAudit();
+
+        // verify tags
+        await click('[data-test-tags-button]');
+        await a11yAudit();
+
+        assert.ok('No A11y issues');
     });
 });
