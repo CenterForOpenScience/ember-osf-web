@@ -68,6 +68,7 @@ export default class RegistriesStates extends Component {
         return {
             short: this.intl.t(`registries.overview.${stateKey}.short_description`),
             long: this.intl.t(`registries.overview.${stateKey}.long_description`, {
+                supportEmail: config.support.supportEmail,
                 projectUrl: this.projectUrl,
                 embargoEndDate: this.registration.embargoEndDate
                   && moment(this.registration.embargoEndDate).format('MMMM D, YYYY'),

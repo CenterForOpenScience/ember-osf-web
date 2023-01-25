@@ -1403,8 +1403,9 @@ registries:
             short_description: 'Pending admin contributor approval'
             long_description: 'This registration is awaiting approval by all admin contributors or after 48 hours has passed. An email will notify all registration contributors of the decision.
             <br><br>
-            If the registration is pending after 48 hours has passed, contact support at support@osf.io.'
+            If the registration is pending after 48 hours has passed, contact support at {supportEmail}.'
         files:
+
             outputFeaturePopoverHeading: 'New feature!'
             outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
             title: Files
