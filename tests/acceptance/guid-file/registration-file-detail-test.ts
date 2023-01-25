@@ -61,10 +61,10 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-tags-button]').exists('Tags button exists');
         await percySnapshot('Acceptance | guid file | registration files | mobile view | file renderer');
 
-        assert.dom('[data-test-file-renderer]').isVisible();
-        assert.dom('[data-test-metadata-tab]').isNotVisible();
-        assert.dom('[data-test-revisions-tab]').isNotVisible();
-        assert.dom('[data-test-tags-tab]').isNotVisible();
+        assert.dom('[data-test-file-renderer]').exists();
+        assert.dom('[data-test-metadata-tab]').doesNotExist();
+        assert.dom('[data-test-revisions-tab]').doesNotExist();
+        assert.dom('[data-test-tags-tab]').doesNotExist();
 
         // click tags and verify appropriate panels shown
         await click('[data-test-versions-button]');
@@ -128,9 +128,9 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
         // Verify correct tab on dekstop
-        assert.dom('[data-test-metadata-tab]').isVisible();
-        assert.dom('[data-test-revisions-tab]').isNotVisible();
-        assert.dom('[data-test-tags-tab]').isNotVisible();
+        assert.dom('[data-test-metadata-tab]').exists();
+        assert.dom('[data-test-revisions-tab]').doesNotExist();
+        assert.dom('[data-test-tags-tab]').doesNotExist();
 
         // Verify favicon
         assert.dom('[data-test-metadata-button]').hasAria('label', 'Close metadata',
@@ -234,7 +234,7 @@ module('Acceptance | guid file | registration files', hooks => {
             assert.dom('[data-test-cancel-editing-metadata-button]').exists();
             assert.dom('[data-test-save-metadata-button]').exists();
             await click('[data-test-cancel-editing-metadata-button]');
-            assert.dom('[data-test-edit-metadata-form]').isNotVisible();
+            assert.dom('[data-test-edit-metadata-form]').doesNotExist();
             await click('[data-test-edit-metadata-button]');
 
             // Screenshot before changes
@@ -283,8 +283,8 @@ module('Acceptance | guid file | registration files', hooks => {
             await click('[data-test-save-metadata-button]');
         }
         // Verify form properly closes
-        assert.dom('[data-test-edit-metadata-form]').isNotVisible();
-        assert.dom('[data-test-metadata-tab]').isVisible();
+        assert.dom('[data-test-edit-metadata-form]').doesNotExist();
+        assert.dom('[data-test-metadata-tab]').exists();
     });
 
     // Verify A11y testing
