@@ -33,9 +33,6 @@ module('Acceptance | guid file | registration files', hooks => {
         this.file = server.create('file', { target: this.registration, name: 'Test File' });
         this.node = server.create(
             'node',
-            {
-                _anonymized: false,
-            },
             'currentUserAdmin',
             'withContributors',
             'withFiles',
