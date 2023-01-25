@@ -121,6 +121,7 @@
                                                 @options={{manager.resourceTypeGeneralOptions}}
                                                 @label={{t 'file_detail.resource_type_general'}}
                                                 @valuePath='resourceTypeGeneral'
+                                                @placeholder={{t 'file_detail.choose_resource_type_general'}}
                                                 as |option|
                                             >
                                                 {{option}}
@@ -132,7 +133,8 @@
                                                 @onchange={{manager.changeLanguage}}
                                                 @valuePath='languageObject'
                                                 @searchField='name'
-                                                @searchEnabled=true
+                                                @searchEnabled={{true}}
+                                                @searchPlaceholder={{t 'file_detail.choose_language'}}
                                                 as |option|
                                             >
                                                 {{option.name}}
@@ -161,69 +163,111 @@
                                     </div>
                                 </div>
                             {{else}}
-                                <dl>
-                                    <dt>{{t 'file_detail.title'}}</dt>
-                                    <dd data-test-file-title>{{manager.metadataRecord.title}}</dd>
-                                    <dt>{{t 'file_detail.description'}}</dt>
-                                    <dd data-test-file-description>{{manager.metadataRecord.description}}</dd>
-                                    <dt>{{t 'file_detail.resource_type_general'}}</dt>
-                                    <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
-                                    <dt>{{t 'file_detail.language'}}</dt>
-                                    <dd data-test-file-language>{{manager.languageFromCode}}</dd>
-                                </dl>
+                                {{#if (or
+                                    manager.metadataRecord.title
+                                    manager.metadataRecord.description
+                                    manager.metadataRecord.resourceTypeGeneral
+                                    manager.languageFromCode
+                                )}}
+                                    <dl>
+                                        {{#if manager.metadataRecord.title}}
+                                            <dt>{{t 'file_detail.title'}}</dt>
+                                            <dd data-test-file-title>{{manager.metadataRecord.title}}</dd>
+                                        {{/if}}
+                                        {{#if manager.metadataRecord.description}}
+                                            <dt>{{t 'file_detail.description'}}</dt>
+                                            <dd data-test-file-description>{{manager.metadataRecord.description}}</dd>
+                                        {{/if}}
+                                        {{#if manager.metadataRecord.resourceTypeGeneral}}
+                                            <dt>{{t 'file_detail.resource_type_general'}}</dt>
+                                            <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
+                                        {{/if}}
+                                        {{#if manager.languageFromCode}}
+                                            <dt>{{t 'file_detail.language'}}</dt>
+                                            <dd data-test-file-language>{{manager.languageFromCode}}</dd>
+                                        {{/if}}
+                                    </dl>
+                                {{else}}
+                                    {{t 'file_detail.enter_metadata'}}
+                                {{/if}}
                                 <h2 local-class='node-type-heading'>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
                                 {{#unless manager.isAnonymous}}
                                     <div>
                                         {{#each manager.targetMetadata.funders as |funder|}}
-                                            <dl>
-                                                <dt>{{t 'file_detail.funder'}}</dt>
-                                                <dd data-test-target-funder-name={{funder.funder_name}}>
-                                                    {{funder.funder_name}}
-                                                </dd>
-                                                <dt>{{t 'file_detail.award_title'}}</dt>
-                                                <dd data-test-target-funder-award-title={{funder.funder_name}}>
-                                                    {{funder.award_title}}
-                                                </dd>
-                                                <dt>{{t 'file_detail.award_uri'}}</dt>
-                                                <dd data-test-target-funder-award-uri={{funder.funder_name}}>
-                                                    {{funder.award_uri}}
-                                                </dd>
-                                                <dt>{{t 'file_detail.award_number'}}</dt>
-                                                <dd data-test-target-funder-award-number={{funder.funder_name}}>
-                                                    {{funder.award_number}}
-                                                </dd>
-                                            </dl>
+                                            {{#if (or 
+                                                funder.funder_name
+                                                funder.award_title
+                                                funder.award_uri
+                                                funder.award_number
+                                            )}}
+                                                <dl>
+                                                    {{#if funder.funder_name}}
+                                                        <dt>{{t 'file_detail.funder'}}</dt>
+                                                        <dd data-test-target-funder-name={{funder.funder_name}}>
+                                                            {{funder.funder_name}}
+                                                        </dd>
+                                                    {{/if}}
+                                                    {{#if funder.award_title}}
+                                                        <dt>{{t 'file_detail.award_title'}}</dt>
+                                                        <dd data-test-target-funder-award-title={{funder.funder_name}}>
+                                                            {{funder.award_title}}
+                                                        </dd>
+                                                    {{/if}}
+                                                    {{#if funder.award_uri}}
+                                                        <dt>{{t 'file_detail.award_uri'}}</dt>
+                                                        <dd data-test-target-funder-award-uri={{funder.funder_name}}>
+                                                            {{funder.award_uri}}
+                                                        </dd>
+                                                    {{/if}}
+                                                    {{#if funder.award_number}}
+                                                        <dt>{{t 'file_detail.award_number'}}</dt>
+                                                        <dd data-test-target-funder-award-number={{funder.funder_name}}>
+                                                            {{funder.award_number}}
+                                                        </dd>
+                                                    {{/if}}
+                                                </dl>
+                                            {{/if}}
                                         {{/each}}
                                     </div>
                                 {{/unless}}
                                 <dl>
                                     <dt>{{t 'file_detail.title'}}</dt>
                                     <dd data-test-target-title>{{manager.target.title}}</dd>
-                                    <dt>{{t 'file_detail.description'}}</dt>
-                                    <dd data-test-target-description>{{manager.target.description}}</dd>
-                                    {{#unless manager.isAnonymous}}
-                                        <dt>{{t 'file_detail.contributors'}}</dt>
-                                        <ContributorList
-                                            data-test-target-contributors
-                                            local-class='contributor-list'
-                                            @model={{manager.target}}
-                                            @shouldLinkUsers={{true}}
-                                            @shouldTruncate={{false}}
-                                        />
+                                    {{#if manager.target.description}}
+                                        <dt>{{t 'file_detail.description'}}</dt>
+                                        <dd data-test-target-description>{{manager.target.description}}</dd>
+                                    {{/if}}
+                                    {{#if (and this.targetInstitutions (not manager.isAnonymous))}}
                                         <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
                                         <div data-test-target-institutions>
                                             {{#each this.targetInstitutions as |institution|}}
                                                 <dd>{{institution.name}}</dd>
                                             {{/each}}
                                         </div>
-                                    {{/unless}}
-                                    <dt>{{t 'file_detail.license'}}</dt>
-                                    <dd data-test-target-license-name>{{manager.targetLicense.name}}</dd>
-                                    <dt>{{t 'file_detail.resource_type_general'}}</dt>
-                                    <dd data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</dd>
-                                    <dt>{{t 'file_detail.language'}}</dt>
-                                    <dd data-test-target-language>{{manager.targetLanguageFromCode}}</dd>
+                                    {{/if}}
+                                    {{#if manager.targetLicense.name}}
+                                        <dt>{{t 'file_detail.license'}}</dt>
+                                        <dd data-test-target-license-name>{{manager.targetLicense.name}}</dd>
+                                    {{/if}}
+                                    {{#if manager.targetMetadata.resourceTypeGeneral}}
+                                        <dt>{{t 'file_detail.resource_type_general'}}</dt>
+                                        <dd data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</dd>
+                                    {{/if}}
+                                    {{#if manager.targetLanguageFromCode}}
+                                        <dt>{{t 'file_detail.language'}}</dt>
+                                        <dd data-test-target-language>{{manager.targetLanguageFromCode}}</dd>
+                                    {{/if}}
                                 </dl>
+                                {{#unless manager.isAnonymous}}
+                                    <h3>{{t 'file_detail.contributors'}}</h3>
+                                    <ContributorList
+                                        data-test-target-contributors
+                                        local-class='contributor-list'
+                                        @model={{manager.target}}
+                                        @shouldLinkUsers={{true}}
+                                        @shouldTruncate={{false}}
+                                    />
+                                {{/unless}}
                             {{/if}}
                         {{/if}}
                     </FileMetadataManager>
