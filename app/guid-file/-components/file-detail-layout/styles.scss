@@ -20,6 +20,9 @@
     border-left: 1px solid #ddd;
     display: inline-flex;
     flex-basis: 300px;
+    flex-direction: column;
+    flex-grow: 1;
+    width: 28vw;
 
     &.is-closed {
         display: none;

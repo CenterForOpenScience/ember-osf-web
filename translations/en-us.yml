@@ -143,7 +143,9 @@ file_detail:
     title: 'Title'
     description: 'Description'
     resource_type_general: 'Resource type'
+    choose_resource_type_general: 'Choose a resource type'
     language: 'Resource language'
+    choose_language: 'Choose a language'
     funder: 'Funder'
     award_title: 'Award title'
     award_uri: 'Award URI'
@@ -153,6 +155,7 @@ file_detail:
     contributors: 'Contributors'
     osf_map: 'OSF-MAP'
     schema: 'Schema'
+    enter_metadata: 'Press the edit button to add metadata to this file.'
 dashboard:
     page_title: Home
     title: Dashboard

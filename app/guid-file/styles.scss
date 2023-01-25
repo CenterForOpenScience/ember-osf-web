@@ -72,8 +72,37 @@
     height: 95%;
     margin: 0 20px;
 
+    &.Mobile {
+        width: 90vw;
+    }
+
+    dt {
+        font-size: 17px;
+        font-weight: 600;
+    }
+
+    dt,
+    dd {
+        background-color: #fff;
+        color: #000;
+        margin-bottom: 14px;
+    }
+
     h2 {
+        font-size: 31.5px;
+        font-weight: 300;
+        line-height: 1.1;
         margin-bottom: 20px;
+    }
+
+    dl {
+        margin-bottom: 0;
+    }
+
+    h3 {
+        font-size: 17px;
+        font-weight: 600;
+        margin-top: 10px;
     }
 }
 

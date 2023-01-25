@@ -45,11 +45,17 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         server.create('contributor', { node, users: currentUser, index: 11 });
     }
 
-    server.create('node', {
+    const filesNode = server.create('node', {
         id: 'file5',
         title: 'With some files',
         currentUserPermissions: [Permission.Read, Permission.Write],
-    }, 'withFiles', 'withStorage');
+    }, 'withFiles', 'withStorage', 'withContributors');
+    server.create('contributor', {
+        node: filesNode,
+        users: currentUser,
+        permission: Permission.Write,
+        index: 0,
+    });
 
     // NOTE: Some institutions are already created by this point
     server.createList('institution', 20);
