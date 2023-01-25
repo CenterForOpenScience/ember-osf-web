@@ -102,7 +102,7 @@
                             <LoadingIndicator @dark={{true}} />
                         {{else}}
                             {{#if manager.inEditMode}}
-                                <div local-class='metadata-form-and-buttons' data-test-edit-metadata-form>
+                                <div local-class='metadata-form-and-buttons' data-test-edit-metadata-form-buttons>
                                     <div local-class='edit-metadata-form'>
                                         <FormControls data-test-edit-metadata-form @changeset={{manager.changeset}} as |form|>
                                             <form.textarea
@@ -200,8 +200,8 @@
                                     <dd data-test-target-title>{{manager.target.title}}</dd>
                                     <dt data-test-target-description-label>{{t 'file_detail.description'}}</dt>
                                     <dd data-test-target-description>{{manager.target.description}}</dd>
-                                    <dt data-test-target-contributors-label>{{t 'file_detail.contributors'}}</dt>
                                     {{#unless manager.isAnonymous}}
+                                        <dt data-test-target-contributors-label>{{t 'file_detail.contributors'}}</dt>
                                         <ContributorList
                                             data-test-target-contributors
                                             local-class='contributor-list'
@@ -210,6 +210,7 @@
                                             @shouldTruncate={{false}}
                                         />
                                     {{/unless}}
+                                    <dt local-class='affiliated-institutions' data-test-target-institutions-label>{{t 'file_detail.institutions'}}</dt>
                                     <div data-test-target-institutions>
                                         {{#each this.targetInstitutions as |institution|}}
                                             <dd>{{institution.name}}</dd>
@@ -221,7 +222,6 @@
                                     <dd data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</dd>
                                     <dt>{{t 'file_detail.language'}}</dt>
                                     <dd data-test-target-language>{{manager.targetLanguageFromCode}}</dd>
-                                    <dt local-class='affiliated-institutions' data-test-target-institutions-label>{{t 'file_detail.institutions'}}</dt>
                                 </dl>
                             {{/if}}
                         {{/if}}
