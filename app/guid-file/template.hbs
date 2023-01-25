@@ -196,39 +196,32 @@
                                 {{#unless manager.isAnonymous}}
                                     <div>
                                         {{#each manager.targetMetadata.funders as |funder|}}
-                                            {{#if (or 
-                                                funder.funder_name
-                                                funder.award_title
-                                                funder.award_uri
-                                                funder.award_number
-                                            )}}
-                                                <dl>
-                                                    {{#if funder.funder_name}}
-                                                        <dt>{{t 'file_detail.funder'}}</dt>
-                                                        <dd data-test-target-funder-name={{funder.funder_name}}>
-                                                            {{funder.funder_name}}
-                                                        </dd>
-                                                    {{/if}}
-                                                    {{#if funder.award_title}}
-                                                        <dt>{{t 'file_detail.award_title'}}</dt>
-                                                        <dd data-test-target-funder-award-title={{funder.funder_name}}>
-                                                            {{funder.award_title}}
-                                                        </dd>
-                                                    {{/if}}
-                                                    {{#if funder.award_uri}}
-                                                        <dt>{{t 'file_detail.award_uri'}}</dt>
-                                                        <dd data-test-target-funder-award-uri={{funder.funder_name}}>
-                                                            {{funder.award_uri}}
-                                                        </dd>
-                                                    {{/if}}
-                                                    {{#if funder.award_number}}
-                                                        <dt>{{t 'file_detail.award_number'}}</dt>
-                                                        <dd data-test-target-funder-award-number={{funder.funder_name}}>
-                                                            {{funder.award_number}}
-                                                        </dd>
-                                                    {{/if}}
-                                                </dl>
-                                            {{/if}}
+                                            <dl>
+                                                {{#if funder.funder_name}}
+                                                    <dt>{{t 'file_detail.funder'}}</dt>
+                                                    <dd data-test-target-funder-name={{funder.funder_name}}>
+                                                        {{funder.funder_name}}
+                                                    </dd>
+                                                {{/if}}
+                                                {{#if funder.award_title}}
+                                                    <dt>{{t 'file_detail.award_title'}}</dt>
+                                                    <dd data-test-target-funder-award-title={{funder.funder_name}}>
+                                                        {{funder.award_title}}
+                                                    </dd>
+                                                {{/if}}
+                                                {{#if funder.award_uri}}
+                                                    <dt>{{t 'file_detail.award_uri'}}</dt>
+                                                    <dd data-test-target-funder-award-uri={{funder.funder_name}}>
+                                                        {{funder.award_uri}}
+                                                    </dd>
+                                                {{/if}}
+                                                {{#if funder.award_number}}
+                                                    <dt>{{t 'file_detail.award_number'}}</dt>
+                                                    <dd data-test-target-funder-award-number={{funder.funder_name}}>
+                                                        {{funder.award_number}}
+                                                    </dd>
+                                                {{/if}}
+                                            </dl>
                                         {{/each}}
                                     </div>
                                 {{/unless}}
