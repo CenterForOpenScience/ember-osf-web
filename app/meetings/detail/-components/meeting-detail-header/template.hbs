@@ -55,7 +55,7 @@
         <ul data-test-meeting-email-address-line>
             {{#if this.meeting.isAcceptingTypeOne}}
                 <li>
-                    {{t 'meetings.detail.meeting-detail-header.email_text'
+                    {{t 'meetings.detail.meeting-detail-header.email_text_mail_to'
                         typeName=this.meeting.fieldNames.submission1_plural
                         emailAddress=this.meeting.typeOneSubmissionEmail
                         htmlSafe=true
@@ -65,7 +65,7 @@
 
             {{#if this.meeting.isAcceptingTypeTwo}}
                 <li>
-                    {{t 'meetings.detail.meeting-detail-header.email_text'
+                    {{t 'meetings.detail.meeting-detail-header.email_text_mail_to'
                         typeName=this.meeting.fieldNames.submission2_plural
                         emailAddress=this.meeting.typeTwoSubmissionEmail
                         htmlSafe=true
