@@ -1872,6 +1872,8 @@ osf-components:
         award-title: 'Award title:'
         award-info-uri: 'Award info URI:'
         award-number: 'Award number:'
+        choose-resource-type-general: 'Choose a resource type'
+        choose-language: 'Choose a language'
     open-badges-list:
         title: 'Open resources'
         open-data: 'Data'
@@ -1940,7 +1942,8 @@ osf-components:
         award_title: 'Award title'
         award_info_uri: 'Award info URI'
         award_number: 'Award number'
-        add_another: 'Add another'
+        add_another: 'Add funder'
+        delete: 'Delete funder'
         error: '"Funder name", "Award title" ,"Award info URI" or "Award number" has to be specified.'
     move_file_modal:
         move_header: 'Move {itemCount, plural, one {# item} other {# items}}'
