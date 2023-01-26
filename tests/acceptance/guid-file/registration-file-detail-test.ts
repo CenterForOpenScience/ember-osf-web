@@ -12,14 +12,13 @@ import { TestContext } from 'ember-test-helpers';
 
 import { module, test } from 'qunit';
 
-import { MirageFile } from 'ember-osf-web/mirage/factories/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
 interface ThisTestContext extends TestContext {
     registration: ModelInstance<RegistrationModel>;
-    file: ModelInstance<MirageFile>;
+    file: ModelInstance<FileModel>;
 }
 
 module('Acceptance | guid file | registration files', hooks => {
@@ -113,16 +112,9 @@ module('Acceptance | guid file | registration files', hooks => {
 
     // Test file metadata
     test('view metadata', async function(this: ThisTestContext, assert) {
-        const node = server.create('node', {
-            id: 'mtadt',
-            currentUserPermissions: [],
-        });
-
-        const metadataRecord = await this.owner.lookup('service:store')
-            .findRecord('custom-item-metadata-record', node.id);
         const nodeNoun = ['Registration','Project','Component'];
-
-        setBreakpoint('desktop');
+        const metadataRecord = await this.owner.lookup('service:store')
+            .findRecord('custom-item-metadata-record', this.registration.id);
 
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
@@ -158,38 +150,50 @@ module('Acceptance | guid file | registration files', hooks => {
             'File metadata resource language text is properly set.');
         assert.dom('[data-test-file-language]').exists();
 
-        // Metadata node type
+        // Node metadata
         const nodeNounElement = document.querySelectorAll('[data-test-metadata-node]')[0].textContent;
         const nounFound = nodeNoun.some(r => nodeNounElement?.includes(r));
         assert.equal(nounFound, true, 'Node noun properly set.');
-        // Funder metadata
-        assert.dom('[data-test-target-funder-div]').exists();
-        assert.dom('[data-test-target-funder-name-label]').hasText('Funder',
-            'File metadata funder text is properly set.');
-        const originalFunders = metadataRecord.funders;
-        for (const funder of originalFunders) {
-            assert.dom(`[data-test-display-funder-name="${funder.funder_name}"]`)
-                .containsText(funder.funder_name, `Funder name is unchanged for ${funder.funder_name}`);
-            assert.dom(`[data-test-display-funder-award-title="${funder.funder_name}"]`)
-                .containsText(funder.award_title, `Funder award title is unchanged for ${funder.funder_name}`);
-            assert.dom(`[data-test-display-funder-award-uri="${funder.funder_name}"]`)
-                .containsText(funder.award_uri,  `Funder award URI is unchanged for ${funder.funder_name}`);
-            assert.dom(`[data-test-display-funder-award-number="${funder.funder_name}"`)
-                .containsText(funder.award_number,  `Funder award number is unchanged for ${funder.funder_name}`);
+        if (!this.registration.isAnonymous && (this.registration.contributors.length !== 0)) {
+            // Target contributors
+            assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
+                'File metadata contributor text is properly set.');
+            assert.dom('[data-test-target-contributors]').exists();
+            // Target Institutions
+            assert.dom('[data-test-target-institutions-label]').hasText('Affiliated institutions',
+                'File affiliated institutions text is properly set.');
+            assert.dom('[data-test-target-institutions]').exists();
         }
-        assert.dom('[data-test-target-funder-name]').exists();
-        // Award title
-        assert.dom('[data-test-target-funder-award-title-label]').hasText('Award title',
-            'File metadata award title text is properly set.');
-        assert.dom('[data-test-target-funder-award-title]').exists();
-        // Award URI
-        assert.dom('[data-test-target-funder-award-uri-label]').hasText('Award URI',
-            'File metadata award URI text is properly set.');
-        assert.dom('[data-test-target-funder-award-uri]').exists();
-        // Award number
-        assert.dom('[data-test-target-funder-award-number-label]').hasText('Award number',
-            'File metadata award number text is properly set.');
-        assert.dom('[data-test-target-funder-award-number]').exists();
+        // Funder metadata
+        if (!this.registration.isAnonymous && metadataRecord.funder) {
+            assert.dom('[data-test-target-funder-div]').exists();
+            for (const funder of metadataRecord.funders) {
+                // Funder name
+                assert.dom('[data-test-target-funder-name-label]').hasText('Funder',
+                    'File metadata funder text is properly set.');
+                assert.dom('[data-test-target-funder-name]').exists();
+                assert.dom(`[data-test-target-funder-name="${funder.funder_name}"]`)
+                    .containsText(funder.funder_name, `Funder name is unchanged for ${funder.funder_name}`);
+                // Award title
+                assert.dom('[data-test-target-funder-award-title-label]').hasText('Award title',
+                    'File metadata award title text is properly set.');
+                assert.dom('[data-test-target-funder-award-title]').exists();
+                assert.dom(`[data-test-target-funder-award-title="${funder.award_title}"]`)
+                    .containsText(funder.award_title, `Funder award title is unchanged for ${funder.funder_name}`);
+                // Award URI
+                assert.dom('[data-test-target-funder-award-uri-label]').hasText('Award URI',
+                    'File metadata award URI text is properly set.');
+                assert.dom('[data-test-target-funder-award-uri]').exists();
+                assert.dom(`[ data-test-target-funder-award-uri="${funder.award_uri}"]`)
+                    .containsText(funder.award_uri, `Funder award URI is unchanged for ${funder.funder_name}`);
+                // Award number
+                assert.dom('[data-test-target-funder-award-number-label]').hasText('Award number',
+                    'File metadata award number text is properly set.');
+                assert.dom('[data-test-target-funder-award-number]').exists();
+                assert.dom(`[data-test-target-funder-award-number="${funder.award_number}"`)
+                    .containsText(funder.award_number, `Funder award number is unchanged for ${funder.funder_name}`);
+            }
+        }
         // Target title
         assert.dom('[data-test-target-title-label]').hasText('Title',
             'File metadata target title text is properly set.');
@@ -198,35 +202,22 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-target-description-label]').hasText('Description',
             'File metadata target description text is properly set.');
         assert.dom('[data-test-target-description]').exists();
-        // Target contributors
-        assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
-            'File metadata contributor text is properly set.');
-        assert.dom('[data-test-target-contributors]').exists();
-        // Target Institutions label
-        assert.dom('[data-test-target-institutions-label]').hasText('Affiliated institutions',
-            'File affiliated institutions text is properly set.');
-        assert.dom('[data-test-target-institutions]').exists();
+
     });
 
-    // Test metadata save and cancel buttons with contributors
+    // Save and cancel buttons with write permissions
     test('save and cancel', async function(this: ThisTestContext, assert) {
-        const node = server.create('node', {
-            id: 'mtadt',
-            currentUserPermissions: [Permission.Write],
-        });
-
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
         // Verify download
-        if (!node.isAnonymous) {
+        if (!this.registration.isAnonymous) {
             assert.dom('[data-test-download-button]').exists();
         }
 
         // Verify edit
         if (this.file.target.currentUserPermissions.includes(Permission.Write)) {
             await click('[data-test-edit-metadata-button]');
-            // Verify editable fields are present
             assert.dom('[data-test-title-field]').exists();
             assert.dom('[data-test-description-field]').exists();
             assert.dom('[data-test-select-resource-type]').exists();
@@ -282,7 +273,7 @@ module('Acceptance | guid file | registration files', hooks => {
             // Save changes
             await click('[data-test-save-metadata-button]');
         }
-        // Verify form properly closes
+        // Verify form closes
         assert.dom('[data-test-edit-metadata-form]').doesNotExist();
         assert.dom('[data-test-metadata-tab]').exists();
     });
