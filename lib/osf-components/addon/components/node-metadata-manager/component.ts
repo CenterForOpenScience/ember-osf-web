@@ -11,7 +11,7 @@ import { BufferedChangeset } from 'ember-changeset/types';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
-import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
+import NodeModel from 'ember-osf-web/models/node';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
 import { resourceTypeGeneralOptions } from 'ember-osf-web/models/custom-metadata';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -21,12 +21,11 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from '@glimmer/tracking';
 
 import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
-import NodeModel from 'ember-osf-web/models/node';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import LicenseModel from 'ember-osf-web/models/license';
 
 interface Args {
-    node: (AbstractNodeModel);
+    node: (NodeModel);
 }
 
 export interface NodeMetadataManager {
@@ -34,7 +33,7 @@ export interface NodeMetadataManager {
     save: () => void;
     cancel: () => void;
     metadata: CustomItemMetadataRecordModel;
-    node: (AbstractNodeModel);
+    node: (NodeModel);
     changeset: BufferedChangeset;
     inEditMode: boolean;
     isSaving: boolean;
@@ -51,7 +50,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @service toast!: Toast;
 
     @tracked metadata!: CustomItemMetadataRecordModel;
-    node: (AbstractNodeModel) = this.args.node;
+    node: (NodeModel) = this.args.node;
     @tracked changeset!: BufferedChangeset;
     @tracked nodeChangeset!: BufferedChangeset;
     @or(

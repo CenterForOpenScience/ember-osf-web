@@ -133,7 +133,16 @@
             <div local-class='resource-type-and-language'>
                 <dl>
                     <dt>
-                        {{t 'osf-components.node-metadata-form.resource-information'}}
+                        <span>
+                            {{t 'osf-components.node-metadata-form.resource-information'}}
+                            <Button
+                                aria-label={{t 'osf-components.node-metadata-form.resource-information-help'}}
+                                @layout='fake-link'
+                                {{on 'click' (action (mut this.resourceHelpOpen) true)}}
+                            >
+                                <FaIcon @icon='question-circle' />
+                            </Button>
+                        </span>
                         {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
                             <Button
                                 data-test-edit-resource-metadata-button
@@ -186,7 +195,16 @@
                     {{#if @manager.metadataRecord.funders}}
                         <dl>
                             <dt>
-                                {{t 'osf-components.node-metadata-form.funding-information'}}
+                                <span>
+                                    {{t 'osf-components.node-metadata-form.funding-information'}}
+                                    <Button
+                                        aria-label={{t 'osf-components.node-metadata-form.funding-information-help'}}
+                                        @layout='fake-link'
+                                        {{on 'click' (action (mut this.funderHelpOpen) true)}}
+                                    >
+                                        <FaIcon @icon='question-circle' />
+                                    </Button>
+                                </span>
                                 {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
                                     <Button
                                         data-test-edit-funding-metadata-button
@@ -273,3 +291,15 @@
         </dl>
     </div>
 </div>
+<NodeMetadataForm::ResourceHelpDialog
+    @isOpen={{this.resourceHelpOpen}}
+    @userCanEdit={{@manager.userCanEdit}}
+    @nodeType={{this.nodeTypeTranslation}}
+    @filesUrl={{this.filesUrl}}
+/>
+<NodeMetadataForm::FundingHelpDialog
+    @isOpen={{this.funderHelpOpen}}
+    @userCanEdit={{@manager.userCanEdit}}
+    @nodeType={{this.nodeTypeTranslation}}
+    @supportEmail={{this.supportEmail}}
+/>
