@@ -1,6 +1,5 @@
 import { attr, hasMany, SyncHasMany, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
-import SubscriptionModel from 'ember-osf-web/models/subscription';
 
 import LicenseModel from './license';
 import ModeratorModel from './moderator';
@@ -70,9 +69,6 @@ export default abstract class ProviderModel extends OsfModel {
 
     @hasMany('moderator', { inverse: 'provider' })
     moderators!: AsyncHasMany<ModeratorModel> | ModeratorModel[];
-
-    @hasMany('subscriptions', { inverse: 'provider', polymorphic: true })
-    subscriptions!: AsyncHasMany<SubscriptionModel> | SubscriptionModel[];
 
     @computed('permissions')
     get currentUserCanReview() {
