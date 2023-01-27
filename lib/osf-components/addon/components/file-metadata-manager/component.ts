@@ -131,7 +131,11 @@ export default class FileMetadataManagerComponent extends Component<Args> {
         this.target = await this.file.target as NodeModel;
         this.targetParent = await this.target.get('parent');
         this.targetLicense = await this.target.license;
-        this.targetInstitutions = await this.target.affiliatedInstitutions as InstitutionModel[];
+        this.targetInstitutions = await this.target.queryHasMany(
+            'affiliatedInstitutions', {
+                pageSize: 100,
+            },
+        );
         this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
         await taskFor(this.getTargetMetadata).perform();
     }

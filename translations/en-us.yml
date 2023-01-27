@@ -516,6 +516,7 @@ validationErrors:
     year_format: 'Please specify a valid year.'
     no_updated_responses: 'No changes have been made in this update.'
     moderator_comment: 'Please provide feedback for your decision.'
+    license_not_accepted: 'Please select a license that is accepted by this collection.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
@@ -950,6 +951,7 @@ collections:
         body: 'Once submitted to the collection, the project will be made public. It can later be made private again.'
         body_moderated: 'A moderator will review your submission before it is included in the collection.'
         body_resubmit: 'This project was removed or rejected from this collection. Do you want to resubmit it?'
+        resubmit_reason_placeholder: 'Optional reason to resubmit project.'
         add_button: 'Add to collection'
         resubmit: 'Resubmit'
     collection_item_picker:
@@ -1692,7 +1694,7 @@ meetings:
             image_alt: 'Meeting logo image'
             add_your: 'Add your'
             send_email: 'Send an email to the following address(es) from the email account you would like used on the OSF:'
-            email_text: 'For {typeName}, email <a href="{emailAddress}">{emailAddress}</a>'
+            email_text_mail_to: 'For {typeName}, email <a href="mailto:{emailAddress}">{emailAddress}</a>'
             format_header: 'The format of the email should be as follows:'
             subject: Subject
             message_body: 'Message body'
@@ -1760,7 +1762,8 @@ routes:
         email: Email
 osf-components:
     resources-list:
-        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
+        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
+        add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
         help_doc_link: 'Learn more about linking resources to your registration'
         add_button_aria_label: 'Add resource'
         data: Data
@@ -1882,6 +1885,8 @@ osf-components:
         award-number: 'Award number:'
         choose-resource-type-general: 'Choose a resource type'
         choose-language: 'Choose a language'
+        license: 'License'
+        institutions: 'Affiliated institutions'
         resource-help-dialog:
             heading: 'About resource information'
             write-permission: 'The resource information section allows you to describe what kind of material you are sharing in a human and machine readable format. Indexes and search engines can use the resource types to filter results, increasing discoverability for works with completed metadata. For example, indicating that your resource type is “Dataset” will allow your work to be displayed in other indexes and repositories that specialize in data in addition to the OSF. <br><br> You can describe the resources within your entire {nodeType}, and you can also describe the resource type of individual files within. Just open one of your files to edit its metadata.<br><br>OSF enables the <a href="https://support.datacite.org/v1.3/docs/what-are-the-resource-types-for-datacite-dois">Datacite Resource Types</a>. More information is available on our <a href="https://help.osf.io/">help guides</a>.'
@@ -2301,6 +2306,13 @@ settings:
         employment:
             title: Employment
     account:
+        affiliatedInstitutions:
+            affiliatedInstitutions: 'Affiliated institutions'
+            noAffiliations: 'You have no affiliations.'
+            helpText: 'Affiliated Institutions connect your OSF account to your institution or organization. <br>Affiliated Institutions can be removed from your profile here.'
+            deleteModalTitle: 'Delete affiliated institutions'
+            deleteModalBody: 'Are you sure you want to delete your affiliation to <b>{institutionName}</b>? This will remove the affiliation from your OSF content. The affiliation will be restored if you use your institution''s single sign-on in the future.'
+            deleteError: 'Could not delete affiliated institutions. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}'
         deactivation:
             title: 'Deactivate account'
             body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="https://help.osf.io/">merging your accounts</a>.'

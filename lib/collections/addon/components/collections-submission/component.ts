@@ -173,7 +173,7 @@ export default class Submit extends Component {
 
     @dropTask
     @waitFor
-    async resubmit() {
+    async resubmit(comment?: string) {
         if (!this.collectionItem) {
             return;
         }
@@ -201,6 +201,7 @@ export default class Submit extends Component {
             const resubmitAction = this.store.createRecord('collection-submission-action', {
                 actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
                 target: this.collectionSubmission,
+                comment,
             });
             await resubmitAction.save();
 

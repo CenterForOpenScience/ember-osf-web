@@ -176,7 +176,11 @@
                                         {{/if}}
                                         {{#if manager.metadataRecord.description}}
                                             <dt>{{t 'file_detail.description'}}</dt>
-                                            <dd data-test-file-description>{{manager.metadataRecord.description}}</dd>
+                                            <dd data-test-file-description>
+                                                <ExpandablePreview data-test-display-file-description>
+                                                    {{manager.metadataRecord.description}}
+                                                </ExpandablePreview>
+                                            </dd>
                                         {{/if}}
                                         {{#if manager.metadataRecord.resourceTypeGeneral}}
                                             <dt>
@@ -244,12 +248,16 @@
                                     <dd data-test-target-title>{{manager.target.title}}</dd>
                                     {{#if manager.target.description}}
                                         <dt>{{t 'file_detail.description'}}</dt>
-                                        <dd data-test-target-description>{{manager.target.description}}</dd>
+                                        <dd data-test-target-description>
+                                            <ExpandablePreview data-test-display-target-description>
+                                                {{manager.target.description}}
+                                            </ExpandablePreview>
+                                        </dd>
                                     {{/if}}
-                                    {{#if (and this.targetInstitutions (not manager.isAnonymous))}}
+                                    {{#if (and manager.targetInstitutions (not manager.isAnonymous))}}
                                         <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
                                         <div data-test-target-institutions>
-                                            {{#each this.targetInstitutions as |institution|}}
+                                            {{#each manager.targetInstitutions as |institution|}}
                                                 <dd>{{institution.name}}</dd>
                                             {{/each}}
                                         </div>
