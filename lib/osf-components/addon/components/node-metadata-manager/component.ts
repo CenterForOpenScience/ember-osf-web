@@ -21,7 +21,6 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from '@glimmer/tracking';
 
 import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
-import NodeModel from 'ember-osf-web/models/node';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import LicenseModel from 'ember-osf-web/models/license';
 
