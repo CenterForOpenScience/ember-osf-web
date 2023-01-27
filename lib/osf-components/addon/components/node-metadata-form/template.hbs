@@ -224,6 +224,22 @@
                     {{/if}}
                 </div>
             {{/if}}
+            {{#if @manager.license.name}}
+                <dl>
+                    <dt>{{t 'osf-components.node-metadata-form.license'}}</dt>
+                    <dd data-test-target-license-name>{{@manager.license.name}}</dd>
+                </dl>
+            {{/if}}
+            {{#if (and @manager.institutions (not @manager.isAnonymous))}}
+                <dl>
+                    <dt local-class='affiliated-institutions'>{{t 'osf-components.node-metadata-form.institutions'}}</dt>
+                    <div data-test-target-institutions>
+                        {{#each @manager.institutions as |institution|}}
+                            <dd>{{institution.name}}</dd>
+                        {{/each}}
+                    </div>
+                </dl>
+            {{/if}}
         {{/unless}}
     </FormControls>
     {{#if @manager.node.isRegistration}}

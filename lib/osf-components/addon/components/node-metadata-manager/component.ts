@@ -21,6 +21,9 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from '@glimmer/tracking';
 
 import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
+import NodeModel from 'ember-osf-web/models/node';
+import InstitutionModel from 'ember-osf-web/models/institution';
+import LicenseModel from 'ember-osf-web/models/license';
 
 interface Args {
     node: (AbstractNodeModel);
@@ -38,6 +41,8 @@ export interface NodeMetadataManager {
     userCanEdit: boolean;
     isDirty: boolean;
     isGatheringData: boolean;
+    institutions: InstitutionModel[];
+    license: LicenseModel;
 }
 
 export default class NodeMetadataManagerComponent extends Component<Args> {
@@ -66,6 +71,8 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @or('saveNode.isRunning', 'saveMetadata.isRunning') isSaving!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('node.id') nodeId!: string;
+    @tracked institutions!: InstitutionModel[];
+    @tracked license!: LicenseModel;
     @tracked guidType!: string | undefined;
     resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
     languageCodes: LanguageCode[] = languageCodes;
@@ -98,6 +105,13 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
             this.guidType = guidRecord.referentType;
             this.metadata = await guidRecord.customMetadata as CustomItemMetadataRecordModel;
             notifyPropertyChange(this, 'metadata');
+            const node = this.node as NodeModel;
+            this.institutions = await node.queryHasMany(
+                'affiliatedInstitutions', {
+                    pageSize: 100,
+                },
+            );
+            this.license = await node.license;
             this.changeset = buildChangeset(this.metadata, null);
             this.changeset.languageObject = {
                 code: this.metadata.language,
