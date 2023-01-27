@@ -49,7 +49,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         id: 'file5',
         title: 'With some files',
         currentUserPermissions: [Permission.Read, Permission.Write],
-    }, 'withFiles', 'withStorage', 'withContributors');
+    }, 'withFiles', 'withStorage', 'withContributors', 'withAffiliatedInstitutions');
     server.create('contributor', {
         node: filesNode,
         users: currentUser,

@@ -1877,6 +1877,8 @@ osf-components:
         award-number: 'Award number:'
         choose-resource-type-general: 'Choose a resource type'
         choose-language: 'Choose a language'
+        license: 'License'
+        institutions: 'Affiliated institutions'
     open-badges-list:
         title: 'Open resources'
         open-data: 'Data'
