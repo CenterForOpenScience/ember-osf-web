@@ -179,7 +179,21 @@
                                             <dd data-test-file-description>{{manager.metadataRecord.description}}</dd>
                                         {{/if}}
                                         {{#if manager.metadataRecord.resourceTypeGeneral}}
-                                            <dt>{{t 'file_detail.resource_type_general'}}</dt>
+                                            <dt>
+                                                {{t 'file_detail.resource_type_general'}}
+                                                <Button
+                                                    aria-label={{t 'file_detail.resource_type_general_help'}}
+                                                    @layout='fake-link'
+                                                    {{on 'click' (action (mut this.resourceHelpOpen) true)}}
+                                                >
+                                                    <FaIcon @icon='question-circle' />
+                                                </Button>
+                                                <GuidFile::-Components::ResourceHelpDialog
+                                                    @isOpen={{this.resourceHelpOpen}}
+                                                    @userCanEdit={{manager.userCanEdit}}
+                                                    @parentNodeType={{this.nodeTypeTranslation}}
+                                                />
+                                            </dt>
                                             <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
                                         {{/if}}
                                         {{#if manager.languageFromCode}}
