@@ -291,6 +291,10 @@ export default function(this: Server) {
         relatedModelName: 'moderator',
     });
     this.post('providers/registrations/:parentID/moderators', addRegistrationModerator);
+    osfNestedResource(this, 'registration-provider', 'subscriptions', {
+        path: '/providers/registrations/:parentID/subscriptions',
+        only: ['index'],
+    });
     osfNestedResource(this, 'registration-provider', 'registrations', {
         only: ['show', 'update', 'delete'],
         path: '/providers/registrations/:parentID/registrations/',
@@ -316,6 +320,10 @@ export default function(this: Server) {
         path: '/providers/collections/:parentID/moderators',
         except: ['create'],
         relatedModelName: 'moderator',
+    });
+    osfNestedResource(this, 'collection-provider', 'subscriptions', {
+        path: '/providers/collections/:parentID/subscriptions',
+        only: ['index'],
     });
     this.post('providers/collections/:parentID/moderators', addCollectionModerator);
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
@@ -351,8 +359,8 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
-    osfResource(this, 'collection-subscription', { only: ['index', 'show', 'update'] });
-    osfResource(this, 'registration-subscription', { only: ['index', 'show', 'update'] });
+    osfResource(this, 'collection-subscription', { only: ['show', 'update'] });
+    osfResource(this, 'registration-subscription', { only: ['show', 'update'] });
 
     // Waterbutler namespace
     this.namespace = '/wb';

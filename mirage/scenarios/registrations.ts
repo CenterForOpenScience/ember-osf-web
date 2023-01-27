@@ -5,6 +5,7 @@ import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
+import { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { draftRegisterNodeMultiple, registerNodeMultiple } from '../helpers';
@@ -317,7 +318,12 @@ export function registrationScenario(
     }, 'withContributors', 'withReviewActions');
     server.create('contributor', { users: currentUser, node: wdrwn });
 
-    server.create('subscription');
+    server.create('registration-subscription', {
+        id: 'egap_new_pending_submissions',
+        eventName: 'new_pending_submissions',
+        frequency: SubscriptionFrequency.Daily,
+        provider: egap,
+    });
 
     server.create('registration', {
         id: 'accpt',

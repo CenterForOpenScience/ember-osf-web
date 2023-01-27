@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { association, Factory } from 'ember-cli-mirage';
 import RegistrationSubscription from 'ember-osf-web/models/registration-subscription';
 import { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
 import faker from 'faker';
@@ -10,6 +10,7 @@ export default Factory.extend<RegistrationSubscription>({
         SubscriptionFrequency.Instant,
         SubscriptionFrequency.None,
     ]),
+    provider: association(),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
