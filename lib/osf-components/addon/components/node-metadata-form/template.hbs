@@ -231,14 +231,14 @@
                 </dl>
             {{/if}}
             {{#if (and @manager.institutions (not @manager.isAnonymous))}}
-                <dl>
-                    <dt local-class='affiliated-institutions'>{{t 'osf-components.node-metadata-form.institutions'}}</dt>
-                    <div data-test-target-institutions>
+                <div data-test-target-institutions>
+                    <dl>
+                        <dt local-class='affiliated-institutions'>{{t 'osf-components.node-metadata-form.institutions'}}</dt>
                         {{#each @manager.institutions as |institution|}}
                             <dd>{{institution.name}}</dd>
                         {{/each}}
-                    </div>
-                </dl>
+                    </dl>
+                </div>
             {{/if}}
         {{/unless}}
     </FormControls>
