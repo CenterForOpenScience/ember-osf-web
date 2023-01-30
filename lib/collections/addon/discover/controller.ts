@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import config from 'collections/config/environment';
 import Intl from 'ember-intl/services/intl';
-import { choiceFields } from 'ember-osf-web/models/collected-metadatum';
+import { choiceFields } from 'ember-osf-web/models/collection-submission';
 import Theme from 'ember-osf-web/services/theme';
 
 export default class Discover extends Controller {
@@ -152,7 +152,7 @@ export default class Discover extends Controller {
 
     @action
     query(params: any) {
-        return this.store.query('collected-metadatum', params);
+        return this.store.query('collection-submission', params);
     }
 }
 

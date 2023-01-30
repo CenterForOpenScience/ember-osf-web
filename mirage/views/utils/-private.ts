@@ -26,7 +26,7 @@ interface QueryParameters {
 // The key is the model and the list contains the relationships to embed.
 const alwaysEmbed: { [key: string]: string[] } = {
     contributors: ['users'],
-    'collected-metadata': ['guid'],
+    'collection-submissions': ['guid'],
     moderators: ['user'],
 };
 

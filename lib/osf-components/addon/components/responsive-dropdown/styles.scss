@@ -1,7 +1,16 @@
 .reg-modal-dialog {
-    position: absolute;
     width: auto;
     margin: 0.5rem;
+    top: 50%; // move top of div to center of screen
+    left: 50%; // move left of div to center of screen
+    transform: translate(-50%, -50%); // move div to top-left by 50% of its own height/width
+    max-height: 90%;
+    overflow: auto;
+
+    // override .ember-basic-dropdown-content styles
+    &.reg-modal-dialog {
+        position: fixed;
+    }
 }
 
 .Button {

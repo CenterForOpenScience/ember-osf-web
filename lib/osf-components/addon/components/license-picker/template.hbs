@@ -1,19 +1,24 @@
 <label>
     {{yield}}
 </label>
-<this.form.select
-    @model={{this.node}}
-    @valuePath='license'
-    @search={{perform this.queryLicenses}}
-    @options={{this.licensesAcceptable}}
-    @onchange={{action this.changeLicense}}
-    @noMatchesMessage={{t 'new_project.no_matches'}}
-    @placeholder={{this.placeholder}}
-    @searchEnabled={{true}}
-    as |license|
->
-    {{license.name}}
-</this.form.select>
+{{#if this.licensesAcceptable}}
+    <this.form.select
+        @model={{this.node}}
+        @valuePath='license'
+        @options={{this.licensesAcceptable}}
+        @onchange={{action this.changeLicense}}
+        @searchField='name'
+        @noMatchesMessage={{t 'new_project.no_matches'}}
+        @placeholder={{this.placeholder}}
+        @searchEnabled={{true}}
+        as |license|
+    >
+        {{license.name}}
+    </this.form.select>
+{{else}}
+    <LoadingIndicator @dark={{true}} />
+{{/if}}
+
 <small>
     <a
         target='_blank'
@@ -38,7 +43,7 @@
             <Input
                 @class='form-control'
                 @id={{concat 'nodeLicense-' key}}
-                @value={{readonly (get this.node.nodeLicense key)}}
+                @value={{readonly (get this.form.changeset.nodeLicense key)}}
                 @change={{fn this.updateNodeLicense key}}
                 @placeholder={{t 'general.required'}}
             />

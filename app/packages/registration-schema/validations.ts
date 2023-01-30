@@ -12,6 +12,8 @@ import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/sch
 import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
 import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 
+type LicensedContent = DraftRegistration | NodeModel;
+
 export const NodeLicenseFields: Record<keyof NodeLicense, string> = {
     copyrightHolders: 'Copyright Holders',
     year: 'Year',
@@ -78,7 +80,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel | D
 }
 
 export function validateNodeLicense() {
-    return async (_: unknown, __: unknown, ___: unknown, changes: DraftRegistration, content: DraftRegistration) => {
+    return async (_: unknown, __: unknown, ___: unknown, changes: LicensedContent, content: LicensedContent) => {
         let validateLicenseTarget = await content.license;
         let validateNodeLicenseTarget = content.nodeLicense;
         if (changes?.license && Object.keys(changes.license).length
@@ -93,6 +95,19 @@ export function validateNodeLicense() {
         if (!validateLicenseTarget || validateLicenseTarget?.requiredFields?.length === 0) {
             return true;
         }
+
+        if (validateLicenseTarget.requiredFields?.includes('year')) {
+            const year = validateNodeLicenseTarget?.year;
+            const regex = /^((?!(0))[0-9]{4})$/;
+            if (year && !regex.test(year)) {
+                return {
+                    context: {
+                        type: 'year_format',
+                    },
+                };
+            }
+        }
+
         const missingFieldsList: Array<keyof NodeLicense> = [];
         for (const item of validateLicenseTarget.requiredFields) {
             if (!validateNodeLicenseTarget || !validateNodeLicenseTarget[item]) {
@@ -112,27 +127,6 @@ export function validateNodeLicense() {
                 },
             },
         };
-    };
-}
-
-export function validateNodeLicenseYear() {
-    return (_: unknown, __: unknown, ___: unknown, changes: any, content: DraftRegistration) => {
-        let validateYearTarget;
-        if (content.nodeLicense && 'year' in content.nodeLicense) {
-            validateYearTarget = content.nodeLicense.year;
-        }
-        if (changes?.nodeLicense && 'year' in changes.nodeLicense) {
-            validateYearTarget = changes.nodeLicense.year;
-        }
-        const regex = /^((?!(0))[0-9]{4})$/;
-        if (typeof validateYearTarget !== 'undefined' && !regex.test(validateYearTarget)) {
-            return {
-                context: {
-                    type: 'year_format',
-                },
-            };
-        }
-        return true;
     };
 }
 

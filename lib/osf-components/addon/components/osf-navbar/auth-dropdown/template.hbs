@@ -25,7 +25,7 @@
                     {{@headline}}
                 </ddm.item>
             {{/if}}
-            <ddm.item role='menuitem'>
+            <li role='menuitem'>
                 <OsfLink
                     data-test-ad-my-profile
                     data-analytics-name='MyProfile'
@@ -34,8 +34,8 @@
                     <FaIcon @icon='user' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.my_profile'}}
                 </OsfLink>
-            </ddm.item>
-            <ddm.item role='menuitem'>
+            </li>
+            <li role='menuitem'>
                 <OsfLink
                     data-test-ad-support
                     data-analytics-name='Support'
@@ -44,8 +44,8 @@
                     <FaIcon @icon='life-ring' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.osf_support'}}
                 </OsfLink>
-            </ddm.item>
-            <ddm.item role='menuitem'>
+            </li>
+            <li role='menuitem'>
                 <OsfLink
                     data-test-ad-settings
                     data-analytics-name='Settings'
@@ -54,8 +54,8 @@
                     <FaIcon @icon='cog' class='fa-lg p-r-xs' />
                     {{t 'general.settings'}}
                 </OsfLink>
-            </ddm.item>
-            <ddm.item role='menuitem'>
+            </li>
+            <li role='menuitem'>
                 <BsButton
                     data-test-ad-logout
                     data-analytics-name='Logout'
@@ -66,7 +66,7 @@
                     <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.log_out'}}
                 </BsButton>
-            </ddm.item>
+            </li>
         </dd.menu>
     </BsDropdown>
 {{else}}
@@ -78,6 +78,7 @@
                 class='btn btn-success btn-top-signup m-l-sm m-r-xs'
                 @route='register'
                 @queryParams={{this.signUpQueryParams}}
+                role='button'
             >
                 {{t 'auth_dropdown.sign_up'}}
             </OsfLink>
@@ -88,6 +89,7 @@
                 @onClick={{action this.login}}
                 @size='xs'
                 @type='info'
+                role='button'
             >
                 {{t 'auth_dropdown.sign_in'}}
             </BsButton>

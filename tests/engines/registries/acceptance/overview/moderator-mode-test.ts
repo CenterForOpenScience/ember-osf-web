@@ -1,4 +1,4 @@
-import { currentRouteName } from '@ember/test-helpers';
+import { currentRouteName, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t, TestContext } from 'ember-intl/test-support';
@@ -13,6 +13,7 @@ import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-re
 import { percySnapshot } from 'ember-percy';
 import moment from 'moment';
 import { module, test } from 'qunit';
+import fillIn from '@ember/test-helpers/dom/fill-in';
 
 interface ModeratorModeTestContext extends TestContext {
     provider: ModelInstance<RegistrationProviderModel>;
@@ -58,14 +59,14 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to accept submission exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="accept_submission"]').hasText(
-            t('registries.makeDecisionDropdown.acceptSubmission'),
+            t('osf-components.makeDecisionDropdown.acceptSubmission'),
             'Accept submission option has correct text',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_submission"]').exists(
             'Option to reject submission exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_submission"]').hasText(
-            t('registries.makeDecisionDropdown.rejectSubmission'),
+            t('osf-components.makeDecisionDropdown.rejectSubmission'),
             'Reject submission option has correct text',
         );
         await percySnapshot(assert);
@@ -94,6 +95,10 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await visit(`/${registration.id}?mode=moderator`);
         await click('[data-test-moderation-dropdown-button]');
         await click('[data-test-moderation-dropdown-decision-checkbox="reject_submission"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         assert.equal(
             currentRouteName(),
@@ -134,11 +139,15 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            t('registries.makeDecisionDropdown.forceWithdraw'),
+            t('osf-components.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
         await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
@@ -169,14 +178,14 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to accept withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="accept_withdrawal"]').hasText(
-            t('registries.makeDecisionDropdown.acceptWithdrawal'),
+            t('osf-components.makeDecisionDropdown.acceptWithdrawal'),
             'Accept withdrawal option has correct text',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_withdrawal"]').exists(
             'Option to reject withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_withdrawal"]').hasText(
-            t('registries.makeDecisionDropdown.rejectWithdrawal'),
+            t('osf-components.makeDecisionDropdown.rejectWithdrawal'),
             'Reject withdrawal option has correct text',
         );
         await percySnapshot(assert);
@@ -197,6 +206,10 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-moderation-dropdown-button]');
         await percySnapshot(assert);
         await click('[data-test-moderation-dropdown-decision-checkbox="reject_withdrawal"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         await click('[data-test-state-button]');
         assert.dom('[data-test-state-description-short]').exists('Short description for accepted status exists');
@@ -240,11 +253,15 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            t('registries.makeDecisionDropdown.forceWithdraw'),
+            t('osf-components.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
         await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
@@ -283,11 +300,15 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            t('registries.makeDecisionDropdown.forceWithdraw'),
+            t('osf-components.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
         await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
@@ -325,11 +346,15 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            t('registries.makeDecisionDropdown.forceWithdraw'),
+            t('osf-components.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
         await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
@@ -366,11 +391,11 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Two moderator actions available',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="accept"]').hasText(
-            t('registries.makeDecisionDropdown.acceptRevision'),
+            t('osf-components.makeDecisionDropdown.acceptRevision'),
             'Accept update option has correct text',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="moderator_reject"]').hasText(
-            t('registries.makeDecisionDropdown.rejectRevision'),
+            t('osf-components.makeDecisionDropdown.rejectRevision'),
             'Reject update option has correct text',
         );
         await percySnapshot(assert);
@@ -410,6 +435,10 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         );
         await click('[data-test-moderation-dropdown-button]');
         await click('[data-test-moderation-dropdown-decision-checkbox="moderator_reject"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         assert.equal(currentRouteName(), 'registries.branded.moderation.submitted');
         assert.ok(currentURL().includes('?state=pending_moderation'));

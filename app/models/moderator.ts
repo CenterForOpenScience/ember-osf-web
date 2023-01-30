@@ -1,8 +1,8 @@
-import { belongsTo, attr } from '@ember-data/model';
+import { AsyncBelongsTo, belongsTo, attr } from '@ember-data/model';
 
 import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
-import RegistrationProviderModel from './registration-provider';
+import ProviderModel from './provider';
 
 export enum PermissionGroup {
     Admin = 'admin',
@@ -16,8 +16,8 @@ export default class ModeratorModel extends OsfModel {
     @attr('string') fullName!: string;
     @attr('string') email!: string;
 
-    @belongsTo('registration-provider', { inverse: 'moderators', polymorphic: true })
-    provider!: RegistrationProviderModel;
+    @belongsTo('provider', { inverse: 'moderators', polymorphic: true })
+    provider!: (AsyncBelongsTo<ProviderModel> & ProviderModel);
 
     @belongsTo('user', { inverse: null })
     user!: UserModel;

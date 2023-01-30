@@ -34,7 +34,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
     test('moderators list view for moderators', async assert => {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
-        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asModerator');
+        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
         regProvider.update({ permissions: ['view_submissions'] });
         await visit('/registries/mdr8n/moderation/moderators');
         await percySnapshot('moderation moderators page: moderator view');
@@ -86,7 +86,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         await click('[data-test-confirm-add-moderator-button]');
         assert.dom('#toast-container', document as any).hasTextContaining(
             t(
-                'registries.moderation.moderators.addedNewModeratorSuccess',
+                'osf-components.moderators.addedNewModeratorSuccess',
                 { userName: suzy.fullName, permission: 'moderator' },
             ),
             'Toast successful message for adding user as moderator',
@@ -103,7 +103,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         await click('[data-test-confirm-add-moderator-button]');
         assert.dom('#toast-container', document as any).hasTextContaining(
             t(
-                'registries.moderation.moderators.addedNewModeratorSuccess',
+                'osf-components.moderators.addedNewModeratorSuccess',
                 { userName: 'Baek Yerin', permission: 'moderator' },
             ),
             'Toast successful message for inviting moderator by email',
@@ -114,7 +114,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         await selectChoose(`[data-test-moderator-row="${suzy.id}"]`, 'Admin');
         assert.dom('#toast-container', document as any).hasTextContaining(
             t(
-                'registries.moderation.moderators.updatedModeratorPermissionSuccess',
+                'osf-components.moderators.updatedModeratorPermissionSuccess',
                 { userName: suzy.fullName, permission: 'admin' },
             ),
             'Toast successful message for updating permission',
@@ -128,7 +128,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         await click('[data-test-confirm-delete]');
         assert.dom('#toast-container', document as any).hasTextContaining(
             t(
-                'registries.moderation.moderators.removedModeratorSuccess',
+                'osf-components.moderators.removedModeratorSuccess',
                 { userName: suzy.fullName },
             ),
             'Toast successful message for removing moderator',
@@ -167,7 +167,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         await click('[data-test-confirm-add-moderator-button]');
         assert.dom('#toast-container', document as any).hasTextContaining(
             t(
-                'registries.moderation.moderators.addedNewModeratorError',
+                'osf-components.moderators.addedNewModeratorError',
                 { permission: 'moderator' },
             ),
             'Toast error message for adding user as moderator failure',
@@ -178,7 +178,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         await selectChoose(`[data-test-moderator-row="${currentUser.id}"]`, 'Moderator');
         assert.dom('#toast-container', document as any).hasTextContaining(
             t(
-                'registries.moderation.moderators.updatedModeratorPermissionError',
+                'osf-components.moderators.updatedModeratorPermissionError',
                 { permission: 'moderator' },
             ),
             'Toast error message for updating permission failure',
@@ -189,7 +189,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         await click('[data-test-confirm-delete]');
         assert.dom('#toast-container', document as any).hasTextContaining(
             t(
-                'registries.moderation.moderators.removedModeratorError',
+                'osf-components.moderators.removedModeratorError',
                 { permission: 'admin' },
             ),
             'Toast error message for removing moderator failure',

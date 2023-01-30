@@ -3,22 +3,22 @@ import { action, computed } from '@ember/object';
 import { mapBy } from '@ember/object/computed';
 import { underscore } from '@ember/string';
 
-import CollectedMetadatum, { choiceFields } from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission, { choiceFields } from 'ember-osf-web/models/collection-submission';
 import Collection, { ChoicesFields } from 'ember-osf-web/models/collection';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
 
 interface CollectionMetadataField {
     labelKey: string;
-    valuePath: keyof CollectedMetadatum;
+    valuePath: keyof CollectionSubmission;
     optionsKey: ChoicesFields;
 }
 
 export default class CollectionMetadata extends Component {
     collection!: Collection;
-    collectedMetadatum!: CollectedMetadatum;
+    collectionSubmission!: CollectionSubmission;
     didValidate!: boolean;
 
-    initialCollectedMetadatumProperties: any;
+    initialCollectionSubmissionProperties: any;
 
     @computed('collection')
     get displayFields(): CollectionMetadataField[] {
@@ -41,12 +41,12 @@ export default class CollectionMetadata extends Component {
     }
 
     @mapBy('displayFields', 'valuePath')
-    filteredFields!: Array<keyof CollectedMetadatum>;
+    filteredFields!: Array<keyof CollectionSubmission>;
 
-    @computed(`collectedMetadatum.validations.attrs.{${choiceFields.join()}}.isInvalid`,
-        'collectedMetadatum.validations', 'filteredFields')
+    @computed(`collectionSubmission.validations.attrs.{${choiceFields.join()}}.isInvalid`,
+        'collectionSubmission.validations', 'filteredFields')
     get isInvalid(): boolean {
-        const { attrs } = this.collectedMetadatum.validations;
+        const { attrs } = this.collectionSubmission.validations;
 
         return this.filteredFields.some(field => (attrs[field] as any).isInvalid);
     }
@@ -54,8 +54,8 @@ export default class CollectionMetadata extends Component {
     init() {
         super.init();
         this.set(
-            'initialCollectedMetadatumProperties',
-            this.collectedMetadatum.getProperties(
+            'initialCollectionSubmissionProperties',
+            this.collectionSubmission.getProperties(
                 'programArea', 'issue', 'status', 'volume', 'collectedType',
             ),
         );
@@ -63,6 +63,6 @@ export default class CollectionMetadata extends Component {
 
     @action
     discard() {
-        this.collectedMetadatum.setProperties(this.initialCollectedMetadatumProperties);
+        this.collectionSubmission.setProperties(this.initialCollectionSubmissionProperties);
     }
 }

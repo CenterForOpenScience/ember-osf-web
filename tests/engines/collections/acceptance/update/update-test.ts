@@ -8,6 +8,7 @@ import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
+import { t } from 'ember-intl/test-support';
 
 module('Collections | Acceptance | update', hooks => {
     setupEngineApplicationTest(hooks, 'collections');
@@ -22,6 +23,7 @@ module('Collections | Acceptance | update', hooks => {
             title: 'Added to collection',
             license: licensesAcceptable[0],
             currentUserPermissions: Object.values(Permission),
+            tags: ['one', 'two', 'three', 'four', 'five'],
         });
         server.create('contributor', {
             node: nodeAdded,
@@ -35,7 +37,7 @@ module('Collections | Acceptance | update', hooks => {
         collection.programAreaChoices.sort();
         collection.statusChoices.sort();
         collection.volumeChoices.sort();
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: nodeAdded,
             id: nodeAdded.id,
@@ -205,5 +207,13 @@ module('Collections | Acceptance | update', hooks => {
         /* Finished */
 
         await percySnapshot('Collections | Acceptance | update | finished');
+
+        assert.dom('[data-test-collections-remove-button]').exists('remove button exists');
+        await untrackedClick('[data-test-delete-button]');
+        assert.dom('[data-test-delete-modal-header]').exists('remove modal appears');
+        assert.dom('[data-test-delete-modal-body]').containsText(
+            t('collections.collections_submission.remove_modal_body', {title: nodeAdded.title}),
+        );
+        assert.dom('[data-test-collections-remove-reason]').exists('remove reason textarea exists');
     });
 });

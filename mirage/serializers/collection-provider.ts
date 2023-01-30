@@ -6,6 +6,11 @@ import ApplicationSerializer from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class CollectionProviderSerializer extends ApplicationSerializer<CollectionProvider> {
+    buildNormalLinks(model: ModelInstance) {
+        return {
+            self: `${apiUrl}/v2/providers/collections/${model.id}/`,
+        };
+    }
     buildRelationships(model: ModelInstance<CollectionProvider>) {
         return {
             licensesAcceptable: {
@@ -23,6 +28,14 @@ export default class CollectionProviderSerializer extends ApplicationSerializer<
                 links: {
                     related: {
                         href: `${apiUrl}/v2/collections/${model.primaryCollection.id}/`,
+                    },
+                },
+            },
+            moderators: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/collections/${model.id}/moderators/`,
+                        meta: this.buildRelatedLinkMeta(model, 'moderators'),
                     },
                 },
             },
