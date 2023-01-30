@@ -3,6 +3,11 @@
     margin-top: 20px;
 }
 
+.PageContainer {
+    width: 60vw;
+    padding: 30px;
+}
+
 :global(.modal-body) {
     max-height: 80vh;
     overflow: scroll;

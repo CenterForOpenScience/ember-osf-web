@@ -1,0 +1,32 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{action (mut @isOpen) false}}
+    @closeOnOutsideClick={{true}}
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'osf-components.node-metadata-form.resource-help-dialog.heading'}}
+    </dialog.heading>
+    <dialog.main tabindex='0'>
+        {{#if @userCanEdit}}
+            {{t 'osf-components.node-metadata-form.resource-help-dialog.write-permission'
+                htmlSafe=true
+                nodeType=@nodeType
+            }}
+        {{else}}
+            {{t 'osf-components.node-metadata-form.resource-help-dialog.read-only'
+                htmlSafe=true
+                nodeType=@nodeType
+                filesUrl=@filesUrl
+            }}
+        {{/if}}
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            @type='secondary'
+            {{on 'click' dialog.close}}
+        >
+            {{t 'general.close'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

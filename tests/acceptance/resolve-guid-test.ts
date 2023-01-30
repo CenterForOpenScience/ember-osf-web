@@ -46,13 +46,16 @@ module('Acceptance | resolve-guid', hooks => {
         router.on('routeWillChange', routeWillChangeStub);
     });
 
-    test('File | Index', async assert => {
-        const file = server.create('file', { target: server.create('registration') });
+    module('File', __ => {
+        test('Index', async assert => {
+            const file = server.create('file', { target: server.create('registration') });
 
-        await visit(`/${file.id}`);
+            await visit(`/${file.id}`);
 
-        routingAssertions(assert, '--file', `/${file.id}`, 'guid-file');
+            routingAssertions(assert, '--file', `/${file.id}`, 'guid-file');
+        });
     });
+
 
     module('Node', mhooks => {
         mhooks.beforeEach(async () => {
@@ -97,6 +100,14 @@ module('Acceptance | resolve-guid', hooks => {
             await visit(`/${node.id}/registrations`);
 
             routingAssertions(assert, '--node', `/${node.id}/registrations`, 'guid-node.registrations');
+        });
+
+        test('Metadata', async assert => {
+            const node = server.create('node');
+
+            await visit(`/${node.id}/metadata`);
+
+            routingAssertions(assert, '--node', `/${node.id}/metadata`, 'guid-node.metadata');
         });
     });
 
@@ -162,6 +173,14 @@ module('Acceptance | resolve-guid', hooks => {
                 await visit(url);
 
                 routingAssertions(assert, '--registration', url, 'guid-registration.analytics.index');
+            });
+
+            test('Metadata', async assert => {
+                const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
+
+                await visit(`/${reg.id}/metadata`);
+
+                routingAssertions(assert, '--registries', `/${reg.id}/metadata`, 'registries.overview.metadata');
             });
         });
     });
