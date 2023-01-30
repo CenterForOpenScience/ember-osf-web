@@ -7,6 +7,7 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
+import { selectChoose } from 'ember-power-select/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 
@@ -241,33 +242,9 @@ module('Acceptance | guid file | registration files', hooks => {
             assert.dom('[data-test-title-field]')
                 .containsText('A test description.', 'Metadata description field updates.');
             // Update Resource Type
-            const resourceTypeDropdown = document.querySelectorAll('[data-test-power-select-dropdown]')[0];
-            await click(resourceTypeDropdown);
-            const resourceTypeList = document.evaluate(
-                'count(//ul[@role="listbox"]/li)',
-                document,
-                null,
-                XPathResult.ANY_TYPE, null,
-            );
-            const resourceTypeListLength = resourceTypeList.numberValue;            // should be in range 0-tens
-            const resourceOptionRandom = Math.floor(resourceTypeListLength * Math.random() - 1);
-            const resourceOption = `data-option-index="${resourceOptionRandom}"`;
-            const resourceElement = document.querySelectorAll(resourceOption)[0];
-            await click(resourceElement);
+            await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
             // Update Resource Language
-            const resourceLanguageDropdown = document.querySelectorAll('[data-test-power-select-dropdown]')[1];
-            await click(resourceLanguageDropdown);
-            const resourceLanguageList  = document.evaluate(
-                'count(//ul[@role="listbox"]/li)',
-                document,
-                null,
-                XPathResult.ANY_TYPE, null,
-            );
-            const resourceLanguageListLength = resourceLanguageList.numberValue;    // should be in range 0-hundreds
-            const languageOptionRandom = Math.floor(resourceLanguageListLength * Math.random() - 1);
-            const languageOption = `data-option-index="${languageOptionRandom}"`;
-            const languageElement = document.querySelectorAll(languageOption)[0];
-            await click(languageElement);
+            await selectChoose('[data-test-select-resource-language]', 'InteractiveResource');
             // Screenshot after changes
             await percySnapshot(assert);
             // Save changes
