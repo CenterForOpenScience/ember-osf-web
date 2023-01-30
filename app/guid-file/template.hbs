@@ -90,7 +90,7 @@
                                         <OsfLink
                                             data-test-download-button
                                             aria-label={{t 'general.download'}}
-                                            @href='#'
+                                            @href={{manager.metadataDownloadUrl}}
                                             @target='_blank'
                                         >
                                             <FaIcon @icon='download' />
@@ -176,10 +176,28 @@
                                         {{/if}}
                                         {{#if manager.metadataRecord.description}}
                                             <dt data-test-file-description-label>{{t 'file_detail.description'}}</dt>
-                                            <dd data-test-file-description>{{manager.metadataRecord.description}}</dd>
+                                            <dd data-test-file-description>
+                                                <ExpandablePreview data-test-display-file-description>
+                                                    {{manager.metadataRecord.description}}
+                                                </ExpandablePreview>
+                                            </dd>
                                         {{/if}}
                                         {{#if manager.metadataRecord.resourceTypeGeneral}}
-                                            <dt data-test-file-resource-type-label>{{t 'file_detail.resource_type_general'}}</dt>
+                                            <dt data-test-file-resource-type-label>
+                                                {{t 'file_detail.resource_type_general'}}
+                                                <Button
+                                                    aria-label={{t 'file_detail.resource_type_general_help'}}
+                                                    @layout='fake-link'
+                                                    {{on 'click' (action (mut this.resourceHelpOpen) true)}}
+                                                >
+                                                    <FaIcon @icon='question-circle' />
+                                                </Button>
+                                                <GuidFile::-Components::ResourceHelpDialog
+                                                    @isOpen={{this.resourceHelpOpen}}
+                                                    @userCanEdit={{manager.userCanEdit}}
+                                                    @parentNodeType={{this.nodeTypeTranslation}}
+                                                />
+                                            </dt>
                                             <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
                                         {{/if}}
                                         {{#if manager.languageFromCode}}
@@ -230,12 +248,16 @@
                                     <dd data-test-target-title>{{manager.target.title}}</dd>
                                     {{#if manager.target.description}}
                                         <dt data-test-target-description-label>{{t 'file_detail.description'}}</dt>
-                                        <dd data-test-target-description>{{manager.target.description}}</dd>
+                                        <dd data-test-target-description>
+                                            <ExpandablePreview data-test-display-target-description>
+                                                {{manager.target.description}}
+                                            </ExpandablePreview>
+                                        </dd>
                                     {{/if}}
-                                    {{#if (and this.targetInstitutions (not manager.isAnonymous))}}
+                                    {{#if (and manager.targetInstitutions (not manager.isAnonymous))}}
                                         <dt local-class='affiliated-institutions' data-test-target-institutions-label>{{t 'file_detail.institutions'}}</dt>
                                         <div data-test-target-institutions>
-                                            {{#each this.targetInstitutions as |institution|}}
+                                            {{#each manager.targetInstitutions as |institution|}}
                                                 <dd>{{institution.name}}</dd>
                                             {{/each}}
                                         </div>
