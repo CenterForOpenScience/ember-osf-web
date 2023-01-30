@@ -1966,7 +1966,8 @@ osf-components:
         award_number: 'Award number'
         add_another: 'Add funder'
         delete: 'Delete funder'
-        error: '"Funder name", "Award title" ,"Award info URI" or "Award number" has to be specified.'
+        funder_name_required: 'Funder name is required'
+        award_uri_format_error: 'Award info URI has to be a URI'
     move_file_modal:
         move_header: 'Move {itemCount, plural, one {# item} other {# items}}'
         copy_header: 'Copy {itemCount, plural, one {# item} other {# items}}'

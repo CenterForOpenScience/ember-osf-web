@@ -9,6 +9,7 @@ import { restartableTask, timeout } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import CrossrefFunderModel from 'ember-osf-web/models/crossref-funder';
 import IntlService from 'ember-intl/services/intl';
+import validateFormat from 'ember-validators/format';
 
 interface Args {
     changeset: BufferedChangeset;
@@ -44,10 +45,20 @@ export default class FundingMetadata extends Component<Args> {
     @action
     validateFunderObjects() {
         for (const item of this.funderObjects) {
-            if (item.award_number || item.award_title || item.award_uri || item.funder_name) {
-                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.error'));
-            } else if (item.errors.length === 0) {
-                item.errors.pushObject(this.intl.t('osf-components.funding-metadata.error'));
+            if (!item.funder_name) {
+                if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.funder_name_required'))) {
+                    item.errors.pushObject(this.intl.t('osf-components.funding-metadata.funder_name_required'));
+                }
+            } else {
+                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.funder_name_required'));
+            }
+            // @ts-ignore incomplete types at types/ember-validators/format
+            if (item.award_uri && validateFormat(item.award_uri, { type: 'url' }) !== true) {
+                if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.award_uri_format_error'))) {
+                    item.errors.pushObject(this.intl.t('osf-components.funding-metadata.award_uri_format_error'));
+                }
+            } else {
+                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.award_uri_format_error'));
             }
         }
         notifyPropertyChange(this, 'funderObjects');
