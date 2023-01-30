@@ -1,9 +1,154 @@
-{{#if (not (or this.model.taskInstance.isRunning this.shouldHideNodeNavbar))}}
-    <NodeNavbar
-        @node={{this.model.taskInstance.value}}
-    />
+{{#if this.model.taskInstance.isRunning}}
+    <div>
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    <OsfLayout
+        @backgroundClass='{{local-class 'ContentBackground'}}'
+        as |layout|
+    >
+        <layout.heading local-class='Hero'>
+            <h1>{{this.model.taskInstance.value.title}}</h1>
+            {{#unless this.isDesktop}}
+                <div local-class='NavButton'>
+                    <nav>
+                        <Button
+                            aria-label={{t 'node.left_nav.toggle'}}
+                            {{on 'click' layout.toggleSidenav}}
+                        >
+                            <FaIcon @icon='bars' />
+                        </Button>
+                    </nav>
+                </div>
+            {{/unless}}
+        </layout.heading>
+        <layout.leftNavOld as |leftNav|>
+            <leftNav.link
+                data-test-overview-link
+                data-analytics-name='Overview'
+                @href='/{{this.model.taskInstance.value.id}}/'
+                @icon='home'
+                @label={{t 'node.left_nav.overview'}}
+            />
+            <leftNav.link
+                data-test-metadata-link
+                data-analytics-name='Metadata' 
+                @route='guid-node.metadata'
+                @models={{array this.model.taskInstance.value.id}}
+                @icon='info-circle'
+                @label={{t 'node.left_nav.metadata'}}
+            />
+            <leftNav.link
+                data-test-files-link
+                data-analytics-name='Files' 
+                @route='guid-node.files.provider'
+                @models={{array 
+                    this.model.taskInstance.value.id
+                    (if this.model.taskInstance.value.providerTask.value.provider this.model.taskInstance.value.providerTask.value.provider.name 'osfstorage')
+                }}
+                @icon='file-alt'
+                @label={{t 'node.left_nav.files'}}
+            />
+            {{#if this.onFilesRoute}}
+                <div
+                    data-test-file-providers-list
+                    local-class='FileProvidersList'
+                >
+                    {{#each this.model.taskInstance.value.files as |provider|}}
+                        <div local-class='FileProvider'>
+                            <OsfLink
+                                data-test-files-provider-link={{provider.name}}
+                                data-analytics-name={{concat 'Files - ' provider.name}} 
+                                @route='guid-node.files.provider'
+                                @models={{array this.model.taskInstance.value.id provider.name}}
+                            >
+                                {{t (concat 'osf-components.file-browser.storage_providers.' provider.name)}}
+                            </OsfLink>
+                            {{#if (eq provider.name 'osfstorage')}}
+                                <span>
+                                    <FaIcon
+                                        local-class='FileProviderIcon'
+                                        @icon='globe'
+                                    >
+                                    </FaIcon>
+                                    <BsTooltip
+                                        @placement='right'
+                                        @triggerEvents='hover'
+                                    >
+                                        {{t 'osf-components.file-browser.storage_location'}}
+                                        {{this.model.taskInstance.value.region.name}}
+                                    </BsTooltip>
+                                </span>
+                            {{/if}}
+                        </div>
+                    {{/each}}
+                </div>
+            {{/if}}
+            {{#if this.model.taskInstance.value.wikiEnabled }}
+                <leftNav.link
+                    data-test-wiki-link
+                    data-analytics-name='Wiki'
+                    @href='/{{this.model.taskInstance.value.id}}/wiki/'
+                    @icon='window-maximize'
+                    @label={{t 'node.left_nav.wiki'}}
+                />
+            {{/if}}
+            {{#if (or this.model.taskInstance.value.public this.model.taskInstance.value.userHasReadPermission)}}
+                <leftNav.link
+                    data-test-analytics-link
+                    data-analytics-name='Analytics' 
+                    @route='guid-node.analytics'
+                    @models={{array this.model.taskInstance.value.id}}
+                    @icon='chart-bar'
+                    @label={{t 'node.left_nav.analytics'}}
+                />
+            {{/if}}
+            {{#unless this.model.taskInstance.value.isAnonymous}}
+                <leftNav.link
+                    data-test-registrations-link
+                    data-analytics-name='Registrations'
+                    @route='guid-node.registrations'
+                    @models={{array this.model.taskInstance.value.id}}
+                    @icon='file-alt'
+                    @label={{t 'node.left_nav.registrations'}}
+                />
+            {{/unless}}
+            {{#unless this.currentUser.viewOnlyToken}}
+                {{#if this.model.taskInstance.value.userHasReadPermission}}
+                    <leftNav.link
+                        data-test-contributors-link
+                        data-analytics-name='Contributors'
+                        @href='/{{this.model.taskInstance.value.id}}/contributors/'
+                        @icon='users'
+                        @label={{t 'node.left_nav.contributors'}}
+                    />
+                {{/if}}
+                {{#if this.model.taskInstance.value.userHasWritePermission}}
+                    <leftNav.link
+                        data-test-addons-link
+                        data-analytics-name='Add-ons'
+                        @href='/{{this.model.taskInstance.value.id}}/addons/'
+                        @icon='database'
+                        @label={{t 'node.left_nav.add-ons'}}
+                    />
+                {{/if}}
+                {{#if this.model.taskInstance.value.userHasReadPermission}}
+                    <leftNav.link
+                        data-test-settings-link
+                        data-analytics-name='Settings'
+                        @href='/{{this.model.taskInstance.value.id}}/settings/'
+                        @icon='cogs'
+                        @label={{t 'node.left_nav.settings'}}
+                    />
+                {{/if}}
+            {{/unless}}
+        </layout.leftNavOld>
+        <layout.main local-class='OverviewBody'>
+            <div data-analytics-scope='Node' role='main'>
+                {{outlet}}
+            </div>
+        </layout.main>
+    </OsfLayout>
 {{/if}}
-<div data-analytics-scope='Node' role='main'>
-    {{outlet}}
-</div>
+
 <JoinOsfBanner />

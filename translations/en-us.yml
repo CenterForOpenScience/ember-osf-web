@@ -84,7 +84,9 @@ general:
     settings: Settings
     project: project
     component: component
+    registration: registration
     hosted_on_the_osf: 'Hosted on OSF'
+    presented_by_osf: 'Presented by OSF'
     please_confirm: 'Please confirm'
     required: Required
     options: Options
@@ -131,8 +133,35 @@ file_detail:
     no_revisions: 'Revisions not available'
     view_tags: 'View tags'
     close_tags: 'Close tags'
+    close_metadata: 'Close metadata'
+    view_metadata: 'View metadata'
     tags: 'Tags:'
     mfr_iframe_title: 'Rendering of document'
+    file_metadata: 'File Metadata'
+    metadata_project: 'Project Metadata'
+    metadata_component: 'Component Metadata'
+    metadata_registration: 'Registration Metadata'
+    title: 'Title'
+    description: 'Description'
+    resource_type_general: 'Resource type'
+    resource_type_general_help: 'More information about file resource types'
+    choose_resource_type_general: 'Choose a resource type'
+    language: 'Resource language'
+    choose_language: 'Choose a language'
+    funder: 'Funder'
+    award_title: 'Award title'
+    award_uri: 'Award URI'
+    award_number: 'Award number'
+    license: 'License'
+    institutions: 'Affiliated institutions'
+    contributors: 'Contributors'
+    osf_map: 'OSF-MAP'
+    schema: 'Schema'
+    enter_metadata: 'Press the edit button to add metadata to this file.'
+    resource-help-dialog:
+        heading: 'About file resource information'
+        write-permission: 'The resource information section allows you to describe what kind of material you are sharing in a human and machine readable format. Indexes and search engines can use the resource types to filter results, increasing discoverability for works with completed metadata. For example, indicating that your resource type is “Dataset” will allow your work to be displayed in other indexes and repositories that specialize in data in addition to the OSF.<br><br>On this page you can describe the resource type of this individual file. You can also describe the resources within your entire {parentNodeType} on the {parentNodeType} metadata page.<br><br>OSF enables the <a href="https://support.datacite.org/v1.3/docs/what-are-the-resource-types-for-datacite-dois">Datacite Resource Types</a>. More information is available on our <a href="https://help.osf.io/article/570-resource-types-in-osf">help guides</a>.'
+        read-only: 'The resource information section allows users to describe what kind of material they are sharing in a human and machine readable format. Indexes and search engines can use the resource types to filter results, increasing discoverability for works with completed metadata. For example, resources labeled as “Dataset” will allow works to be displayed in other indexes and repositories that specialize in data in addition to the OSF.<br><br>OSF enables the <a href="https://support.datacite.org/v1.3/docs/what-are-the-resource-types-for-datacite-dois">Datacite Resource Types</a>. More information is available on our <a href="https://help.osf.io/article/570-resource-types-in-osf">help guides</a>.'
 dashboard:
     page_title: Home
     title: Dashboard
@@ -585,6 +614,7 @@ node:
     left_nav:
         toggle: 'Toggle project navigation menu'
         overview: Overview
+        metadata: Metadata
         files: Files
         wiki: Wiki
         analytics: Analytics
@@ -1836,6 +1866,36 @@ osf-components:
         previous_slide: 'Previous slide'
         next_slide: 'Next slide'
         go_to_slide: 'Go to slide {slideIndex}'
+    node-metadata-form:
+        description: 'Description'
+        metadata-header: 'Metadata'
+        resource-information: 'Resource Information'
+        resource-information-help: 'More information about resource information'
+        contributors: 'Contributors'
+        funding-information: 'Funding/Support Information'
+        funding-information-help: 'More information about funding information'
+        subjects: 'Subjects'
+        tags: 'Tags'
+        edit-button: 'Edit Metadata'
+        resource-type: 'Resource type:'
+        resource-language: 'Resource language:'
+        funder: 'Funder:'
+        award-title: 'Award title:'
+        award-info-uri: 'Award info URI:'
+        award-number: 'Award number:'
+        choose-resource-type-general: 'Choose a resource type'
+        choose-language: 'Choose a language'
+        license: 'License'
+        institutions: 'Affiliated institutions'
+        resource-help-dialog:
+            heading: 'About resource information'
+            write-permission: 'The resource information section allows you to describe what kind of material you are sharing in a human and machine readable format. Indexes and search engines can use the resource types to filter results, increasing discoverability for works with completed metadata. For example, indicating that your resource type is “Dataset” will allow your work to be displayed in other indexes and repositories that specialize in data in addition to the OSF. <br><br> You can describe the resources within your entire {nodeType}, and you can also describe the resource type of individual files within. Just open one of your files to edit its metadata.<br><br>OSF enables the <a href="https://support.datacite.org/v1.3/docs/what-are-the-resource-types-for-datacite-dois">Datacite Resource Types</a>. More information is available on our <a href="https://help.osf.io/article/570-resource-types-in-osf">help guides</a>.'
+            read-only: 'The resource information section allows users to describe what kind of material they are sharing in a human and machine readable format. Indexes and search engines can use the resource types to filter results, increasing discoverability for works with completed metadata. For example, resources labeled as “Dataset” will allow works to be displayed in other indexes and repositories that specialize in data in addition to the OSF.<br><br>This {nodeType} may also have files with additional resource types. Navigate to the <a href={filesUrl}>Files Page</a> to explore further.<br><br>OSF enables the <a href="https://support.datacite.org/v1.3/docs/what-are-the-resource-types-for-datacite-dois">Datacite Resource Types</a>. More information is available on our <a href="https://help.osf.io/article/570-resource-types-in-osf">help guides</a>.'
+        funder-help-dialog:
+            heading: 'About funding information'
+            write-permission-first: 'Continue to increase the discoverability of your work and comply with funder and institutional requirements by indicating which funders are supporting your research.  You can add multiple funders if you have support from several organizations, and can include more details about your specific grant.<br><br>Use the pencil icon'
+            write-permission-second: 'to open the funder information section, and then the “Add Funder” button.<br><br>OSF taps into the powerful <a href="https://www.crossref.org/services/funder-registry/">Crossref Funder Registry API</a> to enable thousands of different funders from around the globe to be associated with your work. Begin typing the name of your funder in the search box and a list of related results will be displayed. Just choose your funder from the results to associate it with your {nodeType}. Don’t see your funder? Try the funder’s full name or specific institute/program within the funder organization.<br><br>You can use the additional fields to include more detail about the funder support including the title of your award, a link to a webpage with information about the award, and Grant ID or other grant identifier associated with your award.<br><br>To add more funders to your {nodeType}, click the “Add Funder” button again and enter additional support information.<br><br>Need help associating funder information? Write us at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+            read-only: 'Researchers can increase the discoverability of their work and comply with funder and institutional requirements by indicating which funders are supporting their research.<br><br>OSF taps into the powerful <a href="https://www.crossref.org/services/funder-registry/">Crossref Funder Registry API</a> to enable thousands of different funders from around the globe to be associated with OSF content.<br><br>Additional fields to include more detail about the funder support including the title of the award, a link to a webpage with information about the award, and Grant ID or other grant identifier associated with the award.'
     open-badges-list:
         title: 'Open resources'
         open-data: 'Data'
@@ -1899,6 +1959,16 @@ osf-components:
         md5_description: 'MD5 is an algorithm used to verify data integrity.'
         copy_success: 'Successfully copied to clipboard'
         copy_failed: 'Failed to copy to clipboard'
+    funding-metadata:
+        funder_name: 'Funder name'
+        award_title: 'Award title'
+        award_info_uri: 'Award info URI'
+        award_number: 'Award number'
+        add_another: 'Add funder'
+        delete: 'Delete funder'
+        funder_name_required: 'Funder name is required'
+        award_uri_format_error: 'Award info URI has to be a URI'
+        api_uri_validation_error: 'Award URI is not a full URI. Did you remember the "https://"?'
     move_file_modal:
         move_header: 'Move {itemCount, plural, one {# item} other {# items}}'
         copy_header: 'Copy {itemCount, plural, one {# item} other {# items}}'
@@ -2059,7 +2129,12 @@ osf-components:
             error_ends_with_dot: 'File name cannot end with a period.'
             error_forbidden_chars: 'Please remove special characters from the file name.'
             retry_message: 'Rename failed.'
-
+    file-metadata-manager:
+        error-getting-metadata: 'Could not get metadata'
+        error-saving-metadata: 'Could not save metadata changes'
+    item-metadata-manager:
+        error-getting-metadata: 'Could not get metadata'
+        error-saving-metadata: 'Could not save metadata changes'
     subjects:
         browse:
             browse_all: 'Browse all subjects'

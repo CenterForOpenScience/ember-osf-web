@@ -1,0 +1,36 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{action (mut @isOpen) false}}
+    @closeOnOutsideClick={{true}}
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'osf-components.node-metadata-form.funder-help-dialog.heading'}}
+    </dialog.heading>
+    <dialog.main tabindex='0'>
+        {{#if @userCanEdit}}
+            {{t 'osf-components.node-metadata-form.funder-help-dialog.write-permission-first'
+                htmlSafe=true
+            }}
+            <FaIcon @icon='pencil-alt' />
+            {{t 'osf-components.node-metadata-form.funder-help-dialog.write-permission-second'
+                htmlSafe=true
+                nodeType=@nodeType
+                supportEmail=@supportEmail
+            }}
+        {{else}}
+            {{t 'osf-components.node-metadata-form.funder-help-dialog.read-only'
+                htmlSafe=true
+                supportEmail=@supportEmail
+            }}
+        {{/if}}
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            @type='secondary'
+            {{on 'click' dialog.close}}
+        >
+            {{t 'general.close'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

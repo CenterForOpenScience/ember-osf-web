@@ -23,14 +23,14 @@ interface OverviewTestContext extends TestContext {
 }
 
 const tagsMap: Record<string, string[]> = {
-    title: ['dc.title', 'citation_title', 'og:title', 'twitter:title'],
-    description: ['dc.abstract', 'citation_description', 'og:description', 'twitter:description'],
-    contributors: ['dc.creator', 'citation_author'],
+    title: ['dct.title', 'citation_title', 'og:title', 'twitter:title'],
+    description: ['dct.abstract', 'citation_description', 'og:description', 'twitter:description'],
+    contributors: ['dc.contributor', 'citation_author'],
     affiliatedInstitutions: ['citation_author_institution'],
     tags: ['dc.keywords'],
     doi: ['citation_doi'],
-    dateRegistered: ['dc.datesubmitted', 'citation_publication_date'],
-    dateModified: ['dc.datemodified'],
+    dateRegistered: ['dct.created', 'citation_publication_date'],
+    dateModified: ['dct.modified'],
     url: ['citation_public_url', 'og:url', 'og:secure_url'],
     image: ['og:image', 'twitter:image'],
 };

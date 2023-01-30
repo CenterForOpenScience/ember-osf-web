@@ -33,7 +33,7 @@ declare module 'ember-cli-mirage/types/registries/schema' {
 }
 
 export function guidAfterCreate(newObj: ModelInstance, server: Server) {
-    server.schema.guids.create({
+    server.create('guid', {
         id: newObj.id,
         referentType: newObj.modelName,
     });
