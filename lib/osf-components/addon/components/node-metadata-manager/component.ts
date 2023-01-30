@@ -186,8 +186,12 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
             this.saveErrored = false;
         } catch (e) {
             this.saveErrored = true;
-            const errorTitle = this.intl.t('osf-components.item-metadata-manager.error-saving-metadata');
-            this.toast.error(getApiErrorMessage(e), errorTitle);
+            if (e.errors[0].source.pointer === '/data/attributes/funders/award_uri') {
+                this.toast.error(this.intl.t('osf-components.funding-metadata.api_uri_validation_error'));
+            } else {
+                const errorTitle = this.intl.t('osf-components.item-metadata-manager.error-saving-metadata');
+                this.toast.error(getApiErrorMessage(e), errorTitle);
+            }
         }
     }
 
