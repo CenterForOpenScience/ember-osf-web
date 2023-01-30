@@ -1,6 +1,5 @@
 .container {
     background-color: $color-bg-white;
-    display: inline-flex;
     flex-direction: column;
 
     svg {
@@ -36,6 +35,18 @@
         font-weight: 300;
         font-size: 30px;
         color: $color-text-gray-blue;
+    }
+
+    div {
+        .metadata-header {
+            margin: 14px 0;
+        }
+    }
+
+    .metadata-header {
+        align-items: flex-end;
+        display: flex;
+        font-weight: 700;
     }
 }
 

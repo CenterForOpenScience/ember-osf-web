@@ -4,6 +4,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { taskFor } from 'ember-concurrency-ts';
+import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
 
@@ -11,10 +12,12 @@ export default class GuidFile extends Controller {
     @service media!: Media;
     @service toast!: Toast;
     @service router!: RouterService;
+    @service intl!: Intl;
 
     @tracked revisionsOpened = false;
     @tracked tagsOpened = false;
     @tracked metadataOpened = !this.isMobile;
+    @tracked resourceHelpOpen = false;
 
     @tracked viewedVersion?: number;
 
@@ -28,6 +31,14 @@ export default class GuidFile extends Controller {
 
     get isTablet() {
         return this.media.isTablet;
+    }
+
+    get nodeTypeTranslation() {
+        const { target } = this.model.fileModel;
+        const translationKeyBase = 'general';
+        const translationNode = target.get('isRegistration') ? 'registration'
+            : target.get('isRoot') ? 'project' : 'component';
+        return this.intl.t(`${translationKeyBase}.${translationNode}`);
     }
 
     @action

@@ -90,6 +90,7 @@
                     local-class='resource-select'
                     @options={{@manager.resourceTypeGeneralOptions}}
                     @valuePath='resourceTypeGeneral'
+                    @placeholder={{t 'osf-components.node-metadata-form.choose-resource-type-general'}}
                     as |option|
                 >
                     {{option}}
@@ -100,6 +101,9 @@
                     @label={{t 'osf-components.node-metadata-form.resource-language'}}
                     @onchange={{@manager.changeLanguage}}
                     @valuePath='languageObject'
+                    @searchField='name'
+                    @searchEnabled={{true}}
+                    @placeholder={{t 'osf-components.node-metadata-form.choose-language'}}
                     as |option|
                 >
                     {{option.name}}
@@ -129,7 +133,16 @@
             <div local-class='resource-type-and-language'>
                 <dl>
                     <dt>
-                        {{t 'osf-components.node-metadata-form.resource-information'}}
+                        <span>
+                            {{t 'osf-components.node-metadata-form.resource-information'}}
+                            <Button
+                                aria-label={{t 'osf-components.node-metadata-form.resource-information-help'}}
+                                @layout='fake-link'
+                                {{on 'click' (action (mut this.resourceHelpOpen) true)}}
+                            >
+                                <FaIcon @icon='question-circle' />
+                            </Button>
+                        </span>
                         {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
                             <Button
                                 data-test-edit-resource-metadata-button
@@ -149,6 +162,9 @@
         {{/if}}
         {{#unless @manager.node.isAnonymous}}
             {{#if @manager.isEditingFunding}}
+                <div local-class='metadata-header'>
+                    {{t 'osf-components.node-metadata-form.funding-information'}}
+                </div>
                 <FundingMetadata @changeset={{@manager.changeset}} as |funding|>
                     <Button
                         data-test-cancel-editing-funding-metadata-button
@@ -176,8 +192,40 @@
                 </FundingMetadata>
             {{else}}
                 <div local-class='funders'>
-                    <dl>
-                        <dt>
+                    {{#if @manager.metadataRecord.funders}}
+                        <dl>
+                            <dt>
+                                <span>
+                                    {{t 'osf-components.node-metadata-form.funding-information'}}
+                                    <Button
+                                        aria-label={{t 'osf-components.node-metadata-form.funding-information-help'}}
+                                        @layout='fake-link'
+                                        {{on 'click' (action (mut this.funderHelpOpen) true)}}
+                                    >
+                                        <FaIcon @icon='question-circle' />
+                                    </Button>
+                                </span>
+                                {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                                    <Button
+                                        data-test-edit-funding-metadata-button
+                                        data-analytics-name='Edit Funding Metadata'
+                                        aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                                        {{on 'click' @manager.editFunding}}
+                                        @layout='fake-link'
+                                    >
+                                        <FaIcon @icon='pencil-alt' />
+                                    </Button>
+                                {{/if}}
+                            </dt>
+                            {{#each @manager.metadataRecord.funders as |funder|}}
+                                <dd data-test-display-funder-name={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.funder'}} {{funder.funder_name}}</dd>
+                                <dd data-test-display-funder-award-title={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-title'}} {{funder.award_title}}</dd>
+                                <dd data-test-display-funder-award-uri={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-info-uri'}} {{funder.award_uri}}</dd>
+                                <dd data-test-display-funder-award-number={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-number'}} {{funder.award_number}}</dd>
+                            {{/each}}
+                        </dl>
+                    {{else}}
+                        <div local-class='metadata-header'>
                             {{t 'osf-components.node-metadata-form.funding-information'}}
                             {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
                                 <Button
@@ -189,13 +237,23 @@
                                 >
                                     <FaIcon @icon='pencil-alt' />
                                 </Button>
-                            {{/if}}
-                        </dt>
-                        {{#each @manager.metadataRecord.funders as |funder|}}
-                            <dd data-test-display-funder-name={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.funder'}} {{funder.funder_name}}</dd>
-                            <dd data-test-display-funder-award-title={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-title'}} {{funder.award_title}}</dd>
-                            <dd data-test-display-funder-award-uri={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-info-uri'}} {{funder.award_uri}}</dd>
-                            <dd data-test-display-funder-award-number={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-number'}} {{funder.award_number}}</dd>
+                            {{/if}} 
+                        </div>
+                    {{/if}}
+                </div>
+            {{/if}}
+            {{#if @manager.license.name}}
+                <dl>
+                    <dt>{{t 'osf-components.node-metadata-form.license'}}</dt>
+                    <dd data-test-target-license-name>{{@manager.license.name}}</dd>
+                </dl>
+            {{/if}}
+            {{#if (and @manager.institutions (not @manager.isAnonymous))}}
+                <div data-test-target-institutions>
+                    <dl>
+                        <dt local-class='affiliated-institutions'>{{t 'osf-components.node-metadata-form.institutions'}}</dt>
+                        {{#each @manager.institutions as |institution|}}
+                            <dd>{{institution.name}}</dd>
                         {{/each}}
                     </dl>
                 </div>
@@ -233,3 +291,15 @@
         </dl>
     </div>
 </div>
+<NodeMetadataForm::ResourceHelpDialog
+    @isOpen={{this.resourceHelpOpen}}
+    @userCanEdit={{@manager.userCanEdit}}
+    @nodeType={{this.nodeTypeTranslation}}
+    @filesUrl={{this.filesUrl}}
+/>
+<NodeMetadataForm::FundingHelpDialog
+    @isOpen={{this.funderHelpOpen}}
+    @userCanEdit={{@manager.userCanEdit}}
+    @nodeType={{this.nodeTypeTranslation}}
+    @supportEmail={{this.supportEmail}}
+/>

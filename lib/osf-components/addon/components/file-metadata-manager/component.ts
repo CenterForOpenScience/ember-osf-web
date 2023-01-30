@@ -23,7 +23,9 @@ import NodeModel from 'ember-osf-web/models/node';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import LicenseModel from 'ember-osf-web/models/license';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import { LanguageCode, languageCodes } from 'ember-osf-web/utils/languages';
+import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 
 interface Args {
     file: FileModel;
@@ -45,6 +47,7 @@ export interface FileMetadataManager {
     userCanEdit: boolean;
     isDirty: boolean;
     isGatheringData: boolean;
+    metadataDownloadUrl: string;
 }
 
 export function languageFromLanguageCode(languageCode: string){
@@ -55,10 +58,21 @@ export function languageFromLanguageCode(languageCode: string){
     return '';
 }
 
+export function metadataDownloadUrlBuilder(guid: string, currentUser: CurrentUser){
+    let url = `/${guid}/metadata/`;
+    const { viewOnlyToken } = currentUser;
+    url = addQueryParam(url, 'format', 'datacite-json');
+    if (viewOnlyToken) {
+        url = addQueryParam(url, 'view_only', viewOnlyToken);
+    }
+    return url;
+}
+
 export default class FileMetadataManagerComponent extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service currentUser!: CurrentUser;
 
     @tracked metadataRecord!: CustomFileMetadataRecordModel;
     @tracked targetMetadata!: CustomItemMetadataRecordModel;
@@ -80,7 +94,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('save.isRunning') isSaving!: boolean;
-    @alias('file.apiMeta.isAnonymous') isAnonymous!: boolean;
+    @alias('file.apiMeta.anonymous') isAnonymous!: boolean;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -107,13 +121,21 @@ export default class FileMetadataManagerComponent extends Component<Args> {
         return languageFromLanguageCode(languageCode);
     }
 
+    get metadataDownloadUrl() {
+        return metadataDownloadUrlBuilder(this.file.guid, this.currentUser);
+    }
+
     @task
     @waitFor
     async getTarget() {
         this.target = await this.file.target as NodeModel;
         this.targetParent = await this.target.get('parent');
         this.targetLicense = await this.target.license;
-        this.targetInstitutions = await this.target.affiliatedInstitutions as InstitutionModel[];
+        this.targetInstitutions = await this.target.queryHasMany(
+            'affiliatedInstitutions', {
+                pageSize: 100,
+            },
+        );
         this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
         await taskFor(this.getTargetMetadata).perform();
     }
