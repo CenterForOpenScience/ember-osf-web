@@ -1968,7 +1968,7 @@ osf-components:
         delete: 'Delete funder'
         funder_name_required: 'Funder name is required'
         award_uri_format_error: 'Award info URI has to be a URI'
-        api_uri_validation_errror: 'Award URI is not a full URI. Did you remember the "https://"?'
+        api_uri_validation_error: 'Award URI is not a full URI. Did you remember the "https://"?'
     move_file_modal:
         move_header: 'Move {itemCount, plural, one {# item} other {# items}}'
         copy_header: 'Copy {itemCount, plural, one {# item} other {# items}}'

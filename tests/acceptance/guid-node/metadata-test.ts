@@ -187,7 +187,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         const url = `/${node.id}/metadata`;
         server.namespace = '/v2';
         server.patch('/custom_item_metadata_records/:id', () => ({
-            errors: [{ detail: 'Could not patch metadata' }],
+            errors: [{ detail: 'Could not patch metadata', source: { pointer: 'points to nowhere' } }],
         }), 400);
         await visit(url);
 
