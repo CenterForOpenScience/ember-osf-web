@@ -9,7 +9,7 @@ import { restartableTask, timeout } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import CrossrefFunderModel from 'ember-osf-web/models/crossref-funder';
 import IntlService from 'ember-intl/services/intl';
-import { validateFormat } from 'ember-changeset-validations/validators';
+import validateFormat from 'ember-validators/format';
 
 interface Args {
     changeset: BufferedChangeset;
@@ -45,22 +45,27 @@ export default class FundingMetadata extends Component<Args> {
     @action
     validateFunderObjects() {
         for (const item of this.funderObjects) {
-            if (item.award_uri) {
-                const validateURI = validateFormat({ type: 'url' });
-                debugger;
-                const result = validateURI('', item.award_uri, '', [], '');
-                console.log(result);
+            if (!(item.award_number || item.award_title || item.award_uri)) {
+                if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.error'))) {
+                    item.errors.pushObject(this.intl.t('osf-components.funding-metadata.error'));
+                }
+            } else {
+                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.error'));
+            }
+            // @ts-ignore incomplete types at types/ember-validators/format
+            if (item.award_uri && validateFormat(item.award_uri, { type: 'url' }) !== true) {
+                if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.award_uri_format_error'))) {
+                    item.errors.pushObject(this.intl.t('osf-components.funding-metadata.award_uri_format_error'));
+                }
+            } else {
+                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.award_uri_format_error'));
             }
             if (!item.funder_name) {
                 if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.funder_name_required'))) {
                     item.errors.pushObject(this.intl.t('osf-components.funding-metadata.funder_name_required'));
                 }
-            } else if (!(item.award_number || item.award_title || item.award_uri)) {
-                if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.error'))) {
-                    item.errors.pushObject(this.intl.t('osf-components.funding-metadata.error'));
-                }
             } else {
-                item.errors.clear();
+                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.funder_name_required'));
             }
         }
         notifyPropertyChange(this, 'funderObjects');
@@ -72,7 +77,7 @@ export default class FundingMetadata extends Component<Args> {
 
     @action
     saveToChangeset() {
-        // this.validateFunderObjects();
+        this.validateFunderObjects();
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         this.args.changeset.set('funders', this.funderObjects.map(({ errors, ...props }) => props));
     }
