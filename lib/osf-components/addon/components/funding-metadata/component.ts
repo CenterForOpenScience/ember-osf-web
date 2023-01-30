@@ -45,12 +45,12 @@ export default class FundingMetadata extends Component<Args> {
     @action
     validateFunderObjects() {
         for (const item of this.funderObjects) {
-            if (!(item.award_number || item.award_title || item.award_uri)) {
-                if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.error'))) {
-                    item.errors.pushObject(this.intl.t('osf-components.funding-metadata.error'));
+            if (!item.funder_name) {
+                if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.funder_name_required'))) {
+                    item.errors.pushObject(this.intl.t('osf-components.funding-metadata.funder_name_required'));
                 }
             } else {
-                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.error'));
+                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.funder_name_required'));
             }
             // @ts-ignore incomplete types at types/ember-validators/format
             if (item.award_uri && validateFormat(item.award_uri, { type: 'url' }) !== true) {
@@ -59,13 +59,6 @@ export default class FundingMetadata extends Component<Args> {
                 }
             } else {
                 item.errors.removeObject(this.intl.t('osf-components.funding-metadata.award_uri_format_error'));
-            }
-            if (!item.funder_name) {
-                if (!item.errors.includes(this.intl.t('osf-components.funding-metadata.funder_name_required'))) {
-                    item.errors.pushObject(this.intl.t('osf-components.funding-metadata.funder_name_required'));
-                }
-            } else {
-                item.errors.removeObject(this.intl.t('osf-components.funding-metadata.funder_name_required'));
             }
         }
         notifyPropertyChange(this, 'funderObjects');
