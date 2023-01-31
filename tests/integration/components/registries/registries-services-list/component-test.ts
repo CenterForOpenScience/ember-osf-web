@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
+import { percySnapshot } from 'ember-percy';
 
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-intl/test-support';
@@ -34,6 +35,9 @@ module('Integration | Component | registries | registries-services-list', hooks 
         assert.dom('[data-test-registries-list-contact-link]')
             .hasText('Contact us',
                 'The contact link text is correct.');
+
+
+        await percySnapshot(assert);
     });
 
 
