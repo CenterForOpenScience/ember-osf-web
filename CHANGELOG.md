@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [23.02.0] - 2023-01-30
+### Added
+- GUID metadata
+
+## [23.01.0] - 2023-01-25
+### Changed
+- Collections Moderation bug and improvements
+### Added
+- User profile settings page institutional affiliation management
 
 ## [22.11.0] - 2022-12-19
 ### Changed
@@ -1884,6 +1893,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[23.02.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.02.0
+[23.01.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.01.0
+[22.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.11.0
+[22.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.10.0
+[22.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.9.0
 [22.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.8.0
 [22.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.7.0
 [22.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.6.0
