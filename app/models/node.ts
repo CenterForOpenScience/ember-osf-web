@@ -2,8 +2,10 @@ import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-d
 
 import { computed } from '@ember/object';
 import { alias, bool, equal, not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
 import { buildValidations, validator } from 'ember-cp-validations';
+import Intl from 'ember-intl/services/intl';
 
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
@@ -84,6 +86,8 @@ export interface NodeLicense {
 }
 
 export default class NodeModel extends AbstractNodeModel.extend(Validations, CollectableValidations) {
+    @service intl!: Intl;
+
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
     @attr('node-category') category!: NodeCategory;
@@ -235,6 +239,18 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
             return NodeType.Fork;
         }
         return NodeType.Generic;
+    }
+
+    /**
+     * The type of this node, as a string.
+     */
+    @computed('isRegistration', 'isRoot')
+    get nodeTypeTranslation() {
+        let translationNode = this.isRoot ? 'project' : 'component';
+        if (this.isRegistration) {
+            translationNode = 'registration';
+        }
+        return this.intl.t(`general.${translationNode}`);
     }
 
     // This is for the title helper, which does its own encoding of unsafe characters
