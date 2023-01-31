@@ -1,0 +1,40 @@
+<Panel
+    data-test-connected-identities-panel
+    data-analytics-scope='Connected identities panel'
+    as |panel|
+>
+    <panel.heading @title={{t 'settings.account.affiliatedInstitutions.affiliatedInstitutions'}} />
+    <panel.body>
+        <p data-test-affiliated-institutions-help-text>
+            {{t 'settings.account.affiliatedInstitutions.helpText' htmlSafe=true}}
+        </p>
+        <hr local-class='description-list-separator'>
+        <PaginatedList::HasMany
+            data-analytics-scope='User Affiliated Institutions'
+            local-class='institutions-list'
+            @model={{this.currentUser.user}}
+            @relationshipName='institutions'
+            @bindReload={{action (mut this.reloadAffiliations)}}
+            as |list|
+        >
+            <list.item as |item|>
+                <span data-test-affiliated-institutions-item='{{item.id}}'>
+                    {{item.name}}
+                    <DeleteButton
+                        data-test-affiliated-institutions-delete
+                        local-class='delete-button'
+                        @small={{true}}
+                        @noBackground={{true}}
+                        @delete={{action this.removeAffiliation item}}
+                        @modalTitle={{t 'settings.account.affiliatedInstitutions.deleteModalTitle'}}
+                        @modalBody={{t 'settings.account.affiliatedInstitutions.deleteModalBody' institutionName=item.name htmlSafe=true}}
+                    />
+                </span>
+            </list.item>
+
+            <list.empty>
+                {{t 'settings.account.affiliatedInstitutions.noAffiliations'}}
+            </list.empty>
+        </PaginatedList::HasMany>
+    </panel.body>
+</Panel>

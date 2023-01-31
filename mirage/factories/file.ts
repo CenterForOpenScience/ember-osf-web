@@ -1,10 +1,10 @@
-import { Factory, ID, trait, Trait } from 'ember-cli-mirage';
+import { Factory, ID, ModelInstance, Server, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import File from 'ember-osf-web/models/file';
 import { FileReference } from 'ember-osf-web/packages/registration-schema';
 
-import { guid, guidAfterCreate } from './utils';
+import { guid } from './utils';
 
 export interface FileTraits {
     asFolder: Trait;
@@ -22,8 +22,15 @@ export interface MirageFile extends File {
 
 export default Factory.extend<MirageFile & FileTraits>({
     id: guid('file'),
-    guid: guid('file'),
-    afterCreate: guidAfterCreate,
+    afterCreate: (newObj: ModelInstance, server: Server) => {
+        server.create('guid', {
+            id: newObj.id,
+            referentType: newObj.modelName,
+        });
+        newObj.update({
+            guid: newObj.id,
+        });
+    },
 
     name() {
         return faker.system.commonFileName(faker.system.commonFileExt());

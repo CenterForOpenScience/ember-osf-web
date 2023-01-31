@@ -1,0 +1,305 @@
+<div local-class='container'>
+    <h2>
+        {{t 'osf-components.node-metadata-form.metadata-header'}}
+    </h2>
+    <FormControls @changeset={{@manager.nodeChangeset}} as |form|>
+        {{#if @manager.isEditingDescription}}
+            <div local-class='edit-metadata-description'>
+                <form.textarea
+                    data-test-description-field
+                    @label={{t 'osf-components.node-metadata-form.description'}}
+                    @valuePath='description'
+                />
+                <Button
+                    aria-label={{t 'general.cancel'}}
+                    data-analytics-name='Cancel editing node description'
+                    data-test-cancel-editing-node-description-button
+                    disabled={{@manager.isSaving}}
+                    {{on 'click' @manager.cancelNode}}
+                    @type='secondary'
+                >
+                    {{t 'general.cancel'}}
+                </Button>
+                <Button
+                    aria-label={{t 'general.save'}}
+                    data-analytics-name='Save node description'
+                    data-test-save-node-description-button
+                    disabled={{or (not @manager.nodeChangeset.isDirty) @manager.isSaving}}
+                    {{on 'click' @manager.saveNode}}
+                    @type='primary'
+                >
+                    {{t 'general.save'}}
+                </Button>
+            </div>
+        {{else}}
+            <dl>
+                <dt>
+                    {{t 'osf-components.node-metadata-form.description'}}
+                    {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                        <Button
+                            aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                            data-analytics-name='Edit Node Description'
+                            data-test-edit-node-description-button
+                            {{on 'click' @manager.editDescription}}
+                            @layout='fake-link'
+                        >
+                            <FaIcon @icon='pencil-alt' />
+                        </Button>
+                    {{/if}}
+                </dt>
+                <dd>
+                    <ExpandablePreview data-test-display-node-description>
+                        {{@manager.node.description}}
+                    </ExpandablePreview>
+                </dd>
+            </dl>
+        {{/if}}
+    </FormControls>
+    {{#unless @manager.node.isAnonymous}}
+        <div data-test-contributors-list local-class='contributor-list'>
+            <dl>
+                <dt>
+                    {{t 'osf-components.node-metadata-form.contributors'}}
+                    {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                        <a
+                            aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                            data-test-edit-contributors
+                            href={{concat '/' @manager.nodeId '/contributors/'}}
+                        >
+                            <FaIcon @icon='pencil-alt' />
+                        </a>
+                    {{/if}}
+                </dt>
+                <dd>
+                    <ContributorList
+                        data-test-target-contributors
+                        @model={{@manager.node}}
+                        @shouldLinkUsers={{true}}
+                        @shouldTruncate={{false}}
+                    />
+                </dd>
+            </dl>
+        </div>
+    {{/unless}}
+    <FormControls @changeset={{@manager.changeset}} as |form|>
+        {{#if @manager.isEditingResources}}
+            <div local-class='resource-edit'>
+                <form.select
+                    data-test-select-resource-type
+                    @label={{t 'osf-components.node-metadata-form.resource-type'}}
+                    local-class='resource-select'
+                    @options={{@manager.resourceTypeGeneralOptions}}
+                    @valuePath='resourceTypeGeneral'
+                    @placeholder={{t 'osf-components.node-metadata-form.choose-resource-type-general'}}
+                    as |option|
+                >
+                    {{option}}
+                </form.select>
+                <form.select
+                    data-test-select-resource-language
+                    @options={{@manager.languageCodes}}
+                    @label={{t 'osf-components.node-metadata-form.resource-language'}}
+                    @onchange={{@manager.changeLanguage}}
+                    @valuePath='languageObject'
+                    @searchField='name'
+                    @searchEnabled={{true}}
+                    @placeholder={{t 'osf-components.node-metadata-form.choose-language'}}
+                    as |option|
+                >
+                    {{option.name}}
+                </form.select>
+                <Button
+                    aria-label={{t 'general.cancel'}}
+                    data-analytics-name='Cancel editing resource metadata'
+                    data-test-cancel-editing-resource-metadata-button
+                    disabled={{@manager.isSaving}}
+                    @type='secondary'
+                    {{on 'click' @manager.cancelMetadata}}
+                >
+                    {{t 'general.cancel'}}
+                </Button>
+                <Button
+                    aria-label={{t 'general.save'}}
+                    data-analytics-name='Save resource metadata'
+                    data-test-save-resource-metadata-button
+                    disabled={{or (not @manager.changeset.isDirty) @manager.isSaving}}
+                    @type='primary'
+                    {{on 'click' @manager.saveMetadata}}
+                >
+                    {{t 'general.save'}}
+                </Button>
+            </div>
+        {{else}}
+            <div local-class='resource-type-and-language'>
+                <dl>
+                    <dt>
+                        <span>
+                            {{t 'osf-components.node-metadata-form.resource-information'}}
+                            <Button
+                                aria-label={{t 'osf-components.node-metadata-form.resource-information-help'}}
+                                @layout='fake-link'
+                                {{on 'click' (action (mut this.resourceHelpOpen) true)}}
+                            >
+                                <FaIcon @icon='question-circle' />
+                            </Button>
+                        </span>
+                        {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                            <Button
+                                data-test-edit-resource-metadata-button
+                                data-analytics-name='Edit Resource Metadata'
+                                aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                                {{on 'click' @manager.editResources}}
+                                @layout='fake-link'
+                            >
+                                <FaIcon @icon='pencil-alt' />
+                            </Button>
+                        {{/if}}
+                    </dt>
+                    <dd data-test-display-resource-type-general>{{t 'osf-components.node-metadata-form.resource-type'}} {{@manager.metadataRecord.resourceTypeGeneral}}</dd>
+                    <dd data-test-display-resource-language>{{t 'osf-components.node-metadata-form.resource-language'}} {{@manager.languageFromCode}}</dd>
+                </dl>
+            </div>
+        {{/if}}
+        {{#unless @manager.node.isAnonymous}}
+            {{#if @manager.isEditingFunding}}
+                <div local-class='metadata-header'>
+                    {{t 'osf-components.node-metadata-form.funding-information'}}
+                </div>
+                <FundingMetadata @changeset={{@manager.changeset}} as |funding|>
+                    <Button
+                        data-test-cancel-editing-funding-metadata-button
+                        aria-label={{t 'general.cancel'}}
+                        data-analytics-name='Cancel editing funding metadata'
+                        disabled={{@manager.isSaving}}
+                        @type='secondary'
+                        {{on 'click' @manager.cancelMetadata}}
+                    >
+                        {{t 'general.cancel'}}
+                    </Button>
+                    <Button
+                        data-test-save-funding-metadata-button
+                        aria-label={{t 'general.save'}}
+                        data-analytics-name='Save funding metadata'
+                        disabled={{or (not @manager.changeset.isDirty) @manager.isSaving (not funding.isValid)}}
+                        @type='primary'
+                        {{on 'click' (queue
+                            funding.validate
+                            @manager.saveMetadata)
+                        }}
+                    >
+                        {{t 'general.save'}}
+                    </Button>
+                </FundingMetadata>
+            {{else}}
+                <div local-class='funders'>
+                    {{#if @manager.metadataRecord.funders}}
+                        <dl>
+                            <dt>
+                                <span>
+                                    {{t 'osf-components.node-metadata-form.funding-information'}}
+                                    <Button
+                                        aria-label={{t 'osf-components.node-metadata-form.funding-information-help'}}
+                                        @layout='fake-link'
+                                        {{on 'click' (action (mut this.funderHelpOpen) true)}}
+                                    >
+                                        <FaIcon @icon='question-circle' />
+                                    </Button>
+                                </span>
+                                {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                                    <Button
+                                        data-test-edit-funding-metadata-button
+                                        data-analytics-name='Edit Funding Metadata'
+                                        aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                                        {{on 'click' @manager.editFunding}}
+                                        @layout='fake-link'
+                                    >
+                                        <FaIcon @icon='pencil-alt' />
+                                    </Button>
+                                {{/if}}
+                            </dt>
+                            {{#each @manager.metadataRecord.funders as |funder|}}
+                                <dd data-test-display-funder-name={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.funder'}} {{funder.funder_name}}</dd>
+                                <dd data-test-display-funder-award-title={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-title'}} {{funder.award_title}}</dd>
+                                <dd data-test-display-funder-award-uri={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-info-uri'}} {{funder.award_uri}}</dd>
+                                <dd data-test-display-funder-award-number={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-number'}} {{funder.award_number}}</dd>
+                            {{/each}}
+                        </dl>
+                    {{else}}
+                        <div local-class='metadata-header'>
+                            {{t 'osf-components.node-metadata-form.funding-information'}}
+                            {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                                <Button
+                                    data-test-edit-funding-metadata-button
+                                    data-analytics-name='Edit Funding Metadata'
+                                    aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                                    {{on 'click' @manager.editFunding}}
+                                    @layout='fake-link'
+                                >
+                                    <FaIcon @icon='pencil-alt' />
+                                </Button>
+                            {{/if}} 
+                        </div>
+                    {{/if}}
+                </div>
+            {{/if}}
+            {{#if @manager.license.name}}
+                <dl>
+                    <dt>{{t 'osf-components.node-metadata-form.license'}}</dt>
+                    <dd data-test-target-license-name>{{@manager.license.name}}</dd>
+                </dl>
+            {{/if}}
+            {{#if (and @manager.institutions (not @manager.isAnonymous))}}
+                <div data-test-target-institutions>
+                    <dl>
+                        <dt local-class='affiliated-institutions'>{{t 'osf-components.node-metadata-form.institutions'}}</dt>
+                        {{#each @manager.institutions as |institution|}}
+                            <dd>{{institution.name}}</dd>
+                        {{/each}}
+                    </dl>
+                </div>
+            {{/if}}
+        {{/unless}}
+    </FormControls>
+    {{#if @manager.node.isRegistration}}
+        <div local-class='subjects' data-test-subjects-list>
+            <dl>
+                <dt>{{t 'osf-components.node-metadata-form.subjects'}}</dt>
+                <dd>
+                    <Subjects::Manager
+                        @model={{@manager.node}}
+                        @provider={{@manager.node.provider}}
+                        @doesAutosave={{true}}
+                        as |subjectsManager|
+                    >
+                        <Subjects::Widget
+                            @subjectsManager={{subjectsManager}}
+                        />
+                    </Subjects::Manager>
+                </dd>
+            </dl>
+        </div>
+    {{/if}}
+    <div local-class='tags'>
+        <dl>
+            <dt>{{t 'osf-components.node-metadata-form.tags'}}</dt>
+            <dd>
+                <TagsWidget
+                    @taggable={{@manager.node}}
+                    @readOnly={{not @manager.userCanEdit}}
+                />
+            </dd>
+        </dl>
+    </div>
+</div>
+<NodeMetadataForm::ResourceHelpDialog
+    @isOpen={{this.resourceHelpOpen}}
+    @userCanEdit={{@manager.userCanEdit}}
+    @nodeType={{this.nodeTypeTranslation}}
+    @filesUrl={{this.filesUrl}}
+/>
+<NodeMetadataForm::FundingHelpDialog
+    @isOpen={{this.funderHelpOpen}}
+    @userCanEdit={{@manager.userCanEdit}}
+    @nodeType={{this.nodeTypeTranslation}}
+    @supportEmail={{this.supportEmail}}
+/>

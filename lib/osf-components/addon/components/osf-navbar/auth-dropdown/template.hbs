@@ -25,52 +25,48 @@
                     {{@headline}}
                 </ddm.item>
             {{/if}}
-            <ddm.item>
+            <li role='menuitem'>
                 <OsfLink
                     data-test-ad-my-profile
                     data-analytics-name='MyProfile'
                     @href={{this.profileURL}}
-                    role='menuitem'
                 >
                     <FaIcon @icon='user' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.my_profile'}}
                 </OsfLink>
-            </ddm.item>
-            <ddm.item>
+            </li>
+            <li role='menuitem'>
                 <OsfLink
                     data-test-ad-support
                     data-analytics-name='Support'
                     @href={{this.supportURL}}
-                    role='menuitem'
                 >
                     <FaIcon @icon='life-ring' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.osf_support'}}
                 </OsfLink>
-            </ddm.item>
-            <ddm.item>
+            </li>
+            <li role='menuitem'>
                 <OsfLink
                     data-test-ad-settings
                     data-analytics-name='Settings'
                     @href={{this.settingsURL}}
-                    role='menuitem'
                 >
                     <FaIcon @icon='cog' class='fa-lg p-r-xs' />
                     {{t 'general.settings'}}
                 </OsfLink>
-            </ddm.item>
-            <ddm.item>
+            </li>
+            <li role='menuitem'>
                 <BsButton
                     data-test-ad-logout
                     data-analytics-name='Logout'
                     class='logoutLink'
                     @type='link'
                     @onClick={{action this.currentUser.logout}}
-                    role='menuitem'
                 >
                     <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.log_out'}}
                 </BsButton>
-            </ddm.item>
+            </li>
         </dd.menu>
     </BsDropdown>
 {{else}}
