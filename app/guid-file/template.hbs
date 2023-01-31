@@ -33,39 +33,37 @@
         </div>
     </:body>
     <:right>
-        {{#if (or this.model.shouldShowTags this.model.shouldShowRevisions) }}
-            {{#if this.revisionsOpened}}
-                <section data-test-revisions-tab local-class='file-detail-revisions'>
-                    <h2 local-class='file-detail-right-section-heading'>{{t 'general.revisions'}}</h2>
-                    <ol local-class='file-detail-revision-list' reversed>
-                        <hr aria-hidden='true'>
-                        {{#if this.model.getRevisions.isRunning}}
-                            <LoadingIndicator @dark={{true}} />
+        {{#if this.revisionsOpened}}
+            <section data-test-revisions-tab local-class='file-detail-revisions'>
+                <h2 local-class='file-detail-right-section-heading'>{{t 'general.revisions'}}</h2>
+                <ol local-class='file-detail-revision-list' reversed>
+                    <hr aria-hidden='true'>
+                    {{#if this.model.getRevisions.isRunning}}
+                        <LoadingIndicator @dark={{true}} />
+                    {{else}}
+                        {{#each this.model.waterButlerRevisions as |version|}}
+                            <FileVersion
+                                @version={{version}}
+                                @downloadUrl={{this.model.links.download}}
+                                @changeVersion={{this.changeVersion}}
+                            />
+                            <hr aria-hidden='true'>
                         {{else}}
-                            {{#each this.model.waterButlerRevisions as |version|}}
-                                <FileVersion
-                                    @version={{version}}
-                                    @downloadUrl={{this.model.links.download}}
-                                    @changeVersion={{this.changeVersion}}
-                                />
-                                <hr aria-hidden='true'>
-                            {{else}}
-                                {{t 'file_detail.no_revisions'}}
-                            {{/each}}
-                        {{/if}}
-                    </ol>
-                </section>
-            {{/if}}
-            {{#if this.tagsOpened}}
-                <div local-class='right-container'>
-                    <h2>{{t 'general.tags'}}</h2>
-                    <TagsWidget
-                        @taggable={{this.model.fileModel}}
-                        @readOnly={{not this.model.userCanEditMetadata}}
-                        @inline={{true}}
-                    />
-                </div>
-            {{/if}}
+                            {{t 'file_detail.no_revisions'}}
+                        {{/each}}
+                    {{/if}}
+                </ol>
+            </section>
+        {{/if}}
+        {{#if this.tagsOpened}}
+            <div local-class='right-container'>
+                <h2>{{t 'general.tags'}}</h2>
+                <TagsWidget
+                    @taggable={{this.model.fileModel}}
+                    @readOnly={{not this.model.userCanEditMetadata}}
+                    @inline={{true}}
+                />
+            </div>
         {{/if}}
         {{#if this.metadataOpened}}
             <div local-class='right-container {{if this.isMobile 'Mobile'}}'>
