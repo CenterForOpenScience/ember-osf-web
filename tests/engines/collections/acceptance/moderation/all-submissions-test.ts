@@ -42,6 +42,10 @@ module('Collections | Acceptance | moderation | all', hooks => {
         }, 'currentUserIsAdmin');
         await visit(`/collections/${provider.id}/moderation/`);
         assert.equal(currentRouteName(), 'collections.provider.moderation.all');
+
+        assert.dom('[data-test-submission-sort]').containsText('Date (newest first)',
+            'Sort dropdown exists and default is sort by date descending');
+
         assert.dom('[data-test-collections-moderation-all-tab]').hasClass('active', 'all submissions is active tab');
 
         assert.dom('[data-test-submissions-type="pending"][data-test-is-selected="true"]')
