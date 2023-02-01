@@ -54,7 +54,9 @@ Router.map(function() {
         this.mount('registries', { path: '--registries' });
     }
 
-    this.route('guid-file', { path: '--file/:guid' });
+    this.route('guid-file', { path: '--file/:guid' }, function() {
+        this.route('metadata');
+    });
 
     this.route('guid-node', { path: '--node/:guid' }, function() {
         this.mount('analytics-page', { as: 'analytics' });
