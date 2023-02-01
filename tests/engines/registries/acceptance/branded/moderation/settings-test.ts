@@ -15,18 +15,20 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(() => {
-        server.create('registration-provider', { id: 'mdr8n', allowBulkUploads: true });
-        server.create('subscription', {
+        const provider = server.create('registration-provider', { id: 'mdr8n', allowBulkUploads: true });
+        server.create('registration-subscription', {
             id: 'mdr8n_new_pending_submissions',
             eventName: 'new_pending_submissions',
             frequency: SubscriptionFrequency.Instant,
+            provider,
         });
-        server.create('subscription', {
+        server.create('registration-subscription', {
             id: 'mdr8n_new_pending_withdraw_requests',
             eventName: 'new_pending_withdraw_requests',
             frequency: SubscriptionFrequency.Instant,
+            provider,
         });
-        server.create('subscription', {
+        server.create('registration-subscription', {
             id: 'cat_photo_repository_subscription',
             eventName: 'cat_photo_repository_subscription',
             frequency: SubscriptionFrequency.Daily,
