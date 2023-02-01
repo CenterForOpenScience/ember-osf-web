@@ -32,7 +32,6 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
             id: 'cat_photo_repository_subscription',
             eventName: 'cat_photo_repository_subscription',
             frequency: SubscriptionFrequency.Daily,
-            provider,
         });
     });
 
