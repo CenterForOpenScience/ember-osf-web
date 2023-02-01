@@ -37,11 +37,11 @@ export default class SubscriptionsManager extends Component {
             if (this.provider) {
                 this.subscriptions = await this.provider.queryHasMany('subscriptions');
             } else if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
-                this.subscriptions = await this.store.query('subscriptions', {
+                this.subscriptions = await this.store.query('subscription', {
                     'filter[id]': this.subscriptionIds.join(','),
                 });
             } else {
-                this.subscriptions = await this.store.findAll('subscriptions');
+                this.subscriptions = await this.store.findAll('subscription');
             }
         } catch (e) {
             captureException(e);
