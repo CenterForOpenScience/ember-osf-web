@@ -7,6 +7,7 @@ import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import BrandModel from './brand';
 import ProviderModel from './provider';
 import RegistrationModel from './registration';
+import RegistrationSubscriptionModel from './registration-subscription';
 
 export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('registration', { inverse: 'provider' })
@@ -20,6 +21,9 @@ export default class RegistrationProviderModel extends ProviderModel {
 
     @hasMany('review-action', { inverse: null })
     actions!: AsyncHasMany<ReviewActionModel> | ReviewActionModel[];
+
+    @hasMany('registration-subscriptions', { inverse: 'provider' })
+    subscriptions!: AsyncHasMany<RegistrationSubscriptionModel>;
 
     @attr('fixstring')
     shareSource?: string;

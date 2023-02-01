@@ -12,6 +12,9 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import SubscriptionModel, { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+import CollectionProviderModel from 'ember-osf-web/models/collection-provider';
+
 import template from './template';
 
 @tagName('')
@@ -22,6 +25,7 @@ export default class SubscriptionsManager extends Component {
     @service intl!: Intl;
     // optional arguments
     subscriptionIds?: string[];
+    provider?: RegistrationProviderModel | CollectionProviderModel;
 
     // tracked properties
     @tracked subscriptions: ArrayProxy<SubscriptionModel> | SubscriptionModel[] | null = null;
@@ -30,7 +34,9 @@ export default class SubscriptionsManager extends Component {
     @waitFor
     async fetchSubscriptions() {
         try {
-            if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
+            if (this.provider) {
+                this.subscriptions = await this.provider.queryHasMany('subscriptions');
+            } else if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
                 this.subscriptions = await this.store.query('subscription', {
                     'filter[id]': this.subscriptionIds.join(','),
                 });
