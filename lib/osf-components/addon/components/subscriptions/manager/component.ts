@@ -12,9 +12,10 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import SubscriptionModel, { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import template from './template';
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+import CollectionProviderModel from 'ember-osf-web/models/collection-provider';
 
-type SubscriptionType = 'subscription' | 'registration-subscription' | 'collection-subscription';
+import template from './template';
 
 @tagName('')
 @layout(template)
@@ -24,8 +25,7 @@ export default class SubscriptionsManager extends Component {
     @service intl!: Intl;
     // optional arguments
     subscriptionIds?: string[];
-    type: SubscriptionType = 'subscription';
-    options: any = {};
+    provider?: RegistrationProviderModel | CollectionProviderModel;
 
     // tracked properties
     @tracked subscriptions: ArrayProxy<SubscriptionModel> | SubscriptionModel[] | null = null;
@@ -34,13 +34,14 @@ export default class SubscriptionsManager extends Component {
     @waitFor
     async fetchSubscriptions() {
         try {
-            if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
-                this.subscriptions = await this.store.query(this.type, {
+            if (this.provider) {
+                this.subscriptions = await this.provider.queryHasMany('subscriptions');
+            } else if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
+                this.subscriptions = await this.store.query('subscriptions', {
                     'filter[id]': this.subscriptionIds.join(','),
-                    ...this.options,
                 });
             } else {
-                this.subscriptions = await this.store.findAll(this.type, this.options);
+                this.subscriptions = await this.store.findAll('subscriptions');
             }
         } catch (e) {
             captureException(e);
