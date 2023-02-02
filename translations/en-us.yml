@@ -1401,6 +1401,12 @@ registries:
     form_view:
         none_selected: 'None selected'
     overview:
+        initial:
+            text: 'Pending'
+            short_description: 'Pending admin contributor approval'
+            long_description: 'This registration is awaiting approval by all admin contributors or after 48 hours has passed. An email will notify all registration contributors of the decision.
+            <br><br>
+            If the registration is pending after 48 hours has passed, contact support at {supportEmail}.'
         files:
             title: Files
             storage_providers:
