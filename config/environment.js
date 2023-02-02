@@ -156,7 +156,7 @@ module.exports = function(environment) {
                 keenSessionId: 'keenSessionId',
                 analyticsDismissAdblock: 'adBlockDismiss',
                 cookieConsent: 'osf_cookieconsent',
-                outputFeaturePopover: 'outputFeaturePopover',
+                newFeaturePopover: 'metadataFeaturePopover',
                 maintenance: 'maintenance',
                 csrf: 'api-csrf',
                 authSession: 'embosf-auth-session',

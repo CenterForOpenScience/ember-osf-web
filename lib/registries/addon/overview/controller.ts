@@ -24,7 +24,7 @@ const {
     },
     OSF: {
         cookies: {
-            outputFeaturePopover,
+            newFeaturePopover,
         },
     },
 } = config;
@@ -41,7 +41,7 @@ export default class Overview extends Controller {
 
     queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
-    outputFeaturePopoverCookie = outputFeaturePopover;
+    newFeaturePopoverCookie = newFeaturePopover;
 
     @tracked mode = '';
     @tracked revisionId = '';

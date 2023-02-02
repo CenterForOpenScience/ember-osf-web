@@ -103,6 +103,9 @@ general:
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
+    newFeaturePopoverHeading: 'New feature!'
+    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
+
 file_actions_menu:
     actions: '{filename} actions'
     copy_js: 'Copy dynamic JS iFrame'
@@ -1399,8 +1402,6 @@ registries:
         none_selected: 'None selected'
     overview:
         files:
-            outputFeaturePopoverHeading: 'New feature!'
-            outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
             title: Files
             storage_providers:
                 invalidProviderDetails: 'Could not find the requested file provider.'
