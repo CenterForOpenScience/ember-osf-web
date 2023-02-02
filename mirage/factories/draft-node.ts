@@ -1,5 +1,4 @@
 import { Factory, trait, Trait } from 'ember-cli-mirage';
-import faker from 'faker';
 
 import DraftNode from 'ember-osf-web/models/draft-node';
 import { guid } from './utils';
@@ -13,7 +12,7 @@ export default Factory.extend <DraftNode & DraftNodeTraits>({
 
     withFiles: trait<DraftNode>({
         afterCreate(draftNode, server) {
-            const count = faker.random.number({ min: 1, max: 5 });
+            const count = 3;
             const osfstorage = server.create('file-provider', { target: draftNode });
             const files = server.createList('file', count, { target: draftNode });
             osfstorage.rootFolder.update({ files, target: draftNode });

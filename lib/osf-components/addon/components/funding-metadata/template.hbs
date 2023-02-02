@@ -17,10 +17,14 @@
                         @selected={{item}}
                         as |options|
                     >
-                        {{#if options.name}}
-                            {{options.name}}    
+                        {{#if (or options.name options.funder_name)}}
+                            {{#if options.name}}
+                                {{options.name}}    
+                            {{else}}
+                                {{options.funder_name}}
+                            {{/if}}
                         {{else}}
-                            {{options.funder_name}}
+                            {{t 'osf-components.funding-metadata.funder_placeholder'}}
                         {{/if}}
                     </PowerSelect>
                 </label>
