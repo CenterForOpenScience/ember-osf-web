@@ -14,7 +14,7 @@
     div:not(.resource-edit),
     div:not(.metadata-description-field) {
         justify-content: space-between;
-        margin: 5px 0;
+        margin: 5px 0 15px;
     }
 
     dd {
@@ -152,8 +152,12 @@
     }
 }
 
-.resource-edit > div {
+.resource-edit div {
     display: block;
+
+    div {
+        max-width: 100%;
+    }
 }
 
 /* stylelint-disable selector-no-qualifying-type */
