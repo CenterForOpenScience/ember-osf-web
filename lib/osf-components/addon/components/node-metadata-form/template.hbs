@@ -299,12 +299,12 @@
 <NodeMetadataForm::ResourceHelpDialog
     @isOpen={{this.resourceHelpOpen}}
     @userCanEdit={{@manager.userCanEdit}}
-    @nodeType={{this.nodeTypeTranslation}}
+    @nodeType={{@manager.node.nodeTypeTranslation}}
     @filesUrl={{this.filesUrl}}
 />
 <NodeMetadataForm::FundingHelpDialog
     @isOpen={{this.funderHelpOpen}}
     @userCanEdit={{@manager.userCanEdit}}
-    @nodeType={{this.nodeTypeTranslation}}
+    @nodeType={{@manager.node.nodeTypeTranslation}}
     @supportEmail={{this.supportEmail}}
 />
