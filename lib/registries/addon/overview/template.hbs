@@ -62,8 +62,29 @@
                 <layout.leftNavOld as |leftNav|>
                     <leftNav.link data-analytics-name='Overview' @route='registries.overview.index'
                         @models={{array this.registration.id}} @icon='home' @label={{t 'registries.overview.title'}} />
-                    <leftNav.link data-analytics-name='Metadata' @route='registries.overview.metadata'
-                        @models={{array this.registration.id}} @icon='info-circle' @label={{t 'registries.overview.metadata'}} />
+                    {{#let (unique-id 'metadata-link') as |id|}}
+                        <leftNav.link
+                            data-analytics-name='Metadata'
+                            @route='registries.overview.metadata'
+                            @models={{array this.registration.id}}
+                            @icon='info-circle'
+                            @label={{t 'registries.overview.metadata'}}
+                            id={{id}}
+                        />
+                        {{#if this.showNewFeaturePopover}}
+                            <NewFeaturePopover
+                                @triggerElement={{concat '#' id}}
+                                @featureCookie={{this.newFeaturePopoverCookie}}
+                            >
+                                <:header>
+                                    {{t 'general.newFeaturePopoverHeading'}}
+                                </:header>
+                                <:body>
+                                    {{t 'general.newFeaturePopoverBody'}}
+                                </:body>
+                            </NewFeaturePopover>
+                        {{/if}}
+                    {{/let}}
                     <leftNav.link data-analytics-name='Files' 
                         @route='registries.overview.files'
                         @models={{array this.registration.id}}
@@ -99,30 +120,14 @@
                         </div>
                     {{/if}}
                     {{#if this.registration.resourcesVisible}}
-                        {{#let (unique-id 'resource-link') as |id|}}
-                            <leftNav.link 
-                                data-test-resource-link
-                                data-analytics-name='Resources'
-                                @route='registries.overview.resources'
-                                @models={{array this.registration.id}}
-                                @icon='archive'
-                                @label={{t 'registries.overview.resources.title'}}
-                                id={{id}}
-                            />
-                            {{#if this.showNewFeaturePopover}}
-                                <NewFeaturePopover
-                                    @triggerElement={{concat '#' id}}
-                                    @featureCookie={{this.outputFeaturePopoverCookie}}
-                                >
-                                    <:header>
-                                        {{t 'registries.overview.files.outputFeaturePopoverHeading'}}
-                                    </:header>
-                                    <:body>
-                                        {{t 'registries.overview.files.outputFeaturePopoverBody'}}
-                                    </:body>
-                                </NewFeaturePopover>
-                            {{/if}}
-                        {{/let}}
+                        <leftNav.link 
+                            data-test-resource-link
+                            data-analytics-name='Resources'
+                            @route='registries.overview.resources'
+                            @models={{array this.registration.id}}
+                            @icon='archive'
+                            @label={{t 'registries.overview.resources.title'}}
+                        />
                     {{/if}}
                     {{#if this.registration.wikiEnabled}}
                         <leftNav.link

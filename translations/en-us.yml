@@ -103,6 +103,9 @@ general:
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
+    newFeaturePopoverHeading: 'New feature!'
+    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
+
 file_actions_menu:
     actions: '{filename} actions'
     copy_js: 'Copy dynamic JS iFrame'
@@ -1405,9 +1408,6 @@ registries:
             <br><br>
             If the registration is pending after 48 hours has passed, contact support at {supportEmail}.'
         files:
-
-            outputFeaturePopoverHeading: 'New feature!'
-            outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
             title: Files
             storage_providers:
                 invalidProviderDetails: 'Could not find the requested file provider.'
@@ -1979,6 +1979,7 @@ osf-components:
         add_another: 'Add funder'
         delete: 'Delete funder'
         funder_name_required: 'Funder name is required'
+        funder_placeholder: 'Choose your funder'
         award_uri_format_error: 'Award info URI has to be a URI'
         api_uri_validation_error: 'Award URI is not a full URI. Did you remember the "https://"?'
     move_file_modal:

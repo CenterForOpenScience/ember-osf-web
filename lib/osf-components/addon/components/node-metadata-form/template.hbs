@@ -103,10 +103,15 @@
                     @valuePath='languageObject'
                     @searchField='name'
                     @searchEnabled={{true}}
-                    @placeholder={{t 'osf-components.node-metadata-form.choose-language'}}
                     as |option|
                 >
-                    {{option.name}}
+                    {{#if option.name}}
+                        {{option.name}}
+                    {{else}}
+                        <span local-class='placeholder'>
+                            {{t 'osf-components.node-metadata-form.choose-language'}}
+                        </span>
+                    {{/if}}
                 </form.select>
                 <Button
                     aria-label={{t 'general.cancel'}}
