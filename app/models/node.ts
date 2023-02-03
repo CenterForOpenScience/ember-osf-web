@@ -244,8 +244,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     /**
      * The type of this node, as a string.
      */
-    @computed('isRegistration', 'isRoot')
-    get nodeTypeTranslation() {
+    get nodeTypeTranslation(): string {
         let translationNode = this.isRoot ? 'project' : 'component';
         if (this.isRegistration) {
             translationNode = 'registration';
