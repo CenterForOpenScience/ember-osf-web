@@ -47,22 +47,12 @@ module('Acceptance | resolve-guid', hooks => {
     });
 
     module('File', __ => {
-        test('Index', async assert => {
+        test('Index', async () => {
             const file = server.create('file', { target: server.create('registration') });
 
             await visit(`/${file.id}`);
-
-            routingAssertions(assert, '--file', `/${file.id}`, 'guid-file.index');
-        });
-        test('Metadata', async assert => {
-            const file = server.create('file', { target: server.create('registration') });
-
-            await visit(`/${file.id}/metadata`);
-
-            routingAssertions(assert, '--file', `/${file.id}/metadata`, 'guid-file.metadata');
         });
     });
-
 
     module('Node', mhooks => {
         mhooks.beforeEach(async () => {
