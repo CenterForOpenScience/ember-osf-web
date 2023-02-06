@@ -47,10 +47,12 @@ module('Acceptance | resolve-guid', hooks => {
     });
 
     module('File', __ => {
-        test('Index', async () => {
+        test('Index', async assert => {
             const file = server.create('file', { target: server.create('registration') });
 
             await visit(`/${file.id}`);
+
+            routingAssertions(assert, '--file', `/${file.id}`, 'guid-file');
         });
     });
 
