@@ -133,10 +133,15 @@
                                             @valuePath='languageObject'
                                             @searchField='name'
                                             @searchEnabled={{true}}
-                                            @placeholder={{t 'file_detail.choose_language'}}
                                             as |option|
                                         >
-                                            {{option.name}}
+                                            {{#if option.name}}
+                                                {{option.name}}
+                                            {{else}}
+                                                <span local-class='placeholder'>
+                                                    {{t 'file_detail.choose_language'}}
+                                                </span>
+                                            {{/if}}
                                         </form.select>
                                     </FormControls>
                                 </div>
@@ -194,7 +199,7 @@
                                             <GuidFile::-Components::ResourceHelpDialog
                                                 @isOpen={{this.resourceHelpOpen}}
                                                 @userCanEdit={{manager.userCanEdit}}
-                                                @parentNodeType={{this.nodeTypeTranslation}}
+                                                @parentNodeType={{manager.target.nodeTypeTranslation}}
                                             />
                                         </dt>
                                         <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>

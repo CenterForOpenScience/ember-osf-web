@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "23.02.1",
+  "version": "23.03.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -185,7 +185,7 @@
     "ember-page-title": "^6.2.1",
     "ember-parachute": "^1.0.2",
     "ember-percy": "^1.5.0",
-    "ember-power-select": "^4.1.3",
+    "ember-power-select": "^4.1.7",
     "ember-promise-helpers": "^1.0.4",
     "ember-qrcode-shim": "^0.4.0",
     "ember-qunit": "^5.1.4",

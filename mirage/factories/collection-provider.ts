@@ -21,11 +21,14 @@ export default Factory.extend<MirageCollectionProvider & CollectionProviderTrait
     id: guid('collection-provider'),
     afterCreate(provider, server) {
         guidAfterCreate(provider, server);
-
-        server.create('subscription', {
+        const collectionSubscription = server.create('collection-subscription', {
             id: `${provider.id}_new_pending_submissions`,
             eventName: 'new_pending_submissions',
-            frequency: SubscriptionFrequency.Instant ,
+            frequency: SubscriptionFrequency.Instant,
+            provider,
+        });
+        provider.update({
+            subscriptions: [collectionSubscription],
         });
     },
     advisoryBoard: faker.lorem.paragraph,

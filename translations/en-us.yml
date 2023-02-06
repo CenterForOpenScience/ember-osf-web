@@ -103,6 +103,9 @@ general:
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
+    newFeaturePopoverHeading: 'New feature!'
+    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
+
 file_actions_menu:
     actions: '{filename} actions'
     copy_js: 'Copy dynamic JS iFrame'
@@ -1014,6 +1017,11 @@ collections:
                 accepted: 'View accepted submissions'
                 rejected: 'View rejected submissions'
                 removed: 'View removed submissions'
+            sort:
+                date_descending: 'Date (newest first)'
+                date_ascending: 'Date (oldest first)'
+                title_descending: 'Title (Z-A)'
+                title_ascending: 'Title (A-Z)'
             pending: 'Pending'
             accepted: 'Accepted'
             rejected: 'Rejected'
@@ -1289,6 +1297,7 @@ registries:
                 contact: 'Contact us'
             asist: 'DARPA ASIST Registry'
             characterlab: 'Character Lab Registry'
+            dam: 'Stiftelsen Dam Registry'
             egap: 'egap Registry'
             metascience: 'Metascience Registry'
             rwe: 'Real World Evidence Registry'
@@ -1393,9 +1402,13 @@ registries:
     form_view:
         none_selected: 'None selected'
     overview:
+        initial:
+            text: 'Pending'
+            short_description: 'Pending admin contributor approval'
+            long_description: 'This registration is awaiting approval by all admin contributors or after 48 hours has passed. An email will notify all registration contributors of the decision.
+            <br><br>
+            If the registration is pending after 48 hours has passed, contact support at {supportEmail}.'
         files:
-            outputFeaturePopoverHeading: 'New feature!'
-            outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
             title: Files
             storage_providers:
                 invalidProviderDetails: 'Could not find the requested file provider.'
@@ -1967,6 +1980,7 @@ osf-components:
         add_another: 'Add funder'
         delete: 'Delete funder'
         funder_name_required: 'Funder name is required'
+        funder_placeholder: 'Choose your funder'
         award_uri_format_error: 'Award info URI has to be a URI'
         api_uri_validation_error: 'Award URI is not a full URI. Did you remember the "https://"?'
     move_file_modal:

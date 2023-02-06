@@ -16,6 +16,16 @@
             </a>
         {{/let}}
     {{/each}}
+    <div data-test-submission-sort local-class='sort-wrapper {{if this.isMobile 'mobile'}}'>
+        <PowerSelect
+            @options={{this.sortOptions}}
+            @selected={{this.sort}}
+            @onChange={{action this.onSortChange}}
+            as |sort|
+        >
+            {{sort.label}}
+        </PowerSelect>
+    </div>
 </nav>
 <PaginatedList::HasMany
     @model={{this.model}}
