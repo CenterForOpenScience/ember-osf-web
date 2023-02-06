@@ -11,8 +11,7 @@
         color: $color-link-black;
     }
 
-    div:not(.resource-edit),
-    div:not(.metadata-description-field) {
+    > div {
         justify-content: space-between;
         margin: 5px 0 15px;
     }
@@ -154,15 +153,10 @@
 
 .resource-edit div {
     display: block;
+    margin: 5px 0 15px;
 
     div {
         max-width: 100%;
     }
 }
 
-/* stylelint-disable selector-no-qualifying-type */
-.metadata-description-field div {
-    &[data-test-collapse-overlay] {
-        margin-bottom: 0;
-    }
-}
