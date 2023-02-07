@@ -116,6 +116,10 @@
     flex-direction: column;
 }
 
+.funder-separator {
+    border-bottom: 1px solid $color-border-gray-light;
+}
+
 .tags {
     flex-direction: row;
 

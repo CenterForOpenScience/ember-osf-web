@@ -78,12 +78,12 @@ module('Acceptance | guid file | registration files', hooks => {
             .doesNotContainText(t('general.version'), 'Viewed version is not specified on page load');
         assert.dom('[data-test-revisions-tab]').doesNotExist('Revisions tab closed on page load');
         assert.dom('[data-test-versions-button]')
-            .hasAria('label', t('file_detail.view_revisions'), 'Versions button has correct label when closed');
+            .hasAria('label', t('file-detail.view-revisions'), 'Versions button has correct label when closed');
 
         await click('[data-test-versions-button]');
         assert.dom('[data-test-revisions-tab]').exists('Revisions tab opened');
         assert.dom('[data-test-versions-button]')
-            .hasAria('label', t('file_detail.close_revisions'), 'Versions button has correct label when open');
+            .hasAria('label', t('file-detail.close-revisions'), 'Versions button has correct label when open');
         assert.dom('[data-test-file-version-item]').exists({ count: 2 }, 'Two file versions are shown');
         await click('[data-test-file-version-toggle-button]');
         assert.dom('[data-test-file-version-section]').exists({ count: 3 }, 'File version info is shown');
@@ -95,7 +95,7 @@ module('Acceptance | guid file | registration files', hooks => {
         await click('[data-test-versions-button]');
         assert.dom('[data-test-revisions-tab]').doesNotExist('Revisions tab closes when clicking button again');
         assert.dom('[data-test-versions-button]')
-            .hasAria('label', t('file_detail.view_revisions'), 'Versions button has correct label when closed');
+            .hasAria('label', t('file-detail.view-revisions'), 'Versions button has correct label when closed');
     });
 
     // test for tags
