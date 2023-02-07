@@ -2,6 +2,7 @@ import {
     currentURL,
     visit,
 } from '@ember/test-helpers';
+
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -113,14 +114,14 @@ module('Acceptance | guid file | registration files', hooks => {
 
     // Test file metadata
     test('view metadata', async function(this: ThisTestContext, assert) {
-        const nodeNoun = ['Registration','Project','Component'];
+        const nodeNoun = ['Registration', 'Project', 'Component'];
         const metadataRecord = await this.owner.lookup('service:store')
             .findRecord('custom-item-metadata-record', this.registration.id);
 
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
-        // Verify correct tab on dekstop
+        // Verify correct default tab for dekstop
         assert.dom('[data-test-metadata-tab]').exists();
         assert.dom('[data-test-revisions-tab]').doesNotExist();
         assert.dom('[data-test-tags-tab]').doesNotExist();
@@ -203,7 +204,6 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-target-description-label]').hasText('Description',
             'File metadata target description text is properly set.');
         assert.dom('[data-test-target-description]').exists();
-
     });
 
     // Save and cancel buttons with write permissions
