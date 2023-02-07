@@ -68,11 +68,11 @@ jobs:
     - uses: actions/checkout@v2
       - name: Percy Test
         run: npx @percy/cli snapshot tests
-      env:
-        PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
-        PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
-        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
-      timeout-minutes: 10
+        env:
+          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+          PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+        timeout-minutes: 10
     - uses: volta-cli/action@v1
     - uses: actions/download-artifact@v2
       with:
