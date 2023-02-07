@@ -227,6 +227,7 @@
                                 <dd data-test-display-funder-award-title={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-title'}} {{funder.award_title}}</dd>
                                 <dd data-test-display-funder-award-uri={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-info-uri'}} {{funder.award_uri}}</dd>
                                 <dd data-test-display-funder-award-number={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-number'}} {{funder.award_number}}</dd>
+                                <div local-class='funder-separator' />
                             {{/each}}
                         </dl>
                     {{else}}
@@ -264,6 +265,33 @@
                 </div>
             {{/if}}
         {{/unless}}
+        <dl>
+            <dt>
+                <span>
+                    {{t 'osf-components.node-metadata-form.dates'}}
+                </span>
+            </dt>
+            <dd data-test-creation-date>
+                {{t 'osf-components.node-metadata-form.creation-date'}}
+                {{moment-format @manager.node.dateCreated 'MMMM D, YYYY'}}
+            </dd>
+            <dd data-test-modification-date>
+                {{t 'osf-components.node-metadata-form.modification-date'}}
+                {{moment-format @manager.node.dateModified 'MMMM D, YYYY'}}
+            </dd>
+            {{#if @manager.node.dateRegistered}}
+                <dd data-test-registration-date>
+                    {{t 'osf-components.node-metadata-form.registration-date'}}
+                    {{moment-format @manager.node.dateRegistered 'MMMM D, YYYY'}}
+                </dd>
+            {{/if}}
+            {{#if @manager.node.dateWithdrawn}}
+                <dd data-test-withdrawal-date>
+                    {{t 'osf-components.node-metadata-form.withdrawal-date'}}
+                    {{moment-format @manager.node.dateWithdrawn 'MMMM D, YYYY'}}
+                </dd>
+            {{/if}}
+        </dl>
     </FormControls>
     {{#if @manager.node.isRegistration}}
         <div local-class='subjects' data-test-subjects-list>
