@@ -292,6 +292,18 @@
                 </dd>
             {{/if}}
         </dl>
+        {{#if @manager.identifiers}}
+            <dl>
+                <dt>
+                    <span>
+                        {{t 'osf-components.node-metadata-form.identifiers'}}
+                    </span>
+                </dt>
+                {{#each @manager.identifiers as |identifier| }}
+                    <dd>{{identifier.category}}: <Identifier @identifier={{identifier}} /></dd>
+                {{/each}}
+            </dl>
+        {{/if}}
     </FormControls>
     {{#if @manager.node.isRegistration}}
         <div local-class='subjects' data-test-subjects-list>

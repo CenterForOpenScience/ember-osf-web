@@ -23,6 +23,7 @@ import { tracked } from '@glimmer/tracking';
 import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import LicenseModel from 'ember-osf-web/models/license';
+import IdentifierModel from 'ember-osf-web/models/identifier';
 
 interface Args {
     node: (NodeModel);
@@ -42,6 +43,7 @@ export interface NodeMetadataManager {
     isGatheringData: boolean;
     institutions: InstitutionModel[];
     license: LicenseModel;
+    identifiers: IdentifierModel[];
 }
 
 export default class NodeMetadataManagerComponent extends Component<Args> {
@@ -72,6 +74,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @alias('node.id') nodeId!: string;
     @tracked institutions!: InstitutionModel[];
     @tracked license!: LicenseModel;
+    @tracked identifiers!: IdentifierModel[];
     @tracked guidType!: string | undefined;
     resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
     languageCodes: LanguageCode[] = languageCodes;
@@ -111,6 +114,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
                 },
             );
             this.license = await node.license;
+            this.identifiers = await node.queryHasMany('identifiers');
             this.changeset = buildChangeset(this.metadata, null);
             this.changeset.languageObject = {
                 code: this.metadata.language,

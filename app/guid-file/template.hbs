@@ -299,6 +299,16 @@
                                         {{moment-format manager.target.dateWithdrawn 'MMMM D, YYYY'}}
                                     </dd>
                                 {{/if}}
+                                {{#if manager.targetIdentifiers}}
+                                    <dt>
+                                        <span>
+                                            {{t 'osf-components.node-metadata-form.identifiers'}}
+                                        </span>
+                                    </dt>
+                                    {{#each manager.targetIdentifiers as |identifier| }}
+                                        <dd>{{identifier.category}}: <Identifier @identifier={{identifier}} /></dd>
+                                    {{/each}}
+                                {{/if}}
                             </dl>
                             {{#unless manager.isAnonymous}}
                                 <h3>{{t 'file-detail.contributors'}}</h3>
