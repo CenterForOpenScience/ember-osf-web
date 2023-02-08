@@ -14,6 +14,7 @@ import { TestContext } from 'ember-test-helpers';
 
 import { module, test } from 'qunit';
 
+import FileModel from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import RegistrationModel from 'ember-osf-web/models/registration';
@@ -275,6 +276,18 @@ module('Acceptance | guid file | registration files', hooks => {
         // Verify form closes
         assert.dom('[data-test-edit-metadata-form]').doesNotExist();
         assert.dom('[data-test-metadata-tab]').exists();
+    });
+
+    // Verify anonymous registrations
+    test('anonymous registration', async function(this: ThisTestContext, assert) {
+        const node = server.create('node', {
+            isAnonymous: true,
+        });
+
+        await visit(`/--node/${node.id}`);
+        assert.equal(currentURL(), `/--node/${node.id}`);
+
+        assert.dom('[data-test-metadata-node]').doesNotExist();
     });
 
     // Verify A11y testing
