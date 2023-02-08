@@ -1886,6 +1886,7 @@ osf-components:
         go_to_slide: 'Go to slide {slideIndex}'
     node-metadata-form:
         description: 'Description'
+        identifiers: 'Identifiers'
         dates: 'Dates'
         creation-date: 'Date created:'
         modification-date: 'Date modified:'

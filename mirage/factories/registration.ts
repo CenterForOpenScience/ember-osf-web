@@ -35,6 +35,7 @@ export interface RegistrationTraits {
     withSingleReviewAction: Trait;
     withFiles: Trait;
     withResources: Trait;
+    withDoi: Trait;
 }
 
 const stateAttrs = {
@@ -297,6 +298,12 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
             const count = faker.random.number({ min: 1, max: 5});
             const resources = server.createList('resource', count, { registration });
             registration.update({ resources });
+        },
+    }),
+    withDoi: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const identifiers = server.createList('identifier', 1, { referent: registration });
+            registration.update({ identifiers });
         },
     }),
 });
