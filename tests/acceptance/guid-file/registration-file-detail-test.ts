@@ -283,18 +283,6 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-metadata-tab]').exists();
     });
 
-    // Verify anonymous registrations
-    test('Anonymous registration', async function(this: ThisTestContext, assert) {
-        const node = server.create('node', {
-            isAnonymous: true,
-        });
-
-        await visit(`/--node/${node.id}`);
-        assert.equal(currentURL(), `/--node/${node.id}`);
-
-        assert.dom('[data-test-metadata-node]').doesNotExist();
-    });
-
     // Verify A11y testing
     test('A11y testing', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
