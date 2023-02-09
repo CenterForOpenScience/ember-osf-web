@@ -283,7 +283,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     }),
     withFiles: trait<MirageRegistration>({
         afterCreate(registration, server) {
-            const count = faker.random.number({ min: 1, max: 5 });
+            const count = 3;
             const osfstorage = registration.files.filter(file => file.name === 'osfstorage').models[0];
             const files = server.createList('file', count, {
                 target: registration,

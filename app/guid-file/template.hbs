@@ -7,14 +7,14 @@
             <OsfLink
                 data-test-project-link
                 data-analytics-name='Linked project'
-                local-class='ProjectLink'
+                local-class='project-link'
                 @route={{if (eq this.model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
                 @models={{array this.model.fileModel.target.id}}
             >
                 {{this.model.fileModel.target.title}}
             </OsfLink>
         </h3>
-        <div local-class='FlexContainerRow'>
+        <div local-class='flex-container-row'>
             <h2 data-test-filename>
                 {{this.model.displayName}}
                 {{#if this.viewedVersion}}
@@ -25,7 +25,7 @@
         </div>
     </:header>
     <:body>
-        <div data-test-file-renderer id='mfrIframeParent' local-class='FileRenderer'>
+        <div data-test-file-renderer id='mfrIframeParent' local-class='file-renderer'>
             <FileRenderer
                 @download={{this.model.links.download}}
                 @version={{this.viewedVersion}}
@@ -33,78 +33,313 @@
         </div>
     </:body>
     <:right>
-        {{#if (or this.model.shouldShowTags this.model.shouldShowRevisions) }}
-            {{#if this.revisionsOpened}}
-                <section data-test-revisions-tab local-class='FileDetail__revisions'>
-                    <h2 local-class='FileDetail__right-section-heading'>{{t 'general.revisions'}}</h2>
-                    <ol local-class='FileDetail__revision-list' reversed>
-                        <hr aria-hidden='true'>
-                        {{#if this.model.getRevisions.isRunning}}
-                            <LoadingIndicator @dark={{true}} />
+        {{#if this.revisionsOpened}}
+            <section data-test-revisions-tab local-class='file-detail-revisions'>
+                <h2 local-class='file-detail-right-section-heading'>{{t 'general.revisions'}}</h2>
+                <ol local-class='file-detail-revision-list' reversed>
+                    <hr aria-hidden='true'>
+                    {{#if this.model.getRevisions.isRunning}}
+                        <LoadingIndicator @dark={{true}} />
+                    {{else}}
+                        {{#each this.model.waterButlerRevisions as |version|}}
+                            <FileVersion
+                                @version={{version}}
+                                @downloadUrl={{this.model.links.download}}
+                                @changeVersion={{this.changeVersion}}
+                            />
+                            <hr aria-hidden='true'>
                         {{else}}
-                            {{#each this.model.waterButlerRevisions as |version|}}
-                                <FileVersion
-                                    @version={{version}}
-                                    @downloadUrl={{this.model.links.download}}
-                                    @changeVersion={{this.changeVersion}}
-                                />
-                                <hr aria-hidden='true'>
+                            {{t 'file_detail.no_revisions'}}
+                        {{/each}}
+                    {{/if}}
+                </ol>
+            </section>
+        {{/if}}
+        {{#if this.tagsOpened}}
+            <div local-class='right-container'>
+                <h2>{{t 'general.tags'}}</h2>
+                <TagsWidget
+                    @taggable={{this.model.fileModel}}
+                    @readOnly={{not this.model.userCanEditMetadata}}
+                    @inline={{true}}
+                />
+            </div>
+        {{/if}}
+        {{#if this.metadataOpened}}
+            <div local-class='right-container {{if this.isMobile 'Mobile'}}'>
+                <FileMetadataManager @file={{this.model.fileModel}} as |manager|>
+                    <div local-class='metadata-title-edit-download'>
+                        <h2 local-class='metadata-heading'>
+                            {{t 'file_detail.file_metadata'}}
+                        </h2>
+                        <div local-class='edit-download-buttons'>
+                            {{#unless manager.inEditMode}}
+                                {{#if manager.userCanEdit}}
+                                    <Button
+                                        data-test-edit-metadata-button
+                                        aria-label={{t 'general.edit'}}
+                                        data-analytics-name='Edit metadata'
+                                        @layout='fake-link'
+                                        {{on 'click' manager.edit}}
+                                    >
+                                        <FaIcon @icon='pencil-alt' />
+                                    </Button>
+                                {{/if}}
+                                {{#unless manager.isAnonymous}}
+                                    <OsfLink
+                                        data-test-download-button
+                                        aria-label={{t 'general.download'}}
+                                        @href={{manager.metadataDownloadUrl}}
+                                        @target='_blank'
+                                    >
+                                        <FaIcon @icon='download' />
+                                    </OsfLink>
+                                {{/unless}}
+                            {{/unless}}
+                        </div>
+                    </div>
+                    {{#if manager.isGatheringData}}
+                        <LoadingIndicator @dark={{true}} />
+                    {{else}}
+                        {{#if manager.inEditMode}}
+                            <div local-class='metadata-form-and-buttons'>
+                                <div local-class='edit-metadata-form'>
+                                    <FormControls @changeset={{manager.changeset}} as |form|>
+                                        <form.textarea
+                                            data-test-title-field
+                                            @valuePath='title'
+                                            @label={{t 'file_detail.title'}}
+                                        />
+                                        <form.textarea
+                                            data-test-description-field
+                                            @valuePath='description'
+                                            @label={{t 'file_detail.description'}}
+                                        />
+                                        <form.select
+                                            data-test-select-resource-type
+                                            @options={{manager.resourceTypeGeneralOptions}}
+                                            @label={{t 'file_detail.resource_type_general'}}
+                                            @valuePath='resourceTypeGeneral'
+                                            @placeholder={{t 'file_detail.choose_resource_type_general'}}
+                                            as |option|
+                                        >
+                                            {{option}}
+                                        </form.select>
+                                        <form.select
+                                            data-test-select-resource-language
+                                            @options={{manager.languageCodes}}
+                                            @label={{t 'file_detail.language'}}
+                                            @onchange={{manager.changeLanguage}}
+                                            @valuePath='languageObject'
+                                            @searchField='name'
+                                            @searchEnabled={{true}}
+                                            as |option|
+                                        >
+                                            {{#if option.name}}
+                                                {{option.name}}
+                                            {{else}}
+                                                <span local-class='placeholder'>
+                                                    {{t 'file_detail.choose_language'}}
+                                                </span>
+                                            {{/if}}
+                                        </form.select>
+                                    </FormControls>
+                                </div>
+                                <div local-class='edit-metadata-save-cancel-buttons'>
+                                    <Button
+                                        aria-label={{t 'general.cancel'}}
+                                        data-analytics-name='Cancel editing metadata'
+                                        data-test-cancel-editing-metadata-button
+                                        @type='secondary'
+                                        {{on 'click' manager.cancel}}
+                                    >
+                                        {{t 'general.cancel'}}
+                                    </Button>
+                                    <Button
+                                        aria-label={{t 'general.save'}}
+                                        data-analytics-name='Save metadata'
+                                        data-test-save-metadata-button
+                                        @type='primary'
+                                        {{on 'click' manager.save}}
+                                    >
+                                        {{t 'general.save'}}
+                                    </Button>
+                                </div>
+                            </div>
+                        {{else}}
+                            {{#if (or
+                                manager.metadataRecord.title
+                                manager.metadataRecord.description
+                                manager.metadataRecord.resourceTypeGeneral
+                                manager.languageFromCode
+                            )}}
+                                <dl>
+                                    {{#if manager.metadataRecord.title}}
+                                        <dt>{{t 'file_detail.title'}}</dt>
+                                        <dd data-test-file-title>{{manager.metadataRecord.title}}</dd>
+                                    {{/if}}
+                                    {{#if manager.metadataRecord.description}}
+                                        <dt>{{t 'file_detail.description'}}</dt>
+                                        <dd data-test-file-description>
+                                            <ExpandablePreview data-test-display-file-description>
+                                                {{manager.metadataRecord.description}}
+                                            </ExpandablePreview>
+                                        </dd>
+                                    {{/if}}
+                                    {{#if manager.metadataRecord.resourceTypeGeneral}}
+                                        <dt>
+                                            {{t 'file_detail.resource_type_general'}}
+                                            <Button
+                                                aria-label={{t 'file_detail.resource_type_general_help'}}
+                                                @layout='fake-link'
+                                                {{on 'click' (action (mut this.resourceHelpOpen) true)}}
+                                            >
+                                                <FaIcon @icon='question-circle' />
+                                            </Button>
+                                            <GuidFile::-Components::ResourceHelpDialog
+                                                @isOpen={{this.resourceHelpOpen}}
+                                                @userCanEdit={{manager.userCanEdit}}
+                                                @parentNodeType={{manager.target.nodeTypeTranslation}}
+                                            />
+                                        </dt>
+                                        <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
+                                    {{/if}}
+                                    {{#if manager.languageFromCode}}
+                                        <dt>{{t 'file_detail.language'}}</dt>
+                                        <dd data-test-file-language>{{manager.languageFromCode}}</dd>
+                                    {{/if}}
+                                </dl>
                             {{else}}
-                                {{t 'file_detail.no_revisions'}}
-                            {{/each}}
+                                {{#if manager.userCanEdit}}
+                                    {{t 'file_detail.enter_metadata'}}
+                                {{/if}}
+                            {{/if}}
+                            <h2 local-class='node-type-heading'>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
+                            {{#unless manager.isAnonymous}}
+                                <div>
+                                    {{#each manager.targetMetadata.funders as |funder|}}
+                                        <dl>
+                                            {{#if funder.funder_name}}
+                                                <dt>{{t 'file_detail.funder'}}</dt>
+                                                <dd data-test-target-funder-name={{funder.funder_name}}>
+                                                    {{funder.funder_name}}
+                                                </dd>
+                                            {{/if}}
+                                            {{#if funder.award_title}}
+                                                <dt>{{t 'file_detail.award_title'}}</dt>
+                                                <dd data-test-target-funder-award-title={{funder.funder_name}}>
+                                                    {{funder.award_title}}
+                                                </dd>
+                                            {{/if}}
+                                            {{#if funder.award_uri}}
+                                                <dt>{{t 'file_detail.award_uri'}}</dt>
+                                                <dd data-test-target-funder-award-uri={{funder.funder_name}}>
+                                                    {{funder.award_uri}}
+                                                </dd>
+                                            {{/if}}
+                                            {{#if funder.award_number}}
+                                                <dt>{{t 'file_detail.award_number'}}</dt>
+                                                <dd data-test-target-funder-award-number={{funder.funder_name}}>
+                                                    {{funder.award_number}}
+                                                </dd>
+                                            {{/if}}
+                                        </dl>
+                                    {{/each}}
+                                </div>
+                            {{/unless}}
+                            <dl>
+                                <dt>{{t 'file_detail.title'}}</dt>
+                                <dd data-test-target-title>{{manager.target.title}}</dd>
+                                {{#if manager.target.description}}
+                                    <dt>{{t 'file_detail.description'}}</dt>
+                                    <dd data-test-target-description>
+                                        <ExpandablePreview data-test-display-target-description>
+                                            {{manager.target.description}}
+                                        </ExpandablePreview>
+                                    </dd>
+                                {{/if}}
+                                {{#if (and manager.targetInstitutions (not manager.isAnonymous))}}
+                                    <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
+                                    <div data-test-target-institutions>
+                                        {{#each manager.targetInstitutions as |institution|}}
+                                            <dd>{{institution.name}}</dd>
+                                        {{/each}}
+                                    </div>
+                                {{/if}}
+                                {{#if manager.targetLicense.name}}
+                                    <dt>{{t 'file_detail.license'}}</dt>
+                                    <dd data-test-target-license-name>{{manager.targetLicense.name}}</dd>
+                                {{/if}}
+                                {{#if manager.targetMetadata.resourceTypeGeneral}}
+                                    <dt>{{t 'file_detail.resource_type_general'}}</dt>
+                                    <dd data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</dd>
+                                {{/if}}
+                                {{#if manager.targetLanguageFromCode}}
+                                    <dt>{{t 'file_detail.language'}}</dt>
+                                    <dd data-test-target-language>{{manager.targetLanguageFromCode}}</dd>
+                                {{/if}}
+                            </dl>
+                            {{#unless manager.isAnonymous}}
+                                <h3>{{t 'file_detail.contributors'}}</h3>
+                                <ContributorList
+                                    data-test-target-contributors
+                                    local-class='contributor-list'
+                                    @model={{manager.target}}
+                                    @shouldLinkUsers={{true}}
+                                    @shouldTruncate={{false}}
+                                />
+                            {{/unless}}
                         {{/if}}
-                    </ol>
-                </section>
-            {{/if}}
-            {{#if this.tagsOpened}}
-                <div local-class='RightContainer'>
-                    <h2>{{t 'general.tags'}}</h2>
-                    <TagsWidget
-                        @taggable={{this.model.fileModel}}
-                        @readOnly={{not this.model.userCanEditMetadata}}
-                        @inline={{true}}
-                    />
-                </div>
-            {{/if}}
+                    {{/if}}
+                </FileMetadataManager>
+            </div>
         {{/if}}
     </:right>
     <:rightButtons>
-        {{#if (or this.model.shouldShowTags this.model.shouldShowRevisions) }}
-            {{#if this.media.isMobile}}
-                <BsButton
-                    data-test-file-renderer-button
-                    data-analytics-name='File renderer button'
-                    local-class='SlideButtons {{if this.rightColumnClosed 'Active'}}'
-                    @size='lg'
-                    @onClick={{this.toggleFileRenderer}}
-                >
-                    <FaIcon @icon='file-alt' @fixedWidth={{true}}/>
-                </BsButton>
-            {{/if}}
-            {{#if this.model.shouldShowRevisions}}
-                <BsButton
-                    aria-label={{if this.revisionsOpened (t 'file_detail.close_revisions') (t 'file_detail.view_revisions')}}
-                    data-test-versions-button
-                    data-analytics-name='Versions button'
-                    local-class='SlideButtons {{if this.revisionsOpened 'Active'}}'
-                    @size='lg'
-                    @onClick={{this.toggleRevisions}}
-                >
-                    <FaIcon @icon='history' @fixedWidth={{true}}/>
-                </BsButton>
-            {{/if}}
-            {{#if this.model.shouldShowTags}}
-                <BsButton
-                    aria-label={{if this.tagsOpened (t 'file_detail.close_tags') (t 'file_detail.view_tags')}}
-                    data-test-tags-button
-                    data-analytics-name='Tags button'
-                    local-class='SlideButtons {{if this.tagsOpened 'Active'}}'
-                    @size='lg'
-                    @onClick={{this.toggleTags}}
-                >
-                    <FaIcon @icon='tags' @fixedWidth={{true}}/>
-                </BsButton>
-            {{/if}}
+        {{#if this.media.isMobile}}
+            <BsButton
+                data-test-file-renderer-button
+                data-analytics-name='File renderer button'
+                local-class='slide-buttons {{if this.rightColumnClosed 'active'}}'
+                @size='lg'
+                @onClick={{this.toggleFileRenderer}}
+            >
+                <FaIcon @icon='file-alt' @fixedWidth={{true}}/>
+            </BsButton>
+        {{/if}}
+        <BsButton
+            aria-label={{if this.metadataOpened (t 'file_detail.close_metadata') (t 'file_detail.view_metadata')}}
+            data-test-metadata-button
+            data-analytics-name='Metadata button'
+            local-class='slide-buttons {{if this.metadataOpened 'active'}}'
+            @size='lg'
+            @onClick={{this.toggleMetadata}}
+        >
+            <FaIcon @icon='info-circle' @fixedWidth={{true}}/>
+        </BsButton>
+        {{#if this.model.shouldShowRevisions}}
+            <BsButton
+                aria-label={{if this.revisionsOpened (t 'file_detail.close_revisions') (t 'file_detail.view_revisions')}}
+                data-test-versions-button
+                data-analytics-name='Versions button'
+                local-class='slide-buttons {{if this.revisionsOpened 'active'}}'
+                @size='lg'
+                @onClick={{this.toggleRevisions}}
+            >
+                <FaIcon @icon='history' @fixedWidth={{true}}/>
+            </BsButton>
+        {{/if}}
+        {{#if this.model.shouldShowTags}}
+            <BsButton
+                aria-label={{if this.tagsOpened (t 'file_detail.close_tags') (t 'file_detail.view_tags')}}
+                data-test-tags-button
+                data-analytics-name='Tags button'
+                local-class='slide-buttons {{if this.tagsOpened 'active'}}'
+                @size='lg'
+                @onClick={{this.toggleTags}}
+            >
+                <FaIcon @icon='tags' @fixedWidth={{true}}/>
+            </BsButton>
         {{/if}}
     </:rightButtons>
 </GuidFile::-Components::FileDetailLayout>

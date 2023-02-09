@@ -15,6 +15,8 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     server.create('user-setting', { user: currentUser });
     const firstNode = server.create('node', 'withAffiliatedInstitutions');
     server.create('contributor', { node: firstNode, users: currentUser, index: 0 });
+    const component = server.create('node', {id: 'cmpnt', parent: firstNode}, 'withFiles', 'withStorage');
+    server.create('contributor', { node: component, users: currentUser, index: 0, permission: Permission.Admin });
     const nodes = server.createList('node', 10, {
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors');
@@ -43,11 +45,17 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         server.create('contributor', { node, users: currentUser, index: 11 });
     }
 
-    server.create('node', {
+    const filesNode = server.create('node', {
         id: 'file5',
         title: 'With some files',
         currentUserPermissions: [Permission.Read, Permission.Write],
-    }, 'withFiles', 'withStorage');
+    }, 'withFiles', 'withStorage', 'withContributors', 'withAffiliatedInstitutions');
+    server.create('contributor', {
+        node: filesNode,
+        users: currentUser,
+        permission: Permission.Write,
+        index: 0,
+    });
 
     // NOTE: Some institutions are already created by this point
     server.createList('institution', 20);

@@ -62,7 +62,7 @@ const App = Application.extend({
                 },
             },
         },
-        analyticsPage: {
+        'analytics-page': {
             dependencies: {
                 services: [
                     'intl',

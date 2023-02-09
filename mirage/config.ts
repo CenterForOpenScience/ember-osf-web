@@ -52,6 +52,7 @@ const { OSF: { apiUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
+    this.passthrough('https://api.crossref.org/*');
     // SHARE search
     this.urlPrefix = 'https://share.osf.io';
     this.namespace = '/api/v2/';
@@ -291,6 +292,10 @@ export default function(this: Server) {
         relatedModelName: 'moderator',
     });
     this.post('providers/registrations/:parentID/moderators', addRegistrationModerator);
+    osfNestedResource(this, 'registration-provider', 'subscriptions', {
+        path: '/providers/registrations/:parentID/subscriptions',
+        only: ['index'],
+    });
     osfNestedResource(this, 'registration-provider', 'registrations', {
         only: ['show', 'update', 'delete'],
         path: '/providers/registrations/:parentID/registrations/',
@@ -317,6 +322,10 @@ export default function(this: Server) {
         except: ['create'],
         relatedModelName: 'moderator',
     });
+    osfNestedResource(this, 'collection-provider', 'subscriptions', {
+        path: '/providers/collections/:parentID/subscriptions',
+        only: ['index'],
+    });
     this.post('providers/collections/:parentID/moderators', addCollectionModerator);
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
         path: 'providers/collections/:parentID/licenses/',
@@ -341,6 +350,9 @@ export default function(this: Server) {
         only: ['show'],
     });
 
+    osfResource(this, 'custom-file-metadata-record', { only: ['show', 'update'] });
+    osfResource(this, 'custom-item-metadata-record', { only: ['show', 'update'] });
+
     osfResource(this, 'resource', { except: ['index', 'update', 'create'] });
     this.patch('/resources/:id', updateResource);
     this.post('/resources/', createResource);
@@ -351,6 +363,8 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
+    osfResource(this, 'collection-subscription', { only: ['show', 'update'] });
+    osfResource(this, 'registration-subscription', { only: ['show', 'update'] });
 
     // Waterbutler namespace
     this.namespace = '/wb';

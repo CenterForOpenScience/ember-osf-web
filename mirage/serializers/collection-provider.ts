@@ -39,6 +39,13 @@ export default class CollectionProviderSerializer extends ApplicationSerializer<
                     },
                 },
             },
+            subscriptions: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/collections/${model.id}/subscriptions/`,
+                    },
+                },
+            },
         };
     }
 }
