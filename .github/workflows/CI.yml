@@ -8,6 +8,7 @@ on:
       - master
       - 'release/*'
       - 'hotfix/*'
+      - 'feature/*'
 env:
   CI: true
   PERCY_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_number }}
