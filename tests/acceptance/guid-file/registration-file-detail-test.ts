@@ -53,7 +53,7 @@ module('Acceptance | guid file | registration files', hooks => {
         await percySnapshot(assert);
     });
 
-    test('mobile view', async function(this: ThisTestContext, assert) {
+    test('Mobile view', async function(this: ThisTestContext, assert) {
         setBreakpoint('mobile');
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
@@ -90,7 +90,7 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-tags-tab]').doesNotExist('Tags now hidden');
     });
 
-    test('view revisions', async function(this: ThisTestContext, assert) {
+    test('View revisions', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
@@ -118,8 +118,7 @@ module('Acceptance | guid file | registration files', hooks => {
             .hasAria('label', t('file_detail.view_revisions'), 'Versions button has correct label when closed');
     });
 
-    test('view metadata', async function(this: ThisTestContext, assert) {
-        const nodeNoun = ['Registration', 'Project', 'Component'];
+    test('View metadata', async function(this: ThisTestContext, assert) {
         const metadataRecord = await this.owner.lookup('service:store')
             .findRecord('custom-item-metadata-record', this.registration.id);
 
@@ -157,10 +156,7 @@ module('Acceptance | guid file | registration files', hooks => {
             'File metadata resource language text is properly set.');
         assert.dom('[data-test-file-language]').exists();
 
-        // Node metadata
-        const nodeNounElement = document.querySelectorAll('[data-test-metadata-node]')[0].textContent;
-        const nounFound = nodeNoun.some(r => nodeNounElement?.includes(r));
-        assert.equal(nounFound, true, 'Node noun properly set.');
+        // Contributor metadata
         if (!this.registration.isAnonymous && (this.registration.contributors.length !== 0)) {
             // Target contributors
             assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
@@ -211,8 +207,17 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-target-description]').exists();
     });
 
+    // Node type
+    test('Node type', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+        assert.equal(currentURL(), `/--file/${this.file.guid}`);
+
+        assert.dom('[data-test-metadata-node]').hasText('Registration Metadata',
+            'Node noun for registration properly set.');
+    });
+
     // Save and cancel buttons with write permissions
-    test('save and cancel', async function(this: ThisTestContext, assert) {
+    test('Save and cancel', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
 
@@ -279,7 +284,7 @@ module('Acceptance | guid file | registration files', hooks => {
     });
 
     // Verify anonymous registrations
-    test('anonymous registration', async function(this: ThisTestContext, assert) {
+    test('Anonymous registration', async function(this: ThisTestContext, assert) {
         const node = server.create('node', {
             isAnonymous: true,
         });
@@ -291,7 +296,7 @@ module('Acceptance | guid file | registration files', hooks => {
     });
 
     // Verify A11y testing
-    test('a11y testing', async function(this: ThisTestContext, assert) {
+    test('A11y testing', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
         await a11yAudit();
