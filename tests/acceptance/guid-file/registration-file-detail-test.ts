@@ -18,10 +18,12 @@ import FileModel from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import RegistrationModel from 'ember-osf-web/models/registration';
+import User from 'ember-osf-web/models/user';
 
 interface ThisTestContext extends TestContext {
     registration: ModelInstance<RegistrationModel>;
     file: ModelInstance<FileModel>;
+    currentUser: ModelInstance<User>;
 }
 
 module('Acceptance | guid file | registration files', hooks => {
@@ -31,7 +33,9 @@ module('Acceptance | guid file | registration files', hooks => {
     hooks.beforeEach(function(this: ThisTestContext) {
         this.registration = server.create('registration', {
             currentUserPermissions: [Permission.Write],
-        });
+            isAnonymous: false,
+        }, 'withContributors', 'withAffiliatedInstitutions');
+
         this.file = server.create('file', {
             target: this.registration,
             name: 'Test File',
@@ -155,20 +159,16 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-file-language-label]').hasText('Resource language',
             'File metadata resource language text is properly set.');
         assert.dom('[data-test-file-language]').exists();
-
         // Contributor metadata
-        if (!this.registration.isAnonymous && (this.registration.contributors.length !== 0)) {
-            // Target contributors
-            assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
-                'File metadata contributor text is properly set.');
-            assert.dom('[data-test-target-contributors]').exists();
-            // Target institutions
-            assert.dom('[data-test-target-institutions-label]').hasText('Affiliated institutions',
-                'File affiliated institutions text is properly set.');
-            assert.dom('[data-test-target-institutions]').exists();
-        }
+        assert.dom('[data-test-target-contributors-label]').hasText('Contributors',
+            'File metadata contributor text is properly set.');
+        assert.dom('[data-test-target-contributors]').exists();
+        // Target institutions
+        assert.dom('[data-test-target-institutions-label]').hasText('Affiliated institutions',
+            'File affiliated institutions text is properly set.');
+        assert.dom('[data-test-target-institutions]').exists();
         // Funder metadata
-        if (!this.registration.isAnonymous && metadataRecord.funder) {
+        if (metadataRecord.funder) {
             assert.dom('[data-test-target-funder-div]').exists();
             for (const funder of metadataRecord.funders) {
                 // Funder name
