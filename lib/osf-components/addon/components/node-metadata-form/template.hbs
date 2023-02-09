@@ -47,7 +47,9 @@
                         </Button>
                     {{/if}}
                 </dt>
-                <dd>
+                <dd
+                    local-class='metadata-description-field'
+                >
                     <ExpandablePreview data-test-display-node-description>
                         {{@manager.node.description}}
                     </ExpandablePreview>
@@ -339,12 +341,12 @@
 <NodeMetadataForm::ResourceHelpDialog
     @isOpen={{this.resourceHelpOpen}}
     @userCanEdit={{@manager.userCanEdit}}
-    @nodeType={{this.nodeTypeTranslation}}
+    @nodeType={{@manager.node.nodeTypeTranslation}}
     @filesUrl={{this.filesUrl}}
 />
 <NodeMetadataForm::FundingHelpDialog
     @isOpen={{this.funderHelpOpen}}
     @userCanEdit={{@manager.userCanEdit}}
-    @nodeType={{this.nodeTypeTranslation}}
+    @nodeType={{@manager.node.nodeTypeTranslation}}
     @supportEmail={{this.supportEmail}}
 />

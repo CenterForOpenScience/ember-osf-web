@@ -18,6 +18,10 @@
     white-space: nowrap;
 }
 
+.project-link-header {
+    padding-bottom: 5px;
+}
+
 .project-link {
     margin: 20px;
 }
@@ -166,6 +170,7 @@
 .edit-metadata-form {
     display: inline-flex;
     flex-direction: column;
+    max-width: 100%;
 }
 
 .edit-metadata-save-cancel-buttons {

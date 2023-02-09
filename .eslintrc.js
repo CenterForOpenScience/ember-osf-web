@@ -194,6 +194,7 @@ module.exports = {
         'no-empty': 'error',
         'no-eval': 'error',
         'no-multiple-empty-lines': 'error',
+        'no-nested-ternary': 'error',
         'no-new-wrappers': 'error',
         'no-throw-literal': 'error',
         'no-trailing-spaces': 'error',

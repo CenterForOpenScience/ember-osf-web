@@ -1302,6 +1302,7 @@ registries:
                 contact: 'Contact us'
             asist: 'DARPA ASIST Registry'
             characterlab: 'Character Lab Registry'
+            dam: 'Stiftelsen Dam Registry'
             egap: 'egap Registry'
             metascience: 'Metascience Registry'
             rwe: 'Real World Evidence Registry'
