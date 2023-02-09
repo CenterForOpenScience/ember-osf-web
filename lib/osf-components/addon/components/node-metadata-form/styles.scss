@@ -11,9 +11,9 @@
         color: $color-link-black;
     }
 
-    div:not(.resource-edit) {
+    > div {
         justify-content: space-between;
-        margin: 5px 0;
+        margin: 5px 0 15px;
     }
 
     dd {
@@ -151,6 +151,12 @@
     }
 }
 
-.resource-edit > div {
+.resource-edit div {
     display: block;
+    margin: 5px 0 15px;
+
+    div {
+        max-width: 100%;
+    }
 }
+
