@@ -256,16 +256,50 @@
                     <dd data-test-target-license-name>{{@manager.license.name}}</dd>
                 </dl>
             {{/if}}
-            {{#if (and @manager.institutions (not @manager.isAnonymous))}}
-                <div data-test-target-institutions>
-                    <dl>
-                        <dt local-class='affiliated-institutions'>{{t 'osf-components.node-metadata-form.institutions'}}</dt>
-                        {{#each @manager.institutions as |institution|}}
-                            <dd>{{institution.name}}</dd>
-                        {{/each}}
-                    </dl>
-                </div>
-            {{/if}}
+            <div data-test-target-institutions>
+                {{#if @manager.isEditingInstitutions}}
+                    <div local-class='metadata-header'>
+                        {{t 'osf-components.node-metadata-form.institutions'}}
+                    </div>
+                    <InstitutionSelectList @manager={{@manager}} />
+                    <Button
+                        aria-label={{t 'general.cancel'}}
+                        data-analytics-name='Cancel editing node institutions'
+                        data-test-cancel-editing-node-institutions-button
+                        disabled={{@manager.isSaving}}
+                        {{on 'click' @manager.cancelInstitutions}}
+                        @type='secondary'
+                    >
+                        {{t 'general.cancel'}}
+                    </Button>
+                    <Button
+                        aria-label={{t 'general.save'}}
+                        data-analytics-name='Save node institutions'
+                        data-test-save-node-institutions-button
+                        disabled={{@manager.isSaving}}
+                        {{on 'click' @manager.saveInstitutions}}
+                        @type='primary'
+                    >
+                        {{t 'general.save'}}
+                    </Button>
+                {{else}}
+                    <div local-class='metadata-header'>
+                        {{t 'osf-components.node-metadata-form.institutions'}}
+                        {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                            <Button
+                                data-test-edit-institutions-metadata-button
+                                data-analytics-name='Edit Institutions'
+                                aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                                {{on 'click' @manager.editInstitutions}}
+                                @layout='fake-link'
+                            >
+                                <FaIcon @icon='pencil-alt' />
+                            </Button>
+                        {{/if}} 
+                    </div>
+                    <InstitutionsList @manager={{@manager}} />
+                {{/if}}
+            </div>
         {{/unless}}
         <dl>
             <dt>
