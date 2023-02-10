@@ -15,7 +15,7 @@ import NodeModel from 'ember-osf-web/models/node';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
 import { resourceTypeGeneralOptions } from 'ember-osf-web/models/custom-metadata';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { languageCodes, LanguageCode } from 'ember-osf-web/utils/languages';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from '@glimmer/tracking';
@@ -24,15 +24,25 @@ import { languageFromLanguageCode } from 'osf-components/components/file-metadat
 import InstitutionModel from 'ember-osf-web/models/institution';
 import LicenseModel from 'ember-osf-web/models/license';
 import IdentifierModel from 'ember-osf-web/models/identifier';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import UserModel from 'ember-osf-web/models/user';
 
 interface Args {
     node: (NodeModel);
 }
 
 export interface NodeMetadataManager {
-    edit: () => void;
-    save: () => void;
-    cancel: () => void;
+    editDescription: () => void;
+    editFunding: () => void;
+    editInstitutions: () => void;
+    editResources: () => void;
+    saveMetadata: () => void;
+    saveNode: () => void;
+    saveInstitutions: () => void;
+    cancelMetadata: () => void;
+    cancelNode: () => void;
+    cancelInstitutions: () => void;
+    toggleInstitution: () => void;
     metadata: CustomItemMetadataRecordModel;
     node: (NodeModel);
     changeset: BufferedChangeset;
@@ -41,15 +51,19 @@ export interface NodeMetadataManager {
     userCanEdit: boolean;
     isDirty: boolean;
     isGatheringData: boolean;
-    institutions: InstitutionModel[];
     license: LicenseModel;
     identifiers: IdentifierModel[];
+    isEditingInstitutions: boolean;
+    isSavingInstitutions: boolean;
+    affiliatedList: InstitutionModel[];
+    user: UserModel;
 }
 
 export default class NodeMetadataManagerComponent extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service currentUser!: CurrentUser;
 
     @tracked metadata!: CustomItemMetadataRecordModel;
     node: (NodeModel) = this.args.node;
@@ -59,23 +73,26 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
         'isEditingDescription',
         'isEditingFunding',
         'isEditingResources',
+        'isEditingInstitutions',
     ) inEditMode!: boolean;
     @tracked isEditingDescription = false;
     @tracked isEditingFunding = false;
     @tracked isEditingResources = false;
+    @tracked isEditingInstitutions = false;
     @tracked userCanEdit!: boolean;
     @or(
         'getGuidMetadata.isRunning',
         'cancelMetadata.isRunning',
         'cancelNode.isRunning',
     ) isGatheringData!: boolean;
-    @or('saveNode.isRunning', 'saveMetadata.isRunning') isSaving!: boolean;
+    @or('saveNode.isRunning', 'saveMetadata.isRunning', 'isSavingInstitutions') isSaving!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('node.id') nodeId!: string;
-    @tracked institutions!: InstitutionModel[];
     @tracked license!: LicenseModel;
     @tracked identifiers!: IdentifierModel[];
     @tracked guidType!: string | undefined;
+    @tracked affiliatedList!: InstitutionModel[];
+    @tracked currentAffiliatedList!: InstitutionModel[];
     resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
     languageCodes: LanguageCode[] = languageCodes;
     saveErrored = false;
@@ -108,11 +125,12 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
             this.metadata = await guidRecord.customMetadata as CustomItemMetadataRecordModel;
             notifyPropertyChange(this, 'metadata');
             const node = this.node as NodeModel;
-            this.institutions = await node.queryHasMany(
+            this.affiliatedList = await node.queryHasMany(
                 'affiliatedInstitutions', {
                     pageSize: 100,
                 },
             );
+            this.currentAffiliatedList = [...this.affiliatedList];
             this.license = await node.license;
             this.identifiers = await node.queryHasMany('identifiers');
             this.changeset = buildChangeset(this.metadata, null);
@@ -145,6 +163,20 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
         this.isEditingFunding = true;
     }
 
+    @action
+    editInstitutions(){
+        this.isEditingInstitutions = true;
+    }
+
+    @action
+    toggleInstitution(institution: InstitutionModel) {
+        if (this.currentAffiliatedList.includes(institution)) {
+            this.currentAffiliatedList.removeObject(institution);
+        } else {
+            this.currentAffiliatedList.pushObject(institution);
+        }
+    }
+
     @task
     @waitFor
     async cancelMetadata(){
@@ -172,6 +204,12 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
         }
         this.nodeChangeset.rollback();
         this.isEditingDescription = false;
+    }
+
+    @action
+    cancelInstitutions(){
+        this.currentAffiliatedList = [...this.affiliatedList];
+        this.isEditingInstitutions = false;
     }
 
     @action
@@ -210,6 +248,22 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
             this.saveNodeErrored = true;
             const errorTitle = this.intl.t('osf-components.item-metadata-manager.error-saving-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
+        }
+    }
+
+    @restartableTask
+    @waitFor
+    async saveInstitutions() {
+        try {
+            await this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
+            await this.node.reload();
+            this.affiliatedList = [...this.currentAffiliatedList];
+            this.isEditingInstitutions = false;
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.drafts.draft.metadata.save_institutions_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            throw e;
         }
     }
 }

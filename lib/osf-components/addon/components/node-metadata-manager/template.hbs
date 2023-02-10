@@ -1,10 +1,13 @@
 {{yield (hash
+    affiliatedList=this.affiliatedList
+    cancelInstitutions=(action this.cancelInstitutions)
     cancelMetadata=(perform this.cancelMetadata)
     cancelNode=(perform this.cancelNode)
     changeLanguage=(action this.changeLanguage)
     changeset=this.changeset
     editDescription=(action this.editDescription)
     editFunding=(action this.editFunding)
+    editInstitutions=(action this.editInstitutions)
     editResources=(action this.editResources)
     identifiers=this.identifiers
     inEditMode=this.inEditMode
@@ -12,6 +15,7 @@
     isDirty=this.isDirty
     isEditingDescription=this.isEditingDescription
     isEditingFunding=this.isEditingFunding
+    isEditingInstitutions=this.isEditingInstitutions
     isEditingResources=this.isEditingResources
     isGatheringData=this.isGatheringData
     isSaving=this.isSaving
@@ -22,8 +26,11 @@
     node=this.node
     nodeChangeset=this.nodeChangeset
     nodeId=this.nodeId
+    saveInstitutions=(perform this.saveInstitutions)
     saveMetadata=(perform this.saveMetadata)
     saveNode=(perform this.saveNode)
+    toggleInstitution=(action this.toggleInstitution)
+    user=this.currentUser.user
     userCanEdit=this.userCanEdit
     resourceTypeGeneralOptions=this.resourceTypeGeneralOptions
 )}}

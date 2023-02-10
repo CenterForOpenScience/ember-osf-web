@@ -123,7 +123,7 @@ export default function(this: Server) {
     this.post('/nodes/:guid/draft_registrations', createDraftRegistration);
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
     osfToManyRelationship(this, 'node', 'affiliatedInstitutions', {
-        only: ['related', 'add', 'remove'],
+        only: ['related', 'add', 'remove', 'update'],
         path: '/nodes/:parentID/relationships/institutions',
     });
     this.get('/nodes/:id/storage', storageStatus);
