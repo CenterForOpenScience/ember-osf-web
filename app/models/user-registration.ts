@@ -1,5 +1,5 @@
+import { alias } from '@ember/object/computed';
 import Model, { attr } from '@ember-data/model';
-import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import config from 'ember-get-config';
 
@@ -11,18 +11,12 @@ const Validations = buildValidations({
         validator('format', { type: 'email' }),
         validator('exclusion', {
             messageKey: 'validationErrors.email_registered',
-            in: computed('model.existingEmails', function(): string[] {
-                return [...this.model.existingEmails];
-            // eslint-disable-next-line ember/no-volatile-computed-properties
-            }).volatile(),
+            in: alias('model.existingEmailsArray'),
         }),
         validator('exclusion', {
             messageKey: 'validationErrors.email_invalid',
             supportEmail,
-            in: computed('model.invalidEmails', function(): string[] {
-                return [...this.model.invalidEmails];
-            // eslint-disable-next-line ember/no-volatile-computed-properties
-            }).volatile(),
+            in: alias('model.invalidEmailsArray'),
         }),
         validator('length', {
             max: 255,
@@ -82,6 +76,14 @@ export default class UserRegistrationModel extends Model.extend(Validations) {
 
     existingEmails: Set<string> = new Set();
     invalidEmails: Set<string> = new Set();
+
+    get existingEmailsArray(): string[] {
+        return [...this.existingEmails];
+    }
+
+    get invalidEmailsArray(): string[] {
+        return [...this.invalidEmails];
+    }
 
     addExistingEmail(email?: string) {
         this.existingEmails.add(email || this.email1);
