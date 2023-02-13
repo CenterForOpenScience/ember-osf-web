@@ -177,7 +177,7 @@
     "ember-intl": "^5.6.2",
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator": "^1.0.0",
-    "ember-metrics": "https://github.com/cos-forks/ember-metrics#1.0.0+cos0",
+    "ember-metrics": "^1.5.2",
     "ember-mockdate-shim": "^0.1.0",
     "ember-modifier": "^2.1.1",
     "ember-moment": "^7.7.0",
