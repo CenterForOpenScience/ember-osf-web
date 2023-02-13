@@ -28,4 +28,11 @@ export default class NodeMetadataForm extends Component<Args> {
         const { node } = this.args.manager;
         return pathJoin(baseURL, node.id, 'files');
     }
+
+    get nodeTypeTranslation() {
+        const { node } = this.args.manager;
+        const translationKeyBase = 'general';
+        const translationNode = node.isRegistration ? 'registration' : node.isRoot ? 'project' : 'component';
+        return this.intl.t(`${translationKeyBase}.${translationNode}`);
+    }
 }

@@ -105,15 +105,10 @@
                     @valuePath='languageObject'
                     @searchField='name'
                     @searchEnabled={{true}}
+                    @placeholder={{t 'osf-components.node-metadata-form.choose-language'}}
                     as |option|
                 >
-                    {{#if option.name}}
-                        {{option.name}}
-                    {{else}}
-                        <span local-class='placeholder'>
-                            {{t 'osf-components.node-metadata-form.choose-language'}}
-                        </span>
-                    {{/if}}
+                    {{option.name}}
                 </form.select>
                 <Button
                     aria-label={{t 'general.cancel'}}
@@ -368,12 +363,12 @@
 <NodeMetadataForm::ResourceHelpDialog
     @isOpen={{this.resourceHelpOpen}}
     @userCanEdit={{@manager.userCanEdit}}
-    @nodeType={{@manager.node.nodeTypeTranslation}}
+    @nodeType={{this.nodeTypeTranslation}}
     @filesUrl={{this.filesUrl}}
 />
 <NodeMetadataForm::FundingHelpDialog
     @isOpen={{this.funderHelpOpen}}
     @userCanEdit={{@manager.userCanEdit}}
-    @nodeType={{@manager.node.nodeTypeTranslation}}
+    @nodeType={{this.nodeTypeTranslation}}
     @supportEmail={{this.supportEmail}}
 />
