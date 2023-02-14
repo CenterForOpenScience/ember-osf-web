@@ -302,41 +302,32 @@
             </div>
         {{/unless}}
         <dl>
-            <dt>
-                <span>
-                    {{t 'osf-components.node-metadata-form.dates'}}
-                </span>
-            </dt>
+            <dt>{{t 'osf-components.node-metadata-form.creation-date'}}</dt>
             <dd data-test-creation-date>
-                {{t 'osf-components.node-metadata-form.creation-date'}}
                 {{moment-format @manager.node.dateCreated 'MMMM D, YYYY'}}
             </dd>
+            <dt>{{t 'osf-components.node-metadata-form.modification-date'}}</dt>
             <dd data-test-modification-date>
-                {{t 'osf-components.node-metadata-form.modification-date'}}
                 {{moment-format @manager.node.dateModified 'MMMM D, YYYY'}}
             </dd>
             {{#if @manager.node.dateRegistered}}
+                <dt>{{t 'osf-components.node-metadata-form.registration-date'}}</dt>
                 <dd data-test-registration-date>
-                    {{t 'osf-components.node-metadata-form.registration-date'}}
                     {{moment-format @manager.node.dateRegistered 'MMMM D, YYYY'}}
                 </dd>
             {{/if}}
             {{#if @manager.node.dateWithdrawn}}
+                <dt>{{t 'osf-components.node-metadata-form.withdrawal-date'}}</dt>
                 <dd data-test-withdrawal-date>
-                    {{t 'osf-components.node-metadata-form.withdrawal-date'}}
                     {{moment-format @manager.node.dateWithdrawn 'MMMM D, YYYY'}}
                 </dd>
             {{/if}}
         </dl>
         {{#if @manager.identifiers}}
             <dl>
-                <dt>
-                    <span>
-                        {{t 'osf-components.node-metadata-form.identifiers'}}
-                    </span>
-                </dt>
                 {{#each @manager.identifiers as |identifier| }}
-                    <dd>{{identifier.category}}: <Identifier @identifier={{identifier}} /></dd>
+                    <dt>{{identifier.category}}</dt>
+                    <dd><Identifier @identifier={{identifier}} /></dd>
                 {{/each}}
             </dl>
         {{/if}}

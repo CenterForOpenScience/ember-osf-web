@@ -85,7 +85,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
         'cancelMetadata.isRunning',
         'cancelNode.isRunning',
     ) isGatheringData!: boolean;
-    @or('saveNode.isRunning', 'saveMetadata.isRunning', 'isSavingInstitutions') isSaving!: boolean;
+    @or('saveNode.isRunning', 'saveMetadata.isRunning', 'saveInstitutions.isRunning') isSaving!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('node.id') nodeId!: string;
     @tracked license!: LicenseModel;
