@@ -278,35 +278,34 @@
                                     <dt>{{t 'file-detail.language'}}</dt>
                                     <dd data-test-target-language>{{manager.targetLanguageFromCode}}</dd>
                                 {{/if}}
-                                <dt>{{t 'file-detail.dates'}}</dt>
+                                <dt>{{t 'file-detail.creation-date'}}</dt>
                                 <dd data-test-creation-date>
-                                    {{t 'file-detail.creation-date'}}
                                     {{moment-format manager.target.dateCreated 'MMMM D, YYYY'}}
                                 </dd>
+                                <dt>{{t 'file-detail.modification-date'}}</dt>
                                 <dd data-test-modification-date>
-                                    {{t 'file-detail.modification-date'}}
                                     {{moment-format manager.target.dateModified 'MMMM D, YYYY'}}
                                 </dd>
                                 {{#if @manager.node.dateRegistered}}
+                                    <dt>{{t 'file-detail.registration-date'}}</dt>
                                     <dd data-test-registration-date>
-                                        {{t 'file-detail.registration-date'}}
                                         {{moment-format manager.target.dateRegistered 'MMMM D, YYYY'}}
                                     </dd>
                                 {{/if}}
                                 {{#if @manager.node.dateWithdrawn}}
+                                    <dt>{{t 'file-detail.withdrawal-date'}}</dt>
                                     <dd data-test-withdrawal-date>
-                                        {{t 'file-detail.withdrawal-date'}}
                                         {{moment-format manager.target.dateWithdrawn 'MMMM D, YYYY'}}
                                     </dd>
                                 {{/if}}
                                 {{#if manager.targetIdentifiers}}
-                                    <dt>
-                                        <span>
-                                            {{t 'osf-components.node-metadata-form.identifiers'}}
-                                        </span>
-                                    </dt>
                                     {{#each manager.targetIdentifiers as |identifier| }}
-                                        <dd>{{identifier.category}}: <Identifier @identifier={{identifier}} /></dd>
+                                        <dt>
+                                            <span>
+                                                {{identifier.category}}
+                                            </span>
+                                        </dt>
+                                        <dd><Identifier @identifier={{identifier}} /></dd>
                                     {{/each}}
                                 {{/if}}
                             </dl>
