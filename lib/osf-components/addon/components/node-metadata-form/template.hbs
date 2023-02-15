@@ -229,6 +229,7 @@
                                 <dd data-test-display-funder-award-title={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-title'}} {{funder.award_title}}</dd>
                                 <dd data-test-display-funder-award-uri={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-info-uri'}} {{funder.award_uri}}</dd>
                                 <dd data-test-display-funder-award-number={{funder.funder_name}}>{{t 'osf-components.node-metadata-form.award-number'}} {{funder.award_number}}</dd>
+                                <div local-class='funder-separator' />
                             {{/each}}
                         </dl>
                     {{else}}
@@ -255,17 +256,81 @@
                     <dd data-test-target-license-name>{{@manager.license.name}}</dd>
                 </dl>
             {{/if}}
-            {{#if (and @manager.institutions (not @manager.isAnonymous))}}
-                <div data-test-target-institutions>
-                    <dl>
-                        <dt local-class='affiliated-institutions'>{{t 'osf-components.node-metadata-form.institutions'}}</dt>
-                        {{#each @manager.institutions as |institution|}}
-                            <dd>{{institution.name}}</dd>
-                        {{/each}}
-                    </dl>
-                </div>
-            {{/if}}
+            <div data-test-target-institutions>
+                {{#if @manager.isEditingInstitutions}}
+                    <div local-class='metadata-header'>
+                        {{t 'osf-components.node-metadata-form.institutions'}}
+                    </div>
+                    <InstitutionSelectList @manager={{@manager}} />
+                    <Button
+                        aria-label={{t 'general.cancel'}}
+                        data-analytics-name='Cancel editing node institutions'
+                        data-test-cancel-editing-node-institutions-button
+                        disabled={{@manager.isSaving}}
+                        {{on 'click' @manager.cancelInstitutions}}
+                        @type='secondary'
+                    >
+                        {{t 'general.cancel'}}
+                    </Button>
+                    <Button
+                        aria-label={{t 'general.save'}}
+                        data-analytics-name='Save node institutions'
+                        data-test-save-node-institutions-button
+                        disabled={{@manager.isSaving}}
+                        {{on 'click' @manager.saveInstitutions}}
+                        @type='primary'
+                    >
+                        {{t 'general.save'}}
+                    </Button>
+                {{else}}
+                    <div local-class='metadata-header'>
+                        {{t 'osf-components.node-metadata-form.institutions'}}
+                        {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                            <Button
+                                data-test-edit-institutions-button
+                                data-analytics-name='Edit Institutions'
+                                aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                                {{on 'click' @manager.editInstitutions}}
+                                @layout='fake-link'
+                            >
+                                <FaIcon @icon='pencil-alt' />
+                            </Button>
+                        {{/if}} 
+                    </div>
+                    <InstitutionsList @manager={{@manager}} />
+                {{/if}}
+            </div>
         {{/unless}}
+        <dl>
+            <dt>{{t 'osf-components.node-metadata-form.creation-date'}}</dt>
+            <dd data-test-creation-date>
+                {{moment-format @manager.node.dateCreated 'MMMM D, YYYY'}}
+            </dd>
+            <dt>{{t 'osf-components.node-metadata-form.modification-date'}}</dt>
+            <dd data-test-modification-date>
+                {{moment-format @manager.node.dateModified 'MMMM D, YYYY'}}
+            </dd>
+            {{#if @manager.node.dateRegistered}}
+                <dt>{{t 'osf-components.node-metadata-form.registration-date'}}</dt>
+                <dd data-test-registration-date>
+                    {{moment-format @manager.node.dateRegistered 'MMMM D, YYYY'}}
+                </dd>
+            {{/if}}
+            {{#if @manager.node.dateWithdrawn}}
+                <dt>{{t 'osf-components.node-metadata-form.withdrawal-date'}}</dt>
+                <dd data-test-withdrawal-date>
+                    {{moment-format @manager.node.dateWithdrawn 'MMMM D, YYYY'}}
+                </dd>
+            {{/if}}
+        </dl>
+        {{#if @manager.identifiers}}
+            <dl>
+                {{#each @manager.identifiers as |identifier| }}
+                    <dt>{{identifier.category}}</dt>
+                    <dd><Identifier @identifier={{identifier}} /></dd>
+                {{/each}}
+            </dl>
+        {{/if}}
     </FormControls>
     {{#if @manager.node.isRegistration}}
         <div local-class='subjects' data-test-subjects-list>

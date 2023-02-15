@@ -48,7 +48,7 @@ module.exports = function(defaults) {
             bundleZxcvbn: !IS_PROD,
         },
         fingerprint: {
-            enabled: IS_PROD,
+            enabled: true,
             extensions: broccoliAssetRevDefaults.extensions.concat(['svg']),
             exclude: [
                 'zxcvbn.js',

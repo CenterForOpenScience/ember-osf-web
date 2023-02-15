@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 import { TestContext } from 'ember-test-helpers';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import fillIn from '@ember/test-helpers/dom/fill-in';
+import { click as untrackedClick, fillIn } from '@ember/test-helpers';
 
 import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
 
@@ -94,6 +94,9 @@ module('Acceptance | guid-node/metadata', hooks => {
     });
 
     test('Editable', async function(this: TestContext, assert) {
+        const user = server.create('user', {
+            institutions: server.createList('institution', 2),
+        }, 'loggedIn');
         const node = server.create('node', {
             id: 'mtadt',
             currentUserPermissions: [Permission.Read, Permission.Write],
@@ -155,6 +158,21 @@ module('Acceptance | guid-node/metadata', hooks => {
             .containsText('Esperanto', 'Language is changed');
         assert.dom('[data-test-display-resource-type-general]')
             .containsText('InteractiveResource', 'Resource type is changed');
+
+        assert.dom('[data-test-edit-institutions-button]').exists('Write user can edit institutions');
+        assert.dom('[data-test-institution-list-institution]').doesNotExist('No affiliated institutions yet');
+        await click('[data-test-edit-institutions-button]');
+        user.institutionIds.forEach(institutionId => assert
+            .dom(`[data-test-institution="${institutionId}"]`)
+            .exists('user institution list is correct'));
+        const firstInstitution = user.institutionIds[0];
+        await untrackedClick(`[data-test-institution="${firstInstitution}"`);
+        await click('[data-test-cancel-editing-node-institutions-button]');
+        assert.dom('[data-test-institution-list-institution]').doesNotExist('No affiliated institutions after cancel');
+        await click('[data-test-edit-institutions-button]');
+        await untrackedClick(`[data-test-institution="${firstInstitution}"`);
+        await click('[data-test-save-node-institutions-button]');
+        assert.dom(`[data-test-institution-list-institution="${firstInstitution}"]`).exists('Institution saved');
 
         assert.dom('[data-test-edit-funding-metadata-button]').exists();
         await click('[data-test-edit-funding-metadata-button]');
@@ -224,6 +242,40 @@ module('Acceptance | guid-node/metadata', hooks => {
             'Toast error shown after failing to update node');
         await click('[data-test-cancel-editing-node-description-button]');
 
+        resetOnerror();
+    });
+
+    test('Error handling: institutions', async function(this: TestContext, assert) {
+        setupOnerror((e: any) => assert.ok(e, 'Error is handled'));
+        const user = server.create('user', {
+            institutions: server.createList('institution', 2),
+        }, 'loggedIn');
+        const node = server.create('node', {
+            id: 'mtadt',
+            currentUserPermissions: [Permission.Read, Permission.Write],
+        });
+        const url = `/${node.id}/metadata`;
+        server.namespace = '/v2';
+        server.put('/nodes/:id/relationships/institutions/', () => ({
+            errors: [{ detail: 'Could not patch institutions' }],
+        }), 400);
+        await visit(url);
+
+        assert.dom('[data-test-edit-institutions-button]').exists('Write user can edit institutions');
+        assert.dom('[data-test-institution-list-institution]').doesNotExist('No affiliated institutions yet');
+        await click('[data-test-edit-institutions-button]');
+        user.institutionIds.forEach(institutionId => assert
+            .dom(`[data-test-institution="${institutionId}"]`)
+            .exists('user institution list is correct'));
+        const firstInstitution = user.institutionIds[0];
+        await click('[data-test-save-node-institutions-button]');
+        assert.dom(`[data-test-institution-list-institution="${firstInstitution}"]`)
+            .doesNotExist('Institution failed to save');
+        assert.dom('#toast-container', document as any).hasTextContaining('Could not patch institutions',
+            'Toast error shown after failing to update node');
+
+        await click('[data-test-cancel-editing-node-institutions-button]');
+        assert.dom('[data-test-institution-list-institution]').doesNotExist('No affiliated institutions after cancel');
         resetOnerror();
     });
 });

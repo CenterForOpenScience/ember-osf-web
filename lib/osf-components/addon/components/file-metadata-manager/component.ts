@@ -26,6 +26,7 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import { LanguageCode, languageCodes } from 'ember-osf-web/utils/languages';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
+import IdentifierModel from 'ember-osf-web/models/identifier';
 
 interface Args {
     file: FileModel;
@@ -39,6 +40,7 @@ export interface FileMetadataManager {
     targetMetadata: CustomItemMetadataRecordModel;
     file: FileModel;
     target: (NodeModel | RegistrationModel);
+    targetIdentifiers: IdentifierModel[];
     targetInstitutions: InstitutionModel[];
     targetLicense: LicenseModel;
     changeset: BufferedChangeset;
@@ -78,6 +80,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @tracked targetMetadata!: CustomItemMetadataRecordModel;
     file: FileModel = this.args.file;
     @tracked target!: (NodeModel | RegistrationModel);
+    @tracked targetIdentifiers!: IdentifierModel[];
     @tracked targetParent!: (NodeModel | RegistrationModel);
     @tracked targetInstitutions!: InstitutionModel[];
     @tracked targetLicense!: LicenseModel;
@@ -136,6 +139,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
                 pageSize: 100,
             },
         );
+        this.targetIdentifiers = await this.target.queryHasMany('identifiers');
         this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
         await taskFor(this.getTargetMetadata).perform();
     }

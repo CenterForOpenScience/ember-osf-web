@@ -49,7 +49,7 @@
                             />
                             <hr aria-hidden='true'>
                         {{else}}
-                            {{t 'file_detail.no_revisions'}}
+                            {{t 'file-detail.no-revisions'}}
                         {{/each}}
                     {{/if}}
                 </ol>
@@ -70,7 +70,7 @@
                 <FileMetadataManager @file={{this.model.fileModel}} as |manager|>
                     <div local-class='metadata-title-edit-download'>
                         <h2 local-class='metadata-heading'>
-                            {{t 'file_detail.file_metadata'}}
+                            {{t 'file-detail.file-metadata'}}
                         </h2>
                         <div local-class='edit-download-buttons'>
                             {{#unless manager.inEditMode}}
@@ -108,19 +108,19 @@
                                         <form.textarea
                                             data-test-title-field
                                             @valuePath='title'
-                                            @label={{t 'file_detail.title'}}
+                                            @label={{t 'file-detail.title'}}
                                         />
                                         <form.textarea
                                             data-test-description-field
                                             @valuePath='description'
-                                            @label={{t 'file_detail.description'}}
+                                            @label={{t 'file-detail.description'}}
                                         />
                                         <form.select
                                             data-test-select-resource-type
                                             @options={{manager.resourceTypeGeneralOptions}}
-                                            @label={{t 'file_detail.resource_type_general'}}
+                                            @label={{t 'file-detail.resource-type-general'}}
                                             @valuePath='resourceTypeGeneral'
-                                            @placeholder={{t 'file_detail.choose_resource_type_general'}}
+                                            @placeholder={{t 'file-detail.choose-resource-type-general'}}
                                             as |option|
                                         >
                                             {{option}}
@@ -128,7 +128,7 @@
                                         <form.select
                                             data-test-select-resource-language
                                             @options={{manager.languageCodes}}
-                                            @label={{t 'file_detail.language'}}
+                                            @label={{t 'file-detail.language'}}
                                             @onchange={{manager.changeLanguage}}
                                             @valuePath='languageObject'
                                             @searchField='name'
@@ -139,7 +139,7 @@
                                                 {{option.name}}
                                             {{else}}
                                                 <span local-class='placeholder'>
-                                                    {{t 'file_detail.choose_language'}}
+                                                    {{t 'file-detail.choose-language'}}
                                                 </span>
                                             {{/if}}
                                         </form.select>
@@ -175,11 +175,11 @@
                             )}}
                                 <dl>
                                     {{#if manager.metadataRecord.title}}
-                                        <dt>{{t 'file_detail.title'}}</dt>
+                                        <dt>{{t 'file-detail.title'}}</dt>
                                         <dd data-test-file-title>{{manager.metadataRecord.title}}</dd>
                                     {{/if}}
                                     {{#if manager.metadataRecord.description}}
-                                        <dt>{{t 'file_detail.description'}}</dt>
+                                        <dt>{{t 'file-detail.description'}}</dt>
                                         <dd data-test-file-description>
                                             <ExpandablePreview data-test-display-file-description>
                                                 {{manager.metadataRecord.description}}
@@ -188,9 +188,9 @@
                                     {{/if}}
                                     {{#if manager.metadataRecord.resourceTypeGeneral}}
                                         <dt>
-                                            {{t 'file_detail.resource_type_general'}}
+                                            {{t 'file-detail.resource-type-general'}}
                                             <Button
-                                                aria-label={{t 'file_detail.resource_type_general_help'}}
+                                                aria-label={{t 'file-detail.resource-type-general-help'}}
                                                 @layout='fake-link'
                                                 {{on 'click' (action (mut this.resourceHelpOpen) true)}}
                                             >
@@ -205,40 +205,40 @@
                                         <dd data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</dd>
                                     {{/if}}
                                     {{#if manager.languageFromCode}}
-                                        <dt>{{t 'file_detail.language'}}</dt>
+                                        <dt>{{t 'file-detail.language'}}</dt>
                                         <dd data-test-file-language>{{manager.languageFromCode}}</dd>
                                     {{/if}}
                                 </dl>
                             {{else}}
                                 {{#if manager.userCanEdit}}
-                                    {{t 'file_detail.enter_metadata'}}
+                                    {{t 'file-detail.enter-metadata'}}
                                 {{/if}}
                             {{/if}}
-                            <h2 local-class='node-type-heading'>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
+                            <h2 local-class='node-type-heading'>{{t (concat 'file-detail.metadata-' manager.nodeWord)}}</h2>
                             {{#unless manager.isAnonymous}}
                                 <div>
                                     {{#each manager.targetMetadata.funders as |funder|}}
                                         <dl>
                                             {{#if funder.funder_name}}
-                                                <dt>{{t 'file_detail.funder'}}</dt>
+                                                <dt>{{t 'file-detail.funder'}}</dt>
                                                 <dd data-test-target-funder-name={{funder.funder_name}}>
                                                     {{funder.funder_name}}
                                                 </dd>
                                             {{/if}}
                                             {{#if funder.award_title}}
-                                                <dt>{{t 'file_detail.award_title'}}</dt>
+                                                <dt>{{t 'file-detail.award-title'}}</dt>
                                                 <dd data-test-target-funder-award-title={{funder.funder_name}}>
                                                     {{funder.award_title}}
                                                 </dd>
                                             {{/if}}
                                             {{#if funder.award_uri}}
-                                                <dt>{{t 'file_detail.award_uri'}}</dt>
+                                                <dt>{{t 'file-detail.award-uri'}}</dt>
                                                 <dd data-test-target-funder-award-uri={{funder.funder_name}}>
                                                     {{funder.award_uri}}
                                                 </dd>
                                             {{/if}}
                                             {{#if funder.award_number}}
-                                                <dt>{{t 'file_detail.award_number'}}</dt>
+                                                <dt>{{t 'file-detail.award-number'}}</dt>
                                                 <dd data-test-target-funder-award-number={{funder.funder_name}}>
                                                     {{funder.award_number}}
                                                 </dd>
@@ -248,10 +248,10 @@
                                 </div>
                             {{/unless}}
                             <dl>
-                                <dt>{{t 'file_detail.title'}}</dt>
+                                <dt>{{t 'file-detail.title'}}</dt>
                                 <dd data-test-target-title>{{manager.target.title}}</dd>
                                 {{#if manager.target.description}}
-                                    <dt>{{t 'file_detail.description'}}</dt>
+                                    <dt>{{t 'file-detail.description'}}</dt>
                                     <dd data-test-target-description>
                                         <ExpandablePreview data-test-display-target-description>
                                             {{manager.target.description}}
@@ -259,7 +259,7 @@
                                     </dd>
                                 {{/if}}
                                 {{#if (and manager.targetInstitutions (not manager.isAnonymous))}}
-                                    <dt local-class='affiliated-institutions'>{{t 'file_detail.institutions'}}</dt>
+                                    <dt local-class='affiliated-institutions'>{{t 'file-detail.institutions'}}</dt>
                                     <div data-test-target-institutions>
                                         {{#each manager.targetInstitutions as |institution|}}
                                             <dd>{{institution.name}}</dd>
@@ -267,20 +267,50 @@
                                     </div>
                                 {{/if}}
                                 {{#if manager.targetLicense.name}}
-                                    <dt>{{t 'file_detail.license'}}</dt>
+                                    <dt>{{t 'file-detail.license'}}</dt>
                                     <dd data-test-target-license-name>{{manager.targetLicense.name}}</dd>
                                 {{/if}}
                                 {{#if manager.targetMetadata.resourceTypeGeneral}}
-                                    <dt>{{t 'file_detail.resource_type_general'}}</dt>
+                                    <dt>{{t 'file-detail.resource-type-general'}}</dt>
                                     <dd data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</dd>
                                 {{/if}}
                                 {{#if manager.targetLanguageFromCode}}
-                                    <dt>{{t 'file_detail.language'}}</dt>
+                                    <dt>{{t 'file-detail.language'}}</dt>
                                     <dd data-test-target-language>{{manager.targetLanguageFromCode}}</dd>
+                                {{/if}}
+                                <dt>{{t 'file-detail.creation-date'}}</dt>
+                                <dd data-test-creation-date>
+                                    {{moment-format manager.target.dateCreated 'MMMM D, YYYY'}}
+                                </dd>
+                                <dt>{{t 'file-detail.modification-date'}}</dt>
+                                <dd data-test-modification-date>
+                                    {{moment-format manager.target.dateModified 'MMMM D, YYYY'}}
+                                </dd>
+                                {{#if @manager.node.dateRegistered}}
+                                    <dt>{{t 'file-detail.registration-date'}}</dt>
+                                    <dd data-test-registration-date>
+                                        {{moment-format manager.target.dateRegistered 'MMMM D, YYYY'}}
+                                    </dd>
+                                {{/if}}
+                                {{#if @manager.node.dateWithdrawn}}
+                                    <dt>{{t 'file-detail.withdrawal-date'}}</dt>
+                                    <dd data-test-withdrawal-date>
+                                        {{moment-format manager.target.dateWithdrawn 'MMMM D, YYYY'}}
+                                    </dd>
+                                {{/if}}
+                                {{#if manager.targetIdentifiers}}
+                                    {{#each manager.targetIdentifiers as |identifier| }}
+                                        <dt>
+                                            <span>
+                                                {{identifier.category}}
+                                            </span>
+                                        </dt>
+                                        <dd><Identifier @identifier={{identifier}} /></dd>
+                                    {{/each}}
                                 {{/if}}
                             </dl>
                             {{#unless manager.isAnonymous}}
-                                <h3>{{t 'file_detail.contributors'}}</h3>
+                                <h3>{{t 'file-detail.contributors'}}</h3>
                                 <ContributorList
                                     data-test-target-contributors
                                     local-class='contributor-list'
@@ -308,7 +338,7 @@
             </BsButton>
         {{/if}}
         <BsButton
-            aria-label={{if this.metadataOpened (t 'file_detail.close_metadata') (t 'file_detail.view_metadata')}}
+            aria-label={{if this.metadataOpened (t 'file-detail.close-metadata') (t 'file-detail.view-metadata')}}
             data-test-metadata-button
             data-analytics-name='Metadata button'
             local-class='slide-buttons {{if this.metadataOpened 'active'}}'
@@ -319,7 +349,7 @@
         </BsButton>
         {{#if this.model.shouldShowRevisions}}
             <BsButton
-                aria-label={{if this.revisionsOpened (t 'file_detail.close_revisions') (t 'file_detail.view_revisions')}}
+                aria-label={{if this.revisionsOpened (t 'file-detail.close-revisions') (t 'file-detail.view-revisions')}}
                 data-test-versions-button
                 data-analytics-name='Versions button'
                 local-class='slide-buttons {{if this.revisionsOpened 'active'}}'
@@ -331,7 +361,7 @@
         {{/if}}
         {{#if this.model.shouldShowTags}}
             <BsButton
-                aria-label={{if this.tagsOpened (t 'file_detail.close_tags') (t 'file_detail.view_tags')}}
+                aria-label={{if this.tagsOpened (t 'file-detail.close-tags') (t 'file-detail.view-tags')}}
                 data-test-tags-button
                 data-analytics-name='Tags button'
                 local-class='slide-buttons {{if this.tagsOpened 'active'}}'
