@@ -208,11 +208,27 @@ module('Acceptance | guid file | registration files', hooks => {
 
     // Node type
     test('Node type', async function(this: ThisTestContext, assert) {
-        await visit(`/--file/${this.file.id}`);
-        assert.equal(currentURL(), `/--file/${this.file.guid}`);
+        const project = server.create('node', 'currentUserAdmin', 'withAffiliatedInstitutions');
+        const registration = server.schema.registrationSchemas.find('open_ended_registration');
+        const component = server.create('node', {id: 'cmpnt', parent: project}, 'withFiles', 'withStorage');
 
+        // Registration metadata
+        await visit(`/--file/${registration.id}`);
+        assert.equal(currentURL(), `/--file/${registration.id}`);
         assert.dom('[data-test-metadata-node]').hasText('Registration Metadata',
             'Node noun for registration properly set.');
+
+        // Project metadata
+        await visit(`/--file/${project.id}`);
+        assert.equal(currentURL(), `/${project.id}/metadata`);
+        assert.dom('[data-test-metadata-node]').hasText('Project Metadata',
+            'Node noun for project properly set.');
+
+        // Component metadata
+        await visit(`/--file/${component.id}`);
+        assert.equal(currentURL(), `/${component.id}/metadata`);
+        assert.dom('[data-test-metadata-node]').hasText('Component Metadata',
+            'Node noun for component properly set.');
     });
 
     // Save and cancel buttons with write permissions
@@ -233,10 +249,10 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-save-metadata-button]').exists();
         await click('[data-test-cancel-editing-metadata-button]');
         assert.dom('[data-test-edit-metadata-form]').doesNotExist();
-        await click('[data-test-edit-metadata-button]');
 
         // Screenshot before changes
         await percySnapshot(assert);
+        await click('[data-test-edit-metadata-button]');
         // Update title
         const editTitleTextArea = document.querySelectorAll('textarea')[0];
         editTitleTextArea.textContent = 'A test title.';
