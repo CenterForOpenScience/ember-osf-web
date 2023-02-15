@@ -10,6 +10,6 @@ discovery:
   disallowedHostnames: []
   networkIdleTimeout: 100
 upload:
-  files: "**/*.{png,jpg,jpeg}"
+  files: "dist/**/*.{png,jpg,jpeg}"
   ignore: ""
   stripExtensions: false
