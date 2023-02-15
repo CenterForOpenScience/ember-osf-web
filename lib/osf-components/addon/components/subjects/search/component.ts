@@ -49,6 +49,7 @@ export default class SearchSubjects extends Component {
             page: {
                 size: 150,
             },
+            sort: 'text',
             related_counts: 'children',
             embed: 'parent',
         });
