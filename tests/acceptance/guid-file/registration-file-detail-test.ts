@@ -12,7 +12,7 @@ import { selectChoose } from 'ember-power-select/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 
 import FileModel from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -32,17 +32,15 @@ module('Acceptance | guid file | registration files', hooks => {
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.registration = server.create('registration', {
-            currentUserPermissions: [Permission.Write],
-            isAnonymous: false,
-        }, 'withContributors', 'withAffiliatedInstitutions', 'withFiles', 'isPublic');
-
+            currentUserPermissions: [Permission.Read, Permission.Write],
+        }, 'withContributors', 'withAffiliatedInstitutions', 'withFiles');
         this.file = server.create('file', {
             target: this.registration,
             name: 'Test File',
         });
     });
 
-    skip('Desktop view', async function(this: ThisTestContext, assert) {
+    test('Desktop view', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
         assert.dom('[data-test-filename]')
