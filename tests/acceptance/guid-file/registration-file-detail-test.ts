@@ -275,7 +275,7 @@ module('Acceptance | guid file | registration files', hooks => {
     });
 
     // Verify A11y testing
-    test('A11y testing', async function(this: ThisTestContext, assert) {
+    test('Accessibility', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
         await a11yAudit();
