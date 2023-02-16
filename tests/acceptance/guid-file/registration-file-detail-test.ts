@@ -12,19 +12,14 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import FileModel from 'ember-osf-web/models/file';
-import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import User from 'ember-osf-web/models/user';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 interface ThisTestContext extends TestContext {
-    component: ModelInstance<NodeModel>;
-    componentFile: ModelInstance<FileModel>;
     currentUser: ModelInstance<User>;
     file: ModelInstance<FileModel>;
-    node: ModelInstance<NodeModel>;
-    projectFile: ModelInstance<FileModel>;
     registration: ModelInstance<RegistrationModel>;
 }
 
@@ -33,21 +28,11 @@ module('Acceptance | guid file | registration files', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
-        this.node = server.create('node');
         this.registration = server.create('registration', {
             currentUserPermissions: [Permission.Read, Permission.Write],
         }, 'withContributors', 'withAffiliatedInstitutions', 'withFiles');
-        this.component = server.create('node', {id: 'cmpnt', parent: this.node}, 'withFiles', 'withStorage');
         this.file = server.create('file', {
             target: this.registration,
-            name: 'Test File',
-        });
-        this.projectFile = server.create('file', {
-            target: this.node,
-            name: 'Test File',
-        });
-        this.componentFile = server.create('file', {
-            target: this.component,
             name: 'Test File',
         });
     });
@@ -226,16 +211,27 @@ module('Acceptance | guid file | registration files', hooks => {
 
     // Project node type
     test('Project noun type', async function(this: ThisTestContext, assert) {
-        await visit(`/--file/${this.projectFile.id}/`);
-        assert.equal(currentURL(), `/--file/${this.projectFile.id}/`);
+        const node = server.create('node');
+        const projectFile = server.create('file', {
+            target: node,
+            name: 'Test File',
+        });
+        await visit(`/--file/${projectFile.id}/`);
+        assert.equal(currentURL(), `/--file/${projectFile.id}/`);
         assert.dom('[data-test-metadata-node]').hasText('Project Metadata',
             'Node noun for project properly set.');
     });
 
     // Component node type
     test('Component noun type', async function(this: ThisTestContext, assert) {
-        await visit(`/--file/${this.componentFile.id}`);
-        assert.equal(currentURL(), `/--file/${this.componentFile.id}`);
+        const node = server.create('node');
+        const component = server.create('node', {id: 'cmpnt', parent: node}, 'withFiles', 'withStorage');
+        const componentFile = server.create('file', {
+            target: component,
+            name: 'Test File',
+        });
+        await visit(`/--file/${componentFile.id}`);
+        assert.equal(currentURL(), `/--file/${componentFile.id}`);
         assert.dom('[data-test-metadata-node]').hasText('Component Metadata',
             'Node noun for component properly set.');
     });
