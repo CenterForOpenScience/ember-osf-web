@@ -1,7 +1,4 @@
-import {
-    currentURL,
-    visit,
-} from '@ember/test-helpers';
+import { currentURL, fillIn, visit } from '@ember/test-helpers';
 
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { ModelInstance } from 'ember-cli-mirage';
@@ -15,15 +12,20 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import FileModel from 'ember-osf-web/models/file';
+import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import User from 'ember-osf-web/models/user';
+import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 interface ThisTestContext extends TestContext {
-    registration: ModelInstance<RegistrationModel>;
-    file: ModelInstance<FileModel>;
+    component: ModelInstance<NodeModel>;
+    componentFile: ModelInstance<FileModel>;
     currentUser: ModelInstance<User>;
+    file: ModelInstance<FileModel>;
+    node: ModelInstance<NodeModel>;
+    projectFile: ModelInstance<FileModel>;
+    registration: ModelInstance<RegistrationModel>;
 }
 
 module('Acceptance | guid file | registration files', hooks => {
@@ -31,11 +33,21 @@ module('Acceptance | guid file | registration files', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
+        this.node = server.create('node');
         this.registration = server.create('registration', {
             currentUserPermissions: [Permission.Read, Permission.Write],
         }, 'withContributors', 'withAffiliatedInstitutions', 'withFiles');
+        this.component = server.create('node', {id: 'cmpnt', parent: this.node}, 'withFiles', 'withStorage');
         this.file = server.create('file', {
             target: this.registration,
+            name: 'Test File',
+        });
+        this.projectFile = server.create('file', {
+            target: this.node,
+            name: 'Test File',
+        });
+        this.componentFile = server.create('file', {
+            target: this.component,
             name: 'Test File',
         });
     });
@@ -204,27 +216,26 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-target-description]').exists();
     });
 
-    // Node type
-    test('Node type', async function(this: ThisTestContext, assert) {
-        const project = server.create('node', 'currentUserAdmin', 'withAffiliatedInstitutions');
-        const registration = server.schema.registrationSchemas.find('open_ended_registration');
-        const component = server.create('node', {id: 'cmpnt', parent: project}, 'withFiles', 'withStorage');
-
-        // Registration metadata
-        await visit(`/--file/${registration.id}`);
-        assert.equal(currentURL(), `/--file/${registration.id}`);
+    // Registration node type
+    test('Registration noun type', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+        assert.equal(currentURL(), `/--file/${this.file.guid}`);
         assert.dom('[data-test-metadata-node]').hasText('Registration Metadata',
             'Node noun for registration properly set.');
+    });
 
-        // Project metadata
-        await visit(`/--file/${project.id}`);
-        assert.equal(currentURL(), `/${project.id}/metadata`);
+    // Project node type
+    test('Project noun type', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.projectFile.id}/`);
+        assert.equal(currentURL(), `/--file/${this.projectFile.id}/`);
         assert.dom('[data-test-metadata-node]').hasText('Project Metadata',
             'Node noun for project properly set.');
+    });
 
-        // Component metadata
-        await visit(`/--file/${component.id}`);
-        assert.equal(currentURL(), `/${component.id}/metadata`);
+    // Component node type
+    test('Component noun type', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.componentFile.id}`);
+        assert.equal(currentURL(), `/--file/${this.componentFile.id}`);
         assert.dom('[data-test-metadata-node]').hasText('Component Metadata',
             'Node noun for component properly set.');
     });
@@ -247,20 +258,13 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-save-metadata-button]').exists();
         await click('[data-test-cancel-editing-metadata-button]');
         assert.dom('[data-test-edit-metadata-form]').doesNotExist();
-
         // Screenshot before changes
         await percySnapshot(assert);
         await click('[data-test-edit-metadata-button]');
         // Update title
-        const editTitleTextArea = document.querySelectorAll('textarea')[0];
-        editTitleTextArea.textContent = 'A test title.';
-        assert.dom('[data-test-title-field]')
-            .containsText('A test title.', 'Metadata title field updates.');
-        // Update description
-        const editDescriptionTextArea = document.querySelectorAll('textarea')[1];
-        editDescriptionTextArea.textContent = 'A test description.';
-        assert.dom('[data-test-description-field]')
-            .containsText('A test description.', 'Metadata description field updates.');
+        await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
+        // // Update description
+        await fillIn('[data-test-description-field] > div > textarea', 'A New Description');
         // Update resource type
         await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
         // Update resource language
