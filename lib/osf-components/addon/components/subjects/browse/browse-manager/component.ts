@@ -50,6 +50,7 @@ export default class SubjectBrowserManagerComponent extends Component {
                 page: {
                     size: subjectPageSize,
                 },
+                sort: 'text',
                 related_counts: 'children',
             });
             this.setProperties({ rootSubjects });
