@@ -250,9 +250,9 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-description-field]').exists();
         assert.dom('[data-test-select-resource-type]').exists();
         assert.dom('[data-test-select-resource-language]').exists();
-        assert.dom('[data-test-cancel-editing-metadata-button]').exists();
+        assert.dom('[data-test-cancel-metadata-button]').exists();
         assert.dom('[data-test-save-metadata-button]').exists();
-        await click('[data-test-cancel-editing-metadata-button]');
+        await click('[data-test-cancel-metadata-button]');
         assert.dom('[data-test-edit-metadata-form]').doesNotExist();
         // Screenshot before changes
         await percySnapshot(assert);
@@ -319,5 +319,30 @@ module('Acceptance | guid file | registration files', hooks => {
             'File metadata resource type is properly updated.');
         assert.dom('[data-test-file-language]').hasText('English',
             'File metadata resource language is properly updated.');
+    });
+
+    test('View-only section does not update', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+
+        await click('[data-test-edit-metadata-button]');
+        // Update title
+        await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
+        // Update description
+        await fillIn('[data-test-description-field] > div > textarea', 'A New Description');
+        // Update resource type
+        await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
+        // Update resource language
+        await selectChoose('[data-test-select-resource-language]', 'Latin');
+        // Cancel changes
+        await click('[data-test-cancel-metadata-button]');
+
+        assert.dom('[data-test-file-title]').doesNotHaveTextContaining('A New Title',
+            'Cancel metadata edit button properly working for title.');
+        assert.dom('[data-test-file-description]').doesNotHaveTextContaining('A New Description',
+            'Cancel metadata edit button properly working for description.');
+        assert.dom('[data-test-file-resource-type]').doesNotHaveTextContaining('InteractiveResource',
+            'Cancel metadata edit button properly working for resource type.');
+        assert.dom('[data-test-file-language]').doesNotHaveTextContaining('Latin',
+            'Cancel metadata edit button properly working for resource language.');
     });
 });
