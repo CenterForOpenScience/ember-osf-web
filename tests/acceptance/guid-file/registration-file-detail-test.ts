@@ -259,7 +259,7 @@ module('Acceptance | guid file | registration files', hooks => {
         await click('[data-test-edit-metadata-button]');
         // Update title
         await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
-        // // Update description
+        // Update description
         await fillIn('[data-test-description-field] > div > textarea', 'A New Description');
         // Update resource type
         await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
@@ -293,5 +293,31 @@ module('Acceptance | guid file | registration files', hooks => {
         await a11yAudit();
 
         assert.ok('No A11y issues');
+    });
+
+    // View-only section
+    test('View-only section updates', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+
+        await click('[data-test-edit-metadata-button]');
+        // Update title
+        await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
+        // Update description
+        await fillIn('[data-test-description-field] > div > textarea', 'A New Description');
+        // Update resource type
+        await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
+        // Update resource language
+        await selectChoose('[data-test-select-resource-language]', 'English');
+        // Save changes
+        await click('[data-test-save-metadata-button]');
+
+        assert.dom('[data-test-file-title]').hasText('A New Title',
+            'File metadata file title is properly updated.');
+        assert.dom('[data-test-file-description]').hasText('A New Description',
+            'File metadata file description is properly updated.');
+        assert.dom('[data-test-file-resource-type]').hasText('InteractiveResource',
+            'File metadata resource type is properly updated.');
+        assert.dom('[data-test-file-language]').hasText('English',
+            'File metadata resource language is properly updated.');
     });
 });
