@@ -345,4 +345,22 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-file-language]').doesNotHaveTextContaining('Latin',
             'Cancel metadata edit button properly working for resource language.');
     });
+
+    test('No edit permission', async function(this: ThisTestContext, assert) {
+        const noEditRegistration = server.create('registration', {
+            currentUserPermissions: [Permission.Read],
+        }, 'withContributors', 'withFiles');
+
+        const noEditFile = server.create('file', {
+            target: noEditRegistration,
+            name: 'Test File',
+        });
+
+        await visit(`/--file/${noEditFile.id}`);
+
+        assert.dom('[data-test-edit-metadata-button]').doesNotExist();
+        assert.dom('[data-test-edit-metadata-form]').doesNotExist();
+        assert.dom('[data-test-save-metadata-button]').doesNotExist();
+        assert.dom('[data-test-cancel-metadata-button]').doesNotExist();
+    });
 });
