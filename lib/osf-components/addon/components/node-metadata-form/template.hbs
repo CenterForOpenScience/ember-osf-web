@@ -261,7 +261,9 @@
                     <div local-class='metadata-header'>
                         {{t 'osf-components.node-metadata-form.institutions'}}
                     </div>
-                    <InstitutionSelectList @manager={{@manager}} />
+                    <div local-class='institution-select-list'>
+                        <InstitutionSelectList @manager={{@manager}} />
+                    </div>
                     <Button
                         aria-label={{t 'general.cancel'}}
                         data-analytics-name='Cancel editing node institutions'
