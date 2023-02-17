@@ -119,13 +119,6 @@ module.exports = function(environment) {
                     version: 'dimension5',
                 },
             },
-            {
-                name: 'Keen',
-                environments: keenConfig ? ['all'] : [],
-                config: {
-                    ...keenConfig,
-                },
-            },
         ],
         FB_APP_ID,
         OSF: {
