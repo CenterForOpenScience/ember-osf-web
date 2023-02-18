@@ -9,6 +9,7 @@ import { selectChoose } from 'ember-power-select/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 
+
 import { module, test } from 'qunit';
 
 import FileModel from 'ember-osf-web/models/file';
@@ -344,6 +345,19 @@ module('Acceptance | guid file | registration files', hooks => {
             'Cancel metadata edit button properly working for resource type.');
         assert.dom('[data-test-file-language]').doesNotHaveTextContaining('Latin',
             'Cancel metadata edit button properly working for resource language.');
+    });
+
+    test('Error and canceling edit', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+
+        await click('[data-test-edit-metadata-button]');
+        await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
+        await server.get(`/--file/${this.file.id}`, {}, 500);
+        await server.get(`/--file/${this.file.id}`, {}, 200);
+        assert.dom('[data-test-cancel-metadata-button]').exists();
+        await click('[data-test-cancel-metadata-button]');
+        assert.dom('[data-test-file-title]').doesNotHaveTextContaining('A New Title',
+            'Canceling edit after server error working properly.');
     });
 
     test('No edit permission', async function(this: ThisTestContext, assert) {
