@@ -5,16 +5,16 @@
     as |dialog|
 >
     <dialog.heading>
-        {{t 'file_detail.resource-help-dialog.heading'}}
+        {{t 'file-detail.resource-help-dialog.heading'}}
     </dialog.heading>
     <dialog.main tabindex='0'>
         {{#if @userCanEdit}}
-            {{t 'file_detail.resource-help-dialog.write-permission'
+            {{t 'file-detail.resource-help-dialog.write-permission'
                 htmlSafe=true
                 parentNodeType=@parentNodeType
             }}
         {{else}}
-            {{t 'file_detail.resource-help-dialog.read-only'
+            {{t 'file-detail.resource-help-dialog.read-only'
                 htmlSafe=true
             }}
         {{/if}}

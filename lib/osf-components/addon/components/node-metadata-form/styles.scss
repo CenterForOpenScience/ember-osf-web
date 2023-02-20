@@ -11,9 +11,9 @@
         color: $color-link-black;
     }
 
-    div:not(.resource-edit) {
+    > div {
         justify-content: space-between;
-        margin: 5px 0;
+        margin: 5px 0 15px;
     }
 
     dd {
@@ -46,6 +46,7 @@
     .metadata-header {
         align-items: flex-end;
         display: flex;
+        justify-content: space-between;
         font-weight: 700;
     }
 }
@@ -116,6 +117,10 @@
     flex-direction: column;
 }
 
+.funder-separator {
+    border-bottom: 1px solid $color-border-gray-light;
+}
+
 .tags {
     flex-direction: row;
 
@@ -151,6 +156,15 @@
     }
 }
 
-.resource-edit > div {
+.resource-edit div {
     display: block;
+    margin: 5px 0 15px;
+
+    div {
+        max-width: 100%;
+    }
+}
+
+.institution-select-list {
+    padding-bottom: 20px;
 }
