@@ -4,7 +4,7 @@
     margin: 10px 0;
 }
 
-.node-card__heading {
+.node-card-heading {
     :global(.ember-content-placeholders-heading__title) {
         height: 1em;
         margin-top: 5px;
@@ -50,7 +50,7 @@
                 font-weight: 700;
                 margin-right: 5px;
             }
-            
+
             .content {
                 flex-grow: 1;
                 margin-right: 5px;
@@ -68,19 +68,19 @@
 
 }
 
-.node-card__dropdown {
+.node-card-dropdown {
     padding-left: 5px;
 
-    .node-card__dropdown-button {
+    .node-card-dropdown-button {
         padding: 4px 12px;
         line-height: 0;
     }
 
-    .node-card__dropdown-list {
+    .node-card-dropdown-list {
         background-color: $color-bg-gray-light;
         min-width: 180px;
 
-        .node-card__dropdown-link {
+        .node-card-dropdown-link {
             color: $color-link-black;
             border-color: transparent;
             background-color: $color-bg-gray-light;
@@ -89,8 +89,8 @@
             padding: 3px 20px;
         }
 
-        .node-card__dropdown-link:hover,
-        .node-card__dropdown-link:focus {
+        .node-card-dropdown-link:hover,
+        .node-card-dropdown-link:focus {
             cursor: pointer;
             background-image: none;
             background-color: $color-bg-gray-dark;
@@ -98,12 +98,7 @@
     }
 }
 
-.node-card__tags {
-    margin-top: 2px;
-}
-
-
-.node-card__link {
+.node-card-link {
     composes: Button from '../button/styles.scss';
     composes: SecondaryButton from '../button/styles.scss';
     composes: MediumButton from '../button/styles.scss';
@@ -113,20 +108,20 @@
     }
 }
 
-.CardContents {
+.card-contents {
     display: flex;
     flex-direction: row;
 }
 
-.CardBody {
+.card-body {
     width: 80%;
 }
 
-.CardBody__mobile {
+.card-body-mobile {
     width: 90%;
 }
 
-.OpenBadges {
+.open-badges {
     width: 20%;
     border-left-width: thin;
     border-left-color: $color-bg-gray-light;
@@ -134,7 +129,7 @@
     padding-left: 10px;
 }
 
-.OpenBadges__mobile {
+.open-badges-mobile {
     width: 10%;
     padding-left: 0;
 }

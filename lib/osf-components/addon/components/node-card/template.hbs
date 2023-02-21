@@ -3,11 +3,11 @@
     data-analytics-scope='Node Card'
     local-class='node-card'
 >
-    <div local-class='CardContents'>
+    <div local-class='card-contents'>
         <span
-            local-class='{{if @node.isRegistration 'CardBody'}} {{if (and @node.isRegistration this.isMobile) 'CardBody__mobile'}}'
+            local-class='{{if @node.isRegistration 'card-body'}} {{if (and @node.isRegistration this.isMobile) 'card-body-mobile'}}'
         >
-            <h4 class='list-group-item-heading' local-class='node-card__heading' data-test-node-card-heading>
+            <h4 class='list-group-item-heading' local-class='node-card-heading' data-test-node-card-heading>
                 <span>
                     {{#if @node}}
                         {{#unless @node.public}}
@@ -71,17 +71,17 @@
                         <div
                             data-test-node-menu
                             class='pull-right generic-dropdown'
-                            local-class='node-card__dropdown'
+                            local-class='node-card-dropdown'
                         >
                             <BsDropdown as |dd|>
-                                <dd.button local-class='node-card__dropdown-button'>
+                                <dd.button local-class='node-card-dropdown-button'>
                                     <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
                                 </dd.button>
-                                <dd.menu @align='right' local-class='node-card__dropdown-list' as |menu|>
+                                <dd.menu @align='right' local-class='node-card-dropdown-list' as |menu|>
                                     <menu.item role='menuitem'>
                                         <OsfLink
                                             data-analytics-name='Manage Contributors'
-                                            local-class='node-card__dropdown-link'
+                                            local-class='node-card-dropdown-link'
                                             @href='/{{@node.id}}/contributors/'
                                         >
                                             {{t 'node_card.fork.manage_contributors'}}
@@ -90,7 +90,7 @@
                                     <menu.item role='menuitem'>
                                         <OsfLink
                                             data-analytics-name='Settings'
-                                            local-class='node-card__dropdown-link'
+                                            local-class='node-card-dropdown-link'
                                             @href='/{{@node.id}}/settings/'
                                         >
                                             {{t 'general.settings'}}
@@ -99,7 +99,7 @@
                                     <menu.item role='menuitem'>
                                         <BsButton
                                             data-analytics-scope='Delete'
-                                            local-class='node-card__dropdown-link'
+                                            local-class='node-card-dropdown-link'
                                             @onClick={{action @delete @node}}
                                         >
                                             {{t 'general.delete'}}
@@ -199,7 +199,7 @@
                     </div>
                     <div local-class='MyRegistrationsButtons'>
                         <OsfLink
-                            local-class='node-card__link'
+                            local-class='node-card-link'
                             data-analytics-name='View registration'
                             data-test-view-button='{{@node.id}}'
                             @route='resolve-guid'
@@ -210,7 +210,7 @@
                         {{#if this.latestSchemaResponse}}
                             {{#if this.shouldShowViewChangesButton}}
                                 <OsfLink
-                                    local-class='node-card__link'
+                                    local-class='node-card-link'
                                     data-analytics-name='View changes'
                                     data-test-view-changes-button={{@node.id}}
                                     @route='registries.edit-revision.review'
@@ -237,7 +237,7 @@
             </div>
         </span>
         {{#if (and @node.isRegistration @node.resourcesVisible)}}
-            <span local-class='OpenBadges {{if this.isMobile 'OpenBadges__mobile'}}'>
+            <span local-class='open-badges {{if this.isMobile 'open-badges-mobile'}}'>
                 <OpenBadgesList
                     @hasData={{@node.hasData}}
                     @hasMaterials={{@node.hasMaterials}}
