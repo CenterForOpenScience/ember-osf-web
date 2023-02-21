@@ -63,20 +63,23 @@ module('Integration | Component | node-card', hooks => {
         assert.dom('[data-test-registration-registry-name]').hasText(
             registration.provider.name,
         );
-        assert.dom('[data-test-created-timestamp-label]').exists('Created timestamp label exists');
-        assert.dom('[data-test-created-timestamp-label]').hasText(
+        assert.dom('[data-test-date-registered-timestamp-label]').exists('Registered timestamp label exists');
+        assert.dom('[data-test-date-registered-timestamp-label]').hasText(
             this.intl.t('node_card.registration.timestamp_label'),
-            'Created timestamp label is correct',
+            'Registered timestamp label is correct',
         );
-        assert.dom('[data-test-created-timestamp-value]').exists('Created timestamp value exists');
-        assert.dom('[data-test-created-timestamp-value]').hasText(
+        assert.dom('[data-test-date-registered-timestamp-value]').exists('Registered timestamp value exists');
+        assert.dom('[data-test-date-registered-timestamp-value]').hasText(
             `${moment(registration.dateRegistered)}`,
-            'Created timestamp value is correct',
+            'Registered timestamp value is correct',
         );
-        assert.dom('[data-test-updated-timestamp-value]').exists('Updated timestamp value exists');
-        assert.dom('[data-test-updated-timestamp-value]').hasText(
+        assert.dom('[data-test-date-created-timestamp-label]').doesNotExist('Created timestamp label does not exist');
+        assert.dom('[data-test-date-created-timestamp-value]').doesNotExist('Created timestamp value does not exist');
+
+        assert.dom('[data-test-date-modified-timestamp-value]').exists('Modified timestamp value exists');
+        assert.dom('[data-test-date-modified-timestamp-value]').hasText(
             `${moment(registration.dateModified)}`,
-            'Updated timestamp value is correct',
+            'Modified timestamp value is correct',
         );
         assert.dom('[data-test-contributors-label]').exists('Contributors label exists');
         assert.dom('[data-test-contributors-label]').hasText(
