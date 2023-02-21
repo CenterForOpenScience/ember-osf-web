@@ -376,6 +376,11 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('#toast-container', document as any)
             .hasTextContaining(t('osf-components.file-metadata-manager.error-saving-metadata'));
         await click('[data-test-cancel-metadata-button]');
+
+        server.get('/custom_file_metadata_records/:id', _ => {
+            assert.dom('[data-test-file-title]').doesNotHaveTextContaining('A New Title',
+                'Canceling edit after server error working properly.');
+        });
     });
 
     test('No edit permission', async function(this: ThisTestContext, assert) {
