@@ -1,4 +1,4 @@
-import { currentURL, fillIn, visit } from '@ember/test-helpers';
+import { currentURL, fillIn, setupOnerror, visit } from '@ember/test-helpers';
 
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { ModelInstance } from 'ember-cli-mirage';
@@ -348,16 +348,34 @@ module('Acceptance | guid file | registration files', hooks => {
     });
 
     test('Error and canceling edit', async function(this: ThisTestContext, assert) {
-        await visit(`/--file/${this.file.id}`);
+        setupOnerror((e: any) => assert.ok(e, 'Error is handled'));
+
+        const node = server.create('node', {
+            id: 'mtadt',
+            currentUserPermissions: [Permission.Read, Permission.Write],
+        });
+        const projectFile = server.create('file', {
+            target: node,
+            name: 'Test File',
+        });
+        const url = `/--file/${projectFile.id}`;
+
+        server.namespace = '/v2';
+        server.patch('/custom_file_metadata_records/:id', () => ({
+            errors: [{
+                detail: 'Could not patch metadata',
+                source: { pointer: 'points to nowhere' },
+            }],
+        }), 400);
+
+        await visit(url);
 
         await click('[data-test-edit-metadata-button]');
         await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
-        await server.get(`/--file/${this.file.id}`, {}, 500);
-        await server.get(`/--file/${this.file.id}`, {}, 200);
-        assert.dom('[data-test-cancel-metadata-button]').exists();
+        await click('[data-test-save-metadata-button]');
+        assert.dom('#toast-container', document as any)
+            .hasTextContaining(t('osf-components.file-metadata-manager.error-saving-metadata'));
         await click('[data-test-cancel-metadata-button]');
-        assert.dom('[data-test-file-title]').doesNotHaveTextContaining('A New Title',
-            'Canceling edit after server error working properly.');
     });
 
     test('No edit permission', async function(this: ThisTestContext, assert) {
