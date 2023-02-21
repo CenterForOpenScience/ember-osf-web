@@ -1,8 +1,10 @@
-.NodeCard {
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.node-card {
     margin: 10px 0;
 }
 
-.NodeCard__heading {
+.node-card__heading {
     :global(.ember-content-placeholders-heading__title) {
         height: 1em;
         margin-top: 5px;
@@ -26,41 +28,59 @@
     }
 }
 
-.NodeCard__body {
+.node-card-body {
     :global(.ember-content-placeholders-text__line) {
         height: 1em;
         margin-bottom: 5px;
     }
+
+    .details-container {
+        margin-bottom: 10px;
+
+        .detail-container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-items: flex-start;
+            margin-bottom: 3px;
+
+            .label {
+                width: fit-content;
+                min-width: 100px;
+                font-weight: 700;
+                margin-right: 5px;
+            }
+            
+            .content {
+                flex-grow: 1;
+                margin-right: 5px;
+
+                &.description {
+                    width: 100%;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+
+            }
+        }
+    }
+
 }
 
-.NodeCard__body dt,
-.NodeCard__body dd {
-    display: inline-block;
-    max-width: 80%;
-    margin-right: 5px;
-}
-
-.NodeCard__body dl {
-    margin-bottom: 10px;
-}
-
-.NodeCard__body > dl > div {
-    display: flex;
-}
-
-.NodeCard__dropdown {
+.node-card__dropdown {
     padding-left: 5px;
 
-    .NodeCard__dropdown-button {
+    .node-card__dropdown-button {
         padding: 4px 12px;
         line-height: 0;
     }
 
-    .NodeCard__dropdown-list {
+    .node-card__dropdown-list {
         background-color: $color-bg-gray-light;
         min-width: 180px;
 
-        .NodeCard__dropdown-link {
+        .node-card__dropdown-link {
             color: $color-link-black;
             border-color: transparent;
             background-color: $color-bg-gray-light;
@@ -69,8 +89,8 @@
             padding: 3px 20px;
         }
 
-        .NodeCard__dropdown-link:hover,
-        .NodeCard__dropdown-link:focus {
+        .node-card__dropdown-link:hover,
+        .node-card__dropdown-link:focus {
             cursor: pointer;
             background-image: none;
             background-color: $color-bg-gray-dark;
@@ -78,17 +98,12 @@
     }
 }
 
-.NodeCard__tags {
+.node-card__tags {
     margin-top: 2px;
 }
 
-.NodeCard__description {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
 
-.NodeCard__link {
+.node-card__link {
     composes: Button from '../button/styles.scss';
     composes: SecondaryButton from '../button/styles.scss';
     composes: MediumButton from '../button/styles.scss';
