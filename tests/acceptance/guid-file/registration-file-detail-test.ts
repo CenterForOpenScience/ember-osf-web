@@ -17,6 +17,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import User from 'ember-osf-web/models/user';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import sinon from 'sinon';
 
 interface ThisTestContext extends TestContext {
     currentUser: ModelInstance<User>;
@@ -368,6 +369,8 @@ module('Acceptance | guid file | registration files', hooks => {
             }],
         }), 400);
 
+        const timer = sinon.useFakeTimers({ shouldAdvanceTime: true });
+
         await visit(url);
 
         await click('[data-test-edit-metadata-button]');
@@ -376,11 +379,9 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('#toast-container', document as any)
             .hasTextContaining(t('osf-components.file-metadata-manager.error-saving-metadata'));
         await click('[data-test-cancel-metadata-button]');
+        await timer.tickAsync(5000); // skip until toast is gone
 
-        server.get('/custom_file_metadata_records/:id', _ => {
-            assert.dom('[data-test-file-title]').doesNotHaveTextContaining('A New Title',
-                'Canceling edit after server error working properly.');
-        });
+        assert.dom('[data-test-file-title]').doesNotIncludeText('A New Title');
     });
 
     test('No edit permission', async function(this: ThisTestContext, assert) {
