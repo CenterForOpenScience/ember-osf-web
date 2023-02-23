@@ -1,4 +1,4 @@
-import { currentURL, fillIn, setupOnerror, visit } from '@ember/test-helpers';
+import { currentURL, fillIn, resetOnerror, setupOnerror, visit } from '@ember/test-helpers';
 
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { ModelInstance } from 'ember-cli-mirage';
@@ -382,6 +382,8 @@ module('Acceptance | guid file | registration files', hooks => {
         await timer.tickAsync(5000); // skip until toast is gone
 
         assert.dom('[data-test-file-title]').doesNotIncludeText('A New Title');
+
+        resetOnerror();
     });
 
     test('No edit permission', async function(this: ThisTestContext, assert) {
