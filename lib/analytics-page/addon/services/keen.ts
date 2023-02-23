@@ -5,7 +5,7 @@ import { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 
-const { metricsAdapters } = config;
+const { keen: metricsAdapters } = config as any;
 
 export default class KeenService extends Service {
     async queryNode(
