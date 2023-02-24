@@ -17,7 +17,6 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import User from 'ember-osf-web/models/user';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
-import sinon from 'sinon';
 
 interface ThisTestContext extends TestContext {
     currentUser: ModelInstance<User>;
@@ -252,9 +251,9 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-description-field]').exists();
         assert.dom('[data-test-select-resource-type]').exists();
         assert.dom('[data-test-select-resource-language]').exists();
-        assert.dom('[data-test-cancel-metadata-button]').exists();
+        assert.dom('[data-test-cancel-editing-metadata-button]').exists();
         assert.dom('[data-test-save-metadata-button]').exists();
-        await click('[data-test-cancel-metadata-button]');
+        await click('[data-test-cancel-editing-metadata-button]');
         assert.dom('[data-test-edit-metadata-form]').doesNotExist();
         // Screenshot before changes
         await percySnapshot(assert);
@@ -336,7 +335,7 @@ module('Acceptance | guid file | registration files', hooks => {
         // Update resource language
         await selectChoose('[data-test-select-resource-language]', 'Latin');
         // Cancel changes
-        await click('[data-test-cancel-metadata-button]');
+        await click('[data-test-cancel-editing-metadata-button]');
 
         assert.dom('[data-test-file-title]').doesNotHaveTextContaining('A New Title',
             'Cancel metadata edit button properly working for title.');
@@ -369,8 +368,6 @@ module('Acceptance | guid file | registration files', hooks => {
             }],
         }), 400);
 
-        const timer = sinon.useFakeTimers({ shouldAdvanceTime: true });
-
         await visit(url);
 
         await click('[data-test-edit-metadata-button]');
@@ -378,8 +375,7 @@ module('Acceptance | guid file | registration files', hooks => {
         await click('[data-test-save-metadata-button]');
         assert.dom('#toast-container', document as any)
             .hasTextContaining(t('osf-components.file-metadata-manager.error-saving-metadata'));
-        await click('[data-test-cancel-metadata-button]');
-        await timer.tickAsync(5000); // skip until toast is gone
+        await click('[data-test-cancel-editing-metadata-button]');
 
         assert.dom('[data-test-file-title]').doesNotIncludeText('A New Title');
 
@@ -401,6 +397,6 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-edit-metadata-button]').doesNotExist();
         assert.dom('[data-test-edit-metadata-form]').doesNotExist();
         assert.dom('[data-test-save-metadata-button]').doesNotExist();
-        assert.dom('[data-test-cancel-metadata-button]').doesNotExist();
+        assert.dom('[data-test-cancel-editing-metadata-button]').doesNotExist();
     });
 });
