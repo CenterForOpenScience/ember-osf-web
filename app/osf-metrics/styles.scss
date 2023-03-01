@@ -1,0 +1,17 @@
+.OsfMetrics {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.OsfMetrics > p {
+    max-width: 62vw;
+}
+
+.OsfMetrics > section {
+    width: 87vw;
+}
+
+.OsfMetrics :global(.active) {
+    font-weight: bold;
+}
