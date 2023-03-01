@@ -70,7 +70,7 @@ export function registrationScenario(
         hasAnalyticCode: true,
         hasPapers: false,
         hasSupplements: true,
-    }, 'withResources');
+    }, 'withResources', 'withDoi');
 
     server.create('file', {id: 'afile', target: currentUserWrite});
 

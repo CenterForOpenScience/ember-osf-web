@@ -1,0 +1,7 @@
+{{!-- template-lint-disable no-bare-strings --}}
+{{#if (eq @identifier.category 'doi')}}
+    <a href='https://doi.org/{{@identifier.value}}'>https://doi.org/{{@identifier.value}}</a>
+{{else}}
+    {{@identifier.value}}
+{{/if}}
+{{!-- template-lint-enable no-bare-strings --}}

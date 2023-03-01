@@ -27,7 +27,7 @@ const tagsMap: Record<string, string[]> = {
     description: ['dct.abstract', 'citation_description', 'og:description', 'twitter:description'],
     contributors: ['dc.contributor', 'citation_author'],
     affiliatedInstitutions: ['citation_author_institution'],
-    tags: ['dc.keywords'],
+    tags: ['dc.subject'],
     doi: ['citation_doi'],
     dateRegistered: ['dct.created', 'citation_publication_date'],
     dateModified: ['dct.modified'],

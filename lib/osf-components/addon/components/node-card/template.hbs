@@ -1,13 +1,13 @@
 <div
     data-test-node-card
     data-analytics-scope='Node Card'
-    local-class='NodeCard'
+    local-class='node-card'
 >
-    <div local-class='CardContents'>
+    <div local-class='card-contents'>
         <span
-            local-class='{{if @node.isRegistration 'CardBody'}} {{if (and @node.isRegistration this.isMobile) 'CardBody__mobile'}}'
+            local-class='{{if @node.isRegistration 'card-body'}} {{if (and @node.isRegistration this.isMobile) 'mobile'}}'
         >
-            <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
+            <h4 class='list-group-item-heading' local-class='heading' data-test-node-card-heading>
                 <span>
                     {{#if @node}}
                         {{#unless @node.public}}
@@ -71,17 +71,17 @@
                         <div
                             data-test-node-menu
                             class='pull-right generic-dropdown'
-                            local-class='NodeCard__dropdown'
+                            local-class='dropdown'
                         >
                             <BsDropdown as |dd|>
-                                <dd.button local-class='NodeCard__dropdown-button'>
+                                <dd.button local-class='dropdown-button'>
                                     <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
                                 </dd.button>
-                                <dd.menu @align='right' local-class='NodeCard__dropdown-list' as |menu|>
+                                <dd.menu @align='right' local-class='dropdown-list' as |menu|>
                                     <menu.item role='menuitem'>
                                         <OsfLink
                                             data-analytics-name='Manage Contributors'
-                                            local-class='NodeCard__dropdown-link'
+                                            local-class='dropdown-link'
                                             @href='/{{@node.id}}/contributors/'
                                         >
                                             {{t 'node_card.fork.manage_contributors'}}
@@ -90,7 +90,7 @@
                                     <menu.item role='menuitem'>
                                         <OsfLink
                                             data-analytics-name='Settings'
-                                            local-class='NodeCard__dropdown-link'
+                                            local-class='dropdown-link'
                                             @href='/{{@node.id}}/settings/'
                                         >
                                             {{t 'general.settings'}}
@@ -99,7 +99,7 @@
                                     <menu.item role='menuitem'>
                                         <BsButton
                                             data-analytics-scope='Delete'
-                                            local-class='NodeCard__dropdown-link'
+                                            local-class='dropdown-link'
                                             @onClick={{action @delete @node}}
                                         >
                                             {{t 'general.delete'}}
@@ -111,79 +111,95 @@
                     {{/if}}
                 {{/if}}
             </h4>
-            <div data-test-node-card-body local-class='NodeCard__body'>
+            <div data-test-node-card-body local-class='body'>
                 {{#if @node}}
                     <dl>
                         {{#if @node.isRegistration}}
-                            <dt data-test-registration-template-label>
-                                {{t 'node_card.registration_template'}}
-                            </dt>
-                            <dd data-test-registration-template-name>
-                                {{@node.registrationSchema.name}}
-                            </dd><br />
-                            <dt data-test-registration-registry-label>
-                                {{t 'node_card.registry'}}
-                            </dt>
-                            <dd data-test-registration-registry-name>
-                                {{@node.provider.name}}
-                            </dd><br />
-                            <dt data-test-created-timestamp-label>
-                                {{t (concat 'node_card.registration.timestamp_label')}}
-                            </dt>
-                            <dd data-test-created-timestamp-value>
-                                {{moment @node.dateRegistered}}
-                            </dd><br />
+                            <div>
+                                <dt data-test-registration-template-label>
+                                    {{t 'node_card.registration_template'}}
+                                </dt>
+                                <dd data-test-registration-template-name>
+                                    {{@node.registrationSchema.name}}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt data-test-registration-registry-label>
+                                    {{t 'node_card.registry'}}
+                                </dt>
+                                <dd data-test-registration-registry-name>
+                                    {{@node.provider.name}}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt data-test-created-timestamp-label>
+                                    {{t (concat 'node_card.registration.timestamp_label')}}
+                                </dt>
+                                <dd data-test-created-timestamp-value>
+                                    {{moment @node.dateRegistered}}
+                                </dd>
+                            </div>
                         {{else}}
-                            <dt data-test-created-timestamp-label>
-                                {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}
-                            </dt>
-                            <dd data-test-created-timestamp-value>
-                                {{moment @node.dateCreated}}
-                            </dd><br />
+                            <div>
+                                <dt data-test-created-timestamp-label>
+                                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}
+                                </dt>
+                                <dd data-test-created-timestamp-value>
+                                    {{moment @node.dateCreated}}
+                                </dd>
+                            </div>
                         {{/if}}
-                        <dt data-test-updated-timestamp-label>
-                            {{t 'node_card.last_updated'}}
-                        </dt>
-                        <dd data-test-updated-timestamp-value>
-                            {{moment @node.dateModified}}
-                        </dd><br />
-                        <dt
-                            data-test-contributors-label
-                        >
-                            {{t 'node_card.contributors'}}
-                        </dt>
-                        <dd>
-                            <ContributorList
-                                @model={{@node}}
-                                @shouldLinkUsers={{true}}
-                            />
-                        </dd><br />
-                        <dt
-                            data-test-description-label
-                        >
-                            {{t 'node_card.description'}}
-                        </dt>
-                        <dd data-test-description local-class='NodeCard__description'>
-                            {{@node.description}}
-                        </dd><br />
-                        {{#if (and this.showTags @node.tags)}}
-                            <dt local-class='NodeCard__tags'
-                                data-test-tags-label
-
+                        <div>
+                            <dt data-test-updated-timestamp-label>
+                                {{t 'node_card.last_updated'}}
+                            </dt>
+                            <dd data-test-updated-timestamp-value>
+                                {{moment @node.dateModified}}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt
+                                data-test-contributors-label
                             >
-                                {{t 'node_card.tags'}}
+                                {{t 'node_card.contributors'}}
                             </dt>
                             <dd>
-                                <TagsWidget
-                                    @taggable={{@node}}
-                                    @inline={{true}}
+                                <ContributorList
+                                    @model={{@node}}
+                                    @shouldLinkUsers={{true}}
                                 />
                             </dd>
+                        </div>
+                        <div>
+                            <dt
+                                data-test-description-label
+                            >
+                                {{t 'node_card.description'}}
+                            </dt>
+                            <dd data-test-description local-class='description'>
+                                {{@node.description}}
+                            </dd>
+                        </div>
+                        {{#if (and this.showTags @node.tags)}}
+                            <div>
+                                <dt local-class='tags'
+                                    data-test-tags-label
+
+                                >
+                                    {{t 'node_card.tags'}}
+                                </dt>
+                                <dd>
+                                    <TagsWidget
+                                        @taggable={{@node}}
+                                        @inline={{true}}
+                                    />
+                                </dd>
+                            </div>
                         {{/if}}
                     </dl>
                     <div local-class='MyRegistrationsButtons'>
                         <OsfLink
-                            local-class='NodeCard__link'
+                            local-class='link'
                             data-analytics-name='View registration'
                             data-test-view-button='{{@node.id}}'
                             @route='resolve-guid'
@@ -194,7 +210,7 @@
                         {{#if this.latestSchemaResponse}}
                             {{#if this.shouldShowViewChangesButton}}
                                 <OsfLink
-                                    local-class='NodeCard__link'
+                                    local-class='link'
                                     data-analytics-name='View changes'
                                     data-test-view-changes-button={{@node.id}}
                                     @route='registries.edit-revision.review'
@@ -221,7 +237,7 @@
             </div>
         </span>
         {{#if (and @node.isRegistration @node.resourcesVisible)}}
-            <span local-class='OpenBadges {{if this.isMobile 'OpenBadges__mobile'}}'>
+            <span local-class='open-badges {{if this.isMobile 'mobile'}}'>
                 <OpenBadgesList
                     @hasData={{@node.hasData}}
                     @hasMaterials={{@node.hasMaterials}}
