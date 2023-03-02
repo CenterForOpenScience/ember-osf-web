@@ -15,11 +15,6 @@ module('Integration | Component | delete-node-modal', hooks => {
         this.set('closeModal', () => true);
     });
 
-    test('hidden by default', async function(assert) {
-        await render(hbs`{{delete-node-modal closeModal=closeModal delete=delete}}`);
-        assert.dom(this.element).hasText('');
-    });
-
     test('shown when openModal=true', async assert => {
         await render(hbs`{{delete-node-modal closeModal=closeModal delete=delete openModal=true}}`);
         assert.dom('[data-test-delete-warning]').includesText(

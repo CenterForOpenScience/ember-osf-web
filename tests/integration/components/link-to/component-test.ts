@@ -22,27 +22,36 @@ module('Integration | Component | link-to', hooks => {
         const linkText = 'This is a link!';
         const ariaLabel = 'This is an aria label!';
         await render(hbs`
-            {{~#link-to 'foo' (html-attributes aria-label='This is an aria label!')}}
+            <LinkTo
+                @route='foo'
+                aria-label='This is an aria label!'
+            >
                 This is a link!
-            {{/link-to}}
+            </LinkTo>
         `);
 
-        const { firstChild, textContent } = this.element;
+        const { textContent } = this.element;
+        const linkElement = this.element.getElementsByTagName('a')[0];
 
         assert.equal((textContent as string).trim(), linkText);
-        assert.equal((firstChild as Element).getAttribute('aria-label'), ariaLabel);
+        assert.equal((linkElement as Element).getAttribute('aria-label'), ariaLabel);
     });
 
     test('clickAction fires', async function(assert) {
         assert.expect(1);
-        this.set('actions', {
-            clickAction: () => {
-                assert.ok(true);
-            },
+        this.set('clickAction', () => {
+            assert.ok(true);
         });
 
-        await render(hbs`{{#link-to 'foo' click=(action 'clickAction')}}This is a link!{{/link-to}}`);
+        await render(hbs`
+        <LinkTo
+            @route='foo'
+            {{on 'click' this.clickAction}}
+        >
+            This is a link!
+        </LinkTo>`);
 
-        await click(this.element.firstChild as Element);
+        const linkElement = this.element.getElementsByTagName('a')[0];
+        await click(linkElement as Element);
     });
 });
