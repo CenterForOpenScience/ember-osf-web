@@ -12,6 +12,8 @@ export type DataContent = Content | Content[];
 export interface MetaTagsData {
     title?: DataContent;
     type?: DataContent;
+    funders?: DataContent;
+    creatorType?: DataContent;
     description?: DataContent;
     url?: DataContent;
     doi?: DataContent;
@@ -77,7 +79,12 @@ export default class MetaTags extends Service {
         const currentUrl = window.location.href;
         const metaTagsData: MetaTagsData = {
             type: 'article',
+            creatorType: 'Organization',
             description: this.intl.t('general.hosted_on_the_osf'),
+            publishedDate: '',
+            modifiedDate: '',
+            funders: [],
+            keywords: '',
             url: pathJoin(config.OSF.url, currentUrl),
             language: this.intl.get('locale'),
             image: pathJoin(config.OSF.url, 'static/img/preprints_assets/osf/sharing.png'),
@@ -100,14 +107,19 @@ export default class MetaTags extends Service {
 
         return {
             // Citation
-            citation_title: metaTagsData.title,
-            citation_doi: metaTagsData.doi,
-            citation_publisher: metaTagsData.siteName,
-            citation_author_institution: metaTagsData.institution,
             citation_author: metaTagsData.author,
+            citation_author_institution: metaTagsData.institution,
+            citation_creator_type: metaTagsData.creatorType,
             citation_description: metaTagsData.description,
+            citation_doi: metaTagsData.doi,
+            citation_funder_name: metaTagsData.funders,
+            citation_keywords: metaTagsData.keywords,
+            citation_modificaton_date: metaTagsData.modifiedDate,
             citation_public_url: metaTagsData.url,
             citation_publication_date: metaTagsData.publishedDate,
+            citation_publisher: metaTagsData.siteName,
+            citation_title: metaTagsData.title,
+            citation_type: metaTagsData.type,
             // Dublin Core
             'dct.title': metaTagsData.title,
             'dct.type': metaTagsData.type,
