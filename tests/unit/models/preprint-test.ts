@@ -11,70 +11,19 @@ module('Unit | Model | preprint', hooks => {
         assert.ok(!!model);
     });
 
-    test('it has an attribute: title', function(assert) {
+    test('it has appropriate attributes', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('title') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: dateCreated', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('dateCreated') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: datePublished', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('datePublished') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: originalPublicationDate', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('originalPublicationDate') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: dateModified', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('dateModified') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: doi', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('doi') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: isPublished', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('isPublished') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: isPreprintOrphan', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('isPreprintOrphan') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: licenseRecord', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('licenseRecord') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: reviewsState', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('reviewsState') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: dateLastTransitioned', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('preprint'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('dateLastTransitioned') > -1;
-        assert.ok(hasAttr);
+        assert.ok('title' in model);
+        assert.ok('dateCreated' in model);
+        assert.ok('datePublished' in model);
+        assert.ok('originalPublicationDate' in model);
+        assert.ok('dateModified' in model);
+        assert.ok('doi' in model);
+        assert.ok('isPublished' in model);
+        assert.ok('isPreprintOrphan' in model);
+        assert.ok('licenseRecord' in model);
+        assert.ok('reviewsState' in model);
+        assert.ok('dateLastTransitioned' in model);
     });
 
     test('node relationship', function(assert) {

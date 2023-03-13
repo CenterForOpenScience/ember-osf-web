@@ -11,46 +11,15 @@ module('Unit | Model | user', hooks => {
         assert.ok(!!model);
     });
 
-    test('it has an attribute: fullName', function(assert) {
+    test('it has appropriate attributes', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('user'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('fullName') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: givenName', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('user'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('givenName') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: middleNames', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('user'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('middleNames') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: familyName', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('user'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('familyName') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: dateRegistered', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('user'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('dateRegistered') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: fullName', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('user'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('fullName') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: canViewReviews', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('user'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('canViewReviews') > -1;
-        assert.ok(hasAttr);
+        assert.ok('fullName' in model);
+        assert.ok('givenName' in model);
+        assert.ok('middleNames' in model);
+        assert.ok('familyName' in model);
+        assert.ok('dateRegistered' in model);
+        assert.ok('fullName' in model);
+        assert.ok('canViewReviews' in model);
     });
 
     test('nodes relationship', function(assert) {
