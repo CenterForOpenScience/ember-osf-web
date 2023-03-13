@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -29,6 +30,7 @@ export const registerQueryParams = new QueryParams<RegisterQueryParams>({
 
 export default class Register extends Controller.extend(registerQueryParams.Mixin) {
     @service analytics!: Analytics;
+    @service store!: Store;
 
     signUpCampaign?: string;
 
