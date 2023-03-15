@@ -43,27 +43,31 @@ export default class RegistriesStates extends Component {
     }
 
     get stateText() {
-        if (!this.registration || !this.registration.reviewsState || !this.registration.revisionState) {
-            return undefined;
-        }
         let stateKey;
-        if (this.registration.pendingRegistrationApproval) {
-            stateKey = 'pendingRegistrationApproval';
-        } else if (this.registration.pendingEmbargoApproval) {
-            stateKey = 'pendingEmbargoApproval';
-        } else if (
-            [
-                RegistrationReviewStates.Embargo,
-                RegistrationReviewStates.Accepted,
-            ].includes(this.registration.reviewsState)
-        ) {
-            if (this.registration.revisionState !== RevisionReviewStates.Approved) {
-                stateKey = camelize(this.registration.revisionState);
+        if (!this.registration || !this.registration.reviewsState || !this.registration.revisionState) {
+            if (!this.registration.isAnonymous) {
+                return undefined;
+            }
+            stateKey = 'anonymous';
+        } else {
+            if (this.registration.pendingRegistrationApproval) {
+                stateKey = 'pendingRegistrationApproval';
+            } else if (this.registration.pendingEmbargoApproval) {
+                stateKey = 'pendingEmbargoApproval';
+            } else if (
+                [
+                    RegistrationReviewStates.Embargo,
+                    RegistrationReviewStates.Accepted,
+                ].includes(this.registration.reviewsState)
+            ) {
+                if (this.registration.revisionState !== RevisionReviewStates.Approved) {
+                    stateKey = camelize(this.registration.revisionState);
+                } else {
+                    stateKey = camelize(this.registration.reviewsState);
+                }
             } else {
                 stateKey = camelize(this.registration.reviewsState);
             }
-        } else {
-            stateKey = camelize(this.registration.reviewsState);
         }
         return {
             short: this.intl.t(`registries.overview.${stateKey}.short_description`),
