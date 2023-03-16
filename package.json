@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "23.04.0",
+  "version": "23.05.0",
   "private": true,
   "description": "Ember front-end for the Open Science Framework",
   "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
@@ -75,6 +75,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
+    "@percy/cli": "^1.18.0",
+    "@percy/ember": "^3.0.0",
     "@types/dropzone": "^5.0.4",
     "@types/ember": "^3.1.1",
     "@types/ember-data__adapter": "^3.16.1",
