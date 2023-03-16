@@ -1,13 +1,14 @@
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { t, TestContext } from 'ember-intl/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { module, test } from 'qunit';
 import { SinonSpy }  from 'sinon';
 import sinon from 'sinon';
+import { EnginesIntlTestContext } from 'ember-engines/test-support';
 
 module('Integration | Component | collection-submission-confirmation-modal', hooks => {
-    interface ThisTestContext extends TestContext {
+    interface ThisTestContext extends EnginesIntlTestContext {
         externalResubmitAction: SinonSpy;
         externalSaveAction: SinonSpy;
         externalCancelAction: SinonSpy;
@@ -21,7 +22,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
         this.externalCancelAction = sinon.fake();
     });
 
-    test('it renders', async function(this: TestContext, assert) {
+    test('it renders', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
         await render(
             hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
@@ -30,6 +31,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
                 @addToCollection={{ this.externalSaveAction}}
                 @cancel={{ this.externalCancelAction }}
             />`,
+            { owner: this.engine },
         );
         // Then I assert the modal header text
         assert.dom('[data-test-collection-submission-confirmation-modal-header]')
@@ -65,7 +67,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
             .doesNotExist('The collection submission confirmation modal reason does not exist.');
     });
 
-    test('it renders for moderated', async function(assert) {
+    test('it renders for moderated', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
         await render(
             hbs`<CollectionsSubmission::CollectionSubmissionConfirmationModal
@@ -75,6 +77,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
                 @addToCollection={{ this.externalSaveAction}}
                 @cancel={{ this.externalCancelAction }}
             />`,
+            { owner: this.engine },
         );
 
         // And I assert the modal body text
@@ -100,6 +103,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
                 @addToCollection={{ this.externalSaveAction}}
                 @cancel={{ this.externalCancelAction }}
             />`,
+            { owner: this.engine },
         );
 
         // Then I assert the add to collection button is correct
@@ -123,6 +127,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
                 @addToCollection={{ this.externalSaveAction}}
                 @cancel={{ this.externalCancelAction}}
             />`,
+            { owner: this.engine },
         );
 
         // Then I assert the cancel button text is correct
@@ -147,6 +152,7 @@ module('Integration | Component | collection-submission-confirmation-modal', hoo
                 @addToCollection={{ this.externalSaveAction}}
                 @cancel={{ this.externalCancelAction }}
             />`,
+            { owner: this.engine },
         );
 
         // Then I verify the modal resubmit text is correct

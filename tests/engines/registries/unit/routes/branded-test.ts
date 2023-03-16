@@ -1,6 +1,6 @@
 import Service from '@ember/service';
+import { EnginesTestContext } from 'ember-engines/test-support';
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 const headTagsStub = Service.extend({
@@ -19,7 +19,7 @@ const analyticsStub = Service.extend();
 module('Registries | Unit | Route | branded', hooks => {
     setupEngineTest(hooks, 'registries');
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(function(this: EnginesTestContext) {
         this.owner.register('service:headTags', headTagsStub);
         this.owner.register('service:currentUser', currentUserStub);
         this.owner.register('service:session', sessionStub);
@@ -28,13 +28,13 @@ module('Registries | Unit | Route | branded', hooks => {
         this.owner.register('service:features', featuresStub);
     });
 
-    test('branded.discover exists', function(assert) {
-        const route = this.owner.lookup('route:branded.discover');
+    test('branded.discover exists', function(this: EnginesTestContext, assert) {
+        const route = this.engine.lookup('route:branded.discover');
         assert.ok(route);
     });
 
-    test('branded.new exists', function(assert) {
-        const route = this.owner.lookup('route:branded.new');
+    test('branded.new exists', function(this: EnginesTestContext, assert) {
+        const route = this.engine.lookup('route:branded.new');
         assert.ok(route);
     });
 });
