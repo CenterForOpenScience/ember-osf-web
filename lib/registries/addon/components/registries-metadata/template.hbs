@@ -64,18 +64,21 @@
         </div>
     </div>
 
-    <div local-class='Field'>
-        <h4>{{t 'registries.registration_metadata.associated_project'}}</h4>
-        <div>
-            <OsfLink
-                data-analytics-name='Registered from'
-                @route='guid-node'
-                @models={{array this.registeredFromId}}
-            >
-                {{this.registeredFromDisplayUrl}}
-            </OsfLink>
+    {{#unless this.registration.isAnonymous}}
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.associated_project'}}</h4>
+            <div>
+                <OsfLink
+                    data-analytics-name='Registered from'
+                    @route='guid-node'
+                    @models={{array this.registeredFromId}}
+                >
+                    {{this.registeredFromDisplayUrl}}
+                </OsfLink>
+            </div>
         </div>
-    </div>
+    {{/unless}}
+
     {{#if this.registration.providerSpecificMetadata}}
         <div local-class='Field'>
             <EditableField::ProviderMetadataManager

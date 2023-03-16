@@ -11,7 +11,6 @@ import { waitFor } from '@ember/test-waiters';
 import { keepLatestTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
-import $ from 'jquery';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -309,7 +308,7 @@ export default class DiscoverPage extends Component {
 
     scrollToResults() {
         // Scrolls to top of search results
-        $('html, body').scrollTop($('.results-top').position().top);
+        document.querySelector('.results-top')?.scrollIntoView({ behavior: 'smooth' });
     }
 
     search(): void {

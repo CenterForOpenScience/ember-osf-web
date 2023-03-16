@@ -109,7 +109,7 @@
                 <BsDropdown class='dropdown pull-right' as |dd|>
                     <dd.button
                         data-test-sort-by-button
-                        class='btn btn-default'
+                        class='btn btn-default results-top'
                     >
                         {{t 'collections.discover_page.sortBy'}}:
                         {{this.sortDisplay}}
@@ -183,7 +183,7 @@
                 {{else}}
                     {{#if this.numberOfResults}}
                         {{!RESULTS FOUND}}
-                        <div class='results-top'>
+                        <div>
                             {{#each this.results as |result|}}
                                 {{component
                                     this.searchResultComponent
