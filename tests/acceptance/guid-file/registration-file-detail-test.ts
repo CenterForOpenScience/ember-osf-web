@@ -1,4 +1,4 @@
-import { currentURL, fillIn, visit } from '@ember/test-helpers';
+import { currentURL, fillIn, resetOnerror, setupOnerror, visit } from '@ember/test-helpers';
 
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { ModelInstance } from 'ember-cli-mirage';
@@ -8,6 +8,7 @@ import { percySnapshot } from 'ember-percy';
 import { selectChoose } from 'ember-power-select/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
+
 
 import { module, test } from 'qunit';
 
@@ -259,7 +260,7 @@ module('Acceptance | guid file | registration files', hooks => {
         await click('[data-test-edit-metadata-button]');
         // Update title
         await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
-        // // Update description
+        // Update description
         await fillIn('[data-test-description-field] > div > textarea', 'A New Description');
         // Update resource type
         await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
@@ -275,7 +276,7 @@ module('Acceptance | guid file | registration files', hooks => {
     });
 
     // Verify A11y testing
-    test('A11y testing', async function(this: ThisTestContext, assert) {
+    test('Accessibility', async function(this: ThisTestContext, assert) {
         await visit(`/--file/${this.file.id}`);
         assert.equal(currentURL(), `/--file/${this.file.guid}`);
         await a11yAudit();
@@ -293,5 +294,109 @@ module('Acceptance | guid file | registration files', hooks => {
         await a11yAudit();
 
         assert.ok('No A11y issues');
+    });
+
+    // View-only section
+    test('View-only section updates', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+
+        await click('[data-test-edit-metadata-button]');
+        // Update title
+        await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
+        // Update description
+        await fillIn('[data-test-description-field] > div > textarea', 'A New Description');
+        // Update resource type
+        await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
+        // Update resource language
+        await selectChoose('[data-test-select-resource-language]', 'English');
+        // Save changes
+        await click('[data-test-save-metadata-button]');
+
+        assert.dom('[data-test-file-title]').hasText('A New Title',
+            'File metadata file title is properly updated.');
+        assert.dom('[data-test-file-description]').hasText('A New Description',
+            'File metadata file description is properly updated.');
+        assert.dom('[data-test-file-resource-type]').hasText('InteractiveResource',
+            'File metadata resource type is properly updated.');
+        assert.dom('[data-test-file-language]').hasText('English',
+            'File metadata resource language is properly updated.');
+    });
+
+    test('View-only section does not update', async function(this: ThisTestContext, assert) {
+        await visit(`/--file/${this.file.id}`);
+
+        await click('[data-test-edit-metadata-button]');
+        // Update title
+        await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
+        // Update description
+        await fillIn('[data-test-description-field] > div > textarea', 'A New Description');
+        // Update resource type
+        await selectChoose('[data-test-select-resource-type]', 'InteractiveResource');
+        // Update resource language
+        await selectChoose('[data-test-select-resource-language]', 'Latin');
+        // Cancel changes
+        await click('[data-test-cancel-editing-metadata-button]');
+
+        assert.dom('[data-test-file-title]').doesNotHaveTextContaining('A New Title',
+            'Cancel metadata edit button properly working for title.');
+        assert.dom('[data-test-file-description]').doesNotHaveTextContaining('A New Description',
+            'Cancel metadata edit button properly working for description.');
+        assert.dom('[data-test-file-resource-type]').doesNotHaveTextContaining('InteractiveResource',
+            'Cancel metadata edit button properly working for resource type.');
+        assert.dom('[data-test-file-language]').doesNotHaveTextContaining('Latin',
+            'Cancel metadata edit button properly working for resource language.');
+    });
+
+    test('Error and canceling edit', async function(this: ThisTestContext, assert) {
+        setupOnerror((e: any) => assert.ok(e, 'Error is handled'));
+
+        const node = server.create('node', {
+            id: 'mtadt',
+            currentUserPermissions: [Permission.Read, Permission.Write],
+        });
+        const projectFile = server.create('file', {
+            target: node,
+            name: 'Test File',
+        });
+        const url = `/--file/${projectFile.id}`;
+
+        server.namespace = '/v2';
+        server.patch('/custom_file_metadata_records/:id', () => ({
+            errors: [{
+                detail: 'Could not patch metadata',
+                source: { pointer: 'points to nowhere' },
+            }],
+        }), 400);
+
+        await visit(url);
+
+        await click('[data-test-edit-metadata-button]');
+        await fillIn('[data-test-title-field] > div > textarea', 'A New Title');
+        await click('[data-test-save-metadata-button]');
+        assert.dom('#toast-container', document as any)
+            .hasTextContaining(t('osf-components.file-metadata-manager.error-saving-metadata'));
+        await click('[data-test-cancel-editing-metadata-button]');
+
+        assert.dom('[data-test-file-title]').doesNotIncludeText('A New Title');
+
+        resetOnerror();
+    });
+
+    test('No edit permission', async function(this: ThisTestContext, assert) {
+        const noEditRegistration = server.create('registration', {
+            currentUserPermissions: [Permission.Read],
+        }, 'withContributors', 'withFiles');
+
+        const noEditFile = server.create('file', {
+            target: noEditRegistration,
+            name: 'Test File',
+        });
+
+        await visit(`/--file/${noEditFile.id}`);
+
+        assert.dom('[data-test-edit-metadata-button]').doesNotExist();
+        assert.dom('[data-test-edit-metadata-form]').doesNotExist();
+        assert.dom('[data-test-save-metadata-button]').doesNotExist();
+        assert.dom('[data-test-cancel-editing-metadata-button]').doesNotExist();
     });
 });

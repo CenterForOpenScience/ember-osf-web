@@ -1553,6 +1553,10 @@ registries:
             text: 'Update pending review'
             short_description: 'Update pending moderator approval'
             long_description: 'This registration has an update that is waiting for moderation. Updates will be made available once approved.'
+        anonymous:
+            text: 'Anonymized registration'
+            short_description: 'Anonymized'
+            long_description: 'This is an anonymized view of this registration. Identifying metadata is hidden from view.'
         bookmark:
             add:
                 text: Bookmark

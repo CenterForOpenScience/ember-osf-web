@@ -181,14 +181,20 @@ export default class FileMetadataManagerComponent extends Component<Args> {
         this.inEditMode = true;
     }
 
+    @action
+    rollback() {
+        this.changeset.rollback();
+    }
+
     @task
     @waitFor
     async cancel(){
         if (this.saveErrored){
             await this.metadataRecord.reload();
+            this.metadataRecord.rollbackAttributes();
             this.saveErrored = false;
         }
-        this.changeset.rollback();
+        this.rollback();
         this.changeset.languageObject = {
             code: this.metadataRecord.language,
             name: this.languageFromCode,
