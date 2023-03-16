@@ -65,7 +65,6 @@ module('Integration | Component | registries | registries-services-list', hooks 
             .hasAttribute('data-analytics-name',
                 'asist - Registry',
                 'The a aria-label is correct.');
-
         // Given I find the image node
         const imageNode = document.querySelector('[data-test-asist-registry-logo]');
 
