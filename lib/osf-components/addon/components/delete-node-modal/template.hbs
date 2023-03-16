@@ -1,5 +1,5 @@
 <BsModal
-    @open={{@openModal}}
+    @open={{if @openModal true false}}
     @onSubmit={{action @delete}}
     @onHidden={{action @closeModal}}
     as |modal|

@@ -104,6 +104,7 @@ export default class SingleSubjectManagerComponent extends Component {
                 page: {
                     size: 150, // TODO: import const
                 },
+                sort: 'text',
                 related_counts: 'children',
             });
             this.setProperties({ children });

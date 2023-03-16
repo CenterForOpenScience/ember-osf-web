@@ -308,7 +308,7 @@ export default class DiscoverPage extends Component {
 
     scrollToResults() {
         // Scrolls to top of search results
-        this.$('html, body').scrollTop(this.$('.results-top').position().top);
+        document.querySelector('.results-top')?.scrollIntoView({ behavior: 'smooth' });
     }
 
     search(): void {
