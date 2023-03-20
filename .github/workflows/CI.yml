@@ -176,6 +176,7 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
   finalize-percy:
+    if: ${{ secrets.PERCY_TOKEN != 0 }}
     needs: [test-partition-1, test-partition-2, test-partition-3, test-partition-4]
     runs-on: ubuntu-latest
     steps:
