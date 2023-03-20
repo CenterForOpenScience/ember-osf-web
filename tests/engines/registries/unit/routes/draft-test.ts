@@ -1,6 +1,6 @@
 import Service from '@ember/service';
+import { EnginesTestContext } from 'ember-engines/test-support';
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 const headTagsStub = Service.extend({
@@ -16,7 +16,7 @@ const analyticsStub = Service.extend();
 module('Registries | Unit | Route | drafts.draft', hooks => {
     setupEngineTest(hooks, 'registries');
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(function(this: EnginesTestContext) {
         this.owner.register('service:headTags', headTagsStub);
         this.owner.register('service:currentUser', currentUserStub);
         this.owner.register('service:session', sessionStub);
@@ -24,28 +24,28 @@ module('Registries | Unit | Route | drafts.draft', hooks => {
         this.owner.register('service:analytics', analyticsStub);
     });
 
-    test('drafts index exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.index');
+    test('drafts index exists', function(this: EnginesTestContext, assert) {
+        const route = this.engine.lookup('route:drafts.index');
         assert.ok(route);
     });
 
-    test('drafts.draft.page exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.draft.page');
+    test('drafts.draft.page exists', function(this: EnginesTestContext, assert) {
+        const route = this.engine.lookup('route:drafts.draft.page');
         assert.ok(route);
     });
 
-    test('drafts.draft.review exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.draft.review');
+    test('drafts.draft.review exists', function(this: EnginesTestContext, assert) {
+        const route = this.engine.lookup('route:drafts.draft.review');
         assert.ok(route);
     });
 
-    test('drafts.draft exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.draft');
+    test('drafts.draft exists', function(this: EnginesTestContext, assert) {
+        const route = this.engine.lookup('route:drafts.draft');
         assert.ok(route);
     });
 
-    test('drafts.draft.metadata exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.draft.metadata');
+    test('drafts.draft.metadata exists', function(this: EnginesTestContext, assert) {
+        const route = this.engine.lookup('route:drafts.draft.metadata');
         assert.ok(route);
     });
 });
