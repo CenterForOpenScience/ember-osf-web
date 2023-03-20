@@ -1,5 +1,5 @@
 ### App code
-FROM quay.io/centerforopenscience/ember-base-10 AS app
+FROM quay.io/centerforopenscience/ember-base-14 AS app
 
 COPY ./package.json ./yarn.lock ./.yarnrc ./
 RUN yarn --frozen-lockfile
@@ -17,7 +17,7 @@ RUN git clone https://github.com/CenterForOpenScience/osf-assets.git ./public/as
     && yarn build --environment=production
 
 ### Dist
-FROM node:8-alpine AS dist
+FROM node:14-alpine AS dist
 
 RUN mkdir -p /code
 WORKDIR /code
