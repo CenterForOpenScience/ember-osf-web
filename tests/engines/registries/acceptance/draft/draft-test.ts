@@ -1008,19 +1008,14 @@ module('Registries | Acceptance | draft form', hooks => {
         missingFields = 'Year, Copyright Holders';
         validationErrorMsg = t('validationErrors.node_license_missing_fields',
             { missingFields, numOfFields: 2 }).toString();
-        // TODO: Re-enable test assertion here and below when ember-qunit is updated with [ENG-4444]
-        // assert.dom('[data-test-validation-errors="nodeLicense"]')
-        //     .containsText(
-        //         validationErrorMsg,
-        //         'NodeLicense validation error when year and copyrightholder are empty',
-        //     );
+
         await percySnapshot(
             'Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense',
         );
 
         // validation errors for nodelicense should show on review page
         await click('[data-test-link="review"]');
-        // assert.dom('[data-test-validation-errors="nodeLicense"]').exists('NodeLicense errors exist on Review page');
+
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | review: invalid nodelicense');
 
         // Return to metadata page to address empty fields
