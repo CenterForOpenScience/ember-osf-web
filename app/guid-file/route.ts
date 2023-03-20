@@ -48,98 +48,10 @@ export default class GuidFile extends Route {
         const dateCreated = model.dateCreated;
         const dateModified = model.dateModified;
         const institutions = await model.target.get('affiliatedInstitutions');
-        let structuredData;
         // Google Structured Data
-        if (this.router.currentRouteName === 'guid-file') {
-            this.metadata.dataType = this.intl.t('general.dataset');
-
-            const metadataTags = this.metaTags.getMetaTags(this.metadata);
-            const projectMetadataTags = this.projectMetadata ?
-                this.metaTags.getMetaTags(this.projectMetadata) : {};
-            const componentMetadataTags = this.componentMetadata ?
-                this.metaTags.getMetaTags(this.componentMetadata) : {};
-            const registrationMetadataTags = this.registrationMetadata ?
-                this.metaTags.getMetaTags(this.registrationMetadata) : {};
-
-            structuredData = `
-                <script type="application/ld+json">
-                    {
-                        "context": "${this.intl.t('general.context')}",
-                        "@type": "${metadataTags.citation_type}",
-                        "name": "${metadataTags.citation_title}",
-                        "description": "${metadataTags.citation_description}",
-                        "url": "${metadataTags.citation_public_url}",
-                        "sameAs": "${metadataTags.citation_publisher}",
-                        "identifier": "${metadataTags.citation_doi}",
-                        "keyWords": [
-                            "${metadataTags.citation_keywords}"
-                        ],
-                        "isAccessibleForFree": true,
-                        "hasPart": [{
-                                "@type": "${projectMetadataTags.citation_type}",
-                                "name": "${projectMetadataTags.citation_title}",
-                                "description": "${projectMetadataTags.citation_description}",
-                                "license": "${projectMetadataTags.citation_license}",
-                                "creator": {
-                                    "@type": "${projectMetadataTags.citation_creator_type}",
-                                    "name": "${projectMetadataTags.citation_author}"
-                                }
-                            },
-                            {
-                                "@type": "${componentMetadataTags.citation_type}",
-                                "name": "${componentMetadataTags.citation_title}",
-                                "description": "${componentMetadataTags.citation_description}",
-                                "license": "${componentMetadataTags.citation_license}",
-                                "creator": {
-                                    "@type": "${componentMetadataTags.citation_creator_type}",
-                                    "name": "${componentMetadataTags.citation_author}"
-                                }
-                            },
-                            {
-                                "@type": "${registrationMetadataTags.citation_type}",
-                                "name": "${registrationMetadataTags.citation_title}",
-                                "description": "${registrationMetadataTags.citation_description}",
-                                "license": "${registrationMetadataTags.citation_license}",
-                                "creator": {
-                                    "@type": "${registrationMetadataTags.citation_creator_type}",
-                                    "name": "${registrationMetadataTags.citation_author}"
-                                }
-                            }
-                        ],
-                        "creator": {
-                            "@type": "${metadataTags.citation_creator_type}",
-                            "url": "${metadataTags.citation_public_url}",
-                            "name": "${metadataTags.citation_author}",
-                            "contactPoint": {
-                                "@type": "${this.intl.t('general.contact_point.type')}",
-                                "contactType": "${this.intl.t('general.contact_point.contact_type')}",
-                                "telephone": "",
-                                "email": "${this.intl.t('general.contact_point.email')}"
-                            }
-                        },
-                        "funder": {
-                            "@type": "${metadataTags.citation_funder_type}",
-                            "sameAs": "${metadataTags.citation_funder_award_uri}",
-                            "name": "${metadataTags.citation_funder_name}"
-                        },
-                        "distribution": [{
-                            "@type": "${this.intl.t('general.distribution.type')}",
-                            "encodingFormat": "${this.intl.t('general.distribution.encoding_format')}",
-                            "contentUrl": "${metadataTags.citation_public_url}"
-                        }],
-                        "temporalCoverage": "${metadataTags.citation_publication_date}
-                            / ${metadataTags.citation_modificaton_date}",
-                        "spatialCoverage": {
-                            "@type": "${metadataTags.citation_type}",
-                            "geo": {
-                                "@type": "${this.intl.t('general.spatial_coverage.geo.type')}",
-                                "box": "${this.intl.t('general.spatial_coverage.geo.box')}"
-                            }
-                        }
-                    }
-                </script>
-            `;
-        }
+        const guid = model.guid;
+        const url = `osf.io/${guid}/metadata/?format=google-dataset-json-ld`;
+        const structuredData = await fetch(url);
 
         const metaTagsData = {
             title: this.metadata.title ? this.metadata.title : model.name,
