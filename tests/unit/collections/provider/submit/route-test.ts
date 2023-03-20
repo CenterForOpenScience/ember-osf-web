@@ -1,6 +1,6 @@
 import Service from '@ember/service';
+import { EnginesTestContext } from 'ember-engines/test-support';
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 const currentUserStub = Service.extend();
@@ -14,7 +14,7 @@ const headTagsStub = Service.extend();
 module('Unit | Route | collections/provider/submit', hooks => {
     setupEngineTest(hooks, 'collections');
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(function(this: EnginesTestContext) {
         this.owner.register('service:currentUser', currentUserStub);
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:store', storeStub);
@@ -22,8 +22,8 @@ module('Unit | Route | collections/provider/submit', hooks => {
         this.owner.register('service:head-tags', headTagsStub);
     });
 
-    test('it exists', function(assert) {
-        const route = this.owner.lookup('route:provider/submit');
+    test('it exists', function(this: EnginesTestContext, assert) {
+        const route = this.engine.lookup('route:provider/submit');
         assert.ok(route);
     });
 });
