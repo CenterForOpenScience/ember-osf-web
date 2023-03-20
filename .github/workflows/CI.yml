@@ -176,7 +176,6 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
   finalize-percy:
-    if: ${{ env.PERCY_TOKEN != 0 }}
     needs: [test-partition-1, test-partition-2, test-partition-3, test-partition-4]
     runs-on: ubuntu-latest
     steps:
@@ -189,6 +188,7 @@ jobs:
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
         restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - run: yarn percy build:finalize
+      if: ${{ env.PERCY_TOKEN != 0 }}
       env:
           PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
           PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
