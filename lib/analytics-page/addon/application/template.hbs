@@ -9,12 +9,12 @@
                     {{loading-indicator dark=true}}
                 {{else}}
                     <h2>{{this.forksCount}}</h2>
-                    {{#link-to-external
-                        (if this.node.isProject 'nodeForks' 'registrationForks')
-                        this.model.id
-                    }}
+                    <LinkToExternal
+                        @route={{if this.node.isProject 'nodeForks' 'registrationForks'}}
+                        @models={{array this.model.id}}
+                    >
                         {{t 'analytics.viewForks'}}
-                    {{/link-to-external}}
+                    </LinkToExternal>
                 {{/if}}
             </div>
         </div>

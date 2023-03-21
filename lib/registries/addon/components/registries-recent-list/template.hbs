@@ -8,7 +8,9 @@
                 <h2>
                     {{t 'registries.index.recent.title'}}
                     <span local-class='SeeMore'>
-                        {{link-to (t 'registries.index.recent.more') 'discover'}}
+                        <LinkTo @route='discover'>
+                            {{t 'registries.index.recent.more'}}
+                        </LinkTo>
                     </span>
                 </h2>
             </div>
