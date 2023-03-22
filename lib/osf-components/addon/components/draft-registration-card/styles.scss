@@ -1,9 +1,13 @@
-.DraftRegistrationCard {
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+.draft-registration-card {
     margin-bottom: 10px;
+    width: 100%;
+    min-width: 300px;
 
     :global(.ember-content-placeholders-text__line) {
         height: 1em;
     }
+
 
     :global(.btn) {
         margin-left: 5px;
@@ -12,53 +16,67 @@
             margin-left: 0;
         }
     }
-}
 
-.DraftRegistratrionCard__title {
-    :global(.ember-content-placeholders-text) {
-        width: 50%;
+    .title {
+        text-align: left;
+
+        :global(.ember-content-placeholders-text) {
+            width: 50%;
+        }
+    }
+
+    .body {
+        font-weight: 400;
+        line-height: 1;
+        text-align: left;
+
+        dl {
+            margin-bottom: 10px;
+        }
+
+        dt,
+        dd {
+            display: inline-block;
+        }
+
+        :global(.ember-content-placeholders-text) {
+            width: 33%;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            .review-container {
+                flex: 1;
+                min-width: 200px; 
+            }
+
+            .delete-container {
+                width: 200px;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: flex-end;
+
+                .delete {
+                    button {
+                        padding: 6px 12px;
+                    }
+                }
+            }
+        }
     }
 }
 
-.DraftRegistrationCard__body {
-    font-weight: 400;
-    line-height: 1;
-
-    dl {
-        margin-bottom: 10px;
-    }
-
-    dt,
-    dd {
-        display: inline-block;
-    }
-
-    :global(.ember-content-placeholders-text) {
-        width: 33%;
-    }
-}
-
-.DraftRegistrationCard__review {
+.review {
     composes: Button from '../button/styles.scss';
     composes: SecondaryButton from '../button/styles.scss';
     composes: MediumButton from '../button/styles.scss';
 
     &:hover {
         text-decoration: none !important; /* override OsfLink hover style */
-    }
-}
-
-.DraftRegistrationCard__delete {
-    button {
-        padding: 6px 12px;
-    }
-}
-
-:global(.delete_draft_registration) {
-    :global(.modal-header) {
-        h4 {
-            font-size: 24px;
-            font-weight: 400;
-        }
     }
 }
