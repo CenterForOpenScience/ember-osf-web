@@ -349,7 +349,6 @@ module('Integration | Component | contributors', hooks => {
                 @shouldShowAdd={{true}}
             />
         `);
-        await timeout(500);
         await click('[data-test-add-unregistered-contributor-button]');
         assert.dom('[data-test-add-button]').isEnabled(
             'Add button should be enabled even the form is not valid at first',
@@ -373,6 +372,7 @@ module('Integration | Component | contributors', hooks => {
             'Add button should be enabled now that the form is valid',
         );
         await click('[data-test-add-button]');
+        await timeout(500);
         assert.dom('[data-test-contributor-card]').exists({ count: 1 }, 'There is one contributor on the draft');
         assert.dom('[data-test-contributor-link]').hasText('Shin Sekyung', 'Contributor name matches');
         assert.dom('[data-test-contributor-permission]').hasText('Read', 'Contributor permission matches');
