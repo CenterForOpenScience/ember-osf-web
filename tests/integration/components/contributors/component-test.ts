@@ -2,6 +2,7 @@ import { click, fillIn, findAll, render, triggerKeyEvent } from '@ember/test-hel
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { timeout } from 'ember-concurrency';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -348,6 +349,7 @@ module('Integration | Component | contributors', hooks => {
                 @shouldShowAdd={{true}}
             />
         `);
+        await timeout(500);
         await click('[data-test-add-unregistered-contributor-button]');
         assert.dom('[data-test-add-button]').isEnabled(
             'Add button should be enabled even the form is not valid at first',
