@@ -27,6 +27,7 @@ import { getHrefAttribute, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
+import { timeout } from 'ember-concurrency';
 
 const currentUserStub = Service.extend();
 const storeStub = Service.extend();
@@ -446,22 +447,22 @@ module('Registries | Acceptance | draft form', hooks => {
         // Fail metadata save
         await visit(`/registries/drafts/${registration.id}/`);
         triggerKeyEvent('[data-test-metadata-title] input', 'keyup', 32);
-        await timer.tickAsync(3001); // skip debounce
+        await timer.tickAsync(4001); // skip debounce
         assert.dom('#toast-container', document as any).containsText(
             t('registries.drafts.draft.metadata.failed_auto_save'),
             'Error toast on failed metadata save',
         );
-        await timer.tickAsync(5000); // skip until toast gone
+        await timer.tickAsync(4000); // skip until toast gone
 
         // Fail form save
         await click('[data-test-goto-next-page]');
         triggerKeyEvent('[data-test-text-input] input', 'keyup', 32);
-        await timer.tickAsync(3001); // skip debounce
+        await timer.tickAsync(4001); // skip debounce
         assert.dom('#toast-container', document as any).containsText(
             t('registries.drafts.draft.form.failed_auto_save'),
             'Error toast on failed page save',
         );
-        await timer.tickAsync(5000); // skip until toast gone
+        await timer.tickAsync(4000); // skip until toast gone
 
         // Fail delete
         await click('[data-test-delete-button]');
@@ -492,6 +493,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-add-new-button]');
         sinon.assert.calledOnce(confirm);
         window.dispatchEvent(new Event('beforeunload'));
+        await timeout(1000);
         sinon.assert.calledOnce(beforeunload);
         assert.ok('it warns users when navigating/closing window');
     });
@@ -1092,6 +1094,9 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.dom(`[data-test-file-name="${fileOne.itemName}"]`)
             .doesNotExist('fileOne has been deleted from the draft');
+
+        await timeout(1000);
+
         assert.dom(`[data-test-selected-file="${fileOne.id}"]`)
             .doesNotExist('fileOne is no longer selected');
         assert.notOk(server.schema.files.findBy({ id: fileOne.id }), 'fileOne is deleted from the db');
