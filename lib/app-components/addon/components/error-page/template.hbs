@@ -28,9 +28,9 @@
                     }}
                 </a>
             {{else}}
-                {{#link-to-external 'home' class='btn btn-primary m-t-md'}}
+                <LinkToExternal @route='home' class='btn btn-primary m-t-md'>
                     {{t 'app_components.error_page.go_to' brand=(t 'general.OSF')}}
-                {{/link-to-external}}
+                </LinkToExternal>
             {{/if}}
         </div>
     </div>
