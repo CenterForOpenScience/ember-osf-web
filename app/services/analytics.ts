@@ -2,6 +2,7 @@
 import { assert, debug, runInDebug } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
+import RouteInfo from '@ember/routing/-private/route-info';
 import Service, { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, waitForQueue } from 'ember-concurrency';
@@ -380,10 +381,11 @@ export default class Analytics extends Service {
         // for merging, ordered from root to leaf (so values from leafier
         // routes can override those from rootier routes)
         const metricsMetadatums = [];
-        let currentRouteInfo = this.router.currentRoute;
+        let currentRouteInfo: RouteInfo | null = this.router.currentRoute;
         while (currentRouteInfo) {
-            if (currentRouteInfo.metadata?.osfMetrics) {
-                metricsMetadatums.unshift(currentRouteInfo.metadata.osfMetrics);
+            const { metadata } = currentRouteInfo as any;
+            if (metadata && metadata.osfMetrics) {
+                metricsMetadatums.unshift(metadata.osfMetrics);
             }
             currentRouteInfo = currentRouteInfo.parent;
         }

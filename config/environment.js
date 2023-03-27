@@ -147,7 +147,6 @@ module.exports = function(environment) {
                 status: statusCookie,
                 keenUserId: 'keenUserId',
                 keenSessionId: 'keenSessionId',
-                analyticsDismissAdblock: 'adBlockDismiss',
                 cookieConsent: 'osf_cookieconsent',
                 newFeaturePopover: 'metadataFeaturePopover',
                 maintenance: 'maintenance',
