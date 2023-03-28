@@ -80,7 +80,6 @@ declare const config: {
             status: string;
             keenUserId: string;
             keenSessionId: string;
-            analyticsDismissAdblock: string;
             cookieConsent: string;
             newFeaturePopover: string;
             maintenance: string;

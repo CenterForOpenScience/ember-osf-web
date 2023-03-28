@@ -16,9 +16,16 @@
 .CountBox {
     text-align: center;
 
-    h2,
     h3 {
         margin-top: 0;
+    }
+
+    .Count {
+        font-size: var(--stepUp2);
+        font-weight: lighter;
+        line-height: 1.1;
+        min-height: 1em;
+        margin-bottom: 10px;
     }
 }
 
@@ -68,6 +75,11 @@
     .CountBox:global(.panel) {
         margin-left: 15px;
         margin-right: 15px;
+    }
+
+    .PageContainer {
+        width: 99vw;
+        padding: 0;
     }
 }
 
