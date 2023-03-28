@@ -93,17 +93,6 @@ export default class StorageManager extends Component<Args> {
     @tracked baseSelectedFile?: File;
     @tracked selectedFiles: File[] = [];
 
-    constructor(owner: unknown, args: Args) {
-        super(owner, args);
-        if(this.args.provider) {
-            taskFor(this.getRootFolderItems).perform();
-        } else {
-            const errorMessage = this.intl.t('osf-components.file-browser.errors.load_file_provider');
-            const errorTitle = this.intl.t('osf-components.file-browser.errors.load_file_provider_title');
-            this.toast.error(errorMessage, errorTitle);
-        }
-    }
-
     get targetNode() {
         return this.args.provider.target.content;
     }

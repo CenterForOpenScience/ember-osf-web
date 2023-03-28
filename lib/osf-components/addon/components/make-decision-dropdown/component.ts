@@ -94,7 +94,6 @@ export default class MakeDecisionDropdown extends Component<Args> {
             },
             this.decisionDropdownValidations,
         );
-        this.changeset.validate();
     }
 
     get latestRevision() {
@@ -323,5 +322,10 @@ export default class MakeDecisionDropdown extends Component<Args> {
             };
         }
         return true;
+    }
+
+    @action
+    validateChangeset(){
+        this.changeset.validate();
     }
 }

@@ -5,7 +5,6 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'this-property-fallback' },
         { handler: 'silence', matchId: 'ember-bootstrap.subclassing#Alert' },
         { handler: 'silence', matchId: 'routing.transition-methods' },
-        { handler: 'silence', matchId: 'autotracking.mutation-after-consumption' },
         { handler: 'silence', matchId: 'computed-property.override' },
         { handler: 'silence', matchId: 'ember-utils.try-invoke' },
         { handler: 'silence', matchId: 'has-block-and-has-block-params' },
