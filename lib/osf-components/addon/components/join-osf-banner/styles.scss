@@ -1,4 +1,4 @@
-.JoinOsfBanner {
+.join-osf-banner {
     position: fixed;
     bottom: 0;
     z-index: 9;
@@ -25,26 +25,29 @@
         padding: 0 0 0 0.7em;
         color: $color-text-gray-light;
     }
+
+    &.collapsed {
+        animation-name: slideDown;
+        animation-delay: 0s;
+    }
+
+    .banner {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 100%;
+        
+        .img {
+            height: 120px;
+        }
+    }
 }
 
-.JoinOsfBanner--collapsed {
-    animation-name: slideDown;
-    animation-delay: 0s;
-}
 
-.JoinOsfBanner__banner {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 100%;
-}
 
 .JoinOsfBanner__heading {
     margin-top: 0;
 }
 
-.JoinOsfBanner__img {
-    height: 120px;
-}
 
 @keyframes slideUp {
     from {
