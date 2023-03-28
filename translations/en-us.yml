@@ -410,7 +410,7 @@ new-home:
     support-section:
         header: 'How OSF supports your research'
         arrow: arrow
-        osf_video: 'OSF 101 Video' 
+        osf_video: 'OSF 101 Video'
         search:
             header: 'Search and Discover'
             description: 'Find papers, data, and materials to inspire your next research project. Search public projects to build on the work of others and find new collaborators.'
@@ -601,7 +601,7 @@ node_card:
     update_button: 'Update'
     view_changes_button: 'Continue update'
     schema_response_error: 'Updates irretreivable.'
-    
+
 forks:
     fork: Fork
     title: Forks
@@ -1730,7 +1730,6 @@ analytics:
     viewLinks: 'View links'
     noLinks: 'No links to this project'
     templateCopies: 'Template copies'
-    adblockWarning: 'The use of adblocking software may prevent site analytics from loading properly'
     uniqueVisits: 'Unique visits'
     visitTimes: 'Time of day of visits'
     topReferrers: 'Top referrers'
@@ -1740,19 +1739,22 @@ analytics:
     enableChart: 'Enable chart'
     visits: Visits
     hourOfDay: 'Hour of day'
-    keenError: 'Error loading analytics data'
+    metricsApiError: 'Error loading analytics data'
     dateRanges:
         pastWeek: 'Past week'
         pastTwoWeeks: 'Past two weeks'
         pastMonth: 'Past month'
     popularPageNames:
-        home: Home
         files: Files
-        fileDetail: 'File: {fileName}'
         analytics: Analytics
         forks: Forks
         registrations: Registrations
         wiki: Wiki
+        metadata: Metadata
+        comments: Comments
+        components: Components
+        links: Links
+        resources: Resources
     privateProject: "\n            <p>\n                Analytics are not available for private projects. To view Analytics, make your project public\n                by selecting Make Public from the project overview page. Public projects:\n            </p>\n            <ul>\n                <li>are discoverable</li>\n                <li>are citable</li>\n                <li>can be affiliated with OSF for Institutions partners</li>\n                <li>promote open practices among peers</li>\n            </ul>\n            <p>\n                Receive data on visitors to your project by enabling Analytics\n                and begin discovering the impact of your work.\n            </p>\n        "
 cookieBanner:
     cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.'
@@ -2110,7 +2112,7 @@ osf-components:
             view_files: 'Open/View Files'
             view_files_detail: 'Click a file name to go to view the file in the OSF. Opens file in a new tab.'
             upload: Upload
-            upload_detail_first: 'There are two ways to upload files. Open the storage provider or folder where you intend to upload files; you can then drag files from your desktop into files list area OR click the green plus symbol' 
+            upload_detail_first: 'There are two ways to upload files. Open the storage provider or folder where you intend to upload files; you can then drag files from your desktop into files list area OR click the green plus symbol'
             upload_detail_second: ', then click “Upload Files”, and select your files. Note: File names with special characters may cause unexpected behavior with certain addons.'
             create_folder: 'Create a folder'
             create_folder_detail: 'To create a folder to help organize your files, click the green plus symbol, then click “Create a Folder”. Note: You can also organize your project content by creating Components.'

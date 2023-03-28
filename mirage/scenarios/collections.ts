@@ -188,7 +188,6 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
                 CollectionSubmissionActionTrigger.Resubmit,
                 'I hope to never lose you',
-                suffix % 2 === 1,
             ),
         }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Removed);
     });

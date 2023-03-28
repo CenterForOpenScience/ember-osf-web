@@ -1,17 +1,21 @@
 <div
-    local-class='ChartWrapper {{unless @chartEnabled 'DisabledPanel'}}'
+    local-class='ChartWrapper'
     class='panel panel-default'
 >
     <div class='panel-heading clearfix'>
         <h3 class='panel-title'>{{t @chartSpec.titleKey}}</h3>
     </div>
     <div local-class='ChartContainer' class='panel-body'>
-        <div local-class='Chart {{if this.overlayShown 'Blurred'}}'></div>
-        {{#if this.overlayShown}}
+        <div
+            local-class='Chart {{if @overlayShown 'Blurred'}}'
+            data-test-analytics-chart={{@chartSpec.chartKey}}
+            {{c3-chart c3Config=this.c3ChartConfig}}
+        ></div>
+        {{#if @overlayShown}}
             <div local-class='ChartOverlay'>
-                {{#if this.keenError}}
-                    <p>{{t 'analytics.keenError'}}</p>
-                {{else if this.loading}}
+                {{#if @apiError}}
+                    <p>{{t 'analytics.metricsApiError'}}</p>
+                {{else}}
                     {{loading-indicator dark=true}}
                 {{/if}}
             </div>
