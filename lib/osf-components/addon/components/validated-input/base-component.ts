@@ -32,6 +32,7 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
     disabled = false;
     shouldShowMessages = true;
     model?: M;
+    isRequired?: Boolean;
 
     // Private properties
     @service intl!: Intl;
@@ -43,9 +44,15 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
     isValidating?: boolean;
     validation?: ResultCollection;
 
-    @computed('errors', 'validation.options')
-    get isRequired(): boolean {
+    @computed('errors', 'validation.options', 'isRequired')
+    get required(): boolean {
         if (!this.validation) {
+            return false;
+        }
+        if (this.isRequired === true) {
+            return true;
+        }
+        if (this.isRequired === false) {
             return false;
         }
         const { options } = this.validation;
@@ -64,9 +71,9 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
         return false;
     }
 
-    @computed('placeholder', 'isRequired')
+    @computed('placeholder', 'required')
     get _placeholder(): string {
-        return this.placeholder || this.intl.t(this.isRequired ? 'general.required' : 'general.optional');
+        return this.placeholder || this.intl.t(this.required ? 'general.required' : 'general.optional');
     }
 
     @dependentKeyCompat
