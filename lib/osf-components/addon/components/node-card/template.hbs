@@ -4,68 +4,68 @@
     local-class='node-card'
 >
     <div local-class='card-contents'>
-        <span
-            local-class='{{if @node.isRegistration 'card-body'}} {{if (and @node.isRegistration this.isMobile) 'mobile'}}'
+        <div
+            local-class='
+            {{if @node.isRegistration 'card-body' 'node-body' }}
+            {{if (and @node.isRegistration this.isMobile) 'mobile'}}'
         >
             <h4 class='list-group-item-heading' local-class='heading' data-test-node-card-heading>
-                <span>
-                    {{#if @node}}
-                        {{#unless @node.public}}
-                            <span>
-                                <FaIcon @icon='lock' />
-                                <BsTooltip>{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}</BsTooltip>
-                            </span> |
-                        {{/unless}}
-                        {{#if @node.pendingRegistrationApproval}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
-                        {{else if @node.pendingEmbargoApproval}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
-                        {{else if (eq @node.reviewsState 'pending')}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
-                        {{else if (eq @node.reviewsState 'embargo')}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
-                        {{else if (eq @node.reviewsState 'rejected')}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
-                        {{else if (eq @node.reviewsState 'pending_embargo_termination')}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
-                        {{else if (eq @node.reviewsState 'pending_withdraw_request')}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
-                        {{else if (eq @node.reviewsState 'pending_withdraw')}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
-                        {{else if @node.withdrawn}}
-                            <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
-                        {{/if}}
-                        {{#if @node.archiving}}
-                            <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
-                        {{/if}}
-
-                        {{#if (eq @node.revisionState 'unapproved')}}
-                            {{#unless @node.pendingRegistrationApproval}}
-                                <span class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
-                            {{/unless}}
-                        {{else if (eq @node.revisionState 'in_progress')}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
-                        {{else if (eq @node.revisionState 'pending_moderation')}}
-                            {{#if (not-eq @node.reviewsState 'pending')}}
-                                <span class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
-                            {{/if}}
-                        {{/if}}
-
-                        {{node-card/node-icon category=@node.category}}
-                        <OsfLink
-                            data-analytics-name='Title'
-                            data-test-node-title='{{@node.id}}'
-                            @route='resolve-guid'
-                            @models={{array @node.id}}
-                        >
-                            {{@node.title}}
-                        </OsfLink>
-                    {{else}}
-                        <ContentPlaceholders as |placeholder|>
-                            <placeholder.heading @subtitle={{false}} />
-                        </ContentPlaceholders>
+                {{#if @node}}
+                    {{#unless @node.public}}
+                        <span>
+                            <FaIcon @icon='lock' />
+                            <BsTooltip>{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}</BsTooltip>
+                        </span> |
+                    {{/unless}}
+                    {{#if @node.pendingRegistrationApproval}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
+                    {{else if @node.pendingEmbargoApproval}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
+                    {{else if (eq @node.reviewsState 'pending')}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
+                    {{else if (eq @node.reviewsState 'embargo')}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
+                    {{else if (eq @node.reviewsState 'rejected')}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
+                    {{else if (eq @node.reviewsState 'pending_embargo_termination')}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
+                    {{else if (eq @node.reviewsState 'pending_withdraw_request')}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
+                    {{else if (eq @node.reviewsState 'pending_withdraw')}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
+                    {{else if @node.withdrawn}}
+                        <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
                     {{/if}}
-                </span>
+                    {{#if @node.archiving}}
+                        <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
+                    {{/if}}
+
+                    {{#if (eq @node.revisionState 'unapproved')}}
+                        {{#unless @node.pendingRegistrationApproval}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                        {{/unless}}
+                    {{else if (eq @node.revisionState 'in_progress')}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                    {{else if (eq @node.revisionState 'pending_moderation')}}
+                        {{#if (not-eq @node.reviewsState 'pending')}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                        {{/if}}
+                    {{/if}}
+
+                    {{node-card/node-icon category=@node.category}}
+                    <OsfLink
+                        data-analytics-name='Title'
+                        data-test-node-title='{{@node.id}}'
+                        @route='resolve-guid'
+                        @models={{array @node.id}}
+                    >
+                        {{@node.title}}
+                    </OsfLink>
+                {{else}}
+                    <ContentPlaceholders as |placeholder|>
+                        <placeholder.heading @subtitle={{false}} />
+                    </ContentPlaceholders>
+                {{/if}}
                 {{#if @node}}
                     {{#if this.showDropdown}}
                         <div
@@ -115,64 +115,88 @@
                 {{#if @node}}
                     <dl>
                         {{#if @node.isRegistration}}
-                            <div>
-                                <dt data-test-registration-template-label>
+                            <div local-class='my-class'>
+                                <dt data-test-registration-template-label
+                                local-class='label'
+                                >
                                     {{t 'node_card.registration_template'}}
                                 </dt>
-                                <dd data-test-registration-template-name>
+                                <dd 
+                                local-class='content'
+                                data-test-registration-template-name>
                                     {{@node.registrationSchema.name}}
                                 </dd>
                             </div>
-                            <div>
-                                <dt data-test-registration-registry-label>
+                            <div local-class='my-class'>
+                                <dt data-test-registration-registry-label
+                                local-class='label'
+                                >
                                     {{t 'node_card.registry'}}
                                 </dt>
-                                <dd data-test-registration-registry-name>
+                                <dd
+                                local-class='content'
+                                 data-test-registration-registry-name>
                                     {{@node.provider.name}}
                                 </dd>
                             </div>
-                            <div>
-                                <dt data-test-created-timestamp-label>
+                            <div local-class='my-class'>
+                                <dt data-test-created-timestamp-label
+                                local-class='label'
+                                >
                                     {{t (concat 'node_card.registration.timestamp_label')}}
                                 </dt>
-                                <dd data-test-created-timestamp-value>
+                                <dd
+                                local-class='content'
+                                 data-test-created-timestamp-value>
                                     {{moment @node.dateRegistered}}
                                 </dd>
                             </div>
                         {{else}}
-                            <div>
-                                <dt data-test-created-timestamp-label>
+                            <div local-class='my-class'>
+                                <dt data-test-created-timestamp-label
+                                local-class='label'
+                                >
                                     {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}
                                 </dt>
-                                <dd data-test-created-timestamp-value>
+                                <dd
+                                local-class='content'
+                                 data-test-created-timestamp-value>
                                     {{moment @node.dateCreated}}
                                 </dd>
                             </div>
                         {{/if}}
-                        <div>
-                            <dt data-test-updated-timestamp-label>
+                        <div local-class='my-class'>
+                            <dt data-test-updated-timestamp-label
+                                local-class='label'
+                            >
                                 {{t 'node_card.last_updated'}}
                             </dt>
-                            <dd data-test-updated-timestamp-value>
+                            <dd
+                                local-class='content'
+                             data-test-updated-timestamp-value>
                                 {{moment @node.dateModified}}
                             </dd>
                         </div>
-                        <div>
+                        <div local-class='my-class'>
                             <dt
                                 data-test-contributors-label
+                                local-class='label'
                             >
                                 {{t 'node_card.contributors'}}
                             </dt>
-                            <dd>
+                            <dd
+                                local-class='content'
+                            >
                                 <ContributorList
                                     @model={{@node}}
                                     @shouldLinkUsers={{true}}
                                 />
                             </dd>
                         </div>
-                        <div>
+                        <div local-class='my-class'>
                             <dt
                                 data-test-description-label
+                                local-class='label'
                             >
                                 {{t 'node_card.description'}}
                             </dt>
@@ -181,14 +205,16 @@
                             </dd>
                         </div>
                         {{#if (and this.showTags @node.tags)}}
-                            <div>
-                                <dt local-class='tags'
+                            <div local-class='my-class'>
+                                <dt local-class='tags label'
                                     data-test-tags-label
 
                                 >
                                     {{t 'node_card.tags'}}
                                 </dt>
-                                <dd>
+                                <dd
+                                local-class='content'
+                                >
                                     <TagsWidget
                                         @taggable={{@node}}
                                         @inline={{true}}
@@ -235,9 +261,9 @@
                     </ContentPlaceholders>
                 {{/if}}
             </div>
-        </span>
+        </div>
         {{#if (and @node.isRegistration @node.resourcesVisible)}}
-            <span local-class='open-badges {{if this.isMobile 'mobile'}}'>
+            <div local-class='open-badges {{if this.isMobile 'mobile'}}'>
                 <OpenBadgesList
                     @hasData={{@node.hasData}}
                     @hasMaterials={{@node.hasMaterials}}
@@ -246,7 +272,7 @@
                     @hasSupplements={{@node.hasSupplements}}
                     @registration={{@node.id}}
                 />
-            </span>
+            </div>
         {{/if}}
     </div>
 </div>

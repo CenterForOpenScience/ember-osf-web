@@ -3,50 +3,48 @@
         data-analytics-scope='Join OSF Banner'
         local-class='join-osf-banner {{if this.dismissed 'collapsed'}}'
     >
-        <div class='container' local-class='banner'>
-            <div class='row'>
-                <div class='col-sm-2 hidden-xs'>
+        <div class='container' local-class='banner-container'>
+            {{#if this.media.desktop }}
+                <div local-class='image-container' class='hidden-xs'>
                     <img src='/static/img/circle_logo.png'
-                         alt={{t 'general.OSF'}}
-                         local-class='img'
+                        alt={{t 'general.OSF'}}
+                        local-class='image'
                     >
                 </div>
-                <div class='col-sm-10 col-xs-12'>
-                    <div class='row'>
-                        <div class='col-xs-11'>
-                            <h2 local-class='JoinOsfBanner__heading'>
-                                {{t 'join_osf.header'}}
-                            </h2>
-                            <p>
-                                {{t 'join_osf.pitch'}}
-                                <OsfLink
-                                    data-analytics-name='sign_up'
-                                    @href='/register/'
-                                >
-                                    {{t 'join_osf.create_account'}}
-                                </OsfLink>
-                                {{t 'general.or'}}
-                                <OsfLink
-                                    data-analytics-name='learn_more'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                    @href='https://help.osf.io/'
-                                >
-                                    {{t 'join_osf.learn_more'}}
-                                </OsfLink>
-                                {{t 'general.period'}}
-                            </p>
-                        </div>
-                        <div class='col-xs-1'>
-                            <BsButton
-                                data-analytics-name='Dismiss'
-                                aria-label={{t 'general.close'}}
-                                @onClick={{action this.dismiss}}
-                            >
-                                <FaIcon @icon='times' />
-                            </BsButton>
-                        </div>
-                    </div>
+            {{/if}}
+            <div local-class='content-container'>
+                <div local-class='message-container'>
+                    <h2 local-class='header'>
+                        {{t 'join_osf.header'}}
+                    </h2>
+                    <p>
+                        {{t 'join_osf.pitch'}}
+                        <OsfLink
+                            data-analytics-name='sign_up'
+                            @href='/register/'
+                        >
+                            {{t 'join_osf.create_account'}}
+                        </OsfLink>
+                        {{t 'general.or'}}
+                        <OsfLink
+                            data-analytics-name='learn_more'
+                            target='_blank'
+                            rel='noreferrer'
+                            @href='https://help.osf.io/'
+                        >
+                            {{t 'join_osf.learn_more'}}
+                        </OsfLink>
+                        {{t 'general.period'}}
+                    </p>
+                </div>
+                <div local-class='button-container'>
+                    <BsButton
+                        data-analytics-name='Dismiss'
+                        aria-label={{t 'general.close'}}
+                        @onClick={{action this.dismiss}}
+                    >
+                        <FaIcon @icon='times' />
+                    </BsButton>
                 </div>
             </div>
         </div>
