@@ -115,88 +115,74 @@
                 {{#if @node}}
                     <dl>
                         {{#if @node.isRegistration}}
-                            <div local-class='my-class'>
+                            <div>
                                 <dt data-test-registration-template-label
-                                local-class='label'
                                 >
                                     {{t 'node_card.registration_template'}}
                                 </dt>
                                 <dd 
-                                local-class='content'
                                 data-test-registration-template-name>
                                     {{@node.registrationSchema.name}}
                                 </dd>
                             </div>
                             <div local-class='my-class'>
                                 <dt data-test-registration-registry-label
-                                local-class='label'
                                 >
                                     {{t 'node_card.registry'}}
                                 </dt>
                                 <dd
-                                local-class='content'
                                  data-test-registration-registry-name>
                                     {{@node.provider.name}}
                                 </dd>
                             </div>
                             <div local-class='my-class'>
                                 <dt data-test-created-timestamp-label
-                                local-class='label'
                                 >
                                     {{t (concat 'node_card.registration.timestamp_label')}}
                                 </dt>
                                 <dd
-                                local-class='content'
                                  data-test-created-timestamp-value>
                                     {{moment @node.dateRegistered}}
                                 </dd>
                             </div>
                         {{else}}
-                            <div local-class='my-class'>
+                            <div>
                                 <dt data-test-created-timestamp-label
-                                local-class='label'
                                 >
                                     {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}
                                 </dt>
                                 <dd
-                                local-class='content'
                                  data-test-created-timestamp-value>
                                     {{moment @node.dateCreated}}
                                 </dd>
                             </div>
                         {{/if}}
-                        <div local-class='my-class'>
+                        <div>
                             <dt data-test-updated-timestamp-label
-                                local-class='label'
                             >
                                 {{t 'node_card.last_updated'}}
                             </dt>
                             <dd
-                                local-class='content'
                              data-test-updated-timestamp-value>
                                 {{moment @node.dateModified}}
                             </dd>
                         </div>
-                        <div local-class='my-class'>
+                        <div>
                             <dt
                                 data-test-contributors-label
-                                local-class='label'
                             >
                                 {{t 'node_card.contributors'}}
                             </dt>
-                            <dd
-                                local-class='content'
-                            >
+                            <dd>
                                 <ContributorList
                                     @model={{@node}}
                                     @shouldLinkUsers={{true}}
                                 />
                             </dd>
                         </div>
-                        <div local-class='my-class'>
+                        <div>
                             <dt
                                 data-test-description-label
-                                local-class='label'
                             >
                                 {{t 'node_card.description'}}
                             </dt>
@@ -205,16 +191,14 @@
                             </dd>
                         </div>
                         {{#if (and this.showTags @node.tags)}}
-                            <div local-class='my-class'>
-                                <dt local-class='tags label'
+                            <div>
+                                <dt local-class='tags'
                                     data-test-tags-label
 
                                 >
                                     {{t 'node_card.tags'}}
                                 </dt>
-                                <dd
-                                local-class='content'
-                                >
+                                <dd>
                                     <TagsWidget
                                         @taggable={{@node}}
                                         @inline={{true}}

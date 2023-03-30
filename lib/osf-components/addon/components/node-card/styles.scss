@@ -7,6 +7,95 @@
         display: flex;
         flex-direction: row;
 
+        .heading {
+            :global(.ember-content-placeholders-heading__title) {
+                height: 1em;
+                margin-top: 5px;
+                margin-bottom: 5px;
+
+                &:first-child {
+                    width: 100%;
+                }
+            }
+
+            :global(.label-danger) {
+                background-color: $brand-danger;
+            }
+
+            & > span {
+                line-height: 1.5;
+            }
+
+            :global(.label-info) {
+                background-color: darken($brand-info, 15%);
+            }
+
+            .dropdown {
+                padding-left: 5px;
+
+                .dropdown-button {
+                    padding: 4px 12px;
+                    line-height: 0;
+                }
+
+                .dropdown-list {
+                    background-color: $color-bg-gray-light;
+                    min-width: 180px;
+
+                    .dropdown-link {
+                        color: $color-link-black;
+                        border-color: transparent;
+                        background-color: $color-bg-gray-light;
+                        min-width: 180px;
+                        text-align: left;
+                        padding: 3px 20px;
+                    }
+
+                    .dropdown-link:hover,
+                    .dropdown-link:focus {
+                        cursor: pointer;
+                        background-image: none;
+                        background-color: $color-bg-gray-dark;
+                    }
+                }
+            }
+        }
+
+        .body {
+            :global(.ember-content-placeholders-text__line) {
+                height: 1em;
+                margin-bottom: 5px;
+            }
+
+            dl {
+                margin-bottom: 10px;
+
+                div {
+                    display: flex;
+                    
+                    dt {
+                        width: 100px;
+                        margin-right: 5px;
+                    }
+
+                    dd {
+                        flex: 1;
+                    }
+                }
+            }
+
+            .tags {
+                margin-top: 2px;
+            }
+
+            .description {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                width: calc(100% - 100px);
+            }
+        }
+
         .card-body {
             width: 80%;
 
@@ -17,96 +106,6 @@
 
         .node-body {
             width: 100%;
-        }
-
-        .node_body,
-        .card-body {
-            .heading {
-                :global(.ember-content-placeholders-heading__title) {
-                    height: 1em;
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-
-                    &:first-child {
-                        width: 100%;
-                    }
-                }
-
-                :global(.label-danger) {
-                    background-color: $brand-danger;
-                }
-
-                & > span {
-                    line-height: 1.5;
-                }
-
-                :global(.label-info) {
-                    background-color: darken($brand-info, 15%);
-                }
-
-                .dropdown {
-                    padding-left: 5px;
-
-                    .dropdown-button {
-                        padding: 4px 12px;
-                        line-height: 0;
-                    }
-
-                    .dropdown-list {
-                        background-color: $color-bg-gray-light;
-                        min-width: 180px;
-
-                        .dropdown-link {
-                            color: $color-link-black;
-                            border-color: transparent;
-                            background-color: $color-bg-gray-light;
-                            min-width: 180px;
-                            text-align: left;
-                            padding: 3px 20px;
-                        }
-
-                        .dropdown-link:hover,
-                        .dropdown-link:focus {
-                            cursor: pointer;
-                            background-image: none;
-                            background-color: $color-bg-gray-dark;
-                        }
-                    }
-                }
-            }
-
-            .body {
-                :global(.ember-content-placeholders-text__line) {
-                    height: 1em;
-                    margin-bottom: 5px;
-                }
-
-                dt,
-                dd {
-                    display: inline-block;
-                    max-width: 80%;
-                    margin-right: 5px;
-                }
-
-                dl {
-                    margin-bottom: 10px;
-
-                    div {
-                        display: flex;
-                    }
-                }
-
-                .tags {
-                    margin-top: 2px;
-                }
-
-                .description {
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    width: calc(100% - 100px);
-                }
-            }
         }
     }
 }
