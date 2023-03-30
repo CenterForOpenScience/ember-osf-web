@@ -17,6 +17,7 @@ import Registration from 'ember-osf-web/models/registration';
 import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import { timeout } from 'ember-concurrency';
 
 interface OverviewTestContext extends TestContext {
     registration: ModelInstance<Registration>;
@@ -558,6 +559,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .containsText('Value 1', 'Moderator successfully changed field 1');
         assert.dom('[data-test-registration-provider-metadata-field-value="Field 2"]')
             .containsText('Value 2', 'Moderator successfully changed field 2');
+        await timeout(1000);
         await click('[data-test-edit-button="metadata"]');
         assert.dom('[data-test-provider-metadata-edit-input="Field 1"]')
             .isVisible('Moderator can see edit dialog box');

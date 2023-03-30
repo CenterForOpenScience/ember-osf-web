@@ -2,6 +2,7 @@ import { click, fillIn, findAll, render, triggerKeyEvent } from '@ember/test-hel
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { timeout } from 'ember-concurrency';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -371,6 +372,7 @@ module('Integration | Component | contributors', hooks => {
             'Add button should be enabled now that the form is valid',
         );
         await click('[data-test-add-button]');
+        await timeout(500);
         assert.dom('[data-test-contributor-card]').exists({ count: 1 }, 'There is one contributor on the draft');
         assert.dom('[data-test-contributor-link]').hasText('Shin Sekyung', 'Contributor name matches');
         assert.dom('[data-test-contributor-permission]').hasText('Read', 'Contributor permission matches');
