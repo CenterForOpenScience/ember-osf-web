@@ -158,9 +158,7 @@ export default class OsfAdapter extends JSONAPIAdapter {
     ajaxOptions(url: string, type: RequestType, options?: { isBulk?: boolean }): object {
         const hash: any = super.ajaxOptions(url, type, options);
 
-        hash.xhrFields = {
-            withCredentials: true,
-        };
+        hash.credentials = 'include';
 
         if (options && options.isBulk) {
             hash.contentType = 'application/vnd.api+json; ext=bulk';
