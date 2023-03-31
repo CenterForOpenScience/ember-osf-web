@@ -2,112 +2,108 @@
     data-analytics-scope='Footer'
     local-class='footer'
 >
-    <div class='container'>
-        <div class='row'>
-            <div class='col-sm-12 col-md-8 col-md-offset-2'>
-                <p>
-                    <span class='copyright'>
-                        {{t 'footer.copyright' currentYear=this.currentYear htmlSafe=true}}
-                    </span>
-                    <OsfLink
-                        data-analytics-name='cos_io'
-                        @href={{this.cos}}
-                    >
-                        {{t 'general.cos'}}
-                    </OsfLink>
-                    <span>
-                        {{t 'footer.separator'}}
-                    </span>
-                    <OsfLink
-                        data-analytics-name='terms'
-                        @href={{this.termsLink}}
-                    >
-                        {{t 'footer.terms' htmlSafe=true}}
-                    </OsfLink>
-                    <span>
-                        {{t 'footer.separator'}}
-                    </span>
-                    <OsfLink
-                        data-analytics-name='privacy'
-                        @href={{this.privacyPolicyLink}}
-                    >
-                        {{t 'footer.privacy' htmlSafe=true}}
-                    </OsfLink>
-                    <span>
-                        {{t 'footer.separator'}}
-                    </span>
-                    <OsfLink
-                        data-analytics-name='status'
-                        @href={{this.statusPage}}
-                    >
-                        {{t 'footer.status'}}
-                    </OsfLink>
-                    <span>
-                        {{t 'footer.separator'}}
-                    </span>
-                    <OsfLink
-                        data-analytics-name='api_docs'
-                        @href={{this.apiDocs}}
-                    >
-                        {{t 'general.api'}}
-                    </OsfLink>
-                    <br>
-                    <OsfLink
-                        data-analytics-name='top'
-                        @href={{this.topGuidelines}}
-                    >
-                        {{t 'footer.top'}}
-                    </OsfLink>
-                    <span>
-                        {{t 'footer.separator'}}
-                    </span>
-                    <OsfLink
-                        data-analytics-name='rpp'
-                        @href={{this.rpp}}
-                    >
-                        {{t 'footer.rpp' htmlSafe=true}}
-                    </OsfLink>
-                    <span>
-                        {{t 'footer.separator'}}
-                    </span>
-                    <OsfLink
-                        data-analytics-name='rpcb'
-                        @href={{this.rpcb}}
-                    >
-                        {{t 'footer.rpcb' htmlSafe=true}}
-                    </OsfLink>
-                </p>
-                <p>
-                    <OsfLink
-                        data-analytics-name='social_twitter'
-                        aria-label={{t 'social.twitter'}}
-                        @href={{this.twitter}}
-                    >
-                        <FaIcon @icon='twitter' @prefix='fab' @size='2x' />
-                    </OsfLink>
-                    <OsfLink
-                        data-analytics-name='social_facebook'
-                        aria-label={{t 'social.facebook'}}
-                        @href={{this.facebook}}
-                    >
-                        <FaIcon @icon='facebook' @prefix='fab' @size='2x' />
-                    </OsfLink>
-                    <OsfLink
-                        data-analytics-name='social_google_group'
-                        aria-label={{t 'social.google_group'}}
-                        @href={{this.googleGroup}}
-                    >
-                        <FaIcon @icon='users' @size='2x' />
-                    </OsfLink>
-                    <OsfLink
-                        data-analytics-name='social_github'
-                        aria-label={{t 'social.github'}}
-                        @href={{this.github}}
-                    >
-                        <FaIcon @icon='github' @prefix='fab' @size='2x' />
-                    </OsfLink>
-                </p>
-            </div>
-        </div>
+    <div class='container' local-class='row'>
+        <p>
+            <span class='copyright'>
+                {{t 'footer.copyright' currentYear=this.currentYear htmlSafe=true}}
+            </span>
+            <OsfLink
+                data-analytics-name='cos_io'
+                @href={{this.cos}}
+            >
+                {{t 'general.cos'}}
+            </OsfLink>
+            <span>
+                {{t 'footer.separator'}}
+            </span>
+            <OsfLink
+                data-analytics-name='terms'
+                @href={{this.termsLink}}
+            >
+                {{t 'footer.terms' htmlSafe=true}}
+            </OsfLink>
+            <span>
+                {{t 'footer.separator'}}
+            </span>
+            <OsfLink
+                data-analytics-name='privacy'
+                @href={{this.privacyPolicyLink}}
+            >
+                {{t 'footer.privacy' htmlSafe=true}}
+            </OsfLink>
+            <span>
+                {{t 'footer.separator'}}
+            </span>
+            <OsfLink
+                data-analytics-name='status'
+                @href={{this.statusPage}}
+            >
+                {{t 'footer.status'}}
+            </OsfLink>
+            <span>
+                {{t 'footer.separator'}}
+            </span>
+            <OsfLink
+                data-analytics-name='api_docs'
+                @href={{this.apiDocs}}
+            >
+                {{t 'general.api'}}
+            </OsfLink>
+            <br>
+            <OsfLink
+                data-analytics-name='top'
+                @href={{this.topGuidelines}}
+            >
+                {{t 'footer.top'}}
+            </OsfLink>
+            <span>
+                {{t 'footer.separator'}}
+            </span>
+            <OsfLink
+                data-analytics-name='rpp'
+                @href={{this.rpp}}
+            >
+                {{t 'footer.rpp' htmlSafe=true}}
+            </OsfLink>
+            <span>
+                {{t 'footer.separator'}}
+            </span>
+            <OsfLink
+                data-analytics-name='rpcb'
+                @href={{this.rpcb}}
+            >
+                {{t 'footer.rpcb' htmlSafe=true}}
+            </OsfLink>
+        </p>
+        <p>
+            <OsfLink
+                data-analytics-name='social_twitter'
+                aria-label={{t 'social.twitter'}}
+                @href={{this.twitter}}
+            >
+                <FaIcon @icon='twitter' @prefix='fab' @size='2x' />
+            </OsfLink>
+            <OsfLink
+                data-analytics-name='social_facebook'
+                aria-label={{t 'social.facebook'}}
+                @href={{this.facebook}}
+            >
+                <FaIcon @icon='facebook' @prefix='fab' @size='2x' />
+            </OsfLink>
+            <OsfLink
+                data-analytics-name='social_google_group'
+                aria-label={{t 'social.google_group'}}
+                @href={{this.googleGroup}}
+            >
+                <FaIcon @icon='users' @size='2x' />
+            </OsfLink>
+            <OsfLink
+                data-analytics-name='social_github'
+                aria-label={{t 'social.github'}}
+                @href={{this.github}}
+            >
+                <FaIcon @icon='github' @prefix='fab' @size='2x' />
+            </OsfLink>
+        </p>
     </div>
 </footer>
