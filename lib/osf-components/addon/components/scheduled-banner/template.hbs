@@ -2,23 +2,19 @@
     {{#scheduled-banner/x-maybe-link href=this.banner.link}}
         <div style={{this.bannerWrapperStyle}} local-class='scheduled-banner-container'>
             {{#if this.isMobile}} 
-                <div class='col-xs-12 hidden-sm hidden-md hidden-lg hidden-xl'>
-                    <img
-                        src={{this.banner.links.mobile_photo}}
-                        alt={{this.banner.mobileAltText}}
-                        local-class='image'
-                        class='img-responsive'
-                    >
-                </div>
+                <img
+                    src={{this.banner.links.mobile_photo}}
+                    alt={{this.banner.mobileAltText}}
+                    local-class='image'
+                    class='img-responsive'
+                >
             {{else}}
-                <div class='col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2 hidden-xs'>
-                    <img
-                        src={{this.banner.links.default_photo}}
-                        alt={{this.banner.defaultAltText}}
-                        local-class='image'
-                        class='img-responsive'
-                    >
-                </div>
+                <img
+                    src={{this.banner.links.default_photo}}
+                    alt={{this.banner.defaultAltText}}
+                    local-class='image'
+                    class='img-responsive'
+                >
             {{/if}} 
         </div>
     {{/scheduled-banner/x-maybe-link}}
