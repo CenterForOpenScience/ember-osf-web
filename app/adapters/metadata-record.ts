@@ -1,6 +1,6 @@
-import OsfAdapter from './osf-adapter';
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 
-export default class MetadataRecordAdapter extends OsfAdapter {
+export default class MetadataRecordAdapter extends JSONAPIAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {

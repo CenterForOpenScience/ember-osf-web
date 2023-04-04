@@ -1,6 +1,6 @@
-import OsfSerializer from './osf-serializer';
+import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default class MetadataRecordSerializer extends OsfSerializer {
+export default class MetadataRecordSerializer extends JSONAPISerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {

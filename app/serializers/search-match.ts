@@ -1,6 +1,6 @@
-import OsfSerializer from './osf-serializer';
+import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default class SearchMatchSerializer extends OsfSerializer {
+export default class SearchMatchSerializer extends JSONAPISerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
