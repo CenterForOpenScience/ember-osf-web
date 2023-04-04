@@ -27,7 +27,7 @@
             {{#if @manager.currentUserIsProviderAdmin}}
                 <PowerSelect
                     @selected={{@moderator.permissionGroup}}
-                    @options={{capitalize this.permissionOptions}}
+                    @options={{this.permissionOptions}}
                     @onChange={{fn @manager.updateModeratorPermission @moderator}}
                     @disabled={{@manager.updateModeratorPermission.isRunning}}
                     as |option|
