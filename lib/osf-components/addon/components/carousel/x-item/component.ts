@@ -14,6 +14,9 @@ export default class CarouselItem extends Component {
     allItems!: CarouselItem[];
     @requiredAction register!: (item: CarouselItem) => void;
 
+    // Optional parameters
+    isActive?: Boolean;
+
     // Private properties
     index = 0;
     slideIndex = 0;
@@ -25,13 +28,19 @@ export default class CarouselItem extends Component {
         this.set('slideIndex', this.allItems.indexOf(this) + 1);
     }
 
-    @computed('allItems.[]')
-    get isActive() {
+    @computed('allItems.[]', 'isActive')
+    get active() {
+        if (this.isActive === true){
+            return true;
+        }
+        if (this.isActive === false){
+            return false;
+        }
         return this === this.allItems[0];
     }
 
-    @computed('isActive')
+    @computed('active')
     get tabIndex() {
-        return this.isActive ? 0 : -1;
+        return this.active ? 0 : -1;
     }
 }

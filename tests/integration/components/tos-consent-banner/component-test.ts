@@ -7,11 +7,11 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
-import CurrentUser from 'ember-osf-web/services/current-user';
 import { click } from 'ember-osf-web/tests/helpers';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 interface ThisTestContext extends TestContext {
-    currentUser: CurrentUser;
+    currentUser: CurrentUserStub;
 }
 
 const sessionStub = Service.extend({
@@ -27,6 +27,7 @@ module('Integration | Component | tos-consent-banner', hooks => {
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.register('service:current-user', CurrentUserStub);
         this.currentUser = this.owner.lookup('service:current-user');
         this.owner.unregister('service:session');
         this.owner.register('service:session', sessionStub);

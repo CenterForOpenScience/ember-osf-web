@@ -3,11 +3,13 @@ import { t } from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import DataverseFile from 'ember-osf-web/packages/files/dataverse-file';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 module('Unit | Packages | files | dataverse-file', hooks => {
     setupTest(hooks);
     setupMirage(hooks);
     test('proper display names', async function(assert) {
+        this.owner.register('service:current-user', CurrentUserStub);
         const mirageFilePublished = server.create('file');
         mirageFilePublished.extra.datasetVersion = 'latest-published';
         const publishedFile = await this.owner.lookup('service:store').findRecord('file', mirageFilePublished.id);

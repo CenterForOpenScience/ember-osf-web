@@ -5,7 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { timeout } from 'ember-concurrency';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import CurrentUser from 'ember-osf-web/services/current-user';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 import { selectChoose } from 'ember-power-select/test-support';
 import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import { setupRenderingTest } from 'ember-qunit';
@@ -15,7 +15,7 @@ import { module, skip, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
 interface ThisTestContext extends TestContext {
-    currentUser: CurrentUser;
+    currentUser: CurrentUserStub;
 }
 
 module('Integration | Component | contributors', hooks => {
@@ -25,6 +25,7 @@ module('Integration | Component | contributors', hooks => {
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.register('service:current-user', CurrentUserStub);
         this.currentUser = this.owner.lookup('service:current-user');
         this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
@@ -112,7 +113,7 @@ module('Integration | Component | contributors', hooks => {
         const currentUser = server.create('user', { id: 'sprout' });
         const currentUserModel = await this.store.findRecord('user', 'sprout');
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
 
         const firstContributor = server.create('contributor', {

@@ -7,11 +7,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
-import CurrentUser from 'ember-osf-web/services/current-user';
 import { click } from 'ember-osf-web/tests/helpers';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 interface ThisTestContext extends TestContext {
-    currentUser: CurrentUser;
+    currentUser: CurrentUserStub;
 }
 
 module('Integration | Component | contributor-list', hooks => {
@@ -32,6 +32,7 @@ module('Integration | Component | contributor-list', hooks => {
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.register('service:current-user', CurrentUserStub);
         this.currentUser = this.owner.lookup('service:current-user');
     });
 
@@ -161,7 +162,7 @@ module('Integration | Component | contributor-list', hooks => {
         const node = await this.store.findRecord('node', mirageNode.id);
         this.set('node', node);
 
-        this.currentUser.setProperties({ user, currentUserId: user.id });
+        this.currentUser.setProperties({ testUser: user, currentUserId: user.id });
         await render(hbs`<ContributorList @model={{this.node}}
             @shouldTruncate={{false}} @shouldLinkUsers={{true}} @allowRemoveMe={{true}} />`);
 
