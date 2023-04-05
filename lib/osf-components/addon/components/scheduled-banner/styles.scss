@@ -1,4 +1,13 @@
-.Image {
-    margin: auto;
-    max-height: 300px;
+.scheduled-banner-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+
+    .image {
+        margin: auto;
+        max-height: 300px;
+    }
 }
+

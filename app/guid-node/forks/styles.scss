@@ -1,6 +1,7 @@
 .Forks {
     display: grid;
     grid-template-rows: auto;
+    width: 100%;
 }
 
 @media screen and (max-width: 500px) {

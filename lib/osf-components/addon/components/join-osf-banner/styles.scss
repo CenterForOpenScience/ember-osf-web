@@ -1,4 +1,5 @@
-.JoinOsfBanner {
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+.join-osf-banner {
     position: fixed;
     bottom: 0;
     z-index: 9;
@@ -25,25 +26,63 @@
         padding: 0 0 0 0.7em;
         color: $color-text-gray-light;
     }
-}
 
-.JoinOsfBanner--collapsed {
-    animation-name: slideDown;
-    animation-delay: 0s;
-}
+    &.collapsed {
+        animation-name: slideDown;
+        animation-delay: 0s;
+    }
 
-.JoinOsfBanner__banner {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 100%;
-}
+    .banner-container {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-items: flex-start;
+        align-items: flex-start;
 
-.JoinOsfBanner__heading {
-    margin-top: 0;
-}
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 20%;
+            height: 120px;
 
-.JoinOsfBanner__img {
-    height: 120px;
+            .image {
+                height: 120px;
+            }
+        }
+
+        .content-container {
+            flex: 1;
+            display: flex;
+            justify-items: flex-start;
+            align-items: flex-start;
+            height: 120px;
+
+            .message-container {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                height: 120px;
+
+                .header {
+                    margin-top: 0;
+                }
+
+            }
+
+            .button-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 120px;
+                width: 95px;
+            }
+        }
+    }
 }
 
 @keyframes slideUp {

@@ -1,7 +1,7 @@
 {{#if this.slides}}
     <BsCarousel
         data-analytics-scope='Institution Carousel'
-        local-class='InstitutionCarousel__control'
+        local-class='institution-carousel-container'
         @interval={{0}}
         @tabindex={{0}}
         @showIndicators={{false}}
@@ -12,10 +12,9 @@
     >
         {{#each this.slides as |slide|}}
             <carousel.slide>
-                {{#each slide as |institution index|}}
+                {{#each slide as |institution|}}
                     <div
-                        class='{{if index 'col-sm-2' (concat 'col-sm-2 col-sm-offset-' this.columnOffset)}}'
-                        local-class='InstitutionCarousel__item'
+                        local-class='institution'
                         role='option'
                         data-test-institution-carousel-item='{{institution.id}}'
                     >
