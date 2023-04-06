@@ -2,7 +2,7 @@ import { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
 import { SearchFilter } from './metadata-record-search';
 import OsfModel from './osf-model';
-import SearchMatchModel from './search-match';
+import SearchResultModel from './search-result';
 
 export default class MetadataPropertySearchModel extends OsfModel {
     @attr('string') propertySearchText!: string;
@@ -11,8 +11,8 @@ export default class MetadataPropertySearchModel extends OsfModel {
     @attr('array') recordSearchFilter!: SearchFilter[];
     @attr('number') totalMatchCount!: number;
 
-    @hasMany('search-match', { inverse: null })
-    matchingSamples!: AsyncHasMany<SearchMatchModel> & SearchMatchModel[];
+    @hasMany('search-result', { inverse: null })
+    searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

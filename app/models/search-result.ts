@@ -15,7 +15,7 @@ export interface TextMatchEvidence {
     propertyPath: string[];
 }
 
-export default class SearchMatchModel extends OsfModel {
+export default class SearchResultModel extends OsfModel {
     @attr('array') matchEvidence!: Array<IriMatchEvidence | TextMatchEvidence>;
     @attr('number') recordMatchCount!: number;
 
@@ -25,6 +25,6 @@ export default class SearchMatchModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'search-match': SearchMatchModel;
+        'search-result': SearchResultModel;
     } // eslint-disable-line semi
 }

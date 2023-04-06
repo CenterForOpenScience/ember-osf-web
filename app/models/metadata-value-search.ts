@@ -2,19 +2,18 @@ import { AsyncHasMany, AsyncBelongsTo, attr, belongsTo, hasMany } from '@ember-d
 
 import MetadataPropertySearchModel from './metadata-property-search';
 import { SearchFilter } from './metadata-record-search';
-import SearchMatchModel from './search-match';
+import SearchResultModel from './search-result';
 import OsfModel from './osf-model';
 
 export default class MetadataValueSearchModel extends OsfModel {
-    @attr('string') metadataProperty!: string;
     @attr('string') valueSearchText!: string;
     @attr('array') valueSearchFilter!: SearchFilter[];
     @attr('string') recordSearchText!: string;
     @attr('array') recordSearchFilter!: SearchFilter[];
     @attr('number') totalMatchCount!: number;
 
-    @hasMany('search-match', { inverse: null })
-    matchingSamples!: AsyncHasMany<SearchMatchModel> & SearchMatchModel[];
+    @hasMany('search-result', { inverse: null })
+    searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];
 
     @belongsTo('related-property-search', { inverse: null })
     relatedPropertySearch!: AsyncBelongsTo<MetadataPropertySearchModel> & MetadataPropertySearchModel;
