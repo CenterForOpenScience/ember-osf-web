@@ -1,20 +1,17 @@
-<div class='row'>
-    <div class='col-sm-6'>
+<div local-class='active-filter-container'>
+    <div local-class='header'>
         <h4>{{t 'collections.discover_page.active_filters.heading'}}:</h4>
     </div>
-    <div class='col-sm-6'>
-        <span class='pull-right'>
-            {{!CLEAR FILTERS BUTTON}}
-            <button
-                data-test-clear-filters-button
-                type='button'
-                class='btn btn-default btn-sm'
-                {{action @clearFilters}}
-            >
-                {{t 'collections.discover_page.active_filters.button'}}
-                <FaIcon @icon='times' />
-            </button>
-        </span>
+    <div local-class='button-container'>
+        <button
+            data-test-clear-filters-button
+            type='button'
+            class='btn btn-default btn-sm'
+            {{action @clearFilters}}
+        >
+            {{t 'collections.discover_page.active_filters.button'}}
+            <FaIcon @icon='times' />
+        </button>
     </div>
 </div>
 
