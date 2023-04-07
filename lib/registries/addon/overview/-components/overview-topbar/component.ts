@@ -79,7 +79,6 @@ export default class OverviewTopbar extends Component {
             const errorMessage = this.intl.t('registries.overview.fork.error');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
-            // throw e;
         }
     }
 
