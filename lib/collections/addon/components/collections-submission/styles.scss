@@ -1,3 +1,4 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
 .header {
     padding-top: 90px;
     border-bottom: 1px solid #eee;
@@ -7,6 +8,7 @@
         text-align: center;
     }
 }
+
 
 .body {
     background-color: #f8f8f8;
@@ -18,42 +20,46 @@
     textarea {
         height: 10em;
     }
-}
 
-.buttons {
-    margin: 20px 10%;
-    padding: 10px 20px 20px;
+    .item-picker-container {
+        width: 100%;
+    }
+
+    .subject {
+        display: inline-block;
+        background-color: #f8f8f8;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        padding: 2px;
+        margin: 2px;
+
+        > :not(:last-child) {
+            padding: 1px;
+
+            &::after {
+                content: '⮁';
+                padding-left: 0.5em;
+            }
+        }
+    }
 }
 
 .last-buttons {
     margin: 20px 10%;
     padding: 10px 20px 20px;
-}
 
-.subject {
-    display: inline-block;
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 2px;
-    margin: 2px;
+    .button-container {
+        width: 100%;
 
-    > :not(:last-child) {
-        padding: 1px;
 
-        &::after {
-            content: '⮁';
-            padding-left: 0.5em;
+        .remove-button {
+            float: left;
+
+            .remove-textarea {
+                margin-top: 12px;
+                max-width: 100%;
+                width: 100%;
+            }
         }
     }
-}
-
-.remove-button {
-    float: left;
-}
-
-.remove-textarea {
-    margin-top: 12px;
-    max-width: 100%;
-    width: 100%;
 }

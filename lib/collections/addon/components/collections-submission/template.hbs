@@ -26,7 +26,7 @@
         >
             <section.active>
                 <CollectionItemPicker
-                    @class='col-xs-12'
+                    local-class='item-picker-container'
                     @collection={{this.collection}}
                     @projectSelected={{action this.projectSelected}}
                     @validationChanged={{action (mut this.isProjectSelectorValid)}}
@@ -175,7 +175,7 @@
             class='row'
             local-class='last-buttons'
         >
-            <div class='col-xs-12'>
+            <div local-class='button-container'>
                 {{#if (and this.edit this.isAccepted)}}
                     <DeleteButton
                         data-test-collections-remove-button
