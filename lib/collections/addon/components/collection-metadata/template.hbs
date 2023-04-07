@@ -1,11 +1,12 @@
 {{#each this.chunkedDisplayFields as |fields|}}
-    <div class='row'>
+    <div local-class='metadata-field-container'>
         {{#each fields as |field|}}
-            <div data-test-metadata-field={{field.labelKey}} class='col-md-6'>
-                <label>
+            <div data-test-metadata-field={{field.labelKey}} local-class='metadata-field {{if this.media.isMobile 'mobile'}}'>
+                <label local-class='label'>
                     {{t (concat 'collections.collection_metadata.' field.labelKey)}}
                 </label>
                 {{#validated-input/power-select
+                        local-class='input'
                         model=this.collectionSubmission
                         valuePath=field.valuePath
                         options=(sort (get this.collection field.optionsKey))
