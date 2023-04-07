@@ -2,6 +2,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { mapBy } from '@ember/object/computed';
 import { underscore } from '@ember/string';
+import Media from 'ember-responsive';
+import { inject as service } from '@ember/service';
 
 import CollectionSubmission, { choiceFields } from 'ember-osf-web/models/collection-submission';
 import Collection, { ChoicesFields } from 'ember-osf-web/models/collection';
@@ -14,6 +16,7 @@ interface CollectionMetadataField {
 }
 
 export default class CollectionMetadata extends Component {
+    @service media!: Media;
     collection!: Collection;
     collectionSubmission!: CollectionSubmission;
     didValidate!: boolean;
@@ -33,6 +36,10 @@ export default class CollectionMetadata extends Component {
 
                 return choices && !!choices.length;
             });
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 
     @computed('displayFields.[]')
