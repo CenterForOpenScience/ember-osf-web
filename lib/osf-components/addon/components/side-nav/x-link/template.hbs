@@ -1,24 +1,46 @@
 {{#if this.isButton}}
-    <BsButton
-        data-test-collapsed='{{this.isCollapsed}}'
-        class={{local-class this.wrapperClasses}}
-        @onClick={{@onClick}}
-        @type='link'
-        ...attributes
-    >
-        <span local-class='Label'>
-            <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
-            <div local-class='LabelWrapper'>
-                <h4>{{@label}}</h4>
-            </div>
-        </span>
+    {{#if @onClick}}
+        <Button
+            data-test-collapsed='{{this.isCollapsed}}'
+            class={{local-class this.wrapperClasses}}
+            {{on 'click' @onClick}}
+            @type='link'
+            ...attributes
+        >
+            <span local-class='Label'>
+                <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
+                <div local-class='LabelWrapper'>
+                    <h4>{{@label}}</h4>
+                </div>
+            </span>
 
-        <span local-class='Count'>
-            {{#if this.hasCount}}
-                {{@count}}
-            {{/if}}
-        </span>
-    </BsButton>
+            <span local-class='Count'>
+                {{#if this.hasCount}}
+                    {{@count}}
+                {{/if}}
+            </span>
+        </Button>
+    {{else}}
+        <Button
+            data-test-collapsed='{{this.isCollapsed}}'
+            class={{local-class this.wrapperClasses}}
+            @type='link'
+            ...attributes
+        >
+            <span local-class='Label'>
+                <FaIcon @icon={{@icon}} @fixedWidth={{true}} @class={{local-class 'Icon'}} />
+                <div local-class='LabelWrapper'>
+                    <h4>{{@label}}</h4>
+                </div>
+            </span>
+
+            <span local-class='Count'>
+                {{#if this.hasCount}}
+                    {{@count}}
+                {{/if}}
+            </span>
+        </Button>
+    {{/if}}
 {{else}}
     <OsfLink
         data-test-collapsed='{{this.isCollapsed}}'

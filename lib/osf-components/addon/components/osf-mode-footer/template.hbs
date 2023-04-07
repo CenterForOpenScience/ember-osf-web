@@ -2,17 +2,17 @@
     <OsfDialog @isModal={{false}} as |dialog|>
         <dialog.trigger>
             <div local-class='DevBanner'>
-                <BsButton
+                <Button
                     title={{t 'dev_tools.title'}}
-                    @type='link'
-                    @onClick={{dialog.open}}
+                    @layout='fake-link'
+                    {{on 'click' dialog.open}}
                 >
                     {{#if this.showUrlInput}}
                         <FaIcon @icon='rocket' />
                     {{else}}
                         <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
                     {{/if}}
-                </BsButton>
+                </Button>
                 {{#if this.showUrlInput}}
                     <Input
                         @type='text'

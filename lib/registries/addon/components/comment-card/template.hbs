@@ -9,13 +9,13 @@
             <div local-class='CommentRestore'>
                 <span>{{t 'registries.overview.comments.comment_abuse'}}</span>
                 {{#if this.currentUserHasReported}}
-                    <BsButton
+                    <Button
                         data-analytics-name='Retract report'
-                        @type='link'
-                        @onClick={{perform this.submitRetractReport}}
+                        @layout='fake-link'
+                        {{on 'click' (perform this.submitRetractReport)}}
                     >
                         {{t 'registries.overview.comments.comment_abuse_action'}}
-                    </BsButton>
+                    </Button>
                 {{/if}}
             </div>
         {{else}}
@@ -73,24 +73,22 @@
                             @label={{t 'registries.overview.comments.report_placeholder'}}
                         />
                         <div local-class='formButtons'>
-                            <BsButton
+                            <Button
                                 local-class='CommentReport__cancel'
-                                @type='default'
-                                @size='sm'
-                                @onClick={{action this.cancelReport}}
+                                @layout='small'
+                                {{on 'click' (action this.cancelReport)}}
                             >
                                 {{t 'registries.overview.comments.cancel'}}
-                            </BsButton>
-                            <BsButton
+                            </Button>
+                            <Button
                                 data-analytics-name='Report comment'
                                 local-class='CommentReport__save'
                                 disabled={{form.disabled}}
-                                @buttonType='submit'
-                                @type='default'
-                                @size='sm'
+                                type='submit'
+                                @layout='small'
                             >
                                 {{t 'registries.overview.comments.report'}}
-                            </BsButton>
+                            </Button>
                         </div>
                     </ValidatedModelForm>
                 {{/if}}
@@ -99,24 +97,24 @@
                 <div local-class='CommentControls'>
                     <div>
                         {{#if this.canReport}}
-                            <BsButton
-                                @type='link'
-                                @onClick={{action this.report}}
+                            <Button
+                                @layout='fake-link'
+                                {{on 'click' (action this.report)}}
                             >
                                 {{t 'registries.overview.comments.report'}}
-                            </BsButton>
+                            </Button>
                         {{/if}}
                     </div>
                     <div local-class='repliesCount'>
                         {{#if this.hasReplies}}
-                            <BsButton
+                            <Button
                                 data-analytics-name='View replies'
-                                @type='link'
-                                @onClick={{action this.toggleReplies}}
+                                @layout='fake-link'
+                                {{on 'click' (action this.toggleReplies)}}
                             >
                                 {{t (concat 'registries.overview.comments' (if this.showReplies '.hide_replies' '.see_replies'))}}
                                 <FaIcon @icon={{if this.showReplies 'caret-up' 'caret-down'}} />
-                            </BsButton>
+                            </Button>
                         {{/if}}
                     </div>
                 </div>
@@ -141,12 +139,12 @@
                             </ContentPlaceholders>
                         {{else}}
                             <div local-class='MoreReplies'>
-                                <BsButton
-                                    @type='link'
-                                    @onClick={{action this.more}}
+                                <Button
+                                    @layout='fake-link'
+                                    {{on 'click' (action this.more)}}
                                 >
                                     {{t 'registries.overview.comments.load_more'}}
-                                </BsButton>
+                                </Button>
                             </div>
                         {{/if}}
                     {{/if}}

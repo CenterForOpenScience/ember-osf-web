@@ -12,6 +12,19 @@
 
 }
 
+.logout-link {
+    color: $color-text-white;
+    font-size: 16px;
+    padding: 3px 20px;
+}
+
+.logout-link:hover {
+    background-color: #5a8288;
+    width: 100%;
+    color: $color-text-white;
+    text-align: inherit;
+}
+
 .LogOutButton:hover {
     width: 100%;
     background-color: #5b8287 !important;

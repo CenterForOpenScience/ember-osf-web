@@ -44,24 +44,24 @@
         </div>
     </dialog.main>
     <dialog.footer>
-        <BsButton
+        <Button
             data-test-submit-registration-button
             disabled={{this.shouldDisableSubmitButton}}
             @type='primary'
-            @onClick={{this.manager.submitRegistration}}
+            {{on 'click' this.manager.submitRegistration}}
         >
             {{#if this.manager.submittingRegistration}}
                 <LoadingIndicator @inline={{true}} />
             {{else}}
                 {{t 'registries.finalizeRegistrationModal.submit'}}
             {{/if}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-back-button
             @type='default'
-            @onClick={{@onBack}}
+            {{on 'click' @onBack}}
         >
             {{t 'registries.finalizeRegistrationModal.back'}}
-        </BsButton>
+        </Button>
     </dialog.footer>
 </OsfDialog>

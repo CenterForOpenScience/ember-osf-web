@@ -58,24 +58,23 @@
         </label>
     </div>
     <div class='col-xs-12 text-right'>
-        <BsButton
+        <Button
             data-test-project-metadata-discard-button
             data-analytics-name='Discard metadata'
             disabled={{form.submitting}}
-            @type='default'
-            @onClick={{perform this.reset}}
+            {{on 'click' (perform this.reset)}}
         >
             {{t 'app_components.submit_section.discard'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-project-metadata-save-button
             data-analytics-name='Save metadata'
             disabled={{form.submitting}}
-            @onClick={{perform this.save}}
-            @buttonType='submit'
+            {{on 'click' (perform this.save)}}
+            type='submit'
             @type='primary'
         >
             {{t 'app_components.submit_section.save'}}
-        </BsButton>
+        </Button>
     </div>
 </FormControls>

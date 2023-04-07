@@ -1,12 +1,12 @@
 {{assert 'EditRevision::-Components::SubmitAndDecide requires a revisionManager' @revisionManager}}
 {{#if @revisionManager.isEditable}}
     {{#if @revisionManager.currentUserIsAdmin}}
-        <BsButton
+        <Button
             data-test-submit-revision
             data-analytics-name='Submit revision'
             local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
-            @type='success'
-            @onClick={{perform this.submitAction 'submit' ''}}
+            @type='create'
+            {{on 'click' (perform this.submitAction 'submit' '')}}
             disabled={{or @revisionManager.hasInvalidResponses this.submitAction.isRunning}}
         >
             {{#if this.submitAction.isRunning}}
@@ -14,7 +14,7 @@
             {{else}}
                 {{t 'registries.edit_revision.review.submit_changes'}}
             {{/if}}
-        </BsButton>
+        </Button>
     {{/if}}
     {{#if (and (not @revisionManager.currentUserIsAdmin) (not @showMobileView))}}
         <div
@@ -31,24 +31,24 @@
     {{/if}}
 {{else}}
     {{#if @revisionManager.revision.isPendingCurrentUserApproval}}
-        <BsButton
+        <Button
             data-test-accept-changes
             data-analytics-name='Admin approve revision'
             local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
-            @type='success'
-            @onClick={{perform this.submitAction 'approve' ''}}
+            @type='create'
+            {{on 'click' (perform this.submitAction 'approve' '')}}
         >
             {{t 'registries.edit_revision.review.accept_changes'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-continue-editing
             data-analytics-name='Admin reject revision'
             local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
             @type='primary'
-            @onClick={{this.openContinueEditModal}}
+            {{on 'click' this.openContinueEditModal}}
         >
             {{t 'registries.edit_revision.review.continue_editing'}}
-        </BsButton>
+        </Button>
         <EditRevision::-Components::ContinueEditModal
             @isOpen={{this.continueEditModalOpen}}
             @onClose={{this.closeContinueEditModal}}

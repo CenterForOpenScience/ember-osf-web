@@ -114,6 +114,18 @@
     margin-left: 15px;
 }
 
+.logout-link {
+    color: $color-text-white;
+    font-size: 16px;
+    padding: 3px 20px;
+}
+
+.logout-link:hover {
+    color: #15a5eb;
+    background-color: #263947;
+    background-image: none;
+}
+
 .Gravatar {
     .Dropdown:hover &,
     // Bootstrap interop

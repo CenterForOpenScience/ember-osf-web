@@ -25,15 +25,15 @@
                             <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
                             <div class='m-b-lg col-xs-3'>
                                 <div class='pull-right'>
-                                    <BsButton
+                                    <Button
                                         data-test-create-project-modal-button
                                         data-analytics-name='create_new_project'
                                         class='m-t-md f-w-xl'
-                                        @onClick={{action this.openModal}}
+                                        {{on 'click' (action this.openModal)}}
                                         @type='success'
                                     >
                                         {{t 'dashboard.create_new_project_button'}}
-                                    </BsButton>
+                                    </Button>
                                 </div>
                             </div>
                         </div>
@@ -126,13 +126,13 @@
                                                     <LoadingIndicator />
                                                 {{else}}
                                                     <div class='text-center'>
-                                                        <BsButton
+                                                        <Button
                                                             data-test-load-more
                                                             data-analytics-name='load_nodes'
                                                             aria-label={{t 'new_project.more'}}
                                                             local-class='load-nodes-button'
                                                             class='col-sm-12'
-                                                            @onClick={{action this.more}}
+                                                            {{on 'click' (action this.more)}}
                                                         >
                                                             <FaIcon
                                                                 @icon='caret-down'
@@ -142,7 +142,7 @@
                                                                     ' text-muted m-b-xl'
                                                                 }}
                                                             />
-                                                        </BsButton>
+                                                        </Button>
                                                     </div>
                                                 {{/if}}
                                             {{/if}}

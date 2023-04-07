@@ -21,14 +21,15 @@
 
 <div local-class='toggle-button-and-homepage-link-container'>
     {{#if this.meeting.active}}
-        <BsButton
+        <Button
             local-class='toggle-panel-button'
             data-analytics-name='Toggle meeting submission panel'
             data-test-meeting-toggle-panel-button
-            @type='link'
-            @onClick={{action this.togglePanel}}>
+            @layout='fake-link'
+            {{on 'click' (action this.togglePanel)}}
+        >
             {{t 'meetings.detail.meeting-detail-header.add_your'}} {{this.addSubmissionText}}
-        </BsButton>
+        </Button>
     {{/if}}
     {{if (and this.meeting.active this.meeting.infoUrl) '|'}}
     {{#if this.meeting.infoUrl}}

@@ -1,18 +1,18 @@
-<BsButton
+<Button
     data-test-ascending-sort={{this.sortBy}}
     data-analytics-name={{concat 'Ascending sort ' this.sortBy}}
     class={{if (eq @sort this.sortBy) 'selected' 'not-selected'}}
     title={{t 'general.sort_asc'}}
-    @onClick={{action @sortAction this.sortBy}}
+    {{on 'click' (action @sortAction this.sortBy)}}
 >
     <FaIcon @icon='chevron-up' />
-</BsButton>
-<BsButton
+</Button>
+<Button
     data-test-descending-sort={{this.sortBy}}
     data-analytics-name={{concat 'Descending sort ' this.sortBy}}
     class={{if (eq @sort this.sortByDesc) 'selected' 'not-selected'}}
     title={{t 'general.sort_desc'}}
-    @onClick={{action @sortAction this.sortByDesc}}
+    {{on 'click' (action @sortAction this.sortByDesc)}}
 >
     <FaIcon @icon='chevron-down' />
-</BsButton>
+</Button>

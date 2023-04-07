@@ -32,13 +32,12 @@
     <ul data-test-carousel-list local-class='item-list'>
         {{yield (hash slide=(component 'carousel/x-item' register=(action this.register) allItems=this.carouselItems))}}
     </ul>
-    <BsButton
+    <Button
         data-test-carousel-button-previous
         data-analytics-name='Previous slide'
         local-class='btn'
         aria-label={{t 'osf-components.carousel.previous_slide'}}
-        @type='button'
-        @onClick={{action this.changeSlide 'previous'}}
+        {{on 'click' (action this.changeSlide 'previous')}}
     >
         <img
             data-test-previous-arrow
@@ -46,19 +45,18 @@
             src='/assets/images/dashboard/arrow.svg'
             alt={{t 'osf-components.carousel.previous_slide'}}
         >
-    </BsButton>
-    <BsButton
+    </Button>
+    <Button
         data-test-carousel-button-next
         data-analytics-name='Next slide'
         local-class='btn btn-next'
         aria-label={{t 'osf-components.carousel.next_slide'}}
-        @type='button'
-        @onClick={{action this.changeSlide 'next'}}
+        {{on 'click' (action this.changeSlide 'next')}}
     >
         <img
             data-test-next-arrow
             src='/assets/images/dashboard/arrow.svg'
             alt={{t 'osf-components.carousel.next_slide'}}
         >
-    </BsButton>
+    </Button>
 </section>

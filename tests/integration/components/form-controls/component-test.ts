@@ -76,13 +76,15 @@ module('Integration | Component | form-controls', hooks => {
                         @value={{this.descriptionValue}}
                     />
                 </FormControls>
-                <BsButton
+                <Button
                     data-test-submit-button
                     data-analytics-name='submit'
-                    @buttonType='submit'
+                    type='submit'
                 >
+                    {{!-- template-lint-disable no-bare-strings --}}
                     Submit
-                </BsButton>
+                    {{!-- template-lint-enable no-bare-strings --}}
+                </Button>
             </form>
         `);
         assert.dom('[data-test-form]').exists();

@@ -27,12 +27,12 @@
             </ul>
         </modal.body>
         <modal.footer data-test-search-help-modal-footer>
-            <BsButton
+            <Button
                 data-test-search-help-modal-close-button
-                @onClick={{action modal.close}}
+                {{on 'click' (action modal.close)}}
             >
                 {{t 'app_components.search_help_modal.close'}}
-            </BsButton>
+            </Button>
         </modal.footer>
     </BsModal>
 </div>

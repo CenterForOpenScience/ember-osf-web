@@ -209,10 +209,14 @@
                         {{#if (not-eq right.rightGutterMode 'column')}}
                             <h3 local-class='MetadataTitle'>
                                 {{t 'registries.overview.metadata'}}
-                                <BsButton data-analytics-name='Close metadata sidebar' aria-label={{t 'general.close'}}
-                                    @type='link' @onClick={{right.toggleMetadata}}>
-                                    <FaIcon @icon='times' />
-                                </BsButton>
+                                <Button
+                                    data-analytics-name='Close metadata sidebar'
+                                    aria-label={{t 'general.close'}}
+                                    @layout='fake-link'
+                                    {{on 'click' right.toggleMetadata}}
+                                >
+                                    <FaIcon @icon='times'/>
+                                </Button>
                             </h3>
                         {{/if}}
                         <RegistriesMetadata @registration={{this.registration}} @extendedFields={{true}} />

@@ -179,12 +179,12 @@
                         >
                         <nav.icon @icon={{if dropdown.isOpen 'caret-up' 'caret-down'}} />
                     {{else}}
-                        <BsButton
+                        <Button
                             data-test-toggle-navbar
                             local-class='OnlyOnMobile'
                         >
                             <nav.icon @icon={{if dropdown.isOpen 'times' 'bars'}} />
-                        </BsButton>
+                        </Button>
                     {{/if}}
                 </dropdown.toggle>
 
@@ -237,15 +237,15 @@
                             </OsfLink>
                         </menu.item>
                         <menu.item role='menuitem' local-class='OnlyOnMobile'>
-                            <BsButton
+                            <Button
                                 data-test-login-mobile
                                 data-analytics-name='Sign in'
-                                @type='link'
-                                @onClick={{action 'login'}}
+                                @layout='fake-link'
+                                {{on 'click' (action 'login')}}
                             >
                                 <FaIcon @icon='sign-in-alt' @fixedWidth={{true}} />
                                 {{t 'navbar.login'}}
-                            </BsButton>
+                            </Button>
                         </menu.item>
                     {{/if}}
 
@@ -272,15 +272,16 @@
 
                     {{#if this.session.isAuthenticated}}
                         <menu.item role='menuitem'>
-                            <BsButton
+                            <Button
                                 data-test-ad-logout
                                 data-analytics-name='Logout'
-                                @type='link'
-                                @onClick={{action this.currentUser.logout}}
+                                @layout='fake-link'
+                                local-class='logout-link'
+                                {{on 'click' (action this.currentUser.logout)}}
                             >
                                 <FaIcon @icon='sign-out-alt' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.log_out'}}
-                            </BsButton>
+                            </Button>
                         </menu.item>
                     {{/if}}
                 </dropdown.menu>

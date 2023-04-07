@@ -1,3 +1,4 @@
+{{!-- template-lint-disable no-bare-strings --}}
 <DocsDemo as |demo|>
     <demo.example @name='validated-model-form.demo-create.hbs'>
         <ValidatedModelForm
@@ -14,14 +15,15 @@
                 @valuePath='description'
                 @label='Description'
             />
-            <BsButton
-                @buttonType='submit'
+            <Button
+                type='submit'
                 @disabled={{form.disabled}}
             >
                 Save
-            </BsButton>
+            </Button>
         </ValidatedModelForm>
     </demo.example>
 
     <demo.snippet @name='validated-model-form.demo-create.hbs' />
 </DocsDemo>
+{{!-- template-lint-enable no-bare-strings --}}

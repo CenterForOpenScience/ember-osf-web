@@ -34,31 +34,31 @@
         {{/if}}
     </modal.body>
     <modal.footer data-analytics-scope='Collection - Submit'>
-        <BsButton
+        <Button
             data-test-collection-submission-confirmation-modal-cancel-button
             data-analytics-name='Cancel submission'
-            @onClick={{action modal.close}}
+            {{on 'click' (action modal.close)}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
+        </Button>
         {{#if @showResubmitModal}}
-            <BsButton
+            <Button
                 data-test-collection-submission-confirmation-modal-resubmit-button
                 data-analytics-name='Confirm submission'
-                @onClick={{action modal.submit}}
-                @type='success'
+                {{on 'click' (action modal.submit)}}
+                @type='create'
             >
                 {{t 'collections.collection_submission_confirmation_modal.resubmit'}}
-            </BsButton>
+            </Button>
         {{else}}
-            <BsButton
+            <Button
                 data-test-collection-submission-confirmation-modal-add-button
                 data-analytics-name='Confirm submission'
-                @onClick={{action modal.submit}}
-                @type='success'
+                {{on 'click' (action modal.submit)}}
+                @type='create'
             >
                 {{t 'collections.collection_submission_confirmation_modal.add_button'}}
-            </BsButton>
+            </Button>
         {{/if}}
     </modal.footer>
 </BsModal>

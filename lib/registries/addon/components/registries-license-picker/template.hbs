@@ -59,13 +59,13 @@
                     </div>
                 {{/each}}
             </form.custom>
-            <BsButton
-                @type='link'
-                @onClick={{action (mut this.showText) (not this.showText)}}
+            <Button
+                @layout='fake-link'
+                {{on 'click' (action (mut this.showText) (not this.showText))}}
                 local-class='LinkButton small'
             >
                 {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
-            </BsButton>
+            </Button>
 
             {{#if this.showText}}
                 <LicenseText @node={{@manager.registration}} />
@@ -74,10 +74,10 @@
 
         {{#if this.shouldShowButtons}}
             <div local-class='Controls'>
-                <BsButton @type='default' {{on 'click' @manager.cancel}}>
+                <Button {{on 'click' @manager.cancel}}>
                     {{t 'general.cancel'}}
-                </BsButton>
-                <BsButton
+                </Button>
+                <Button
                     data-analytics-name='Save license'
                     data-test-save-license
                     disabled={{@manager.changeset.isInvalid}}
@@ -85,7 +85,7 @@
                     {{on 'click' @manager.save}}
                 >
                     {{t 'general.save'}}
-                </BsButton>
+                </Button>
             </div>
         {{/if}}
     </div>

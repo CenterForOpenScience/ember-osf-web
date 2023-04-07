@@ -12,23 +12,23 @@
             </p>
         </modal.body>
         <modal.footer data-analytics-scope='Verify email modal'>
-            <BsButton
+            <Button
                 data-test-deny-email
                 data-analytics-name='Deny'
                 disabled={{this.disableButtons}}
-                @onClick={{action this.deny}}
+                {{on 'click' (action this.deny)}}
             >
                 {{t this.translationKeys.denyButton}}
-            </BsButton>
-            <BsButton
+            </Button>
+            <Button
                 data-test-verify-email
                 data-analytics-name='Verify'
                 disabled={{this.disableButtons}}
                 @type='primary'
-                @onClick={{action this.verify}}
+                {{on 'click' (action this.verify)}}
             >
                 {{t this.translationKeys.verifyButton}}
-            </BsButton>
+            </Button>
         </modal.footer>
     </BsModal>
 {{/if}}

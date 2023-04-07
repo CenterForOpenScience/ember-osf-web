@@ -5,10 +5,10 @@
         @checked={{@manager.itemChecked}}
         @disabled={{@manager.isRoot}}
     />
-    <BsButton
+    <Button
         local-class='expand-button'
-        @type='link'
-        @onClick={{action @manager.toggleShowChildren}}
+        @layout='fake-link'
+        {{on 'click' (action @manager.toggleShowChildren)}}
         data-test-expand-child={{@manager.item.id}}
     >
         {{@manager.item.title}}
@@ -18,7 +18,7 @@
                 @fixedWidth={{true}}
             />
         {{/if}}
-    </BsButton>
+    </Button>
 </li>
 {{#if (and @manager.children @manager.shouldShowChildren)}}
     <ul ...attributes>

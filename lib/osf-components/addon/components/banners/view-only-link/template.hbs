@@ -9,13 +9,12 @@
             {{t 'banners.view_only.warning'}}
         </p>
 
-        <BsButton
+        <Button
             data-test-view-normally
             data-analytics-name='Stop view-only link'
-            @type='default'
             {{on 'click' this.stopViewOnly}}
         >
             {{t 'banners.view_only.view_normally'}}
-        </BsButton>
+        </Button>
     </div>
 </BsAlert>

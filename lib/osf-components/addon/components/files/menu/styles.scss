@@ -55,6 +55,8 @@
     .menu-button {
         padding: 0;
         text-align: inherit;
+        color: $color-text-black;
+        background-color: $color-text-white;
 
         &:hover,
         &:active,

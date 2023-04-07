@@ -53,11 +53,11 @@
     <LoadingIndicator @dark={{true}} />
 {{else if this.hasMore}}
     <div local-class='has-more-container'>
-        <BsButton
-            @type='link'
-            @onClick={{action this.loadMoreContributors}}
+        <Button
+            @layout='fake-link'
+            {{on 'click' (action this.loadMoreContributors)}}
         >
             {{t 'app_components.project_contributors.list.load_more_contributors'}}
-        </BsButton>
+        </Button>
     </div>
 {{/if}}
