@@ -1,0 +1,19 @@
+.active-filter-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    .header {
+        width: 50%;
+    }
+
+    .button-container {
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-start;
+    }
+}
