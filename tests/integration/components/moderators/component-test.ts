@@ -91,7 +91,7 @@ module('Integration | Component | moderators', hooks => {
         assert.dom(`[data-test-moderator-row="${currentUser.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         assert.dom(`[data-test-moderator-row="${moderator.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         await click(`[data-test-delete-moderator-button="${moderator.id}"]>[data-test-delete-button]`);
-        assert.dom('.modal-body').hasText(
+        assert.dom('[data-test-delete-modal-body]').hasText(
             this.intl.t('osf-components.moderators.remove.modal.body', { moderator: moderator.fullName }),
         );
         await click('[data-test-confirm-delete]');
@@ -137,7 +137,7 @@ module('Integration | Component | moderators', hooks => {
         ).hasText('Moderator');
         assert.dom(`[data-test-moderator-row="${admin.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         await click(`[data-test-delete-moderator-button="${moderator.id}"]>[data-test-delete-button]`);
-        assert.dom('.modal-body').hasText(
+        assert.dom('[data-test-delete-modal-body]').hasText(
             this.intl.t('osf-components.moderators.remove.modal.body', { moderator: 'yourself' }),
         );
         await click('[data-test-confirm-delete]');

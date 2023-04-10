@@ -575,7 +575,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-contributor-remove-me] > button').isVisible('remove me button is visible');
         await click('[data-test-contributor-remove-me] > button');
 
-        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-delete-modal-body]').isVisible('removeMe hard-confirm modal is visible');
         assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
         await percySnapshot(assert);
 
@@ -611,7 +611,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .isVisible('remove me button is visible');
         await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
 
-        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-delete-modal-body]').isVisible('removeMe hard-confirm modal is visible');
         assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
         await percySnapshot(assert);
 
@@ -641,7 +641,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .isVisible('remove me button is visible');
         await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
 
-        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-delete-modal-body]').isVisible('removeMe hard-confirm modal is visible');
         assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
 
         server.namespace = '/v2';
@@ -690,7 +690,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await click('[data-test-contributor-remove-me] > button');
 
-        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-delete-modal-body]').isVisible('removeMe hard-confirm modal is visible');
         assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
 
         await click('[data-test-confirm-delete]');
@@ -1087,7 +1087,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .exists('fileOne is selected (attached as a registration response)');
         await click(`[data-test-delete-file="${fileOne.id}"] > button`);
 
-        assert.dom('.modal-content').isVisible('file delete hard-confirm modal is visible');
+        assert.dom('[data-test-delete-modal-body]').isVisible('file delete hard-confirm modal is visible');
         assert.dom('[data-test-confirm-delete]')
             .isVisible('file delete hard-confirm modal has a confirm button');
         await click('[data-test-confirm-delete]');

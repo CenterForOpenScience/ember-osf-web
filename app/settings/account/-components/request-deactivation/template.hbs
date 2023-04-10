@@ -41,21 +41,21 @@
     </panel.body>
 </Panel>
 
-<BsModal
+<OsfDialog
     data-test-confirm-deactivate-modal
-    @open={{this.showRequestDialog}}
-    @onHidden={{action this.closeDialogs}}
-    as |modal|
+    @isOpen={{this.showRequestDialog}}
+    @onClose={{action this.closeDialogs}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h4 data-test-confirm-deactivate-heading>
             {{t 'settings.account.deactivation.confirmationTitle'}}
         </h4>
-    </modal.header>
-    <modal.body>
+    </dialog.heading>
+    <dialog.main>
         {{t 'settings.account.deactivation.confirmationBody'}}
-    </modal.body>
-    <modal.footer data-analytics-scope='Deactivation confirmation'>
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Deactivation confirmation'>
         <Button
             data-test-deactivation-cancel
             data-analytics-name='Cancel'
@@ -71,23 +71,24 @@
         >
             {{t 'settings.account.deactivation.confirmationButton'}}
         </Button>
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>
 
-<BsModal
+<OsfDialog
     data-test-confirm-undo-modal
-    @open={{this.showUndoDialog}}
-    as |modal|
+    @isOpen={{this.showUndoDialog}}
+    @onClose={{action this.closeDialogs}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h4 data-test-confirm-undo-heading>
             {{t 'settings.account.deactivation.undoRequestConfirmationTitle'}}
         </h4>
-    </modal.header>
-    <modal.body data-test-confirm-undo-warning>
+    </dialog.heading>
+    <dialog.main data-test-confirm-undo-warning>
         {{t 'settings.account.deactivation.undoRequestConfirmationBody'}}
-    </modal.body>
-    <modal.footer data-analytics-scope='Undo deactivation confirmation'>
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Undo deactivation confirmation'>
         <Button
             data-test-undo-warning-cancel
             data-analytics-name='Cancel'
@@ -99,9 +100,9 @@
             data-test-undo-warning-confirm
             data-analytics-name='confirm Undo'
             {{on 'click' (action this.confirmUndoDeactivation)}}
-            @type='create'
+            @type='primary'
         >
             {{t 'settings.account.deactivation.undoRequestConfirmationButton'}}
         </Button>
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>

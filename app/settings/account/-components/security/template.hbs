@@ -98,21 +98,21 @@
     </panel.body>
 </Panel>
 
-<BsModal
+<OsfDialog
     data-test-confirm-enable-modal
-    @open={{this.showEnableWarning}}
-    @onHide={{action this.hideDialogs}}
-    as |modal|
+    @isOpen={{this.showEnableWarning}}
+    @onClose={{action this.hideDialogs}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h4 data-test-confirm-enable-heading>
             {{t 'settings.account.security.enableTwoFactor'}}
         </h4>
-    </modal.header>
-    <modal.body data-test-confirm-enable-warning>
+    </dialog.heading>
+    <dialog.main data-test-confirm-enable-warning>
         {{t 'settings.account.security.enableWarning'}}
-    </modal.body>
-    <modal.footer data-analytics-scope='Confirm enable two factor modal'>
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Confirm enable two factor modal'>
         <Button
             data-test-enable-warning-cancel
             data-analytics-name='Cancel'
@@ -128,24 +128,24 @@
         >
             {{t 'settings.account.security.enableButton'}}
         </Button>
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>
 
-<BsModal
+<OsfDialog
     data-test-confirm-disable-modal
-    @open={{this.showDisableWarning}}
-    @onHide={{action this.hideDialogs}}
-    as |modal|
+    @isOpen={{this.showDisableWarning}}
+    @onClose={{action this.hideDialogs}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h4 data-test-confirm-disable-heading>
             {{t 'settings.account.security.disableTwoFactor'}}
         </h4>
-    </modal.header>
-    <modal.body data-test-confirm-disable-warning>
+    </dialog.heading>
+    <dialog.main data-test-confirm-disable-warning>
         {{t 'settings.account.security.disableWarning'}}
-    </modal.body>
-    <modal.footer data-analytics-scope='Confirm disable two factor modal'>
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Confirm disable two factor modal'>
         <Button
             data-test-disable-warning-cancel
             data-analytics-name='Cancel'
@@ -161,5 +161,5 @@
         >
             {{t 'settings.account.security.disableButton'}}
         </Button>
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>

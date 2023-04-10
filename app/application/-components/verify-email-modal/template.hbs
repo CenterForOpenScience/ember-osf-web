@@ -1,34 +1,33 @@
-{{#if (and this.shouldShowModal this.userEmail)}}
-    <BsModal
-        @backdropClose={{false}}
-        as |modal|
-    >
-        <modal.header @closeButton={{false}}>
-            <h3 class='modal-title'>{{t this.translationKeys.header}}</h3>
-        </modal.header>
-        <modal.body>
-            <p data-test-verify-email-prompt>
-                {{t this.translationKeys.body email=this.userEmail.emailAddress htmlSafe=true}}
-            </p>
-        </modal.body>
-        <modal.footer data-analytics-scope='Verify email modal'>
-            <Button
-                data-test-deny-email
-                data-analytics-name='Deny'
-                disabled={{this.disableButtons}}
-                {{on 'click' (action this.deny)}}
-            >
-                {{t this.translationKeys.denyButton}}
-            </Button>
-            <Button
-                data-test-verify-email
-                data-analytics-name='Verify'
-                disabled={{this.disableButtons}}
-                @type='primary'
-                {{on 'click' (action this.verify)}}
-            >
-                {{t this.translationKeys.verifyButton}}
-            </Button>
-        </modal.footer>
-    </BsModal>
-{{/if}}
+<OsfDialog
+    @closeOnOutsideClick={{false}}
+    @isOpen={{and this.shouldShowModal this.userEmail}}
+    as |dialog|
+>
+    <dialog.heading @closeButton={{false}}>
+        <h3 class='modal-title'>{{t this.translationKeys.header}}</h3>
+    </dialog.heading>
+    <dialog.main>
+        <p data-test-verify-email-prompt>
+            {{t this.translationKeys.body email=this.userEmail.emailAddress htmlSafe=true}}
+        </p>
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Verify email modal'>
+        <Button
+            data-test-deny-email
+            data-analytics-name='Deny'
+            disabled={{this.disableButtons}}
+            {{on 'click' (action this.deny)}}
+        >
+            {{t this.translationKeys.denyButton}}
+        </Button>
+        <Button
+            data-test-verify-email
+            data-analytics-name='Verify'
+            disabled={{this.disableButtons}}
+            @type='primary'
+            {{on 'click' (action this.verify)}}
+        >
+            {{t this.translationKeys.verifyButton}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

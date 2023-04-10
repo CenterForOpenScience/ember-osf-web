@@ -1,14 +1,15 @@
 <div id='ember-bootstrap-modal-container'>
-    <BsModal
-        @open={{this.isOpen}}
-        as |modal|
+    <OsfDialog
+        @isOpen={{this.isOpen}}
+        @onClose={{action (mut this.isOpen) false}}
+        as |dialog|
     >
-        <modal.header data-test-search-help-modal-header>
+        <dialog.heading data-test-search-help-modal-header>
             <h3 class='modal-title'>
                 {{t 'app_components.search_help_modal.title'}}
             </h3>
-        </modal.header>
-        <modal.body data-test-search-help-modal-body>
+        </dialog.heading>
+        <dialog.main data-test-search-help-modal-body>
             <h4>
                 {{t 'app_components.search_help_modal.queries'}}
             </h4>
@@ -25,14 +26,14 @@
                     </li>
                 {{/each}}
             </ul>
-        </modal.body>
-        <modal.footer data-test-search-help-modal-footer>
+        </dialog.main>
+        <dialog.footer data-test-search-help-modal-footer>
             <Button
                 data-test-search-help-modal-close-button
-                {{on 'click' (action modal.close)}}
+                {{on 'click' (action dialog.close)}}
             >
                 {{t 'app_components.search_help_modal.close'}}
             </Button>
-        </modal.footer>
-    </BsModal>
+        </dialog.footer>
+    </OsfDialog>
 </div>
