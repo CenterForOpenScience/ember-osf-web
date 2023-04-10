@@ -10,7 +10,7 @@ export default class MetadataValueSearchModel extends OsfModel {
     @attr('array') valueSearchFilter!: SearchFilter[];
     @attr('string') recordSearchText!: string;
     @attr('array') recordSearchFilter!: SearchFilter[];
-    @attr('number') totalMatchCount!: number;
+    @attr('number') totalResultCount!: number;
 
     @hasMany('search-result', { inverse: null })
     searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];

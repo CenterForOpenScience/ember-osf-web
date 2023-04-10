@@ -17,7 +17,7 @@ export interface TextMatchEvidence {
 
 export default class SearchResultModel extends OsfModel {
     @attr('array') matchEvidence!: Array<IriMatchEvidence | TextMatchEvidence>;
-    @attr('number') recordMatchCount!: number;
+    @attr('number') recordResultCount!: number;
 
     @belongsTo('metadata-record', { inverse: null })
     metadataRecord!: AsyncBelongsTo<MetadataRecordModel> | MetadataRecordModel;

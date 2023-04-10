@@ -11,9 +11,9 @@ export interface SearchFilter {
 }
 
 export default class MetadataRecordSearchModel extends OsfModel {
-    @attr('string') searchText!: string;
-    @attr('array') searchFilters!: SearchFilter[];
-    @attr('number') totalMatchCount!: number;
+    @attr('string') recordSearchText!: string;
+    @attr('array') recordSearchFilters!: SearchFilter[];
+    @attr('number') totalResultCount!: number;
 
     @hasMany('search-result', { inverse: null })
     searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];
