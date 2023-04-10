@@ -15,27 +15,27 @@
             {{t 'settings.account.deactivation.body' htmlSafe=true}}
         </p>
         {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
-            <BsButton disabled={{true}}>
+            <Button disabled={{true}}>
                 {{t 'general.loading'}}
-            </BsButton>
+            </Button>
         {{else}}
             {{#if this.user.settings.deactivationRequested}}
                 <p>
                     <strong>{{t 'settings.account.deactivation.pending'}}</strong>
                 </p>
-                <BsButton
+                <Button
                     data-analytics-name='Undo deactivation request'
-                    @onClick={{action (mut this.showUndoDialog) true}}
+                    {{on 'click' (action (mut this.showUndoDialog) true)}}
                 >
                     {{t 'settings.account.deactivation.undoRequestButton'}}
-                </BsButton>
+                </Button>
             {{else}}
-                <BsButton
+                <Button
                     data-analytics-name='Deactivation request'
-                    @onClick={{action (mut this.showRequestDialog) true}}
+                    {{on 'click' (action (mut this.showRequestDialog) true)}}
                 >
                     {{t 'settings.account.deactivation.requestButton'}}
-                </BsButton>
+                </Button>
             {{/if}}
         {{/if}}
     </panel.body>
@@ -56,21 +56,21 @@
         {{t 'settings.account.deactivation.confirmationBody'}}
     </modal.body>
     <modal.footer data-analytics-scope='Deactivation confirmation'>
-        <BsButton
+        <Button
             data-test-deactivation-cancel
             data-analytics-name='Cancel'
-            @onClick={{action this.closeDialogs}}
+            {{on 'click' (action this.closeDialogs)}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-confirm-deactivation-submit
             data-analytics-name='Confirm request'
-            @onClick={{action this.confirmRequestDeactivation}}
-            @type='danger'
+            {{on 'click' (action this.confirmRequestDeactivation)}}
+            @type='destroy'
         >
             {{t 'settings.account.deactivation.confirmationButton'}}
-        </BsButton>
+        </Button>
     </modal.footer>
 </BsModal>
 
@@ -88,20 +88,20 @@
         {{t 'settings.account.deactivation.undoRequestConfirmationBody'}}
     </modal.body>
     <modal.footer data-analytics-scope='Undo deactivation confirmation'>
-        <BsButton
+        <Button
             data-test-undo-warning-cancel
             data-analytics-name='Cancel'
-            @onClick={{action this.closeDialogs}}
+            {{on 'click' (action this.closeDialogs)}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-undo-warning-confirm
             data-analytics-name='confirm Undo'
-            @onClick={{action this.confirmUndoDeactivation}}
-            @type='success'
+            {{on 'click' (action this.confirmUndoDeactivation)}}
+            @type='create'
         >
             {{t 'settings.account.deactivation.undoRequestConfirmationButton'}}
-        </BsButton>
+        </Button>
     </modal.footer>
 </BsModal>

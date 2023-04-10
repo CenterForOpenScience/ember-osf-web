@@ -64,14 +64,14 @@
                 </div>
                 <div data-test-submissions-list-item-download>
                     {{#if submission.links.download}}
-                        <BsButton
+                        <Button
                             aria-label={{t 'general.download'}}
-                            @type='success'
+                            @type='create'
                             class='btn-xs'
-                            @onClick={{action this.downloadFile submission}}
+                            {{on 'click' (action this.downloadFile submission)}}
                         >
                             <FaIcon @icon='download' class='fa-inverse' />
-                        </BsButton>
+                        </Button>
                         {{submission.downloadCount}}
                     {{/if}}
                 </div>

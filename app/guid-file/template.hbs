@@ -327,49 +327,49 @@
     </:right>
     <:rightButtons>
         {{#if this.media.isMobile}}
-            <BsButton
+            <Button
                 data-test-file-renderer-button
                 data-analytics-name='File renderer button'
                 local-class='slide-buttons {{if this.rightColumnClosed 'active'}}'
-                @size='lg'
-                @onClick={{this.toggleFileRenderer}}
+                @layout='large'
+                {{on 'click' this.toggleFileRenderer}}
             >
                 <FaIcon @icon='file-alt' @fixedWidth={{true}}/>
-            </BsButton>
+            </Button>
         {{/if}}
-        <BsButton
+        <Button
             aria-label={{if this.metadataOpened (t 'file-detail.close-metadata') (t 'file-detail.view-metadata')}}
             data-test-metadata-button
             data-analytics-name='Metadata button'
             local-class='slide-buttons {{if this.metadataOpened 'active'}}'
-            @size='lg'
-            @onClick={{this.toggleMetadata}}
+            @layout='large'
+            {{on 'click' this.toggleMetadata}}
         >
             <FaIcon @icon='info-circle' @fixedWidth={{true}}/>
-        </BsButton>
+        </Button>
         {{#if this.model.shouldShowRevisions}}
-            <BsButton
+            <Button
                 aria-label={{if this.revisionsOpened (t 'file-detail.close-revisions') (t 'file-detail.view-revisions')}}
                 data-test-versions-button
                 data-analytics-name='Versions button'
                 local-class='slide-buttons {{if this.revisionsOpened 'active'}}'
-                @size='lg'
-                @onClick={{this.toggleRevisions}}
+                @layout='large'
+                {{on 'click' this.toggleRevisions}}
             >
                 <FaIcon @icon='history' @fixedWidth={{true}}/>
-            </BsButton>
+            </Button>
         {{/if}}
         {{#if this.model.shouldShowTags}}
-            <BsButton
+            <Button
                 aria-label={{if this.tagsOpened (t 'file-detail.close-tags') (t 'file-detail.view-tags')}}
                 data-test-tags-button
                 data-analytics-name='Tags button'
                 local-class='slide-buttons {{if this.tagsOpened 'active'}}'
-                @size='lg'
-                @onClick={{this.toggleTags}}
+                @layout='large'
+                {{on 'click' this.toggleTags}}
             >
                 <FaIcon @icon='tags' @fixedWidth={{true}}/>
-            </BsButton>
+            </Button>
         {{/if}}
     </:rightButtons>
 </GuidFile::-Components::FileDetailLayout>

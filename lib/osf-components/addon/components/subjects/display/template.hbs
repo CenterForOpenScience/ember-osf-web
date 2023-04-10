@@ -7,17 +7,17 @@
                 {{subject.text}}
 
                 {{#if @removeSubject}}
-                    <BsButton
+                    <Button
                         local-class='RemoveButton'
                         data-analytics-name='Remove'
                         data-analytics-extra={{subject.text}}
                         role='button'
                         aria-label={{t 'osf-components.subjects.display.remove_subject'}}
-                        @type='link'
-                        @onClick={{action @removeSubject subject}}
+                        @layout='fake-link'
+                        {{on 'click' (action @removeSubject subject)}}
                     >
                         <FaIcon @icon='times' @fixedWidth={{true}} />
-                    </BsButton>
+                    </Button>
                 {{/if}}
             </li>
         {{else}}

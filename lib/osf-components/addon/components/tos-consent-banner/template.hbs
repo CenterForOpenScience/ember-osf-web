@@ -31,15 +31,15 @@
                     {{/validated-input/checkbox}}
                 </h5>
             </div>
-            <BsButton
+            <Button
                 data-test-tos-consent-alert-submit-button
                 data-analytics-name='Continue'
                 type='submit'
                 @type='primary'
-                @onClick={{action (perform this.saveUser)}}
+                {{on 'click' (action (perform this.saveUser))}}
             >
                 {{t 'tos_consent.continue'}}
-            </BsButton>
+            </Button>
             <p></p>
         </div>
     </BsAlert>

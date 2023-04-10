@@ -1,14 +1,15 @@
+{{!-- template-lint-disable no-bare-strings --}}
 <DocsDemo as |demo|>
     <demo.example @name='new-project-navigation-modal.demo.hbs'>
-        <BsButton
+        <Button
             @class='center-block m-b-lg'
-            @onClick={{action (mut this.shouldShowModal) true}}
+            {{on 'click' (action (mut this.shouldShowModal) true)}}
         >
             Create project
-        </BsButton>
+        </Button>
         {{#if this.shouldShowModal}}
             <NewProjectNavigationModal
-                @node={{node}}
+                @node={{@node}}
                 @closeModal={{action (mut this.shouldShowModal) false}}
                 @title='Project created! Would you like to go there now?'
             />
@@ -17,3 +18,4 @@
 
     <demo.snippet @name='new-project-navigation-modal.demo.hbs' />
 </DocsDemo>
+{{!-- template-lint-enable no-bare-strings --}}

@@ -40,23 +40,23 @@
     </span>
     {{settings/profile/name/-components/citation-preview user=this.user}}
     <div local-class='FormButtons'>
-        <BsButton
+        <Button
             data-test-discard-changes
             data-analytics-name='Discard changes'
             disabled={{not form.isDirty}}
             type='button'
-            @onClick={{action form.rollback}}
+            {{on 'click' (action form.rollback)}}
         >
             {{t 'validated_input_form.discard_changes'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-save
             data-analytics-name='Save'
             disabled={{and (not form.isDirty) form.disabled}}
-            @buttonType='submit'
+            type='submit'
             @type='primary'
         >
             {{t 'general.save'}}
-        </BsButton>
+        </Button>
     </div>
 </ValidatedModelForm>

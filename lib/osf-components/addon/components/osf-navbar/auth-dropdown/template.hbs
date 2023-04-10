@@ -56,16 +56,17 @@
                 </OsfLink>
             </li>
             <li role='menuitem'>
-                <BsButton
+                <Button
                     data-test-ad-logout
                     data-analytics-name='Logout'
                     class='logoutLink'
-                    @type='link'
-                    @onClick={{action this.currentUser.logout}}
+                    local-class='logout-link'
+                    @layout='fake-link'
+                    {{on 'click' (action this.currentUser.logout)}}
                 >
                     <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.log_out'}}
-                </BsButton>
+                </Button>
             </li>
         </dd.menu>
     </BsDropdown>
@@ -82,17 +83,17 @@
             >
                 {{t 'auth_dropdown.sign_up'}}
             </OsfLink>
-            <BsButton
+            <Button
                 data-test-sign-in-button
                 data-analytics-name='SignIn'
                 class='btn-top-login'
-                @onClick={{action this.login}}
-                @size='xs'
-                @type='info'
+                {{on 'click' (action this.login)}}
+                @layout='small'
+                @type='secondary'
                 role='button'
             >
                 {{t 'auth_dropdown.sign_in'}}
-            </BsButton>
+            </Button>
         </div>
     </li>
 {{/if}}

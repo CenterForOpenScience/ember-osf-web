@@ -15,14 +15,14 @@
         onSave=(action 'onSave')
         as |form|
     }}
-        <BsButton
+        <Button
             data-test-create-token-button
             data-analytics-name='Submit button'
             disabled={{form.disabled}}
-            @buttonType='submit'
+            type='submit'
             @type='primary'
         >
             {{t 'settings.tokens.createToken'}}
-        </BsButton>
+        </Button>
     {{/settings/tokens/-components/token-form}}
 </div>

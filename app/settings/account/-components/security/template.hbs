@@ -55,7 +55,7 @@
                                 {{t 'settings.account.security.verificationFailed'}}
                             </p>
                         {{/if}}
-                        <BsButton
+                        <Button
                             data-test-verify-button
                             data-analytics-name='Submit verification'
                             type='submit'
@@ -64,35 +64,35 @@
                             {{on 'click' (perform this.verifySecret)}}
                         >
                             {{t 'settings.account.security.submitVerification'}}
-                        </BsButton>
-                        <BsButton
+                        </Button>
+                        <Button
                             data-test-two-factor-verify-cancel-button
                             data-analytics-name='Cancel verification'
-                            @onClick={{action this.confirmDisableTwoFactor}}
+                            {{on 'click' (action this.confirmDisableTwoFactor)}}
                         >
                             {{t 'general.cancel'}}
-                        </BsButton>
+                        </Button>
                     </div>
                 </FormControls>
             {{/if}}
             {{#if (and this.settings.twoFactorEnabled this.settings.twoFactorConfirmed)}}
-                <BsButton
+                <Button
                     data-test-two-factor-disable-button
                     data-analytics-name='Disable two-factor'
-                    @type='danger'
-                    @onClick={{action this.disableTwoFactor}}
+                    @type='destroy'
+                    {{on 'click' (action this.disableTwoFactor)}}
                 >
                     {{t 'settings.account.security.disableTwoFactor'}}
-                </BsButton>
+                </Button>
             {{else if (not this.settings.twoFactorEnabled)}}
-                <BsButton
+                <Button
                     data-test-two-factor-enable-button
                     data-analytics-name='Configure two-factor'
                     local-class='EnableButton'
-                    @onClick={{action this.enableTwoFactor}}
+                    {{on 'click' (action this.enableTwoFactor)}}
                 >
                     {{t 'settings.account.security.enableTwoFactor'}}
-                </BsButton>
+                </Button>
             {{/if}}
         {{/if}}
     </panel.body>
@@ -113,21 +113,21 @@
         {{t 'settings.account.security.enableWarning'}}
     </modal.body>
     <modal.footer data-analytics-scope='Confirm enable two factor modal'>
-        <BsButton
+        <Button
             data-test-enable-warning-cancel
             data-analytics-name='Cancel'
-            @onClick={{action this.hideDialogs}}
+            {{on 'click' (action this.hideDialogs)}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-enable-warning-confirm
             data-analytics-name='Enable'
-            @onClick={{action this.confirmEnableTwoFactor}}
+            {{on 'click' (action this.confirmEnableTwoFactor)}}
             @type='primary'
         >
             {{t 'settings.account.security.enableButton'}}
-        </BsButton>
+        </Button>
     </modal.footer>
 </BsModal>
 
@@ -146,20 +146,20 @@
         {{t 'settings.account.security.disableWarning'}}
     </modal.body>
     <modal.footer data-analytics-scope='Confirm disable two factor modal'>
-        <BsButton
+        <Button
             data-test-disable-warning-cancel
             data-analytics-name='Cancel'
-            @onClick={{action this.hideDialogs}}
+            {{on 'click' (action this.hideDialogs)}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-disable-warning-confirm
             data-analytics-name='Confirm'
-            @onClick={{action this.confirmDisableTwoFactor}}
-            @type='danger'
+            {{on 'click' (action this.confirmDisableTwoFactor)}}
+            @type='destroy'
         >
             {{t 'settings.account.security.disableButton'}}
-        </BsButton>
+        </Button>
     </modal.footer>
 </BsModal>

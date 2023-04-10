@@ -1,10 +1,10 @@
 {{#if this.currentUserIsAdmin}}
-    <BsButton
+    <Button
         data-test-goto-register
         data-analytics-name='Go to register'
         local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
-        @type='success'
-        @onClick={{perform this.onClickRegister}}
+        @type='create'
+        {{on 'click' (perform this.onClickRegister)}}
         disabled={{or (not this.draftManager.registrationResponsesIsValid) (not this.currentUserIsAdmin)}}
     >
         {{#if this.onClickRegister.isRunning}}
@@ -12,7 +12,7 @@
         {{else}}
             {{t 'registries.drafts.draft.register'}}
         {{/if}}
-    </BsButton>
+    </Button>
 {{/if}}
 {{#if (and (not this.currentUserIsAdmin) (not @showMobileView))}}
     <div data-test-nonadmin-warning-text>

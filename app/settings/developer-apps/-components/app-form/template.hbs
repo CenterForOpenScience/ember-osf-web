@@ -32,7 +32,7 @@
 
         <div>
             {{#if this.createMode}}
-                <BsButton
+                <Button
                     data-test-create-developer-app-button
                     data-analytics-name='Create'
                     disabled={{or this.changeset.isInvalid this.createNewApp.isRunning}}
@@ -41,7 +41,7 @@
                     {{on 'click' (perform this.createNewApp)}}
                 >
                     {{t 'settings.developer-apps.createApp'}}
-                </BsButton>
+                </Button>
             {{else}}
                 <DeleteButton
                     @delete={{action this.deleteApp}}
@@ -53,7 +53,7 @@
                     }}
                     @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
                 />
-                <BsButton
+                <Button
                     data-test-save-developer-app-button
                     data-analytics-name='Save'
                     disabled={{not this.appInstance}}
@@ -62,7 +62,7 @@
                     {{on 'click' (perform this.updateApp)}}
                 >
                     {{t 'general.save'}}
-                </BsButton>
+                </Button>
             {{/if}}
         </div>
     </FormControls>

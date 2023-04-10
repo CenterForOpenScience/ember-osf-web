@@ -96,16 +96,16 @@
                                     {{/each}}
                                 </div>
                                 {{#if this.hasMore}}
-                                    <BsButton
+                                    <Button
                                         data-test-more-institutions
                                         aria-label={{t 'institutions.load_more'}}
                                         data-analytics-name='Next page'
                                         local-class='Institutions__more'
-                                        @type='link'
-                                        @onClick={{action 'next'}}
+                                        @layout='fake-link'
+                                        {{on 'click' (action 'next')}}
                                     >
                                         <FaIcon @icon='chevron-down' class='Institutions__pagination' />
-                                    </BsButton>
+                                    </Button>
                                 {{/if}}
                             </div>
                         </div>

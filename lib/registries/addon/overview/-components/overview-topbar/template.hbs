@@ -48,27 +48,27 @@
                     >
                         {{t 'registries.overview.view_forks'}}
                     </OsfLink>
-                    <BsButton
+                    <Button
                         data-analytics-name='Fork registration'
                         data-test-fork-registration
                         disabled={{this.forkRegistration.isRunning}}
-                        @type='link'
-                        @onClick={{action (perform this.forkRegistration (action dd.close))}}
+                        @layout='fake-link'
+                        {{on 'click' (queue (perform this.forkRegistration) (action dd.close))}}
                         local-class='ForkButton'
                     >
                         {{t 'registries.overview.fork_registration'}}
-                    </BsButton>
+                    </Button>
                 </div>
             </dd.content>
         </ResponsiveDropdown>
 
-        <BsButton
+        <Button
             data-test-bookmarks-button
             data-analytics-name={{if this.isBookmarked 'Remove from bookmarks' 'Bookmark'}}
             data-analytics-extra='Registration ID: {{this.registration.id}}'
             disabled={{or this.bookmark.isRunning @registration.isAnonymous}}
-            @type='link'
-            @onClick={{action (perform this.bookmark)}}
+            @layout='fake-link'
+            {{on 'click' (action (perform this.bookmark))}}
             local-class='ActionButton'
             aria-label={{if
                 this.isBookmarked
@@ -91,7 +91,7 @@
                     {{t 'registries.overview.tooltips.bookmark'}}
                 {{/if}}
             </BsTooltip>
-        </BsButton>
+        </Button>
 
         <SharingIcons::Dropdown
             @title={{@registration.title}}

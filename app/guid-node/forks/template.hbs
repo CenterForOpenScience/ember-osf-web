@@ -11,33 +11,33 @@
             data-test-new-fork-modal-body
             data-analytics-scope='Forks - forks modal'
         >
-            <BsButton
+            <Button
                 data-test-close-create-forks-modal
                 data-analytics-name='close_modal'
                 aria-label={{t 'general.close'}}
                 class='close'
-                @onClick={{action (mut this.newModal) false}}
+                {{on 'click' (action (mut this.newModal) false)}}
             >
                 <FaIcon @icon='times' @size='sm' />
-            </BsButton>
+            </Button>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         </modal.body>
         <modal.footer data-analytics-scope='Forks - forks modal footer'>
-            <BsButton
+            <Button
                 data-test-cancel-create-fork
                 data-analytics-name='Cancel'
-                @onClick={{action (mut this.newModal) false}}
+                {{on 'click' (action (mut this.newModal) false)}}
             >
                 {{t 'general.cancel'}}
-            </BsButton>
-            <BsButton
+            </Button>
+            <Button
                 data-test-confirm-create-fork
                 data-analytics-name='Create fork'
-                @onClick={{action modal.submit}}
-                @type='info'
+                {{on 'click' (action modal.submit)}}
+                @type='secondary'
             >
                 {{t 'forks.fork'}}
-            </BsButton>
+            </Button>
         </modal.footer>
     </BsModal>
     <DeleteNodeModal
@@ -91,19 +91,19 @@
     <div local-class='Forks__new-fork'>
         <div class='m-md'>
             {{#if this.currentUser.user}}
-                <BsButton
+                <Button
                     data-test-new-fork-button
                     data-analytics-name='Create fork modal'
-                    @type='success'
-                    @disabled={{this.loadingNew}}
-                    @onClick={{action (mut this.newModal) true}}
+                    @type='create'
+                    disabled={{this.loadingNew}}
+                    {{on 'click' (action (mut this.newModal) true)}}
                 >
                     {{#if this.loadingNew}}
                         {{t 'forks.loading_new'}}
                     {{else}}
                         {{t 'forks.new'}}
                     {{/if}}
-                </BsButton>
+                </Button>
             {{/if}}
         </div>
     </div>

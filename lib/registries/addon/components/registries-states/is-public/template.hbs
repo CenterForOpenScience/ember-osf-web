@@ -1,10 +1,10 @@
-<BsButton
+<Button
     data-analytics-name='Open withdraw form modal'
-    @type='danger'
-    @onClick={{action (mut this.showModal) true}}
+    @type='destroy'
+    {{on 'click' (action (mut this.showModal) true)}}
 >
     {{t 'registries.overview.withdraw.withdraw'}}
-</BsButton>
+</Button>
 
 <BsModal
     @tagName='span'
@@ -44,19 +44,19 @@
     </modal.body>
 
     <modal.footer>
-        <BsButton
+        <Button
             disabled={{this.submitWithdrawal.isRunning}}
-            @onClick={{action modal.close}}
+            {{on 'click' (action modal.close)}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-analytics-name='Withdraw registration'
             disabled={{or this.submitDisabled this.submitWithdrawal.isRunning}}
-            @type='danger'
+            @type='destroy'
             {{on 'click' modal.submit}}
         >
             {{t 'registries.overview.withdraw.withdraw'}}
-        </BsButton>
+        </Button>
     </modal.footer>
 </BsModal>

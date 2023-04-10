@@ -15,17 +15,17 @@
                     local-class='selected-item'
                 >
                     <span>{{file.itemName}}</span>
-                    <BsButton
+                    <Button
                         data-test-unselect-file
                         data-analytics-name='Unselect file'
                         local-class='unselect'
                         aria-label={{t 'osf-components.files-widget.unselect_file'}}
                         tabindex='0'
-                        @onClick={{action @unselect file}}
-                        @type='link'
+                        {{on 'click' (action @unselect file)}}
+                        @layout='fake-link'
                     >
                         <FaIcon @icon='times' @fixedWith={{true}} />
-                    </BsButton>
+                    </Button>
                 </div>
             </AnimatedEach>
         </AnimatedContainer>

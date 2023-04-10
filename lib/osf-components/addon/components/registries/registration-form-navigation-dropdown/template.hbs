@@ -22,15 +22,15 @@
                 data-test-anchor-nav-title
             >
                 <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
-                <BsButton
+                <Button
                     data-analytics-name='Collapse'
                     data-test-toggle-anchor-nav-button
-                    @onClick={{action dd.close}}
-                    @type='link'
+                    {{on 'click' (action dd.close)}}
+                    @layout='fake-link'
                     local-class= 'ToggleNav__button'
                 >
                     <FaIcon @icon='times' />
-                </BsButton>
+                </Button>
             </h2>
             <ol local-class='Anchors' data-test-form-block-anchors>
                 {{#if this.showMetadata}}

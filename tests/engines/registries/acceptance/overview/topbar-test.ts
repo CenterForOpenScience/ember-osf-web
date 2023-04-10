@@ -221,12 +221,12 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.dom('[data-test-forks-dropdown-options]').isVisible();
 
         assert.dom('[data-test-go-to-forks-view]').isVisible();
-        assert.notOk(Boolean(reg.forkIds.length));
+        assert.notOk(Boolean(reg.forkIds.length), 'No forks');
 
         await click('[data-test-fork-registration]');
 
         reg.reload();
-        assert.ok(Boolean(reg.forkIds.length));
+        assert.ok(Boolean(reg.forkIds.length), 'Now there are forks');
     });
 
     test('reviews state description has correct text', async assert => {

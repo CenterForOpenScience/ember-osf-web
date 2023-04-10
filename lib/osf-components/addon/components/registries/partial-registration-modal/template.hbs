@@ -11,23 +11,23 @@
         <div local-class='component-contributor-warning'>
             {{t 'registries.partialRegistrationModal.componentContributorWarning'}}
         </div>
-        <BsButton
-            @type='link'
+        <Button
+            @layout='fake-link'
             local-class='select-clear-button'
-            @onClick={{@manager.selectAll}}
+            {{on 'click' @manager.selectAll}}
             data-test-select-all
         >
             {{t 'registries.partialRegistrationModal.selectAll'}}
-        </BsButton>
+        </Button>
         |
-        <BsButton
-            @type='link'
+        <Button
+            @layout='fake-link'
             local-class='select-clear-button'
-            @onClick={{@manager.clearAll}}
+            {{on 'click' @manager.clearAll}}
             data-test-clear-all
         >
             {{t 'registries.partialRegistrationModal.clearAll'}}
-        </BsButton>
+        </Button>
         {{#if @manager.loadingChildNodes}}
             <LoadingIndicator @dark={{true}} />
         {{else}}
@@ -44,19 +44,19 @@
         {{/if}}
     </dialog.main>
     <dialog.footer>
-        <BsButton
+        <Button
             data-test-continue-registration-button
             @type='primary'
-            @onClick={{action this.continue}}
+            {{on 'click' (action this.continue)}}
         >
             {{t 'registries.partialRegistrationModal.continueButton'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-cancel-registration-button
             @type='default'
-            @onClick={{dialog.close}}
+            {{on 'click' dialog.close}}
         >
             {{t 'registries.partialRegistrationModal.cancelButton'}}
-        </BsButton>
+        </Button>
     </dialog.footer>
 </OsfDialog>

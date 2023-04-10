@@ -1,3 +1,4 @@
+{{!-- template-lint-disable no-bare-strings --}}
 <DocsDemo as |demo|>
     {{#if this.node}}
         <demo.example @name='validated-model-form.demo-edit.hbs'>
@@ -17,18 +18,18 @@
                     @valuePath='description'
                     @label='Description'
                 />
-                <BsButton
-                    @onClick={{action form.rollback}}
+                <Button
+                    {{on 'click' (action form.rollback)}}
                     @disabled={{not form.isDirty}}
                 >
                     Cancel
-                </BsButton>
-                <BsButton
-                    @buttonType='submit'
+                </Button>
+                <Button
+                    type='submit'
                     @disabled={{form.disabled}}
                 >
                     Save
-                </BsButton>
+                </Button>
             </ValidatedModelForm>
         </demo.example>
 
@@ -43,3 +44,4 @@
         />
     {{/if}}
 </DocsDemo>
+{{!-- template-lint-enable no-bare-strings --}}

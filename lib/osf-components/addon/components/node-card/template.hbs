@@ -97,13 +97,13 @@
                                         </OsfLink>
                                     </menu.item>
                                     <menu.item role='menuitem'>
-                                        <BsButton
+                                        <Button
                                             data-analytics-scope='Delete'
                                             local-class='dropdown-link'
-                                            @onClick={{action @delete @node}}
+                                            {{on 'click' (action @delete @node)}}
                                         >
                                             {{t 'general.delete'}}
-                                        </BsButton>
+                                        </Button>
                                     </menu.item>
                                 </dd.menu>
                             </BsDropdown>

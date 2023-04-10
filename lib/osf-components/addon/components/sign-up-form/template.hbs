@@ -72,15 +72,15 @@
             />
         </div>
         <div>
-            <BsButton
+            <Button
                 data-test-sign-up-button
                 data-analytics-name='Submit sign up'
                 type='submit'
-                @type='success'
-                @onClick={{action this.submit}}
+                @type='create'
+                {{on 'click' (action this.submit)}}
             >
                 {{t 'osf-components.sign-up-form.sign_up_button_label'}}
-            </BsButton>
+            </Button>
         </div>
     {{/if}}
 </form>
