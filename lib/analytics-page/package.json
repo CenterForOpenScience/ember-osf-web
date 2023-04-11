@@ -25,7 +25,8 @@
     "ember-css-modules-sass": "*",
     "ember-intl": "*",
     "ember-moment": "*",
-    "ember-page-title": "*"
+    "ember-page-title": "*",
+    "ember-wormhole": "*"
   },
   "ember-addon": {
     "paths": [
