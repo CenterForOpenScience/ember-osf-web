@@ -15,7 +15,7 @@ export default class MetadataValueSearchModel extends OsfModel {
     @hasMany('search-result', { inverse: null })
     searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];
 
-    @belongsTo('related-property-search', { inverse: null })
+    @belongsTo('metadata-property-search', { inverse: null })
     relatedPropertySearch!: AsyncBelongsTo<MetadataPropertySearchModel> & MetadataPropertySearchModel;
 }
 

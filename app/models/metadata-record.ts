@@ -12,8 +12,8 @@ export default class MetadataRecordModel extends OsfModel {
     @attr('array') resourceIdentifier!: string[];
     @attr('object') resourceMetadata!: any;
 
-    @hasMany('metadata-record-search', { inverse: null })
-    relatedRecords!: AsyncHasMany<MetadataRecordModel> & MetadataRecordModel[];
+    @hasMany('metadata-record', { inverse: null })
+    relatedRecordSet!: AsyncHasMany<MetadataRecordModel> & MetadataRecordModel[];
 }
 
 declare module 'ember-data/types/registries/model' {
