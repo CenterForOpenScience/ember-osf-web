@@ -45,6 +45,7 @@
     "ember-responsive": "*",
     "ember-sortable": "*",
     "ember-toastr": "*",
+    "ember-tooltips": "*",
     "ember-truth-helpers": "*",
     "immutable": "*"
   },

@@ -14,7 +14,9 @@
                     {{#unless @node.public}}
                         <span>
                             <FaIcon @icon='lock' />
-                            <BsTooltip>{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}</BsTooltip>
+                            <EmberTooltip>
+                                {{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}
+                            </EmberTooltip>
                         </span> |
                     {{/unless}}
                     {{#if @node.pendingRegistrationApproval}}

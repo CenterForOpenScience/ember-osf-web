@@ -12,15 +12,17 @@
     <h2 local-class='inline'>
         {{t 'app_components.project_contributors.title'}}
     </h2>
-    <FaIcon @icon='question-circle'>
-        <BsPopover
-            @placement='bottom'
-            @triggerEvents='hover'
-            @title={{t 'app_components.project_contributors.contributors_popover_title'}}
+    <span>
+        <FaIcon @icon='question-circle' />
+        <EmberPopover
+            @side='bottom'
+            @event='hover'
+            @popperContainer='body'
         >
+            <h3>{{t 'app_components.project_contributors.contributors_popover_title'}}</h3>
             {{t 'app_components.project_contributors.contributors_popover'}}
-        </BsPopover>
-    </FaIcon>
+        </EmberPopover>
+    </span>
     <p>
         {{t 'app_components.project_contributors.instructions'}}
     </p>
