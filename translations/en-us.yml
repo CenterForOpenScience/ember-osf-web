@@ -78,34 +78,16 @@ general:
     previous: previous
     help: Help
     api: API
-    contact_point:
-        type: 'ContactPoint'
-        contact_type: 'customer service'  # Google Structured Data format
-        email: 'support@osf.io'
-    context: 'https://osf.io'
     cos: 'Center for Open Science'
-    dataset: 'Dataset'
-    distribution:
-        type: 'DataDownload'
-        encoding_format: 'JSON'
     home: Home
     period: .
     settings: Settings
     project: project
     component: component
-    engineering: 'engineering'
     hosted_on_the_osf: 'Hosted on OSF'
-    newFeaturePopoverHeading: 'New feature!'
-    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
     options: Options
     optional: Optional
     optional_paren: (optional)
-    other: Other
-    presented_by_osf: 'Presented by OSF'
-    please_confirm: 'Please confirm'
-    registration: registration
-    required: Required
-    science: 'science'
     services:
         collections: Collections
         institutions: Institutions
@@ -114,8 +96,6 @@ general:
     structured_data:
         json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
-    update: Update
-    user: User
 
 file_actions_menu:
     actions: '{filename} actions'
