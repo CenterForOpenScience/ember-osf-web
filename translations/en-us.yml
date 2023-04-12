@@ -94,12 +94,12 @@ general:
     optional_paren: (optional)
     update: Update
     user: User
-    other: Other
     services:
         collections: Collections
         institutions: Institutions
         preprints: Preprints
         registries: Registries
+    other: Other
     structured_data:
         json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
         environment_error: 'Error identifying environment.'
