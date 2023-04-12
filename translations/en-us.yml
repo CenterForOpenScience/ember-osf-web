@@ -84,10 +84,17 @@ general:
     settings: Settings
     project: project
     component: component
+    registration: registration
     hosted_on_the_osf: 'Hosted on OSF'
+    presented_by_osf: 'Presented by OSF'
+    please_confirm: 'Please confirm'
+    required: Required
     options: Options
     optional: Optional
     optional_paren: (optional)
+    update: Update
+    user: User
+    other: Other
     services:
         collections: Collections
         institutions: Institutions
@@ -97,6 +104,10 @@ general:
         json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
         environment_error: 'Error identifying environment.'
     tags: 'Tags'
+    science: 'science'
+    engineering: 'engineering'
+    newFeaturePopoverHeading: 'New feature!'
+    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
 
 file_actions_menu:
     actions: '{filename} actions'
