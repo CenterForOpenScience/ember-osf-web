@@ -8,11 +8,10 @@
             @ariaHidden={{false}}
             ...attributes
         />
-        <BsPopover
-            @triggerEvents={{array 'hover' 'focus'}}
-            @triggerElement={{concat '#' id}}
+        <EmberPopover
+            @triggerElement={{id}}
         >
             {{this.helpText}}
-        </BsPopover>
+        </EmberPopover>
     {{/let}}
 {{/if}}
