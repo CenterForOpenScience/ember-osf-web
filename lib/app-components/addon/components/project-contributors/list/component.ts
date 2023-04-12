@@ -37,14 +37,6 @@ export default class List extends Component {
     hasMore = false;
     page = 1;
 
-    popperOptions = {
-        modifiers: {
-            preventOverflow: {
-                escapeWithReference: false,
-            },
-        },
-    };
-
     /**
      * If the current user is an admin
      */
