@@ -33,51 +33,49 @@
                     >
                         {{t 'analytics.viewLinks'}}
                     </button>
-                    {{#if this.linksModalShown}}
-                        <OsfDialog
-                            @isOpen={{this.linksModalShown}}
-                            @onClose={{action this.hideLinksModal}}
-                        as |dialog|>
-                            <dialog.heading>
-                                {{t 'analytics.links'}}
-                            </dialog.heading>
-                            <dialog.main>
-                                {{#if this.node}}
-                                    <ul class='list-group'>
-                                        {{#paginated-list/has-many
-                                            model=this.node
-                                            relationshipName='linkedByNodes'
-                                            query=this.linkedByQueryParams
-                                            analyticsScope='Project Analytics - Links'
-                                            as |list|
-                                        }}
-                                            <list.item as |node|>
-                                                <NodeCard
-                                                    @node={{node}}
-                                                    @readOnly={{true}}
-                                                    @analyticsScope='Project Analytics - Links'
-                                                />
-                                            </list.item>
+                    <OsfDialog
+                        @isOpen={{this.linksModalShown}}
+                        @onClose={{action this.hideLinksModal}}
+                    as |dialog|>
+                        <dialog.heading>
+                            {{t 'analytics.links'}}
+                        </dialog.heading>
+                        <dialog.main>
+                            {{#if this.node}}
+                                <ul class='list-group'>
+                                    {{#paginated-list/has-many
+                                        model=this.node
+                                        relationshipName='linkedByNodes'
+                                        query=this.linkedByQueryParams
+                                        analyticsScope='Project Analytics - Links'
+                                        as |list|
+                                    }}
+                                        <list.item as |node|>
+                                            <NodeCard
+                                                @node={{node}}
+                                                @readOnly={{true}}
+                                                @analyticsScope='Project Analytics - Links'
+                                            />
+                                        </list.item>
 
-                                            <list.empty>
-                                                {{t 'analytics.noLinks'}}
-                                            </list.empty>
-                                        {{/paginated-list/has-many}}
-                                    </ul>
-                                {{else}}
-                                    <LoadingIndicator @dark={{true}} />
-                                {{/if}}
-                            </dialog.main>
-                            <dialog.footer>
-                                <Button
-                                    data-test-close-links-dialog
-                                    {{on 'click' (action dialog.close)}}
-                                >
-                                    {{t 'general.close'}}
-                                </Button>
-                            </dialog.footer>
-                        </OsfDialog>
-                    {{/if}}
+                                        <list.empty>
+                                            {{t 'analytics.noLinks'}}
+                                        </list.empty>
+                                    {{/paginated-list/has-many}}
+                                </ul>
+                            {{else}}
+                                <LoadingIndicator @dark={{true}} />
+                            {{/if}}
+                        </dialog.main>
+                        <dialog.footer>
+                            <Button
+                                data-test-close-links-dialog
+                                {{on 'click' (action dialog.close)}}
+                            >
+                                {{t 'general.close'}}
+                            </Button>
+                        </dialog.footer>
+                    </OsfDialog>
                 {{/if}}
             </div>
         </div>
