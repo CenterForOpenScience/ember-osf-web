@@ -9,6 +9,7 @@ import { restartableTask, task, timeout } from 'ember-concurrency';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUserService from 'ember-osf-web/services/current-user';
@@ -60,7 +61,9 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @waitFor
     async findAllSchemas() {
         try {
-            const schemas = await this.model.schemas;
+            const schemas = await (this.model as RegistrationProviderModel).queryHasMany('schemas', {
+                'page[size]': 100,
+            });
             [this.selectedSchema] = schemas.toArray();
             this.schemaOptions = schemas;
         } catch (e) {
