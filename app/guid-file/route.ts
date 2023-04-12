@@ -116,7 +116,7 @@ export default class GuidFile extends Route {
         } else if (environment === 'test') {
             assert(`Currently on ${environment}`, Boolean('test'));
         } else {
-            throw new Error('Environment not found.');
+            throw new Error(this.intl.t('general.structured_data.environment_error'));
         }
 
         // Override url
