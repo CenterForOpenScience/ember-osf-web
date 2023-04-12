@@ -1,0 +1,118 @@
+/* eslint-disable no-mixed-spaces-and-tabs*/
+
+import Service, { inject as service } from '@ember/service';
+
+import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
+import Intl from 'ember-intl/services/intl';
+
+import identifier from 'ember-osf-web/mirage/factories/identifier';
+import { MetaTagAttrs } from 'ember-osf-web/services/meta-tags';
+
+export type Content = object | string | String | number | null | undefined;
+
+export type DataContent = Content | Content[];
+
+export interface ScriptTagsData {
+    src?: DataContent;
+    type?: DataContent;
+    content?: DataContent;
+}
+
+export interface ScriptTagDef {
+    [s: string]: DataContent;
+}
+
+export interface JSONLDScriptTagAttrs {
+    type: Content;
+    src: Content;
+}
+
+export type ScriptTagAttrs = JSONLDScriptTagAttrs;
+
+// ember-cli-meta-tags element types
+export enum TagType {
+    BASE = 'base',
+    LINK = 'link',
+    META = 'meta',
+    SCRIPT = 'script',
+    NOSCRIPT = 'noscript',
+    TITLE = 'title',
+}
+
+export interface HeadTagDef {
+    type: string;
+    content: DataContent;
+    attrs: MetaTagAttrs | ScriptTagAttrs;
+}
+
+/**
+ *
+ * Creates one script tag with model-specific overrides or default attribute values.
+ * Should additional script tags be needed, getHeadTags() should be called for each
+ * script and added to the headTags array.
+ *
+ * @method getScriptTagAttributes
+ * @method getHeadTags
+ * @param {ScriptTagsData} scriptTagsOverrides Overrides defaults
+ * @return {HeadTagsDefs} getHeadTags() returns HeadTagDefs for ScriptTagAttrs
+ */
+export default class ScriptTags extends Service {
+    @service intl!: Intl;
+    @service router!: any;
+    @service headTags!: HeadTagsService;
+
+    getScriptTagAttributes(scriptTagsOverrides: ScriptTagsData): ScriptTagDef {
+        // Default values
+        const scriptTagsData: ScriptTagsData = {
+            type: scriptTagsOverrides.type ?
+                scriptTagsOverrides.type : 'application/ld+json',
+            src: scriptTagsOverrides.src ?
+                scriptTagsOverrides.src : `osf.io/${identifier}/metadata/?format=google-dataset-json-ld`,
+            content: scriptTagsOverrides.content ?
+                scriptTagsOverrides.content : { isAccessibleForFree: true },
+            ...scriptTagsOverrides,
+        };
+        return {
+            type: scriptTagsData.type,
+            src: scriptTagsData.src,
+            dataContent: scriptTagsData.content,
+        };
+    }
+
+    /**
+     * Processes values from getScriptTagAttributes() to create HTML head element
+     * script tags with content, src (source), and data MIME type attributes.
+     *
+     * @method getHeadTags
+     * @param {ScriptTagsData} scriptTagsData Default values for script tags
+     * @return {HeadTagDef[]}
+     */
+    getHeadTags(scriptTagsData: ScriptTagsData): HeadTagDef[] {
+        const scriptTagDefs: ScriptTagDef | ScriptTagDef[] = this.getScriptTagAttributes(scriptTagsData);
+        const { src, type, dataContent } = scriptTagDefs;
+        const attrs: ScriptTagAttrs = this.makeScriptTagAttrs(src, type);
+        const array: HeadTagDef[] = [];
+        const tagType: string = TagType.SCRIPT as string;
+	    array.push({type: tagType, content: dataContent, attrs});
+        return array;
+    }
+
+    makeScriptTagAttrs(src: Content, type: Content) {
+        return { src, type };
+    }
+
+    updateHeadTags() {
+        this.headTags.collectHeadTags();
+        const ev = new Event('ZoteroItemUpdated', {
+            bubbles: true,
+            cancelable: true,
+        });
+        document.dispatchEvent(ev);
+    }
+}
+
+declare module '@ember/service' {
+    interface Registry {
+        'script-tags': ScriptTags;
+    }
+}

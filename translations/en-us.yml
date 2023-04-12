@@ -111,10 +111,8 @@ general:
         institutions: Institutions
         preprints: Preprints
         registries: Registries
-    spatial_coverage:
-        geo:
-            type: 'World Wide Web'
-            box: '127.0.0.1'
+    structured_data:
+        json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
     update: Update
     user: User

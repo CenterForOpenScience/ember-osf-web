@@ -2,6 +2,7 @@ import Service, { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
+import { ScriptTagAttrs } from 'ember-osf-web/services/script-tags';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import toArray from 'ember-osf-web/utils/to-array';
 
@@ -12,8 +13,6 @@ export type DataContent = Content | Content[];
 export interface MetaTagsData {
     title?: DataContent;
     type?: DataContent;
-    funders?: DataContent;
-    creatorType?: DataContent;
     description?: DataContent;
     url?: DataContent;
     doi?: DataContent;
@@ -59,7 +58,7 @@ export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttr
 
 export interface HeadTagDef {
     type: string;
-    attrs: MetaTagAttrs;
+    attrs: MetaTagAttrs | ScriptTagAttrs;
 }
 
 export default class MetaTags extends Service {
@@ -79,12 +78,7 @@ export default class MetaTags extends Service {
         const currentUrl = window.location.href;
         const metaTagsData: MetaTagsData = {
             type: 'article',
-            creatorType: 'Organization',
             description: this.intl.t('general.hosted_on_the_osf'),
-            publishedDate: '',
-            modifiedDate: '',
-            funders: [],
-            keywords: '',
             url: pathJoin(config.OSF.url, currentUrl),
             language: this.intl.get('locale'),
             image: pathJoin(config.OSF.url, 'static/img/preprints_assets/osf/sharing.png'),
@@ -107,19 +101,14 @@ export default class MetaTags extends Service {
 
         return {
             // Citation
-            citation_author: metaTagsData.author,
-            citation_author_institution: metaTagsData.institution,
-            citation_creator_type: metaTagsData.creatorType,
-            citation_description: metaTagsData.description,
+            citation_title: metaTagsData.title,
             citation_doi: metaTagsData.doi,
-            citation_funder_name: metaTagsData.funders,
-            citation_keywords: metaTagsData.keywords,
-            citation_modificaton_date: metaTagsData.modifiedDate,
+            citation_publisher: metaTagsData.siteName,
+            citation_author_institution: metaTagsData.institution,
+            citation_author: metaTagsData.author,
+            citation_description: metaTagsData.description,
             citation_public_url: metaTagsData.url,
             citation_publication_date: metaTagsData.publishedDate,
-            citation_publisher: metaTagsData.siteName,
-            citation_title: metaTagsData.title,
-            citation_type: metaTagsData.type,
             // Dublin Core
             'dct.title': metaTagsData.title,
             'dct.type': metaTagsData.type,
