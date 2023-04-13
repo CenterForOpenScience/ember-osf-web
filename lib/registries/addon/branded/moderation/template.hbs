@@ -15,48 +15,52 @@
         </layout.heading>
         <layout.main local-class='main'>
             {{!-- TODO: add pending count in Submissions and Withdrawals tab --}}
-            <BsNav local-class='mainNav' @type='tabs' as |nav|>
+            <ul local-class='main-nav'>
                 {{#let 'registries.branded.moderation.submitted' as |submittedRoute|}}
-                    <nav.item @active={{eq this.target.currentRouteName submittedRoute}}>
+                    <li local-class={{if (eq this.target.currentRouteName submittedRoute) 'active'}}>
                         <OsfLink
+                            data-test-submitted-link
                             @route={{submittedRoute}}
                             @models={{array this.model.id}}
                         >
                             {{t 'registries.moderation.submitted.title'}}
                         </OsfLink>
-                    </nav.item>
+                    </li>
                 {{/let}}
                 {{#let 'registries.branded.moderation.pending' as |pendingRoute|}}
-                    <nav.item @active={{eq this.target.currentRouteName pendingRoute}}>
+                    <li local-class={{if (eq this.target.currentRouteName pendingRoute) 'active'}}>
                         <OsfLink
+                            data-test-pending-link
                             @route={{pendingRoute}}
                             @models={{array this.model.id}}
                         >
                             {{t 'registries.moderation.pending.title'}}
                         </OsfLink>
-                    </nav.item>
+                    </li>
                 {{/let}}
                 {{#let 'registries.branded.moderation.moderators' as |moderatorsRoute|}}
-                    <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
+                    <li local-class={{if (eq this.target.currentRouteName moderatorsRoute) 'active'}}>
                         <OsfLink
+                            data-test-moderators-link
                             @route={{moderatorsRoute}}
                             @models={{array this.model.id}}
                         >
                             {{t 'registries.moderation.moderators.title'}}
                         </OsfLink>
-                    </nav.item>
+                    </li>
                 {{/let}}
                 {{#let 'registries.branded.moderation.settings' as |settingsRoute|}}
-                    <nav.item @active={{eq this.target.currentRouteName settingsRoute}}>
+                    <li local-class={{if (eq this.target.currentRouteName settingsRoute) 'active'}}>
                         <OsfLink
+                            data-test-settings-link
                             @route={{settingsRoute}}
                             @models={{array this.model.id}}
                         >
                             {{t 'registries.moderation.settings.title'}}
                         </OsfLink>
-                    </nav.item>
+                    </li>
                 {{/let}}
-            </BsNav>
+            </ul>
             {{outlet}}
         </layout.main>
     </OsfLayout>
