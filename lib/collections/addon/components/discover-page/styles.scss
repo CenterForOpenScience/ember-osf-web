@@ -61,6 +61,16 @@
             width: 75px;
         }
     }
+
+    .relevance-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 
 .sortByOptionList {

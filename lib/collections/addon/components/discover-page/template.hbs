@@ -97,41 +97,39 @@
             </div>
         {{/if}}
         {{!RELEVANCE}}
-        <div class='row p-v-sm' local-class='border'>
-            <div class='col-sm-6 pull-right'>
-                <BsDropdown class='dropdown pull-right' as |dd|>
-                    <dd.button
-                        data-test-sort-by-button
-                        class='btn btn-default results-top'
-                    >
-                        {{t 'collections.discover_page.sortBy'}}:
-                        {{this.sortDisplay}}
-                        <span
-                            class='caret'
+        <div local-class='relevance-container'>
+            <BsDropdown class='dropdown pull-right' as |dd|>
+                <dd.button
+                    data-test-sort-by-button
+                    class='btn btn-default results-top'
+                >
+                    {{t 'collections.discover_page.sortBy'}}:
+                    {{this.sortDisplay}}
+                    <span
+                        class='caret'
+                        >
+                    </span>
+                </dd.button>
+                <dd.menu
+                    local-class='sortByOptionList'
+                    @align='right'
+                    as |ddm|
+                >
+                    {{#each this.sortOptions as |sortChoice|}}
+                        <ddm.item>
+                            <button
+                                data-test-sort-by-item={{sortChoice.sortBy}}
+                                type='button'
+                                class='btn btn-link'
+                                local-class='listOption'
+                                {{action this.selectSortOption sortChoice.sortBy}}
                             >
-                        </span>
-                    </dd.button>
-                    <dd.menu
-                        local-class='sortByOptionList'
-                        @align='right'
-                        as |ddm|
-                    >
-                        {{#each this.sortOptions as |sortChoice|}}
-                            <ddm.item>
-                                <button
-                                    data-test-sort-by-item={{sortChoice.sortBy}}
-                                    type='button'
-                                    class='btn btn-link'
-                                    local-class='listOption'
-                                    {{action this.selectSortOption sortChoice.sortBy}}
-                                >
-                                    {{sortChoice.display}}
-                                </button>
-                            </ddm.item>
-                        {{/each}}
-                    </dd.menu>
-                </BsDropdown>
-            </div>
+                                {{sortChoice.display}}
+                            </button>
+                        </ddm.item>
+                    {{/each}}
+                </dd.menu>
+            </BsDropdown>
         </div>
     </div>
 </div>
