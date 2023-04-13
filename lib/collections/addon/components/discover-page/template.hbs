@@ -2,100 +2,92 @@
 <div local-class='search-header' class='search-header'>
     <div class='container'>
         {{!BRANDING}}
-        <div class='row m-v-md'>
-            <div class='col-xs-12 text-center'>
-                {{!Provider Logo, if we are a provider}}
-                {{#if this.theme.isProvider}}
+        <div local-class='branding-container'>
+            {{!Provider Logo, if we are a provider}}
+            {{#if this.theme.isProvider}}
+                <div
+                    data-test-provider-branding
+                    local-class='provider-container'
+                >
                     <div
-                        data-test-provider-branding
-                        class='col-xs-12 text-center'
+                        class='provider-brand'
+                        id='provider-brand-background'
                     >
-                        <div
-                            class='provider-brand'
-                            id='provider-brand-background'
-                        >
-                        </div>
-                        <ProviderLogo @provider={{this.theme.provider}} />
                     </div>
-                {{/if}}
-                <div class={{if this.theme.isProvider 'col-xs-6 text-left'}}>
-                    {{!REGISTRIES ONLY}}
-                    <div class='registries-brand m-t-lg'></div>
-                    {{!Discover Page Header text}}
-                    {{#if this.discoverHeader}}
-                        <h1 data-test-discover-header>
-                            {{t this.discoverHeader documentType=this.themeProvider.documentType}}
-                        </h1>
-                    {{/if}}
-                    {{!POWERED BY SHARE}}
-                    {{#if this.isPoweredByShare}}
-                        <p class='lead'>
-                            {{t 'collections.discover_page.poweredBy'}}
-                            <a
-                                href='https://share.osf.io/'
-                                id='share-logo'
-                                local-class='share-logo'
-                                title={{t 'collections.discover_page.share'}}
-                                onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
-                            ></a>
-                        </p>
-                    {{/if}}
+                    <ProviderLogo @provider={{this.theme.provider}} />
                 </div>
+            {{/if}}
+            <div local-class={{if this.theme.isProvider 'provider-text-container'}}>
+                {{!Discover Page Header text}}
+                {{#if this.discoverHeader}}
+                    <h1 data-test-discover-header>
+                        {{t this.discoverHeader documentType=this.themeProvider.documentType}}
+                    </h1>
+                {{/if}}
+                {{!POWERED BY SHARE}}
+                {{#if this.isPoweredByShare}}
+                    <p class='lead'>
+                        {{t 'collections.discover_page.poweredBy'}}
+                        <a
+                            href='https://share.osf.io/'
+                            id='share-logo'
+                            local-class='share-logo'
+                            title={{t 'collections.discover_page.share'}}
+                            onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
+                        ></a>
+                    </p>
+                {{/if}}
             </div>
         </div>
         {{!SEARCH}}
-        <div class='row m-t-md m-b-lg text-center'>
-            <div class='col-xs-12 col-sm-8 col-sm-offset-2'>
-                {{!SEARCH BAR}}
-                <div
-                    data-test-search-input
-                    class='input-group input-group-lg'
+        <div local-class='search-container' data-test-search-input>
+            {{!SEARCH BAR}}
+            <Input
+                local-class='input'
+                aria-label={{t
+                    (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
+                    documentType=this.themeProvider.documentType
+                }}
+                @id='searchBox'
+                @value={{this.q}}
+                @class='form-control'
+                @enter={{action this.searchAction}}
+                @key-up={{action this.searchAction}}
+                @placeholder={{t
+                    (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
+                    documentType=this.themeProvider.documentType
+                }}
+            />
+            <div class='input-group-btn'>
+                {{!HELP BUTTON}}
+                <button
+                    local-class='lucene-button'
+                    data-test-help-button
+                    type='button'
+                    class='btn btn-default'
+                    aria-label={{t 'collections.discover_page.luceneHelp'}}
+                    {{action this.toggleShowLuceneHelp}}
                 >
-                    <Input
-                        aria-label={{t
-                            (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
-                            documentType=this.themeProvider.documentType
-                        }}
-                        @id='searchBox'
-                        @value={{this.q}}
-                        @class='form-control'
-                        @enter={{action this.searchAction}}
-                        @key-up={{action this.searchAction}}
-                        @placeholder={{t
-                            (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
-                            documentType=this.themeProvider.documentType
-                        }}
-                    />
-                    <span class='input-group-btn'>
-                        {{!HELP BUTTON}}
-                        <button
-                            data-test-help-button
-                            type='button'
-                            class='btn btn-default'
-                            aria-label={{t 'collections.discover_page.luceneHelp'}}
-                            {{action this.toggleShowLuceneHelp}}
-                        >
-                            <FaIcon @icon='question' @class='text-muted' />
-                        </button>
-                        {{!SEARCH BUTTON}}
-                        <button
-                            data-test-search-button
-                            type='button'
-                            class='btn btn-default'
-                            {{action this.searchAction}}
-                        >
-                            {{t 'collections.discover_page.search'}}
-                        </button>
-                    </span>
-                </div>
-                {{!Lucene search help modal}}
-                <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
-
-                {{!NUMBER OF SEARCHABLE RESULTS}}
-                {{#unless this.theme.isProvider}}
-                    <TotalShareResults />
-                {{/unless}}
+                    <FaIcon @icon='question' @class='text-muted' />
+                </button>
+                {{!SEARCH BUTTON}}
+                <button
+                    local-class='search-button'
+                    data-test-search-button
+                    type='button'
+                    class='btn btn-default'
+                    {{action this.searchAction}}
+                >
+                    {{t 'collections.discover_page.search'}}
+                </button>
             </div>
+            {{!Lucene search help modal}}
+            <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
+
+            {{!NUMBER OF SEARCHABLE RESULTS}}
+            {{#unless this.theme.isProvider}}
+                <TotalShareResults />
+            {{/unless}}
         </div>
         {{#if (and this.theme.isProvider this.theme.provider.htmlSafeDescription)}}
             <div local-class='ProviderDescription' class='row m-t-md m-b-lg'>
@@ -104,7 +96,8 @@
                 </div>
             </div>
         {{/if}}
-        <div class='row p-v-sm'>
+        {{!RELEVANCE}}
+        <div class='row p-v-sm' local-class='border'>
             <div class='col-sm-6 pull-right'>
                 <BsDropdown class='dropdown pull-right' as |dd|>
                     <dd.button
