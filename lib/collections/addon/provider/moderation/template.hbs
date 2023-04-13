@@ -7,9 +7,9 @@
         </div>
     </layout.heading>
     <layout.main local-class='main'>
-        <BsNav local-class='clamped-width-container' @type='tabs' as |nav|>
+        <ul local-class='clamped-width-container main-nav'>
             {{#let 'collections.provider.moderation.all' as |allRoute|}}
-                <nav.item @active={{eq this.target.currentRouteName allRoute}}>
+                <li local-class={{if (eq this.target.currentRouteName allRoute) 'active'}}>
                     <OsfLink
                         data-test-collections-moderation-all-tab
                         @route={{allRoute}}
@@ -17,10 +17,10 @@
                     >
                         {{t 'collections.moderation.all.title'}}
                     </OsfLink>
-                </nav.item>
+                </li>
             {{/let}}
             {{#let 'collections.provider.moderation.moderators' as |moderatorsRoute|}}
-                <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
+                <li local-class={{if (eq this.target.currentRouteName moderatorsRoute) 'active'}}>
                     <OsfLink
                         data-analytics-name='Collection moderation moderators tab'
                         data-test-collections-moderation-moderators-tab
@@ -29,10 +29,10 @@
                     >
                         {{t 'collections.moderation.moderators.title'}}
                     </OsfLink>
-                </nav.item>
+                </li>
             {{/let}}
             {{#let 'collections.provider.moderation.settings' as |settingsRoute|}}
-                <nav.item @active={{eq this.target.currentRouteName settingsRoute}}>
+                <li local-class={{if (eq this.target.currentRouteName settingsRoute) 'active'}}>
                     <OsfLink
                         data-analytics-name='Collection moderation settings tab'
                         data-test-collections-moderation-settings-tab
@@ -41,9 +41,9 @@
                     >
                         {{t 'collections.moderation.settings.title'}}
                     </OsfLink>
-                </nav.item>
+                </li>
             {{/let}}
-        </BsNav>
+        </ul>
         <div local-class='clamped-width-container'>
             {{outlet}}
         </div>
