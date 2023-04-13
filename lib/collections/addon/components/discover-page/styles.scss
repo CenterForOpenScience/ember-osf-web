@@ -1,20 +1,66 @@
-/* Override styles in consuming application to change appearance of discover page  */
-
-/* Header panel  */
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
 .search-header {
     padding-top: 70px;
     background: #e0ebef url('img/search-bg.jpg') top center;
     background-size: cover;
     // background-position-y: -50px;
-}
 
-.share-logo {
-    width: 46px;
-    height: 22px;
-    background: url('img/share-logo-icon.png') no-repeat;
-    display: inline-block;
-    background-size: contain;
-    vertical-align: middle;
+    .branding-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+
+        .provider-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .provider-text-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+
+            .share-logo {
+                width: 46px;
+                height: 22px;
+                background: url('img/share-logo-icon.png') no-repeat;
+                display: inline-block;
+                background-size: contain;
+                vertical-align: middle;
+            }
+        }
+    }
+
+    .search-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+
+        .input {
+            width: calc(60% - 115px);
+        }
+
+        .lucene-button {
+            width: 40px;
+        }
+
+        .search-button {
+            width: 75px;
+        }
+    }
 }
 
 .sortByOptionList {
