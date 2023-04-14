@@ -108,6 +108,10 @@
     justify-content: flex-start;
     align-items: flex-start;
 
+    &.mobile {
+        flex-direction: column;
+    }
+
     .active-filter-container {
         width: calc(40% - 10px);
         margin-right: 10px;
