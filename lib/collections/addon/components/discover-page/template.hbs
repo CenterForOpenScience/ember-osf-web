@@ -134,7 +134,7 @@
     </div>
 </div>
 
-<div local-class='search-main-container' class='container'>
+<div local-class='search-main-container {{if this.isMobile 'mobile'}}' class='container'>
     {{!LEFT PANEL - SEARCH FACETS}}
     <div local-class='active-filter-container {{if this.isMobile 'mobile'}}'>
         {{#if this.showActiveFilters}}
