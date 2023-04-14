@@ -10,7 +10,7 @@
                     local-class='provider-container'
                 >
                     <div
-                        class='provider-brand'
+                        local-class='provider-brand'
                         id='provider-brand-background'
                     >
                     </div>
@@ -90,7 +90,7 @@
             {{/unless}}
         </div>
         {{#if (and this.theme.isProvider this.theme.provider.htmlSafeDescription)}}
-            <div local-class='ProviderDescription' class='row m-t-md m-b-lg'>
+            <div local-class='provider-description' class='row m-t-md m-b-lg'>
                 <div data-test-provider-description class='col-xs-12 col-sm-8 col-sm-offset-2'>
                     {{this.theme.provider.htmlSafeDescription}}
                 </div>
@@ -111,7 +111,7 @@
                     </span>
                 </dd.button>
                 <dd.menu
-                    local-class='sortByOptionList'
+                    local-class='sort-by-option-list'
                     @align='right'
                     as |ddm|
                 >
@@ -121,7 +121,7 @@
                                 data-test-sort-by-item={{sortChoice.sortBy}}
                                 type='button'
                                 class='btn btn-link'
-                                local-class='listOption'
+                                local-class='list-option'
                                 {{action this.selectSortOption sortChoice.sortBy}}
                             >
                                 {{sortChoice.display}}
@@ -134,86 +134,82 @@
     </div>
 </div>
 
-<div class='p-v-xl' local-class='search-main'>
-    <div class='container'>
-        <div class='row' local-class='search-results-section'>
-            {{!LEFT PANEL - SEARCH FACETS}}
-            <div class='col-sm-4 col-xs-12' local-class='search-sidebar'>
-                {{#if this.showActiveFilters}}
-                    <div id='activeFilters' class='well well-sm p-md'>
-                        <DiscoverPage::ActiveFilters
-                            @activeFilters={{this.activeFilters}}
-                            @facetContexts={{this.facetContexts}}
-                            @clearFilters={{action this.clearFilters}}
-                        />
-                    </div>
-                {{/if}}
-
-                {{!SEARCH FACETS}}
-                {{#if this.showActiveFilters}}
-                    <h4>{{t 'collections.discover_page.refineSearch'}}</h4>
-                {{/if}}
-
-                <DiscoverPage::Facets
-                    @facets={{this.facets}}
+<div local-class='search-main-container' class='container'>
+    {{!LEFT PANEL - SEARCH FACETS}}
+    <div local-class='active-filter-container {{if this.isMobile 'mobile'}}'>
+        {{#if this.showActiveFilters}}
+            <div id='activeFilters' class='well well-sm p-md'>
+                <DiscoverPage::ActiveFilters
+                    @activeFilters={{this.activeFilters}}
                     @facetContexts={{this.facetContexts}}
-                    @filterChanged={{action this.filterChanged}}
-                    @filterReplace={{this.filterReplace}}
+                    @clearFilters={{action this.clearFilters}}
                 />
             </div>
-            {{!RIGHT PANEL - SEARCH RESULTS}}
-            <div class='col-sm-8 col-xs-12'>
-                {{!SEARCH LOADING}}
-                {{#if this.loading}}
-                    <div
-                        class='text-center p-v-md'
-                        aria-label={{t 'collections.discover_page.searchLoading'}}
-                    >
-                        <FaIcon @icon='spinner' @pulse={{true}} @size='3x' />
-                    </div>
-                {{else}}
-                    {{#if this.numberOfResults}}
-                        {{!RESULTS FOUND}}
-                        <div>
-                            {{#each this.results as |result|}}
-                                {{component
-                                    this.searchResultComponent
-                                    result=result
-                                    currentService=this.currentService
-                                    facetContexts=this.facetContexts
-                                    filterChanged=(action this.filterChanged)
-                                }}
-                            {{/each}}
-                        </div>
-                        <div class='pull-right text-right'>
-                            <SearchPaginator
-                                @pageChanged={{action this.setLoadPage}}
-                                @current={{this.page}}
-                                @maximum={{this.clampedPages}}
-                            />
-                        </div>
-                    {{else if this.queryError}}
-                        {{!PROBLEM WITH SEARCH QUERY}}
-                        <QuerySyntax @message={{this.queryError}} />
-                    {{else if this.serverError}}
-                        <div class='text-center'>
-                            <p class='lead'>
-                                {{t 'collections.discover_page.searchUnavailable'}}
-                            </p>
-                        </div>
-                    {{else}}
-                        {{!NO RESULTS FOUND}}
-                        <div class='text-center'>
-                            <p class='lead'>
-                                {{t 'collections.discover_page.noResultsFound'}}
-                            </p>
-                            <p>
-                                {{t 'collections.discover_page.broadenSearch'}}
-                            </p>
-                        </div>
-                    {{/if}}
-                {{/if}}
+        {{/if}}
+
+        {{!SEARCH FACETS}}
+        {{#if this.showActiveFilters}}
+            <h4>{{t 'collections.discover_page.refineSearch'}}</h4>
+        {{/if}}
+
+        <DiscoverPage::Facets
+            @facets={{this.facets}}
+            @facetContexts={{this.facetContexts}}
+            @filterChanged={{action this.filterChanged}}
+            @filterReplace={{this.filterReplace}}
+        />
+    </div>
+    {{!RIGHT PANEL - SEARCH RESULTS}}
+    <div local-class='search-result-container {{if this.isMobile 'mobile'}}'>
+        {{!SEARCH LOADING}}
+        {{#if this.loading}}
+            <div
+                class='text-center p-v-md'
+                aria-label={{t 'collections.discover_page.searchLoading'}}
+            >
+                <FaIcon @icon='spinner' @pulse={{true}} @size='3x' />
             </div>
-        </div>
+        {{else}}
+            {{#if this.numberOfResults}}
+                {{!RESULTS FOUND}}
+                <div>
+                    {{#each this.results as |result|}}
+                        {{component
+                            this.searchResultComponent
+                            result=result
+                            currentService=this.currentService
+                            facetContexts=this.facetContexts
+                            filterChanged=(action this.filterChanged)
+                        }}
+                    {{/each}}
+                </div>
+                <div class='pull-right text-right'>
+                    <SearchPaginator
+                        @pageChanged={{action this.setLoadPage}}
+                        @current={{this.page}}
+                        @maximum={{this.clampedPages}}
+                    />
+                </div>
+            {{else if this.queryError}}
+                {{!PROBLEM WITH SEARCH QUERY}}
+                <QuerySyntax @message={{this.queryError}} />
+            {{else if this.serverError}}
+                <div class='text-center'>
+                    <p class='lead'>
+                        {{t 'collections.discover_page.searchUnavailable'}}
+                    </p>
+                </div>
+            {{else}}
+                {{!NO RESULTS FOUND}}
+                <div class='text-center'>
+                    <p class='lead'>
+                        {{t 'collections.discover_page.noResultsFound'}}
+                    </p>
+                    <p>
+                        {{t 'collections.discover_page.broadenSearch'}}
+                    </p>
+                </div>
+            {{/if}}
+        {{/if}}
     </div>
 </div>

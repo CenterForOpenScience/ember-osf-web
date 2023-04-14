@@ -5,6 +5,11 @@
     background-size: cover;
     // background-position-y: -50px;
 
+    .provider-brand {
+        height: 140px;
+        background-position-x: right;
+    }
+
     .branding-container {
         display: flex;
         flex-direction: column;
@@ -70,76 +75,60 @@
         width: 100%;
         margin-top: 10px;
         margin-bottom: 10px;
+
+        .sort-by-option-list {
+            background-color: #efefef;
+            left: auto;
+
+            li:hover {
+                background-color: #d9d9d9;
+            }
+
+            .list-option {
+                cursor: pointer;
+                color: #000;
+                text-decoration: none;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
     }
 }
 
-.sortByOptionList {
-    background-color: #efefef;
-    left: auto;
-
-    li:hover {
-        background-color: #d9d9d9;
-    }
-}
-
-.listOption {
-    cursor: pointer;
-    color: #000;
-    text-decoration: none;
-
-    &:focus {
-        outline: none;
-    }
-}
-
-.search-main {
+.search-main-container {
+    padding-top: 50px;
+    padding-bottom: 50px;
     background-color: #fbfbfb;
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #dedede;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-    .filter-heading {
-        background-color: #efefef;
-    }
+    .active-filter-container {
+        width: calc(40% - 10px);
+        margin-right: 10px;
 
-    label {
-        font-weight: normal;
-    }
-
-    .preprint-search-sidebar {
-        ul {
-            padding-left: 25px;
-        }
-
-        li {
-            list-style: none;
+        &.mobile {
+            width: 100%;
         }
     }
 
-    .search-result {
-        margin-bottom: 10px;
-        word-wrap: break-word;
-        word-break: break-word;
-        overflow-wrap: break-word;
-        box-shadow: 0 1px 2px #ddd;
-        border: 0;
+    .search-result-container {
+        width: calc(60% - 10px);
+        margin-left: 10px;
 
-        h4 {
-            font-weight: normal;
+        &.mobile {
+            width: 100%;
         }
     }
 }
 
-.pagination-format {
-    background-color: #fff;
-    border: 1px solid #ddd;
-}
 
-.provider-brand {
-    height: 140px;
-    background-position-x: right;
-}
-
-.ProviderDescription {
+.provider-description {
     position: relative;
     margin: 0 65px;
     padding-top: 10px;
