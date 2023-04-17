@@ -4,6 +4,7 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
+import { assertTooltipRendered, assertTooltipVisible } from 'ember-tooltips/test-support';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
@@ -156,9 +157,10 @@ module('Registries | Acceptance | overview.topbar', hooks => {
 
         // Bookmark registration
         await triggerEvent('[data-test-bookmarks-button]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
-            t('registries.overview.tooltips.bookmark').toString(),
-        );
+        assertTooltipRendered(assert);
+        assertTooltipVisible(assert);
+        assert.dom('[data-test-bookmark-tooltip]')
+            .containsText(t('registries.overview.tooltips.bookmark').toString());
 
         await click('[data-test-bookmarks-button]');
         assert.dom('[data-test-bookmarks-button] svg').hasClass('fa-bookmark');
@@ -168,9 +170,10 @@ module('Registries | Acceptance | overview.topbar', hooks => {
 
         // Remove from bookmarks
         await triggerEvent('[data-test-bookmarks-button]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
-            t('registries.overview.tooltips.remove_bookmark').toString(),
-        );
+        assertTooltipRendered(assert);
+        assertTooltipVisible(assert);
+        assert.dom('[data-test-bookmark-tooltip]')
+            .containsText(t('registries.overview.tooltips.remove_bookmark').toString());
 
         await click('[data-test-bookmarks-button]');
         assert.dom('[data-test-bookmarks-button] svg').hasClass('fa-bookmark');
@@ -189,7 +192,9 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.dom('[data-test-social-sharing-button]').isVisible();
 
         await triggerEvent('[data-test-social-sharing-button]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
+        assertTooltipRendered(assert);
+        assertTooltipVisible(assert);
+        assert.dom('[data-test-sharing-tooltip]').hasText(
             t('registries.overview.tooltips.share').toString(),
         );
 
@@ -212,7 +217,9 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.dom('[data-test-forks-dropdown-button]').isVisible();
 
         await triggerEvent('[data-test-forks-dropdown-button]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
+        assertTooltipRendered(assert);
+        assertTooltipVisible(assert);
+        assert.dom('[data-test-fork-tooltip]').hasText(
             t('registries.overview.tooltips.fork').toString(),
         );
 

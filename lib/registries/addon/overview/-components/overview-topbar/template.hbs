@@ -31,12 +31,9 @@
                     local-class='Icon'
                     @icon='code-branch'
                 />
-                <BsTooltip
-                    @placement='top'
-                    @triggerEvents='hover'
-                >
-                    {{t 'registries.overview.tooltips.fork'}}
-                </BsTooltip>
+                <EmberTooltip>
+                    <span data-test-fork-tooltip>{{t 'registries.overview.tooltips.fork'}}</span>
+                </EmberTooltip>
             </dd.trigger>
             <dd.content>
                 <div data-test-forks-dropdown-options local-class='ForksMenu'>
@@ -81,16 +78,15 @@
                 @icon='bookmark'
                 @prefix={{if this.isBookmarked 'fas' 'far'}}
             />
-            <BsTooltip
-                @placement='top'
-                @triggerEvents='hover'
-            >
-                {{#if this.isBookmarked}}
-                    {{t 'registries.overview.tooltips.remove_bookmark'}}
-                {{else}}
-                    {{t 'registries.overview.tooltips.bookmark'}}
-                {{/if}}
-            </BsTooltip>
+            <EmberTooltip>
+                <span data-test-bookmark-tooltip>
+                    {{#if this.isBookmarked}}
+                        {{t 'registries.overview.tooltips.remove_bookmark'}}
+                    {{else}}
+                        {{t 'registries.overview.tooltips.bookmark'}}
+                    {{/if}}
+                </span>
+            </EmberTooltip>
         </Button>
 
         <SharingIcons::Dropdown
@@ -111,12 +107,9 @@
                     local-class='Icon'
                     @icon='share-alt'
                 />
-                <BsTooltip
-                    @placement='top'
-                    @triggerEvents='hover'
-                >
-                    {{t 'registries.overview.tooltips.share'}}
-                </BsTooltip>
+                <EmberTooltip>
+                    <span data-test-sharing-tooltip>{{t 'registries.overview.tooltips.share'}}</span>
+                </EmberTooltip>
             </dd.trigger>
         </SharingIcons::Dropdown>
     </div>

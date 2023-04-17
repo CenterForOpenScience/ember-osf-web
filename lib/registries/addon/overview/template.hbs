@@ -73,8 +73,9 @@
                         />
                         {{#if this.showNewFeaturePopover}}
                             <NewFeaturePopover
-                                @triggerElement={{concat '#' id}}
+                                @triggerElement={{id}}
                                 @featureCookie={{this.newFeaturePopoverCookie}}
+                                @side='right'
                             >
                                 <:header>
                                     {{t 'general.newFeaturePopoverHeading'}}
@@ -106,13 +107,12 @@
                                                 @icon='globe'
                                             >
                                             </FaIcon>
-                                            <BsTooltip
-                                                @placement='right'
-                                                @triggerEvents='hover'
+                                            <EmberTooltip
+                                                @side='right'
                                             >
                                                 {{t 'osf-components.file-browser.storage_location'}}
                                                 {{this.registration.region.name}}
-                                            </BsTooltip>
+                                            </EmberTooltip>
                                         </span>
                                     {{/if}}
                                 </div>
