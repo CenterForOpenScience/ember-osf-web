@@ -1,12 +1,13 @@
-<BsModal
+<OsfDialog
     local-class='NewProject__modal'
-    @onHidden={{@closeModal}}
-    as |modal|
+    @isOpen={{@openModal}}
+    @onClose={{@closeModal}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h3 data-test-create-project-header class='modal-title'>{{t 'new_project.header'}}</h3>
-    </modal.header>
-    <modal.body data-analytics-scope='New project modal'>
+    </dialog.heading>
+    <dialog.main data-analytics-scope='New project modal'>
         <div class='text-left'>
             <div class='form-group m-v-sm'>
                 <label class='f-w-lg text-bigger' local-class='NewProject__label'>
@@ -133,12 +134,12 @@
                 </div>
             {{/if}}
         </div>
-    </modal.body>
-    <modal.footer data-analytics-scope='New project modal footer'>
+    </dialog.main>
+    <dialog.footer data-analytics-scope='New project modal footer'>
         <Button
             data-test-create-project-cancel
             data-analytics-name='cancel'
-            {{on 'click' (action modal.close)}}
+            {{on 'click' (action dialog.close)}}
         >
             {{t 'general.cancel'}}
         </Button>
@@ -151,5 +152,5 @@
         >
             {{t 'general.create'}}
         </Button>
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>

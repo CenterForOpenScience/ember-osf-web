@@ -43,34 +43,6 @@ h4:global(.NewRegistrationModal__header) {
     }
 }
 
-:global(.PreRegChallengeModal__title) {
-    text-align: center;
-}
-
-:global(.PreRegChallengeModal__notice) {
-    text-align: center;
-}
-
-:global(.PreRegChallengeModal__eligibility) {
-    font-weight: 600;
-}
-
-:global(.PreRegChallengeModal__info) {
-    strong {
-        font-weight: 600;
-    }
-}
-
-:global(.PreRegChallengeModal__list) {
-    strong {
-        font-weight: 600;
-    }
-}
-
-:global(.PreRegChallengeModal__consent) {
-    font-weight: normal;
-}
-
 .Tabs {
     /* stylelint-disable selector-no-qualifying-type */
     ul.TabList {

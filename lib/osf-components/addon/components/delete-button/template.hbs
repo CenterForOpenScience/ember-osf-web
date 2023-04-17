@@ -37,55 +37,54 @@
     </Button>
 {{/if}}
 
-{{#if this.modalShown}}
-    <BsModal
-        @tagName='span'
-        @onHide={{action this._cancel}}
-        as |modal|
-    >
-        <modal.header data-test-delete-modal-header>
-            <h3 local-class='Modal__title'>{{this.modalTitle}}</h3>
-        </modal.header>
 
-        <modal.body data-test-delete-modal-body data-analytics-scope='Delete button modal'>
-            {{#if (has-block)}}
-                {{yield}}
-            {{else}}
-                <p>{{this.modalBody}}</p>
-            {{/if}}
+<OsfDialog
+    @isOpen={{this.modalShown}}
+    @onClose={{action this._cancel}}
+    as |dialog|
+>
+    <dialog.heading data-test-delete-modal-header>
+        <h3 local-class='Modal__title'>{{this.modalTitle}}</h3>
+    </dialog.heading>
 
-            {{#if this.hardConfirm}}
-                <label local-class='Modal__confirmBlock' data-test-confirm-scientist-name>
-                    <p local-class='Modal__confirmPrompt'>
-                        {{t 'osf-components.delete-button.hardConfirm' text=this.scientistName htmlSafe=true}}
-                    </p>
-                    <Input
-                        local-class='DeleteModal__input'
-                        @class='form-control'
-                        @value={{this.scientistInput}}
-                    />
-                </label>
-            {{/if}}
-        </modal.body>
+    <dialog.main data-test-delete-modal-body data-analytics-scope='Delete button modal'>
+        {{#if (has-block)}}
+            {{yield}}
+        {{else}}
+            <p>{{this.modalBody}}</p>
+        {{/if}}
 
-        <modal.footer data-test-delete-modal-footer data-analytics-scope='Delete button modal footer'>
-            <Button
-                data-analytics-name='Hard confirm cancel'
-                data-test-cancel-delete
-                disabled={{this._deleteTask.isRunning}}
-                {{on 'click' modal.close}}
-            >
-                {{this.cancelButtonText}}
-            </Button>
-            <Button
-                data-analytics-name='Hard confirm submit'
-                data-test-confirm-delete
-                disabled={{this.confirmDisabled}}
-                @type='destroy'
-                {{on 'click' (perform this._deleteTask)}}
-            >
-                {{this.confirmButtonText}}
-            </Button>
-        </modal.footer>
-    </BsModal>
-{{/if}}
+        {{#if this.hardConfirm}}
+            <label local-class='Modal__confirmBlock' data-test-confirm-scientist-name>
+                <p local-class='Modal__confirmPrompt'>
+                    {{t 'osf-components.delete-button.hardConfirm' text=this.scientistName htmlSafe=true}}
+                </p>
+                <Input
+                    local-class='DeleteModal__input'
+                    @class='form-control'
+                    @value={{this.scientistInput}}
+                />
+            </label>
+        {{/if}}
+    </dialog.main>
+
+    <dialog.footer data-test-delete-modal-footer data-analytics-scope='Delete button modal footer'>
+        <Button
+            data-analytics-name='Hard confirm cancel'
+            data-test-cancel-delete
+            disabled={{this._deleteTask.isRunning}}
+            {{on 'click' dialog.close}}
+        >
+            {{this.cancelButtonText}}
+        </Button>
+        <Button
+            data-analytics-name='Hard confirm submit'
+            data-test-confirm-delete
+            disabled={{this.confirmDisabled}}
+            @type='destroy'
+            {{on 'click' (perform this._deleteTask)}}
+        >
+            {{this.confirmButtonText}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

@@ -24,18 +24,8 @@ export default class GuidNodeRegistrations extends Controller {
     selectedSchema!: RegistrationSchema;
     schemas: RegistrationSchema[] = [];
     newModalOpen = false;
-    preregModalOpen = false;
-    preregConsented = false;
 
     reloadDrafts?: (page?: number) => void; // bound by paginated-list
-
-    preregLinks = {
-        approvedJournal: 'http://cos.io/our-services/prereg-more-information/',
-        learnMore: 'https://cos.io/prereg',
-        eligibleJournal: 'https://cos.io/preregjournals',
-        embargoedCountries: 'https://www.pmddtc.state.gov/?id=ddtc_public_portal_country_landing',
-        terms: 'https://osf.io/4uxbj/',
-    };
 
     @alias('model.taskInstance.value') node!: Node | null;
 
@@ -73,20 +63,6 @@ export default class GuidNodeRegistrations extends Controller {
     }
 
     @action
-    togglePreregConsent() {
-        this.toggleProperty('preregConsented');
-        if (this.preregConsented) {
-            this.analytics.click('checkbox', 'Registrations tab - Consent to Prereg Challenge ');
-        }
-    }
-
-    @action
-    closePreregModal() {
-        this.set('preregModalOpen', false);
-        this.set('selectedSchema', this.defaultSchema);
-    }
-
-    @action
     schemaChanged(schema: RegistrationSchema) {
         this.set('selectedSchema', schema);
         this.analytics.click('radio', `Registrations tab - Select schema: ${schema.name}`);
@@ -97,12 +73,6 @@ export default class GuidNodeRegistrations extends Controller {
         const branchedFrom = this.node!;
         assert('Check that the node exists', Boolean(branchedFrom));
 
-        if (this.selectedSchema.name === 'Prereg Challenge' && this.newModalOpen) {
-            this.set('newModalOpen', false);
-            this.set('preregConsented', false);
-            this.set('preregModalOpen', true);
-            return;
-        }
         const draftRegistration = this.store.createRecord('draft-registration', {
             registrationSupplement: this.selectedSchema.id,
             branchedFrom,

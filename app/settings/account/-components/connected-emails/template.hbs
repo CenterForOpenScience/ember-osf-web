@@ -104,19 +104,18 @@
                                     >
                                         {{t 'settings.account.connected_emails.resend_confirmation'}}
                                     </Button>
-                                    <BsModal
-                                        @open={{this.showMergeModal}}
-                                        @tagName='span'
-                                        @onHide={{action this.toggleMergeModal}}
-                                        as |modal|
+                                    <OsfDialog
+                                        @isOpen={{this.showMergeModal}}
+                                        @onClose={{action this.toggleMergeModal}}
+                                        as |dialog|
                                     >
-                                        <modal.header>
+                                        <dialog.heading>
                                             <h3 class='modal-title'>
                                                 {{t 'settings.account.connected_emails.resend_confirmation_modal.title'}}
                                             </h3>
-                                        </modal.header>
+                                        </dialog.heading>
 
-                                        <modal.body>
+                                        <dialog.main>
                                             <p>
                                                 {{t
                                                     'settings.account.connected_emails.resend_confirmation_modal.body'
@@ -124,9 +123,9 @@
                                                     htmlSafe=true
                                                 }}
                                             </p>
-                                        </modal.body>
+                                        </dialog.main>
 
-                                        <modal.footer
+                                        <dialog.footer
                                             data-analytics-scope='Merge modal'
                                         >
                                             <Button
@@ -144,8 +143,8 @@
                                             >
                                                 {{t 'settings.account.connected_emails.resend_confirmation_modal.resend_button'}}
                                             </Button>
-                                        </modal.footer>
-                                    </BsModal>
+                                        </dialog.footer>
+                                    </OsfDialog>
                                     <DeleteButton
                                         @small={{true}}
                                         @delete={{action this.removeEmail email}}
@@ -197,25 +196,24 @@
                     {{t 'settings.account.connected_emails.add_email'}}
                 </Button>
             </FormControls>
-            <BsModal
-                @open={{this.showAddModal}}
-                @tagName='span'
-                @onHide={{action this.toggleAddModal}}
-                as |modal|
+            <OsfDialog
+                @isOpen={{this.showAddModal}}
+                @onClose={{action this.toggleAddModal}}
+                as |dialog|
             >
-                <modal.header>
+                <dialog.heading>
                     <h3 class='modal-title'>
                         {{t 'settings.account.connected_emails.add_email_modal.title'}}
                     </h3>
-                </modal.header>
+                </dialog.heading>
 
-                <modal.body>
+                <dialog.main>
                     <p>
                         {{t 'settings.account.connected_emails.add_email_modal.body' emailAddress=this.lastUserEmail htmlSafe=true}}
                     </p>
-                </modal.body>
+                </dialog.main>
 
-                <modal.footer
+                <dialog.footer
                     data-analytics-scope='Add email modal'
                 >
                     <Button
@@ -225,8 +223,8 @@
                     >
                         {{t 'general.close'}}
                     </Button>
-                </modal.footer>
-            </BsModal>
+                </dialog.footer>
+            </OsfDialog>
         </div>
     </panel.body>
 </Panel>

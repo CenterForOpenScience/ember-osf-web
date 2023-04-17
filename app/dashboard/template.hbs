@@ -1,19 +1,18 @@
 {{page-title (t 'dashboard.page_title')}}
 <div data-analytics-scope='Dashboard'>
     {{#if this.modalOpen}}
-        {{#if this.showNewNodeNavigation}}
-            <NewProjectNavigationModal
-                @node={{this.newNode}}
-                @closeModal={{action this.closeModal}}
-                @title={{t 'new_project.success_message'}}
-                @afterStayHere={{action this.afterStay}}
-            />
-        {{else}}
-            <NewProjectModal
-                @afterProjectCreated={{action this.projectCreated}}
-                @closeModal={{action this.closeModal}}
-            />
-        {{/if}}
+        <NewProjectNavigationModal
+            @openModal={{and this.modalOpen this.showNewNodeNavigation}}
+            @node={{this.newNode}}
+            @closeModal={{action this.closeModal}}
+            @title={{t 'new_project.success_message'}}
+            @afterStayHere={{action this.afterStay}}
+        />
+        <NewProjectModal
+            @openModal={{and this.modalOpen (not this.showNewNodeNavigation)}}
+            @afterProjectCreated={{perform this.projectCreated}}
+            @closeModal={{action this.closeModal}}
+        />
     {{/if}}
     <ScheduledBanner />
     <div local-class='quickSearch'>
@@ -30,7 +29,7 @@
                                         data-analytics-name='create_new_project'
                                         class='m-t-md f-w-xl'
                                         {{on 'click' (action this.openModal)}}
-                                        @type='success'
+                                        @type='create'
                                     >
                                         {{t 'dashboard.create_new_project_button'}}
                                     </Button>

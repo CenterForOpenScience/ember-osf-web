@@ -100,18 +100,16 @@
                 >
                     {{t 'node.registrations.new'}}
                 </Button>
-                <BsModal
+                <OsfDialog
                     data-test-new-registration-modal
-                    @size='lg'
-                    @open={{this.newModalOpen}}
-                    @onSubmit={{action this.createDraft}}
-                    @onHidden={{action this.closeNewModal}}
-                    as |modal|
+                    @isOpen={{this.newModalOpen}}
+                    @onClose={{action this.closeNewModal}}
+                    as |dialog|
                 >
-                    <modal.header data-test-new-registration-modal-header>
+                    <dialog.heading data-test-new-registration-modal-header>
                         <h4 class='NewRegistrationModal__header'>{{t 'node.registrations.new_registration_modal.title'}}</h4>
-                    </modal.header>
-                    <modal.body data-test-new-registration-modal-body data-analytics-scope='Node - Registrations - New registration modal'>
+                    </dialog.heading>
+                    <dialog.main data-test-new-registration-modal-body data-analytics-scope='Node - Registrations - New registration modal'>
                         <p class='NewRegistrationModal__info'>{{t 'node.registrations.new_registration_modal.info' htmlSafe=true}}</p>
                         <div class='NewRegistrationModal__schema-list'>
                             {{#if this.getRegistrationSchemas.isRunning}}
@@ -142,100 +140,28 @@
                                 </ul>
                             {{/if}}
                         </div>
-                    </modal.body>
-                    <modal.footer
+                    </dialog.main>
+                    <dialog.footer
                         data-test-new-registration-modal-footer
                         data-analytics-scope='Node - Registrations - New registration modal footer'
                     >
                         <Button
                             data-test-new-registration-modal-cancel-button
                             data-analytics-name='Close new registration modal'
-                            {{on 'click' (action modal.close)}}
+                            {{on 'click' (action dialog.close)}}
                         >
                             {{t 'general.cancel'}}
                         </Button>
                         <Button
                             data-test-new-registration-modal-create-draft-button
                             data-analytics-name='Create draft'
-                            {{on 'click' (action modal.submit)}}
-                            @type='secondary'
+                            {{on 'click' (action this.createDraft)}}
+                            @type='create'
                         >
                             {{t 'node.registrations.new_registration_modal.create'}}
                         </Button>
-                    </modal.footer>
-                </BsModal>
-                <BsModal
-                    data-test-prereg-challenge-modal
-                    @size='lg'
-                    @open={{this.preregModalOpen}}
-                    @onSubmit={{action this.createDraft}}
-                    @onHidden={{action this.closePreregModal}}
-                    as |modal|
-                >
-                    <modal.header data-test-prereg-challenge-modal-header>
-                        <h3 class='PreRegChallengeModal__title'>{{t 'node.registrations.prereg_modal.title'}}</h3>
-                    </modal.header>
-                    <modal.body data-test-prereg-challenge-modal-body>
-                        <h2 class='PreRegChallengeModal__notice'>{{t 'node.registrations.prereg_modal.notice'}}</h2>
-                        <div class='row m-t-xl'>
-                            <div class='col-lg-10 col-lg-offset-1'>
-                                <p class='PreRegChallengeModal__eligibility'>
-                                    {{t 'node.registrations.prereg_modal.eligibility'
-                                        approvedJournalLink=this.preregLinks.approvedJournal
-                                        htmlSafe=true
-                                    }}
-                                </p>
-                                <p class='PreRegChallengeModal__info'>
-                                    {{t 'node.registrations.prereg_modal.info'
-                                        learnMoreLink=this.preregLinks.learnMore
-                                        htmlSafe=true
-                                    }}
-                                </p>
-                                <ol class='PreRegChallengeModal__list'>
-                                    {{t
-                                        'node.registrations.prereg_modal.list'
-                                        eligibleJournalLink=this.preregLinks.eligibleJournal
-                                        embargoedCountriesLink=this.preregLinks.embargoedCountries
-                                        termsLink=this.preregLinks.terms
-                                        htmlSafe=true
-                                    }}
-                                </ol>
-                                <label data-test-prereg-challenge-modal-consent-checkbox class='PreRegChallengeModal__consent'>
-                                    <Input
-                                        @type='checkbox'
-                                        @change={{action this.togglePreregConsent}}
-                                    />
-                                    {{t 'node.registrations.prereg_modal.consent'}}
-                                </label>
-                            </div>
-                        </div>
-                    </modal.body>
-                    <modal.footer
-                        data-test-prereg-challenge-modal-footer
-                        data-analytics-scope='Node - Registrations - Prereg Challenge modal footer'
-                    >
-                        <div class='row'>
-                            <div class='col-lg-10 col-lg-offset-1'>
-                                <Button
-                                    data-test-prereg-challenge-modal-cancel-button
-                                    data-analytics-name='Close Prereg Challenge modal'
-                                    {{on 'click' (action modal.close)}}
-                                >
-                                    {{t 'general.cancel'}}
-                                </Button>
-                                <Button
-                                    data-test-prereg-challenge-modal-continue-button
-                                    data-analytics-name='Continue'
-                                    disabled={{not this.preregConsented}}
-                                    {{on 'click' (action modal.submit)}}
-                                    @type='secondary'
-                                >
-                                    {{t 'node.registrations.prereg_modal.continue'}}
-                                </Button>
-                            </div>
-                        </div>
-                    </modal.footer>
-                </BsModal>
+                    </dialog.footer>
+                </OsfDialog>
             </div>
         {{/if}}
     </div>
