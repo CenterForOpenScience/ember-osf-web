@@ -18,15 +18,18 @@ import Ready from 'ember-osf-web/services/ready';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
+import ScriptTags from 'ember-osf-web/services/script-tags';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service router!: RouterService;
     @service metaTags!: MetaTags;
+    @service scriptTags!: ScriptTags;
     @service ready!: Ready;
 
     headTags?: HeadTagDef[];
+    structuredData?: object = {};
 
     @restartableTask({ cancelOn: 'deactivate' })
     @waitFor
@@ -56,6 +59,8 @@ export default class Overview extends GuidRoute {
                 registration.provider,
             ]);
 
+            const id = registration.id;
+
             const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
@@ -76,17 +81,39 @@ export default class Overview extends GuidRoute {
                 ),
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
-            const headTags = [...this.metaTags.getHeadTags(metaTagsData)];
-            if (provider && provider.assets && provider.assets.favicon) {
-                headTags.push({
-                    type: 'link',
-                    attrs: {
-                        rel: 'icon',
-                        href: provider.assets.favicon,
-                    },
-                });
+
+            const jsonLD: any = await this.scriptTags.returnStructuredData(id);
+
+            if (jsonLD) {
+                this.set('structuredData', jsonLD);
             }
-            this.set('headTags', headTags);
+
+            const jsonString: string = this.structuredData ?
+                JSON.stringify(this.structuredData) : JSON.stringify({ isAccessibleForFree : true });
+
+            const scriptTagData = {
+                type: 'application/ld+json',
+                src: `/${id}/metadata/?format=google-dataset-json-ld`,
+                content: jsonString,
+            };
+
+            const metaTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
+            const scriptTag: HeadTagDef[] = this.scriptTags.getHeadTags(scriptTagData);
+            const allTags: HeadTagDef[] = metaTags.concat(scriptTag);
+
+            if (!this.currentUser.viewOnlyToken) {
+                if (provider && provider.assets && provider.assets.favicon) {
+                    allTags.push({
+                        type: 'link',
+                        attrs: {
+                            rel: 'icon',
+                            href: provider.assets.favicon,
+                        },
+                    });
+                }
+            }
+
+            this.set('headTags', allTags);
             this.metaTags.updateHeadTags();
         }
 
@@ -113,9 +140,8 @@ export default class Overview extends GuidRoute {
     afterModel(model: GuidRouteModel<Registration>) {
         // Do not return model.taskInstance
         // as it would block rendering until model.taskInstance resolves and `setHeadTags` task terminates.
-        if (!this.currentUser.viewOnlyToken) {
-            taskFor(this.setHeadTags).perform(model);
-        }
+        taskFor(this.setHeadTags).perform(model);
+
     }
 
     @action

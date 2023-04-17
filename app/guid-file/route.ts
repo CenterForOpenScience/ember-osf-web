@@ -9,6 +9,7 @@ import moment from 'moment';
 
 import Institution from 'ember-osf-web/models/institution';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
+import ScriptTags from 'ember-osf-web/services/script-tags';
 import Ready from 'ember-osf-web/services/ready';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import BitbucketFile from 'ember-osf-web/packages/files/bitbucket-file';
@@ -26,10 +27,6 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
 import RouterService from '@ember/routing/router-service';
-import config from 'ember-get-config';
-import { assert } from '@ember/debug';
-import getHref from 'ember-osf-web/utils/get-href';
-import ScriptTags from 'ember-osf-web/services/script-tags';
 
 export default class GuidFile extends Route {
     @service('head-tags') headTagsService!: HeadTagsService;
@@ -42,7 +39,7 @@ export default class GuidFile extends Route {
 
     headTags?: HeadTagDef[];
     metadata!: CustomFileMetadataRecordModel;
-    structuredData?: string;
+    structuredData?: object = {};
 
     @task
     @waitFor
@@ -64,10 +61,8 @@ export default class GuidFile extends Route {
         };
 
         // Google Structured Data
-        const { environment } = config;
-        const parentGuid = Object.values(model.links['relationships']['target']['data']);
-        const parentGuidString: string = parentGuid[1] as string;
-        const jsonLD: Promise<{}> = await this.returnStructuredData(parentGuidString, environment);
+        const parentId: string = await model.target.get('id');
+        const jsonLD: any = await this.scriptTags.returnStructuredData(parentId);
 
         if (jsonLD) {
             this.set('structuredData', jsonLD);
@@ -76,18 +71,18 @@ export default class GuidFile extends Route {
         const jsonString: string = this.structuredData ?
             JSON.stringify(this.structuredData) : JSON.stringify({ isAccessibleForFree : true });
 
-        const scriptTagsData = {
+        const scriptTagData = {
             type: 'application/ld+json',
-            src: `osf.io/${parentGuidString}/metadata/?format=google-dataset-json-ld`,
+            src: `/${parentId}/metadata/?format=google-dataset-json-ld`,
             content: jsonString,
         };
 
         const metaTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
-        const scriptTags: HeadTagDef[] = this.scriptTags.getHeadTags(scriptTagsData);
-        const allTags: HeadTagDef[] = metaTags.concat(scriptTags);
+        const scriptTag: HeadTagDef[] = this.scriptTags.getHeadTags(scriptTagData);
+        const allTags: HeadTagDef[] = metaTags.concat(scriptTag);
 
         // Concatenate meta and script tags if both, only meta tags or none
-        if (metaTags && scriptTags) {
+        if (metaTags && scriptTag) {
             this.set('headTags', allTags);
         } else if (metaTags) {
             this.set('headTags', metaTags);
@@ -95,57 +90,6 @@ export default class GuidFile extends Route {
         // Rebuild head tags and clear blocker
         this.headTagsService.collectHeadTags();
         blocker.done();
-    }
-
-    async returnStructuredData(parentGuid: string,  environment: string): Promise<any> {
-        const url = `/${parentGuid}/metadata/?format=google-dataset-json-ld`;
-        let jsonLD: object = {};
-
-        if (environment === 'production') {
-            assert(`Currently on ${environment}`, Boolean('production'));
-        } else if (environment === 'staging' || environment === 'staging2' || environment === 'staging3') {
-            if (environment === 'staging') {
-                assert(`Currently on ${environment}`, Boolean('staging'));
-            } else if (environment === 'staging2') {
-                assert(`Currently on ${environment}`, Boolean('staging2'));
-            } else if (environment === 'staging3') {
-                assert(`Currently on ${environment}`, Boolean('staging3'));
-            }
-        } else if (environment === 'development') {
-            assert(`Currently on ${environment}`, Boolean('development'));
-        } else if (environment === 'test') {
-            assert(`Currently on ${environment}`, Boolean('test'));
-        } else {
-            throw new Error(this.intl.t('general.structured_data.environment_error'));
-        }
-
-        // Override url
-        config.OSF.url.replace(/\/$/, url);
-
-        let jsonFetch : object | void;
-        try {
-            jsonFetch = await this.returnJSON(url);
-
-            if (jsonFetch && (typeof(jsonFetch) === 'object')) {
-                jsonLD = jsonFetch;
-                const JSONLDString = JSON.stringify(jsonLD);
-                this.set('structuredData', JSONLDString);
-            }
-            return jsonLD;
-        } catch (e) {
-            throw new Error(this.intl.t('general.structured_data.json_ld_retrieval_error'));
-        }
-    }
-
-    async returnJSON(url: string) {
-        const ajax = await this.currentUser.authenticatedAJAX({
-            method: 'GET',
-            url: getHref(url),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        return ajax;
     }
 
     async model(params: { guid: string }) {

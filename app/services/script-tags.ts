@@ -1,12 +1,11 @@
 /* eslint-disable no-mixed-spaces-and-tabs*/
-
 import Service, { inject as service } from '@ember/service';
-
-import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
+import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
-
 import identifier from 'ember-osf-web/mirage/factories/identifier';
+import CurrentUserService from 'ember-osf-web/services/current-user';
 import { MetaTagAttrs } from 'ember-osf-web/services/meta-tags';
+import getHref from 'ember-osf-web/utils/get-href';
 
 export type Content = object | string | String | number | null | undefined;
 
@@ -59,7 +58,36 @@ export interface HeadTagDef {
 export default class ScriptTags extends Service {
     @service intl!: Intl;
     @service router!: any;
-    @service headTags!: HeadTagsService;
+    @service currentUser!: CurrentUserService;
+
+    async returnStructuredData(guid: string): Promise<any> {
+        const url = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
+        let jsonLD: object = {}; // TODO add default FE structure here
+
+        let jsonFetch : object | void;
+
+        try {
+            jsonFetch = await this.returnJSON(url);
+
+            if (jsonFetch && (typeof(jsonFetch) === 'object')) {
+                jsonLD = jsonFetch;
+            }
+        } catch (e) {
+            throw new Error(this.intl.t('general.structured_data.json_ld_retrieval_error'));
+        }
+        return jsonLD;
+    }
+
+    async returnJSON(url: string) {
+        const ajax = await this.currentUser.authenticatedAJAX({
+            method: 'GET',
+            url: getHref(url),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return ajax;
+    }
 
     getScriptTagAttributes(scriptTagsOverrides: ScriptTagsData): ScriptTagDef {
         // Default values
@@ -67,7 +95,8 @@ export default class ScriptTags extends Service {
             type: scriptTagsOverrides.type ?
                 scriptTagsOverrides.type : 'application/ld+json',
             src: scriptTagsOverrides.src ?
-                scriptTagsOverrides.src : `osf.io/${identifier}/metadata/?format=google-dataset-json-ld`,
+                scriptTagsOverrides.src :
+                `${config.OSF.url}.osf.io/${identifier}/metadata/?format=google-dataset-json-ld`,
             content: scriptTagsOverrides.content ?
                 scriptTagsOverrides.content : { isAccessibleForFree: true },
             ...scriptTagsOverrides,
@@ -99,15 +128,6 @@ export default class ScriptTags extends Service {
 
     makeScriptTagAttrs(src: Content, type: Content) {
         return { src, type };
-    }
-
-    updateHeadTags() {
-        this.headTags.collectHeadTags();
-        const ev = new Event('ZoteroItemUpdated', {
-            bubbles: true,
-            cancelable: true,
-        });
-        document.dispatchEvent(ev);
     }
 }
 
