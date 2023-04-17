@@ -1,6 +1,6 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
+import ShareSerializer from './share-serializer';
 
-export default class SearchResultSerializer extends JSONAPISerializer {
+export default class SearchResultSerializer extends ShareSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {

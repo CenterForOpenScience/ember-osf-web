@@ -1,6 +1,5 @@
-import JSONAPIAdapter from '@ember-data/adapter/json-api';
-// May need custom adapter superclass for share-search
-export default class MetadataRecordSearchAdapter extends JSONAPIAdapter {
+import ShareAdapter from './share-adapter';
+export default class MetadataRecordSearchAdapter extends ShareAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
