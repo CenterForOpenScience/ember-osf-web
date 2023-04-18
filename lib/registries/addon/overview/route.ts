@@ -35,7 +35,6 @@ export default class Overview extends GuidRoute {
     @waitFor
     async setHeadTags(model: GuidRouteModel<Registration>) {
         const blocker = this.ready.getBlocker();
-
         const registration = await model.taskInstance;
 
         if (registration) {
@@ -60,7 +59,6 @@ export default class Overview extends GuidRoute {
             ]);
 
             const id = registration.id;
-
             const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
@@ -112,11 +110,9 @@ export default class Overview extends GuidRoute {
                     });
                 }
             }
-
             this.set('headTags', allTags);
             this.metaTags.updateHeadTags();
         }
-
         blocker.done();
     }
 
@@ -141,7 +137,6 @@ export default class Overview extends GuidRoute {
         // Do not return model.taskInstance
         // as it would block rendering until model.taskInstance resolves and `setHeadTags` task terminates.
         taskFor(this.setHeadTags).perform(model);
-
     }
 
     @action
