@@ -48,12 +48,12 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     const filesNode = server.create('node', {
         id: 'file5',
         title: 'With some files',
-        currentUserPermissions: [Permission.Read, Permission.Write],
+        currentUserPermissions: [Permission.Read, Permission.Write, Permission.Admin],
     }, 'withFiles', 'withStorage', 'withContributors', 'withAffiliatedInstitutions', 'withDoi');
     server.create('contributor', {
         node: filesNode,
         users: currentUser,
-        permission: Permission.Write,
+        permission: Permission.Admin,
         index: 0,
     });
 

@@ -59,7 +59,9 @@
     "ember-element-helper": "^0.6.1",
     "ember-validators": "^4.1.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ember-tooltips": "^3.6.0"
+  },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "3.0.0",
     "@ember-intl/cp-validations": "^4.0.1",

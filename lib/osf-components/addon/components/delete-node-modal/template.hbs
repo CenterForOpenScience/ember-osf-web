@@ -1,13 +1,12 @@
-<BsModal
-    @open={{if @openModal true false}}
-    @onSubmit={{action @delete}}
-    @onHidden={{action @closeModal}}
-    as |modal|
+<OsfDialog
+    @isOpen={{@openModal}}
+    @onClose={{action @closeModal}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h3 data-test-delete-warning>{{t 'delete_modal.title' nodeType=(t this.nodeTypeKey)}}</h3>
-    </modal.header>
-    <modal.body>
+    </dialog.heading>
+    <dialog.main>
         <p>{{t 'delete_modal.body' nodeType=(t this.nodeTypeKey)}}</p>
         <label local-class='DeleteModal__label-wrap'>
             <p local-class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{this.scientistName}}</strong></p>
@@ -17,21 +16,21 @@
                 @value={{this.scientistInput}}
             />
         </label>
-    </modal.body>
-    <modal.footer data-analytics-scope='Delete node modal'>
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Delete node modal'>
         <Button
             data-analytics-name='Cancel'
-            {{on 'click' (action modal.close)}}
+            {{on 'click' (action dialog.close)}}
         >
             {{t 'general.cancel'}}
         </Button>
         <Button
             data-analytics-name='Delete Fork'
             disabled={{not (eq this.scientistInput this.scientistName)}}
-            {{on 'click' (action modal.submit)}}
+            {{on 'click' (action @delete)}}
             @type='destroy'
         >
             {{t 'general.delete'}}
         </Button>
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>

@@ -1,15 +1,14 @@
-<BsModal
-    @open={{@openModal}}
-    @onSubmit={{if @showResubmitModal (action @resubmitToCollection this.removeReason) (action @addToCollection)}}
-    @onHidden={{action @cancel}}
-    as |modal|
+<OsfDialog
+    @isOpen={{@openModal}}
+    @onClose={{action @cancel}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h3 data-test-collection-submission-confirmation-modal-header>
             {{t 'collections.collection_submission_confirmation_modal.header'}}
         </h3>
-    </modal.header>
-    <modal.body>
+    </dialog.heading>
+    <dialog.main>
         {{#if @showResubmitModal}}
             <p data-test-collection-submission-confirmation-modal-resubmit>
                 {{t 'collections.collection_submission_confirmation_modal.body_resubmit'}}
@@ -32,12 +31,12 @@
                 </p>
             {{/if}}
         {{/if}}
-    </modal.body>
-    <modal.footer data-analytics-scope='Collection - Submit'>
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Collection - Submit'>
         <Button
             data-test-collection-submission-confirmation-modal-cancel-button
             data-analytics-name='Cancel submission'
-            {{on 'click' (action modal.close)}}
+            {{on 'click' (action dialog.close)}}
         >
             {{t 'general.cancel'}}
         </Button>
@@ -45,7 +44,7 @@
             <Button
                 data-test-collection-submission-confirmation-modal-resubmit-button
                 data-analytics-name='Confirm submission'
-                {{on 'click' (action modal.submit)}}
+                {{on 'click' (action @resubmitToCollection this.removeReason)}}
                 @type='create'
             >
                 {{t 'collections.collection_submission_confirmation_modal.resubmit'}}
@@ -54,11 +53,11 @@
             <Button
                 data-test-collection-submission-confirmation-modal-add-button
                 data-analytics-name='Confirm submission'
-                {{on 'click' (action modal.submit)}}
+                {{on 'click' (action @addToCollection)}}
                 @type='create'
             >
                 {{t 'collections.collection_submission_confirmation_modal.add_button'}}
             </Button>
         {{/if}}
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>

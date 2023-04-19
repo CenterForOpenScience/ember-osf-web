@@ -38,9 +38,13 @@
                 <div>
                     {{#if this.comment.modified}}
                         <span local-class='dateModified'>
-                            {{#bs-tooltip local-class='Tooltip' placement='left' viewportSelector=(concat '#' this.elementId)}}
+                            <EmberTooltip
+                                local-class='Tooltip'
+                                @side='left'
+                                @targetId={{this.elementId}}
+                            >
                                 {{t 'registries.overview.comments.modified'}}{{this.dateModified}}
-                            {{/bs-tooltip}}
+                            </EmberTooltip>
                             <sup><FaIcon @icon='asterisk' /></sup>
                         </span>
                     {{/if}}

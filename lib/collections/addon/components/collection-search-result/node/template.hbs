@@ -2,21 +2,19 @@
     data-test-collection-search-result-node={{this.item.id}}
     data-analytics-scope={{concat 'Collections search results - ' this.theme.id}}
     class='row'
+    local-class='node-container'
 >
-    <div class='col-xs-12'>
-        {{!Title}}
-        <h4>
-            <OsfLink
-                data-test-collection-search-result-node-title
-                @href={{this.item.links.html}}
-                data-analytics-name='Result Title'
-            >
-                {{this.item.title}}
-            </OsfLink>
-        </h4>
-    </div>
+    <h4>
+        <OsfLink
+            data-test-collection-search-result-node-title
+            @href={{this.item.links.html}}
+            data-analytics-name='Result Title'
+        >
+            {{this.item.title}}
+        </OsfLink>
+    </h4>
 
-    <div class='col-xs-12'>
+    <div>
         <ContributorList @model={{this.item}} />
 
         {{!Description}}

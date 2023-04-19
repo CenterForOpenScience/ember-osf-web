@@ -45,7 +45,7 @@ module('Acceptance | view-only-links', hooks => {
         );
 
         for (const request of otherRequests) {
-            assert.equal(request.queryParams.view_only, viewOnlyToken, 'VOL token passed to API');
+            assert.equal(request.queryParams.view_only, viewOnlyToken, `VOL token passed to API - ${request.url}`);
         }
 
         const anchors = document.querySelectorAll('[data-test-application] a[href]');

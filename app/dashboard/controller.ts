@@ -155,9 +155,12 @@ export default class Dashboard extends Controller {
         taskFor(this.findNodes).perform();
     }
 
-    @action
-    projectCreated(newNode: Node) {
+    @task
+    async projectCreated(newNode: Node) {
+        this.set('modalOpen', false);
+        await timeout(1);
         this.set('newNode', newNode);
         this.set('showNewNodeNavigation', true);
+        this.set('modalOpen', true);
     }
 }

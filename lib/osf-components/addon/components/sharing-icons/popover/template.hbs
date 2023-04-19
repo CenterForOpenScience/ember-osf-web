@@ -8,12 +8,10 @@
     ...attributes
 >
     <FaIcon @icon='share-alt' />
-    <BsPopover
+    <EmberPopover
         local-class='Popover'
-        @placement='left'
-        @viewportSelector='#{{@parentId}}'
-        @autoPlacement={{true}}
-        @renderInPlace={{true}}
+        @side='left'
+        @popperContainer='#{{@parentId}}'
     >
         <SharingIcons
             @title={{@title}}
@@ -23,5 +21,5 @@
             @parentId={{@parentId}}
             @showText={{@showText}}
         />
-    </BsPopover>
+    </EmberPopover>
 </button>

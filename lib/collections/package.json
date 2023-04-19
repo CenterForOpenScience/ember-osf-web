@@ -33,6 +33,7 @@
     "ember-cli-string-helpers": "*",
     "ember-tag-input": "*",
     "ember-toastr": "*",
+    "ember-tooltips": "*",
     "ember-wormhole": "*",
     "liquid-fire": "*"
   },

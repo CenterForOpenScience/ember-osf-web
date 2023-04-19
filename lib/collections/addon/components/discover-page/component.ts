@@ -11,6 +11,7 @@ import { waitFor } from '@ember/test-waiters';
 import { keepLatestTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
+import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -86,6 +87,7 @@ function emptyResults(): SearchQuery {
 
 @layout(template, styles)
 export default class DiscoverPage extends Component {
+    @service media!: Media;
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: Store;
@@ -146,6 +148,10 @@ export default class DiscoverPage extends Component {
             q: this.q || undefined,
             ...this.filters,
         };
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 
     /**

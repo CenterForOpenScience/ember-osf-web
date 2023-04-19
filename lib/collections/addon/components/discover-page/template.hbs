@@ -2,227 +2,214 @@
 <div local-class='search-header' class='search-header'>
     <div class='container'>
         {{!BRANDING}}
-        <div class='row m-v-md'>
-            <div class='col-xs-12 text-center'>
-                {{!Provider Logo, if we are a provider}}
-                {{#if this.theme.isProvider}}
+        <div local-class='branding-container'>
+            {{!Provider Logo, if we are a provider}}
+            {{#if this.theme.isProvider}}
+                <div
+                    data-test-provider-branding
+                    local-class='provider-container'
+                >
                     <div
-                        data-test-provider-branding
-                        class='col-xs-12 text-center'
+                        local-class='provider-brand'
+                        id='provider-brand-background'
                     >
-                        <div
-                            class='provider-brand'
-                            id='provider-brand-background'
-                        >
-                        </div>
-                        <ProviderLogo @provider={{this.theme.provider}} />
                     </div>
-                {{/if}}
-                <div class={{if this.theme.isProvider 'col-xs-6 text-left'}}>
-                    {{!REGISTRIES ONLY}}
-                    <div class='registries-brand m-t-lg'></div>
-                    {{!Discover Page Header text}}
-                    {{#if this.discoverHeader}}
-                        <h1 data-test-discover-header>
-                            {{t this.discoverHeader documentType=this.themeProvider.documentType}}
-                        </h1>
-                    {{/if}}
-                    {{!POWERED BY SHARE}}
-                    {{#if this.isPoweredByShare}}
-                        <p class='lead'>
-                            {{t 'collections.discover_page.poweredBy'}}
-                            <a
-                                href='https://share.osf.io/'
-                                id='share-logo'
-                                local-class='share-logo'
-                                title={{t 'collections.discover_page.share'}}
-                                onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
-                            ></a>
-                        </p>
-                    {{/if}}
+                    <ProviderLogo @provider={{this.theme.provider}} />
                 </div>
+            {{/if}}
+            <div local-class={{if this.theme.isProvider 'provider-text-container'}}>
+                {{!Discover Page Header text}}
+                {{#if this.discoverHeader}}
+                    <h1 data-test-discover-header>
+                        {{t this.discoverHeader documentType=this.themeProvider.documentType}}
+                    </h1>
+                {{/if}}
+                {{!POWERED BY SHARE}}
+                {{#if this.isPoweredByShare}}
+                    <p class='lead'>
+                        {{t 'collections.discover_page.poweredBy'}}
+                        <a
+                            href='https://share.osf.io/'
+                            id='share-logo'
+                            local-class='share-logo'
+                            title={{t 'collections.discover_page.share'}}
+                            onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
+                        ></a>
+                    </p>
+                {{/if}}
             </div>
         </div>
         {{!SEARCH}}
-        <div class='row m-t-md m-b-lg text-center'>
-            <div class='col-xs-12 col-sm-8 col-sm-offset-2'>
-                {{!SEARCH BAR}}
-                <div
-                    data-test-search-input
-                    class='input-group input-group-lg'
+        <div local-class='search-container' data-test-search-input>
+            {{!SEARCH BAR}}
+            <Input
+                local-class='input'
+                aria-label={{t
+                    (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
+                    documentType=this.themeProvider.documentType
+                }}
+                @id='searchBox'
+                @value={{this.q}}
+                @class='form-control'
+                @enter={{action this.searchAction}}
+                @key-up={{action this.searchAction}}
+                @placeholder={{t
+                    (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
+                    documentType=this.themeProvider.documentType
+                }}
+            />
+            <div class='input-group-btn'>
+                {{!HELP BUTTON}}
+                <button
+                    local-class='lucene-button'
+                    data-test-help-button
+                    type='button'
+                    class='btn btn-default'
+                    aria-label={{t 'collections.discover_page.luceneHelp'}}
+                    {{action this.toggleShowLuceneHelp}}
                 >
-                    <Input
-                        aria-label={{t
-                            (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
-                            documentType=this.themeProvider.documentType
-                        }}
-                        @id='searchBox'
-                        @value={{this.q}}
-                        @class='form-control'
-                        @enter={{action this.searchAction}}
-                        @key-up={{action this.searchAction}}
-                        @placeholder={{t
-                            (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
-                            documentType=this.themeProvider.documentType
-                        }}
-                    />
-                    <span class='input-group-btn'>
-                        {{!HELP BUTTON}}
-                        <button
-                            data-test-help-button
-                            type='button'
-                            class='btn btn-default'
-                            aria-label={{t 'collections.discover_page.luceneHelp'}}
-                            {{action this.toggleShowLuceneHelp}}
-                        >
-                            <FaIcon @icon='question' @class='text-muted' />
-                        </button>
-                        {{!SEARCH BUTTON}}
-                        <button
-                            data-test-search-button
-                            type='button'
-                            class='btn btn-default'
-                            {{action this.searchAction}}
-                        >
-                            {{t 'collections.discover_page.search'}}
-                        </button>
-                    </span>
-                </div>
-                {{!Lucene search help modal}}
-                <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
-
-                {{!NUMBER OF SEARCHABLE RESULTS}}
-                {{#unless this.theme.isProvider}}
-                    <TotalShareResults />
-                {{/unless}}
+                    <FaIcon @icon='question' @class='text-muted' />
+                </button>
+                {{!SEARCH BUTTON}}
+                <button
+                    local-class='search-button'
+                    data-test-search-button
+                    type='button'
+                    class='btn btn-default'
+                    {{action this.searchAction}}
+                >
+                    {{t 'collections.discover_page.search'}}
+                </button>
             </div>
+            {{!Lucene search help modal}}
+            <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
+
+            {{!NUMBER OF SEARCHABLE RESULTS}}
+            {{#unless this.theme.isProvider}}
+                <TotalShareResults />
+            {{/unless}}
         </div>
         {{#if (and this.theme.isProvider this.theme.provider.htmlSafeDescription)}}
-            <div local-class='ProviderDescription' class='row m-t-md m-b-lg'>
+            <div local-class='provider-description' class='row m-t-md m-b-lg'>
                 <div data-test-provider-description class='col-xs-12 col-sm-8 col-sm-offset-2'>
                     {{this.theme.provider.htmlSafeDescription}}
                 </div>
             </div>
         {{/if}}
-        <div class='row p-v-sm'>
-            <div class='col-sm-6 pull-right'>
-                <BsDropdown class='dropdown pull-right' as |dd|>
-                    <dd.button
-                        data-test-sort-by-button
-                        class='btn btn-default results-top'
-                    >
-                        {{t 'collections.discover_page.sortBy'}}:
-                        {{this.sortDisplay}}
-                        <span
-                            class='caret'
+        {{!RELEVANCE}}
+        <div local-class='relevance-container'>
+            <BsDropdown class='dropdown pull-right' as |dd|>
+                <dd.button
+                    data-test-sort-by-button
+                    class='btn btn-default results-top'
+                >
+                    {{t 'collections.discover_page.sortBy'}}:
+                    {{this.sortDisplay}}
+                    <span
+                        class='caret'
+                        >
+                    </span>
+                </dd.button>
+                <dd.menu
+                    local-class='sort-by-option-list'
+                    @align='right'
+                    as |ddm|
+                >
+                    {{#each this.sortOptions as |sortChoice|}}
+                        <ddm.item>
+                            <button
+                                data-test-sort-by-item={{sortChoice.sortBy}}
+                                type='button'
+                                class='btn btn-link'
+                                local-class='list-option'
+                                {{action this.selectSortOption sortChoice.sortBy}}
                             >
-                        </span>
-                    </dd.button>
-                    <dd.menu
-                        local-class='sortByOptionList'
-                        @align='right'
-                        as |ddm|
-                    >
-                        {{#each this.sortOptions as |sortChoice|}}
-                            <ddm.item>
-                                <button
-                                    data-test-sort-by-item={{sortChoice.sortBy}}
-                                    type='button'
-                                    class='btn btn-link'
-                                    local-class='listOption'
-                                    {{action this.selectSortOption sortChoice.sortBy}}
-                                >
-                                    {{sortChoice.display}}
-                                </button>
-                            </ddm.item>
-                        {{/each}}
-                    </dd.menu>
-                </BsDropdown>
-            </div>
+                                {{sortChoice.display}}
+                            </button>
+                        </ddm.item>
+                    {{/each}}
+                </dd.menu>
+            </BsDropdown>
         </div>
     </div>
 </div>
 
-<div class='p-v-xl' local-class='search-main'>
-    <div class='container'>
-        <div class='row' local-class='search-results-section'>
-            {{!LEFT PANEL - SEARCH FACETS}}
-            <div class='col-sm-4 col-xs-12' local-class='search-sidebar'>
-                {{#if this.showActiveFilters}}
-                    <div id='activeFilters' class='well well-sm p-md'>
-                        <DiscoverPage::ActiveFilters
-                            @activeFilters={{this.activeFilters}}
-                            @facetContexts={{this.facetContexts}}
-                            @clearFilters={{action this.clearFilters}}
-                        />
-                    </div>
-                {{/if}}
-
-                {{!SEARCH FACETS}}
-                {{#if this.showActiveFilters}}
-                    <h4>{{t 'collections.discover_page.refineSearch'}}</h4>
-                {{/if}}
-
-                <DiscoverPage::Facets
-                    @facets={{this.facets}}
+<div local-class='search-main-container {{if this.isMobile 'mobile'}}' class='container'>
+    {{!LEFT PANEL - SEARCH FACETS}}
+    <div local-class='active-filter-container {{if this.isMobile 'mobile'}}'>
+        {{#if this.showActiveFilters}}
+            <div id='activeFilters' class='well well-sm p-md'>
+                <DiscoverPage::ActiveFilters
+                    @activeFilters={{this.activeFilters}}
                     @facetContexts={{this.facetContexts}}
-                    @filterChanged={{action this.filterChanged}}
-                    @filterReplace={{this.filterReplace}}
+                    @clearFilters={{action this.clearFilters}}
                 />
             </div>
-            {{!RIGHT PANEL - SEARCH RESULTS}}
-            <div class='col-sm-8 col-xs-12'>
-                {{!SEARCH LOADING}}
-                {{#if this.loading}}
-                    <div
-                        class='text-center p-v-md'
-                        aria-label={{t 'collections.discover_page.searchLoading'}}
-                    >
-                        <FaIcon @icon='spinner' @pulse={{true}} @size='3x' />
-                    </div>
-                {{else}}
-                    {{#if this.numberOfResults}}
-                        {{!RESULTS FOUND}}
-                        <div>
-                            {{#each this.results as |result|}}
-                                {{component
-                                    this.searchResultComponent
-                                    result=result
-                                    currentService=this.currentService
-                                    facetContexts=this.facetContexts
-                                    filterChanged=(action this.filterChanged)
-                                }}
-                            {{/each}}
-                        </div>
-                        <div class='pull-right text-right'>
-                            <SearchPaginator
-                                @pageChanged={{action this.setLoadPage}}
-                                @current={{this.page}}
-                                @maximum={{this.clampedPages}}
-                            />
-                        </div>
-                    {{else if this.queryError}}
-                        {{!PROBLEM WITH SEARCH QUERY}}
-                        <QuerySyntax @message={{this.queryError}} />
-                    {{else if this.serverError}}
-                        <div class='text-center'>
-                            <p class='lead'>
-                                {{t 'collections.discover_page.searchUnavailable'}}
-                            </p>
-                        </div>
-                    {{else}}
-                        {{!NO RESULTS FOUND}}
-                        <div class='text-center'>
-                            <p class='lead'>
-                                {{t 'collections.discover_page.noResultsFound'}}
-                            </p>
-                            <p>
-                                {{t 'collections.discover_page.broadenSearch'}}
-                            </p>
-                        </div>
-                    {{/if}}
-                {{/if}}
+        {{/if}}
+
+        {{!SEARCH FACETS}}
+        {{#if this.showActiveFilters}}
+            <h4>{{t 'collections.discover_page.refineSearch'}}</h4>
+        {{/if}}
+
+        <DiscoverPage::Facets
+            @facets={{this.facets}}
+            @facetContexts={{this.facetContexts}}
+            @filterChanged={{action this.filterChanged}}
+            @filterReplace={{this.filterReplace}}
+        />
+    </div>
+    {{!RIGHT PANEL - SEARCH RESULTS}}
+    <div local-class='search-result-container {{if this.isMobile 'mobile'}}'>
+        {{!SEARCH LOADING}}
+        {{#if this.loading}}
+            <div
+                class='text-center p-v-md'
+                aria-label={{t 'collections.discover_page.searchLoading'}}
+            >
+                <FaIcon @icon='spinner' @pulse={{true}} @size='3x' />
             </div>
-        </div>
+        {{else}}
+            {{#if this.numberOfResults}}
+                {{!RESULTS FOUND}}
+                <div>
+                    {{#each this.results as |result|}}
+                        {{component
+                            this.searchResultComponent
+                            result=result
+                            currentService=this.currentService
+                            facetContexts=this.facetContexts
+                            filterChanged=(action this.filterChanged)
+                        }}
+                    {{/each}}
+                </div>
+                <div class='pull-right text-right'>
+                    <SearchPaginator
+                        @pageChanged={{action this.setLoadPage}}
+                        @current={{this.page}}
+                        @maximum={{this.clampedPages}}
+                    />
+                </div>
+            {{else if this.queryError}}
+                {{!PROBLEM WITH SEARCH QUERY}}
+                <QuerySyntax @message={{this.queryError}} />
+            {{else if this.serverError}}
+                <div class='text-center'>
+                    <p class='lead'>
+                        {{t 'collections.discover_page.searchUnavailable'}}
+                    </p>
+                </div>
+            {{else}}
+                {{!NO RESULTS FOUND}}
+                <div class='text-center'>
+                    <p class='lead'>
+                        {{t 'collections.discover_page.noResultsFound'}}
+                    </p>
+                    <p>
+                        {{t 'collections.discover_page.broadenSearch'}}
+                    </p>
+                </div>
+            {{/if}}
+        {{/if}}
     </div>
 </div>

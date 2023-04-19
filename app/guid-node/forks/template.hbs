@@ -1,13 +1,12 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
 {{page-title (t 'forks.page_title' nodeTitle=this.model.taskInstance.value.unsafeTitle)}}
 <div data-analytics-scope='Forks' class='container' local-class='Forks'>
-    <BsModal
-        @open={{this.newModal}}
-        @onSubmit={{action this.newFork}}
-        @onHide={{action (mut this.newModal) false}}
-        as |modal|
+    <OsfDialog
+        @isOpen={{this.newModal}}
+        @onclose={{action (mut this.newModal) false}}
+        as |dialog|
     >
-        <modal.body
+        <dialog.main
             data-test-new-fork-modal-body
             data-analytics-scope='Forks - forks modal'
         >
@@ -21,8 +20,8 @@
                 <FaIcon @icon='times' @size='sm' />
             </Button>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
-        </modal.body>
-        <modal.footer data-analytics-scope='Forks - forks modal footer'>
+        </dialog.main>
+        <dialog.footer data-analytics-scope='Forks - forks modal footer'>
             <Button
                 data-test-cancel-create-fork
                 data-analytics-name='Cancel'
@@ -33,13 +32,13 @@
             <Button
                 data-test-confirm-create-fork
                 data-analytics-name='Create fork'
-                {{on 'click' (action modal.submit)}}
-                @type='secondary'
+                {{on 'click' (action this.newFork)}}
+                @type='create'
             >
                 {{t 'forks.fork'}}
             </Button>
-        </modal.footer>
-    </BsModal>
+        </dialog.footer>
+    </OsfDialog>
     <DeleteNodeModal
         @delete={{action this.delete}}
         @openModal={{this.deleteModal}}

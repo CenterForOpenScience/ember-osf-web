@@ -372,7 +372,7 @@ module('Acceptance | dashboard', hooks => {
             .includesText('You have no projects yet. Create a project with the button on the top right.');
         await click('[data-analytics-name="create_new_project"]');
         await fillIn('[data-test-new-project-title]', title);
-        await untrackedClick('button[class*="close"]');
+        await untrackedClick('[data-test-close-dialog]');
         assert.dom('[data-test-create-project-header]').doesNotExist();
         assert.dom('[data-test-stay-here]').doesNotExist();
         assert.dom('div[class*="quick-project"]')

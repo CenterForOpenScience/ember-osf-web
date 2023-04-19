@@ -6,19 +6,17 @@
     {{t 'registries.overview.withdraw.withdraw'}}
 </Button>
 
-<BsModal
-    @tagName='span'
-    @open={{this.showModal}}
-    @onSubmit={{action (perform this.submitWithdrawal)}}
-    @onHide={{action this.close}}
+<OsfDialog
+    @isOpen={{this.showModal}}
+    @onClose={{action this.close}}
     @renderInPlace={{true}}
-    as |modal|
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h3>{{t 'registries.overview.withdraw.withdraw'}}</h3>
-    </modal.header>
+    </dialog.heading>
 
-    <modal.body>
+    <dialog.main>
         <div local-class='WithdrawDropdown' data-test-withdrawal-form>
             <p>{{t 'registries.overview.withdraw.warning'}}</p>
             <p><strong>{{t 'registries.overview.withdraw.withdrawal_justification_label'}}</strong></p>
@@ -41,12 +39,12 @@
                 </div>
             </div>
         </div>
-    </modal.body>
+    </dialog.main>
 
-    <modal.footer>
+    <dialog.footer>
         <Button
             disabled={{this.submitWithdrawal.isRunning}}
-            {{on 'click' (action modal.close)}}
+            {{on 'click' (action dialog.close)}}
         >
             {{t 'general.cancel'}}
         </Button>
@@ -54,9 +52,9 @@
             data-analytics-name='Withdraw registration'
             disabled={{or this.submitDisabled this.submitWithdrawal.isRunning}}
             @type='destroy'
-            {{on 'click' modal.submit}}
+            {{on 'click' (action (perform this.submitWithdrawal))}}
         >
             {{t 'registries.overview.withdraw.withdraw'}}
         </Button>
-    </modal.footer>
-</BsModal>
+    </dialog.footer>
+</OsfDialog>
