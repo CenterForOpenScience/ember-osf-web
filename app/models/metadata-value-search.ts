@@ -1,11 +1,10 @@
-import { AsyncHasMany, AsyncBelongsTo, attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { AsyncHasMany, AsyncBelongsTo, attr, belongsTo, hasMany } from '@ember-data/model';
 
 import MetadataPropertySearchModel from './metadata-property-search';
 import { SearchFilter } from './metadata-record-search';
 import SearchResultModel from './search-result';
-import OsfModel from './osf-model';
 
-export default class MetadataValueSearchModel extends OsfModel {
+export default class MetadataValueSearchModel extends Model {
     @attr('string') valueSearchText!: string;
     @attr('array') valueSearchFilter!: SearchFilter[];
     @attr('string') recordSearchText!: string;

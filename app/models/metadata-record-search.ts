@@ -1,7 +1,6 @@
-import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
 
 import MetadataPropertySearchModel from './metadata-property-search';
-import OsfModel from './osf-model';
 import SearchResultModel from './search-result';
 
 export interface SearchFilter {
@@ -10,7 +9,7 @@ export interface SearchFilter {
     filterType?: string;
 }
 
-export default class MetadataRecordSearchModel extends OsfModel {
+export default class MetadataRecordSearchModel extends Model {
     @attr('string') recordSearchText!: string;
     @attr('array') recordSearchFilters!: SearchFilter[];
     @attr('number') totalResultCount!: number;

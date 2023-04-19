@@ -1,13 +1,11 @@
-import { AsyncHasMany, attr, hasMany } from '@ember-data/model';
-
-import OsfModel from './osf-model';
+import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
 export interface LanguageText {
     '@language': string;
     '@value': string;
 }
 
-export default class MetadataRecordModel extends OsfModel {
+export default class MetadataRecordModel extends Model {
     @attr('array') resourceType!: string[];
     @attr('array') resourceIdentifier!: string[];
     @attr('object') resourceMetadata!: any;

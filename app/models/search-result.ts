@@ -1,7 +1,6 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
-import MetadataRecordModel from 'ember-osf-web/models/metadata-record';
+import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
-import OsfModel from './osf-model';
+import MetadataRecordModel from './metadata-record';
 
 export interface IriMatchEvidence {
     '@type': 'IriMatchEvidence';
@@ -15,7 +14,7 @@ export interface TextMatchEvidence {
     propertyPath: string[];
 }
 
-export default class SearchResultModel extends OsfModel {
+export default class SearchResultModel extends Model {
     @attr('array') matchEvidence!: Array<IriMatchEvidence | TextMatchEvidence>;
     @attr('number') recordResultCount!: number;
 
