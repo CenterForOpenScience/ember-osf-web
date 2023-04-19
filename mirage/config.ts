@@ -37,6 +37,7 @@ import { createNewSchemaResponse } from './views/schema-response';
 import { createSchemaResponseAction } from './views/schema-response-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
+import { recordSearch } from './views/search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import {
@@ -57,7 +58,13 @@ export default function(this: Server) {
     this.urlPrefix = 'https://share.osf.io';
     this.namespace = '/api/v2/';
 
+    // SHARE-powered registration discover endpoint
     this.post('/search/creativeworks/_search', shareSearch);
+
+    // SHARE-powered search endpoints
+    this.get('/metadata-record-searches', recordSearch);
+    // this.get('/metadata-value-searches', valueSearch);
+    // this.get('/metadata-records/:id', metadataRecordDetail);
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';

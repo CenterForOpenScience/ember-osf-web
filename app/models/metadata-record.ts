@@ -1,0 +1,21 @@
+import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
+
+export interface LanguageText {
+    '@language': string;
+    '@value': string;
+}
+
+export default class MetadataRecordModel extends Model {
+    @attr('array') resourceType!: string[];
+    @attr('array') resourceIdentifier!: string[];
+    @attr('object') resourceMetadata!: any;
+
+    @hasMany('metadata-record', { inverse: null })
+    relatedRecordSet!: AsyncHasMany<MetadataRecordModel> & MetadataRecordModel[];
+}
+
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'metadata-record': MetadataRecordModel;
+    } // eslint-disable-line semi
+}
