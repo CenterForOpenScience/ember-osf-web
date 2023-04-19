@@ -12,11 +12,37 @@
     line-height: 1em;
 }
 
-.ProfileNav {
-    margin-left: 20px;
-    display: none;
-}
+.stacked-nav {
+    ul {
+        list-style: none;
+        padding-left: 0;
+    }
 
-:global(.active) .ProfileNav {
-    display: block;
+    li:has(:global(.active)) {
+        background-color: $color-bg-blue-dark;
+
+        :hover {
+            background-color: $color-bg-blue-dark;
+        }
+    }
+
+    a:global(.active) {
+        color: $color-text-white;
+    }
+
+    li > a {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        border-radius: 0;
+        text-decoration: none;
+    }
+
+    li > a:hover {
+        text-decoration: none;
+    }
+
+    li:hover {
+        background-color: $color-bg-gray-lighter;
+    }
 }

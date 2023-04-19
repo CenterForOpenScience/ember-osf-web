@@ -4,6 +4,7 @@
             <h2 class='page-header'>
                 {{t 'general.settings'}}
                 <Button
+                   data-test-toggle-nav
                    local-class='NavToggle'
                    aria-label={{t 'settings.toggleNav'}}
                    class='hidden-md hidden-lg'
@@ -19,96 +20,64 @@
         <div class='col-md-3'>
             <BsCollapse @collapsed={{this.navCollapsed}} local-class='SideNav'>
                 <div class='panel panel-default'>
-                    <BsNav @type='pills' @stacked={{true}} as |nav|>
-                        <nav.item>
-                            <OsfLink
-                                data-analytics-name='Settings'
-                                @route='settings.profile'
-                            >
-                                {{t 'settings.profile.title'}}
-                            </OsfLink>
-                            <BsNav
-                                data-analytics-scope='Profile Nav'
-                                local-class='ProfileNav'
-                                @stacked={{true}}
-                                @type='pills'
-                                as |profileNav|
-                            >
-                                <profileNav.item>
-                                    <OsfLink
-                                        data-analytics-name='Name'
-                                        @route='settings.profile.name'
-                                    >
-                                        {{t 'settings.profile.name.title'}}
-                                    </OsfLink>
-                                </profileNav.item>
-                                <profileNav.item>
-                                    <OsfLink
-                                        data-analytics-name='Social'
-                                        @route='settings.profile.social'
-                                    >
-                                        {{t 'settings.profile.social.title'}}
-                                    </OsfLink>
-                                </profileNav.item>
-                                <profileNav.item>
-                                    <OsfLink
-                                        data-analytics-name='Education'
-                                        @route='settings.profile.education'
-                                    >
-                                        {{t 'settings.profile.education.title'}}
-                                    </OsfLink>
-                                </profileNav.item>
-                                <profileNav.item>
-                                    <OsfLink
-                                        data-analytics-name='Employment'
-                                        @route='settings.profile.employment'
-                                    >
-                                        {{t 'settings.profile.employment.title'}}
-                                    </OsfLink>
-                                </profileNav.item>
-                            </BsNav>
-                        </nav.item>
-                        <nav.item>
-                            <OsfLink
-                                data-analytics-name='Account'
-                                @route='settings.account'
-                            >
-                                {{t 'settings.account.title'}}
-                            </OsfLink>
-                        </nav.item>
-                        <nav.item>
-                            <OsfLink
-                                data-analytics-name='Configure add-on accounts'
-                                @href='/settings/addons'
-                            >
-                                {{t 'settings.addons.title'}}
-                            </OsfLink>
-                        </nav.item>
-                        <nav.item>
-                            <OsfLink
-                                data-analytics-name='Notifications'
-                                @href='/settings/notifications'
-                            >
-                                {{t 'settings.notifications.title'}}
-                            </OsfLink>
-                        </nav.item>
-                        <nav.item>
-                            <OsfLink
-                                data-analytics-name='Developer apps'
-                                @route='settings.developer-apps'
-                            >
-                                {{t 'settings.developer-apps.title'}}
-                            </OsfLink>
-                        </nav.item>
-                        <nav.item>
-                            <OsfLink
-                                data-analytics-name='Personal access tokens'
-                                @route='settings.tokens'
-                            >
-                                {{t 'settings.tokens.title'}}
-                            </OsfLink>
-                        </nav.item>
-                    </BsNav>
+                    <nav local-class='stacked-nav'>
+                        <ul>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Settings'
+                                    data-test-settings-link
+                                    @href='/settings'
+                                >
+                                    {{t 'settings.profile.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Account'
+                                    data-test-account-link
+                                    @route='settings.account'
+                                >
+                                    {{t 'settings.account.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Configure add-on accounts'
+                                    data-test-addons-link
+                                    @href='/settings/addons'
+                                >
+                                    {{t 'settings.addons.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Notifications'
+                                    data-test-notifications-link
+                                    @href='/settings/notifications'
+                                >
+                                    {{t 'settings.notifications.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Developer apps'
+                                    data-test-apps-link
+                                    @route='settings.developer-apps'
+                                >
+                                    {{t 'settings.developer-apps.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Personal access tokens'
+                                    data-test-tokens-link
+                                    @route='settings.tokens'
+                                >
+                                    {{t 'settings.tokens.title'}}
+                                </OsfLink>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </BsCollapse>
         </div>
