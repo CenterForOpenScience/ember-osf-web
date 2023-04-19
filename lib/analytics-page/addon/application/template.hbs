@@ -2,8 +2,8 @@
 {{page-title (t 'analytics.pageTitle' nodeTitle=this.node.unsafeTitle)}}
 <div class='container' local-class='page-container'>
     <div local-class='counts {{if this.isMobile 'mobile'}}'>
-        <div class='panel panel-default' local-class='count-box {{if this.isMobile 'mobile'}}'>
-            <div class='panel-body'>
+        <div local-class='count-box {{if this.isMobile 'mobile'}}'>
+            <div local-class='body'>
                 <h3>{{t 'analytics.forks'}}</h3>
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
@@ -18,8 +18,8 @@
                 {{/if}}
             </div>
         </div>
-        <div class='panel panel-default' local-class='count-box {{if this.isMobile 'mobile'}}'>
-            <div class='panel-body'>
+        <div local-class='count-box {{if this.isMobile 'mobile'}}'>
+            <div local-class='body'>
                 <h3>{{t 'analytics.links'}}</h3>
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
@@ -79,8 +79,8 @@
                 {{/if}}
             </div>
         </div>
-        <div class='panel panel-default' local-class='count-box {{if this.isMobile 'mobile'}}'>
-            <div class='panel-body'>
+        <div local-class='count-box {{if this.isMobile 'mobile'}}'>
+            <div local-class='body'>
                 <h3>{{t 'analytics.templateCopies'}}</h3>
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
