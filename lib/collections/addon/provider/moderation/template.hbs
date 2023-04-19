@@ -7,43 +7,45 @@
         </div>
     </layout.heading>
     <layout.main local-class='main'>
-        <ul local-class='clamped-width-container main-nav'>
-            {{#let 'collections.provider.moderation.all' as |allRoute|}}
-                <li local-class={{if (eq this.target.currentRouteName allRoute) 'active'}}>
-                    <OsfLink
-                        data-test-collections-moderation-all-tab
-                        @route={{allRoute}}
-                        @models={{array this.model.id}}
-                    >
-                        {{t 'collections.moderation.all.title'}}
-                    </OsfLink>
-                </li>
-            {{/let}}
-            {{#let 'collections.provider.moderation.moderators' as |moderatorsRoute|}}
-                <li local-class={{if (eq this.target.currentRouteName moderatorsRoute) 'active'}}>
-                    <OsfLink
-                        data-analytics-name='Collection moderation moderators tab'
-                        data-test-collections-moderation-moderators-tab
-                        @route={{moderatorsRoute}}
-                        @models={{array this.model.id}}
-                    >
-                        {{t 'collections.moderation.moderators.title'}}
-                    </OsfLink>
-                </li>
-            {{/let}}
-            {{#let 'collections.provider.moderation.settings' as |settingsRoute|}}
-                <li local-class={{if (eq this.target.currentRouteName settingsRoute) 'active'}}>
-                    <OsfLink
-                        data-analytics-name='Collection moderation settings tab'
-                        data-test-collections-moderation-settings-tab
-                        @route={{settingsRoute}}
-                        @models={{array this.model.id}}
-                    >
-                        {{t 'collections.moderation.settings.title'}}
-                    </OsfLink>
-                </li>
-            {{/let}}
-        </ul>
+        <nav>
+            <ul local-class='clamped-width-container main-nav'>
+                {{#let 'collections.provider.moderation.all' as |allRoute|}}
+                    <li local-class={{if (eq this.target.currentRouteName allRoute) 'active'}}>
+                        <OsfLink
+                            data-test-collections-moderation-all-tab
+                            @route={{allRoute}}
+                            @models={{array this.model.id}}
+                        >
+                            {{t 'collections.moderation.all.title'}}
+                        </OsfLink>
+                    </li>
+                {{/let}}
+                {{#let 'collections.provider.moderation.moderators' as |moderatorsRoute|}}
+                    <li local-class={{if (eq this.target.currentRouteName moderatorsRoute) 'active'}}>
+                        <OsfLink
+                            data-analytics-name='Collection moderation moderators tab'
+                            data-test-collections-moderation-moderators-tab
+                            @route={{moderatorsRoute}}
+                            @models={{array this.model.id}}
+                        >
+                            {{t 'collections.moderation.moderators.title'}}
+                        </OsfLink>
+                    </li>
+                {{/let}}
+                {{#let 'collections.provider.moderation.settings' as |settingsRoute|}}
+                    <li local-class={{if (eq this.target.currentRouteName settingsRoute) 'active'}}>
+                        <OsfLink
+                            data-analytics-name='Collection moderation settings tab'
+                            data-test-collections-moderation-settings-tab
+                            @route={{settingsRoute}}
+                            @models={{array this.model.id}}
+                        >
+                            {{t 'collections.moderation.settings.title'}}
+                        </OsfLink>
+                    </li>
+                {{/let}}
+            </ul>
+        </nav>
         <div local-class='clamped-width-container'>
             {{outlet}}
         </div>

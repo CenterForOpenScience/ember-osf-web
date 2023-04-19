@@ -15,52 +15,54 @@
         </layout.heading>
         <layout.main local-class='main'>
             {{!-- TODO: add pending count in Submissions and Withdrawals tab --}}
-            <ul local-class='main-nav'>
-                {{#let 'registries.branded.moderation.submitted' as |submittedRoute|}}
-                    <li local-class={{if (eq this.target.currentRouteName submittedRoute) 'active'}}>
-                        <OsfLink
-                            data-test-submitted-link
-                            @route={{submittedRoute}}
-                            @models={{array this.model.id}}
-                        >
-                            {{t 'registries.moderation.submitted.title'}}
-                        </OsfLink>
-                    </li>
-                {{/let}}
-                {{#let 'registries.branded.moderation.pending' as |pendingRoute|}}
-                    <li local-class={{if (eq this.target.currentRouteName pendingRoute) 'active'}}>
-                        <OsfLink
-                            data-test-pending-link
-                            @route={{pendingRoute}}
-                            @models={{array this.model.id}}
-                        >
-                            {{t 'registries.moderation.pending.title'}}
-                        </OsfLink>
-                    </li>
-                {{/let}}
-                {{#let 'registries.branded.moderation.moderators' as |moderatorsRoute|}}
-                    <li local-class={{if (eq this.target.currentRouteName moderatorsRoute) 'active'}}>
-                        <OsfLink
-                            data-test-moderators-link
-                            @route={{moderatorsRoute}}
-                            @models={{array this.model.id}}
-                        >
-                            {{t 'registries.moderation.moderators.title'}}
-                        </OsfLink>
-                    </li>
-                {{/let}}
-                {{#let 'registries.branded.moderation.settings' as |settingsRoute|}}
-                    <li local-class={{if (eq this.target.currentRouteName settingsRoute) 'active'}}>
-                        <OsfLink
-                            data-test-settings-link
-                            @route={{settingsRoute}}
-                            @models={{array this.model.id}}
-                        >
-                            {{t 'registries.moderation.settings.title'}}
-                        </OsfLink>
-                    </li>
-                {{/let}}
-            </ul>
+            <nav>
+                <ul local-class='main-nav'>
+                    {{#let 'registries.branded.moderation.submitted' as |submittedRoute|}}
+                        <li local-class={{if (eq this.target.currentRouteName submittedRoute) 'active'}}>
+                            <OsfLink
+                                data-test-submitted-link
+                                @route={{submittedRoute}}
+                                @models={{array this.model.id}}
+                            >
+                                {{t 'registries.moderation.submitted.title'}}
+                            </OsfLink>
+                        </li>
+                    {{/let}}
+                    {{#let 'registries.branded.moderation.pending' as |pendingRoute|}}
+                        <li local-class={{if (eq this.target.currentRouteName pendingRoute) 'active'}}>
+                            <OsfLink
+                                data-test-pending-link
+                                @route={{pendingRoute}}
+                                @models={{array this.model.id}}
+                            >
+                                {{t 'registries.moderation.pending.title'}}
+                            </OsfLink>
+                        </li>
+                    {{/let}}
+                    {{#let 'registries.branded.moderation.moderators' as |moderatorsRoute|}}
+                        <li local-class={{if (eq this.target.currentRouteName moderatorsRoute) 'active'}}>
+                            <OsfLink
+                                data-test-moderators-link
+                                @route={{moderatorsRoute}}
+                                @models={{array this.model.id}}
+                            >
+                                {{t 'registries.moderation.moderators.title'}}
+                            </OsfLink>
+                        </li>
+                    {{/let}}
+                    {{#let 'registries.branded.moderation.settings' as |settingsRoute|}}
+                        <li local-class={{if (eq this.target.currentRouteName settingsRoute) 'active'}}>
+                            <OsfLink
+                                data-test-settings-link
+                                @route={{settingsRoute}}
+                                @models={{array this.model.id}}
+                            >
+                                {{t 'registries.moderation.settings.title'}}
+                            </OsfLink>
+                        </li>
+                    {{/let}}
+                </ul>
+            </nav>
             {{outlet}}
         </layout.main>
     </OsfLayout>
