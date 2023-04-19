@@ -1,92 +1,82 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-.Counts {
-    margin-top: 20px;
-}
-
-.PageContainer {
-    width: 60vw;
+.page-container {
+    width: 100%;
     padding: 30px;
-}
 
-:global(.modal-body) {
-    max-height: 80vh;
-    overflow: scroll;
-}
-
-.CountBox {
-    text-align: center;
-
-    h3 {
-        margin-top: 0;
-    }
-
-    .Count {
-        font-size: var(--stepUp2);
-        font-weight: lighter;
-        line-height: 1.1;
-        min-height: 1em;
-        margin-bottom: 10px;
-    }
-}
-
-.PickDateRange {
-    text-align: right;
-    margin: 15px 0;
-
-    .DateRangeButton {
-        svg {
-            margin-left: 5px;
-        }
-    }
-
-    .DateRangeMenu {
-        background-color: $color-bg-gray-light;
-    }
-
-    .DateRangeOption {
-        color: $color-link-black;
-
-        &:hover,
-        &:focus {
-            cursor: pointer;
-            background-image: none;
-            background-color: $color-bg-gray-dark;
-        }
-    }
-}
-
-.PrivateProject {
-    padding: 1em 3em 2em;
-}
-
-:global(.btn.btn-link).button-link {
-    padding: 0;
-    margin: 0;
-    border: 0;
-}
-
-@media (min-width: 768px) {
-    .Counts {
+    .counts {
+        margin-top: 20px;
+        width: 100%;
         display: flex;
-    }
-}
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
 
-@media (max-width: 768px) {
-    .CountBox:global(.panel) {
-        margin-left: 15px;
-        margin-right: 15px;
+        &.mobile {
+            flex-direction: column;
+        }
+
+
+        .count-box {
+            flex: 1;
+            text-align: center;
+            height: 128px;
+            border-radius: 0;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+
+            .body {
+                padding: 15px;
+            }
+
+            &.mobile {
+                width: 100%;
+            }
+
+            h3 {
+                margin-top: 0;
+            }
+
+            .count {
+                font-size: var(--stepUp2);
+                font-weight: lighter;
+                line-height: 1.1;
+                min-height: 1em;
+                margin-bottom: 10px;
+            }
+        }
     }
 
-    .PageContainer {
-        width: 99vw;
-        padding: 0;
+    .private-project {
+        width: 100%;
+        padding: 1em 3em 2em;
     }
-}
 
-@media screen and (max-device-height: 500px) {
-    :global(.modal-body) {
-        max-height: 60vh;
-        padding: 0;
-        margin-bottom: 0;
+    .pick-date-range {
+        text-align: right;
+        margin: 15px 0;
+
+        .date-range-button {
+            svg {
+                margin-left: 5px;
+            }
+        }
+
+        .date-range-menu {
+            background-color: $color-bg-gray-light;
+        }
+
+        .date-range-option {
+            color: $color-link-black;
+
+            &:hover,
+            &:focus {
+                cursor: pointer;
+                background-image: none;
+                background-color: $color-bg-gray-dark;
+            }
+        }
     }
 }

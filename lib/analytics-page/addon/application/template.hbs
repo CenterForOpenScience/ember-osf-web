@@ -1,14 +1,14 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
 {{page-title (t 'analytics.pageTitle' nodeTitle=this.node.unsafeTitle)}}
-<div class='container' local-class='PageContainer'>
-    <div local-class='Counts' class='row'>
-        <div class='col-sm-4 panel panel-default' local-class='CountBox'>
-            <div class='panel-body'>
+<div class='container' local-class='page-container'>
+    <div local-class='counts {{if this.isMobile 'mobile'}}'>
+        <div local-class='count-box {{if this.isMobile 'mobile'}}'>
+            <div local-class='body'>
                 <h3>{{t 'analytics.forks'}}</h3>
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <div local-class='Count'>{{this.forksCount}}</div>
+                    <div local-class='count'>{{this.forksCount}}</div>
                     <LinkToExternal
                         @route={{if this.node.isProject 'nodeForks' 'registrationForks'}}
                         @models={{array this.node.id}}
@@ -18,13 +18,13 @@
                 {{/if}}
             </div>
         </div>
-        <div class='col-sm-4 panel panel-default' local-class='CountBox'>
-            <div class='panel-body'>
+        <div local-class='count-box {{if this.isMobile 'mobile'}}'>
+            <div local-class='body'>
                 <h3>{{t 'analytics.links'}}</h3>
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <div local-class='Count'>{{this.linkedByCount}}</div>
+                    <div local-class='count'>{{this.linkedByCount}}</div>
                     <button
                         type='button'
                         class='btn btn-link'
@@ -79,47 +79,45 @@
                 {{/if}}
             </div>
         </div>
-        <div class='col-sm-4 panel panel-default' local-class='CountBox'>
-            <div class='panel-body'>
+        <div local-class='count-box {{if this.isMobile 'mobile'}}'>
+            <div local-class='body'>
                 <h3>{{t 'analytics.templateCopies'}}</h3>
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <div local-class='Count'>{{this.templatedByCount}}</div>
+                    <div local-class='count'>{{this.templatedByCount}}</div>
                 {{/if}}
             </div>
         </div>
     </div>
 
     {{#if this.nodePrivate}}
-        <div class='row'>
-            <div local-class='PrivateProject' class='col-xs-12'>
-                {{t 'analytics.privateProject' htmlSafe=true}}
-            </div>
+        <div local-class='private-project'>
+            {{t 'analytics.privateProject' htmlSafe=true}}
         </div>
     {{else}}
         {{!nodePrivate}}
-        <div local-class='PickDateRange'>
+        <div local-class='pick-date-range'>
             <label>
                 {{t 'analytics.showForDateRange'}}
                 <BsDropdown as |dd|>
                     <dd.button
                         aria-haspopup='true'
                         aria-expanded='false'
-                        local-class='DateRangeButton'
+                        local-class='date-range-button'
                     >
                         {{t (get this.timespanIntlKeys this.timespan)}}
                         <FaIcon @icon='caret-down' />
                     </dd.button>
                     <dd.menu
-                        local-class='DateRangeMenu'
+                        local-class='date-range-menu'
                         @align='right'
                     >
                         {{#each this.allTimespans as |timespan|}}
                             <li role='menuitem'>
                                 <button
                                     type='button'
-                                    local-class='DateRangeOption'
+                                    local-class='date-range-option'
                                     {{on 'click' (fn this.setTimespan timespan)}}
                                 >
                                     {{t (get this.timespanIntlKeys timespan)}}
@@ -132,8 +130,7 @@
         </div>
     {{/if}}
 
-    <div class='clearfix'></div>
-    <div class='row'>
+    <div>
         {{analytics-charts
             nodeId=this.model.nodeId
             timespan=this.timespan
