@@ -91,7 +91,6 @@ export default class Overview extends GuidRoute {
 
             const scriptTagData = {
                 type: 'application/ld+json',
-                src: `/${id}/metadata/?format=google-dataset-json-ld`,
                 content: jsonString,
             };
 

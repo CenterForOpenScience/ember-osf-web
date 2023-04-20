@@ -73,7 +73,6 @@ export default class GuidFile extends Route {
 
         const scriptTagData = {
             type: 'application/ld+json',
-            src: `/${parentId}/metadata/?format=google-dataset-json-ld`,
             content: jsonString,
         };
 

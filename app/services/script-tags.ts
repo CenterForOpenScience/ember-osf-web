@@ -2,7 +2,6 @@
 import Service, { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
-import identifier from 'ember-osf-web/mirage/factories/identifier';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import { MetaTagAttrs } from 'ember-osf-web/services/meta-tags';
 import getHref from 'ember-osf-web/utils/get-href';
@@ -12,7 +11,6 @@ export type Content = object | string | String | number | null | undefined;
 export type DataContent = Content | Content[];
 
 export interface ScriptTagsData {
-    src?: DataContent;
     type?: DataContent;
     content?: DataContent;
 }
@@ -23,7 +21,6 @@ export interface ScriptTagDef {
 
 export interface JSONLDScriptTagAttrs {
     type: Content;
-    src: Content;
 }
 
 export type ScriptTagAttrs = JSONLDScriptTagAttrs;
@@ -91,23 +88,19 @@ export default class ScriptTags extends Service {
         const scriptTagsData: ScriptTagsData = {
             type: scriptTagsOverrides.type ?
                 scriptTagsOverrides.type : 'application/ld+json',
-            src: scriptTagsOverrides.src ?
-                scriptTagsOverrides.src :
-                `${config.OSF.url}.osf.io/${identifier}/metadata/?format=google-dataset-json-ld`,
             content: scriptTagsOverrides.content ?
                 scriptTagsOverrides.content : { isAccessibleForFree: true },
             ...scriptTagsOverrides,
         };
         return {
             type: scriptTagsData.type,
-            src: scriptTagsData.src,
             dataContent: scriptTagsData.content,
         };
     }
 
     /**
      * Processes values from getScriptTagAttributes() to create HTML head element
-     * script tags with content, src (source), and data MIME type attributes.
+     * script tags with content and data MIME type attributes.
      *
      * @method getHeadTags
      * @param {ScriptTagsData} scriptTagsData Default values for script tags
@@ -115,16 +108,16 @@ export default class ScriptTags extends Service {
      */
     getHeadTags(scriptTagsData: ScriptTagsData): HeadTagDef[] {
         const scriptTagDefs: ScriptTagDef | ScriptTagDef[] = this.getScriptTagAttributes(scriptTagsData);
-        const { src, type, dataContent } = scriptTagDefs;
-        const attrs: ScriptTagAttrs = this.makeScriptTagAttrs(src, type);
+        const { type, dataContent } = scriptTagDefs;
+        const attrs: ScriptTagAttrs = this.makeScriptTagAttrs(type);
         const array: HeadTagDef[] = [];
         const tagType: string = TagType.SCRIPT as string;
 	    array.push({type: tagType, content: dataContent, attrs});
         return array;
     }
 
-    makeScriptTagAttrs(src: Content, type: Content) {
-        return { src, type };
+    makeScriptTagAttrs(type: Content) {
+        return { type };
     }
 }
 
