@@ -4,7 +4,9 @@ import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import Media from 'ember-responsive';
 import Session from 'ember-simple-auth/services/session';
+import { tracked } from 'tracked-built-ins';
 
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -20,6 +22,7 @@ type ObjectType = 'collection' | 'preprint' | 'registration';
 export default class BrandedNavbar extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
+    @service media!: Media;
     @service session!: Session;
     @service theme!: Theme;
 
@@ -27,7 +30,7 @@ export default class BrandedNavbar extends Component {
     objectType!: ObjectType;
     signupUrl!: string;
     translateKey!: string;
-    showNavLinks = false;
+    @tracked showNavLinks = false;
     campaign = `${this.theme.id}-collections`;
 
     myProjectsUrl = serviceLinks.myProjects;
@@ -46,5 +49,12 @@ export default class BrandedNavbar extends Component {
     @action
     toggleSecondaryNavigation() {
         this.toggleProperty('showNavLinks');
+    }
+
+    get shouldShowNavLinks() {
+        if (this.media.isMobile || this.media.isTablet) {
+            return this.showNavLinks;
+        }
+        return true;
     }
 }
