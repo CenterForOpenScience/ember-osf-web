@@ -18,68 +18,70 @@
     </div>
     <div class='row'>
         <div class='col-md-3'>
-            <BsCollapse @collapsed={{this.navCollapsed}} local-class='SideNav'>
-                <div class='panel panel-default'>
-                    <nav local-class='stacked-nav'>
-                        <ul>
-                            <li>
-                                <OsfLink
-                                    data-analytics-name='Settings'
-                                    data-test-settings-link
-                                    @href='/settings'
-                                >
-                                    {{t 'settings.profile.title'}}
-                                </OsfLink>
-                            </li>
-                            <li>
-                                <OsfLink
-                                    data-analytics-name='Account'
-                                    data-test-account-link
-                                    @route='settings.account'
-                                >
-                                    {{t 'settings.account.title'}}
-                                </OsfLink>
-                            </li>
-                            <li>
-                                <OsfLink
-                                    data-analytics-name='Configure add-on accounts'
-                                    data-test-addons-link
-                                    @href='/settings/addons'
-                                >
-                                    {{t 'settings.addons.title'}}
-                                </OsfLink>
-                            </li>
-                            <li>
-                                <OsfLink
-                                    data-analytics-name='Notifications'
-                                    data-test-notifications-link
-                                    @href='/settings/notifications'
-                                >
-                                    {{t 'settings.notifications.title'}}
-                                </OsfLink>
-                            </li>
-                            <li>
-                                <OsfLink
-                                    data-analytics-name='Developer apps'
-                                    data-test-apps-link
-                                    @route='settings.developer-apps'
-                                >
-                                    {{t 'settings.developer-apps.title'}}
-                                </OsfLink>
-                            </li>
-                            <li>
-                                <OsfLink
-                                    data-analytics-name='Personal access tokens'
-                                    data-test-tokens-link
-                                    @route='settings.tokens'
-                                >
-                                    {{t 'settings.tokens.title'}}
-                                </OsfLink>
-                            </li>
-                        </ul>
-                    </nav>
+            {{#if this.shouldShowNavLinks}}
+                <div local-class='SideNav'>
+                    <div class='panel panel-default'>
+                        <nav local-class='stacked-nav'>
+                            <ul>
+                                <li>
+                                    <OsfLink
+                                        data-analytics-name='Settings'
+                                        data-test-settings-link
+                                        @href='/settings'
+                                    >
+                                        {{t 'settings.profile.title'}}
+                                    </OsfLink>
+                                </li>
+                                <li>
+                                    <OsfLink
+                                        data-analytics-name='Account'
+                                        data-test-account-link
+                                        @route='settings.account'
+                                    >
+                                        {{t 'settings.account.title'}}
+                                    </OsfLink>
+                                </li>
+                                <li>
+                                    <OsfLink
+                                        data-analytics-name='Configure add-on accounts'
+                                        data-test-addons-link
+                                        @href='/settings/addons'
+                                    >
+                                        {{t 'settings.addons.title'}}
+                                    </OsfLink>
+                                </li>
+                                <li>
+                                    <OsfLink
+                                        data-analytics-name='Notifications'
+                                        data-test-notifications-link
+                                        @href='/settings/notifications'
+                                    >
+                                        {{t 'settings.notifications.title'}}
+                                    </OsfLink>
+                                </li>
+                                <li>
+                                    <OsfLink
+                                        data-analytics-name='Developer apps'
+                                        data-test-apps-link
+                                        @route='settings.developer-apps'
+                                    >
+                                        {{t 'settings.developer-apps.title'}}
+                                    </OsfLink>
+                                </li>
+                                <li>
+                                    <OsfLink
+                                        data-analytics-name='Personal access tokens'
+                                        data-test-tokens-link
+                                        @route='settings.tokens'
+                                    >
+                                        {{t 'settings.tokens.title'}}
+                                    </OsfLink>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-            </BsCollapse>
+            {{/if}}
         </div>
         <div class='col-md-9'>
             {{#if this.currentUser.user}}
