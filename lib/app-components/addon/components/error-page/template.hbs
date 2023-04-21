@@ -1,37 +1,35 @@
 {{page-title (t (concat this.translateKey '.heading'))}}
 
-<div class='container'>
-    <div class='row'>
-        <div class='col-xs-12'>
-            <h1>{{t (concat this.translateKey '.heading')}}</h1>
-            <p>
-                {{t (concat this.translateKey '.message') brand=(t 'general.services.collections')}}
-                <br>
-                <span>
-                    {{t 'app_components.error_page.email_message'}}
-                    <a
-                        href='mailto:{{this.supportEmail}}'
-                        onclick={{action 'click' 'link' (concat this.label ' - Support') target=this.analytics}}
-                    >
-                        {{this.supportEmail}}
-                    </a>
-                </span>
-            </p>
-            {{#if this.theme.isProvider}}
+<div class='container' local-class='error-container'>
+    <div local-class='error'>
+        <h1>{{t (concat this.translateKey '.heading')}}</h1>
+        <p>
+            {{t (concat this.translateKey '.message') brand=(t 'general.services.collections')}}
+            <br>
+            <span>
+                {{t 'app_components.error_page.email_message'}}
                 <a
-                    class='btn btn-primary m-t-md'
-                    href={{this.theme.pathPrefix}}
-                    onclick={{action 'click' 'link' (concat this.label ' - Go to Index') target=this.analytics}}
+                    href='mailto:{{this.supportEmail}}'
+                    onclick={{action 'click' 'link' (concat this.label ' - Support') target=this.analytics}}
                 >
-                    {{t 'app_components.error_page.go_to'
-                        brand=(t @brandKey name=this.theme.provider.name)
-                    }}
+                    {{this.supportEmail}}
                 </a>
-            {{else}}
-                <LinkToExternal @route='home' class='btn btn-primary m-t-md'>
-                    {{t 'app_components.error_page.go_to' brand=(t 'general.OSF')}}
-                </LinkToExternal>
-            {{/if}}
-        </div>
+            </span>
+        </p>
+        {{#if this.theme.isProvider}}
+            <a
+                class='btn btn-primary m-t-md'
+                href={{this.theme.pathPrefix}}
+                onclick={{action 'click' 'link' (concat this.label ' - Go to Index') target=this.analytics}}
+            >
+                {{t 'app_components.error_page.go_to'
+                    brand=(t @brandKey name=this.theme.provider.name)
+                }}
+            </a>
+        {{else}}
+            <LinkToExternal @route='home' class='btn btn-primary m-t-md'>
+                {{t 'app_components.error_page.go_to' brand=(t 'general.OSF')}}
+            </LinkToExternal>
+        {{/if}}
     </div>
 </div>
