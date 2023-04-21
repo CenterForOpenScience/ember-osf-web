@@ -7,7 +7,7 @@
         @onAddContributor={{action this.reloadContributors}}
     />
 </div>
-<div local-class='contributor-container'>
+<div local-class='contributor-container {{ if this.isMobile 'mobile'}}'>
     <h2 local-class='inline'>
         {{t 'app_components.project_contributors.title'}}
     </h2>
