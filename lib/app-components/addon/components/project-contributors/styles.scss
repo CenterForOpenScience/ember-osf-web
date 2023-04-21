@@ -1,7 +1,23 @@
-.col-division-right {
+.search-container {
     border-right: 1px solid #ccc;
+    width: 40%;
+    float: left;
+    padding-right: 5px;
+
+    &.mobile {
+        width: 100%;
+    }
 }
 
-.inline {
-    display: inline;
+.contributor-container {
+    width: 58%;
+    float: right;
+
+    &.mobile {
+        width: 100%;
+    }
+
+    .inline {
+        display: inline;
+    }
 }
