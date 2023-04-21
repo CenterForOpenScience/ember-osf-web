@@ -1,6 +1,5 @@
 <div
-    local-class='col-division-right'
-    class='col-xs-12 col-md-5'
+    local-class='search-container {{ if this.isMobile 'mobile'}}'
 >
     <ProjectContributors::Search
         @node={{@node}}
@@ -8,7 +7,7 @@
         @onAddContributor={{action this.reloadContributors}}
     />
 </div>
-<div class='col-xs-12 col-md-7'>
+<div local-class='contributor-container'>
     <h2 local-class='inline'>
         {{t 'app_components.project_contributors.title'}}
     </h2>
