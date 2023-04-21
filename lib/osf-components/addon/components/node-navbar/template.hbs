@@ -18,40 +18,39 @@
                         {{t 'node_navbar.project_nav'}}
                     </span>
                 </div>
-                <BsCollapse
-                    @collapsed={{this.collapsedNav}}
-                    class='navbar-collapse'
-                >
-                    <ul data-test-node-navbar-links class='nav navbar-nav'>
-                        {{#if this.fakeParent}}
-                            {{#node-navbar/link node=this.fakeParent useLinkTo=false}}
-                                <FaIcon @icon='level-down-alt' @rotation={{180}} />
+                {{#if this.shouldShowNavLinks}}
+                    <div class='navbar-collapse'>
+                        <ul data-test-node-navbar-links class='nav navbar-nav'>
+                            {{#if this.fakeParent}}
+                                {{#node-navbar/link node=this.fakeParent useLinkTo=false}}
+                                    <FaIcon @icon='level-down-alt' @rotation={{180}} />
+                                {{/node-navbar/link}}
+                            {{/if}}
+                            {{#node-navbar/link node=@node useLinkTo=false setActive=false extraClasses='project-title'}}
+                                {{@node.title}}
                             {{/node-navbar/link}}
-                        {{/if}}
-                        {{#node-navbar/link node=@node useLinkTo=false setActive=false extraClasses='project-title'}}
-                            {{@node.title}}
-                        {{/node-navbar/link}}
-                        {{node-navbar/link node=@node useLinkTo=false destination='files'}}
-                        {{#if @node.wikiEnabled}}
-                            {{node-navbar/link node=@node useLinkTo=false destination='wiki'}}
-                        {{/if}}
-                        {{#if (or @node.public @node.currentUserIsContributor)}}
-                            {{node-navbar/link node=@node useLinkTo=true destination='analytics'}}
-                        {{/if}}
-                        {{#unless @node.isRegistration}}
-                            {{node-navbar/link node=@node useLinkTo=true destination='registrations'}}
-                        {{/unless}}
-                        {{#if @node.currentUserIsContributor}}
-                            {{node-navbar/link node=@node useLinkTo=false destination='contributors'}}
-                        {{/if}}
-                        {{#if (and @node.userHasWritePermission (not @node.isRegistration))}}
-                            {{node-navbar/link node=@node useLinkTo=false destination='addons'}}
-                        {{/if}}
-                        {{#if (if @node.isRegistration @node.userHasWritePermission @node.userHasReadPermission)}}
-                            {{node-navbar/link node=@node useLinkTo=false destination='settings'}}
-                        {{/if}}
-                    </ul>
-                </BsCollapse>
+                            {{node-navbar/link node=@node useLinkTo=false destination='files'}}
+                            {{#if @node.wikiEnabled}}
+                                {{node-navbar/link node=@node useLinkTo=false destination='wiki'}}
+                            {{/if}}
+                            {{#if (or @node.public @node.currentUserIsContributor)}}
+                                {{node-navbar/link node=@node useLinkTo=true destination='analytics'}}
+                            {{/if}}
+                            {{#unless @node.isRegistration}}
+                                {{node-navbar/link node=@node useLinkTo=true destination='registrations'}}
+                            {{/unless}}
+                            {{#if @node.currentUserIsContributor}}
+                                {{node-navbar/link node=@node useLinkTo=false destination='contributors'}}
+                            {{/if}}
+                            {{#if (and @node.userHasWritePermission (not @node.isRegistration))}}
+                                {{node-navbar/link node=@node useLinkTo=false destination='addons'}}
+                            {{/if}}
+                            {{#if (if @node.isRegistration @node.userHasWritePermission @node.userHasReadPermission)}}
+                                {{node-navbar/link node=@node useLinkTo=false destination='settings'}}
+                            {{/if}}
+                        </ul>
+                    </div>
+                {{/if}}
             </div>
         </nav>
         <div local-class='NodeNavbar__navbar-buffer'></div>
