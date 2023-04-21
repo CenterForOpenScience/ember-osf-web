@@ -3,8 +3,8 @@ declare const config: {
     hostAppName: string;
     indexPageRegistrationIds: string[];
     modulePrefix: string;
-    shareBaseURL: string;
-    shareSearchBaseURL: string;
+    shareBaseUrl: string;
+    shareSearchUrl: string;
     externalRegistries: Array<{
         name: string;
         https: boolean;

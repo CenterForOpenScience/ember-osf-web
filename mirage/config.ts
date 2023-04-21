@@ -48,13 +48,13 @@ import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl } } = config;
+const { OSF: { apiUrl, shareBaseUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
     this.passthrough('https://api.crossref.org/*');
     // SHARE search
-    this.urlPrefix = 'https://share.osf.io';
+    this.urlPrefix = shareBaseUrl;
     this.namespace = '/api/v2/';
 
     this.post('/search/creativeworks/_search', shareSearch);

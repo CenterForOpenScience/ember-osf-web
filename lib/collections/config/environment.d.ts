@@ -3,7 +3,6 @@ declare const config: {
     hostAppName: string;
     modulePrefix: string;
     OSF: {
-        shareSearchUrl: string;
         url: string;
     },
     whiteListedProviders: string[];
