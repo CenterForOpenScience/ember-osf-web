@@ -1,0 +1,34 @@
+.search-page {
+    background-color: $color-bg-gray;
+}
+
+.heading-wrapper {
+    text-align: center;
+    color: $color-text-white;
+    background-color: $osf-dark-blue-navbar;
+}
+
+.heading-label {
+    font-size: 1.5em;
+    font-weight: 400;
+    padding: 40px;
+}
+
+.search-input {
+    color: $color-text-black;
+    padding: 9px 5px;
+    font-size: 1.5em;
+    max-width: 700px;
+    min-width: 250px;
+    width: 50vw;
+}
+
+.search-button {
+    position: relative;
+    right: 3px;
+    bottom: 4px;
+}
+
+.sidenav-toggle {
+    float: left;
+}

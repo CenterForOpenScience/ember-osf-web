@@ -201,6 +201,12 @@ dashboard:
         title: 'Browse the latest research'
         description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
         button: 'View preprints'
+
+search:
+    search_header: 'Search OSF'
+    textbox_placeholder: 'Search placeholder'
+    search_button_label: 'Search'
+    toggle_sidenav: 'Toggle search sidebar'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
