@@ -6,15 +6,14 @@
     {{@text}}
     {{#unless @hide}}
         <span>
-            <button
+            <Button
                 aria-label={{@ariaLabel}}
                 data-test-active-filter-remove-button
-                type='button'
                 local-class='removeActiveFilter'
                 {{on 'click' this.removeFilterItem}}
             >
                 <FaIcon @icon='times-circle' />
-            </button>
+            </Button>
         </span>
     {{/unless}}
 </span>

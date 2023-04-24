@@ -25,14 +25,12 @@
                     {{loading-indicator dark=true}}
                 {{else}}
                     <div local-class='count'>{{this.linkedByCount}}</div>
-                    <button
-                        type='button'
-                        class='btn btn-link'
-                        local-class='button-link'
+                    <Button
+                        @layout='fake-link'
                         {{on 'click' this.showLinksModal}}
                     >
                         {{t 'analytics.viewLinks'}}
-                    </button>
+                    </Button>
                     <OsfDialog
                         @isOpen={{this.linksModalShown}}
                         @onClose={{action this.hideLinksModal}}
@@ -115,13 +113,12 @@
                     >
                         {{#each this.allTimespans as |timespan|}}
                             <li role='menuitem'>
-                                <button
-                                    type='button'
+                                <Button
                                     local-class='date-range-option'
                                     {{on 'click' (fn this.setTimespan timespan)}}
                                 >
                                     {{t (get this.timespanIntlKeys timespan)}}
-                                </button>
+                                </Button>
                             </li>
                         {{/each}}
                     </dd.menu>

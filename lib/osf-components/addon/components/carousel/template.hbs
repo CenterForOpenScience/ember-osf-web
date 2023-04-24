@@ -13,10 +13,9 @@
                 local-class={{if item.isActive 'current' ''}}
                 aria-selected={{if item.isActive 'true' 'false'}}
             >
-                <button
+                <Button
                     data-test-navigation-button
                     data-analytics-name='Go to slide {{item.slideIndex}}'
-                    type='button'
                     data-slide={{item.index}}
                     aria-label={{t 'osf-components.carousel.go_to_slide' slideIndex=item.slideIndex}}
                     {{action this.navClick item}}
@@ -25,7 +24,7 @@
                     {{#if item.isActive}}
                         <span class='visuallyhidden'>{{t 'osf-components.carousel.current_slide'}}</span>
                     {{/if}}
-                </button>
+                </Button>
             </li>
         {{/each}}
     </ol>

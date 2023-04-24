@@ -16,16 +16,15 @@
                 </LinkTo>
 
                 {{! Navigation toggle - XS screen }}
-                <button
-                    type='button'
-                    class='navbar-toggle collapsed'
-                    aria-label={{t 'navbar.toggle_secondary'}}
-                    {{on 'click' this.toggleSecondaryNavigation}}
-                >
-                    <span class='icon-bar'></span>
-                    <span class='icon-bar'></span>
-                    <span class='icon-bar'></span>
-                </button>
+                {{#if this.isMobileOrTablet}}
+                    <Button
+                        aria-label={{t 'navbar.toggle_secondary'}}
+                        local-class='navbar-toggle'
+                        {{on 'click' this.toggleSecondaryNavigation}}
+                    >
+                        <FaIcon @icon='bars' />
+                    </Button>
+                {{/if}}
             </div>
 
             {{! Secondary nav links }}

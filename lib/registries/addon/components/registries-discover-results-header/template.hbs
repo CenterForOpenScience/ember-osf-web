@@ -17,16 +17,14 @@
             <dd.content local-class='DropdownContent'>
                 {{#each @sortOptions as |option index|}}
                     <div>
-                        <button
+                        <Button
                             data-test-sort-option-id='{{index}}'
-                            class='btn'
-                            type='button'
                             local-class='SortDropDown__Option'
                             {{on 'click' (fn @setOrder option)}}
                             {{on 'click' dd.close}}
                         >
                             {{t option.display}}
-                        </button>
+                        </Button>
                     </div>
                 {{/each}}
             </dd.content>

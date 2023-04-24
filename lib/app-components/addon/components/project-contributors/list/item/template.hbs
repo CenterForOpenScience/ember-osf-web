@@ -25,11 +25,14 @@
     </div>
 
     <div class='visible-xs-inline-block col-xs-1'>
-        <button data-test-project-contributors-list-item-x-button type='button' class='text-danger'
-            aria-label={{t 'app_components.project_contributors.list.item.remove_author'}} hidden={{not this.canRemove}}
+        <Button
+            data-test-project-contributors-list-item-x-button
+            @type='destroy'
+            aria-label={{t 'app_components.project_contributors.list.item.remove_author'}}
+            hidden={{not this.canRemove}}
             {{on 'click' (fn @removeContributor @contributor)}}>
             <FaIcon @icon='times' />
-        </button>
+        </Button>
     </div>
 
     {{! Permissions }}
@@ -68,9 +71,14 @@
 
     {{! Remove }}
     <div class='hidden-xs col-sm-2 text-center'>
-        <button data-test-project-contributors-list-item-remove-button type='button' class='btn btn-danger btn-sm'
-            disabled={{not this.canRemove}} {{action @removeContributor @contributor}}>
+        <Button
+            data-test-project-contributors-list-item-remove-button
+            @layout='small'
+            @type='destroy'
+            disabled={{not this.canRemove}}
+            {{on 'click' (action @removeContributor @contributor)}}
+        >
             {{t 'app_components.project_contributors.list.item.remove'}}
-        </button>
+        </Button>
     </div>
 </div>

@@ -3,15 +3,14 @@
         <h4>{{t 'collections.discover_page.active_filters.heading'}}:</h4>
     </div>
     <div local-class='button-container'>
-        <button
+        <Button
             data-test-clear-filters-button
-            type='button'
-            class='btn btn-default btn-sm'
+            @layout='small'
             {{action @clearFilters}}
         >
             {{t 'collections.discover_page.active_filters.button'}}
             <FaIcon @icon='times' />
-        </button>
+        </Button>
     </div>
 </div>
 

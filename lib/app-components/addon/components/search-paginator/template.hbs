@@ -1,17 +1,16 @@
 <ul local-class='ul'>
     {{#each this.items as |item|}}
         <li local-class='li'>
-            <button
+            <Button
                 data-test-page-number={{item.text}}
                 data-analytics-name='Search paginator button {{item.text}}'
                 aria-label={{item.aria}}
-                type='button'
                 local-class={{if (eq this.current item.text) 'active'}}
                 disabled={{item.disabled}}
-                {{action (or item.action this.setPage) item.text}}
+                {{on 'click' (action (or item.action this.setPage) item.text)}}
             >
                 {{item.text}}
-            </button>
+            </Button>
         </li>
     {{/each}}
 </ul>
