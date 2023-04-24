@@ -1,2 +1,51 @@
 {{!-- template-lint-disable no-bare-strings --}}
-New search placeholder
+<OsfLayout 
+    @backgroundClass='search-page'
+as |layout|>
+    <layout.heading local-class='heading-wrapper'>
+        <form role='search'>
+            <label local-class='heading-label'>
+                {{t 'search.search_header'}}
+            </label>
+            <Input
+                local-class='search-input'
+                @type='search'
+                @placeholder={{t 'search.textbox_placeholder'}}
+                @value={{this.q}}
+                {{on 'keydown' this.onKeyPress}}
+            />
+            <Button
+                local-class='search-button'
+                aria-label={{t 'search.search_button_label'}}
+                @type='primary'
+                @layout='large'
+                {{on 'click' (perform this.doSearch)}}
+            >
+                <FaIcon @icon='search' />
+            </Button>
+        </form>
+
+        {{#if this.showSidenavToggle}}
+            <Button
+                aria-label={{t 'search.toggle_sidenav'}}
+                local-class='sidenav-toggle'
+                {{on 'click' layout.toggleSidenav}}
+            >
+                <FaIcon @icon='bars' />
+            </Button>
+        {{/if}}
+    </layout.heading>
+    <layout.left>
+        {{!-- current filters --}}
+        {{!-- filter facets --}}
+        Left
+    </layout.left>
+    <layout.main>
+        Main
+        {{!-- placeholder if no search term (maybe) --}}
+        {{!-- object type filtering tabs --}}
+        {{!-- search cards --}}
+        {{!-- sort dropdown --}}
+        {{!-- paginator --}}
+    </layout.main>
+</OsfLayout>
