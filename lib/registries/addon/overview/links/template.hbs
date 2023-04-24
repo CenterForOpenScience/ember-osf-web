@@ -10,7 +10,7 @@
         <NodeCard @node={{child}} />
     {{/list.item}}
     {{#list.empty}}
-        <p>{{t 'registries.overview.links.no_linked_nodes'}}</p>
+        <p data-test-no-linked-nodes>{{t 'registries.overview.links.no_linked_nodes'}}</p>
     {{/list.empty}}
 {{/paginated-list/has-many}}
 
@@ -24,6 +24,6 @@
         <NodeCard @node={{child}} />
     {{/list.item}}
     {{#list.empty}}
-        <p>{{t 'registries.overview.links.no_linked_registrations'}}</p>
+        <p data-test-no-linked-registrations>{{t 'registries.overview.links.no_linked_registrations'}}</p>
     {{/list.empty}}
 {{/paginated-list/has-many}}

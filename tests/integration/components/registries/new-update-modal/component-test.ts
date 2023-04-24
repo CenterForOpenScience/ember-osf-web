@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { timeout } from 'ember-concurrency';
 import { setupIntl, TestContext } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -30,6 +31,7 @@ module('Integration | Component | new-update-modal', hooks => {
                 @onClose={{this.noop}}
             />`,
         );
+        await timeout(100);
         assert.dom('[data-test-new-update-dialog-heading]').hasText(
             this.intl.t('registries.newUpdateModal.modalHeader'),
             'Modal header is correct',
@@ -57,6 +59,7 @@ module('Integration | Component | new-update-modal', hooks => {
                 @onClose={{this.noop}}
             />`,
         );
+        await timeout(100);
         assert.dom('[data-test-new-update-dialog-heading]').hasText(
             this.intl.t('registries.newUpdateModal.modalHeaderNoUpdates'),
             'Modal header is correct',
