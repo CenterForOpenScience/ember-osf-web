@@ -69,27 +69,28 @@
             </div>
 
             {{! Secondary nav links }}
-            <BsCollapse
-                class='navbar-collapse navbar-right'
-                local-class='secondary-navigation'
-                @collapsed={{not this.showNavLinks}}
-            >
-                <ul class='nav navbar-nav' local-class='links'>
-                    {{#let (hash
-                        links=(component 'osf-navbar/x-links'
-                            onLinkClicked=(action 'onLinkClicked')
-                        )
-                    ) as |ctx|}}
-                        {{#if (has-block)}}
-                            {{yield ctx}}
-                        {{else}}
-                            {{ctx.links}}
-                        {{/if}}
-                    {{/let}}
+            {{#if this.shouldShowNavLinks}}
+                <div
+                    class='navbar-collapse navbar-right'
+                    local-class='secondary-navigation'
+                >
+                    <ul class='nav navbar-nav' local-class='links'>
+                        {{#let (hash
+                            links=(component 'osf-navbar/x-links'
+                                onLinkClicked=(action 'onLinkClicked')
+                            )
+                        ) as |ctx|}}
+                            {{#if (has-block)}}
+                                {{yield ctx}}
+                            {{else}}
+                                {{ctx.links}}
+                            {{/if}}
+                        {{/let}}
 
-                    <OsfNavbar::AuthDropdown @onLinkClicked={{this.onLinkClicked}} @campaign={{@campaign}} />
-                </ul>
-            </BsCollapse>
+                        <OsfNavbar::AuthDropdown @onLinkClicked={{this.onLinkClicked}} @campaign={{@campaign}} />
+                    </ul>
+                </div>
+            {{/if}}
         </div>
     </nav>
 </div>

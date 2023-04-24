@@ -3,7 +3,9 @@ import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
+import Media from 'ember-responsive';
 import Session from 'ember-simple-auth/services/session';
+import { tracked } from 'tracked-built-ins';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -39,10 +41,11 @@ export const OSF_SERVICES: ServiceLink[] = [
 export default class OsfNavbar extends Component {
     @service analytics!: Analytics;
     @service features!: Features;
+    @service media!: Media;
     @service router!: any;
     @service session!: Session;
 
-    showNavLinks = false;
+    @tracked showNavLinks = false;
 
     activeService: OSFService = OSFService.HOME;
     services: ServiceLink[] = OSF_SERVICES;
@@ -82,5 +85,12 @@ export default class OsfNavbar extends Component {
     @action
     onLinkClicked() {
         this.set('showNavLinks', false);
+    }
+
+    get shouldShowNavLinks() {
+        if (!(this.media.isMobile || this.media.isTablet)) {
+            return true;
+        }
+        return this.showNavLinks;
     }
 }
