@@ -10,6 +10,6 @@
         <NodeCard @node={{child}} />
     {{/list.item}}
     {{#list.empty}}
-        <p>{{t 'registries.overview.components.no_components'}}</p>
+        <p data-test-no-components>{{t 'registries.overview.components.no_components'}}</p>
     {{/list.empty}}
 {{/paginated-list/has-many}}
