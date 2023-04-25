@@ -18,6 +18,7 @@ module('Registries | Acceptance | overview.links', hooks => {
             linkedNodes: [linkedNode],
         });
         await visit(`/${registration.id}/links`);
+        assert.dom('[data-test-links-page-heading]').exists('Links page heading is shown');
         assert.dom(`[data-test-node-title="${linkedNode.id}"]`).containsText('Linked node', 'Linked node is shown');
         assert.dom('[data-test-no-linked-registrations]').exists('No linked registrations message is shown');
     });

@@ -26,6 +26,7 @@ module('Registries | Acceptance | overview.components', hooks => {
         });
         await visit(`/${parentRegistration.id}/components`);
 
+        assert.dom('[data-test-components-page-heading]').exists('Components page heading is shown');
         assert.dom('[data-test-node-card]').exists({ count: 2 }, 'Two child registrations are shown');
         assert.dom('[data-test-no-components]').doesNotExist('No components message is not shown');
     });
