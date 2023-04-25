@@ -55,74 +55,21 @@
             </div>
             <div local-class='CommentContent'>
                 <MarkdownToHtml @markdown={{this.comment.content}} />
-                {{#if this.reporting}}
-                    <ValidatedModelForm
-                        @modelName='comment-report'
-                        @modelProperties={{hash comment=this.comment}}
-                        @onSave={{action this.onSave}}
-                        @onError={{action this.onError}}
-                        as |form|
-                    >
-                        <form.select
-                            @valuePath='category'
-                            @options={{this.abuseCategories}}
-                            @searchEnabled={{false}}
-                            @placeholder={{t 'registries.overview.comments.category_placeholder'}}
-                            as |category|
-                        >
-                            {{t (concat 'registries.overview.comments.abuse_' category)}}
-                        </form.select>
-                        <form.textarea
-                            @valuePath='message'
-                            @label={{t 'registries.overview.comments.report_placeholder'}}
-                        />
-                        <div local-class='formButtons'>
-                            <Button
-                                local-class='CommentReport__cancel'
-                                @layout='small'
-                                {{on 'click' (action this.cancelReport)}}
-                            >
-                                {{t 'registries.overview.comments.cancel'}}
-                            </Button>
-                            <Button
-                                data-analytics-name='Report comment'
-                                local-class='CommentReport__save'
-                                disabled={{form.disabled}}
-                                type='submit'
-                                @layout='small'
-                            >
-                                {{t 'registries.overview.comments.report'}}
-                            </Button>
-                        </div>
-                    </ValidatedModelForm>
-                {{/if}}
             </div>
-            {{#unless this.reporting}}
-                <div local-class='CommentControls'>
-                    <div>
-                        {{#if this.canReport}}
-                            <Button
-                                @layout='fake-link'
-                                {{on 'click' (action this.report)}}
-                            >
-                                {{t 'registries.overview.comments.report'}}
-                            </Button>
-                        {{/if}}
-                    </div>
-                    <div local-class='repliesCount'>
-                        {{#if this.hasReplies}}
-                            <Button
-                                data-analytics-name='View replies'
-                                @layout='fake-link'
-                                {{on 'click' (action this.toggleReplies)}}
-                            >
-                                {{t (concat 'registries.overview.comments' (if this.showReplies '.hide_replies' '.see_replies'))}}
-                                <FaIcon @icon={{if this.showReplies 'caret-up' 'caret-down'}} />
-                            </Button>
-                        {{/if}}
-                    </div>
+            <div local-class='CommentControls'>
+                <div local-class='repliesCount'>
+                    {{#if this.hasReplies}}
+                        <Button
+                            data-analytics-name='View replies'
+                            @layout='fake-link'
+                            {{on 'click' (action this.toggleReplies)}}
+                        >
+                            {{t (concat 'registries.overview.comments' (if this.showReplies '.hide_replies' '.see_replies'))}}
+                            <FaIcon @icon={{if this.showReplies 'caret-up' 'caret-down'}} />
+                        </Button>
+                    {{/if}}
                 </div>
-            {{/unless}}
+            </div>
             {{#if this.showReplies}}
                 {{#if this.loadingReplies}}
                     <ContentPlaceholders as |placeholder|>
