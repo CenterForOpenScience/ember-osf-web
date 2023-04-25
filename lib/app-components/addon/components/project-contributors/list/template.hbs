@@ -1,9 +1,10 @@
 {{#if this.isNotMobile}}
     <div local-class='header-container'>
-        <div local-class='option-container'>
+        <div local-class='icon-spacer-container'></div>
+        <div local-class='name-container'>
             <strong>{{t 'app_components.project_contributors.list.name'}}</strong>
         </div>
-        <div local-class='option-container'>
+        <div local-class='permission-container'>
             <strong>{{t 'app_components.project_contributors.list.permissions'}}</strong>
             <span>
                 <FaIcon @icon='question-circle' />
@@ -13,7 +14,7 @@
                 </EmberPopover>
             </span>
         </div>
-        <div local-class='option-container'>
+        <div local-class='citation-container'>
             <strong>{{t 'app_components.project_contributors.list.citation'}}</strong>
             <span>
                 <FaIcon @icon='question-circle' />
@@ -23,6 +24,7 @@
                 </EmberPopover>
             </span>
         </div>
+        <div local-class='remove-spacer-container'></div>
     </div>
 {{/if}}
 <SortableGroup
