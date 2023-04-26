@@ -1,9 +1,7 @@
 {{#if this.showDiscard}}
-    <button
+    <Button
         data-test-submit-section-discard
         data-analytics-name='Discard'
-        type='button'
-        class='btn btn-default'
         {{on 'click' this.discard}}
     >
         {{#if @discardButtonLabel}}
@@ -11,13 +9,12 @@
         {{else}}
             {{t (concat 'app_components.submit_section.discard')}}
         {{/if}}
-    </button>
+    </Button>
 {{/if}}
-<button
+<Button
     data-test-submit-section-continue
     data-analytics-name='Continue'
-    type='button'
-    class='btn btn-primary'
+    @type='primary'
     disabled={{this.continueDisabled}}
     {{on 'click' this.continue}}
 >
@@ -26,4 +23,4 @@
     {{else}}
         {{t (concat 'app_components.submit_section.save')}}
     {{/if}}
-</button>
+</Button>

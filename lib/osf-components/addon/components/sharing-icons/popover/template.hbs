@@ -1,8 +1,7 @@
-<button
+<Button
     aria-label={{t 'registries.discover.search_result.sharing_popover'}}
-    type='button'
+    @layout='fake-link'
     local-class='SharingIconsPopover__anchor'
-    class='btn-link pull-right'
     tabindex='0'
     data-analytics-name='Sharing Icons Popover{{if @provider (concat ' ' @provider.name)}}'
     ...attributes
@@ -22,4 +21,4 @@
             @showText={{@showText}}
         />
     </EmberPopover>
-</button>
+</Button>

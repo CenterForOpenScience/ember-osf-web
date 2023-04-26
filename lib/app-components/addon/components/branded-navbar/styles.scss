@@ -9,8 +9,22 @@
         box-shadow: 2px 1px 4px rgba(82, 81, 81, 0.7);
     }
 
-    :global(.navbar-toggle) {
-        border-color: transparent;
+    .navbar-toggle {
+        position: relative;
+        float: right;
+        padding: 9px 10px;
+        margin-right: 15px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        color: $color-text-white;
+    }
+
+    .navbar-toggle:hover {
+        background-color: $color-bg-black;
     }
 
     :global(.navbar-collapse) {
@@ -54,6 +68,10 @@
     height: 50px;
 }
 
+.dropdown-links {
+    margin-right: 30px;
+}
+
 // The default 340px isn't quite enough for the auth dropdown
 .secondary-navigation {
     max-height: 400px !important;
@@ -68,5 +86,6 @@
 
     .links > li > a {
         line-height: 27px !important;
+        
     }
 }
