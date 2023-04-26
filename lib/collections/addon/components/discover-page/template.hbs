@@ -60,26 +60,22 @@
             />
             <div class='input-group-btn'>
                 {{!HELP BUTTON}}
-                <button
+                <Button
                     local-class='lucene-button'
                     data-test-help-button
-                    type='button'
-                    class='btn btn-default'
                     aria-label={{t 'collections.discover_page.luceneHelp'}}
                     {{action this.toggleShowLuceneHelp}}
                 >
                     <FaIcon @icon='question' @class='text-muted' />
-                </button>
+                </Button>
                 {{!SEARCH BUTTON}}
-                <button
+                <Button
                     local-class='search-button'
                     data-test-search-button
-                    type='button'
-                    class='btn btn-default'
                     {{action this.searchAction}}
                 >
                     {{t 'collections.discover_page.search'}}
-                </button>
+                </Button>
             </div>
             {{!Lucene search help modal}}
             <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
@@ -117,15 +113,14 @@
                 >
                     {{#each this.sortOptions as |sortChoice|}}
                         <ddm.item>
-                            <button
+                            <Button
                                 data-test-sort-by-item={{sortChoice.sortBy}}
-                                type='button'
-                                class='btn btn-link'
+                                @layout='fake-link'
                                 local-class='list-option'
                                 {{action this.selectSortOption sortChoice.sortBy}}
                             >
                                 {{sortChoice.display}}
-                            </button>
+                            </Button>
                         </ddm.item>
                     {{/each}}
                 </dd.menu>

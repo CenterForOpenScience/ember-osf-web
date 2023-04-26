@@ -51,8 +51,12 @@ export default class BrandedNavbar extends Component {
         this.toggleProperty('showNavLinks');
     }
 
+    get isMobileOrTablet() {
+        return this.media.isMobile || this.media.isTablet;
+    }
+
     get shouldShowNavLinks() {
-        if (this.media.isMobile || this.media.isTablet) {
+        if (this.isMobileOrTablet) {
             return this.showNavLinks;
         }
         return true;

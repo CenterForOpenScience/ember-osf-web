@@ -23,22 +23,23 @@
             class='hint hint--left pull-right'
             aria-label={{t 'components.preprint-form-authors.already_added'}}
         >
-            <button
+            <Button
                 data-test-project-contributors-is-contributor-button
-                type='button'
-                class='btn btn-default btn-small disabled disabled-checkmark'
+                @layout='small'
+                disabled={{true}}
             >
                 <FaIcon @icon='check' @aria-hidden='true' />
-            </button>
+            </Button>
         </span>
     {{else}}
-        <button
+        <Button
             data-test-project-contributors-add-contributor-button
-            type='button'
             class='btn btn-success btn-small pull-right'
-            {{action this.addContributor @user}}
+            @layout='small'
+            @type='create'
+            {{on 'click' (action this.addContributor @user)}}
         >
             {{t 'app_components.project_contributors.search.result.add'}}
-        </button>
+        </Button>
     {{/if}}
 </td>
