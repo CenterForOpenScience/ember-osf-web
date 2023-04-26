@@ -102,7 +102,6 @@ general:
     other: Other
     structured_data:
         json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
-        environment_error: 'Error identifying environment.'
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'

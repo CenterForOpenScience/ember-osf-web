@@ -39,7 +39,6 @@ export default class GuidFile extends Route {
 
     headTags?: HeadTagDef[];
     metadata!: CustomFileMetadataRecordModel;
-    structuredData?: object = {};
 
     @task
     @waitFor
@@ -61,16 +60,10 @@ export default class GuidFile extends Route {
         };
 
         // Google Structured Data
-        const parentId: string = await model.target.get('id');
-        const jsonLD: any = await this.scriptTags.returnStructuredData(parentId);
-
-        if (jsonLD) {
-            this.set('structuredData', jsonLD);
-        }
-
-        const jsonString: string = this.structuredData ?
-            JSON.stringify(this.structuredData) : JSON.stringify({ isAccessibleForFree : true });
-
+        const parentId = await model.target.get('id');
+        const jsonLD: object = await this.scriptTags.returnStructuredData(parentId);
+        const jsonString: string = Object.entries(jsonLD) ?
+            JSON.stringify(jsonLD) : JSON.stringify({ isAccessibleForFree : true });
         const scriptTagData = {
             type: 'application/ld+json',
             content: jsonString,

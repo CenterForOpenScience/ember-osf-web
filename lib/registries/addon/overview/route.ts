@@ -29,7 +29,6 @@ export default class Overview extends GuidRoute {
     @service ready!: Ready;
 
     headTags?: HeadTagDef[];
-    structuredData?: object = {};
 
     @restartableTask({ cancelOn: 'deactivate' })
     @waitFor
@@ -80,15 +79,9 @@ export default class Overview extends GuidRoute {
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
 
-            const jsonLD: any = await this.scriptTags.returnStructuredData(id);
-
-            if (jsonLD) {
-                this.set('structuredData', jsonLD);
-            }
-
-            const jsonString: string = this.structuredData ?
-                JSON.stringify(this.structuredData) : JSON.stringify({ isAccessibleForFree : true });
-
+            const jsonLD: object = await this.scriptTags.returnStructuredData(id);
+            const jsonString: string = Object.entries(jsonLD) ?
+                JSON.stringify(jsonLD) : JSON.stringify({ isAccessibleForFree : true });
             const scriptTagData = {
                 type: 'application/ld+json',
                 content: jsonString,
@@ -135,7 +128,9 @@ export default class Overview extends GuidRoute {
     afterModel(model: GuidRouteModel<Registration>) {
         // Do not return model.taskInstance
         // as it would block rendering until model.taskInstance resolves and `setHeadTags` task terminates.
-        taskFor(this.setHeadTags).perform(model);
+        if (!this.currentUser.viewOnlyToken) {
+            taskFor(this.setHeadTags).perform(model);
+        }
     }
 
     @action

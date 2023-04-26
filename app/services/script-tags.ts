@@ -1,10 +1,10 @@
 /* eslint-disable no-mixed-spaces-and-tabs*/
+/* eslint-disable object-shorthand*/
 import Service, { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import { MetaTagAttrs } from 'ember-osf-web/services/meta-tags';
-import getHref from 'ember-osf-web/utils/get-href';
 
 export type Content = object | string | String | number | null | undefined;
 
@@ -59,8 +59,8 @@ export default class ScriptTags extends Service {
 
     async returnStructuredData(guid: string): Promise<any> {
         const url = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
-        let jsonLD: object = {}; // TODO add default FE structure here
-        let jsonFetch : object | void;
+        let jsonLD = {};
+        let jsonFetch: {} | void;
         try {
             jsonFetch = await this.returnJSON(url);
             if (jsonFetch && (typeof(jsonFetch) === 'object')) {
@@ -75,49 +75,32 @@ export default class ScriptTags extends Service {
     async returnJSON(url: string) {
         const ajax = await this.currentUser.authenticatedAJAX({
             method: 'GET',
-            url: getHref(url),
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            url: url,
         });
         return ajax;
     }
 
-    getScriptTagAttributes(scriptTagsOverrides: ScriptTagsData): ScriptTagDef {
-        // Default values
-        const scriptTagsData: ScriptTagsData = {
+    /**
+     * Creates HTML head element script tags with content and data MIME type.
+     *
+     * @method getHeadTags
+     * @param {ScriptTagsData} scriptTagsData Override values for script tags
+     * @return {HeadTagDef[]}
+     */
+    getHeadTags(scriptTagsOverrides: ScriptTagsData): HeadTagDef[] {
+        const array: HeadTagDef[] = [];
+        const scriptTagDefs: ScriptTagDef | ScriptTagDef[] = {
             type: scriptTagsOverrides.type ?
                 scriptTagsOverrides.type : 'application/ld+json',
             content: scriptTagsOverrides.content ?
                 scriptTagsOverrides.content : { isAccessibleForFree: true },
             ...scriptTagsOverrides,
         };
-        return {
-            type: scriptTagsData.type,
-            dataContent: scriptTagsData.content,
-        };
-    }
-
-    /**
-     * Processes values from getScriptTagAttributes() to create HTML head element
-     * script tags with content and data MIME type attributes.
-     *
-     * @method getHeadTags
-     * @param {ScriptTagsData} scriptTagsData Default values for script tags
-     * @return {HeadTagDef[]}
-     */
-    getHeadTags(scriptTagsData: ScriptTagsData): HeadTagDef[] {
-        const scriptTagDefs: ScriptTagDef | ScriptTagDef[] = this.getScriptTagAttributes(scriptTagsData);
-        const { type, dataContent } = scriptTagDefs;
-        const attrs: ScriptTagAttrs = this.makeScriptTagAttrs(type);
-        const array: HeadTagDef[] = [];
+        const { type, content } = scriptTagDefs;
+        const attrs: ScriptTagAttrs = { type };
         const tagType: string = TagType.SCRIPT as string;
-	    array.push({type: tagType, content: dataContent, attrs});
+	    array.push({type: tagType, content: content, attrs});
         return array;
-    }
-
-    makeScriptTagAttrs(type: Content) {
-        return { type };
     }
 }
 
