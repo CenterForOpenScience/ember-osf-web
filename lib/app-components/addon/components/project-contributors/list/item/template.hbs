@@ -2,85 +2,75 @@
     local-class='contributor-container {{if this.isMobile 'mobile'}}'
     data-test-project-contributors-list-item-id={{@contributor.users.id}}
 >
-    {{! Sort Handle }}
-    <div local-class='sort-container'>
-        <span class='sortable-bars handle small'><FaIcon @icon='bars' /></span>
-    </div>
-
-    {{! Profile image}}
-    <div
-        data-test-project-contributors-list-item-profile-image
-        local-class='profile-image-container'
-    >
-        <img local-class='profile-image' src={{@contributor.users.profileImage}}
-            alt={{t 'app_components.project_contributors.list.item.img_alt'}}>
-    </div>
-
-    {{! Name }}
-    <div
-        data-test-project-contributors-list-item-name
-        local-class='name-container'
-    >
-        {{#if @contributor.unregisteredContributor}}
-            {{@contributor.unregisteredContributor}}
-        {{else}}
-            <a href={{@contributor.users.links.html}} target='_blank' rel='noopener noreferrer'>
-                {{@contributor.users.fullName}}
-            </a>
-        {{/if}}
-    </div>
-
-    {{#if this.isMobile}}
-        <div class='visible-xs-inline-block col-xs-1'>
-            <Button
-                data-test-project-contributors-list-item-x-button
-                @type='destroy'
-                aria-label={{t 'app_components.project_contributors.list.item.remove_author'}}
-                hidden={{not this.canRemove}}
-                {{on 'click' (fn @removeContributor @contributor)}}>
-                <FaIcon @icon='times' />
-            </Button>
+    <div local-class='top-row-container'>
+        {{! Sort Handle }}
+        <div local-class='sort-container'>
+            <span class='sortable-bars handle small'><FaIcon @icon='bars' /></span>
         </div>
-    {{/if}}
 
-    {{! Permissions }}
-    <div local-class='permission-container'>
-        <span class='visible-xs-inline permission-label'>
-            <em>
-                {{t 'app_components.project_contributors.list.item.permissions_label'}}
-            </em>
-        </span>
-        {{#if this.canChangePermissions}}
-            <PowerSelect data-test-project-contributors-list-item-permissions-select
-                @options={{this.permissions}}
-                @onChange={{action @updatePermissions @contributor}}
-                @selected={{@contributor.permission}}
-                as |option|
-            >
-                {{t (concat 'app_components.project_contributors.list.item.permissions.' option)}}
-            </PowerSelect>
-        {{else}}
-            <span data-test-project-contributors-list-item-permissions-display class='text-smaller'>
-                {{t (concat 'app_components.project_contributors.list.item.permissions.' @contributor.permission)}}
-            </span>
-        {{/if}}
+        {{! Profile image}}
+        <div
+            data-test-project-contributors-list-item-profile-image
+            local-class='profile-image-container'
+        >
+            <img local-class='profile-image' src={{@contributor.users.profileImage}}
+                alt={{t 'app_components.project_contributors.list.item.img_alt'}}>
+        </div>
+
+        {{! Name }}
+        <div
+            data-test-project-contributors-list-item-name
+            local-class='name-container'
+        >
+            {{#if @contributor.unregisteredContributor}}
+                {{@contributor.unregisteredContributor}}
+            {{else}}
+                <a href={{@contributor.users.links.html}} target='_blank' rel='noopener noreferrer'>
+                    {{@contributor.users.fullName}}
+                </a>
+            {{/if}}
+        </div>
     </div>
+    <div local-class='second-row-container'>
+        {{! Permissions }}
+        <div local-class='permission-container'>
+            {{#if this.isMobile}}
+                <div class='permission-label' local-class='permission-spacer'>
+                    <em>
+                        {{t 'app_components.project_contributors.list.item.permissions_label'}}
+                    </em>
+                </div>
+            {{/if}}
+            {{#if this.canChangePermissions}}
+                <PowerSelect data-test-project-contributors-list-item-permissions-select
+                    @options={{this.permissions}}
+                    @onChange={{action @updatePermissions @contributor}}
+                    @selected={{@contributor.permission}}
+                    as |option|
+                >
+                    {{t (concat 'app_components.project_contributors.list.item.permissions.' option)}}
+                </PowerSelect>
+            {{else}}
+                <div data-test-project-contributors-list-item-permissions-display class='text-smaller'>
+                    {{t (concat 'app_components.project_contributors.list.item.permissions.' @contributor.permission)}}
+                </div>
+            {{/if}}
+        </div>
 
-    {{! Bibliographic (Citation) }}
-    <div
-        data-test-project-contributors-list-item-citation-checkbox 
-        local-class='citation-container'
-    >
-        <Input
-            aria-label={{t 'app_components.project_contributors.list.item.in_citation_label'}}
-            @type='checkbox'
-            @disabled={{not this.canChangeBibliographic}}
-            @checked={{@contributor.bibliographic}}
-            @change={{action @toggleBibliographic @contributor}} />
-    </div>
+        {{! Bibliographic (Citation) }}
+        <div
+            data-test-project-contributors-list-item-citation-checkbox 
+            local-class='citation-container'
+        >
+            <Input
+                aria-label={{t 'app_components.project_contributors.list.item.in_citation_label'}}
+                @type='checkbox'
+                @disabled={{not this.canChangeBibliographic}}
+                @checked={{@contributor.bibliographic}}
+                @change={{action @toggleBibliographic @contributor}} />
+        </div>
 
-    {{! Remove }}
-    {{#if this.isNotMobile}}
+        {{! Remove }}
         <div local-class='remove-container'>
             <Button
                 data-test-project-contributors-list-item-remove-button
@@ -92,5 +82,5 @@
                 {{t 'app_components.project_contributors.list.item.remove'}}
             </Button>
         </div>
-    {{/if}}
+    </div>
 </div>
