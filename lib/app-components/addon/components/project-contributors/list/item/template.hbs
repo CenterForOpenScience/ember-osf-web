@@ -68,6 +68,18 @@
                 @disabled={{not this.canChangeBibliographic}}
                 @checked={{@contributor.bibliographic}}
                 @change={{action @toggleBibliographic @contributor}} />
+
+            {{#if this.isMobile}}
+                <FaIcon @icon='question-circle' />
+                <EmberPopover @side='bottom' @popperContainer='body'
+                >
+                    <div class='text-left'>
+                        <h3>{{t 'app_components.project_contributors.list.citation_popover_title'}}</h3>
+                        {{t 'app_components.project_contributors.list.citation_popover'}}
+                    </div>
+                </EmberPopover>
+            {{/if}}
+
         </div>
 
         {{! Remove }}
