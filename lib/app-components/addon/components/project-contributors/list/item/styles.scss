@@ -1,56 +1,105 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
 .contributor-container {
     display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
     border-top: 1px solid #eee !important;
     padding-top: 2px;
     height: 50px;
     width: 100%;
 
-    .sort-container {
-        width: 30px;
-    }
-
-    .profile-image-container {
-        width: 50px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-
-        .profile-image {
-            width: 40px;
-            height: 40px;
-        }
-    }    
-
-    .name-container {
-        margin-left: 5px;
-        flex: 1;
-    }
-
-    .permission-container {
-        margin-left: 10px;
-        margin-right: 10px;
-        width: 130px;
-    }
-
-    .citation-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: flex-start;
-        width: 100px;
-    }
-
-    .remove-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: flex-start;
-        width: 100px;
-    }
-
     &.mobile {
+        height: 100px;
         padding-top: 10px;
+        flex-direction: column;
+
+        .top-row-container {
+            height: 60px;
+        }
+
+        .second-row-container {
+            width: 100%;
+            height: 40px;
+
+            .permission-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+
+                flex: 1;
+            }
+
+            .citation-container {
+                width: 75px;
+            }
+        }
     }
 
+    .top-row-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex: 1;
+
+
+        .sort-container {
+            width: 30px;
+        }
+
+        .profile-image-container {
+            width: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            .profile-image {
+                width: 40px;
+                height: 40px;
+            }
+        }    
+
+        .name-container {
+            margin-left: 5px;
+            flex: 1;
+        }
+    }
+
+    .second-row-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 350px;
+
+        .permission-container {
+            margin-left: 10px;
+            margin-right: 10px;
+            width: 130px;
+
+            .permission-spacer {
+                margin-right: 5px;
+            }
+        }
+
+        .citation-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100px;
+        }
+
+        .remove-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100px;
+        }
+    }
 }
