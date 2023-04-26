@@ -5,6 +5,7 @@ import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import { MetaTagAttrs } from 'ember-osf-web/services/meta-tags';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 export type Content = object | string | String | number | null | undefined;
 
@@ -67,7 +68,8 @@ export default class ScriptTags extends Service {
                 jsonLD = jsonFetch;
             }
         } catch (e) {
-            throw new Error(this.intl.t('general.structured_data.json_ld_retrieval_error'));
+            const errorMessage = this.intl.t('general.structured_data.json_ld_retrieval_error');
+            captureException(e, { errorMessage });
         }
         return jsonLD;
     }

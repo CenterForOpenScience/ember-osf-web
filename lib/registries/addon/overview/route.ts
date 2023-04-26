@@ -19,6 +19,8 @@ import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
 import ScriptTags from 'ember-osf-web/services/script-tags';
+import captureException from 'ember-osf-web/utils/capture-exception';
+import Intl from 'ember-intl/services/intl';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
@@ -27,6 +29,7 @@ export default class Overview extends GuidRoute {
     @service metaTags!: MetaTags;
     @service scriptTags!: ScriptTags;
     @service ready!: Ready;
+    @service intl!: Intl;
 
     headTags?: HeadTagDef[];
 
@@ -79,16 +82,23 @@ export default class Overview extends GuidRoute {
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
 
-            const jsonLD: object = await this.scriptTags.returnStructuredData(id);
-            const jsonString: string = Object.entries(jsonLD) ?
-                JSON.stringify(jsonLD) : JSON.stringify({ isAccessibleForFree : true });
-            const scriptTagData = {
-                type: 'application/ld+json',
-                content: jsonString,
-            };
+            let jsonLD: object = {};
+            let scriptTag: HeadTagDef[] = [];
+            try {
+                jsonLD = await this.scriptTags.returnStructuredData(id);
+                const jsonString: string = Object.entries(jsonLD) ?
+                    JSON.stringify(jsonLD) : JSON.stringify({ isAccessibleForFree : true });
+                const scriptTagData = {
+                    type: 'application/ld+json',
+                    content: jsonString,
+                };
+                scriptTag = await this.scriptTags.getHeadTags(scriptTagData);
+            } catch (e) {
+                const errorMessage = this.intl.t('general.structured_data.json_ld_retrieval_error');
+                captureException(e, { errorMessage });
+            }
 
             const metaTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
-            const scriptTag: HeadTagDef[] = this.scriptTags.getHeadTags(scriptTagData);
             const allTags: HeadTagDef[] = metaTags.concat(scriptTag);
 
             if (!this.currentUser.viewOnlyToken) {
