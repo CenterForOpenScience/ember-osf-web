@@ -1,26 +1,43 @@
-.search-container {
-    border-right: 1px solid #ccc;
-    width: 40%;
-    float: left;
-    padding-right: 5px;
-
-    &.mobile {
-        border: 0;
-        width: 100%;
-    }
-}
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
 .contributor-container {
-    width: 58%;
-    float: right;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
 
     &.mobile {
-        float: left;
-        width: 100%;
+        flex-direction: column;
         margin-top: 10px;
     }
 
-    .inline {
-        display: inline;
+    .instruction-container {
+        width: 50%;
+
+        &.mobile {
+            width: 100%;
+        }
+
+        .instructions {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            .icon-container {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .search-container {
+        width: 50%;
+
+        &.mobile {
+            width: 100%;
+            margin-bottom: 10px;
+        }
     }
 }
