@@ -1,5 +1,9 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
+:global(.text-left) {
+    text-align: left;
+}
+
 .contributor-container {
     display: flex;
     flex-direction: row;
