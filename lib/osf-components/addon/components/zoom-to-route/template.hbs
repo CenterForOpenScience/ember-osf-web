@@ -1,9 +1,9 @@
-<BsForm
-    @model={{this.routeArgs}}
-    @onSubmit={{action 'zoom'}}
+<FormControls
+    @changeset={{this.changeset}}
     as |form|
 >
     <PowerSelect
+        @searchEnabled={{true}}
         @options={{this.routeNames}}
         @selected={{this.targetRoute}}
         @onChange={{action 'selectRoute'}}
@@ -13,18 +13,19 @@
         {{name}}
     </PowerSelect>
     {{#if this.targetRoute}}
-        <hr>
-        {{#each this.routeParams as |param|}}
-            <form.element
-                placeholder={{param}}
-                @controlType='text'
-                @label={{param}}
-                @property={{param}}
-            />
-        {{/each}}
-        <hr>
-        <Button type='submit'>
+        {{#if this.routeParams}}
+            <hr>
+            {{#each this.routeParams as |param|}}
+                <form.text
+                    @placeholder={{param}}
+                    @label={{param}}
+                    @valuePath={{param}}
+                />
+            {{/each}}
+            <hr>
+        {{/if}}
+        <Button {{on 'click' (action 'zoom')}}>
             {{t 'dev_tools.zoom_to_route.zoom'}}
         </Button>
     {{/if}}
-</BsForm>
+</FormControls>
