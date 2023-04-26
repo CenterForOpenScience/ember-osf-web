@@ -1,35 +1,39 @@
-<div
-    local-class='search-container {{ if this.isMobile 'mobile'}}'
->
-    <ProjectContributors::Search
-        @node={{@node}}
-        @contributors={{@contributors}}
-        @onAddContributor={{action this.reloadContributors}}
-    />
-</div>
 <div local-class='contributor-container {{ if this.isMobile 'mobile'}}'>
-    <h2 local-class='inline'>
-        {{t 'app_components.project_contributors.title'}}
-    </h2>
-    <span>
-        <FaIcon @icon='question-circle' />
-        <EmberPopover
-            @side='bottom'
-            @event='hover'
-            @popperContainer='body'
-        >
-            <h3>{{t 'app_components.project_contributors.contributors_popover_title'}}</h3>
-            {{t 'app_components.project_contributors.contributors_popover'}}
-        </EmberPopover>
-    </span>
-    <p>
-        {{t 'app_components.project_contributors.instructions'}}
-    </p>
-    <ProjectContributors::List
-        @node={{this.node}}
-        @bindReload={{action (mut this.reloadContributorsList)}}
-    />
+    <div local-class='instruction-container {{ if this.isMobile 'mobile'}}'>
+        <div local-class='instructions'>
+            <h2>
+                {{t 'app_components.project_contributors.title'}}
+            </h2>
+            <div local-class='icon-container'>
+                <FaIcon @icon='question-circle' />
+                <EmberPopover
+                    @side='bottom'
+                    @event='hover'
+                    @popperContainer='body'
+                >
+                    <h3>{{t 'app_components.project_contributors.contributors_popover_title'}}</h3>
+                    {{t 'app_components.project_contributors.contributors_popover'}}
+                </EmberPopover>
+            </div>
+        </div>
+        <p>
+            {{t 'app_components.project_contributors.instructions'}}
+        </p>
+    </div>
+    <div
+        local-class='search-container {{ if this.isMobile 'mobile'}}'
+    >
+        <ProjectContributors::Search
+            @node={{@node}}
+            @contributors={{@contributors}}
+            @onAddContributor={{action this.reloadContributors}}
+        />
+    </div>
 </div>
+<ProjectContributors::List
+    @node={{this.node}}
+    @bindReload={{action (mut this.reloadContributorsList)}}
+/>
 <SubmitSectionButtons
     @showDiscard={{false}}
     @discard={{this.discard}}
