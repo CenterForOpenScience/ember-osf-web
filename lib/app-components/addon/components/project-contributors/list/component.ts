@@ -191,8 +191,4 @@ export default class List extends Component {
     get isMobile() {
         return this.media.isMobile;
     }
-
-    get isNotMobile() {
-        return !this.media.isMobile;
-    }
 }

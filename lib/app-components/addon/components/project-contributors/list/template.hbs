@@ -1,4 +1,4 @@
-{{#if this.isNotMobile}}
+{{#unless this.isMobile}}
     <div local-class='header-container'>
         <div local-class='icon-spacer-container'></div>
         <div local-class='name-container'>
@@ -27,7 +27,7 @@
         </div>
         <div local-class='remove-spacer-container'></div>
     </div>
-{{/if}}
+{{/unless}}
 <SortableGroup
     @onChange={{action (perform this.reorderContributors)}}
     @model={{this.contributors}}
