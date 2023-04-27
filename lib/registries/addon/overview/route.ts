@@ -1,3 +1,4 @@
+/* eslint-disable no-undef-init*/
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -82,11 +83,11 @@ export default class Overview extends GuidRoute {
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
 
-            let jsonLD: object = {};
+            let jsonLD: object | undefined = undefined;
             let scriptTag: HeadTagDef[] = [];
             try {
                 jsonLD = await this.scriptTags.returnStructuredData(id);
-                const jsonString: string = Object.entries(jsonLD) ?
+                const jsonString: string = jsonLD ?
                     JSON.stringify(jsonLD) : JSON.stringify({ isAccessibleForFree : true });
                 const scriptTagData = {
                     type: 'application/ld+json',

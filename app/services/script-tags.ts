@@ -1,5 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs*/
 /* eslint-disable object-shorthand*/
+/* eslint-disable no-undef-init*/
 import Service, { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -59,8 +60,8 @@ export default class ScriptTags extends Service {
 
     async returnStructuredData(guid: string): Promise<any> {
         const url = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
-        let jsonLD = {};
-        let jsonFetch: {} | null | undefined;
+        let jsonLD = undefined;
+        let jsonFetch: object | undefined;
         try {
             jsonFetch = await this.returnJSON(url);
             if (jsonFetch && (typeof(jsonFetch) === 'object')) {

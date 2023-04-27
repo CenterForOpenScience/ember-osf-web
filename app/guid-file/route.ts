@@ -58,9 +58,9 @@ export default class GuidFile extends Route {
         };
 
         // Google Structured Data
-        const parentId = await model.target.get('id');
-        const jsonLD: object = await this.scriptTags.returnStructuredData(parentId);
-        const jsonString: string = Object.entries(jsonLD) ?
+        const id = await model.get('id');
+        const jsonLD: object | undefined = await this.scriptTags.returnStructuredData(id);
+        const jsonString: string = jsonLD ?
             JSON.stringify(jsonLD) : JSON.stringify({ isAccessibleForFree : true });
         const scriptTagData = {
             type: 'application/ld+json',
