@@ -101,16 +101,14 @@ export default class Overview extends GuidRoute {
             const metaTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
             const allTags: HeadTagDef[] = metaTags.concat(scriptTag);
 
-            if (!this.currentUser.viewOnlyToken) {
-                if (provider && provider.assets && provider.assets.favicon) {
-                    allTags.push({
-                        type: 'link',
-                        attrs: {
-                            rel: 'icon',
-                            href: provider.assets.favicon,
-                        },
-                    });
-                }
+            if (provider && provider.assets && provider.assets.favicon) {
+                allTags.push({
+                    type: 'link',
+                    attrs: {
+                        rel: 'icon',
+                        href: provider.assets.favicon,
+                    },
+                });
             }
             this.set('headTags', allTags);
             this.metaTags.updateHeadTags();
