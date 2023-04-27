@@ -55,7 +55,6 @@ export interface HeadTagDef {
  */
 export default class ScriptTags extends Service {
     @service intl!: Intl;
-    @service router!: any;
     @service currentUser!: CurrentUserService;
 
     async returnStructuredData(guid: string): Promise<any> {
@@ -83,10 +82,10 @@ export default class ScriptTags extends Service {
     }
 
     /**
-     * Creates HTML head element script tags with content and data MIME type.
+     * Creates one HTML head element script tag with content and a data MIME type
      *
      * @method getHeadTags
-     * @param {ScriptTagsData} scriptTagsData Override values for script tags
+     * @param {ScriptTagsData} scriptTagsData Override values from node
      * @return {HeadTagDef[]}
      */
     getHeadTags(scriptTagsOverrides: ScriptTagsData): HeadTagDef[] {
