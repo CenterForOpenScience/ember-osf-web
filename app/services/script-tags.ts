@@ -60,7 +60,7 @@ export default class ScriptTags extends Service {
     async returnStructuredData(guid: string): Promise<any> {
         const url = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
         let jsonLD = {};
-        let jsonFetch: {} | void;
+        let jsonFetch: {} | null | undefined;
         try {
             jsonFetch = await this.returnJSON(url);
             if (jsonFetch && (typeof(jsonFetch) === 'object')) {
