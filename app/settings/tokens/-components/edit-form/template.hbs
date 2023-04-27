@@ -1,0 +1,55 @@
+<FormControls
+    data-analytics-scope='Form'
+    @changeset={{this.changeset}}
+    as |form|
+>
+    <form.text
+        data-test-token-name
+        @valuePath='name'
+        @label={{t 'settings.tokens.tokenName'}}
+    />
+
+    <div>
+        <label>{{t 'settings.tokens.scopes'}}</label>
+        <p>{{t 'settings.tokens.scopesDescription'}}</p>
+
+        <form.checkboxes
+            @valuePath='scopes'
+            @options={{this.allScopes}}
+            @ariaLabel={{t 'settings.tokens.scopes'}}
+            as |cb|
+        >
+            <div local-class='Scope' data-test-scope={{cb.option.id}}>
+                {{cb.checkbox}}
+                <label for={{cb.checkboxId}}>
+                    {{cb.option.id}}
+                    <div local-class='Scope__description' data-test-scope-description>
+                        {{cb.option.description}}
+                    </div>
+                </label>
+            </div>
+        </form.checkboxes>
+    </div>
+
+    <DeleteButton
+        @delete={{action this.deleteToken}}
+        @disabled={{this.disabled}}
+        @modalTitle={{t
+            'settings.tokens.confirmDelete.title'
+            tokenName=this.token.name
+            htmlSafe=true
+        }}
+        @modalBody={{t 'settings.tokens.confirmDelete.body'}}
+    />
+
+    <Button
+        data-test-save-token-button
+        data-analytics-name='Save'
+        type='submit'
+        @type='primary'
+        @disabled={{this.disabled}}
+        {{on 'click' (perform this.onSave)}}
+    >
+        {{t 'general.save'}}
+    </Button>
+</FormControls>

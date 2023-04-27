@@ -5,6 +5,7 @@ import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { timeout } from 'ember-concurrency';
 
 module('Acceptance | settings | personal access tokens', hooks => {
     setupOSFApplicationTest(hooks);
@@ -59,7 +60,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         await untrackedClick('[data-test-scope] input[type=checkbox]');
         await percySnapshot(assert);
         await click('[data-analytics-name="Submit button"]');
-
+        await timeout(50);
         assert.dom('[data-test-new-token-value]').exists();
 
         await visit('/settings/tokens');
@@ -92,7 +93,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         await fillIn(input, newName);
         await percySnapshot(assert);
         await click('[data-analytics-name="Save"]');
-
+        await timeout(50);
         assert.equal(currentRouteName(), 'settings.tokens.index', 'current route is settings.tokens.index');
 
         assert.dom(link).exists({ count: 1 });

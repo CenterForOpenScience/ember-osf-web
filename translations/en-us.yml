@@ -2487,8 +2487,11 @@ settings:
         scopes: Scopes
         scopesDescription: 'Scopes limit access for personal access tokens.'
         created: 'Token created.'
+        create-error: 'There was an error creating your token.'
         saved: 'Token saved.'
+        save-error: 'There was an error saving your token.'
         deleted: 'Token deleted.'
+        delete-error: 'There was an error deleting your token.'
         confirmDelete:
             title: 'Delete token <strong>{tokenName}</strong>?'
             body: 'Are you sure you want to delete this personal access token? This cannot be reversed.'

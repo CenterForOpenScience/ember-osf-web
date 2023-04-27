@@ -11,18 +11,5 @@
     </div>
     <h4>{{t 'settings.tokens.createToken'}}</h4>
 
-    {{#settings/tokens/-components/token-form
-        onSave=(action 'onSave')
-        as |form|
-    }}
-        <Button
-            data-test-create-token-button
-            data-analytics-name='Submit button'
-            disabled={{form.disabled}}
-            type='submit'
-            @type='primary'
-        >
-            {{t 'settings.tokens.createToken'}}
-        </Button>
-    {{/settings/tokens/-components/token-form}}
+    <Settings::Tokens::-Components::CreateForm />
 </div>
