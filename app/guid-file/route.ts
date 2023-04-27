@@ -26,7 +26,6 @@ import S3File from 'ember-osf-web/packages/files/s3-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
-import RouterService from '@ember/routing/router-service';
 
 export default class GuidFile extends Route {
     @service('head-tags') headTagsService!: HeadTagsService;
@@ -35,7 +34,6 @@ export default class GuidFile extends Route {
     @service scriptTags!: ScriptTags;
     @service ready!: Ready;
     @service currentUser!: CurrentUserService;
-    @service router!: RouterService;
 
     headTags?: HeadTagDef[];
     metadata!: CustomFileMetadataRecordModel;
