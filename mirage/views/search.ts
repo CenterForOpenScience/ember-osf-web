@@ -208,7 +208,6 @@ export function recordSearch(_: Schema, __: Request) {
                             specificType: 'foaf:Person',
                             name: 'person person, prsn',
                         },
-                        // ...
                     },
                 },
                 links: {
@@ -219,12 +218,10 @@ export function recordSearch(_: Schema, __: Request) {
             {
                 type: 'metadata-record',
                 id: 'def',
-            // ...
             },
             {
                 type: 'metadata-record',
                 id: 'ghi',
-            // ...
             },
             // Related properties search object
             {
@@ -309,12 +306,50 @@ export function recordSearch(_: Schema, __: Request) {
             {
                 type: 'search-result',
                 id: 'propertyMatch2',
-                // ...
+                attributes: {
+                    matchEvidence: [
+                        {
+                            propertyPath: 'resourceType',
+                            matchingIri: 'rdf:Property',
+                        },
+                    ],
+                    recordResultCount: 123,
+                },
+                relationships: {
+                    metadataRecord: {
+                        data: {
+                            type: 'metadata-record',
+                            id: 'idForPropertyRecord2',
+                        },
+                        links: {
+                            related: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord2',
+                        },
+                    },
+                },
             },
             {
                 type: 'search-result',
                 id: 'propertyMatch3',
-                // ...
+                attributes: {
+                    matchEvidence: [
+                        {
+                            propertyPath: 'resourceType',
+                            matchingIri: 'rdf:Property',
+                        },
+                    ],
+                    recordResultCount: 33,
+                },
+                relationships: {
+                    metadataRecord: {
+                        data: {
+                            type: 'metadata-record',
+                            id: 'idForPropertyRecord3',
+                        },
+                        links: {
+                            related: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord3',
+                        },
+                    },
+                },
             },
             {
                 type: 'metadata-record',
@@ -341,7 +376,6 @@ export function recordSearch(_: Schema, __: Request) {
                                 '@language': 'en',
                             },
                         ],
-                        // ...
                     },
                 },
                 links: {
@@ -352,12 +386,66 @@ export function recordSearch(_: Schema, __: Request) {
             {
                 type: 'metadata-record',
                 id: 'idForPropertyRecord2',
-                // ...
+                attributes: {
+                    resourceType: [
+                        'rdf:Property',
+                    ],
+                    resourceIdentifier: [
+                        'http://purl.org/dc/terms/published',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'http://purl.org/dc/terms/published',
+                        '@type': 'rdf:Property',
+                        label: [
+                            {
+                                '@value': 'Date Published',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description about published date in this case',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord2',
+                    resource: 'http://purl.org/dc/terms/published',
+                },
             },
             {
                 type: 'metadata-record',
                 id: 'idForPropertyRecord3',
-                // ...
+                attributes: {
+                    resourceType: [
+                        'rdf:Property',
+                    ],
+                    resourceIdentifier: [
+                        'http://purl.org/dc/terms/funder',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'http://purl.org/dc/terms/funder',
+                        '@type': 'rdf:Property',
+                        label: [
+                            {
+                                '@value': 'Funder',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description about funder in this case',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord2',
+                    resource: 'http://purl.org/dc/terms/funder',
+                },
             },
         ],
     };
