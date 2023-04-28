@@ -26,6 +26,7 @@ import S3File from 'ember-osf-web/packages/files/s3-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
+import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
 
 export default class GuidFile extends Route {
     @service('head-tags') headTagsService!: HeadTagsService;
@@ -37,6 +38,7 @@ export default class GuidFile extends Route {
 
     headTags?: HeadTagDef[];
     metadata!: CustomFileMetadataRecordModel;
+    parentMetadata!: CustomItemMetadataRecordModel;
 
     @task
     @waitFor
@@ -59,9 +61,66 @@ export default class GuidFile extends Route {
 
         // Google Structured Data
         const id = await model.get('id');
+        const parentId = await model.target.get('id');
+        this.parentMetadata = await this.store.findRecord('custom-item-metadata-record', parentId);
+        const file = await this.store.findRecord('file', id, {include: 'target'});
+        const target = await file.target as unknown as RegistrationModel;
+        const contributors = await target.get('contributors');
+        const firstAuthor = contributors[0];
+
+        const funders = await this.parentMetadata.funders;
+        let funderDS = '"funder": [';
+        if (funders) {
+            for (const funder of funders) {
+                const funderName = funder.funder_name;
+                funderDS +=
+                    `
+                        {
+                            "@type": "${this.intl.t('general.structured_data.funder_type_organization')}",
+                            "name": "${funderName}"
+                        }
+                    `;
+                funderDS += ',';
+                funderDS += '\n';
+            }
+            const lastComma = funderDS.lastIndexOf(',');
+            funderDS = funderDS.slice(0, lastComma - 1);
+            funderDS += ']';
+        }
+
+        const fileModelOverrides = `
+            {
+                "context": "${this.intl.t('general.structured_data.context')}",
+                "@type": "${this.intl.t('general.structured_data.dataset')}",
+                "name": "${metaTagsData.title}",
+                "description": "${metaTagsData.description}",
+                "url": "${model.links.self}",
+                "isBasedOn": "${model.links.relationships.target.links.related.href}",
+                "identifier": "${model.links.self}",
+                "isAccessibleForFree": true,
+                "creator": {
+                    "@type": "${this.intl.t('general.structured_data.creator_type_person')}",
+                    "name": "${firstAuthor}"
+                },
+                ${funderDS},
+                "distribution": [
+                    {
+                        "@type": "${this.intl.t('general.structured_data.distribution_type')}",
+                        "encodingFormat": "${this.intl.t('general.structured_data.encoding_format_md5')}",
+                        "contentUrl": "${model.links.download}"
+                    },
+                    {
+                        "@type": "${this.intl.t('general.structured_data.distribution_type')}",
+                        "encodingFormat": "${this.intl.t('general.structured_data.encoding_format_sha2')}",
+                        "contentUrl": "${model.links.download}"
+                    }
+                ]
+            }
+        `;
+
         const jsonLD: object | undefined = await this.scriptTags.returnStructuredData(id);
         const jsonString: string = jsonLD ?
-            JSON.stringify(jsonLD) : JSON.stringify({ isAccessibleForFree : true });
+            JSON.stringify(jsonLD) : fileModelOverrides;
         const scriptTagData = {
             type: 'application/ld+json',
             content: jsonString,
