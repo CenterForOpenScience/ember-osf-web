@@ -1,7 +1,11 @@
-// .header-error {
-//     padding-top: 70px;
-
-//     .container {
-//         margin-bottom: 60px;
-//     }
-// }
+.error-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    
+    .error {
+        width: 100%;
+    }
+}

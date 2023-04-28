@@ -36,3 +36,27 @@
         }
     }
 }
+
+.form-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .input-container {
+        width: 100%;
+    }
+
+    .button-container {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        flex-direction: row;
+        
+        > * {
+            margin-right: 5px;
+        }
+    }
+}

@@ -1,84 +1,100 @@
 <div
-    local-class={{concat 'row ' (get @contributor 'highlightClass')}}
+    local-class='contributor-container {{if this.isMobile 'mobile'}}'
     data-test-project-contributors-list-item-id={{@contributor.users.id}}
 >
-    {{! Handle }}
-    <div class='col-xs-2 col-sm-1 text-nowrap'>
-        <span class='sortable-bars handle small'><FaIcon @icon='bars' /></span>
-    </div>
+    <div local-class='top-row-container'>
+        {{! Sort Handle }}
+        <div local-class='sort-container'>
+            <span class='sortable-bars handle small'><FaIcon @icon='bars' /></span>
+        </div>
 
-    {{! Profile image}}
-    <div data-test-project-contributors-list-item-profile-image class='col-xs-2 col-sm-1'>
-        <img local-class='profile-image' src={{@contributor.users.profileImage}}
-            alt={{t 'app_components.project_contributors.list.item.img_alt'}}>
-    </div>
-
-    {{! Name }}
-    <div data-test-project-contributors-list-item-name class='col-xs-7 col-sm-3 text-nowrap'>
-        {{#if @contributor.unregisteredContributor}}
-            {{@contributor.unregisteredContributor}}
-        {{else}}
-            <a href={{@contributor.users.links.html}} target='_blank' rel='noopener noreferrer'>
-                {{@contributor.users.fullName}}
-            </a>
-        {{/if}}
-    </div>
-
-    <div class='visible-xs-inline-block col-xs-1'>
-        <Button
-            data-test-project-contributors-list-item-x-button
-            @type='destroy'
-            aria-label={{t 'app_components.project_contributors.list.item.remove_author'}}
-            hidden={{not this.canRemove}}
-            {{on 'click' (fn @removeContributor @contributor)}}>
-            <FaIcon @icon='times' />
-        </Button>
-    </div>
-
-    {{! Permissions }}
-    <div class='col-xs-10 col-sm-3 col-sm-offset-0 text-nowrap'>
-        <span class='visible-xs-inline permission-label'>
-            <em>
-                {{t 'app_components.project_contributors.list.item.permissions_label'}}
-            </em>
-        </span>
-        {{#if this.canChangePermissions}}
-            <PowerSelect data-test-project-contributors-list-item-permissions-select
-                @options={{this.permissions}}
-                @onChange={{action @updatePermissions @contributor}}
-                @selected={{@contributor.permission}}
-                as |option|
-            >
-                {{t (concat 'app_components.project_contributors.list.item.permissions.' option)}}
-            </PowerSelect>
-        {{else}}
-            <span data-test-project-contributors-list-item-permissions-display class='text-smaller'>
-                {{t (concat 'app_components.project_contributors.list.item.permissions.' @contributor.permission)}}
-            </span>
-        {{/if}}
-    </div>
-
-    {{! Bibliographic (Citation) }}
-    <div data-test-project-contributors-list-item-citation-checkbox local-class='text-sm-center'
-        class='col-xs-10 col-sm-2 col-sm-offset-0 bib-padding'>
-        <Input
-            aria-label={{t 'app_components.project_contributors.list.item.in_citation_label'}}
-            @type='checkbox'
-            @disabled={{not this.canChangeBibliographic}}
-            @checked={{@contributor.bibliographic}}
-            @change={{action @toggleBibliographic @contributor}} />
-    </div>
-
-    {{! Remove }}
-    <div class='hidden-xs col-sm-2 text-center'>
-        <Button
-            data-test-project-contributors-list-item-remove-button
-            @layout='small'
-            @type='destroy'
-            disabled={{not this.canRemove}}
-            {{on 'click' (action @removeContributor @contributor)}}
+        {{! Profile image}}
+        <div
+            data-test-project-contributors-list-item-profile-image
+            local-class='profile-image-container'
         >
-            {{t 'app_components.project_contributors.list.item.remove'}}
-        </Button>
+            <img local-class='profile-image' src={{@contributor.users.profileImage}}
+                alt={{t 'app_components.project_contributors.list.item.img_alt'}}>
+        </div>
+
+        {{! Name }}
+        <div
+            data-test-project-contributors-list-item-name
+            local-class='name-container'
+        >
+            {{#if @contributor.unregisteredContributor}}
+                {{@contributor.unregisteredContributor}}
+            {{else}}
+                <a href={{@contributor.users.links.html}} target='_blank' rel='noopener noreferrer'>
+                    {{@contributor.users.fullName}}
+                </a>
+            {{/if}}
+        </div>
+    </div>
+    <div local-class='second-row-container'>
+        {{! Permissions }}
+        <div local-class='permission-container'>
+            {{#if this.isMobile}}
+                <div class='permission-label' local-class='permission-spacer'>
+                    <em>
+                        {{t 'app_components.project_contributors.list.item.permissions_label'}}
+                    </em>
+                </div>
+            {{/if}}
+            {{#if this.canChangePermissions}}
+                <PowerSelect data-test-project-contributors-list-item-permissions-select
+                    @options={{this.permissions}}
+                    @onChange={{action @updatePermissions @contributor}}
+                    @selected={{@contributor.permission}}
+                    as |option|
+                >
+                    {{t (concat 'app_components.project_contributors.list.item.permissions.' option)}}
+                </PowerSelect>
+            {{else}}
+                <div data-test-project-contributors-list-item-permissions-display class='text-smaller'>
+                    {{t (concat 'app_components.project_contributors.list.item.permissions.' @contributor.permission)}}
+                </div>
+            {{/if}}
+        </div>
+
+        {{! Bibliographic (Citation) }}
+        <div
+            data-test-project-contributors-list-item-citation-checkbox 
+            local-class='citation-container'
+        >
+            <Input
+                aria-label={{t 'app_components.project_contributors.list.item.in_citation_label'}}
+                @type='checkbox'
+                @disabled={{not this.canChangeBibliographic}}
+                @checked={{@contributor.bibliographic}}
+                @change={{action @toggleBibliographic @contributor}} />
+
+            {{#if this.isMobile}}
+                <FaIcon @icon='question-circle' />
+                <EmberPopover
+                    @side='bottom'
+                    @popperContainer='body'
+                >
+                    <div local-class='popover-format'>
+                        <h3>{{t 'app_components.project_contributors.list.citation_popover_title'}}</h3>
+                        {{t 'app_components.project_contributors.list.citation_popover'}}
+                    </div>
+                </EmberPopover>
+            {{/if}}
+
+        </div>
+
+        {{! Remove }}
+        <div local-class='remove-container'>
+            <Button
+                data-test-project-contributors-list-item-remove-button
+                @layout='small'
+                @type='destroy'
+                disabled={{not this.canRemove}}
+                {{on 'click' (action @removeContributor @contributor)}}
+            >
+                {{t 'app_components.project_contributors.list.item.remove'}}
+            </Button>
+        </div>
     </div>
 </div>
