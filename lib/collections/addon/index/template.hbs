@@ -62,13 +62,14 @@
                         </a>
                         <div class='m-t-md'>
                             {{!-- (route-prefix 'content') --}}
-                            {{#link-to
-                                'discover'
-                                (if this.theme.provider.example this.theme.provider.example 'khbvy')
-                                invokeAction=(action 'click' 'link' 'Index - See example')
-                            }}
+                            <LinkTo
+                                @route='discover'
+                                @models={{array
+                                    (if this.theme.provider.example this.theme.provider.example 'khbvy')
+                                }}
+                            >
                                 {{t 'index.header.example'}}
-                            {{/link-to}}
+                            </LinkTo>
                         </div>
                     </div>
                 </div>

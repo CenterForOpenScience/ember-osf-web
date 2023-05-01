@@ -10,10 +10,10 @@ import { module, test } from 'qunit';
 
 import File from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import CurrentUser from 'ember-osf-web/services/current-user';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 interface ThisTestContext extends TestContext {
-    currentUser: CurrentUser;
+    currentUser: CurrentUserStub;
 }
 
 type Field = 'name' | 'date-modified';
@@ -41,6 +41,7 @@ module('Integration | Component | files-widget', hooks => {
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.register('service:current-user', CurrentUserStub);
         this.currentUser = this.owner.lookup('service:current-user');
     });
 

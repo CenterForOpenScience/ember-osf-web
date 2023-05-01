@@ -2,10 +2,10 @@
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
+import { EnginesTestContext } from 'ember-engines/test-support';
 
 class RouterStub extends Service {
     urlFor() {
@@ -30,7 +30,7 @@ const headTagsStub = Service.extend({
 module('Registries | Integration | Component | page-link', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(function(this: EnginesTestContext) {
         this.owner.unregister('service:router');
         this.owner.register('service:router', RouterStub);
         this.owner.register('service:osf-router', RouterStub);
@@ -38,7 +38,7 @@ module('Registries | Integration | Component | page-link', hooks => {
         this.owner.register('service:head-tags', headTagsStub);
     });
 
-    test('Renders an unvisited page link', async function(this: TestContext, assert) {
+    test('Renders an unvisited page link', async function(this: EnginesTestContext, assert) {
         const pageManager = {
             isVisited: false,
             pageIsValid: false,
@@ -56,14 +56,15 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @currentPageIndex={{1}}
                 as |pageLink|
             />
-        `);
+        `,
+        { owner: this.engine });
 
         assert.dom('[data-test-link="101-unvisited"]').exists('Unvisited PageLink Component renders');
         assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
         assert.dom('[data-test-icon].fa-circle').exists('icon uses proper symbol');
     });
 
-    test('Renders a valid page link', async function(this: TestContext, assert) {
+    test('Renders a valid page link', async function(this: EnginesTestContext, assert) {
         const pageManager = {
             isVisited: true,
             pageIsValid: true,
@@ -81,14 +82,15 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @currentPageIndex={{2}}
                 as |pageLink|
             />
-        `);
+        `,
+        { owner: this.engine });
 
         assert.dom('[data-test-link="1-valid"]').exists('Valid PageLink Component renders');
         assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
         assert.dom('[data-test-icon].fa-check-circle').exists('icon uses proper symbol');
     });
 
-    test('Renders an invalid page link', async function(this: TestContext, assert) {
+    test('Renders an invalid page link', async function(this: EnginesTestContext, assert) {
         const pageManager = {
             isVisited: true,
             pageIsValid: false,
@@ -106,14 +108,15 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @currentPageIndex={{3}}
                 as |pageLink|
             />
-        `);
+        `,
+        { owner: this.engine });
 
         assert.dom('[data-test-link="2-invalid"]').exists('Invalid PageLink Component renders');
         assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
         assert.dom('[data-test-icon].fa-exclamation-circle').exists('icon uses proper symbol');
     });
 
-    test('Renders an active page link', async function(this: TestContext, assert) {
+    test('Renders an active page link', async function(this: EnginesTestContext, assert) {
         const pageManager = {
             isVisited: true,
             pageIsValid: false,
@@ -131,14 +134,15 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @currentPageIndex={{5}}
                 as |pageLink|
             />
-        `);
+        `,
+        { owner: this.engine });
 
         assert.dom('[data-test-link="6-active"]').exists('Active PageLink Component renders');
         assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
         assert.dom('[data-test-icon].fa-dot-circle').exists('icon uses proper symbol');
     });
 
-    test('Renders an inactive named page link', async assert => {
+    test('Renders an inactive named page link', async function(this: EnginesTestContext, assert) {
         await render(hbs`
             <PageLink
                 @link={{component 'osf-layout/registries-side-nav/x-link'}}
@@ -148,14 +152,15 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @label='Foo'
                 as |pageLink|
             />
-        `);
+        `,
+        { owner: this.engine });
 
         assert.dom('[data-test-link="foo"]').exists('PageLink Component renders');
         assert.dom('[data-test-label]').containsText('Foo', 'has proper label');
         assert.dom('[data-test-icon].fa-circle').exists('icon uses proper symbol');
     });
 
-    test('Renders an active named page link', async assert => {
+    test('Renders an active named page link', async function(this: EnginesTestContext, assert) {
         await render(hbs`
             <PageLink
                 @link={{component 'osf-layout/registries-side-nav/x-link'}}
@@ -165,7 +170,8 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @label='Foo'
                 as |pageLink|
             />
-        `);
+        `,
+        { owner: this.engine });
 
         assert.dom('[data-test-link="foo"]').exists('PageLink Component renders');
         assert.dom('[data-test-label]').containsText('Foo', 'has proper label');

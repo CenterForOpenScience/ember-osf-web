@@ -6,10 +6,14 @@
     >
         <div local-class='nav-wrapper'>
             <div class='navbar-header'>
-                {{#link-to @brandRoute provider=this.theme.provider class='navbar-brand'}}
+                <LinkTo 
+                    @route={{@brandRoute}}
+                    @provider={{this.theme.provider}}
+                    class='navbar-brand'
+                >
                     <span local-class='navbar-image' class='navbar-image'></span>
                     <span class='navbar-title'>{{this.brandTitle}}</span>
-                {{/link-to}}
+                </LinkTo>
 
                 {{! Navigation toggle - XS screen }}
                 <button
@@ -52,20 +56,25 @@
                         </a>
                     </li>
                     <li>
-                        {{#link-to
-                            'provider.submit'
-                            click=(action 'click' 'link' (concat 'Navbar - ' (t @addLinkKey) ' - ' this.theme.id) target=this.analytics)
-                        }}
+                        <LinkTo
+                            @route='provider.submit'
+                            onclick={{action
+                                'click'
+                                'link'
+                                (concat 'Navbar - ' (t @addLinkKey) ' - ' this.theme.id)
+                                target=this.analytics
+                            }}
+                        >
                             <span role='button'>{{t @addLinkKey}}</span>
-                        {{/link-to}}
+                        </LinkTo>
                     </li>
                     <li>
-                        {{#link-to
-                            'provider.discover'
-                            click=(action 'click' 'link' 'Navbar - Search' target=this.analytics)
-                        }}
+                        <LinkTo
+                            @route='provider.discover'
+                            onclick={{action 'click' 'link' 'Navbar - Search' target=this.analytics}}
+                        >
                             <span role='button'>{{t 'navbar.search'}}</span>
-                        {{/link-to}}
+                        </LinkTo>
                     </li>
                     <li>
                         <a

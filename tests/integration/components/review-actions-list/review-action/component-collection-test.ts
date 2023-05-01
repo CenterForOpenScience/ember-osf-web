@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 
 import CollectionSubmissionAction, { CollectionSubmissionActionTrigger }
     from 'ember-osf-web/models/collection-submission-action';
+import { timeout } from 'ember-concurrency';
 
 interface ThisTestContext extends TestContext {
     collectionSubmissionAction: CollectionSubmissionAction;
@@ -35,6 +36,7 @@ module('Integration | Component | Collection | Admin or Moderator | review-actio
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Accept;
 
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
+        await timeout(500);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Request accepted 2 days ago by moderator Superb Mario',
@@ -47,6 +49,7 @@ module('Integration | Component | Collection | Admin or Moderator | review-actio
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Reject;
 
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
+        await timeout(500);
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Request rejected 2 days ago by moderator Superb Mario',
             'Collection submission action wrapper shows reject string',
@@ -57,6 +60,7 @@ module('Integration | Component | Collection | Admin or Moderator | review-actio
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Remove;
 
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
+        await timeout(500);
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Item removed 2 days ago by Superb Mario',
             'Collection submission action wrapper shows moderator remove string',
@@ -89,6 +93,7 @@ module('Integration | Component | Collection | Project Admin | review-actions', 
 
 
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
+        await timeout(500);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Item removed 2 days ago by Superb Mario',
@@ -102,6 +107,7 @@ module('Integration | Component | Collection | Project Admin | review-actions', 
         this.collectionSubmissionAction.actionTrigger = CollectionSubmissionActionTrigger.Resubmit;
 
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.collectionSubmissionAction}}/>`);
+        await timeout(500);
         assert.dom('[data-test-review-action-wrapper]').containsText(
             'Request resubmitted 2 days ago by contributor Superb Mario',
             'Collection submission action wrapper shows resubmit string',

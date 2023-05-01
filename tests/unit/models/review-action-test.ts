@@ -11,46 +11,15 @@ module('Unit | Model | review-action', hooks => {
         assert.ok(!!model);
     });
 
-    test('it has an attribute: actionTrigger', function(assert) {
+    test('it has appropriate attributes', function(assert) {
         const model = run(() => this.owner.lookup('service:store').createRecord('review-action'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('actionTrigger') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: comment', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('review-action'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('comment') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: fromState', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('review-action'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('fromState') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: toState', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('review-action'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('toState') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: dateCreated', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('review-action'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('dateCreated') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: dateModified', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('review-action'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('dateModified') > -1;
-        assert.ok(hasAttr);
-    });
-
-    test('it has an attribute: actionTrigger', function(assert) {
-        const model = run(() => this.owner.lookup('service:store').createRecord('review-action'));
-        const hasAttr = Object.keys(model.toJSON()).indexOf('actionTrigger') > -1;
-        assert.ok(hasAttr);
+        assert.ok('actionTrigger' in model);
+        assert.ok('comment' in model);
+        assert.ok('fromState' in model);
+        assert.ok('toState' in model);
+        assert.ok('dateCreated' in model);
+        assert.ok('dateModified' in model);
+        assert.ok('actionTrigger' in model);
     });
 
     test('target relationship', function(assert) {
