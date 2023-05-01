@@ -6,12 +6,12 @@ import config from 'ember-get-config';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
-import { TestContext } from 'ember-test-helpers';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
+import { EnginesTestContext } from 'ember-engines/test-support';
 
 const { OSF: { url: osfUrl } } = config;
 
@@ -67,7 +67,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     setupMirage(hooks);
     setupIntl(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(function(this: EnginesTestContext) {
         this.owner.register('service:head-tags', headTagsStub);
         sinon.stub(this.owner.lookup('service:router'), 'urlFor').callsFake(
             (route: string, params?: { queryParams: object }) => {
@@ -84,24 +84,24 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         sinon.stub(this.owner.lookup('service:router'), 'currentURL').get(() => '/FakeURL');
         sinon.stub(this.owner.lookup('service:router'), 'currentRouteName').get(() => 'FakeRoute');
 
-        this.owner.register('service:session', sessionStub);
+        this.engine.register('service:session', sessionStub);
         this.owner.register('service:features', featuresStub);
         this.owner.register('service:analytics', analyticsStub);
-        this.owner.register('service:currentUser', currentUserStub);
+        this.engine.register('service:currentUser', currentUserStub);
         this.owner.register('service:statusMessages', statusMessagesStub);
         this.owner.register('service:osfRouter', osfRouterStub);
     });
 
-    test('it renders', async assert => {
-        await render(hbs`<RegistriesNavbar />`);
+    test('it renders', async function(this: EnginesTestContext, assert) {
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
 
         assert.dom('nav[data-test-nav]').exists('The nav element is rendered');
     });
 
-    test('desktop layout', async assert => {
+    test('desktop layout', async function(this: EnginesTestContext, assert) {
         setBreakpoint('desktop');
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
         await percySnapshot(assert);
 
         // Don't show provider name unless provider is branded
@@ -117,11 +117,11 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('a[data-test-donate]').hasText(`${t('navbar.donate')}`, 'Donate button has correct text');
     });
 
-    test('desktop layout (logged out)', async function(assert) {
+    test('desktop layout (logged out)', async function(this: EnginesTestContext, assert) {
         setBreakpoint('desktop');
-        this.owner.lookup('service:session').set('isAuthenticated', false);
+        this.engine.lookup('service:session').set('isAuthenticated', false);
 
-        await render(hbs`<RegistriesNavbar @campaign="osf-registries" />`);
+        await render(hbs`<RegistriesNavbar @campaign='osf-registries' />`, { owner: this.engine });
         await percySnapshot(assert);
 
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
@@ -137,11 +137,11 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('img[data-test-gravatar]').isNotVisible('No user Gravatar when logged out');
     });
 
-    test('desktop layout (logged in)', async function(assert) {
+    test('desktop layout (logged in)', async function(this: EnginesTestContext, assert) {
         setBreakpoint('desktop');
-        this.owner.lookup('service:session').set('isAuthenticated', true);
+        this.engine.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
         await percySnapshot(assert);
 
         // Not visible due to not having a test image
@@ -153,10 +153,10 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('a[role="button"][data-test-login]').isNotVisible('Login button not is visible');
     });
 
-    test('tablet layout', async assert => {
+    test('tablet layout', async function(this: EnginesTestContext, assert) {
         setBreakpoint('tablet');
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
         await percySnapshot(assert);
 
         assert.dom('[data-test-service]').doesNotContainText(
@@ -171,11 +171,11 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('a[data-test-donate]').hasText(`${t('navbar.donate')}`, 'Donate button has correct text');
     });
 
-    test('tablet layout (logged out)', async function(assert) {
+    test('tablet layout (logged out)', async function(this: EnginesTestContext, assert) {
         setBreakpoint('tablet');
-        this.owner.lookup('service:session').set('isAuthenticated', false);
+        this.engine.lookup('service:session').set('isAuthenticated', false);
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
         await percySnapshot(assert);
 
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
@@ -187,11 +187,11 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('img[data-test-gravatar]').isNotVisible('No user Gravatar when logged out');
     });
 
-    test('tablet layout (logged in)', async function(assert) {
+    test('tablet layout (logged in)', async function(this: EnginesTestContext, assert) {
         setBreakpoint('tablet');
-        this.owner.lookup('service:session').set('isAuthenticated', true);
+        this.engine.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
         await percySnapshot(assert);
 
         // Not visible due to not having a test image
@@ -201,11 +201,11 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('a[role="button"][data-test-login]').isNotVisible('Login button not is visible');
     });
 
-    test('mobile layout', async function(assert) {
+    test('mobile layout', async function(this: EnginesTestContext, assert) {
         setBreakpoint('mobile');
-        this.owner.lookup('service:session').set('isAuthenticated', true);
+        this.engine.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
 
         await click('[data-test-gravatar]');
         await percySnapshot(assert);
@@ -214,11 +214,11 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('a[data-test-donate-mobile]').isVisible();
     });
 
-    test('mobile layout (logged out)', async function(assert) {
+    test('mobile layout (logged out)', async function(this: EnginesTestContext, assert) {
         setBreakpoint('mobile');
-        this.owner.lookup('service:session').set('isAuthenticated', false);
+        this.engine.lookup('service:session').set('isAuthenticated', false);
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
 
         await click('[data-test-toggle-navbar]');
         await percySnapshot(assert);
@@ -232,12 +232,12 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('img[data-test-gravatar]').isNotVisible('No user Gravatar when logged out');
     });
 
-    test('mobile layout (logged in)', async function(assert) {
+    test('mobile layout (logged in)', async function(this: EnginesTestContext, assert) {
         setBreakpoint('mobile');
 
-        this.owner.lookup('service:session').set('isAuthenticated', true);
+        this.engine.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
         await percySnapshot(assert);
 
         // Not visible due to not having a test image
@@ -247,8 +247,8 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('a[role="button"][data-test-login]').isNotVisible('Login button not is visible');
     });
 
-    test('service list', async assert => {
-        await render(hbs`<RegistriesNavbar />`);
+    test('service list', async function(this: EnginesTestContext, assert) {
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
 
         assert.dom('[data-test-service-list] ul').isNotVisible();
 
@@ -258,10 +258,10 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-service-list] ul').isVisible();
     });
 
-    test('auth dropdown', async function(assert) {
-        this.owner.lookup('service:session').set('isAuthenticated', true);
+    test('auth dropdown', async function(this: EnginesTestContext, assert) {
+        this.engine.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`<RegistriesNavbar />`);
+        await render(hbs`<RegistriesNavbar />`, { owner: this.engine });
 
         assert.dom('[data-test-auth-dropdown] ul').isNotVisible();
 
@@ -271,28 +271,28 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-auth-dropdown] ul').isVisible();
     });
 
-    test('branded desktop layout', async function(assert) {
+    test('branded desktop layout', async function(this: EnginesTestContext, assert) {
         const brand = server.create('brand');
         const brandedProvider = server.create('registration-provider', { name: 'ISPOR', brand });
 
         this.set('provider', brandedProvider);
         setBreakpoint('desktop');
 
-        await render(hbs`<RegistriesNavbar @provider={{this.provider}} />`);
+        await render(hbs`<RegistriesNavbar @provider={{this.provider}} />`, { owner: this.engine });
         await percySnapshot(assert);
 
         assert.dom('[data-test-brand-link]').exists('Branded provider name exists');
         assert.dom('[data-test-brand-link]').hasText(brandedProvider.name, 'Branded provider name is correct');
     });
 
-    test('branded name does not show up on mobile layout', async function(assert) {
+    test('branded name does not show up on mobile layout', async function(this: EnginesTestContext, assert) {
         const brand = server.create('brand');
         const brandedProvider = server.create('registration-provider', { name: 'ISPOR', brand });
 
         this.set('provider', brandedProvider);
         setBreakpoint('mobile');
 
-        await render(hbs`<RegistriesNavbar @provider={{this.provider}} />`);
+        await render(hbs`<RegistriesNavbar @provider={{this.provider}} />`, { owner: this.engine });
         await percySnapshot(assert);
 
         assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name does not exists');

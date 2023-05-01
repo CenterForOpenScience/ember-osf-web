@@ -1,6 +1,6 @@
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { EnginesTestContext } from 'ember-engines/test-support';
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 import ShareSearch from 'registries/services/share-search';
 
@@ -75,13 +75,13 @@ module('Registries | Unit | Service | share-search', hooks => {
     setupMirage(hooks);
 
     // Replace this with your real tests.
-    test('it exists', function(assert) {
-        const service = this.owner.lookup('service:share-search');
+    test('it exists', function(this: EnginesTestContext, assert) {
+        const service = this.engine.lookup('service:share-search');
         assert.ok(service);
     });
 
-    test('_postProcessRegistrations', function(this: TestContext, assert) {
-        const service = this.owner.lookup('service:share-search') as ShareSearch;
+    test('_postProcessRegistrations', function(this: EnginesTestContext, assert) {
+        const service = this.engine.lookup('service:share-search') as ShareSearch;
 
         const registrations = service._postProcessRegistrations(getSearchResponse());
 
@@ -101,8 +101,8 @@ module('Registries | Unit | Service | share-search', hooks => {
         assert.equal(registrations[0].sourceUniqueId, 'w4yhb');
     });
 
-    test('recognizes all OSF source envs', function(this: TestContext, assert) {
-        const service = this.owner.lookup('service:share-search') as ShareSearch;
+    test('recognizes all OSF source envs', function(this: EnginesTestContext, assert) {
+        const service = this.engine.lookup('service:share-search') as ShareSearch;
         service.set('osfProviders', [{
             name: 'OSF Registries',
             urlRegex: 'https://osf.io/',

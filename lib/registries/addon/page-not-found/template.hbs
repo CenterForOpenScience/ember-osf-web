@@ -17,12 +17,13 @@
                             {{t 'not_found.registries.contact'}}
                         </a>
                     </p>
-                    {{#link-to 'index'
+                    <LinkTo
+                        @route='index'
                         class='btn btn-primary m-t-md'
-                        invokeAction=(action 'click' 'link' 'Page not found - Go to Index' target=this.analytics)
-                    }}
+                        data-analytics-name='Page not found - Go to Index'
+                    >
                         {{t 'not_found.registries.go_to'}}
-                    {{/link-to}}
+                    </LinkTo>
                 </div>
             </div>
         </div>

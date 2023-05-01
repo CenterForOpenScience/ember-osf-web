@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 // CurrentUserStub works with acceptance tests that need to ensure that
@@ -14,4 +15,14 @@ export class CurrentUserStub extends CurrentUser.extend({
     async login(nextUrl?: string) {
         this.urlCalled = nextUrl !== undefined ? nextUrl : '';
     },
-}) { }
+}) {
+    testUser?: any;
+
+    @computed('testUser')
+    get user() {
+        if (this.testUser === undefined){
+            return super.user;
+        }
+        return this.testUser;
+    }
+}

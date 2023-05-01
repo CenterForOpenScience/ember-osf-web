@@ -1,6 +1,6 @@
 import EngineInstance from '@ember/engine/instance';
 import { getContext } from '@ember/test-helpers/setup-context';
-import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
+import { setupEngine } from 'ember-engines/test-support';
 import { setupRenderingTest, setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 
@@ -17,12 +17,14 @@ function setupEngineFixtures(hooks: any) {
 
 export function setupEngineTest(hooks: any, engine: string) {
     // eslint-disable-next-line ember/no-restricted-resolver-tests
-    setupTest(hooks, { resolver: engineResolverFor(engine) });
+    setupTest(hooks);
+    setupEngine(hooks, engine);
     setupEngineFixtures(hooks);
 }
 
 export function setupEngineRenderingTest(hooks: any, engine: string) {
-    setupRenderingTest(hooks, { resolver: engineResolverFor(engine) });
+    setupRenderingTest(hooks);
+    setupEngine(hooks, engine);
     setupEngineFixtures(hooks);
 }
 

@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupIntl, TestContext } from 'ember-intl/test-support';
+import { EnginesIntlTestContext } from 'ember-engines/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { module, test } from 'qunit';
 
@@ -12,7 +13,7 @@ module('Integration | Helper | clip', hooks => {
         },
     });
 
-    test('it renders', async function(this: TestContext, assert) {
+    test('it renders', async function(this: EnginesIntlTestContext, assert) {
         const cases = [{
             text: 'A'.repeat(200),
             expected: 'A'.repeat(200),
@@ -23,7 +24,7 @@ module('Integration | Helper | clip', hooks => {
 
         for (const testCase of cases) {
             this.set('text', testCase.text);
-            await render(hbs`{{clip text 200}}`);
+            await render(hbs`{{clip text 200}}`, { owner: this.engine });
             assert.dom(this.element).hasText(testCase.expected);
         }
     });

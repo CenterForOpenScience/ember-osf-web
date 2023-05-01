@@ -1,6 +1,7 @@
 <ResponsiveDropdown
     @horizontalPosition='right'
     @buttonStyling={{true}}
+    {{did-insert (action this.validateChangeset)}}
     as |dd|
 >
     <dd.trigger

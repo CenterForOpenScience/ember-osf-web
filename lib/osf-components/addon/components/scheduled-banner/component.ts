@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
+import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Banner from 'ember-osf-web/models/banner';
@@ -16,11 +17,16 @@ import template from './template';
 
 @layout(template, styles)
 export default class ScheduledBanners extends Component {
+    @service media!: Media;
     @service store!: Store;
     @service analytics!: Analytics;
 
     @reads('loadBanner.last.value')
     banner?: Banner;
+
+    get isMobile() {
+        return this.media.isMobile;
+    }
 
     @computed('banner.color')
     get bannerWrapperStyle() {

@@ -2,63 +2,38 @@ import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import Cookies from 'ember-cookies/services/cookies';
-import config from 'ember-get-config';
-import moment, { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
-
-const {
-    OSF: {
-        cookies: {
-            analyticsDismissAdblock: dismissAdblockCookie,
-        },
-    },
-} = config;
-
-interface DateRange {
-    key: string;
-    start: Moment;
-    end: Moment;
-}
+import { Timespan, TIMESPANS } from './route';
 
 export default class ApplicationController extends Controller {
-    @service cookies!: Cookies;
     @service analytics!: AnalyticsService;
+    @service router!: RouterService;
     @service store!: Store;
 
-    dateRanges: DateRange[] = [
-        {
-            key: 'pastWeek',
-            start: moment().subtract(1, 'weeks'),
-            end: moment(),
-        },
-        {
-            key: 'pastTwoWeeks',
-            start: moment().subtract(2, 'weeks'),
-            end: moment(),
-        },
-        {
-            key: 'pastMonth',
-            start: moment().subtract(1, 'months'),
-            end: moment(),
-        },
-    ];
+    queryParams = ['timespan'];
+    timespan: Timespan = 'week';
+    allTimespans = TIMESPANS;
 
-    activeDateRange = this.dateRanges[0];
+    timespanIntlKeys: Record<Timespan, string> = {
+        week: 'analytics.dateRanges.pastWeek',
+        fortnight: 'analytics.dateRanges.pastTwoWeeks',
+        month: 'analytics.dateRanges.pastMonth',
+    };
+
     linksModalShown = false;
 
-    hideAdblockWarning = Boolean(this.cookies.read(dismissAdblockCookie));
     userIsBot = navigator.userAgent.includes('Prerender');
 
     linkedByQueryParams = { embed: 'bibliographic_contributors' };
 
-    @reads('model.taskInstance.value')
+    @reads('model.nodeWithCountsTaskInstance.value.taskInstance.value')
     node?: Node;
 
-    @reads('model.taskInstance.isRunning')
+    @reads('model.nodeWithCountsTaskInstance.isRunning')
     loading?: boolean;
 
     @reads('node.relationshipLinks.forks.links.related.meta.count')
@@ -70,34 +45,24 @@ export default class ApplicationController extends Controller {
     @reads('node.apiMeta.templated_by_count')
     templatedByCount?: number;
 
-    @computed('node.public', 'model.{id,modelName}')
-    get nodePublic() {
-        const node: Node | null = this.node || this.store.peekRecord(this.model.modelName, this.model.id);
-        return node && node.public;
+    @computed('node.public')
+    get nodePrivate(): boolean {
+        const { node } = this;
+        return Boolean(node && !node.public);
     }
 
-    @computed('nodePublic', 'userIsBot')
-    get chartsEnabled() {
-        return this.nodePublic && !this.userIsBot;
-    }
-
-    @action
-    dismissAdblockWarning() {
-        this.cookies.write(dismissAdblockCookie, 1, { path: '/' });
-        this.set('hideAdblockWarning', true);
-        this.analytics.click(
-            'button',
-            'Analytics - Dismiss adblock warning',
-        );
+    @computed('node', 'nodePrivate', 'userIsBot')
+    get chartsEnabled(): boolean {
+        return Boolean(this.node && !this.nodePrivate && !this.userIsBot);
     }
 
     @action
-    setDateRange(dateRange: DateRange) {
-        this.set('activeDateRange', dateRange);
+    setTimespan(timespan: Timespan) {
         this.analytics.click(
             'button',
-            `Analytics - Choose date range "${dateRange.key}"`,
+            `Analytics - Choose date range "${timespan}"`,
         );
+        this.router.transitionTo({ queryParams: { timespan } });
     }
 
     @action

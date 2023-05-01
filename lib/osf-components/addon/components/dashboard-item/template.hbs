@@ -2,24 +2,15 @@
     data-analytics-name='visit_node'
     @href={{@node.links.html}}
 >
-    <div class='m-v-sm' local-class='DashboardItem'>
-        <div class='row'>
-            <div>
-                <div class='col-sm-3 col-md-6 p-v-xs'>
-                    <div local-class='DashboardItem__col' class='di-title'>
-                        <AncestryDisplay @node={{@node}} />
-                        <strong data-test-dashboard-item-title>{{@node.title}}</strong>
-                    </div>
-                </div>
-                <div class='col-sm-3 col-md-3 p-v-xs'>
-                    <div local-class='DashboardItem__col' class='di-contributors'>
-                        <ContributorList @model={{this.node}} />
-                    </div>
-                </div>
-                <div class='col-sm-3 col-md-3 p-v-xs'>
-                    <div local-class='DashboardItem__col' class='di-date'>{{this.date}}</div>
-                </div>
-            </div>
+    <div local-class='dashboard-item {{if this.isMobile 'mobile'}}'
+    >
+        <div local-class='column-50'>
+            <AncestryDisplay @node={{@node}} />
+            <strong data-test-dashboard-item-title>{{@node.title}}</strong>
         </div>
+        <div local-class='column-25' class='di-contributors'>
+            <ContributorList @model={{this.node}} />
+        </div>
+        <div local-class='column-25' class='di-date'>{{this.date}}</div>
     </div>
 </OsfLink>

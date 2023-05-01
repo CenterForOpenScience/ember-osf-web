@@ -5,12 +5,6 @@
     }
 }
 
-.DisabledPanel {
-    :global(.panel-title) {
-        color: $color-text-black;
-    }
-}
-
 .Chart {
     &.Blurred {
         filter: blur(1px) grayscale(100%);

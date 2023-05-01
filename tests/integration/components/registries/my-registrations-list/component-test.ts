@@ -2,6 +2,7 @@ import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, TestContext } from 'ember-intl/test-support';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -16,6 +17,7 @@ module('Integration | Component | my-registrations-list', hooks => {
         this.intl = this.owner.lookup('service:intl');
         this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
+        this.owner.register('service:current-user', CurrentUserStub);
     });
 
     test('draft list empty', async function(this: TestContext, assert) {
@@ -38,7 +40,7 @@ module('Integration | Component | my-registrations-list', hooks => {
         const currentUserModel = await this.store.findRecord('user', currentUser.id);
         this.set('user', currentUserModel);
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
         await render(
             hbs`<Registries::MyRegistrationsList::Registrations @user={{this.user}} />`,
@@ -58,7 +60,7 @@ module('Integration | Component | my-registrations-list', hooks => {
         const currentUser = server.create('user', { id: 'wraith' });
         const currentUserModel = await this.store.findRecord('user', currentUser.id);
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
         server.createList('draft-registration', 11, { initiator: currentUser });
         await render(
@@ -76,7 +78,7 @@ module('Integration | Component | my-registrations-list', hooks => {
         const currentUserModel = await this.store.findRecord('user', currentUser.id);
         this.set('user', currentUserModel);
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
         for (let i = 0; i < 11; i++) {
             server.create('registration', {
@@ -100,7 +102,7 @@ module('Integration | Component | my-registrations-list', hooks => {
         const currentUserModel = await this.store.findRecord('user', currentUser.id);
         this.set('user', currentUserModel);
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
         const parent = server.create('registration', {
             id: 'parnt',
