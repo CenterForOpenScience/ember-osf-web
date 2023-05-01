@@ -1,4 +1,4 @@
-.SignUpForm {
+.sign-up-form {
     :global(.has-error) {
         input:not(:placeholder-shown) {
             border: 1px solid #a94442;
@@ -35,20 +35,20 @@
     a {
         color: $color-link-dark;
     }
-}
 
-.CreatePassword:global(.progress) {
-    margin-bottom: 0;
-    height: inherit;
-}
+    :global(.progress) {
+        height: inherit;
+    }
 
-.RecaptchaParent {
-    z-index: 9;
+    .recaptcha-parent {
+        z-index: 9;
 
-    :global(.g-recaptcha) {
-        display: inline-block;
-        margin: 0 auto;
+        :global(.g-recaptcha) {
+            display: inline-block;
+            margin: 0 auto;
+        }
     }
 }
+
 
 

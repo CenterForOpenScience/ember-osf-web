@@ -10,6 +10,7 @@ import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/model
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import UserModel from 'ember-osf-web/models/user';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
+import { timeout } from 'ember-concurrency';
 
 interface ThisTestContext extends TestContext {
     reviewAction: ReviewActionModel;
@@ -191,6 +192,7 @@ module('Integration | Component | Registration | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_withdrawal');
 
         await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await timeout(500);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
             t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',

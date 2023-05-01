@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { timeout } from 'ember-concurrency';
 import { t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
@@ -26,6 +27,7 @@ module('Osf components | Integration | Component | License text', hooks => {
         this.setProperties({ node });
 
         await render(hbs`<LicenseText @node={{this.node}} />`);
+        await timeout(100);
 
         assert.dom(this.element).hasText('I am an emu.');
     });
@@ -48,6 +50,7 @@ module('Osf components | Integration | Component | License text', hooks => {
         this.setProperties({ node });
 
         await render(hbs`<LicenseText @node={{this.node}} />`);
+        await timeout(100);
 
         assert.dom(this.element).hasText('I am an emu. You are Bill and Ted from 1989.');
     });
@@ -71,6 +74,7 @@ module('Osf components | Integration | Component | License text', hooks => {
         this.setProperties({ node });
 
         await render(hbs`<LicenseText @node={{this.node}} />`);
+        await timeout(100);
 
         const placeholder = t('app_components.license_text.anonymized_placeholder');
         assert.dom(this.element).hasText(`I am an emu. You are ${placeholder} from ${placeholder}.`);

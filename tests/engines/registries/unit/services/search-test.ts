@@ -1,3 +1,4 @@
+import { EnginesTestContext } from 'ember-engines/test-support';
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
 import { is, OrderedSet } from 'immutable';
 import { module, test } from 'qunit';
@@ -24,8 +25,8 @@ module('Registries | Unit | Service | search', hooks => {
     setupEngineTest(hooks, 'registries');
 
     // Replace this with your real tests.
-    test('it exists', function(assert) {
-        const service = this.owner.lookup('service:search');
+    test('it exists', function(this: EnginesTestContext, assert) {
+        const service = this.engine.lookup('service:search');
         assert.ok(service);
     });
 
