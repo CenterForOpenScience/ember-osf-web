@@ -23,87 +23,92 @@
         onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
         as |discover|
     }}
-        {{#if this.searchOptions}}
-            {{#discover.sidebar as |sidebar|}}
-                {{registries-provider-facet
-                    options=this.filterableSources
-                    searchOptions=this.searchOptions
-                    onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-                    provider=this.providerModel
-                }}
+        <div local-class='search-container'>
+            <div local-class='search-options-container'>
+                {{#if this.searchOptions}}
+                    {{#discover.sidebar as |sidebar|}}
+                        {{registries-provider-facet
+                            options=this.filterableSources
+                            searchOptions=this.searchOptions
+                            onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+                            provider=this.providerModel
+                        }}
 
-                {{registries-registration-type-facet
-                    searchOptions=this.searchOptions
-                    onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-                    provider=this.providerModel
-                }}
+                        {{registries-registration-type-facet
+                            searchOptions=this.searchOptions
+                            onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+                            provider=this.providerModel
+                        }}
 
-                {{!-- TODO: this feature is not ready yet. Will be implemented in Phase2 Branded Reg --}}
-                {{!-- {{#if this.providerModel}}
-                            {{registries-subjects-facet
-                                provider=this.providerModel
-                                searchOptions=this.searchOptions
-                                onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-                                provider=this.providerModel
-                            }}
-                        {{/if}} --}}
-            {{/discover.sidebar}}
-        {{/if}}
-
-        {{#if (and this.doSearch.lastSuccessful this.searchOptions)}}
-            {{registries-discover-results-header
-                totalResults=this.totalResults
-                searchOptions=this.searchOptions
-                sortOptions=this.sortOptions
-                provider=this.providerModel
-                setOrder=(action this.setOrder)
-            }}
-            {{#discover.results
-                (html-attributes data-test-results=true)
-                as |result|
-            }}
-                <RegistriesSearchResult
-                    class={{if this.doSearch.isRunning 'BlurredInert'}}
-                    local-class='RegistriesSearchResult'
-                    inert={{this.doSearch.isRunning}}
-                    @result={{result}}
-                    @provider={{this.providerModel}}
-                />
-            {{/discover.results}}
-
-            {{#unless this.totalResults}}
-                <div class='col-sm-8 col-xs-12'>
-                    <div class='text-center'>
-                        <p data-test-no-results-placeholder class='lead'>
-                            {{t 'registries.discover.no_results'}}
-                        </p>
-                        {{t 'registries.discover.try_broadening'}}
-                    </div>
-                </div>
-            {{/unless}}
-
-            {{#if (gt this.maxPage 1) }}
-                <div local-class='Pagination' class='col-xs-12'>
-                    {{search-paginator
-                        current=this.searchOptions.page
-                        maximum=this.maxPage
-                        pageChanged=(action 'changePage')
+                        {{!-- TODO: this feature is not ready yet. Will be implemented in Phase2 Branded Reg --}}
+                        {{!-- {{#if this.providerModel}}
+                                    {{registries-subjects-facet
+                                        provider=this.providerModel
+                                        searchOptions=this.searchOptions
+                                        onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+                                        provider=this.providerModel
+                                    }}
+                                {{/if}} --}}
+                    {{/discover.sidebar}}
+                {{/if}}
+            </div>
+            <div local-class='search-header-container'>
+                {{#if (and this.doSearch.lastSuccessful this.searchOptions)}}
+                    {{registries-discover-results-header
+                        totalResults=this.totalResults
+                        searchOptions=this.searchOptions
+                        sortOptions=this.sortOptions
+                        provider=this.providerModel
+                        setOrder=(action this.setOrder)
                     }}
-                </div>
-            {{/if}}
-        {{else if this.doSearch.isError}}
-            <div class='col-sm-8 col-xs-12'>
-                <div class='text-center'>
-                    <p class='lead'>
-                        {{t 'registries.discover.error_loading'}}
-                    </p>
-                </div>
+                    {{#discover.results
+                        (html-attributes data-test-results=true)
+                        as |result|
+                    }}
+                        <RegistriesSearchResult
+                            class={{if this.doSearch.isRunning 'BlurredInert'}}
+                            local-class='RegistriesSearchResult'
+                            inert={{this.doSearch.isRunning}}
+                            @result={{result}}
+                            @provider={{this.providerModel}}
+                        />
+                    {{/discover.results}}
+
+                    {{#unless this.totalResults}}
+                        <div class='col-sm-8 col-xs-12'>
+                            <div class='text-center'>
+                                <p data-test-no-results-placeholder class='lead'>
+                                    {{t 'registries.discover.no_results'}}
+                                </p>
+                                {{t 'registries.discover.try_broadening'}}
+                            </div>
+                        </div>
+                    {{/unless}}
+
+                    {{#if (gt this.maxPage 1) }}
+                        <div local-class='Pagination' class='col-xs-12'>
+                            {{search-paginator
+                                current=this.searchOptions.page
+                                maximum=this.maxPage
+                                pageChanged=(action 'changePage')
+                            }}
+                        </div>
+                    {{/if}}
+                {{else if this.doSearch.isError}}
+                    <div class='col-sm-8 col-xs-12'>
+                        <div class='text-center'>
+                            <p class='lead'>
+                                {{t 'registries.discover.error_loading'}}
+                            </p>
+                        </div>
+                    </div>
+                {{else}}
+                    <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
+                        {{loading-indicator dark=true}}
+                    </div>
+                {{/if}}
             </div>
-        {{else}}
-            <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
-                {{loading-indicator dark=true}}
-            </div>
-        {{/if}}
+        </div>
 
     {{/registries-discover-search}}
 </RegistriesWrapper>

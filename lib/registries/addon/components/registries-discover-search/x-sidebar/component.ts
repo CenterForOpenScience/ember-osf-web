@@ -1,4 +1,3 @@
-import { classNames } from '@ember-decorators/component';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -18,7 +17,6 @@ function includesImmutable(someArray: unknown[], someValue: unknown) {
 
 @layout(template)
 @localClassNames('Sidebar')
-@classNames('col-sm-3', 'col-xs-12')
 export default class SideBar extends Component {
     @service analytics!: Analytics;
 
