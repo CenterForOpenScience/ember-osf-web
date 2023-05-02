@@ -63,20 +63,28 @@
                 margin-left: 5px;
             }
         }
+    }
+}
 
-        .date-range-menu {
-            background-color: $color-bg-gray-light;
-        }
+.date-range-menu {
+    background-color: $color-bg-white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    padding: 5px;
+    margin: 2px 0 0;
+    list-style: none;
+}
 
-        .date-range-option {
-            color: $color-link-black;
+.date-range-option {
+    color: $color-link-black;
+    background-color: transparent;
+    border: hidden;
 
-            &:hover,
-            &:focus {
-                cursor: pointer;
-                background-image: none;
-                background-color: $color-bg-gray-dark;
-            }
-        }
+    &:hover,
+    &:focus {
+        cursor: pointer;
+        background-image: none;
+        background-color: $color-bg-gray-dark;
     }
 }
