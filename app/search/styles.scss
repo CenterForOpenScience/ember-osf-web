@@ -9,9 +9,11 @@
 }
 
 .heading-label {
-    font-size: 1.5em;
-    font-weight: 400;
     padding: 40px;
+}
+
+.search-input-wrapper {
+    white-space: nowrap;
 }
 
 .search-input {
@@ -31,4 +33,9 @@
 
 .sidenav-toggle {
     float: left;
+}
+
+.left-panel {
+    padding-left: 12px;
+    width: 300px;
 }

@@ -4,25 +4,31 @@
 as |layout|>
     <layout.heading local-class='heading-wrapper'>
         <form role='search'>
-            <label local-class='heading-label'>
-                {{t 'search.search_header'}}
-            </label>
-            <Input
-                local-class='search-input'
-                @type='search'
-                @placeholder={{t 'search.textbox_placeholder'}}
-                @value={{this.q}}
-                {{on 'keydown' this.onKeyPress}}
-            />
-            <Button
-                local-class='search-button'
-                aria-label={{t 'search.search_button_label'}}
-                @type='primary'
-                @layout='large'
-                {{on 'click' (perform this.doSearch)}}
+            <label
+                for='search-input'
+                local-class='heading-label'
             >
-                <FaIcon @icon='search' />
-            </Button>
+                <h1>{{t 'search.search_header'}}</h1>
+            </label>
+            <span local-class='search-input-wrapper'>
+                <Input
+                    local-class='search-input'
+                    id='search-input'
+                    @type='search'
+                    @placeholder={{t 'search.textbox_placeholder'}}
+                    @value={{this.q}}
+                    {{on 'keydown' this.onKeyPress}}
+                />
+                <Button
+                    local-class='search-button'
+                    aria-label={{t 'search.search_button_label'}}
+                    @type='primary'
+                    @layout='large'
+                    {{on 'click' this.doSearch}}
+                >
+                    <FaIcon @icon='search' />
+                </Button>
+            </span>
         </form>
 
         {{#if this.showSidenavToggle}}
@@ -35,15 +41,21 @@ as |layout|>
             </Button>
         {{/if}}
     </layout.heading>
-    <layout.left>
-        {{!-- current filters --}}
-        {{!-- filter facets --}}
-        Left
+    <layout.left local-class='left-panel'>
+        {{!-- Object type filter dropdown if we are in mobile --}}
+        <h2>{{t 'search.left_panel.header'}}</h2>
+        <Search::-Components::FacetsManager
+            @propertySearch={{this.propertySearch}}
+            @activeFilters={{this.activeFilters}}
+            @recordSearchText={{this.q}}
+            @doSearch={{this.doSearch}}
+        >
+        </Search::-Components::FacetsManager>
     </layout.left>
     <layout.main>
         Main
         {{!-- placeholder if no search term (maybe) --}}
-        {{!-- object type filtering tabs --}}
+        {{!-- object type filtering tabs if desktop--}}
         {{!-- search cards --}}
         {{!-- sort dropdown --}}
         {{!-- paginator --}}

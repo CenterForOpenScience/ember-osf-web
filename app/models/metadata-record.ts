@@ -32,6 +32,22 @@ export default class MetadataRecordModel extends Model {
         }
         return 'No label found';
     }
+
+    get title() {
+        const { resourceMetadata } = this;
+        const preferredLanguage = this.intl.locale;
+        const titles = resourceMetadata?.title;
+        if (titles) {
+            const languageAppropriateTitle = titles.filter((title: any) => title['@language'] === preferredLanguage);
+            // give the locale appropriate title if it exists, otherwise give the first title
+            if (languageAppropriateTitle.length > 0) {
+                return titles.filter((title: any) => title['@language'] === preferredLanguage)[0]['@value'];
+            } else if (titles.length > 0) {
+                return titles[0]['@value'];
+            }
+        }
+        return 'No title found';
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

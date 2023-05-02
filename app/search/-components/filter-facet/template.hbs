@@ -1,0 +1,64 @@
+<div
+    local-class='facet-wrapper'
+>
+    {{#let (unique-id this.label) as |facetElementId|}}
+        <Button
+            @layout='fake-link'
+            local-class='facet-expand-button'
+            aria-controls={{facetElementId}}
+            aria-expanded={{not this.collapsed}}
+            {{on 'click' (fn this.toggleFacet this.label)}}
+        >
+            <span>{{@propertyRecord.label}}</span>
+            <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
+        </Button>
+        {{#if this.fetchFacetValues.isRunning}}
+            <LoadingIndicator @dark={{true}} />
+        {{else if this.fetchFacetValues.isError}}
+            {{t 'search.filter_facet.facet_load_failed'}}
+        {{else}}
+            <ul
+                local-class='facet-list {{if this.collapsed 'collapsed'}}'
+                id={{facetElementId}}
+            >
+                {{#each this.filterableProperties as |property|}}
+                    <li local-class='facet-value'>
+                        <OsfLink
+                            local-class='facet-link'
+                            @route='search'
+                            @query={{hash q=this.q filter=this.filter}}
+                            {{on 'click' (fn @toggleFilter (hash key=@propertyRecord.label value=property.metadataRecord.title))}}
+                        >
+                            {{property.metadataRecord.title}}
+                        </OsfLink>
+                        <span local-class='facet-count'>
+                            {{property.recordResultCount}}
+                        </span>
+                    </li>
+                {{/each}}
+               
+                {{#if this.showSeeMoreButton}}
+                    <li>
+                        <Button
+                            @layout='fake-link'
+                            {{on 'click' (fn (mut this.seeMoreModalShown) true)}}
+                        >
+                            {{t 'search.filter_facet.see_more'}}
+                        </Button>
+                    </li>
+                {{/if}}
+            </ul>
+        {{/if}}
+        {{!-- TODO: actually make this dialog work --}}
+        {{!-- template-lint-disable no-bare-strings --}}
+        <OsfDialog
+            @isOpen={{this.seeMoreModalShown}}
+            @onClose={{fn (mut this.seeMoreModalShown) false}}
+            as |dialog|
+        >
+            <dialog.heading>Heading</dialog.heading>
+            <dialog.main>Main</dialog.main>
+            <dialog.footer>Footer</dialog.footer>
+        </OsfDialog>
+    {{/let}}
+</div>

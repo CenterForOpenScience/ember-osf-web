@@ -1,4 +1,5 @@
 import { Request, Schema } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export function recordSearch(_: Schema, __: Request) {
     // TODO: replace with a real metadata-record-search and use request to populate attrs
@@ -445,6 +446,111 @@ export function recordSearch(_: Schema, __: Request) {
                 links: {
                     self: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord2',
                     resource: 'http://purl.org/dc/terms/funder',
+                },
+            },
+        ],
+    };
+}
+
+export function valueSearch(_: Schema, __: Request) {
+    const property1Id = faker.random.uuid();
+    const property2Id = faker.random.uuid();
+    return {
+        data: {
+            type: 'metadata-value-search',
+            id: 'lmnop',
+            attributes: {
+                valueSearchText: 'Institute of Health',
+                valueSearchFilter: [
+                    {
+                        propertyPath: 'resourceType',
+                        filterType: 'eq',
+                        filterValues: ['datacite:Funder'],
+                    },
+                ],
+                recordSearchText: 'influenza',
+                recordSearchFilter: [
+                    {
+                        propertyPath: 'resourceType',
+                        filterType: 'eq',
+                        filterValues: ['datacite:Dataset'],
+                    },
+                ],
+                totalResultCount: 2,
+            },
+            relationships: {
+                searchResultPage: {
+                    data: [
+                        {type: 'search-result', id: property1Id},
+                        {type: 'search-result', id: property2Id},
+                    ],
+                    links: {
+                        next: '...',
+                        last: '...',
+                    },
+                },
+                relatedPropertySearch: {
+                    data: {type: 'metadata-property-search', id: '12345'},
+                },
+            },
+        },
+        included: [
+            {
+                type: 'search-result',
+                id: property1Id,
+                attributes: {
+                    matchEvidence: [
+                        {propertyPath: 'title', matchingHighlight: 'National <em>Institute of Health</em>'},
+                    ],
+                    recordResultCount: 2134,
+                },
+                relationships: {
+                    metadataRecord: {
+                        data: {type: 'metadata-record', id: property1Id},
+                        links: {related: 'https://share.osf.example/metadata-record/abc'},
+                    },
+                },
+            },
+            {
+                type: 'search-result',
+                id: property2Id,
+                attributes: {
+                    matchEvidence: [
+                        {propertyPath: 'title', matchingHighlight: 'Virginia <em>Institute of Health</em>'},
+                    ],
+                    recordResultCount: 2,
+                },
+                relationships: {
+                    metadataRecord: {
+                        data: {type: 'metadata-record', id: property2Id},
+                        links: {related: 'https://share.osf.example/metadata-record/def'},
+                    },
+                },
+            },
+            {
+                type: 'metadata-record',
+                id: property1Id,
+                attributes: {
+                    resourceType: 'osf:Funder',
+                    resourceIdentifier: 'http://dx.doi.org/10.10000/505000005050',
+                    resourceMetadata: {
+                        '@id': 'http://dx.doi.org/10.10000/505000005050',
+                        '@type': 'datacite:Funder',
+                        title: [{'@value': faker.lorem.words(3), '@language':'en'}],
+                    },
+                },
+            },
+            {
+                type: 'metadata-record',
+                id: property2Id,
+                attributes: {
+                    resourceType: 'osf:Funder',
+                    resourceIdentifier: 'https://doi.org/10.10000/100000001',
+                    resourceMetadata: {
+                        '@id': 'http://dx.doi.org/10.10000/100000001',
+                        '@type': 'datacite:Funder',
+                        title: [{'@value':faker.lorem.word(), '@language':'en'}],
+                    },
                 },
             },
         ],

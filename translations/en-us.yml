@@ -207,6 +207,14 @@ search:
     textbox_placeholder: 'Search placeholder'
     search_button_label: 'Search'
     toggle_sidenav: 'Toggle search sidebar'
+    left_panel:
+        header: Refine
+        no_filterable_properties: 'No properties'
+    active_filters:
+        remove_filter: 'Remove filter {key} {value}'
+    filter_facet:
+        facet_load_failed: 'Failed to load facet values'
+        see_more: 'See more'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
