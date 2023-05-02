@@ -75,25 +75,6 @@
         width: 100%;
         margin-top: 10px;
         margin-bottom: 10px;
-
-        .sort-by-option-list {
-            background-color: #efefef;
-            left: auto;
-
-            li:hover {
-                background-color: #d9d9d9;
-            }
-
-            .list-option {
-                cursor: pointer;
-                color: #000;
-                text-decoration: none;
-
-                &:focus {
-                    outline: none;
-                }
-            }
-        }
     }
 }
 
@@ -231,4 +212,24 @@
         }
     }
 
+}
+
+.sort-by-option-list {
+    background-color: #efefef;
+    left: auto;
+    list-style: none;
+
+    li:hover {
+        background-color: #d9d9d9;
+    }
+
+    .list-option {
+        cursor: pointer;
+        color: #000;
+        text-decoration: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
 }
