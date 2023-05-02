@@ -75,12 +75,12 @@
                             class='pull-right generic-dropdown'
                             local-class='dropdown'
                         >
-                            <BsDropdown as |dd|>
-                                <dd.button local-class='dropdown-button'>
+                            <ResponsiveDropdown @buttonStyling={{true}} as |dd|>
+                                <dd.trigger local-class='dropdown-button'>
                                     <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
-                                </dd.button>
-                                <dd.menu @align='right' local-class='dropdown-list' as |menu|>
-                                    <menu.item role='menuitem'>
+                                </dd.trigger>
+                                <dd.content @align='right' local-class='dropdown-list'>
+                                    <li role='menuitem'>
                                         <OsfLink
                                             data-analytics-name='Manage Contributors'
                                             local-class='dropdown-link'
@@ -88,8 +88,8 @@
                                         >
                                             {{t 'node_card.fork.manage_contributors'}}
                                         </OsfLink>
-                                    </menu.item>
-                                    <menu.item role='menuitem'>
+                                    </li>
+                                    <li role='menuitem'>
                                         <OsfLink
                                             data-analytics-name='Settings'
                                             local-class='dropdown-link'
@@ -97,18 +97,19 @@
                                         >
                                             {{t 'general.settings'}}
                                         </OsfLink>
-                                    </menu.item>
-                                    <menu.item role='menuitem'>
+                                    </li>
+                                    <li role='menuitem'>
                                         <Button
                                             data-analytics-scope='Delete'
                                             local-class='dropdown-link'
+                                            @layout='fake-link'
                                             {{on 'click' (action @delete @node)}}
                                         >
                                             {{t 'general.delete'}}
                                         </Button>
-                                    </menu.item>
-                                </dd.menu>
-                            </BsDropdown>
+                                    </li>
+                                </dd.content>
+                            </ResponsiveDropdown>
                         </div>
                     {{/if}}
                 {{/if}}

@@ -30,35 +30,7 @@
                 background-color: darken($brand-info, 15%);
             }
 
-            .dropdown {
-                padding-left: 5px;
-
-                .dropdown-button {
-                    padding: 4px 12px;
-                    line-height: 0;
-                }
-
-                .dropdown-list {
-                    background-color: $color-bg-gray-light;
-                    min-width: 180px;
-
-                    .dropdown-link {
-                        color: $color-link-black;
-                        border-color: transparent;
-                        background-color: $color-bg-gray-light;
-                        min-width: 180px;
-                        text-align: left;
-                        padding: 3px 20px;
-                    }
-
-                    .dropdown-link:hover,
-                    .dropdown-link:focus {
-                        cursor: pointer;
-                        background-image: none;
-                        background-color: $color-bg-gray-dark;
-                    }
-                }
-            }
+            
         }
 
         .body {
@@ -131,5 +103,40 @@
     &.mobile {
         width: 10%;
         padding-left: 0;
+    }
+}
+
+.dropdown {
+    padding-left: 5px;
+
+    .dropdown-button {
+        padding: 4px 12px;
+        line-height: 0;
+    }
+}
+
+.dropdown-list.dropdown-list {
+    background-color: $color-bg-gray-light;
+    min-width: 180px;
+    list-style: none;
+
+    li {
+        margin: 10px 0;
+    }
+
+    .dropdown-link {
+        color: $color-link-black;
+        border-color: transparent;
+        background-color: $color-bg-gray-light;
+        min-width: 180px;
+        text-align: left;
+        padding: 3px 20px;
+    }
+
+    .dropdown-link:hover,
+    .dropdown-link:focus {
+        cursor: pointer;
+        background-image: none;
+        background-color: $color-bg-gray-dark;
     }
 }
