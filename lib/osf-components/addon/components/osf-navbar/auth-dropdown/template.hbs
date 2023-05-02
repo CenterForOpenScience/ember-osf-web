@@ -1,29 +1,28 @@
 {{#if this.session.isAuthenticated}}
-    <BsDropdown
+    <ResponsiveDropdown
         data-test-auth-dropdown
         local-class='DropdownContainer'
         class='secondary-nav-dropdown'
         @htmlTag='li'
         as |dd|
     >
-        <dd.toggle data-test-auth-dropdown-toggle class='btn-link'>
+        <dd.trigger data-test-auth-dropdown-toggle class='btn-link' local-class='auth-trigger'>
             <div class='osf-profile-image'>
                 <img src='{{this.user.profileImage}}&s=25' alt='{{t 'auth_dropdown.user_gravatar'}}'>
             </div>
             <div class='nav-profile-name'>{{this.user.fullName}}</div>
             <span class='caret'></span>
-        </dd.toggle>
+        </dd.trigger>
 
-        <dd.menu
+        <dd.content
             class='auth-dropdown'
             local-class='AuthDropdown'
             @align='right'
-            as |ddm|
         >
             {{#if @headline}}
-                <ddm.item role='none' local-class='Headline'>
+                <span role='none' local-class='Headline'>
                     {{@headline}}
-                </ddm.item>
+                </span>
             {{/if}}
             <li role='menuitem'>
                 <OsfLink
@@ -68,8 +67,8 @@
                     {{t 'auth_dropdown.log_out'}}
                 </Button>
             </li>
-        </dd.menu>
-    </BsDropdown>
+        </dd.content>
+    </ResponsiveDropdown>
 {{else}}
     <li class='sign-in'>
         <div class='button-container'>

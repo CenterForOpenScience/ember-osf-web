@@ -3,8 +3,27 @@
 }
 
 // osf-style interop
-.AuthDropdown {
-    right: 0 !important;
+.AuthDropdown.AuthDropdown {
+    z-index: 2000;
+    background-color: #2e6a74;
+    list-style: none;
+
+    a {
+        color: $color-text-white;
+        display: block;
+        padding: 3px 20px;
+        line-height: 1.8;
+        font-size: 16px;
+        white-space: nowrap;
+    }
+
+    a:hover {
+        background-color: #5a8288;
+    }
+}
+
+.auth-trigger.auth-trigger.auth-trigger.auth-trigger {
+    padding: 11px 15px;
 }
 
 :global(.dropdown.secondary-nav-dropdown .btn-link.dropdown-toggle) {
