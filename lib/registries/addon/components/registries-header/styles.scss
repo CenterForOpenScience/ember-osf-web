@@ -1,109 +1,97 @@
-.HeaderContainer {
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.header-container {
     padding: 30px 0;
-}
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-.ProviderDescription {
-    position: relative;
-    margin: 0 65px;
-    padding-top: 10px;
+    .brand-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 25px;
 
-    :global(.ColorBlack) {
-        color: $color-text-black;
-    }
-
-    :global(.ColorPureBlack) {
-        color: $color-black;
-    }
-
-    :global(.ColorBlue) {
-        color: $color-blue;
-    }
-
-    :global(.ColorPureBlue) {
-        color: $color-pure-blue;
-    }
-
-    :global(.ColorGrey) {
-        color: $color-text-gray;
-    }
-
-    :global(.ColorRed) {
-        color: $color-red;
-    }
-
-    :global(.ColorGreen) {
-        color: $color-green;
-    }
-
-    :global(.ColorYellow) {
-        color: $color-yellow;
-    }
-
-    :global(.ColorTurquoise) {
-        color: $color-turquoise;
-    }
-
-    :global(.ColorPurple) {
-        color: $color-purple;
-    }
-
-    :global(.LinkColorBlack) {
-        a {
-            color: $color-link-black;
+        .brand {
+            background: var(--hero-logo-img-url) top center no-repeat;
+            background-size: contain;
+            height: 70px;
+            width: 100%;
         }
     }
 
-    :global(.LinkColorBlue) {
-        a {
-            color: $color-link-blue;
+    .search-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 75%;
+        margin-top: 25px;
+
+        .form {
+            width: 100%;
+            position: relative;
+            margin: 0 50px;
+
+            input {
+                font-size: 18px;
+                padding: 28px 50px;
+            }
+
+            .icon {
+                position: absolute;
+                top: 9px;
+                left: 8px;
+                font-size: 24px;
+                color: var(--primary-color);
+
+                &:hover {
+                    color: var(--secondary-color);
+                }
+            }
+
+            .hidden-label {
+                position: absolute;
+                height: 1px;
+                width: 1px;
+                overflow: hidden;
+                clip: rect(1px, 1px, 1px, 1px);
+            }
+
+            .help-icon {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 24px;
+                color: var(--primary-color);
+
+                &:hover {
+                    color: var(--secondary-color);
+                }
+            }
+
         }
     }
 
-    :global(.LinkColorPureBlue) {
-        a {
-            color: $color-pure-blue;
-        }
-    }
-
-    :global(.LinkColorGrey) {
-        a {
-            color: $color-grey;
-        }
-    }
-
-    :global(.LinkColorRed) {
-        a {
-            color: $color-red;
-        }
-    }
-
-    :global(.LinkColorGreen) {
-        a {
-            color: $color-green;
-        }
-    }
-
-    :global(.LinkColorYellow) {
-        a {
-            color: $color-yellow;
-        }
-    }
-
-    :global(.LinkColorTurquoise) {
-        a {
-            color: $color-turquoise;
-        }
-    }
-
-    :global(.LinkColorPurple) {
-        a {
-            color: $color-purple;
-        }
+    .provider-description {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        width: 75%;
     }
 }
 
 .RegistriesHeader {
     color: #fff;
+    width: 100%;
+    margin-bottom: 25px;
 
     a {
         color: #80c2f7;
@@ -118,52 +106,3 @@
         font-size: 21px;
     }
 }
-
-.RegistriesHeader__Brand {
-    background: var(--hero-logo-img-url) top center no-repeat;
-    background-size: contain;
-    height: 70px;
-}
-
-.SearchForm {
-    position: relative;
-    margin: 0 50px;
-
-    input {
-        font-size: 18px;
-        padding: 28px 50px;
-    }
-}
-
-.SearchForm__HiddenLabel {
-    position: absolute;
-    height: 1px;
-    width: 1px;
-    overflow: hidden;
-    clip: rect(1px, 1px, 1px, 1px);
-}
-
-.SearchIcon {
-    position: absolute;
-    top: 9px;
-    left: 8px;
-    font-size: 24px;
-    color: var(--primary-color);
-
-    &:hover {
-        color: var(--secondary-color);
-    }
-}
-
-.HelpIcon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: var(--primary-color);
-
-    &:hover {
-        color: var(--secondary-color);
-    }
-}
-

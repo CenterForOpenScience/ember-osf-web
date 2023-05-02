@@ -9,6 +9,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
+import Media from 'ember-responsive';
 
 import config from 'ember-get-config';
 import ProviderModel from 'ember-osf-web/models/provider';
@@ -156,6 +157,7 @@ const queryParams = {
 export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryParams);
 
 export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
+    @service media!: Media;
     @service intl!: Intl;
     @service analytics!: Analytics;
     @service store!: Store;
@@ -387,5 +389,9 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         }
         // Set page to 1 here to ensure page is always reset when changing the order/sorting of a search
         this.setProperties({ page: 1, sort: value });
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

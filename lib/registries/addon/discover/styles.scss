@@ -43,6 +43,18 @@
     justify-content: flex-start;
     align-items: flex-start;
 
+    &.mobile {
+        flex-direction: column;
+
+        .search-options-container {
+            width: 100%;
+        }
+
+        .search-header-container {
+            width: 100%;
+        }
+    }
+
     .search-options-container {
         width: 30%;
     }

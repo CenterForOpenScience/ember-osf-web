@@ -23,7 +23,7 @@
         onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
         as |discover|
     }}
-        <div local-class='search-container'>
+        <div local-class='search-container {{if this.isMobile 'mobile'}}'>
             <div local-class='search-options-container'>
                 {{#if this.searchOptions}}
                     {{#discover.sidebar as |sidebar|}}
