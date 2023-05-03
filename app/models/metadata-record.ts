@@ -30,7 +30,7 @@ export default class MetadataRecordModel extends Model {
                 return labels[0]['@value'];
             }
         }
-        return 'No label found';
+        return this.intl.t('search.metadata_record.no_label');
     }
 
     get title() {
@@ -46,7 +46,7 @@ export default class MetadataRecordModel extends Model {
                 return titles[0]['@value'];
             }
         }
-        return 'No title found';
+        return this.intl.t('search.metadata_record.no_title');
     }
 }
 

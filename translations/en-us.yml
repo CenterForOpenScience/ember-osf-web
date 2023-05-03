@@ -203,6 +203,9 @@ dashboard:
         button: 'View preprints'
 
 search:
+    metadata_record:
+        no_label: 'No label found'
+        no_title: 'No title found'
     search_header: 'Search OSF'
     textbox_placeholder: 'Search placeholder'
     search_button_label: 'Search'
