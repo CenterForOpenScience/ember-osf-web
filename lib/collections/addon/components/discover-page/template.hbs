@@ -94,8 +94,8 @@
         {{/if}}
         {{!RELEVANCE}}
         <div local-class='relevance-container'>
-            <BsDropdown class='dropdown pull-right' as |dd|>
-                <dd.button
+            <ResponsiveDropdown class='dropdown pull-right' as |dd|>
+                <dd.trigger
                     data-test-sort-by-button
                     class='btn btn-default results-top'
                 >
@@ -105,26 +105,27 @@
                         class='caret'
                         >
                     </span>
-                </dd.button>
-                <dd.menu
+                </dd.trigger>
+                <dd.content
                     local-class='sort-by-option-list'
                     @align='right'
-                    as |ddm|
                 >
-                    {{#each this.sortOptions as |sortChoice|}}
-                        <ddm.item>
-                            <Button
-                                data-test-sort-by-item={{sortChoice.sortBy}}
-                                @layout='fake-link'
-                                local-class='list-option'
-                                {{action this.selectSortOption sortChoice.sortBy}}
-                            >
-                                {{sortChoice.display}}
-                            </Button>
-                        </ddm.item>
-                    {{/each}}
-                </dd.menu>
-            </BsDropdown>
+                    <ul role='menu' tabindex='-1'>
+                        {{#each this.sortOptions as |sortChoice|}}
+                            <li role='menuitem'>
+                                <Button
+                                    data-test-sort-by-item={{sortChoice.sortBy}}
+                                    @layout='fake-link'
+                                    local-class='list-option'
+                                    {{on 'click' (queue dd.close (action this.selectSortOption sortChoice.sortBy))}}
+                                >
+                                    {{sortChoice.display}}
+                                </Button>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </dd.content>
+            </ResponsiveDropdown>
         </div>
     </div>
 </div>
