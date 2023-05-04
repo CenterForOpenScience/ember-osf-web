@@ -99,6 +99,25 @@
 
 .ServiceDropdownMenu {
     font-size: 20px;
+
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
+
+    li>a {
+        display: block;
+        padding: 3px 20px;
+        line-height: 1.8;
+        white-space: nowrap;
+        clear: both;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    li>a:hover {
+        text-decoration: none;
+    }
 }
 
 .ServiceDropdownEntry {
@@ -139,6 +158,11 @@
     right: 0;
     left: auto;
 
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
+
     // Logout and sign in buttons
     & > li > :global(.btn.btn-link) {
         color: $white;
@@ -151,6 +175,21 @@
             text-decoration: none;
             outline: 0;
         }
+    }
+
+    li>a {
+        display: block;
+        padding: 3px 20px;
+        line-height: 1.8;
+        white-space: nowrap;
+        clear: both;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    li>a:hover,
+    li>button:hover {
+        text-decoration: none;
     }
 
     :global(.fa.fa-user-plus) {

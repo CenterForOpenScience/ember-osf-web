@@ -98,31 +98,36 @@
         <div local-class='pick-date-range'>
             <label>
                 {{t 'analytics.showForDateRange'}}
-                <BsDropdown as |dd|>
-                    <dd.button
+                <ResponsiveDropdown
+                    @buttonStyling={{true}}
+                    as |dd|
+                >
+                    <dd.trigger
                         aria-haspopup='true'
                         aria-expanded='false'
                         local-class='date-range-button'
                     >
                         {{t (get this.timespanIntlKeys this.timespan)}}
                         <FaIcon @icon='caret-down' />
-                    </dd.button>
-                    <dd.menu
+                    </dd.trigger>
+                    <dd.content
                         local-class='date-range-menu'
                         @align='right'
                     >
-                        {{#each this.allTimespans as |timespan|}}
-                            <li role='menuitem'>
-                                <Button
-                                    local-class='date-range-option'
-                                    {{on 'click' (fn this.setTimespan timespan)}}
-                                >
-                                    {{t (get this.timespanIntlKeys timespan)}}
-                                </Button>
-                            </li>
-                        {{/each}}
-                    </dd.menu>
-                </BsDropdown>
+                        <ul role='menu' tabindex='-1'>
+                            {{#each this.allTimespans as |timespan|}}
+                                <li role='menuitem'>
+                                    <Button
+                                        local-class='date-range-option'
+                                        {{on 'click' (queue dd.close (fn this.setTimespan timespan))}}
+                                    >
+                                        {{t (get this.timespanIntlKeys timespan)}}
+                                    </Button>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </dd.content>
+                </ResponsiveDropdown>
             </label>
         </div>
     {{/if}}
