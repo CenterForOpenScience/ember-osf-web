@@ -31,6 +31,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked collapsed = true;
     @tracked filterableProperties: SearchResultModel[] = [];
     @tracked seeMoreModalShown = false;
+    @tracked selectedProperty?: SearchResultModel;
 
     get showSeeMoreButton() {
         // TODO: make this actually check if there are more
@@ -43,6 +44,26 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             taskFor(this.fetchFacetValues).perform();
         }
         this.collapsed = !this.collapsed;
+    }
+
+    @action
+    updateSelectedProperty(property: SearchResultModel) {
+        this.selectedProperty = property;
+    }
+
+    @task
+    @waitFor
+    async applySelectedProperty() {
+        if (this.selectedProperty) {
+            const { toggleFilter, propertyRecord } = this.args;
+            const record = await this.selectedProperty.metadataRecord;
+            const filter = {
+                key: propertyRecord.get('label'),
+                value: record.title,
+            };
+            toggleFilter(filter);
+            this.selectedProperty = undefined;
+        }
     }
 
     @task

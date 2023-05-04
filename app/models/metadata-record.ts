@@ -17,7 +17,7 @@ export default class MetadataRecordModel extends Model {
     @hasMany('metadata-record', { inverse: null })
     relatedRecordSet!: AsyncHasMany<MetadataRecordModel> & MetadataRecordModel[];
 
-    get label() {
+    get label(): string {
         const { resourceMetadata } = this;
         const preferredLanguage = this.intl.locale;
         const labels = resourceMetadata?.label;
@@ -33,7 +33,7 @@ export default class MetadataRecordModel extends Model {
         return this.intl.t('search.metadata_record.no_label');
     }
 
-    get title() {
+    get title(): string {
         const { resourceMetadata } = this;
         const preferredLanguage = this.intl.locale;
         const titles = resourceMetadata?.title;

@@ -37,6 +37,7 @@ general:
     cancel: Cancel
     add: Add
     ok: OK
+    apply: Apply
     revisions: Revisions
     md5: MD5
     date: Date
@@ -218,6 +219,7 @@ search:
     filter_facet:
         facet_load_failed: 'Failed to load facet values'
         see_more: 'See more'
+        see_more_modal_text: 'Please select a filter to apply to your search.'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'

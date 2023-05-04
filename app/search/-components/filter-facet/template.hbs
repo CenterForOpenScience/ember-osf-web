@@ -1,7 +1,7 @@
 <div
     local-class='facet-wrapper'
 >
-    {{#let (unique-id this.label) as |facetElementId|}}
+    {{#let (unique-id @propertyRecord.label) as |facetElementId|}}
         <Button
             @layout='fake-link'
             local-class='facet-expand-button'
@@ -50,15 +50,42 @@
             </ul>
         {{/if}}
         {{!-- TODO: actually make this dialog work --}}
-        {{!-- template-lint-disable no-bare-strings --}}
         <OsfDialog
             @isOpen={{this.seeMoreModalShown}}
             @onClose={{fn (mut this.seeMoreModalShown) false}}
             as |dialog|
         >
-            <dialog.heading>Heading</dialog.heading>
-            <dialog.main>Main</dialog.main>
-            <dialog.footer>Footer</dialog.footer>
+            <dialog.heading>
+                {{@propertyRecord.label}}
+            </dialog.heading>
+            <dialog.main local-class='see-more-dialog'>
+                {{t 'search.filter_facet.see_more_modal_text'}}
+                <PowerSelect
+                    @options={{this.filterableProperties}}
+                    @searchEnabled={{true}}
+                    @selected={{this.selectedProperty}}
+                    @search={{perform this.fetchFacetValues}}
+                    @onChange={{action this.updateSelectedProperty}}
+                    as |property|
+                >
+                    {{property.metadataRecord.title}}
+                </PowerSelect>
+            </dialog.main>
+            <dialog.footer>
+                <Button
+                    @type='secondary'
+                    {{on 'click' (fn (mut this.seeMoreModalShown) false)}}
+                >
+                    {{t 'general.cancel'}}
+                </Button>
+                <Button
+                    @type='primary'
+                    disabled={{not this.selectedProperty}}
+                    {{on 'click' (queue (perform this.applySelectedProperty) dialog.close) }}
+                >
+                    {{t 'general.apply'}}
+                </Button>
+            </dialog.footer>
         </OsfDialog>
     {{/let}}
 </div>
