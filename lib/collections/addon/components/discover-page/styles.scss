@@ -217,7 +217,11 @@
 .sort-by-option-list {
     background-color: #efefef;
     left: auto;
-    list-style: none;
+
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
 
     li:hover {
         background-color: #d9d9d9;

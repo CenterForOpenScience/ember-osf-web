@@ -114,16 +114,18 @@
                         local-class='date-range-menu'
                         @align='right'
                     >
-                        {{#each this.allTimespans as |timespan|}}
-                            <li role='menuitem'>
-                                <Button
-                                    local-class='date-range-option'
-                                    {{on 'click' (queue dd.close (fn this.setTimespan timespan))}}
-                                >
-                                    {{t (get this.timespanIntlKeys timespan)}}
-                                </Button>
-                            </li>
-                        {{/each}}
+                        <ul role='menu' tabindex='-1'>
+                            {{#each this.allTimespans as |timespan|}}
+                                <li role='menuitem'>
+                                    <Button
+                                        local-class='date-range-option'
+                                        {{on 'click' (queue dd.close (fn this.setTimespan timespan))}}
+                                    >
+                                        {{t (get this.timespanIntlKeys timespan)}}
+                                    </Button>
+                                </li>
+                            {{/each}}
+                        </ul>
                     </dd.content>
                 </ResponsiveDropdown>
             </label>

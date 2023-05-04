@@ -41,7 +41,11 @@
     border: 1px solid $color-shadow-gray-light;
     border-radius: 4px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    list-style: none;
+
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
 }
 
 .service-dropdown ::after {

@@ -118,7 +118,11 @@
 .dropdown-list.dropdown-list {
     background-color: $color-bg-gray-light;
     min-width: 180px;
-    list-style: none;
+
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
 
     li {
         margin: 10px 0;

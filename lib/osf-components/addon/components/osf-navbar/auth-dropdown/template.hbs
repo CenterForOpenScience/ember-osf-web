@@ -19,54 +19,56 @@
             local-class='AuthDropdown'
             @align='right'
         >
-            {{#if @headline}}
-                <span role='none' local-class='Headline'>
-                    {{@headline}}
-                </span>
-            {{/if}}
-            <li role='menuitem'>
-                <OsfLink
-                    data-test-ad-my-profile
-                    data-analytics-name='MyProfile'
-                    @href={{this.profileURL}}
-                >
-                    <FaIcon @icon='user' class='fa-lg p-r-xs' />
-                    {{t 'auth_dropdown.my_profile'}}
-                </OsfLink>
-            </li>
-            <li role='menuitem'>
-                <OsfLink
-                    data-test-ad-support
-                    data-analytics-name='Support'
-                    @href={{this.supportURL}}
-                >
-                    <FaIcon @icon='life-ring' class='fa-lg p-r-xs' />
-                    {{t 'auth_dropdown.osf_support'}}
-                </OsfLink>
-            </li>
-            <li role='menuitem'>
-                <OsfLink
-                    data-test-ad-settings
-                    data-analytics-name='Settings'
-                    @href={{this.settingsURL}}
-                >
-                    <FaIcon @icon='cog' class='fa-lg p-r-xs' />
-                    {{t 'general.settings'}}
-                </OsfLink>
-            </li>
-            <li role='menuitem'>
-                <Button
-                    data-test-ad-logout
-                    data-analytics-name='Logout'
-                    class='logoutLink'
-                    local-class='logout-link'
-                    @layout='fake-link'
-                    {{on 'click' (action this.currentUser.logout)}}
-                >
-                    <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
-                    {{t 'auth_dropdown.log_out'}}
-                </Button>
-            </li>
+            <ul role='menu' tabindex='-1'>
+                {{#if @headline}}
+                    <span role='none' local-class='Headline'>
+                        {{@headline}}
+                    </span>
+                {{/if}}
+                <li role='menuitem'>
+                    <OsfLink
+                        data-test-ad-my-profile
+                        data-analytics-name='MyProfile'
+                        @href={{this.profileURL}}
+                    >
+                        <FaIcon @icon='user' class='fa-lg p-r-xs' />
+                        {{t 'auth_dropdown.my_profile'}}
+                    </OsfLink>
+                </li>
+                <li role='menuitem'>
+                    <OsfLink
+                        data-test-ad-support
+                        data-analytics-name='Support'
+                        @href={{this.supportURL}}
+                    >
+                        <FaIcon @icon='life-ring' class='fa-lg p-r-xs' />
+                        {{t 'auth_dropdown.osf_support'}}
+                    </OsfLink>
+                </li>
+                <li role='menuitem'>
+                    <OsfLink
+                        data-test-ad-settings
+                        data-analytics-name='Settings'
+                        @href={{this.settingsURL}}
+                    >
+                        <FaIcon @icon='cog' class='fa-lg p-r-xs' />
+                        {{t 'general.settings'}}
+                    </OsfLink>
+                </li>
+                <li role='menuitem'>
+                    <Button
+                        data-test-ad-logout
+                        data-analytics-name='Logout'
+                        class='logoutLink'
+                        local-class='logout-link'
+                        @layout='fake-link'
+                        {{on 'click' (action this.currentUser.logout)}}
+                    >
+                        <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
+                        {{t 'auth_dropdown.log_out'}}
+                    </Button>
+                </li>
+            </ul>
         </dd.content>
     </ResponsiveDropdown>
 {{else}}

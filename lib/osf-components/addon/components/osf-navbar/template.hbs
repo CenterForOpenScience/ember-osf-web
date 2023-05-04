@@ -40,18 +40,20 @@
                         <FaIcon @icon='caret-down' @size='2x' />
                     </dd.trigger>
                     <dd.content local-class='service-dropdown'>
-                        {{#each this.services as |service|}}
-                            <li role='menuitem'>
-                                <OsfLink
-                                    data-analytics-name={{service.name}}
-                                    @route={{service.route}}
-                                    @href={{service.href}}
-                                    local-class='service-links'
-                                >
-                                    {{t 'general.OSF'}}<b>{{service.name}}</b>
-                                </OsfLink>
-                            </li>
-                        {{/each}}
+                        <ul role='menu' tabindex='-1'>
+                            {{#each this.services as |service|}}
+                                <li role='menuitem'>
+                                    <OsfLink
+                                        data-analytics-name={{service.name}}
+                                        @route={{service.route}}
+                                        @href={{service.href}}
+                                        local-class='service-links'
+                                    >
+                                        {{t 'general.OSF'}}<b>{{service.name}}</b>
+                                    </OsfLink>
+                                </li>
+                            {{/each}}
+                        </ul>
                     </dd.content>
                 </ResponsiveDropdown>
 

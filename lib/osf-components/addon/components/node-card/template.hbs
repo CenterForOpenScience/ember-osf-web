@@ -80,34 +80,36 @@
                                     <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
                                 </dd.trigger>
                                 <dd.content @align='right' local-class='dropdown-list'>
-                                    <li role='menuitem'>
-                                        <OsfLink
-                                            data-analytics-name='Manage Contributors'
-                                            local-class='dropdown-link'
-                                            @href='/{{@node.id}}/contributors/'
-                                        >
-                                            {{t 'node_card.fork.manage_contributors'}}
-                                        </OsfLink>
-                                    </li>
-                                    <li role='menuitem'>
-                                        <OsfLink
-                                            data-analytics-name='Settings'
-                                            local-class='dropdown-link'
-                                            @href='/{{@node.id}}/settings/'
-                                        >
-                                            {{t 'general.settings'}}
-                                        </OsfLink>
-                                    </li>
-                                    <li role='menuitem'>
-                                        <Button
-                                            data-analytics-scope='Delete'
-                                            local-class='dropdown-link'
-                                            @layout='fake-link'
-                                            {{on 'click' (action @delete @node)}}
-                                        >
-                                            {{t 'general.delete'}}
-                                        </Button>
-                                    </li>
+                                    <ul role='menu' tabindex='-1'>
+                                        <li role='menuitem'>
+                                            <OsfLink
+                                                data-analytics-name='Manage Contributors'
+                                                local-class='dropdown-link'
+                                                @href='/{{@node.id}}/contributors/'
+                                            >
+                                                {{t 'node_card.fork.manage_contributors'}}
+                                            </OsfLink>
+                                        </li>
+                                        <li role='menuitem'>
+                                            <OsfLink
+                                                data-analytics-name='Settings'
+                                                local-class='dropdown-link'
+                                                @href='/{{@node.id}}/settings/'
+                                            >
+                                                {{t 'general.settings'}}
+                                            </OsfLink>
+                                        </li>
+                                        <li role='menuitem'>
+                                            <Button
+                                                data-analytics-scope='Delete'
+                                                local-class='dropdown-link'
+                                                @layout='fake-link'
+                                                {{on 'click' (action @delete @node)}}
+                                            >
+                                                {{t 'general.delete'}}
+                                            </Button>
+                                        </li>
+                                    </ul>
                                 </dd.content>
                             </ResponsiveDropdown>
                         </div>

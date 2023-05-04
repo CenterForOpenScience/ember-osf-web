@@ -110,18 +110,20 @@
                     local-class='sort-by-option-list'
                     @align='right'
                 >
-                    {{#each this.sortOptions as |sortChoice|}}
-                        <li role='menuitem'>
-                            <Button
-                                data-test-sort-by-item={{sortChoice.sortBy}}
-                                @layout='fake-link'
-                                local-class='list-option'
-                                {{on 'click' (queue dd.close (action this.selectSortOption sortChoice.sortBy))}}
-                            >
-                                {{sortChoice.display}}
-                            </Button>
-                        </li>
-                    {{/each}}
+                    <ul role='menu' tabindex='-1'>
+                        {{#each this.sortOptions as |sortChoice|}}
+                            <li role='menuitem'>
+                                <Button
+                                    data-test-sort-by-item={{sortChoice.sortBy}}
+                                    @layout='fake-link'
+                                    local-class='list-option'
+                                    {{on 'click' (queue dd.close (action this.selectSortOption sortChoice.sortBy))}}
+                                >
+                                    {{sortChoice.display}}
+                                </Button>
+                            </li>
+                        {{/each}}
+                    </ul>
                 </dd.content>
             </ResponsiveDropdown>
         </div>

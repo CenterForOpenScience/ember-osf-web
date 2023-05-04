@@ -6,7 +6,11 @@
 .AuthDropdown.AuthDropdown {
     z-index: 2000;
     background-color: #2e6a74;
-    list-style: none;
+
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
 
     a {
         color: $color-text-white;
