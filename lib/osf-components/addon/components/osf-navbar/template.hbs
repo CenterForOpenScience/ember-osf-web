@@ -26,33 +26,36 @@
                 </div>
 
                 {{! App list dropdown }}
-                <BsDropdown
+                <ResponsiveDropdown
                     data-analytics-scope='Primary dropdown'
                     class='primary-nav'
-                    @onShow={{action this.onClickPrimaryDropdown}}
+                    @onOpen={{action this.onClickPrimaryDropdown}}
                     as |dd|
                 >
-                    <dd.toggle
+                    <dd.trigger
                         data-test-service-dropdown
                         aria-label={{t 'navbar.other_views'}}
                         class={{concat 'btn-link ' (local-class 'PrimaryNav__toggle')}}
                     >
                         <FaIcon @icon='caret-down' @size='2x' />
-                    </dd.toggle>
-                    <dd.menu class='service-dropdown' as |ddm|>
-                        {{#each this.services as |service|}}
-                            <ddm.item role='menuitem'>
-                                <OsfLink
-                                    data-analytics-name={{service.name}}
-                                    @route={{service.route}}
-                                    @href={{service.href}}
-                                >
-                                    {{t 'general.OSF'}}<b>{{service.name}}</b>
-                                </OsfLink>
-                            </ddm.item>
-                        {{/each}}
-                    </dd.menu>
-                </BsDropdown>
+                    </dd.trigger>
+                    <dd.content local-class='service-dropdown'>
+                        <ul role='menu' tabindex='-1'>
+                            {{#each this.services as |service|}}
+                                <li role='menuitem'>
+                                    <OsfLink
+                                        data-analytics-name={{service.name}}
+                                        @route={{service.route}}
+                                        @href={{service.href}}
+                                        local-class='service-links'
+                                    >
+                                        {{t 'general.OSF'}}<b>{{service.name}}</b>
+                                    </OsfLink>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </dd.content>
+                </ResponsiveDropdown>
 
                 {{! Navigation toggle - XS screen }}
                 <Button
