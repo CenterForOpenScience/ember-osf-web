@@ -39,3 +39,14 @@
     padding-left: 12px;
     width: 300px;
 }
+
+.active-filter-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.active-filter-item {
+    display: flex;
+    justify-content: space-between;
+}
+

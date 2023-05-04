@@ -44,13 +44,38 @@ as |layout|>
     <layout.left local-class='left-panel'>
         {{!-- Object type filter dropdown if we are in mobile --}}
         <h2>{{t 'search.left_panel.header'}}</h2>
-        <Search::-Components::FacetsManager
-            @propertySearch={{this.propertySearch}}
-            @activeFilters={{this.activeFilters}}
-            @recordSearchText={{this.q}}
-            @doSearch={{this.doSearch}}
-        >
-        </Search::-Components::FacetsManager>
+        {{#if this.activeFilters.length}}
+            <ul local-class='active-filter-list'>
+                {{#each this.activeFilters as |filter|}}
+                    <li local-class='active-filter-item'>
+                        <span>
+                            {{filter.key}} |
+                            {{filter.value}}
+                        </span>
+                        <Button
+                            aria-label={{t 'search.remove_filter' key=filter.key value=filter.value}}
+                            @layout='fake-link'
+                            {{on 'click' (fn this.toggleFilter filter)}}
+                        >
+                            <FaIcon @icon='times' />
+                        </Button>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+        {{#each this.filterableProperties as |filterableProperty|}}
+            {{#let filterableProperty.metadataRecord as |propertyRecord|}}
+                <Search::-Components::FilterFacet
+                    @recordSearchText={{this.q}}
+                    @recordSearchFilters={{this.activeFilters}}
+                    @propertyRecord={{propertyRecord}}
+                    @propertySearch={{filterableProperty}}
+                    @toggleFilter={{this.toggleFilter}}
+                />
+            {{/let}}
+        {{else}}
+            {{t 'search.left_panel.no_filterable_properties'}}
+        {{/each}}
     </layout.left>
     <layout.main>
         Main

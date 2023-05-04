@@ -10,7 +10,10 @@ import { taskFor } from 'ember-concurrency-ts';
 import Media from 'ember-responsive';
 
 import MetadataPropertySearchModel from 'ember-osf-web/models/metadata-property-search';
-import { Filter } from './-components/facets-manager/component';
+export interface Filter {
+    key: string;
+    value: string;
+}
 
 export default class SearchController extends Controller {
     @service store!: Store;
@@ -29,6 +32,13 @@ export default class SearchController extends Controller {
         return this.media.isMobile || this.media.isTablet;
     }
 
+    get filterableProperties() {
+        if (!this.propertySearch) {
+            return [];
+        }
+        return this.propertySearch.get('searchResultPage');
+    }
+
     @action
     onKeyPress(event: KeyboardEvent) {
         if (event.key === 'Enter') {
@@ -40,6 +50,17 @@ export default class SearchController extends Controller {
     @action
     doSearch() {
         taskFor(this.search).perform();
+    }
+
+    @action
+    toggleFilter(filter: Filter) {
+        const filterIndex = this.activeFilters.findIndex(f => f.key === filter.key && f.value === filter.value);
+        if (filterIndex > -1) {
+            this.activeFilters.removeAt(filterIndex);
+        } else {
+            this.activeFilters.pushObject(filter);
+        }
+        this.doSearch();
     }
 
     @task

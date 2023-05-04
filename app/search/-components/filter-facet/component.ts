@@ -11,7 +11,7 @@ import IntlService from 'ember-intl/services/intl';
 import MetadataRecordModel from 'ember-osf-web/models/metadata-record';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 
-import { Filter } from '../facets-manager/component';
+import { Filter } from '../../controller';
 
 interface FilterFacetArgs {
     recordSearchText: string;
