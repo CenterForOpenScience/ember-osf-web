@@ -75,18 +75,16 @@
                     {{/discover.results}}
 
                     {{#unless this.totalResults}}
-                        <div class='col-sm-8 col-xs-12'>
-                            <div class='text-center'>
-                                <p data-test-no-results-placeholder class='lead'>
-                                    {{t 'registries.discover.no_results'}}
-                                </p>
-                                {{t 'registries.discover.try_broadening'}}
-                            </div>
+                        <div local-class='no-results'>
+                            <p data-test-no-results-placeholder class='lead'>
+                                {{t 'registries.discover.no_results'}}
+                            </p>
+                            {{t 'registries.discover.try_broadening'}}
                         </div>
                     {{/unless}}
 
                     {{#if (gt this.maxPage 1) }}
-                        <div local-class='Pagination' class='col-xs-12'>
+                        <div local-class='Pagination'>
                             {{search-paginator
                                 current=this.searchOptions.page
                                 maximum=this.maxPage
@@ -95,15 +93,11 @@
                         </div>
                     {{/if}}
                 {{else if this.doSearch.isError}}
-                    <div class='col-sm-8 col-xs-12'>
-                        <div class='text-center'>
-                            <p class='lead'>
-                                {{t 'registries.discover.error_loading'}}
-                            </p>
-                        </div>
+                    <div local-class='error-container'>
+                        {{t 'registries.discover.error_loading'}}
                     </div>
                 {{else}}
-                    <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
+                    <div local-class='loading-container' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
                         {{loading-indicator dark=true}}
                     </div>
                 {{/if}}
