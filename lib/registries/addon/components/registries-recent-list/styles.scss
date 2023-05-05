@@ -1,43 +1,80 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
 .recent-list-container {
     background-color: #f3f5f7;
     border-bottom: 1px solid #e0e6ea;
     padding-bottom: 15px;
     padding-top: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-    hr {
-        border-style: inset;
-        border-width: 1px;
-        display: block;
-        margin-bottom: 0.5em;
-        margin-top: 0.5em;
+    .see-more-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        margin-left: 50px;
+
+        .title {
+            color: #263947;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .see-more {
+            margin-left: 10px;
+            font-size: 16px;
+        }
+    } 
+
+    .recent-registries-container {
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .contributors,
+        .title {
+            width: 100%;
+
+            .contributor {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                list-style: none;
+                padding-left: 0;
+
+                li {
+                    font-size: 16px;
+                    display: inline;
+
+                    &::after {
+                        content: ', ';
+                    }
+
+                    &:last-child::after {
+                        content: '';
+                    }
+                }
+            }
+        }
+
+        .hr {
+            border-style: inset;
+            border-width: 1px;
+            display: block;
+            margin-bottom: 0.5em;
+            margin-top: 0.5em;
+            width: 100%;
+        }
+
     }
+
 
     a {
         color: $color-link-dark;
-    }
-}
-
-.SeeMore {
-    font-size: 16px;
-}
-
-.RecentList__Contributors {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    list-style: none;
-    padding-left: 0;
-
-    li {
-        font-size: 16px;
-        display: inline;
-
-        &::after {
-            content: ', ';
-        }
-
-        &:last-child::after {
-            content: '';
-        }
     }
 }
