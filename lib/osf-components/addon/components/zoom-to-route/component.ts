@@ -1,8 +1,11 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { tracked } from 'tracked-built-ins';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 import template from './template';
 
@@ -18,10 +21,10 @@ import template from './template';
 export default class ZoomToRoute extends Component {
     @service router!: any;
 
-    showModal = false;
-    targetRoute?: string;
+    @tracked targetRoute?: string;
 
-    routeArgs: { [k: string]: string } = {};
+    @tracked routeArgs: { [k: string]: string } = {};
+    @tracked changeset?: BufferedChangeset;
 
     // eslint-disable-next-line ember/no-private-routing-service
     @computed('router._router._routerMicrolib')
@@ -46,12 +49,16 @@ export default class ZoomToRoute extends Component {
             targetRoute,
             routeArgs: {},
         });
+        const changeset = buildChangeset(this.routeArgs, null);
+        this.set('changeset', changeset);
     }
 
     @action
     zoom(): void {
+        if (this.changeset) {
+            this.changeset.execute();
+        }
         const routeArgs = this.routeParams.map(param => this.routeArgs[param]);
         this.router.transitionTo(this.targetRoute, ...routeArgs);
-        this.set('showModal', false);
     }
 }

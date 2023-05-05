@@ -1,9 +1,7 @@
-<ValidatedModelForm
+<FormControls
     data-analytics-scope='Form'
-    @model={{this.token}}
-    @modelName={{if this.token undefined 'token'}}
+    @changeset={{this.changeset}}
     @disabled={{this.disabled}}
-    @onSave={{action this.onSave}}
     as |form|
 >
     <form.text
@@ -33,8 +31,14 @@
             </div>
         </form.checkboxes>
     </div>
-
-    {{yield (hash
-        disabled=this.inputsDisabled
-    )}}
-</ValidatedModelForm>
+    <Button
+        data-test-create-token-button
+        data-analytics-name='Submit button'
+        disabled={{form.disabled}}
+        type='submit'
+        @type='primary'
+        {{on 'click' (perform this.onSave)}}
+    >
+        {{t 'settings.tokens.createToken'}}
+    </Button>
+</FormControls>
