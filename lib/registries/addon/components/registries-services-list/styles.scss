@@ -74,7 +74,7 @@
             .service-33 {
                 .logo {
                     height: 120px;
-                    width: 100%;
+                    width: calc(100% - 20px);
                     object-fit: contain;
                 }
             }
