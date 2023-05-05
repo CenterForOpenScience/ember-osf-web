@@ -1,8 +1,11 @@
 <div
+    data-test-filter-facet
     local-class='facet-wrapper'
 >
     {{#let (unique-id @propertyRecord.label) as |facetElementId|}}
         <Button
+            data-analytics-name='filter facet toggle {{@propertyRecord.label}}'
+            data-test-filter-facet-toggle={{@propertyRecord.label}}
             @layout='fake-link'
             local-class='facet-expand-button'
             aria-controls={{facetElementId}}
@@ -15,15 +18,19 @@
         {{#if this.fetchFacetValues.isRunning}}
             <LoadingIndicator @dark={{true}} />
         {{else if this.fetchFacetValues.isError}}
-            {{t 'search.filter_facet.facet_load_failed'}}
+            {{t 'search.filter-facet.facet-load-failed'}}
         {{else}}
             <ul
                 local-class='facet-list {{if this.collapsed 'collapsed'}}'
                 id={{facetElementId}}
             >
                 {{#each this.filterableProperties as |property|}}
-                    <li local-class='facet-value'>
+                    <li
+                        data-test-filter-facet-value={{property.metadataRecord.title}}
+                        local-class='facet-value'
+                    >
                         <OsfLink
+                            data-analytics-name='toggle filter facet value {{property.metadataRecord.title}}'
                             local-class='facet-link'
                             @route='search'
                             @query={{hash q=this.q filter=this.filter}}
@@ -40,30 +47,34 @@
                 {{#if this.showSeeMoreButton}}
                     <li>
                         <Button
+                            data-analytics-name='see more filterable values {{@propertyRecord.label}}'
+                            data-test-see-more-filterable-values={{@propertyRecord.label}}
                             @layout='fake-link'
                             {{on 'click' (fn (mut this.seeMoreModalShown) true)}}
                         >
-                            {{t 'search.filter_facet.see_more'}}
+                            {{t 'search.filter-facet.see-more'}}
                         </Button>
                     </li>
                 {{/if}}
             </ul>
         {{/if}}
-        {{!-- TODO: actually make this dialog work --}}
         <OsfDialog
+            data-analytics-scope='filter facet - see more modal'
             @isOpen={{this.seeMoreModalShown}}
             @onClose={{fn (mut this.seeMoreModalShown) false}}
             as |dialog|
         >
-            <dialog.heading>
+            <dialog.heading data-test-see-more-dialog-heading>
                 {{@propertyRecord.label}}
             </dialog.heading>
             <dialog.main local-class='see-more-dialog'>
-                {{t 'search.filter_facet.see_more_modal_text'}}
+                {{t 'search.filter-facet.see-more-modal-text'}}
                 <PowerSelect
+                    data-test-property-value-select
                     @options={{this.filterableProperties}}
                     @searchEnabled={{true}}
                     @selected={{this.selectedProperty}}
+                    @placeholder={{t 'search.filter-facet.see-more-modal-placeholder'}}
                     @search={{perform this.fetchFacetValues}}
                     @onChange={{action this.updateSelectedProperty}}
                     as |property|
@@ -73,12 +84,16 @@
             </dialog.main>
             <dialog.footer>
                 <Button
+                    data-analytics-name='cancel filter'
+                    data-test-see-more-dialog-cancel-button
                     @type='secondary'
                     {{on 'click' (fn (mut this.seeMoreModalShown) false)}}
                 >
                     {{t 'general.cancel'}}
                 </Button>
                 <Button
+                    data-analytics-name='apply filter'
+                    data-test-see-more-dialog-apply-button
                     @type='primary'
                     disabled={{not this.selectedProperty}}
                     {{on 'click' (queue (perform this.applySelectedProperty) dialog.close) }}

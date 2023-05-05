@@ -204,22 +204,24 @@ dashboard:
         button: 'View preprints'
 
 search:
-    metadata_record:
-        no_label: 'No label found'
-        no_title: 'No title found'
-    search_header: 'Search OSF'
-    textbox_placeholder: 'Search placeholder'
-    search_button_label: 'Search'
-    toggle_sidenav: 'Toggle search sidebar'
-    left_panel:
+    page-title: 'Search'
+    metadata-record:
+        no-label: 'No label found'
+        no-title: 'No title found'
+    search-header: 'Search OSF'
+    textbox-placeholder: 'Search placeholder'
+    search-button-label: 'Search'
+    toggle-sidenav: 'Toggle search sidebar'
+    left-panel:
         header: Refine
-        no_filterable_properties: 'No properties'
-    active_filters:
-        remove_filter: 'Remove filter {key} {value}'
-    filter_facet:
-        facet_load_failed: 'Failed to load facet values'
-        see_more: 'See more'
-        see_more_modal_text: 'Please select a filter to apply to your search.'
+        no-filterable-properties: 'No properties'
+    active-filters:
+        remove-filter: 'Remove filter {key} {value}'
+    filter-facet:
+        facet-load-failed: 'Failed to load facet values'
+        see-more: 'See more'
+        see-more-modal-text: 'Please select a filter to apply to your search.'
+        see-more-modal-placeholder: 'Search for a filter to apply'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'

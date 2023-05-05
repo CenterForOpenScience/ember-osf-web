@@ -1,4 +1,5 @@
 {{!-- template-lint-disable no-bare-strings --}}
+{{page-title (t 'search.page-title')}}
 <OsfLayout 
     @backgroundClass='search-page'
 as |layout|>
@@ -8,20 +9,22 @@ as |layout|>
                 for='search-input'
                 local-class='heading-label'
             >
-                <h1>{{t 'search.search_header'}}</h1>
+                <h1>{{t 'search.search-header'}}</h1>
             </label>
             <span local-class='search-input-wrapper'>
                 <Input
                     local-class='search-input'
                     id='search-input'
                     @type='search'
-                    @placeholder={{t 'search.textbox_placeholder'}}
+                    @placeholder={{t 'search.textbox-placeholder'}}
                     @value={{this.q}}
                     {{on 'keydown' this.onKeyPress}}
                 />
                 <Button
+                    data-test-search-submit
+                    data-analytics-name='search button'
                     local-class='search-button'
-                    aria-label={{t 'search.search_button_label'}}
+                    aria-label={{t 'search.search-button-label'}}
                     @type='primary'
                     @layout='large'
                     {{on 'click' this.doSearch}}
@@ -31,9 +34,11 @@ as |layout|>
             </span>
         </form>
 
-        {{#if this.showSidenavToggle}}
+        {{#if this.showSidePanelToggle}}
             <Button
-                aria-label={{t 'search.toggle_sidenav'}}
+                data-test-toggle-side-panel
+                data-analytics-name='toggle side panel'
+                aria-label={{t 'search.toggle-sidenav'}}
                 local-class='sidenav-toggle'
                 {{on 'click' layout.toggleSidenav}}
             >
@@ -41,19 +46,27 @@ as |layout|>
             </Button>
         {{/if}}
     </layout.heading>
-    <layout.left local-class='left-panel'>
+    <layout.left
+        data-analytics-scope='search left panel'
+        local-class='left-panel'
+    >
         {{!-- Object type filter dropdown if we are in mobile --}}
-        <h2>{{t 'search.left_panel.header'}}</h2>
+        <h2>{{t 'search.left-panel.header'}}</h2>
         {{#if this.activeFilters.length}}
             <ul local-class='active-filter-list'>
                 {{#each this.activeFilters as |filter|}}
-                    <li local-class='active-filter-item'>
+                    <li
+                        data-test-active-filter='{{filter.key}}-{{filter.value}}'
+                        local-class='active-filter-item'
+                    >
                         <span>
                             {{filter.key}} |
                             {{filter.value}}
                         </span>
                         <Button
-                            aria-label={{t 'search.remove_filter' key=filter.key value=filter.value}}
+                            data-analytics-name='remove filter'
+                            data-test-remove-active-filter='{{filter.key}}-{{filter.value}}'
+                            aria-label={{t 'search.active-filters.remove-filter' key=filter.key value=filter.value}}
                             @layout='fake-link'
                             {{on 'click' (fn this.toggleFilter filter)}}
                         >
@@ -74,7 +87,7 @@ as |layout|>
                 />
             {{/let}}
         {{else}}
-            {{t 'search.left_panel.no_filterable_properties'}}
+            {{t 'search.left-panel.no-filterable-properties'}}
         {{/each}}
     </layout.left>
     <layout.main>

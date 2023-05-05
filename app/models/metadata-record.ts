@@ -30,7 +30,7 @@ export default class MetadataRecordModel extends Model {
                 return labels[0]['@value'];
             }
         }
-        return this.intl.t('search.metadata_record.no_label');
+        return this.intl.t('search.metadata-record.no-label');
     }
 
     get title(): string {
@@ -46,7 +46,7 @@ export default class MetadataRecordModel extends Model {
                 return titles[0]['@value'];
             }
         }
-        return this.intl.t('search.metadata_record.no_title');
+        return this.intl.t('search.metadata-record.no-title');
     }
 }
 

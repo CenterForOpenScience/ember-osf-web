@@ -28,7 +28,7 @@ export default class SearchController extends Controller {
 
     @tracked propertySearch?: MetadataPropertySearchModel;
 
-    get showSidenavToggle() {
+    get showSidePanelToggle() {
         return this.media.isMobile || this.media.isTablet;
     }
 
