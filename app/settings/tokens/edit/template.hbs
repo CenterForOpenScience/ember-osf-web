@@ -42,33 +42,9 @@
         {{#if this.model.taskInstance.isError}}
             {{this.model.taskInstance.error}}
         {{else}}
-            {{#settings/tokens/-components/token-form
-                onSave=(action this.tokenSaved)
-                token=this.token
-                disabled=this.model.taskInstance.isRunning
-                as |form|
-            }}
-                <DeleteButton
-                    @delete={{action this.deleteToken}}
-                    @disabled={{form.disabled}}
-                    @modalTitle={{t
-                        'settings.tokens.confirmDelete.title'
-                        tokenName=this.token.name
-                        htmlSafe=true
-                    }}
-                    @modalBody={{t 'settings.tokens.confirmDelete.body'}}
-                />
-
-                <Button
-                    data-test-save-token-button
-                    data-analytics-name='Save'
-                    type='submit'
-                    @type='primary'
-                    @disabled={{form.disabled}}
-                >
-                    {{t 'general.save'}}
-                </Button>
-            {{/settings/tokens/-components/token-form}}
+            <Settings::Tokens::-Components::EditForm
+                @token={{this.token}}
+            />
         {{/if}}
     {{/if}}
 </div>
