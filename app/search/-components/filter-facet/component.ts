@@ -58,7 +58,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             const { toggleFilter, propertyRecord } = this.args;
             const record = await this.selectedProperty.metadataRecord;
             const filter = {
-                key: propertyRecord.get('label'),
+                property: propertyRecord.get('label'),
                 value: record.title,
             };
             toggleFilter(filter);

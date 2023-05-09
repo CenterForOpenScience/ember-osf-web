@@ -34,7 +34,7 @@
                             local-class='facet-link'
                             @route='search'
                             @query={{hash q=this.q filter=this.filter}}
-                            {{on 'click' (fn @toggleFilter (hash key=@propertyRecord.label value=property.metadataRecord.title))}}
+                            {{on 'click' (fn @toggleFilter (hash property=@propertyRecord.label value=property.metadataRecord.title))}}
                         >
                             {{property.metadataRecord.title}}
                         </OsfLink>

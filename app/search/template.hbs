@@ -56,17 +56,17 @@ as |layout|>
             <ul local-class='active-filter-list'>
                 {{#each this.activeFilters as |filter|}}
                     <li
-                        data-test-active-filter='{{filter.key}}-{{filter.value}}'
+                        data-test-active-filter='{{filter.property}}-{{filter.value}}'
                         local-class='active-filter-item'
                     >
                         <span>
-                            {{filter.key}} |
+                            {{filter.property}} |
                             {{filter.value}}
                         </span>
                         <Button
                             data-analytics-name='remove filter'
-                            data-test-remove-active-filter='{{filter.key}}-{{filter.value}}'
-                            aria-label={{t 'search.active-filters.remove-filter' key=filter.key value=filter.value}}
+                            data-test-remove-active-filter='{{filter.property}}-{{filter.value}}'
+                            aria-label={{t 'search.active-filters.remove-filter' property=filter.property value=filter.value}}
                             @layout='fake-link'
                             {{on 'click' (fn this.toggleFilter filter)}}
                         >

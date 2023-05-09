@@ -11,7 +11,7 @@ import Media from 'ember-responsive';
 
 import MetadataPropertySearchModel from 'ember-osf-web/models/metadata-property-search';
 export interface Filter {
-    key: string;
+    property: string;
     value: string;
 }
 
@@ -54,7 +54,9 @@ export default class SearchController extends Controller {
 
     @action
     toggleFilter(filter: Filter) {
-        const filterIndex = this.activeFilters.findIndex(f => f.key === filter.key && f.value === filter.value);
+        const filterIndex = this.activeFilters.findIndex(
+            f => f.property === filter.property && f.value === filter.value,
+        );
         if (filterIndex > -1) {
             this.activeFilters.removeAt(filterIndex);
         } else {
