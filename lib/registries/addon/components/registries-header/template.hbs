@@ -6,6 +6,9 @@
             aria-level='1'
             aria-label={{this.headerAriaLabel}}
         ></div>
+        <p class='lead'>
+            {{yield to='lead'}}
+        </p>
     </div>
 
     <div local-class='search-container'>
@@ -50,6 +53,10 @@
             {{@providerModel.htmlSafeDescription}}
         </div>
     {{/if}}
+
+    <div class='row p-v-sm'>
+        {{yield to='row'}}
+    </div>
 
     {{search-help-modal isOpen=(mut this.showingHelp)}}
 
