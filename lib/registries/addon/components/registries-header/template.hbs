@@ -6,10 +6,10 @@
             aria-level='1'
             aria-label={{this.headerAriaLabel}}
         ></div>
-        <p class='lead'>
-            {{yield to='lead'}}
-        </p>
     </div>
+    <p class='lead'>
+        {{yield (hash lead=(element ''))}}
+    </p>
 
     <div local-class='search-container'>
         <form
@@ -54,8 +54,8 @@
         </div>
     {{/if}}
 
-    <div class='row p-v-sm'>
-        {{yield to='row'}}
+    <div local-class='example-container'>
+        {{yield (hash row=(element ''))}}
     </div>
 
     {{search-help-modal isOpen=(mut this.showingHelp)}}
