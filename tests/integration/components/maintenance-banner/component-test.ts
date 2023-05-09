@@ -33,6 +33,6 @@ module('Integration | Component | maintenance-banner', hooks => {
             },
         }));
         await render(hbs`{{maintenance-banner}}`);
-        assert.dom('.alert').includesText('longstringy');
+        assert.dom('[data-test-alert]').includesText('longstringy');
     });
 });
