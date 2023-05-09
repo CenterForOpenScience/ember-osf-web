@@ -1,10 +1,10 @@
-<div class='col-sm-9 col-xs-12' local-class='ResultsHeader'>
-    <div class='col-sm-6'>
+<div local-class='results-container'>
+    <div local-class='header'>
         <h2 data-test-results-count>
             {{t 'registries.discover.registration_count' count=@totalResults}}
         </h2>
     </div>
-    <div class='col-sm-6 text-right'>
+    <div local-class='dropdown-container'>
         <ResponsiveDropdown as |dd|>
             <dd.trigger
                 data-test-sort-dropdown
