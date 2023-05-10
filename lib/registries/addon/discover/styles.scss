@@ -1,3 +1,5 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
 .ResultsHeader {
     padding: 0 0 15px;
 
@@ -31,7 +33,59 @@
     }
 }
 
-.Pagination {
-    display: inline-flex;
-    justify-content: flex-end;
+.search-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &.mobile {
+        flex-direction: column;
+
+        .search-options-container {
+            width: 100%;
+        }
+
+        .search-header-container {
+            width: 100%;
+        }
+    }
+
+    .search-options-container {
+        width: 30%;
+    }
+
+    .search-header-container {
+        width: 70%;
+        padding-left: 15px;
+
+        .no-results {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .Pagination {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 12px;
+        }
+
+        .loading-container,
+        .error-container {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+    }
 }
