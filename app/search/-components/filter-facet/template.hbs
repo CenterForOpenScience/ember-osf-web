@@ -24,26 +24,26 @@
                 local-class='facet-list {{if this.collapsed 'collapsed'}}'
                 id={{facetElementId}}
             >
-                {{#each this.filterableProperties as |property|}}
+                {{#each this.filterableValues as |value|}}
                     <li
-                        data-test-filter-facet-value={{property.metadataRecord.title}}
+                        data-test-filter-facet-value={{value.metadataRecord.title}}
                         local-class='facet-value'
                     >
                         <OsfLink
-                            data-analytics-name='toggle filter facet value {{property.metadataRecord.title}}'
+                            data-analytics-name='toggle filter facet value {{value.metadataRecord.title}}'
                             local-class='facet-link'
                             @route='search'
                             @queryParams={{hash filter=this.filter}}
-                            {{on 'click' (fn @toggleFilter (hash property=@propertyRecord.label value=property.metadataRecord.title))}}
+                            {{on 'click' (fn @toggleFilter (hash property=@propertyRecord.label value=value.metadataRecord.title))}}
                         >
-                            {{property.metadataRecord.title}}
+                            {{value.metadataRecord.title}}
                         </OsfLink>
                         <span local-class='facet-count'>
-                            {{property.recordResultCount}}
+                            {{value.recordResultCount}}
                         </span>
                     </li>
                 {{/each}}
-               
+            
                 {{#if this.showSeeMoreButton}}
                     <li>
                         <Button
@@ -71,7 +71,7 @@
                 {{t 'search.filter-facet.see-more-modal-text'}}
                 <PowerSelect
                     data-test-property-value-select
-                    @options={{this.filterableProperties}}
+                    @options={{this.filterableValues}}
                     @searchEnabled={{true}}
                     @selected={{this.selectedProperty}}
                     @placeholder={{t 'search.filter-facet.see-more-modal-placeholder'}}

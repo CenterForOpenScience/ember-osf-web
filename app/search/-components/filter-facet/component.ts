@@ -29,7 +29,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked page = 1;
     @tracked sort = '-relevance';
     @tracked collapsed = true;
-    @tracked filterableProperties: SearchResultModel[] = [];
+    @tracked filterableValues: SearchResultModel[] = [];
     @tracked seeMoreModalShown = false;
     @tracked selectedProperty?: SearchResultModel;
 
@@ -40,7 +40,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
 
     @action
     toggleFacet() {
-        if (this.filterableProperties.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
+        if (this.filterableValues.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
             taskFor(this.fetchFacetValues).perform();
         }
         this.collapsed = !this.collapsed;
@@ -79,6 +79,6 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             sort,
         });
         const results = valueSearch.get('searchResultPage').toArray();
-        this.filterableProperties = results;
+        this.filterableValues = results;
     }
 }
