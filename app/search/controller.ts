@@ -71,11 +71,16 @@ export default class SearchController extends Controller {
         // debounce
         await timeout(100);
         try {
-            const { q, page, sort } = this;
+            const { q, page, sort, activeFilters } = this;
+            const filterQueryObject = activeFilters.reduce((acc, filter) => {
+                acc[filter.property] = filter.value;
+                return acc;
+            }, {} as { [key: string]: string });
             const searchResult = await this.store.queryRecord('metadata-record-search', {
                 q,
                 page,
                 sort,
+                filter: filterQueryObject,
             });
 
             this.propertySearch = searchResult.relatedPropertySearch;

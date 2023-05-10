@@ -33,7 +33,7 @@
                             data-analytics-name='toggle filter facet value {{property.metadataRecord.title}}'
                             local-class='facet-link'
                             @route='search'
-                            @query={{hash q=this.q filter=this.filter}}
+                            @queryParams={{hash filter=this.filter}}
                             {{on 'click' (fn @toggleFilter (hash property=@propertyRecord.label value=property.metadataRecord.title))}}
                         >
                             {{property.metadataRecord.title}}
