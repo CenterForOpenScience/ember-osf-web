@@ -15,6 +15,8 @@ export interface Filter {
     value: string;
 }
 
+const searchDebounceTime = 100;
+
 export default class SearchController extends Controller {
     @service store!: Store;
     @service media!: Media;
@@ -40,14 +42,6 @@ export default class SearchController extends Controller {
     }
 
     @action
-    onKeyPress(event: KeyboardEvent) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            this.doSearch();
-        }
-    }
-
-    @action
     doSearch() {
         taskFor(this.search).perform();
     }
@@ -65,11 +59,11 @@ export default class SearchController extends Controller {
         this.doSearch();
     }
 
-    @task
+    @task({ restartable: true, on: 'init' })
     @waitFor
     async search() {
         // debounce
-        await timeout(100);
+        await timeout(searchDebounceTime);
         try {
             const { q, page, sort, activeFilters } = this;
             const filterQueryObject = activeFilters.reduce((acc, filter) => {
