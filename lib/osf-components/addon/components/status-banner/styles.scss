@@ -1,25 +1,18 @@
 .StatusBanner {
-    margin: 0;
+    margin: 0; 
+}
 
-    .StatusBanner__jumbo {
-        padding: 0;
+.StatusBanner__jumbo {
+    padding: 15px;
+    color: inherit;
+    background-color: $color-light;
 
-        :global(.close) {
-            top: 8px;
-            right: 14px;
-        }
+    p {
+        font-size: 21px;
+        font-weight: 200;
     }
 
-    :global(.alert) {
-        margin-bottom: 0;
-    }
-
-    :global(.jumbotron) {
-        padding: 10px 40px;
-        margin-bottom: 0;
-
-        a {
-            color: #2d6a9f;
-        }
+    a {
+        color: $color-link-dark;
     }
 }
