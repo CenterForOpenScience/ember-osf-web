@@ -29,15 +29,14 @@
                         data-test-filter-facet-value={{value.metadataRecord.title}}
                         local-class='facet-value'
                     >
-                        <OsfLink
+                        <Button
                             data-analytics-name='toggle filter facet value {{value.metadataRecord.title}}'
                             local-class='facet-link'
-                            @route='search'
-                            @queryParams={{hash filter=this.filter}}
+                            @layout='fake-link'
                             {{on 'click' (fn @toggleFilter (hash property=@propertyRecord.label value=value.metadataRecord.title))}}
                         >
                             {{value.metadataRecord.title}}
-                        </OsfLink>
+                        </Button>
                         <span local-class='facet-count'>
                             {{value.recordResultCount}}
                         </span>

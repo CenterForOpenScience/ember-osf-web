@@ -4,35 +4,33 @@
     @backgroundClass='search-page'
 as |layout|>
     <layout.heading local-class='heading-wrapper'>
-        <form role='search'>
-            <label
-                for='search-input'
-                local-class='heading-label'
+        <label
+            for='search-input'
+            local-class='heading-label'
+        >
+            <h1>{{t 'search.search-header'}}</h1>
+        </label>
+        <span local-class='search-input-wrapper'>
+            <Input
+                local-class='search-input'
+                id='search-input'
+                @type='search'
+                @placeholder={{t 'search.textbox-placeholder'}}
+                @value={{this.q}}
+                @enter={{this.doSearch}}
+            />
+            <Button
+                data-test-search-submit
+                data-analytics-name='search button'
+                local-class='search-button'
+                aria-label={{t 'search.search-button-label'}}
+                @type='primary'
+                @layout='large'
+                {{on 'click' this.doSearch}}
             >
-                <h1>{{t 'search.search-header'}}</h1>
-            </label>
-            <span local-class='search-input-wrapper'>
-                <Input
-                    local-class='search-input'
-                    id='search-input'
-                    @type='search'
-                    @placeholder={{t 'search.textbox-placeholder'}}
-                    @value={{this.q}}
-                    {{on 'keydown' this.onKeyPress}}
-                />
-                <Button
-                    data-test-search-submit
-                    data-analytics-name='search button'
-                    local-class='search-button'
-                    aria-label={{t 'search.search-button-label'}}
-                    @type='primary'
-                    @layout='large'
-                    {{on 'click' this.doSearch}}
-                >
-                    <FaIcon @icon='search' />
-                </Button>
-            </span>
-        </form>
+                <FaIcon @icon='search' />
+            </Button>
+        </span>
 
         {{#if this.showSidePanelToggle}}
             <Button
