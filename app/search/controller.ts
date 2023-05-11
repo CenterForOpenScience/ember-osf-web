@@ -24,6 +24,8 @@ export default class SearchController extends Controller {
 
     queryParams = ['q', 'page', 'sort'];
     @tracked q?: string = '';
+    @tracked seachBoxText?: string = '';
+
     @tracked page?: number = 1;
     @tracked sort?: string = '-relevance';
     @tracked activeFilters = A<Filter>([]);
@@ -43,6 +45,7 @@ export default class SearchController extends Controller {
 
     @action
     doSearch() {
+        this.q = this.seachBoxText;
         taskFor(this.search).perform();
     }
 
@@ -57,6 +60,14 @@ export default class SearchController extends Controller {
             this.activeFilters.pushObject(filter);
         }
         this.doSearch();
+    }
+
+    @action
+    ingestQueryParams() {
+        const { q } = this;
+        if (q) {
+            this.seachBoxText = q;
+        }
     }
 
     @task({ restartable: true, on: 'init' })
