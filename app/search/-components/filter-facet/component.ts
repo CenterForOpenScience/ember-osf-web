@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 
@@ -31,7 +31,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked collapsed = true;
     @tracked filterableValues: SearchResultModel[] = [];
     @tracked seeMoreModalShown = false;
-    @tracked selectedProperty?: SearchResultModel;
+    @tracked selectedProperty: SearchResultModel | null = null;
 
     get showSeeMoreButton() {
         // TODO: make this actually check if there are more
@@ -62,14 +62,13 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
                 value: record.title,
             };
             toggleFilter(filter);
-            this.selectedProperty = undefined;
+            this.selectedProperty = null;
         }
     }
 
     @task
     @waitFor
     async fetchFacetValues() {
-        await timeout(1000);
         const { recordSearchText, recordSearchFilters } = this.args;
         const { page, sort } = this;
         const valueSearch = await this.store.queryRecord('metadata-value-search', {
