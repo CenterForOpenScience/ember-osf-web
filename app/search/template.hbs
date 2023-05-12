@@ -17,7 +17,7 @@ as |layout|>
                 @type='search'
                 @placeholder={{t 'search.textbox-placeholder'}}
                 @value={{this.seachBoxText}}
-                @enter={{this.doSearch}}
+                @enter={{this.doDebounceSearch}}
             />
             <Button
                 data-test-search-submit
@@ -26,7 +26,7 @@ as |layout|>
                 aria-label={{t 'search.search-button-label'}}
                 @type='primary'
                 @layout='large'
-                {{on 'click' this.doSearch}}
+                {{on 'click' this.doDebounceSearch}}
             >
                 <FaIcon @icon='search' />
             </Button>

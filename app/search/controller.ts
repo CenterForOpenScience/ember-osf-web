@@ -44,9 +44,9 @@ export default class SearchController extends Controller {
     }
 
     @action
-    doSearch() {
+    doDebounceSearch() {
         this.q = this.seachBoxText;
-        taskFor(this.search).perform();
+        taskFor(this.debounceSearch).perform();
     }
 
     @action
@@ -59,7 +59,7 @@ export default class SearchController extends Controller {
         } else {
             this.activeFilters.pushObject(filter);
         }
-        this.doSearch();
+        taskFor(this.search).perform();
     }
 
     @action
@@ -70,11 +70,16 @@ export default class SearchController extends Controller {
         }
     }
 
+    @task({ restartable: true })
+    @waitFor
+    async debounceSearch() {
+        await timeout(searchDebounceTime);
+        taskFor(this.search).perform();
+    }
+
     @task({ restartable: true, on: 'init' })
     @waitFor
     async search() {
-        // debounce
-        await timeout(searchDebounceTime);
         try {
             const { q, page, sort, activeFilters } = this;
             const filterQueryObject = activeFilters.reduce((acc, filter) => {
