@@ -44,12 +44,6 @@ export default class SearchController extends Controller {
     }
 
     @action
-    doDebounceSearch() {
-        this.q = this.seachBoxText;
-        taskFor(this.debounceSearch).perform();
-    }
-
-    @action
     toggleFilter(filter: Filter) {
         const filterIndex = this.activeFilters.findIndex(
             f => f.property === filter.property && f.value === filter.value,
@@ -72,8 +66,9 @@ export default class SearchController extends Controller {
 
     @task({ restartable: true })
     @waitFor
-    async debounceSearch() {
+    async doDebounceSearch() {
         await timeout(searchDebounceTime);
+        this.q = this.seachBoxText;
         taskFor(this.search).perform();
     }
 
