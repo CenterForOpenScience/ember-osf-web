@@ -32,7 +32,7 @@
                                         {{t 'settings.profile.title'}}
                                     </OsfLink>
                                 </li>
-                                <li>
+                                <li local-class={{if (eq this.router.currentRouteName 'settings.account') 'active'}}>
                                     <OsfLink
                                         data-analytics-name='Account'
                                         data-test-account-link
@@ -59,7 +59,7 @@
                                         {{t 'settings.notifications.title'}}
                                     </OsfLink>
                                 </li>
-                                <li>
+                                <li local-class={{if (eq this.router.currentRouteName 'settings.developer-apps.index') 'active'}}>
                                     <OsfLink
                                         data-analytics-name='Developer apps'
                                         data-test-apps-link
@@ -68,7 +68,7 @@
                                         {{t 'settings.developer-apps.title'}}
                                     </OsfLink>
                                 </li>
-                                <li>
+                                <li local-class={{if (eq this.router.currentRouteName 'settings.tokens.index') 'active'}}>
                                     <OsfLink
                                         data-analytics-name='Personal access tokens'
                                         data-test-tokens-link
