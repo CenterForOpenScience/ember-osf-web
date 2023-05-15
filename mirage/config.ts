@@ -37,7 +37,7 @@ import { createNewSchemaResponse } from './views/schema-response';
 import { createSchemaResponseAction } from './views/schema-response-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
-import { recordSearch } from './views/search';
+import { recordSearch, valueSearch } from './views/search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import {
@@ -63,7 +63,7 @@ export default function(this: Server) {
 
     // SHARE-powered search endpoints
     this.get('/metadata-record-searches', recordSearch);
-    // this.get('/metadata-value-searches', valueSearch);
+    this.get('/metadata-value-searches', valueSearch);
     // this.get('/metadata-records/:id', metadataRecordDetail);
 
     this.urlPrefix = apiUrl;

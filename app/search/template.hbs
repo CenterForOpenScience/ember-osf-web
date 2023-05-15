@@ -1,33 +1,42 @@
 {{!-- template-lint-disable no-bare-strings --}}
+{{page-title (t 'search.page-title')}}
 <OsfLayout 
     @backgroundClass='search-page'
 as |layout|>
     <layout.heading local-class='heading-wrapper'>
-        <form role='search'>
-            <label local-class='heading-label'>
-                {{t 'search.search_header'}}
-            </label>
+        <label
+            for='search-input'
+            local-class='heading-label'
+        >
+            <h1>{{t 'search.search-header'}}</h1>
+        </label>
+        <span local-class='search-input-wrapper'>
             <Input
                 local-class='search-input'
+                id='search-input'
                 @type='search'
-                @placeholder={{t 'search.textbox_placeholder'}}
-                @value={{this.q}}
-                {{on 'keydown' this.onKeyPress}}
+                @placeholder={{t 'search.textbox-placeholder'}}
+                @value={{this.seachBoxText}}
+                @enter={{perform this.doDebounceSearch}}
             />
             <Button
+                data-test-search-submit
+                data-analytics-name='search button'
                 local-class='search-button'
-                aria-label={{t 'search.search_button_label'}}
+                aria-label={{t 'search.search-button-label'}}
                 @type='primary'
                 @layout='large'
-                {{on 'click' (perform this.doSearch)}}
+                {{on 'click' (perform this.doDebounceSearch)}}
             >
                 <FaIcon @icon='search' />
             </Button>
-        </form>
+        </span>
 
-        {{#if this.showSidenavToggle}}
+        {{#if this.showSidePanelToggle}}
             <Button
-                aria-label={{t 'search.toggle_sidenav'}}
+                data-test-toggle-side-panel
+                data-analytics-name='toggle side panel'
+                aria-label={{t 'search.toggle-sidenav'}}
                 local-class='sidenav-toggle'
                 {{on 'click' layout.toggleSidenav}}
             >
@@ -35,15 +44,54 @@ as |layout|>
             </Button>
         {{/if}}
     </layout.heading>
-    <layout.left>
-        {{!-- current filters --}}
-        {{!-- filter facets --}}
-        Left
+    <layout.left
+        data-analytics-scope='search left panel'
+        local-class='left-panel'
+    >
+        {{!-- Object type filter dropdown if we are in mobile --}}
+        <h2>{{t 'search.left-panel.header'}}</h2>
+        {{#if this.activeFilters.length}}
+            <ul local-class='active-filter-list'>
+                {{#each this.activeFilters as |filter|}}
+                    <li
+                        data-test-active-filter='{{filter.property}}-{{filter.value}}'
+                        local-class='active-filter-item'
+                    >
+                        <span>
+                            {{filter.property}} |
+                            {{filter.value}}
+                        </span>
+                        <Button
+                            data-analytics-name='remove filter'
+                            data-test-remove-active-filter='{{filter.property}}-{{filter.value}}'
+                            aria-label={{t 'search.active-filters.remove-filter' property=filter.property value=filter.value}}
+                            @layout='fake-link'
+                            {{on 'click' (fn this.toggleFilter filter)}}
+                        >
+                            <FaIcon @icon='times' />
+                        </Button>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+        {{#each this.filterableProperties as |filterableProperty|}}
+            {{#let filterableProperty.metadataRecord as |propertyRecord|}}
+                <Search::-Components::FilterFacet
+                    @recordSearchText={{this.q}}
+                    @recordSearchFilters={{this.activeFilters}}
+                    @propertyRecord={{propertyRecord}}
+                    @propertySearch={{filterableProperty}}
+                    @toggleFilter={{this.toggleFilter}}
+                />
+            {{/let}}
+        {{else}}
+            {{t 'search.left-panel.no-filterable-properties'}}
+        {{/each}}
     </layout.left>
     <layout.main>
         Main
         {{!-- placeholder if no search term (maybe) --}}
-        {{!-- object type filtering tabs --}}
+        {{!-- object type filtering tabs if desktop--}}
         {{!-- search cards --}}
         {{!-- sort dropdown --}}
         {{!-- paginator --}}
