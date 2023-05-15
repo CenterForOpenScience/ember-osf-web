@@ -211,6 +211,21 @@ search:
     search-header: 'Search OSF'
     textbox-placeholder: 'Search placeholder'
     search-button-label: 'Search'
+    resource-type:
+        search-by: 'Search by resource type'
+        all: 'All'
+        projects: 'Projects'
+        registrations: 'Registrations'
+        preprints: 'Preprints'
+        files: 'Files'
+        users: 'Users'
+    sort:
+        sort-by: 'Sort by'
+        relevance: 'Relevance'
+        created-date-descending: 'Date created, newest'
+        created-date-ascending: 'Date created, oldest'
+        modified-date-descending: 'Date modified, newest'
+        modified-date-ascending: 'Date modified, oldest'
     toggle-sidenav: 'Toggle search sidebar'
     left-panel:
         header: Refine

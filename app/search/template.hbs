@@ -1,6 +1,6 @@
 {{!-- template-lint-disable no-bare-strings --}}
 {{page-title (t 'search.page-title')}}
-<OsfLayout 
+<OsfLayout
     @backgroundClass='search-page'
 as |layout|>
     <layout.heading local-class='heading-wrapper'>
@@ -31,7 +31,6 @@ as |layout|>
                 <FaIcon @icon='search' />
             </Button>
         </span>
-
         {{#if this.showSidePanelToggle}}
             <Button
                 data-test-toggle-side-panel
@@ -48,8 +47,27 @@ as |layout|>
         data-analytics-scope='search left panel'
         local-class='left-panel'
     >
-        {{!-- Object type filter dropdown if we are in mobile --}}
         <h2>{{t 'search.left-panel.header'}}</h2>
+        {{#if this.showSidePanelToggle}}
+            <div>
+                <label>
+                    {{t 'search.resource-type.search-by'}}
+                    <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
+                        @onChange={{this.updateResourceType}} as |resourceType|>
+                        {{resourceType.display}}
+                    </PowerSelect>
+                </label>
+            </div>
+            <div>
+                <label>
+                    {{t 'search.sort.sort-by'}}
+                    <PowerSelect @options={{this.sortOptions}} @selected={{this.selectedSortOption}}
+                        @onChange={{this.updateSort}} as |sortOption|>
+                        {{sortOption.display}}
+                    </PowerSelect>
+                </label>
+            </div>
+        {{/if}}
         {{#if this.activeFilters.length}}
             <ul local-class='active-filter-list'>
                 {{#each this.activeFilters as |filter|}}
@@ -58,7 +76,7 @@ as |layout|>
                         local-class='active-filter-item'
                     >
                         <span>
-                            {{filter.property}} |
+                            {{filter.property}}:
                             {{filter.value}}
                         </span>
                         <Button
@@ -89,11 +107,36 @@ as |layout|>
         {{/each}}
     </layout.left>
     <layout.main>
-        Main
-        {{!-- placeholder if no search term (maybe) --}}
-        {{!-- object type filtering tabs if desktop--}}
-        {{!-- search cards --}}
-        {{!-- sort dropdown --}}
         {{!-- paginator --}}
+        {{#unless this.showSidePanelToggle}}
+            <div local-class='topbar'>
+                <nav local-class='object-type-nav'>
+                    <ul>
+                        {{#each this.resourceTypeOptions as |resourceType|}}
+                            <li>
+                                <LinkTo
+                                    local-class='object-type-filter-link'
+                                    @route='search'
+                                    @query={{hash resourceType=resourceType.value}}
+                                    {{on 'click' (fn this.updateResourceType resourceType)}}
+                                >
+                                    {{resourceType.display}}
+                                </LinkTo>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </nav>
+                <div local-class='sort-dropdown'>
+                    <PowerSelect
+                        @options={{this.sortOptions}}
+                        @selected={{this.selectedSortOption}}
+                        @onChange={{this.updateSort}}
+                        as |sortOption|
+                    >
+                        {{sortOption.display}}
+                    </PowerSelect>
+                </div>
+            </div>
+        {{/unless}}
     </layout.main>
 </OsfLayout>
