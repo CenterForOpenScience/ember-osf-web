@@ -40,7 +40,7 @@
                         </dialog.heading>
                         <dialog.main>
                             {{#if this.node}}
-                                <ul class='list-group'>
+                                <ul local-class='list-group'>
                                     {{#paginated-list/has-many
                                         model=this.node
                                         relationshipName='linkedByNodes'
