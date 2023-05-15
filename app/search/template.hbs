@@ -44,12 +44,12 @@ as |layout|>
         {{/if}}
     </layout.heading>
     <layout.left
-        data-analytics-scope='search left panel'
+        data-analytics-scope='Search page left panel'
         local-class='left-panel'
     >
         <h2>{{t 'search.left-panel.header'}}</h2>
         {{#if this.showSidePanelToggle}}
-            <div>
+            <div data-test-left-panel-object-type-dropdown>
                 <label>
                     {{t 'search.resource-type.search-by'}}
                     <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
@@ -58,7 +58,7 @@ as |layout|>
                     </PowerSelect>
                 </label>
             </div>
-            <div>
+            <div data-test-left-panel-sort-dropdown>
                 <label>
                     {{t 'search.sort.sort-by'}}
                     <PowerSelect @options={{this.sortOptions}} @selected={{this.selectedSortOption}}
@@ -106,15 +106,20 @@ as |layout|>
             {{t 'search.left-panel.no-filterable-properties'}}
         {{/each}}
     </layout.left>
-    <layout.main>
+    <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
         {{#unless this.showSidePanelToggle}}
             <div local-class='topbar'>
-                <nav local-class='object-type-nav'>
+                <nav
+                    data-test-topbar-object-type-nav
+                    local-class='object-type-nav'
+                >
                     <ul>
                         {{#each this.resourceTypeOptions as |resourceType|}}
                             <li>
                                 <LinkTo
+                                    data-analytics-name='Object type filter={{resourceType.value}}'
+                                    data-test-topbar-object-type-link='{{resourceType.value}}'
                                     local-class='object-type-filter-link'
                                     @route='search'
                                     @query={{hash resourceType=resourceType.value}}
@@ -126,7 +131,10 @@ as |layout|>
                         {{/each}}
                     </ul>
                 </nav>
-                <div local-class='sort-dropdown'>
+                <div
+                    data-test-topbar-sort-dropdown
+                    local-class='sort-dropdown'
+                >
                     <PowerSelect
                         @options={{this.sortOptions}}
                         @selected={{this.selectedSortOption}}
