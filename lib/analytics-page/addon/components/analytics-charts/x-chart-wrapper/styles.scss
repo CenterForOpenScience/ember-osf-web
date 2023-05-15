@@ -39,3 +39,41 @@
 .ChartContainer {
     position: relative;
 }
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    border-color: #ddd;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+.panel-title {
+    float: left;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+    color: inherit;
+}
+
+.panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom: 1px solid transparent;
+    padding: 10px 15px;
+    display: inline-block;
+    width: 100%;
+}
+
+.clearfix::after {
+    clear: both;
+}

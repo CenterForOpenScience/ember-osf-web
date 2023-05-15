@@ -1,11 +1,10 @@
 <div
-    local-class='ChartWrapper'
-    class='panel panel-default'
+    local-class='ChartWrapper panel'
 >
-    <div class='panel-heading clearfix'>
-        <h3 class='panel-title'>{{t @chartSpec.titleKey}}</h3>
+    <div local-class='panel-heading clearfix'>
+        <h3 local-class='panel-title'>{{t @chartSpec.titleKey}}</h3>
     </div>
-    <div local-class='ChartContainer' class='panel-body'>
+    <div local-class='ChartContainer panel-body'>
         <div
             local-class='Chart {{if @overlayShown 'Blurred'}}'
             data-test-analytics-chart={{@chartSpec.chartKey}}
