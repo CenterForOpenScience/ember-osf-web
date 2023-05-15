@@ -37,6 +37,7 @@ general:
     cancel: Cancel
     add: Add
     ok: OK
+    apply: Apply
     revisions: Revisions
     md5: MD5
     date: Date
@@ -203,10 +204,24 @@ dashboard:
         button: 'View preprints'
 
 search:
-    search_header: 'Search OSF'
-    textbox_placeholder: 'Search placeholder'
-    search_button_label: 'Search'
-    toggle_sidenav: 'Toggle search sidebar'
+    page-title: 'Search'
+    metadata-record:
+        no-label: 'No label found'
+        no-title: 'No title found'
+    search-header: 'Search OSF'
+    textbox-placeholder: 'Search placeholder'
+    search-button-label: 'Search'
+    toggle-sidenav: 'Toggle search sidebar'
+    left-panel:
+        header: Refine
+        no-filterable-properties: 'No properties'
+    active-filters:
+        remove-filter: 'Remove filter {property} {value}'
+    filter-facet:
+        facet-load-failed: 'Failed to load facet values'
+        see-more: 'See more'
+        see-more-modal-text: 'Please select a filter to apply to your search.'
+        see-more-modal-placeholder: 'Search for a filter to apply'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
