@@ -38,6 +38,7 @@ general:
     add: Add
     ok: OK
     apply: Apply
+    apply: Apply
     revisions: Revisions
     md5: MD5
     date: Date

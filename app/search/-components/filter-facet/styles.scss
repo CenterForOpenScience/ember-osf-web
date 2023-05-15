@@ -1,0 +1,40 @@
+.facet-wrapper {
+    border-top: 1px solid $color-border-gray;
+    padding: 0.5rem 0;
+}
+
+.facet-expand-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    &:active {
+        box-shadow: none;
+    }
+}
+
+.facet-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    &.collapsed {
+        display: none;
+    }
+}
+
+.facet-value {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+
+    .facet-link,
+    .facet-count {
+        margin: 0 5px;
+    }
+}
+
+.see-more-dialog {
+    min-width: 50vw;
+}
