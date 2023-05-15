@@ -18,7 +18,7 @@
         </p>
         {{#if this.theme.isProvider}}
             <a
-                class='btn btn-primary m-t-md'
+                local-class='button'
                 href={{this.theme.pathPrefix}}
                 onclick={{action 'click' 'link' (concat this.label ' - Go to Index') target=this.analytics}}
             >
@@ -27,7 +27,7 @@
                 }}
             </a>
         {{else}}
-            <LinkToExternal @route='home' class='btn btn-primary m-t-md'>
+            <LinkToExternal @route='home' local-class='button'>
                 {{t 'app_components.error_page.go_to' brand=(t 'general.OSF')}}
             </LinkToExternal>
         {{/if}}
