@@ -63,7 +63,10 @@ export default class ScriptTags extends Service {
         let jsonLD = undefined;
         let jsonFetch: object | undefined;
         try {
-            jsonFetch = await this.returnJSON(url);
+            jsonFetch = await this.currentUser.authenticatedAJAX({
+                method: 'GET',
+                url: url,
+            });
             if (jsonFetch && (typeof(jsonFetch) === 'object')) {
                 jsonLD = jsonFetch;
             }
@@ -74,14 +77,6 @@ export default class ScriptTags extends Service {
         return jsonLD;
     }
 
-    async returnJSON(url: string) {
-        const ajax = await this.currentUser.authenticatedAJAX({
-            method: 'GET',
-            url: url,
-        });
-        return ajax;
-    }
-
     /**
      * Creates one HTML head element script tag with content and a data MIME type
      *
@@ -90,19 +85,7 @@ export default class ScriptTags extends Service {
      * @return {HeadTagDef[]}
      */
     getHeadTags(scriptTagsOverrides: ScriptTagsData): HeadTagDef[] {
-        const array: HeadTagDef[] = [];
-        const scriptTagDefs: ScriptTagDef | ScriptTagDef[] = {
-            type: scriptTagsOverrides.type ?
-                scriptTagsOverrides.type : 'application/ld+json',
-            content: scriptTagsOverrides.content ?
-                scriptTagsOverrides.content : { isAccessibleForFree: true },
-            ...scriptTagsOverrides,
-        };
-        const { type, content } = scriptTagDefs;
-        const attrs: ScriptTagAttrs = { type };
-        const tagType: string = TagType.SCRIPT as string;
-	    array.push({type: tagType, content: content, attrs});
-        return array;
+        return [{ type: 'script', content: scriptTagsOverrides.content, attrs: { type: scriptTagsOverrides.type } }];
     }
 }
 
