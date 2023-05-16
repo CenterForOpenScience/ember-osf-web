@@ -1,10 +1,10 @@
 import ShareSerializer from './share-serializer';
 
-export default class MetadataPropertySearchSerializer extends ShareSerializer {
+export default class IndexCardSearchSerializer extends ShareSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'metadata-property-search': MetadataPropertySearchSerializer;
+        'index-card-search': IndexCardSearchSerializer;
     } // eslint-disable-line semi
 }

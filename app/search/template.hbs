@@ -93,11 +93,11 @@ as |layout|>
             </ul>
         {{/if}}
         {{#each this.filterableProperties as |filterableProperty|}}
-            {{#let filterableProperty.metadataRecord as |propertyRecord|}}
+            {{#let filterableProperty.indexCard as |propertyCard|}}
                 <Search::-Components::FilterFacet
-                    @recordSearchText={{this.q}}
-                    @recordSearchFilters={{this.activeFilters}}
-                    @propertyRecord={{propertyRecord}}
+                    @cardSearchText={{this.q}}
+                    @cardSearchFilters={{this.activeFilters}}
+                    @propertyCard={{propertyCard}}
                     @propertySearch={{filterableProperty}}
                     @toggleFilter={{this.toggleFilter}}
                 />

@@ -2,17 +2,17 @@
     data-test-filter-facet
     local-class='facet-wrapper'
 >
-    {{#let (unique-id @propertyRecord.label) as |facetElementId|}}
+    {{#let (unique-id @propertyCard.label) as |facetElementId|}}
         <Button
-            data-analytics-name='filter facet toggle {{@propertyRecord.label}}'
-            data-test-filter-facet-toggle={{@propertyRecord.label}}
+            data-analytics-name='filter facet toggle {{@propertyCard.label}}'
+            data-test-filter-facet-toggle={{@propertyCard.label}}
             @layout='fake-link'
             local-class='facet-expand-button'
             aria-controls={{facetElementId}}
             aria-expanded={{not this.collapsed}}
             {{on 'click' (fn this.toggleFacet this.label)}}
         >
-            <span>{{@propertyRecord.label}}</span>
+            <span>{{@propertyCard.label}}</span>
             <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
         </Button>
         {{#if this.fetchFacetValues.isRunning}}
@@ -26,16 +26,16 @@
             >
                 {{#each this.filterableValues as |value|}}
                     <li
-                        data-test-filter-facet-value={{value.metadataRecord.title}}
+                        data-test-filter-facet-value={{value.indexCard.title}}
                         local-class='facet-value'
                     >
                         <Button
-                            data-analytics-name='toggle filter facet value {{value.metadataRecord.title}}'
+                            data-analytics-name='toggle filter facet value {{value.indexCard.title}}'
                             local-class='facet-link'
                             @layout='fake-link'
-                            {{on 'click' (fn @toggleFilter (hash property=@propertyRecord.label value=value.metadataRecord.title))}}
+                            {{on 'click' (fn @toggleFilter (hash property=@propertyCard.label value=value.indexCard.title))}}
                         >
-                            {{value.metadataRecord.title}}
+                            {{value.indexCard.title}}
                         </Button>
                         <span local-class='facet-count'>
                             {{value.recordResultCount}}
@@ -46,8 +46,8 @@
                 {{#if this.showSeeMoreButton}}
                     <li>
                         <Button
-                            data-analytics-name='see more filterable values {{@propertyRecord.label}}'
-                            data-test-see-more-filterable-values={{@propertyRecord.label}}
+                            data-analytics-name='see more filterable values {{@propertyCard.label}}'
+                            data-test-see-more-filterable-values={{@propertyCard.label}}
                             @layout='fake-link'
                             {{on 'click' (fn (mut this.seeMoreModalShown) true)}}
                         >
@@ -64,7 +64,7 @@
             as |dialog|
         >
             <dialog.heading data-test-see-more-dialog-heading>
-                {{@propertyRecord.label}}
+                {{@propertyCard.label}}
             </dialog.heading>
             <dialog.main local-class='see-more-dialog'>
                 {{t 'search.filter-facet.see-more-modal-text'}}
@@ -78,7 +78,7 @@
                     @onChange={{action this.updateSelectedProperty}}
                     as |property|
                 >
-                    {{property.metadataRecord.title}}
+                    {{property.indexCard.title}}
                 </PowerSelect>
             </dialog.main>
             <dialog.footer>

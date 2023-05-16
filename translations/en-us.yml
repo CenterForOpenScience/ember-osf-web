@@ -205,7 +205,7 @@ dashboard:
 
 search:
     page-title: 'Search'
-    metadata-record:
+    index-card:
         no-label: 'No label found'
         no-title: 'No title found'
     search-header: 'Search OSF'

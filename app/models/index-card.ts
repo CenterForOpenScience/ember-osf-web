@@ -7,15 +7,15 @@ export interface LanguageText {
     '@value': string;
 }
 
-export default class MetadataRecordModel extends Model {
+export default class IndexCardModel extends Model {
     @service intl!: IntlService;
 
     @attr('array') resourceType!: string[];
     @attr('array') resourceIdentifier!: string[];
     @attr('object') resourceMetadata!: any;
 
-    @hasMany('metadata-record', { inverse: null })
-    relatedRecordSet!: AsyncHasMany<MetadataRecordModel> & MetadataRecordModel[];
+    @hasMany('index-card', { inverse: null })
+    relatedRecordSet!: AsyncHasMany<IndexCardModel> & IndexCardModel[];
 
     get label(): string {
         const { resourceMetadata } = this;
@@ -30,7 +30,7 @@ export default class MetadataRecordModel extends Model {
                 return labels[0]['@value'];
             }
         }
-        return this.intl.t('search.metadata-record.no-label');
+        return this.intl.t('search.index-card.no-label');
     }
 
     get title(): string {
@@ -46,12 +46,12 @@ export default class MetadataRecordModel extends Model {
                 return titles[0]['@value'];
             }
         }
-        return this.intl.t('search.metadata-record.no-title');
+        return this.intl.t('search.index-card.no-title');
     }
 }
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'metadata-record': MetadataRecordModel;
+        'index-card': IndexCardModel;
     } // eslint-disable-line semi
 }

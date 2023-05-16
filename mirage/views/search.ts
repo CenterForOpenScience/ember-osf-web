@@ -1,15 +1,15 @@
 import { Request, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
 
-export function recordSearch(_: Schema, __: Request) {
-    // TODO: replace with a real metadata-record-search and use request to populate attrs
+export function cardSearch(_: Schema, __: Request) {
+    // TODO: replace with a real index-card-search and use request to populate attrs
     return {
         data: {
-            type: 'metadata-record-search',
+            type: 'index-card-search',
             id: 'zzzzzz',
             attributes:{
-                recordSearchText: 'hello',
-                recordSearchFilter: [
+                cardSearchText: 'hello',
+                cardSearchFilter: [
                     {
                         propertyPath: 'resourceType',
                         filterType: 'eq',
@@ -50,7 +50,7 @@ export function recordSearch(_: Schema, __: Request) {
                 },
                 relatedPropertySearch: {
                     data: {
-                        type: 'metadata-property-search',
+                        type: 'index-property-search',
                         id: 'tuv',
                     },
                 },
@@ -73,13 +73,13 @@ export function recordSearch(_: Schema, __: Request) {
                     ],
                 },
                 relationships: {
-                    metadataRecord: {
+                    indexCard: {
                         data: {
-                            type: 'metadata-record',
+                            type: 'index-card',
                             id: 'abc',
                         },
                         links: {
-                            related: 'https://share.osf.io/api/v2/metadata-record/abc',
+                            related: 'https://share.osf.io/api/v2/index-card/abc',
                         },
                     },
                 },
@@ -96,13 +96,13 @@ export function recordSearch(_: Schema, __: Request) {
                     ],
                 },
                 relationships: {
-                    metadataRecord: {
+                    indexCard: {
                         data: {
-                            type: 'metadata-record',
+                            type: 'index-card',
                             id: 'def',
                         },
                         links: {
-                            related: 'https://share.osf.io/api/v2/metadata-record/def',
+                            related: 'https://share.osf.io/api/v2/index-card/def',
                         },
                     },
                 },
@@ -119,19 +119,19 @@ export function recordSearch(_: Schema, __: Request) {
                     ],
                 },
                 relationships: {
-                    metadataRecord: {
+                    indexCard: {
                         data: {
-                            type: 'metadata-record',
-                            id: 'abc',
+                            type: 'index-card',
+                            id: 'ghi',
                         },
                         links: {
-                            related: 'https://share.osf.io/api/v2/metadata-record/abc',
+                            related: 'https://share.osf.io/api/v2/index-card/abc',
                         },
                     },
                 },
             },
             {
-                type: 'metadata-record',
+                type: 'index-card',
                 id: 'abc',
                 attributes: {
                     resourceType: [
@@ -212,25 +212,79 @@ export function recordSearch(_: Schema, __: Request) {
                     },
                 },
                 links: {
-                    self: 'https://share.osf.io/api/v2/metadata-record/abc',
+                    self: 'https://share.osf.io/api/v2/index-card/abc',
                     resource: 'https://osf.example/abcfoo',
                 },
             },
             {
-                type: 'metadata-record',
+                type: 'index-card',
                 id: 'def',
+                attributes: {
+                    resourceType: [
+                        'osf:Registration',
+                        'dcterms:Dataset',
+                    ],
+                    resourceIdentifier: [
+                        'https://osf.example/abcfoo',
+                        'https://doi.org/10.0000/osf.example/abcfoo',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'https://osf.example/abcfoo',
+                        '@type': 'osf:Registration',
+                        title: [
+                            {
+                                '@value': 'Hi!',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/index-card/ghi',
+                    resource: 'https://osf.example/abcfoo',
+                },
             },
             {
-                type: 'metadata-record',
+                type: 'index-card',
                 id: 'ghi',
+                attributes: {
+                    resourceType: [
+                        'osf:Registration',
+                        'dcterms:Dataset',
+                    ],
+                    resourceIdentifier: [
+                        'https://osf.example/abcfoo',
+                        'https://doi.org/10.0000/osf.example/abcfoo',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'https://osf.example/abcfoo',
+                        '@type': 'osf:Registration',
+                        title: [
+                            {
+                                '@value': 'Ahoj! That\'s hello in Czech!',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/index-card/ghi',
+                    resource: 'https://osf.example/abcfoo',
+                },
             },
             // Related properties search object
             {
-                type: 'metadata-property-search',
+                type: 'index-property-search',
                 id: 'tuv',
                 attributes: {
-                    recordSearchText: 'hello',
-                    recordSearchFilter: [
+                    cardSearchText: 'hello',
+                    cardSearchFilter: [
                         {
                             propertyPath: 'resourceType',
                             filterType: 'eq',
@@ -293,13 +347,13 @@ export function recordSearch(_: Schema, __: Request) {
                     recordResultCount: 345,
                 },
                 relationships: {
-                    metadataRecord: {
+                    indexCard: {
                         data: {
-                            type: 'metadata-record',
+                            type: 'index-card',
                             id: 'idForPropertyRecord1',
                         },
                         links: {
-                            related: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord1',
+                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord1',
                         },
                     },
                 },
@@ -317,13 +371,13 @@ export function recordSearch(_: Schema, __: Request) {
                     recordResultCount: 123,
                 },
                 relationships: {
-                    metadataRecord: {
+                    indexCard: {
                         data: {
-                            type: 'metadata-record',
+                            type: 'index-card',
                             id: 'idForPropertyRecord2',
                         },
                         links: {
-                            related: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord2',
+                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord2',
                         },
                     },
                 },
@@ -341,19 +395,19 @@ export function recordSearch(_: Schema, __: Request) {
                     recordResultCount: 33,
                 },
                 relationships: {
-                    metadataRecord: {
+                    indexCard: {
                         data: {
-                            type: 'metadata-record',
+                            type: 'index-card',
                             id: 'idForPropertyRecord3',
                         },
                         links: {
-                            related: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord3',
+                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord3',
                         },
                     },
                 },
             },
             {
-                type: 'metadata-record',
+                type: 'index-card',
                 id: 'idForPropertyRecord1',
                 attributes: {
                     resourceType: [
@@ -380,12 +434,12 @@ export function recordSearch(_: Schema, __: Request) {
                     },
                 },
                 links: {
-                    self: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord1',
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord1',
                     resource: 'http://purl.org/dc/terms/license',
                 },
             },
             {
-                type: 'metadata-record',
+                type: 'index-card',
                 id: 'idForPropertyRecord2',
                 attributes: {
                     resourceType: [
@@ -412,12 +466,12 @@ export function recordSearch(_: Schema, __: Request) {
                     },
                 },
                 links: {
-                    self: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord2',
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord2',
                     resource: 'http://purl.org/dc/terms/published',
                 },
             },
             {
-                type: 'metadata-record',
+                type: 'index-card',
                 id: 'idForPropertyRecord3',
                 attributes: {
                     resourceType: [
@@ -444,7 +498,7 @@ export function recordSearch(_: Schema, __: Request) {
                     },
                 },
                 links: {
-                    self: 'https://share.osf.io/api/v2/metadata-record/idForPropertyRecord2',
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord2',
                     resource: 'http://purl.org/dc/terms/funder',
                 },
             },
@@ -457,7 +511,7 @@ export function valueSearch(_: Schema, __: Request) {
     const property2Id = faker.random.uuid();
     return {
         data: {
-            type: 'metadata-value-search',
+            type: 'index-value-search',
             id: 'lmnop',
             attributes: {
                 valueSearchText: 'Institute of Health',
@@ -468,8 +522,8 @@ export function valueSearch(_: Schema, __: Request) {
                         filterValues: ['datacite:Funder'],
                     },
                 ],
-                recordSearchText: 'influenza',
-                recordSearchFilter: [
+                cardSearchText: 'influenza',
+                cardSearchFilter: [
                     {
                         propertyPath: 'resourceType',
                         filterType: 'eq',
@@ -490,7 +544,7 @@ export function valueSearch(_: Schema, __: Request) {
                     },
                 },
                 relatedPropertySearch: {
-                    data: {type: 'metadata-property-search', id: '12345'},
+                    data: {type: 'index-property-search', id: '12345'},
                 },
             },
         },
@@ -505,9 +559,9 @@ export function valueSearch(_: Schema, __: Request) {
                     recordResultCount: 2134,
                 },
                 relationships: {
-                    metadataRecord: {
-                        data: {type: 'metadata-record', id: property1Id},
-                        links: {related: 'https://share.osf.example/metadata-record/abc'},
+                    indexCard: {
+                        data: {type: 'index-card', id: property1Id},
+                        links: {related: 'https://share.osf.example/index-card/abc'},
                     },
                 },
             },
@@ -521,14 +575,14 @@ export function valueSearch(_: Schema, __: Request) {
                     recordResultCount: 2,
                 },
                 relationships: {
-                    metadataRecord: {
-                        data: {type: 'metadata-record', id: property2Id},
-                        links: {related: 'https://share.osf.example/metadata-record/def'},
+                    indexCard: {
+                        data: {type: 'index-card', id: property2Id},
+                        links: {related: 'https://share.osf.example/index-card/def'},
                     },
                 },
             },
             {
-                type: 'metadata-record',
+                type: 'index-card',
                 id: property1Id,
                 attributes: {
                     resourceType: 'osf:Funder',
@@ -541,7 +595,7 @@ export function valueSearch(_: Schema, __: Request) {
                 },
             },
             {
-                type: 'metadata-record',
+                type: 'index-card',
                 id: property2Id,
                 attributes: {
                     resourceType: 'osf:Funder',

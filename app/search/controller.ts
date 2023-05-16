@@ -10,7 +10,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 
-import MetadataPropertySearchModel from 'ember-osf-web/models/metadata-property-search';
+import IndexPropertySearchModel from 'ember-osf-web/models/index-property-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 export interface Filter {
     property: string;
@@ -87,7 +87,7 @@ export default class SearchController extends Controller {
     @tracked activeFilters = A<Filter>([]);
 
     @tracked searchResults?: SearchResultModel[];
-    @tracked propertySearch?: MetadataPropertySearchModel;
+    @tracked propertySearch?: IndexPropertySearchModel;
 
     get showSidePanelToggle() {
         return this.media.isMobile || this.media.isTablet;
@@ -139,7 +139,7 @@ export default class SearchController extends Controller {
                 return acc;
             }, {} as { [key: string]: string });
             filterQueryObject['resourceType'] = resourceType;
-            const searchResult = await this.store.queryRecord('metadata-record-search', {
+            const searchResult = await this.store.queryRecord('index-card-search', {
                 q,
                 page,
                 sort,

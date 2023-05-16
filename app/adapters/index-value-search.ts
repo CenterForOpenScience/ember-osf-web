@@ -1,10 +1,10 @@
 import ShareAdapter from './share-adapter';
 
-export default class MetadataPropertySearchAdapter extends ShareAdapter {
+export default class IndexValueSearchAdapter extends ShareAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'metadata-property-search': MetadataPropertySearchAdapter;
+        'index-value-search': IndexValueSearchAdapter;
     } // eslint-disable-line semi
 }

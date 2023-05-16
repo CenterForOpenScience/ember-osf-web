@@ -37,7 +37,7 @@ import { createNewSchemaResponse } from './views/schema-response';
 import { createSchemaResponseAction } from './views/schema-response-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
-import { recordSearch, valueSearch } from './views/search';
+import { cardSearch, valueSearch } from './views/search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import {
@@ -62,9 +62,9 @@ export default function(this: Server) {
     this.post('/search/creativeworks/_search', shareSearch);
 
     // SHARE-powered search endpoints
-    this.get('/metadata-record-searches', recordSearch);
-    this.get('/metadata-value-searches', valueSearch);
-    // this.get('/metadata-records/:id', metadataRecordDetail);
+    this.get('/index-card-searches', cardSearch);
+    this.get('/index-value-searches', valueSearch);
+    // this.get('/index-cards/:id', Detail);
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
