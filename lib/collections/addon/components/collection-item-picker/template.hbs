@@ -1,6 +1,6 @@
 {{#if this.findNodes.last}}
-    <div data-test-collections-item-picker class='form-group'>
-        <div class='m-t-sm'>
+    <div data-test-collections-item-picker local-class='form-group'>
+        <div local-class='m-t-sm'>
             <PowerSelect
                 @renderInPlace={{false}}
                 @searchEnabled={{true}}
@@ -25,9 +25,5 @@
         </div>
     </div>
 {{else}}
-    <div class='ball-pulse ball-dark text-center'>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
+    <LoadingIndicator @dark={{true}} />
 {{/if}}
