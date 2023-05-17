@@ -6,7 +6,7 @@
     @showResubmitModal={{this.showResubmitModal}}
     @collectionIsModerated={{this.collectionIsModerated}}
 />
-<div class='submit-header' local-class='header'>
+<div local-class='header submit-header'>
     <h1>{{t (concat this.intlKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
 <div local-class='body'>
@@ -61,7 +61,7 @@
                         @continue={{action this.nextSection}}
                     />
                 {{else}}
-                    <div class='text-center'>
+                    <div local-class='text-center'>
                         <FaIcon
                             @icon='spinner'
                             @pulse={{true}}
@@ -172,8 +172,7 @@
 
         <section
             data-test-collections-submit-section='buttons'
-            class='row'
-            local-class='last-buttons'
+            local-class='last-buttons row'
         >
             <div local-class='button-container'>
                 {{#if (and this.edit this.isAccepted)}}
@@ -197,7 +196,7 @@
                         </div>
                     </DeleteButton>
                 {{/if}}
-                <div class='text-right'>
+                <div local-class='text-right'>
                     <Button
                         data-test-collections-submit-cancel-button
                         {{action this.cancel}}

@@ -9,6 +9,10 @@
     }
 }
 
+.submit-header {
+    background: #0fa2ff;
+    color: $color-text-white;
+}
 
 .body {
     background-color: #f8f8f8;
@@ -62,4 +66,17 @@
             }
         }
     }
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
 }
