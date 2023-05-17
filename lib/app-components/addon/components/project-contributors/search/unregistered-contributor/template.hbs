@@ -20,10 +20,10 @@
         @placeholder={{t 'app_components.project_contributors.search.unregistered_contributor.email'}}
     />
 </label>
-<p class='text-muted'>
+<p local-class='text-muted'>
     {{t 'app_components.project_contributors.search.unregistered_contributor.paragraph'}}
 </p>
-<div class='pull-right text-right'>
+<div local-class='pull-right text-right'>
     <Button
         {{on 'click' (action this.cancel)}}
     >
