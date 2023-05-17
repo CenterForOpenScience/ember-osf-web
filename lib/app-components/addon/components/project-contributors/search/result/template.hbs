@@ -1,6 +1,6 @@
-<td class='p-v-xs'>
+<td local-class='p-v-xs'>
     <img
-        class='m-l-xs'
+        local-class='m-l-xs'
         src={{@user.links.profile_image}}
         alt={{@user.fullname}}
         height='30'
@@ -12,15 +12,15 @@
         {{~@user.fullName~}}
     </a>
     {{#if this.isSelf}}
-        <span class='small'>
+        <span local-class='small'>
             {{t 'app_components.project_contributors.search.result.yourself'}}
         </span>
     {{/if}}
 </td>
-<td class='p-v-xs'>
+<td local-class='p-v-xs'>
     {{#if this.isContributor}}
         <span
-            class='hint hint--left pull-right'
+            local-class='pull-right'
             aria-label={{t 'components.preprint-form-authors.already_added'}}
         >
             <Button
@@ -34,7 +34,7 @@
     {{else}}
         <Button
             data-test-project-contributors-add-contributor-button
-            class='btn btn-success btn-small pull-right'
+            local-class='pull-right'
             @layout='small'
             @type='create'
             {{on 'click' (action this.addContributor @user)}}
