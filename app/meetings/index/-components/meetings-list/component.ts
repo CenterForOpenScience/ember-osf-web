@@ -1,9 +1,12 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
+import { inject as service } from '@ember/service';
+import Media from 'ember-responsive';
 import { restartableTask, timeout } from 'ember-concurrency';
 
 export default class MeetingsList extends Component {
+    @service media!: Media;
     // Private properties
     search?: string;
     sort = '-submissions_count';
@@ -30,5 +33,9 @@ export default class MeetingsList extends Component {
     @action
     sortMeetings(sort: string) {
         this.set('sort', sort);
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }
