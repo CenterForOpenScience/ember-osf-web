@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
 import Analytics from 'ember-osf-web/services/analytics';
@@ -10,6 +11,7 @@ export default class SettingsController extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service media!: Media;
+    @service router!: RouterService;
 
     @tracked navCollapsed = true;
 

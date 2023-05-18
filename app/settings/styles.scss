@@ -18,14 +18,6 @@
         padding-left: 0;
     }
 
-    li:has(:global(.active)) {
-        background-color: $color-bg-blue-dark;
-
-        :hover {
-            background-color: $color-bg-blue-dark;
-        }
-    }
-
     a:global(.active) {
         color: $color-text-white;
     }
@@ -44,5 +36,13 @@
 
     li:hover {
         background-color: $color-bg-gray-lighter;
+    }
+
+    .active {
+        background-color: $color-bg-blue-dark;
+
+        :hover {
+            background-color: $color-bg-blue-dark;
+        }
     }
 }
