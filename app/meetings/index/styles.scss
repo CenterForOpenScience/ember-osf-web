@@ -5,6 +5,8 @@
     justify-content: flex-start;
     align-items: center;
     width: 100%;
+    z-index: 2;
+    position: relative;
 
     .meeting-list-container {
         display: flex;
