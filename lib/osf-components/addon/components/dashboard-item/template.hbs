@@ -8,9 +8,9 @@
             <AncestryDisplay @node={{@node}} />
             <strong data-test-dashboard-item-title>{{@node.title}}</strong>
         </div>
-        <div local-class='column-25' class='di-contributors'>
+        <div local-class='column-25'>
             <ContributorList @model={{this.node}} />
         </div>
-        <div local-class='column-25' class='di-date'>{{this.date}}</div>
+        <div local-class='column-25'>{{this.date}}</div>
     </div>
 </OsfLink>
