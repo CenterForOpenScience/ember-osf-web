@@ -16,38 +16,6 @@ export default class IndexCardModel extends Model {
 
     @hasMany('index-card', { inverse: null })
     relatedRecordSet!: AsyncHasMany<IndexCardModel> & IndexCardModel[];
-
-    get label(): string {
-        const { resourceMetadata } = this;
-        const preferredLanguage = this.intl.locale;
-        const labels = resourceMetadata?.label;
-        if (labels) {
-            const languageAppropriateLabel = labels.filter((label: any) => label['@language'] === preferredLanguage);
-            // give the locale appropriate label if it exists, otherwise give the first label
-            if (languageAppropriateLabel.length > 0) {
-                return labels.filter((label: any) => label['@language'] === preferredLanguage)[0]['@value'];
-            } else if (labels.length > 0) {
-                return labels[0]['@value'];
-            }
-        }
-        return this.intl.t('search.index-card.no-label');
-    }
-
-    get title(): string {
-        const { resourceMetadata } = this;
-        const preferredLanguage = this.intl.locale;
-        const titles = resourceMetadata?.title;
-        if (titles) {
-            const languageAppropriateTitle = titles.filter((title: any) => title['@language'] === preferredLanguage);
-            // give the locale appropriate title if it exists, otherwise give the first title
-            if (languageAppropriateTitle.length > 0) {
-                return titles.filter((title: any) => title['@language'] === preferredLanguage)[0]['@value'];
-            } else if (titles.length > 0) {
-                return titles[0]['@value'];
-            }
-        }
-        return this.intl.t('search.index-card.no-title');
-    }
 }
 
 declare module 'ember-data/types/registries/model' {
