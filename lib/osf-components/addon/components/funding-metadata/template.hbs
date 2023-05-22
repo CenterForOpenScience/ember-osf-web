@@ -3,7 +3,7 @@
         {{#each this.funderObjects as |item|}}
             {{#if item.errors}}
                 <ValidationErrors
-                    class='help-block'
+                    local-class='help-block'
                     @errors={{item.errors}}
                 />
             {{/if}}
