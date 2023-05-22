@@ -26,7 +26,6 @@ export default class GetLocalizedPropertyHelper extends Helper {
 
     compute([metadataHash, propertyName]: [Record<string, LanguageText[]>, string]): string {
         const locale = this.intl.locale;
-        // console.log('get-localized-property helper', locale);
         const valueOptions = metadataHash?.[propertyName];
         if (!metadataHash || !valueOptions || valueOptions.length === 0) {
             return this.intl.t('helpers.get-localized-property.not-provided');
