@@ -205,12 +205,27 @@ dashboard:
 
 search:
     page-title: 'Search'
-    metadata-record:
+    index-card:
         no-label: 'No label found'
         no-title: 'No title found'
     search-header: 'Search OSF'
     textbox-placeholder: 'Search placeholder'
     search-button-label: 'Search'
+    resource-type:
+        search-by: 'Search by resource type'
+        all: 'All'
+        projects: 'Projects'
+        registrations: 'Registrations'
+        preprints: 'Preprints'
+        files: 'Files'
+        users: 'Users'
+    sort:
+        sort-by: 'Sort by'
+        relevance: 'Relevance'
+        created-date-descending: 'Date created, newest'
+        created-date-ascending: 'Date created, oldest'
+        modified-date-descending: 'Date modified, newest'
+        modified-date-ascending: 'Date modified, oldest'
     toggle-sidenav: 'Toggle search sidebar'
     left-panel:
         header: Refine
@@ -222,6 +237,9 @@ search:
         see-more: 'See more'
         see-more-modal-text: 'Please select a filter to apply to your search.'
         see-more-modal-placeholder: 'Search for a filter to apply'
+helpers:
+    get-localized-property:
+        not-provided: 'Not provided'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
