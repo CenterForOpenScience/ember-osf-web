@@ -31,6 +31,43 @@
     bottom: 4px;
 }
 
+.topbar {
+    margin-left: 20px;
+    display: flex;
+    border-bottom: 1px solid $color-text-black;
+}
+
+.object-type-nav {
+    ul {
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    li {
+        display: inline-flex;
+        margin-right: 10px;
+    }
+}
+
+.object-type-filter-link {
+    padding: 10px 15px;
+    font-size: 1.3em;
+
+    &:global(.active),
+    &:hover {
+        text-decoration: none;
+        background-color: $color-bg-gray;
+        color: $color-text-black;
+        border-bottom: 2px solid $color-text-black;
+    }
+}
+
+.sort-dropdown {
+    width: 170px;
+    margin-top: 10px;
+}
+
 .sidenav-toggle {
     float: left;
 }
@@ -49,4 +86,3 @@
     display: flex;
     justify-content: space-between;
 }
-
