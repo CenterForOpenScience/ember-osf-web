@@ -9,7 +9,7 @@
             {{if @node.isRegistration 'card-body' 'node-body' }}
             {{if (and @node.isRegistration this.isMobile) 'mobile'}}'
         >
-            <h4 class='list-group-item-heading' local-class='heading' data-test-node-card-heading>
+            <h4 local-class='list-group-item-heading heading' data-test-node-card-heading>
                 {{#if @node}}
                     {{#unless @node.public}}
                         <span>
@@ -20,37 +20,37 @@
                         </span> |
                     {{/unless}}
                     {{#if @node.pendingRegistrationApproval}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
                     {{else if @node.pendingEmbargoApproval}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
                     {{else if (eq @node.reviewsState 'pending')}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
                     {{else if (eq @node.reviewsState 'embargo')}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
                     {{else if (eq @node.reviewsState 'rejected')}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
                     {{else if (eq @node.reviewsState 'pending_embargo_termination')}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
                     {{else if (eq @node.reviewsState 'pending_withdraw_request')}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
                     {{else if (eq @node.reviewsState 'pending_withdraw')}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
                     {{else if @node.withdrawn}}
-                        <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
+                        <span local-class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
                     {{/if}}
                     {{#if @node.archiving}}
-                        <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
+                        <span local-class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
                     {{/if}}
 
                     {{#if (eq @node.revisionState 'unapproved')}}
                         {{#unless @node.pendingRegistrationApproval}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
                         {{/unless}}
                     {{else if (eq @node.revisionState 'in_progress')}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
                     {{else if (eq @node.revisionState 'pending_moderation')}}
                         {{#if (not-eq @node.reviewsState 'pending')}}
-                            <span class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
                         {{/if}}
                     {{/if}}
 
@@ -72,12 +72,11 @@
                     {{#if this.showDropdown}}
                         <div
                             data-test-node-menu
-                            class='pull-right generic-dropdown'
-                            local-class='dropdown'
+                            local-class='pull-right dropdown'
                         >
                             <ResponsiveDropdown @buttonStyling={{true}} as |dd|>
                                 <dd.trigger local-class='dropdown-button'>
-                                    <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
+                                    <span aria-label={{t 'node_card.options'}}><FaIcon @icon='ellipsis-h' /></span>
                                 </dd.trigger>
                                 <dd.content @align='right' local-class='dropdown-list'>
                                     <ul role='menu' tabindex='-1'>
