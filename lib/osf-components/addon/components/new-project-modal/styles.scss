@@ -44,3 +44,58 @@
         }
     }
 }
+
+.modal-title {
+    margin: 0;
+    line-height: 1.42857;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.m-v-sm {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.m-v-md {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.text-bigger {
+    font-size: 1.1em;
+}
+
+.f-w-lg {
+    font-weight: 500;
+}
+
+.f-w-xs {
+    font-weight: 200;
+}
+
+.form-control {
+    border-radius: 2px;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: $color-text-gray;
+    background-color: $color-bg-white;
+    background-image: none;
+    border: 1px solid $color-border-gray;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.noresize {
+    resize: none;
+}
