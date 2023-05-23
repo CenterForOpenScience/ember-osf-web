@@ -1,13 +1,13 @@
 import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
-import { SearchFilter } from './metadata-record-search';
+import { SearchFilter } from './index-card-search';
 import SearchResultModel from './search-result';
 
-export default class MetadataPropertySearchModel extends Model {
+export default class IndexPropertySearchModel extends Model {
     @attr('string') propertySearchText!: string;
     @attr('array') propertySearchFilter!: SearchFilter[];
-    @attr('string') recordSearchText!: string;
-    @attr('array') recordSearchFilter!: SearchFilter[];
+    @attr('string') cardSearchText!: string;
+    @attr('array') cardSearchFilter!: SearchFilter[];
     @attr('number') totalResultCount!: number;
 
     @hasMany('search-result', { inverse: null })
@@ -16,6 +16,6 @@ export default class MetadataPropertySearchModel extends Model {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'metadata-property-search': MetadataPropertySearchModel;
+        'index-property-search': IndexPropertySearchModel;
     } // eslint-disable-line semi
 }

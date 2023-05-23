@@ -48,7 +48,7 @@ module(moduleName, hooks => {
             .containsText('Search for a filter to apply', 'Placeholder message shown in select');
         assert.dom('[data-test-see-more-dialog-apply-button]').isDisabled('Apply button disabled initially');
         // select a filter value
-        await clickTrigger();
+        await clickTrigger('[data-test-dialog]');
         await untrackedClick('[data-option-index="0"]');
         assert.dom('[data-test-see-more-dialog-apply-button]')
             .isNotDisabled('Apply button enabled after selecting a filter');
