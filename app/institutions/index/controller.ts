@@ -3,12 +3,14 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
+import Media from 'ember-responsive';
 import { restartableTask, timeout } from 'ember-concurrency';
 
 import Institution from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Institutions extends Controller {
+    @service media!: Media;
     @service store!: Store;
     @service analytics!: Analytics;
 
@@ -58,6 +60,10 @@ export default class Institutions extends Controller {
     @action
     sort(sortOrder: 'title' | '-title') {
         this.set('sortOrder', sortOrder);
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }
 
