@@ -1,6 +1,6 @@
 <div data-test-panel-heading local-class='panel-heading clearfix'>
     {{#if @title}}
-        <h3 data-test-panel-title class='panel-title'>{{@title}}</h3>
+        <h3 data-test-panel-title local-class='panel-title'>{{@title}}</h3>
     {{/if}}
     {{#if (has-block)}}
         {{yield}}
