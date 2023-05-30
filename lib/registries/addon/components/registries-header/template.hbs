@@ -7,7 +7,7 @@
             aria-label={{this.headerAriaLabel}}
         ></div>
     </div>
-    <p class='lead'>
+    <p local-class='lead'>
         {{yield (hash lead=(element ''))}}
     </p>
 
@@ -32,7 +32,7 @@
                 aria-label={{t 'registries.header.search_label'}}
                 id='search'
                 @value={{this.value}}
-                @class='form-control'
+                @class={{local-class 'form-control'}}
                 @placeholder={{t 'registries.header.search_placeholder'}}
             />
             {{#if this.showHelp}}
