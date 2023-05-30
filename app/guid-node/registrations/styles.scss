@@ -77,6 +77,26 @@
         margin-bottom: 10px;
     }
 
+    &.mobile {
+        margin: 0;
+        padding: 0;
+
+        .registration-button-container {
+            margin-top: 10px;
+            padding-right: 10px;
+        }
+
+        .registration-tab-container {
+            width: 100%;
+
+            .tabs {
+                .registration-pane {
+                    padding-top: 20px;
+                    min-height: 150px;
+                }
+            }
+        }
+    }
 }
 
 h4:global(.new-registration-modal-header) {

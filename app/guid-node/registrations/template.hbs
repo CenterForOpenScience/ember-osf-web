@@ -3,7 +3,7 @@
 <div
     data-test-registrations-container
     data-analytics-scope='Registrations'
-    local-class='registration-container'
+    local-class='registration-container {{if this.isMobile 'mobile'}}'
 >
     {{#if this.node.userHasAdminPermission}}
         <div local-class='registration-button-container'>
