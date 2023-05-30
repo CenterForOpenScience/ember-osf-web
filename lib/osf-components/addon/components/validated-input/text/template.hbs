@@ -8,7 +8,7 @@
     as |inputElementId|
 }}
     {{#if @prefix}}
-        <div class='form-control' local-class='PrefixedInputBox' >
+        <div local-class='PrefixedInputBox form-control'>
             <span local-class='Prefix'>{{@prefix}}</span>
             <Input
                 aria-label={{this.ariaLabel}}
@@ -32,7 +32,7 @@
             @name={{@valuePath}}
             @keyUp={{@onKeyUp}}
             @disabled={{this.disabled}}
-            class='form-control'
+            local-class='form-control'
         />
     {{/if}}
 {{/validated-input/x-input-wrapper}}
