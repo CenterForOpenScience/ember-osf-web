@@ -7,13 +7,13 @@
 {{#if (or this.hasError this.hasWarning)}}
     {{#if this.changeset}}
         <ValidationErrors
-            class='help-block'
+            local-class='help-block'
             @changeset={{this.changeset}}
             @key={{this.valuePath}}
             @errors={{@errors}}
         />
     {{else}}
-        <div class='help-block'>
+        <div local-class='help-block'>
             {{v-get this.model this.valuePath 'message'}}
         </div>
     {{/if}}
