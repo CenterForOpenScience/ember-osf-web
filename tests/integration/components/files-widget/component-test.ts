@@ -184,7 +184,6 @@ module('Integration | Component | files-widget', hooks => {
         this.set('node', node);
 
         await render(hbs`<Files::Widget @node={{this.node}} @canEdit={{true}} />`);
-
         assert.dom('[data-test-file-browser-list]').isVisible();
         assert.dom('[data-test-file-row]').exists({ count: pageSize });
         assert.dom('[data-test-load-more-items]').exists();

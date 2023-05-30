@@ -3,6 +3,7 @@
         {{#each this.funderObjects as |item|}}
             {{#if item.errors}}
                 <ValidationErrors
+                    data-test-help-block
                     local-class='help-block'
                     @errors={{item.errors}}
                 />

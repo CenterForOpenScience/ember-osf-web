@@ -68,7 +68,7 @@
                 {{/if}}
             </div>
 
-            {{#unless this.shouldShowLoadMoreButton}}
+            {{#if this.shouldShowLoadMoreButton}}
                 <div local-class='load-more'>
                     {{#if @filesManager.loadingMore}}
                         <LoadingIndicator @inline={{true}} @dark={{true}} />
@@ -85,7 +85,7 @@
                         </Button>
                     {{/if}}
                 </div>
-            {{/unless}}
+            {{/if}}
         </div>
     </Files::UploadZone>
 {{/if}}

@@ -59,7 +59,7 @@
         <SignUpPolicy />
     </ValidatedInput::Checkbox>
     {{#if this.hasSubmitted}}
-        <div class='osf-box-lt' local-class='help-block'>
+        <div data-test-help-block class='osf-box-lt' local-class='help-block'>
             <p local-class='p-xs'>{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}
