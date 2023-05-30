@@ -41,7 +41,7 @@
             <label for='nodeLicense-{{key}}'>{{t (concat 'app_components.license_picker.fields.' key)}}</label>
             <br>
             <Input
-                @class='form-control'
+                @class={{local-class 'form-control'}}
                 @id={{concat 'nodeLicense-' key}}
                 @value={{readonly (get this.form.changeset.nodeLicense key)}}
                 @change={{fn this.updateNodeLicense key}}
