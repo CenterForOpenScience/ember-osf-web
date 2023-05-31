@@ -1,6 +1,3 @@
-/* eslint-disable no-mixed-spaces-and-tabs*/
-/* eslint-disable object-shorthand*/
-/* eslint-disable no-undef-init*/
 import Service, { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -19,8 +16,6 @@ export interface ScriptTagsData {
 export interface ScriptTagAttrs {
     type: Content;
 }
-
-// export type ScriptTagAttrs = JSONLDScriptTagAttrs;
 
 // ember-cli-meta-tags element types
 export enum TagType {
@@ -50,15 +45,15 @@ export default class ScriptTags extends Service {
     @service currentUser!: CurrentUserService;
 
     async returnStructuredData(guid: string): Promise<any> {
-        const url = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
-        let jsonLD = undefined;
+        const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
+        let jsonLD;
         let jsonFetch: object | undefined;
         try {
             jsonFetch = await this.currentUser.authenticatedAJAX({
                 method: 'GET',
-                url: url,
+                url: path,
             });
-            if (jsonFetch && (typeof(jsonFetch) === 'object')) {
+            if (jsonFetch) {
                 jsonLD = jsonFetch;
             }
         } catch (e) {
