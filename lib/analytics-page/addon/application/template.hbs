@@ -8,10 +8,10 @@
                 {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <div local-class='Count'>{{this.forksCount}}</div>
+                    <h2>{{this.forksCount}}</h2>
                     <LinkToExternal
                         @route={{if this.node.isProject 'nodeForks' 'registrationForks'}}
-                        @models={{array this.node.id}}
+                        @models={{array this.model.id}}
                     >
                         {{t 'analytics.viewForks'}}
                     </LinkToExternal>
