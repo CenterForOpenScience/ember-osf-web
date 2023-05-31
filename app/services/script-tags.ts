@@ -16,15 +16,11 @@ export interface ScriptTagsData {
     content?: DataContent;
 }
 
-export interface ScriptTagDef {
-    [s: string]: DataContent;
-}
-
-export interface JSONLDScriptTagAttrs {
+export interface ScriptTagAttrs {
     type: Content;
 }
 
-export type ScriptTagAttrs = JSONLDScriptTagAttrs;
+// export type ScriptTagAttrs = JSONLDScriptTagAttrs;
 
 // ember-cli-meta-tags element types
 export enum TagType {
@@ -35,7 +31,7 @@ export enum TagType {
 export interface HeadTagDef {
     type: string;
     content: DataContent;
-    attrs:  ScriptTagAttrs;
+    attrs: ScriptTagAttrs;
 }
 
 /**
