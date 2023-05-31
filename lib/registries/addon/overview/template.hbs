@@ -64,7 +64,7 @@
                         @models={{array this.registration.id}} @icon='home' @label={{t 'registries.overview.title'}} />
                     {{#let (unique-id 'metadata-link') as |id|}}
                         <leftNav.link
-                          data-analytics-name='Metadata'
+                            data-analytics-name='Metadata'
                             @route='registries.overview.metadata'
                             @models={{array this.registration.id}}
                             @icon='info-circle'
