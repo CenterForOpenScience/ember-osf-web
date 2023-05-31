@@ -33,14 +33,6 @@ export default class GuidFile extends Controller {
         return this.media.isTablet;
     }
 
-    get nodeTypeTranslation() {
-        const { target } = this.model.fileModel;
-        const translationKeyBase = 'general';
-        const translationNode = target.get('isRegistration') ? 'registration'
-            : target.get('isRoot') ? 'project' : 'component';
-        return this.intl.t(`${translationKeyBase}.${translationNode}`);
-    }
-
     @action
     changeVersion(version: number) {
         this.viewedVersion = version;
