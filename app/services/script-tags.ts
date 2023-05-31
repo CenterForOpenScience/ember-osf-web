@@ -4,7 +4,7 @@ import Intl from 'ember-intl/services/intl';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException from 'ember-osf-web/utils/capture-exception';
 
-export type Content = object | string | number | undefined;
+export type Content = object | string | undefined;
 
 export type DataContent = Content | Content[];
 
