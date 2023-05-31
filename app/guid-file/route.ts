@@ -96,7 +96,6 @@ export default class GuidFile extends Route {
                 "description": "${metaTagsData.description}",
                 "url": "${model.links.self}",
                 "isBasedOn": "${model.links.relationships.target.links.related.href}",
-                "identifier": "${model.links.self}",
                 "isAccessibleForFree": true,
                 "creator": {
                     "@type": "${this.intl.t('general.structured_data.creator_type_person')}",

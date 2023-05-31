@@ -85,10 +85,20 @@ export default class Overview extends GuidRoute {
 
             let jsonLD: object | undefined = undefined;
             let scriptTag: HeadTagDef[] = [];
+            const overviewOverrides = `
+            {
+                "context": "${this.intl.t('general.structured_data.context')}",
+                "@type": "${this.intl.t('general.structured_data.dataset')}",
+                "name": "${metaTagsData.title}",
+                "description": "${metaTagsData.description}",
+                "identifier": ${metaTagsData.doi},
+                "isAccessibleForFree": true
+            }`;
+
             try {
                 jsonLD = await this.scriptTags.returnStructuredData(id);
                 const jsonString: string = jsonLD ?
-                    JSON.stringify(jsonLD) : JSON.stringify({ isAccessibleForFree : true });
+                    JSON.stringify(jsonLD) : overviewOverrides;
                 const scriptTagData = {
                     type: 'application/ld+json',
                     content: jsonString,

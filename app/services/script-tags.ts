@@ -5,10 +5,9 @@ import Service, { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import { MetaTagAttrs } from 'ember-osf-web/services/meta-tags';
 import captureException from 'ember-osf-web/utils/capture-exception';
 
-export type Content = object | string | String | number | null | undefined;
+export type Content = object | string | number | undefined;
 
 export type DataContent = Content | Content[];
 
@@ -29,18 +28,14 @@ export type ScriptTagAttrs = JSONLDScriptTagAttrs;
 
 // ember-cli-meta-tags element types
 export enum TagType {
-    BASE = 'base',
-    LINK = 'link',
-    META = 'meta',
     SCRIPT = 'script',
     NOSCRIPT = 'noscript',
-    TITLE = 'title',
 }
 
 export interface HeadTagDef {
     type: string;
     content: DataContent;
-    attrs: MetaTagAttrs | ScriptTagAttrs;
+    attrs:  ScriptTagAttrs;
 }
 
 /**
