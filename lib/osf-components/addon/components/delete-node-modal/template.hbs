@@ -11,7 +11,8 @@
         <label local-class='DeleteModal__label-wrap'>
             <p local-class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{this.scientistName}}</strong></p>
             <Input
-                local-class='DeleteModal__input form-control'
+                local-class='DeleteModal__input'
+                @class='form-control'
                 @value={{this.scientistInput}}
             />
         </label>
