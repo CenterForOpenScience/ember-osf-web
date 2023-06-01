@@ -12,6 +12,7 @@ export default class IndexCardModel extends Model {
 
     @attr('array') resourceType!: string[];
     @attr('array') resourceIdentifier!: string[];
+    // TODO: can we add a type for resourceMetadata?
     @attr('object') resourceMetadata!: any;
 
     @hasMany('index-card', { inverse: null })
