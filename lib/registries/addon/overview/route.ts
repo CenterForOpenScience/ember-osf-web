@@ -19,7 +19,6 @@ import Ready from 'ember-osf-web/services/ready';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
-import ScriptTags from 'ember-osf-web/services/script-tags';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import Intl from 'ember-intl/services/intl';
 
@@ -28,7 +27,6 @@ export default class Overview extends GuidRoute {
     @service currentUser!: CurrentUser;
     @service router!: RouterService;
     @service metaTags!: MetaTags;
-    @service scriptTags!: ScriptTags;
     @service ready!: Ready;
     @service intl!: Intl;
 
@@ -83,37 +81,35 @@ export default class Overview extends GuidRoute {
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
 
-            let jsonLD: object | undefined = undefined;
-            let scriptTag: HeadTagDef[] = [];
-            const overviewOverrides = `
-            {
-                "context": "${this.intl.t('general.structured_data.context')}",
-                "@type": "${this.intl.t('general.structured_data.dataset')}",
-                "name": "${metaTagsData.title}",
-                "description": "${metaTagsData.description}",
-                "identifier": ${metaTagsData.doi},
-                "isAccessibleForFree": true
-            }`;
+            const metaTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
 
+            // Google Structured Data
+            let jsonLD: object | undefined;
+            let scriptTag;
             try {
-                jsonLD = await this.scriptTags.returnStructuredData(id);
-                const jsonString: string = jsonLD ?
-                    JSON.stringify(jsonLD) : overviewOverrides;
-                const scriptTagData = {
-                    type: 'application/ld+json',
-                    content: jsonString,
-                };
-                scriptTag = await this.scriptTags.getHeadTags(scriptTagData);
+                jsonLD = await this.returnStructuredData(id);
+                const jsonString: object | undefined = jsonLD ? jsonLD : undefined;
+                if (jsonString) {
+                    scriptTag = {
+                        type: 'script',
+                        content: jsonString,
+                        attrs: {
+                            type: 'application/ld+json',
+                        },
+                    };
+                } else {
+                    scriptTag = undefined;
+                }
+                if (scriptTag) {
+                    metaTags.push(scriptTag);
+                }
             } catch (e) {
                 const errorMessage = this.intl.t('general.structured_data.json_ld_retrieval_error');
                 captureException(e, { errorMessage });
             }
 
-            const metaTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
-            const allTags: HeadTagDef[] = metaTags.concat(scriptTag);
-
             if (provider && provider.assets && provider.assets.favicon) {
-                allTags.push({
+                metaTags.push({
                     type: 'link',
                     attrs: {
                         rel: 'icon',
@@ -121,10 +117,29 @@ export default class Overview extends GuidRoute {
                     },
                 });
             }
-            this.set('headTags', allTags);
+            this.set('headTags', metaTags);
             this.metaTags.updateHeadTags();
         }
         blocker.done();
+    }
+
+    async returnStructuredData(guid: string): Promise<any> {
+        const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
+        let jsonLD;
+        let jsonFetch: object | undefined;
+        try {
+            jsonFetch = await this.currentUser.authenticatedAJAX({
+                method: 'GET',
+                url: path,
+            });
+            if (jsonFetch) {
+                jsonLD = jsonFetch;
+            }
+        } catch (e) {
+            const errorMessage = this.intl.t('general.structured_data.json_ld_retrieval_error');
+            captureException(e, { errorMessage });
+        }
+        return jsonLD;
     }
 
     modelName(): 'registration' {

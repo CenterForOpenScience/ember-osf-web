@@ -44,7 +44,6 @@ const App = Application.extend({
                     'head-data',
                     'meta-tags',
                     'head-tags',
-                    'script-tags',
                     'intl',
                     'media',
                     'page-title-list',

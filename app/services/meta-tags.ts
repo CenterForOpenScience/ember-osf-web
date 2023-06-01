@@ -5,7 +5,7 @@ import Intl from 'ember-intl/services/intl';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import toArray from 'ember-osf-web/utils/to-array';
 
-export type Content = string | number | null | undefined;
+export type Content = object | string | number | null | undefined;
 
 export type DataContent = Content | Content[];
 
@@ -53,10 +53,15 @@ export interface LinkMetaTagAttrs {
     href: string;
 }
 
-export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs;
+export interface ScriptTagAttrs {
+    type: Content;
+}
+
+export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs | ScriptTagAttrs;
 
 export interface HeadTagDef {
     type: string;
+    content?: Content;
     attrs: MetaTagAttrs;
 }
 
