@@ -173,6 +173,11 @@
         }
     }
 
+    .background {
+        background: #166595 url('/assets/images/home/bg-web.png') no-repeat center top;
+        background-size: cover;
+    }
+
     .institution-container {
         display: flex;
         flex-direction: column;
@@ -181,31 +186,81 @@
         width: 100%;
         padding-top: 20px;
         padding-bottom: 20px;
-        background: #166595 url('/assets/images/home/bg-web.png') no-repeat center top;
-        background-size: cover;
 
         .institutions {
             width: 60%;
         }
     }
-}
 
-.public-projects-box {
-    background: rgba(255, 255, 255, 0.22);
-    padding: 10px 15px;
-    border-radius: 2px;
-    margin-top: 20px;
+    .noteworthy-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        min-height: 650px;
+        background: $color-bg-gray-blue-dark;
+        padding-top: 25px;
+        color: $color-text-white;
 
-    > a:hover {
-        text-decoration: none;
+        .noteworthy-header-container {
+            width: 50%;
+        }
+
+        .noteworthy-search-container {
+            width: fit-content;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        .new-noteworthy-container {
+            width: 50%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            min-height: 650px;
+
+            .new-container,
+            .noteworthy-container {
+                width: calc(50% - 10px);
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                background: rgba(255, 255, 255, 0.22);
+                padding: 10px 15px;
+                border-radius: 2px;
+                margin-top: 20px;
+                min-height: 650px;
+
+                > a:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+
+        &.mobile {
+            .noteworthy-header-container {
+                padding-left: 10px;
+                width: 100%;
+            }
+
+            .new-noteworthy-container {
+                flex-direction: column;
+                width: 100%;
+
+                .new-container,
+                .noteworthy-container {
+                    width: 100%;
+                }
+            }
+        }
     }
-}
-
-.newAndNoteworthy {
-    min-height: 650px;
-    background: $color-bg-gray-blue-dark;
-    padding-top: 25px;
-    color: $color-text-white;
 }
 
 .meetings {

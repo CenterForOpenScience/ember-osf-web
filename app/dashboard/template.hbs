@@ -154,7 +154,7 @@
     </div>
     
     {{#unless this.isMobile}}
-        <div local-class='institution-container'>
+        <div local-class='institution-container background'>
             <div local-class='institutions'>
                 <InstitutionCarousel
                     data-test-institution-carousel
@@ -163,73 +163,57 @@
             </div>
         </div>
     {{/unless}}
-    <div local-class='newAndNoteworthy'>
-        <div class='container'>
-            <div class='row'>
-                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                    <h3>{{t 'dashboard.noteworthy.description'}}</h3>
-                </div>
+    <div local-class='noteworthy-container {{if this.isMobile 'mobile'}}'>
+        <div local-class='noteworthy-header-container'>
+            <h3>{{t 'dashboard.noteworthy.description'}}</h3>
+        </div>
+        <div local-class='new-noteworthy-container'>
+            <div local-class='new-container' data-test-noteworthy-list>
+                <h4>{{t 'dashboard.noteworthy.new_and_noteworthy'}}</h4>
+                {{#if this.failedLoading-noteworthy}}
+                    {{t 'dashboard.noteworthy.failed_noteworthy'}}
+                {{else}}
+                    {{#if this.noteworthy.length}}
+                        {{#each this.noteworthy as | project | }}
+                            <NoteworthyAndPopularProject
+                                data-test-noteworthy-project={{project.id}}
+                                @project={{project}}
+                            />
+                        {{/each}}
+                    {{else}}
+                        <LoadingIndicator />
+                    {{/if}}
+                {{/if}}
             </div>
-            <div class='row'>
-                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                    <div>
-                        <div class='row'>
-                            <div class='col-xs-12 col-md-6'>
-                                <div data-test-noteworthy-list local-class='public-projects-box'>
-                                    <h4 class='m-b-md'>{{t 'dashboard.noteworthy.new_and_noteworthy'}}</h4>
-                                    {{#if this.failedLoading-noteworthy}}
-                                        {{t 'dashboard.noteworthy.failed_noteworthy'}}
-                                    {{else}}
-                                        {{#if this.noteworthy.length}}
-                                            {{#each this.noteworthy as | project | }}
-                                                <NoteworthyAndPopularProject
-                                                    data-test-noteworthy-project={{project.id}}
-                                                    @project={{project}}
-                                                />
-                                            {{/each}}
-                                        {{else}}
-                                            <LoadingIndicator />
-                                        {{/if}}
-                                    {{/if}}
-                                </div>
-                            </div>
-                            <div class='col-xs-12 col-md-6'>
-                                <div data-test-popular-list local-class='public-projects-box'>
-                                    <h4 class='m-b-md'>{{t 'dashboard.noteworthy.most_popular'}}</h4>
-                                    {{#if this.failedLoading-popular}}
-                                        {{t 'dashboard.noteworthy.failed_popular'}}
-                                    {{else}}
-                                        {{#if this.popular.length}}
-                                            {{#each this.popular as | project | }}
-                                                <NoteworthyAndPopularProject
-                                                    data-test-popular-project={{project.id}}
-                                                    @project={{project}}
-                                                />
-                                            {{/each}}
-                                        {{else}}
-                                            <LoadingIndicator />
-                                        {{/if}}
-                                    {{/if}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class='row'>
-                            <div class='text-center col-sm-12'>
-                                <OsfLink
-                                    data-analytics-name='noteworthy_search'
-                                    class='btn btn-default m-v-lg'
-                                    @href='/search/?q=*'
-                                >
-                                    {{t 'dashboard.noteworthy.search_more'}}
-                                </OsfLink>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div local-class='noteworthy-container' data-test-popular-list>
+                <h4>{{t 'dashboard.noteworthy.most_popular'}}</h4>
+                {{#if this.failedLoading-popular}}
+                    {{t 'dashboard.noteworthy.failed_popular'}}
+                {{else}}
+                    {{#if this.popular.length}}
+                        {{#each this.popular as | project | }}
+                            <NoteworthyAndPopularProject
+                                data-test-popular-project={{project.id}}
+                                @project={{project}}
+                            />
+                        {{/each}}
+                    {{else}}
+                        <LoadingIndicator />
+                    {{/if}}
+                {{/if}}
             </div>
         </div>
+        <div local-class='noteworthy-search-container'>
+            <OsfLink
+                data-analytics-name='noteworthy_search'
+                class='btn btn-default'
+                @href='/search/?q=*'
+            >
+                {{t 'dashboard.noteworthy.search_more'}}
+            </OsfLink>
+        </div>
     </div>
-    <div local-class='bg-web meetings'>
+    <div local-class='background meetings'>
         <div class='container'>
             <div class='row'>
                 <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
