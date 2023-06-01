@@ -1,0 +1,46 @@
+<div local-class='result-card-container'>
+    <div local-class='primary-metadata-container'>
+        <div local-class='header'>
+            <div local-class='type-label'>
+                Label
+            </div>
+            <Button
+                {{on 'click' this.toggleSecondaryMetadata}}
+            >
+                {{#if this.isOpenSecondaryMetadata}}
+                    <FaIcon
+                        @icon={{'angle-up'}}
+                    />
+                {{else}}
+                    <FaIcon
+                        @icon={{'angle-down'}}
+                    />  
+                {{/if}}
+            </Button>
+        </div>
+        <h4 local-class='diplay-name'>
+            This is the title
+        </h4>
+        <div local-class='name-fields'>
+            <span>Yeji Huang</span>
+            <span>Ryujin Shin</span>
+        </div>
+        <div local-class='date-fields'>
+            <span>date</span> |
+            <span>date</span>
+        </div>
+        <div local-class='context-field'>
+            <p>Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+        </div>
+    </div>
+    <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
+        <panel.body>
+            <hr>
+            This is the body
+        </panel.body>
+    </CpPanel>
+</div>
