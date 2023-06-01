@@ -1,0 +1,19 @@
+.result-card-container {
+    margin: 10px;
+}
+
+.primary-metadata-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.type-label {
+    width: fit-content;
+    padding: 5px;
+    background-color: $color-gradient-primary;
+}
