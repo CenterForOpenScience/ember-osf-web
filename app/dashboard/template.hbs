@@ -152,18 +152,17 @@
             {{/if}}
         </div>
     </div>
-    <div class='hidden-xs' local-class='bg-web institutions-panel'>
-        <div class='container'>
-            <div class='row'>
-                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                    <InstitutionCarousel
-                        data-test-institution-carousel
-                        @institutions={{this.institutions}}
-                    />
-                </div>
+    
+    {{#unless this.isMobile}}
+        <div local-class='institution-container'>
+            <div local-class='institutions'>
+                <InstitutionCarousel
+                    data-test-institution-carousel
+                    @institutions={{this.institutions}}
+                />
             </div>
         </div>
-    </div>
+    {{/unless}}
     <div local-class='newAndNoteworthy'>
         <div class='container'>
             <div class='row'>

@@ -172,8 +172,23 @@
             }
         }
     }
-}
 
+    .institution-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background: #166595 url('/assets/images/home/bg-web.png') no-repeat center top;
+        background-size: cover;
+
+        .institutions {
+            width: 60%;
+        }
+    }
+}
 
 .public-projects-box {
     background: rgba(255, 255, 255, 0.22);
@@ -191,16 +206,6 @@
     background: $color-bg-gray-blue-dark;
     padding-top: 25px;
     color: $color-text-white;
-}
-
-.bg-web {
-    background: #166595 url('/assets/images/home/bg-web.png') no-repeat center top;
-    background-size: cover;
-}
-
-.institutions-panel {
-    padding-top: 20px;
-    padding-bottom: 20px;
 }
 
 .meetings {
