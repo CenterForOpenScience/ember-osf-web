@@ -89,9 +89,8 @@
                                 {{ctx.links}}
                             {{/if}}
                         {{/let}}
-
-                        <OsfNavbar::AuthDropdown @onLinkClicked={{this.onLinkClicked}} @campaign={{@campaign}} />
                     </ul>
+                    <OsfNavbar::AuthDropdown @onLinkClicked={{this.onLinkClicked}} @campaign={{@campaign}} />
                 </div>
             {{/if}}
         </div>
