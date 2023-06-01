@@ -1847,6 +1847,9 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    search-result-card:
+        date_created: Date created
+        last_edited: Last edited
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
         add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
