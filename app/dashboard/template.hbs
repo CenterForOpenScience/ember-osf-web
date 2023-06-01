@@ -213,67 +213,43 @@
             </OsfLink>
         </div>
     </div>
-    <div local-class='background meetings'>
-        <div class='container'>
-            <div class='row'>
-                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                    <div class='p-v-sm'>
-                        <div class='row'>
-                            <div class='col-md-8'>
-                                <div class='conference-centering'>
-                                    <h3>{{t 'dashboard.meetings.title'}}</h3>
-                                </div>
-                                <div class='conference-centering m-t-lg'>
-                                    <p class='text-bigger'>{{t 'dashboard.meetings.description'}}</p>
-                                </div>
-                            </div>
-                            <div class='col-md-4 text-center'>
-                                <div>
-                                    <OsfLink
-                                        data-analytics-name='meetings_button'
-                                        class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
-                                        local-class='btn-banner'
-                                        @href='/meetings/'
-                                    >
-                                        {{t 'dashboard.meetings.button'}}
-                                    </OsfLink>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div local-class='background meeting-container {{if this.isMobile 'mobile'}}'>
+        <div local-class='meetings'>
+            <div local-class='information-container'>
+                <h3>{{t 'dashboard.meetings.title'}}</h3>
+                <div local-class='conference-text'>
+                    <p>{{t 'dashboard.meetings.description'}}</p>
                 </div>
+            </div>
+            <div local-class='button-container'>
+                <OsfLink
+                    data-analytics-name='meetings_button'
+                    class='btn btn-banner btn-success btn-lg btn-success-high-contrast'
+                    local-class='button-banner'
+                    @href='/meetings/'
+                >
+                    {{t 'dashboard.meetings.button'}}
+                </OsfLink>
             </div>
         </div>
     </div>
-    <div local-class='preprints'>
-        <div class='container'>
-            <div class='row'>
-                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                    <div class='p-v-sm'>
-                        <div class='row'>
-                            <div class='col-md-8'>
-                                <div class='conference-centering'>
-                                    <h3>{{t 'dashboard.preprints.title'}}</h3>
-                                </div>
-                                <div class='conference-centering m-t-lg'>
-                                    <p class='text-bigger'>{{t 'dashboard.preprints.description'}}</p>
-                                </div>
-                            </div>
-                            <div class='col-md-4 text-center'>
-                                <div>
-                                    <OsfLink
-                                        data-analytics-name='preprints_button'
-                                        local-class='btn-banner'
-                                        class='btn btn-banner btn-success btn-lg btn-success-high-contrast m-v-xl f-w-xl'
-                                        @href='/preprints/'
-                                    >
-                                        {{t 'dashboard.preprints.button'}}
-                                    </OsfLink>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div local-class='preprint-container {{if this.isMobile 'mobile'}}'>
+        <div local-class='preprints'>
+            <div local-class='information-container'>
+                <h3>{{t 'dashboard.preprints.title'}}</h3>
+                <div local-class='conference-text'>
+                    <p>{{t 'dashboard.preprints.description'}}</p>
                 </div>
+            </div>
+            <div local-class='button-container'>
+                <OsfLink
+                    data-analytics-name='preprints_button'
+                    local-class='button-banner'
+                    class='btn btn-banner btn-success btn-lg btn-success-high-contrast'
+                    @href='/preprints/'
+                >
+                    {{t 'dashboard.preprints.button'}}
+                </OsfLink>
             </div>
         </div>
     </div>

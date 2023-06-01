@@ -261,47 +261,74 @@
             }
         }
     }
+
+    .preprint-container,
+    .meeting-container {
+        width: 100%;
+        color: $color-text-white;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+
+        .preprints,
+        .meetings {
+            width: 60%;
+            height: 150px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            .information-container {
+                width: 70%;
+
+                .conference-text {
+                    margin-top: 25px;
+                    font-size: 1.1em;
+                }
+            }
+
+            .button-container {
+                width: 30%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                .button-banner {
+                    box-shadow: 0 0 9px -4px #000;
+                    width: 200px;
+                    font-weight: 600; 
+                }
+            }
+        }
+
+        &.mobile {
+            .preprints,
+            .meetings {
+                padding-left: 10px;
+                width: 100%;
+                height: 100%;
+                flex-direction: column;
+
+                .information-container,
+                .button-container {
+                    width: 100%;
+                }
+
+                .button-container {
+                    margin-top: 35px;
+                    margin-bottom: 35px;
+                }
+            }
+        }
+    }
+
+    .preprint-container {
+        background: $color-bg-gray-blue-dark;
+        color: $color-text-white;
+    }
 }
-
-.meetings {
-    color: $color-text-white;
-}
-
-.preprints {
-    background: $color-bg-gray-blue-dark;
-    color: $color-text-white;
-}
-
-.btn-banner {
-    box-shadow: 0 0 9px -4px #000;
-    width: 70%;
-}
-
-
-.prevent-overflow {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.prereg-banner p {
-    margin: 0;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    font-weight: bold;
-}
-
-.pointer {
-    cursor: pointer;
-}
-
-.osf-project-navbar a.project-title {
-    max-width: 100%;
-}
-
-.quick-search-input > input::placeholder {
-    color: $color-text-placeholder-grey-dark;
-    opacity: 1;
-}
-
-
