@@ -101,13 +101,6 @@ general:
         registries: Registries
     other: Other
     structured_data:
-        context: 'https://schema.org'
-        creator_type_person: 'Person'
-        dataset: 'Dataset'
-        distribution_type: 'DataDownload'
-        encoding_format_md5: 'MD5'
-        encoding_format_sha2: 'SHA-2'
-        funder_type_organization: 'Organization'
         json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
     science: 'science'
