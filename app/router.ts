@@ -41,7 +41,6 @@ Router.map(function() {
             this.route('create');
         });
     });
-    this.route('support');
     this.route('meetings', function() {
         this.route('detail', { path: '/:meeting_id' });
     });

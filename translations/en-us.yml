@@ -187,10 +187,10 @@ dashboard:
     osf_video: 'OSF 101 Video'
     noteworthy:
         description: 'Discover public projects'
-        new_and_noteworthy: 'New and Noteworthy'
-        failed_noteworthy: 'Failed loading "New and Noteworthy" projects'
-        most_popular: 'Most Popular'
-        failed_popular: 'Failed loading "Most Popular" projects'
+        new_and_noteworthy: 'New and noteworthy'
+        failed_noteworthy: 'Failed loading "new and noteworthy" projects'
+        most_popular: 'Most nopular'
+        failed_popular: 'Failed loading "most popular" projects'
         search_more: 'Search for more projects'
         by: by
     meetings:
