@@ -2,7 +2,15 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component'
 import { tracked } from '@glimmer/tracking'
 
-export default class SearchResultCard extends Component {
+interface Args {
+    displayName: string;
+    nameFields: string[];
+    dateFields: string[];
+    context: string;
+    secondaryMetadata: any;
+}
+
+export default class SearchResultCard extends Component<Args> {
     @tracked isOpenSecondaryMetadata = false;
 
     @action
