@@ -122,7 +122,7 @@ export default class Overview extends GuidRoute {
         blocker.done();
     }
 
-    async returnStructuredData(guid: string): Promise<any> {
+    async returnStructuredData(guid: string): Promise<object | undefined> {
         const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
         let jsonLD;
         let jsonFetch: object | undefined;
