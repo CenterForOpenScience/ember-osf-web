@@ -1,4 +1,3 @@
-/* eslint-disable no-undef-init*/
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
