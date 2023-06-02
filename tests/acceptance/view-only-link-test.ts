@@ -68,8 +68,8 @@ module('Acceptance | view-only-links', hooks => {
         server.create('root');
 
         const viewOnlyToken = 'thisisatoken';
-        await visit(`/settings?view_only=${viewOnlyToken}`);
-        assert.equal(currentURL(), `/settings?view_only=${viewOnlyToken}`);
+        await visit(`/settings/profile/name?view_only=${viewOnlyToken}`);
+        assert.equal(currentURL(), `/settings/profile/name?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
@@ -81,9 +81,9 @@ module('Acceptance | view-only-links', hooks => {
         server.create('root', 'withAnonymizedVOL');
 
         const viewOnlyToken = 'thisisatoken';
-        await visit(`/settings?view_only=${viewOnlyToken}`);
+        await visit(`/settings/profile/name?view_only=${viewOnlyToken}`);
 
-        assert.equal(currentURL(), `/settings?view_only=${viewOnlyToken}`);
+        assert.equal(currentURL(), `/settings/profile/name?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
@@ -95,9 +95,9 @@ module('Acceptance | view-only-links', hooks => {
         server.create('root', 'loggedOut');
 
         const viewOnlyToken = 'thisisatoken';
-        await visit(`/settings?view_only=${viewOnlyToken}`);
+        await visit(`/settings/profile/name?view_only=${viewOnlyToken}`);
 
-        assert.equal(currentURL(), `/settings?view_only=${viewOnlyToken}`);
+        assert.equal(currentURL(), `/settings/profile/name?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
@@ -109,9 +109,9 @@ module('Acceptance | view-only-links', hooks => {
         server.create('root', 'loggedOut', 'withAnonymizedVOL');
 
         const viewOnlyToken = 'thisisatoken';
-        await visit(`/settings?view_only=${viewOnlyToken}`);
+        await visit(`/settings/profile/name?view_only=${viewOnlyToken}`);
 
-        assert.equal(currentURL(), `/settings?view_only=${viewOnlyToken}`);
+        assert.equal(currentURL(), `/settings/profile/name?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
