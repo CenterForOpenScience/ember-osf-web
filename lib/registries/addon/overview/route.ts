@@ -83,25 +83,16 @@ export default class Overview extends GuidRoute {
             const metaTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
 
             // Google Structured Data
-            let jsonLD: object | undefined;
-            let scriptTag;
             try {
-                jsonLD = await this.returnStructuredData(id);
-                const jsonString: object | undefined = jsonLD ? jsonLD : undefined;
-                if (jsonString) {
-                    scriptTag = {
-                        type: 'script',
-                        content: jsonString,
-                        attrs: {
-                            type: 'application/ld+json',
-                        },
-                    };
-                } else {
-                    scriptTag = undefined;
-                }
-                if (scriptTag) {
-                    metaTags.push(scriptTag);
-                }
+                const jsonLD = await this.returnStructuredData(id);
+                const scriptTag = {
+                    type: 'script',
+                    content: JSON.stringify(jsonLD),
+                    attrs: {
+                        type: 'application/ld+json',
+                    },
+                };
+                metaTags.push(scriptTag);
             } catch (e) {
                 const errorMessage = this.intl.t('general.structured_data.json_ld_retrieval_error');
                 captureException(e, { errorMessage });

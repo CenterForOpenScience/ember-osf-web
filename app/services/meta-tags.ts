@@ -7,8 +7,6 @@ import toArray from 'ember-osf-web/utils/to-array';
 
 export type Content = string | number | null | undefined;
 
-export type JSONObject = object;
-
 export type DataContent = Content | Content[];
 
 export interface MetaTagsData {
@@ -56,14 +54,14 @@ export interface LinkMetaTagAttrs {
 }
 
 export interface ScriptTagAttrs {
-    type: string;
+    type: Content;
 }
 
 export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs | ScriptTagAttrs;
 
 export interface HeadTagDef {
     type: string;
-    content?: JSONObject;
+    content?: string;
     attrs: MetaTagAttrs;
 }
 
