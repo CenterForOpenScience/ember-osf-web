@@ -116,8 +116,7 @@ export default class Overview extends GuidRoute {
     }
 
     async returnStructuredData(guid: string): Promise<object | undefined> {
-        const path = `${config.OSF.url}/${guid}/metadata/?format=turtle`;
-        // const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
+        const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
         return this.currentUser.authenticatedAJAX({
             method: 'GET',
             url: path,
