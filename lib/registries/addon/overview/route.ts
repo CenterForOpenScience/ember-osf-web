@@ -116,22 +116,12 @@ export default class Overview extends GuidRoute {
     }
 
     async returnStructuredData(guid: string): Promise<object | undefined> {
-        const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
-        let jsonLD;
-        let jsonFetch: object | undefined;
-        try {
-            jsonFetch = await this.currentUser.authenticatedAJAX({
-                method: 'GET',
-                url: path,
-            });
-            if (jsonFetch) {
-                jsonLD = jsonFetch;
-            }
-        } catch (e) {
-            const errorMessage = this.intl.t('general.structured_data.json_ld_retrieval_error');
-            captureException(e, { errorMessage });
-        }
-        return jsonLD;
+        const path = `${config.OSF.url}/${guid}/metadata/?format=turtle`;
+        // const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
+        return this.currentUser.authenticatedAJAX({
+            method: 'GET',
+            url: path,
+        });
     }
 
     modelName(): 'registration' {
