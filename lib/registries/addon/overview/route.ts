@@ -87,7 +87,7 @@ export default class Overview extends GuidRoute {
                 const jsonLD = await this.returnStructuredData(id);
                 const scriptTag = {
                     type: 'script',
-                    content: jsonLD,
+                    content: JSON.stringify(jsonLD),
                     attrs: {
                         type: 'application/ld+json',
                     },
