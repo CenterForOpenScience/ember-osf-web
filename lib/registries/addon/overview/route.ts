@@ -80,26 +80,28 @@ export default class Overview extends GuidRoute {
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
 
-            const metaTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
+            this.headTags = this.metaTags.getHeadTags(metaTagsData);
 
             // Google Structured Data
             try {
                 const jsonLD = await this.returnStructuredData(id);
                 const scriptTag = {
                     type: 'script',
-                    content: JSON.stringify(jsonLD),
+                    content: jsonLD,
                     attrs: {
                         type: 'application/ld+json',
                     },
                 };
-                metaTags.push(scriptTag);
+                if (jsonLD) {
+                    this.headTags.push(scriptTag);
+                }
             } catch (e) {
                 const errorMessage = this.intl.t('general.structured_data.json_ld_retrieval_error');
                 captureException(e, { errorMessage });
             }
 
             if (provider && provider.assets && provider.assets.favicon) {
-                metaTags.push({
+                this.headTags.push({
                     type: 'link',
                     attrs: {
                         rel: 'icon',
@@ -107,7 +109,7 @@ export default class Overview extends GuidRoute {
                     },
                 });
             }
-            this.set('headTags', metaTags);
+            this.set('headTags', this.headTags);
             this.metaTags.updateHeadTags();
         }
         blocker.done();

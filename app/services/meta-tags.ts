@@ -61,7 +61,7 @@ export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttr
 
 export interface HeadTagDef {
     type: string;
-    content?: string;
+    content?: object;
     attrs: MetaTagAttrs;
 }
 
