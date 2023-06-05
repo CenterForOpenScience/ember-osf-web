@@ -54,7 +54,7 @@ export interface LinkMetaTagAttrs {
 }
 
 export interface ScriptTagAttrs {
-    type: Content;
+    type: string;
 }
 
 export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs | ScriptTagAttrs;
