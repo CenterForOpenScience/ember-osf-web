@@ -77,6 +77,7 @@
     "@glimmer/tracking": "^1.0.4",
     "@percy/cli": "^1.18.0",
     "@percy/ember": "^3.0.0",
+    "@types/c3": "^0.6.4",
     "@types/dropzone": "^5.0.4",
     "@types/ember": "^3.1.1",
     "@types/ember-data__adapter": "^3.16.1",
