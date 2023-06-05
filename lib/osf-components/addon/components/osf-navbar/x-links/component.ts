@@ -15,7 +15,6 @@ const osfURL = config.OSF.url;
 export default class XLinks extends Component {
     @service session!: Session;
 
-    searchURL = `${osfURL}search/`;
     myProjectsURL = `${osfURL}myprojects/`;
     myRegistrationsURL = `${osfURL}myprojects/#registrations`;
     supportURL = `${config.support.faqPageUrl}`;
