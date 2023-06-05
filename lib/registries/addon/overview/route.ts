@@ -109,13 +109,12 @@ export default class Overview extends GuidRoute {
                     },
                 });
             }
-            this.set('headTags', this.headTags);
             this.metaTags.updateHeadTags();
         }
         blocker.done();
     }
 
-    async returnStructuredData(guid: string): Promise<object | undefined> {
+    returnStructuredData(guid: string): Promise<object | undefined> {
         const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
         return this.currentUser.authenticatedAJAX({
             method: 'GET',
