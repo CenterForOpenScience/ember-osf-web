@@ -1,10 +1,11 @@
-<p data-test-meetings-list-min-5 local-class='min_5_submissions'>
+<p data-test-meetings-list-min-5 local-class='minimum-submission-container'>
     {{t 'meetings.index.meetings-list.min_5_submissions'}}
 </p>
 
-<div data-test-meetings-list-search local-class='search'>
-    <div class='col-xs-12 col-sm-6 col-sm-offset-6'>
+<div data-test-meetings-list-search local-class='search-container'>
+    <div local-class='search {{if this.isMobile 'mobile'}}'>
         <Input
+            local-class='search-input'
             aria-label={{t 'meetings.index.meetings-list.search'}}
             @type='text'
             @placeholder={{t 'meetings.index.meetings-list.search'}}

@@ -1,21 +1,17 @@
-.meeting-detail-container {
-    background-color: $color-bg-white;
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.not-found-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     width: 100%;
 
-    .meeting-detail,
-    .meeting-submission-list-container {
+    .not-found {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        width: 90%;
-    }
-
-    .meeting-submission-list-container {
-        align-items: center;
+        width: calc(100% - 60px);
     }
 }

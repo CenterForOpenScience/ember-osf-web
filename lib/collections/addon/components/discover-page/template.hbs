@@ -1,140 +1,138 @@
 {{!Component builds DISCOVER PAGE - Blend of Ember-SHARE, Preprints, and Registries Discover pages}}
-<div local-class='search-header' class='search-header'>
-    <div class='container'>
-        {{!BRANDING}}
-        <div local-class='branding-container'>
-            {{!Provider Logo, if we are a provider}}
-            {{#if this.theme.isProvider}}
+<div local-class='search-header {{if this.isMobile 'mobile'}}' class='search-header'>
+    {{!BRANDING}}
+    <div local-class='branding-container'>
+        {{!Provider Logo, if we are a provider}}
+        {{#if this.theme.isProvider}}
+            <div
+                data-test-provider-branding
+                local-class='provider-container'
+            >
                 <div
-                    data-test-provider-branding
-                    local-class='provider-container'
+                    local-class='provider-brand'
+                    id='provider-brand-background'
                 >
-                    <div
-                        local-class='provider-brand'
-                        id='provider-brand-background'
-                    >
-                    </div>
-                    <ProviderLogo @provider={{this.theme.provider}} />
                 </div>
-            {{/if}}
-            <div local-class={{if this.theme.isProvider 'provider-text-container'}}>
-                {{!Discover Page Header text}}
-                {{#if this.discoverHeader}}
-                    <h1 data-test-discover-header>
-                        {{t this.discoverHeader documentType=this.themeProvider.documentType}}
-                    </h1>
-                {{/if}}
-                {{!POWERED BY SHARE}}
-                {{#if this.isPoweredByShare}}
-                    <p class='lead'>
-                        {{t 'collections.discover_page.poweredBy'}}
-                        <a
-                            href='https://share.osf.io/'
-                            id='share-logo'
-                            local-class='share-logo'
-                            title={{t 'collections.discover_page.share'}}
-                            onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
-                        ></a>
-                    </p>
-                {{/if}}
-            </div>
-        </div>
-        {{!SEARCH}}
-        <div local-class='search-container' data-test-search-input>
-            {{!SEARCH BAR}}
-            <Input
-                local-class='input'
-                aria-label={{t
-                    (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
-                    documentType=this.themeProvider.documentType
-                }}
-                @id='searchBox'
-                @value={{this.q}}
-                @class='form-control'
-                @enter={{action this.searchAction}}
-                @key-up={{action this.searchAction}}
-                @placeholder={{t
-                    (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
-                    documentType=this.themeProvider.documentType
-                }}
-            />
-            <div class='input-group-btn'>
-                {{!HELP BUTTON}}
-                <Button
-                    local-class='lucene-button'
-                    data-test-help-button
-                    aria-label={{t 'collections.discover_page.luceneHelp'}}
-                    {{action this.toggleShowLuceneHelp}}
-                >
-                    <FaIcon @icon='question' @class='text-muted' />
-                </Button>
-                {{!SEARCH BUTTON}}
-                <Button
-                    local-class='search-button'
-                    data-test-search-button
-                    {{action this.searchAction}}
-                >
-                    {{t 'collections.discover_page.search'}}
-                </Button>
-            </div>
-            {{!Lucene search help modal}}
-            <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
-
-            {{!NUMBER OF SEARCHABLE RESULTS}}
-            {{#unless this.theme.isProvider}}
-                <TotalShareResults />
-            {{/unless}}
-        </div>
-        {{#if (and this.theme.isProvider this.theme.provider.htmlSafeDescription)}}
-            <div local-class='provider-description' class='row m-t-md m-b-lg'>
-                <div data-test-provider-description class='col-xs-12 col-sm-8 col-sm-offset-2'>
-                    {{this.theme.provider.htmlSafeDescription}}
-                </div>
+                <ProviderLogo @provider={{this.theme.provider}} />
             </div>
         {{/if}}
-        {{!RELEVANCE}}
-        <div local-class='relevance-container'>
-            <ResponsiveDropdown class='dropdown pull-right' as |dd|>
-                <dd.trigger
-                    data-test-sort-by-button
-                    class='btn btn-default results-top'
-                >
-                    {{t 'collections.discover_page.sortBy'}}:
-                    {{this.sortDisplay}}
-                    <span
-                        class='caret'
-                        >
-                    </span>
-                </dd.trigger>
-                <dd.content
-                    local-class='sort-by-option-list'
-                    @align='right'
-                >
-                    <ul role='menu' tabindex='-1'>
-                        {{#each this.sortOptions as |sortChoice|}}
-                            <li role='menuitem'>
-                                <Button
-                                    data-test-sort-by-item={{sortChoice.sortBy}}
-                                    @layout='fake-link'
-                                    local-class='list-option'
-                                    {{on 'click' (queue dd.close (action this.selectSortOption sortChoice.sortBy))}}
-                                >
-                                    {{sortChoice.display}}
-                                </Button>
-                            </li>
-                        {{/each}}
-                    </ul>
-                </dd.content>
-            </ResponsiveDropdown>
+        <div local-class={{if this.theme.isProvider 'provider-text-container'}}>
+            {{!Discover Page Header text}}
+            {{#if this.discoverHeader}}
+                <h1 data-test-discover-header>
+                    {{t this.discoverHeader documentType=this.themeProvider.documentType}}
+                </h1>
+            {{/if}}
+            {{!POWERED BY SHARE}}
+            {{#if this.isPoweredByShare}}
+                <p class='lead'>
+                    {{t 'collections.discover_page.poweredBy'}}
+                    <a
+                        href='https://share.osf.io/'
+                        id='share-logo'
+                        local-class='share-logo'
+                        title={{t 'collections.discover_page.share'}}
+                        onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
+                    ></a>
+                </p>
+            {{/if}}
         </div>
+    </div>
+    {{!SEARCH}}
+    <div local-class='search-container' data-test-search-input>
+        {{!SEARCH BAR}}
+        <Input
+            local-class='input'
+            aria-label={{t
+                (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
+                documentType=this.themeProvider.documentType
+            }}
+            @id='searchBox'
+            @value={{this.q}}
+            @class='form-control'
+            @enter={{action this.searchAction}}
+            @key-up={{action this.searchAction}}
+            @placeholder={{t
+                (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
+                documentType=this.themeProvider.documentType
+            }}
+        />
+        <div class='input-group-btn'>
+            {{!HELP BUTTON}}
+            <Button
+                local-class='lucene-button'
+                data-test-help-button
+                aria-label={{t 'collections.discover_page.luceneHelp'}}
+                {{action this.toggleShowLuceneHelp}}
+            >
+                <FaIcon @icon='question' @class='text-muted' />
+            </Button>
+            {{!SEARCH BUTTON}}
+            <Button
+                local-class='search-button'
+                data-test-search-button
+                {{action this.searchAction}}
+            >
+                {{t 'collections.discover_page.search'}}
+            </Button>
+        </div>
+        {{!Lucene search help modal}}
+        <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
+
+        {{!NUMBER OF SEARCHABLE RESULTS}}
+        {{#unless this.theme.isProvider}}
+            <TotalShareResults />
+        {{/unless}}
+    </div>
+    {{#if (and this.theme.isProvider this.theme.provider.htmlSafeDescription)}}
+        <div local-class='provider-description-container {{if this.isMobile 'mobile'}}'>
+            <div data-test-provider-description local-class='provider-description'>
+                {{this.theme.provider.htmlSafeDescription}}
+            </div>
+        </div>
+    {{/if}}
+    {{!RELEVANCE}}
+    <div local-class='relevance-container'>
+        <ResponsiveDropdown class='dropdown pull-right' as |dd|>
+            <dd.trigger
+                data-test-sort-by-button
+                class='btn btn-default results-top'
+            >
+                {{t 'collections.discover_page.sortBy'}}:
+                {{this.sortDisplay}}
+                <span
+                    class='caret'
+                    >
+                </span>
+            </dd.trigger>
+            <dd.content
+                local-class='sort-by-option-list'
+                @align='right'
+            >
+                <ul role='menu' tabindex='-1'>
+                    {{#each this.sortOptions as |sortChoice|}}
+                        <li role='menuitem'>
+                            <Button
+                                data-test-sort-by-item={{sortChoice.sortBy}}
+                                @layout='fake-link'
+                                local-class='list-option'
+                                {{on 'click' (queue dd.close (action this.selectSortOption sortChoice.sortBy))}}
+                            >
+                                {{sortChoice.display}}
+                            </Button>
+                        </li>
+                    {{/each}}
+                </ul>
+            </dd.content>
+        </ResponsiveDropdown>
     </div>
 </div>
 
-<div local-class='search-main-container {{if this.isMobile 'mobile'}}' class='container'>
+<div local-class='search-main-container {{if this.isMobile 'mobile'}}'>
     {{!LEFT PANEL - SEARCH FACETS}}
-    <div local-class='active-filter-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='active-filter-container'>
         {{#if this.showActiveFilters}}
-            <div id='activeFilters' class='well well-sm p-md'>
+            <div id='activeFilters' local-class='active-filter'>
                 <DiscoverPage::ActiveFilters
                     @activeFilters={{this.activeFilters}}
                     @facetContexts={{this.facetContexts}}
@@ -156,7 +154,7 @@
         />
     </div>
     {{!RIGHT PANEL - SEARCH RESULTS}}
-    <div local-class='search-result-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='search-result-container'>
         {{!SEARCH LOADING}}
         {{#if this.loading}}
             <div

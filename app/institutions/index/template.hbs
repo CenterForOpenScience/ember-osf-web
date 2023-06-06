@@ -2,139 +2,114 @@
 <ScheduledBanner />
 <div
     data-analytics-scope='Institutions'
-    local-class='Institutions__page'
+    local-class='institution-container {{if this.isMobile 'mobile'}}'
     role='main'
 >
     <div
         data-test-insitutions-header
         data-analytics-scope='Header'
-        local-class='Institutions__block Institutions__header'
+        local-class='header'
     >
-        <div class='container'>
-            <div class='row'>
-                <div class='text-center m-t-lg col-xs-12'>
-                    <div local-class='Institutions__header-logo'></div>
-                    <p class='lead'>
-                        {{t 'institutions.description'}}
-                        <br>
-                        <OsfLink
-                            data-test-read-more-link
-                            data-analytics-name='Read more'
-                            local-class='Institutions__block__link'
-                            @href='https://cos.io/institutions/'
-                        >
-                            {{t 'institutions.read_more'}}
-                        </OsfLink>
-                    </p>
-                </div>
-            </div>
-        </div>
+        <div local-class='logo'></div>
+        <p class='lead' local-class='information'>
+            {{t 'institutions.description'}}
+            <br>
+            <OsfLink
+                data-test-read-more-link
+                data-analytics-name='Read more'
+                local-class='link'
+                @href='https://cos.io/institutions/'
+            >
+                {{t 'institutions.read_more'}}
+            </OsfLink>
+        </p>
     </div>
     <div
         data-test-instituions-browser
-        local-class='Institutions__browser'
+        local-class='browser-container'
     >
-        <div class='container p-t-lg'>
-            <div class='row m-t-lg'>
-                <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                    <div class='row'>
-                        <div class='col-xs-12'>
-                            <div
-                                data-test-institutions-table
-                                local-class='Institutions__table'
-                            >
-                                <div class='row'>
-                                    <div class='col-xs-3' local-class='Institutions__sorting'>
-                                        <span local-class='Institutions__browser_title'>
-                                            {{t 'institutions.title'}}
-                                        </span>
-                                        <SortButton
-                                            data-test-sort-by-title
-                                            @sortAction={{action this.sort}}
-                                            @sort={{this.sortOrder}}
-                                            @sortBy='title'
-                                        />
-                                    </div>
-                                    <div class='col-xs-9 filter-input'>
-                                        <Input
-                                            data-test-institutions-filter='filter'
-                                            aria-label={{t 'institutions.search_placeholder'}}
-                                            @value={{this.textValue}}
-                                            @type='text'
-                                            @class='form-control'
-                                            @placeholder={{t 'institutions.search_placeholder'}}
-                                            @keyPress={{perform this.trackFilter}}
-                                        />
-                                    </div>
-                                </div>
-                                <div data-test-institutions-list>
-                                    {{#each this.institutions as |institution|}}
-                                        <OsfLink
-                                            data-test-visit-institution={{institution.name}}
-                                            data-analytics-name='Visit institution'
-                                            class='m-v-sm row'
-                                            local-class='Institutions__table__item'
-                                            @href={{institution.links.html}}
-                                        >
-                                            <div class='col-xs-3'>
-                                                <img
-                                                    data-test-institution-logo={{institution.name}}
-                                                    local-class='Institutions__logo'
-                                                    alt='{{institution.name}}'
-                                                    src='{{institution.logoUrl}}'
-                                                >
-                                            </div>
-                                            <div
-                                                class='col-xs-9'
-                                                local-class='Institutions__table__title'
-                                            >
-                                                <span data-test-institution-name>
-                                                    {{institution.name}}
-                                                </span>
-                                            </div>
-                                        </OsfLink>
-                                    {{/each}}
-                                </div>
-                                {{#if this.hasMore}}
-                                    <Button
-                                        data-test-more-institutions
-                                        aria-label={{t 'institutions.load_more'}}
-                                        data-analytics-name='Next page'
-                                        local-class='Institutions__more'
-                                        @layout='fake-link'
-                                        {{on 'click' (action 'next')}}
-                                    >
-                                        <FaIcon @icon='chevron-down' class='Institutions__pagination' />
-                                    </Button>
-                                {{/if}}
-                            </div>
-                        </div>
-                    </div>
+        <div
+            data-test-institutions-table
+            local-class='table'
+        >
+            <div local-class='sort-container'>
+                <div local-class='sort-direction'>
+                    <span>
+                        {{t 'institutions.title'}}
+                    </span>
+                    <SortButton
+                        data-test-sort-by-title
+                        @sortAction={{action this.sort}}
+                        @sort={{this.sortOrder}}
+                        @sortBy='title'
+                        local-class='button-margin'
+                    />
+                </div>
+                <div class='filter-input' local-class='sort-input'>
+                    <Input
+                        data-test-institutions-filter='filter'
+                        aria-label={{t 'institutions.search_placeholder'}}
+                        @value={{this.textValue}}
+                        @type='text'
+                        @class='form-control'
+                        @placeholder={{t 'institutions.search_placeholder'}}
+                        @keyPress={{perform this.trackFilter}}
+                    />
                 </div>
             </div>
+            <div data-test-institutions-list local-class='institution-container'>
+                {{#each this.institutions as |institution|}}
+                    <OsfLink
+                        data-test-visit-institution={{institution.name}}
+                        data-analytics-name='Visit institution'
+                        local-class='institution'
+                        @href={{institution.links.html}}
+                    >
+                        {{#unless this.isMobile}}
+                            <div local-class='logo-container'>
+                                <img
+                                    data-test-institution-logo={{institution.name}}
+                                    local-class='logo'
+                                    alt='{{institution.name}}'
+                                    src='{{institution.logoUrl}}'
+                                >
+                            </div>
+                        {{/unless}}
+                        <div local-class='title' data-test-institution-name>
+                            {{institution.name}}
+                        </div>
+                    </OsfLink>
+                {{/each}}
+            </div>
+            {{#if this.hasMore}}
+                <Button
+                    data-test-more-institutions
+                    aria-label={{t 'institutions.load_more'}}
+                    data-analytics-name='Next page'
+                    local-class='more'
+                    @layout='fake-link'
+                    {{on 'click' (action 'next')}}
+                >
+                    <FaIcon @icon='chevron-down' class='pagination' />
+                </Button>
+            {{/if}}
         </div>
     </div>
     <div
         data-analytics-scope='Footer'
-        local-class='Institutions__block Institutions__footer'
+        local-class='footer-container'
     >
-        <div class='container'>
-            <div class='row'>
-                <div class='text-center col-xs-12'>
-                    <p
-                        data-test-insitutions-footer
-                        class='lead'
-                    >
-                        {{t 'institutions.footer'}}
-                        <OsfLink
-                            data-analytics-name='Contact us'
-                            @href='https://cos.io/contact'
-                        >
-                            {{t 'institutions.contact_us'}}
-                        </OsfLink>
-                    </p>
-                </div>
-            </div>
-        </div>
+        <p
+            data-test-insitutions-footer
+            class='lead'
+        >
+            {{t 'institutions.footer'}}
+            <OsfLink
+                data-analytics-name='Contact us'
+                @href='https://cos.io/contact'
+            >
+                {{t 'institutions.contact_us'}}
+            </OsfLink>
+        </p>
     </div>
 </div>

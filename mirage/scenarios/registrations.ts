@@ -102,15 +102,25 @@ export function registrationScenario(
         contributors: server.createList('contributor', 10),
         currentUserPermissions: Object.values(Permission),
     }, 'withFiles', 'withStorage');
+
     rootNode.update({
         storage: server.create('node-storage', { storageLimitStatus: StorageStatus.OVER_PRIVATE }),
     });
+
     server.create('contributor', {
         node: rootNode,
         users: currentUser,
         permission: Permission.Admin,
         index: 0,
     });
+
+    registerNodeMultiple(
+        server,
+        rootNode,
+        2,
+        { currentUserPermissions: Object.values(Permission) },
+        'withArbitraryState',
+    );
 
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });

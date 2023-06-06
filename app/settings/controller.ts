@@ -16,9 +16,13 @@ export default class SettingsController extends Controller {
     @tracked navCollapsed = true;
 
     get shouldShowNavLinks() {
-        if (this.media.isMobile || this.media.isTablet){
+        if (this.media.isMobile){
             return !this.navCollapsed;
         }
         return true;
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }
