@@ -20,9 +20,9 @@
                     aria-label={{t 'osf-components.carousel.go_to_slide' slideIndex=item.slideIndex}}
                     {{action this.navClick item}}
                 >
-                    <span class='visuallyHidden'>{{item.slideIndex}}</span>
+                    <span>{{item.slideIndex}}</span>
                     {{#if item.isActive}}
-                        <span class='visuallyhidden'>{{t 'osf-components.carousel.current_slide'}}</span>
+                        <span>{{t 'osf-components.carousel.current_slide'}}</span>
                     {{/if}}
                 </Button>
             </li>

@@ -1,4 +1,38 @@
-.CopyButton,
+.CopyButton {
+    height: 30px;
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    color: $color-text-black;
+    border-color: $color-border-gray;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    background-color: $bg-light;
+    border-radius: 2px;
+    position: relative;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-right: -1px;
+}
+
 .CopyableInput.CopyableInput {
     height: 30px;
+}
+
+.input-group-btn {
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: table-cell;
 }

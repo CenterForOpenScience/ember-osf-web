@@ -41,9 +41,10 @@
         placeholder=(t 'osf-components.sign-up-form.password')
         ariaLabel=(t 'osf-components.sign-up-form.password')
     }}
-    <div class='progress' hidden={{not this.progress}}>
+    <div local-class='progress' hidden={{not this.progress}}>
         <div
-            class='progress-bar progress-bar-sm progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
+            local-class='progress-bar progress-bar-sm'
+            class='progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
             role='progressbar'>
         </div>
     </div>
@@ -58,8 +59,8 @@
         <SignUpPolicy />
     </ValidatedInput::Checkbox>
     {{#if this.hasSubmitted}}
-        <div class='osf-box-lt' local-class='help-block'>
-            <p class='ext-success p-xs'>{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
+        <div data-test-help-block class='osf-box-lt' local-class='help-block'>
+            <p local-class='p-xs'>{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}
         <div local-class='recaptcha-parent'>

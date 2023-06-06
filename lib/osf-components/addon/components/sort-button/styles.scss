@@ -24,11 +24,11 @@
         }
     }
 
-    :global(.selected) {
+    .selected {
         color: $color-text-blue-dark !important;
     }
 
-    :global(.not-selected) {
+    .not-selected {
         color: $color-text-gray-dark !important;
     }
 }

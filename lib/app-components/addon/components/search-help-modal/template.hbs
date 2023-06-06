@@ -5,7 +5,7 @@
         as |dialog|
     >
         <dialog.heading data-test-search-help-modal-header>
-            <h3 class='modal-title'>
+            <h3 local-class='modal-title'>
                 {{t 'app_components.search_help_modal.title'}}
             </h3>
         </dialog.heading>
@@ -17,7 +17,7 @@
                 {{t 'app_components.search_help_modal.searchSyntax' htmlSafe=true}}
                 {{t 'app_components.search_help_modal.helpDescription'}}
             </p>
-            <ul class='ex-list'>
+            <ul>
                 {{#each this.examples as |example|}}
                     <li>
                         <a href={{concat this.currentPath '?q=' example.q}}>

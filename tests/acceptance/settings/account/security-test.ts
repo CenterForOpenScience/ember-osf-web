@@ -140,13 +140,13 @@ module('Acceptance | settings/account | security', hooks => {
         await visit('/settings/account');
         assertionsEnabledNotConfirmed(assert, 'Initial state');
         await click('[data-test-verify-button]');
-        assert.dom('[data-test-verification-code-field] .help-block')
+        assert.dom('[data-test-verification-code-field] [data-test-help-block]')
             .includesText('This field can\'t be empty');
-        assert.dom('[data-test-verification-code-field] .help-block')
+        assert.dom('[data-test-verification-code-field] [data-test-help-block]')
             .includesText('Verification code is invalid');
         await fillIn('[data-test-verification-code-field] input', 'a');
         await click('[data-test-verify-button]');
-        assert.dom('[data-test-verification-code-field] .help-block')
+        assert.dom('[data-test-verification-code-field] [data-test-help-block]')
             .includesText('Verification code is invalid.');
 
         /* I don't think I can test this properly right now. Ember qunit has a problem with waiting
@@ -156,7 +156,7 @@ module('Acceptance | settings/account | security', hooks => {
         https://github.com/emberjs/ember-test-helpers/issues/310
 
             await fillIn('[data-test-verification-code-field] input', '111');
-            assert.dom('[data-test-verification-code-field] .help-block')
+            assert.dom('[data-test-verification-code-field] [data-test-help-block]')
                 .doesNotExist('Model validation correct');
             assert.dom('[data-test-verification-error]').doesNotExist();
             await click('[data-test-verify-button]');

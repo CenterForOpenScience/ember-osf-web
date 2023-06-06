@@ -25,7 +25,7 @@
         </div>
     {{/if}}
     {{#if (and @revisionManager.hasInvalidResponses (not @showMobileView))}}
-        <div data-test-invalid-responses-text class='text-danger'>
+        <div data-test-invalid-responses-text local-class='text-danger'>
             {{t 'registries.edit_revision.review.invalid_warning'}}
         </div>
     {{/if}}

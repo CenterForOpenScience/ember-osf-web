@@ -5,18 +5,18 @@
     as |dialog|
 >
     <dialog.heading>
-        <h3 data-test-create-project-header class='modal-title'>{{t 'new_project.header'}}</h3>
+        <h3 data-test-create-project-header local-class='modal-title'>{{t 'new_project.header'}}</h3>
     </dialog.heading>
     <dialog.main data-analytics-scope='New project modal'>
-        <div class='text-left'>
-            <div class='form-group m-v-sm'>
-                <label class='f-w-lg text-bigger' local-class='NewProject__label'>
+        <div local-class='text-left'>
+            <div local-class='m-v-sm'>
+                <label local-class='f-w-lg text-bigger NewProject__label'>
                     {{t 'general.title'}}
                     <Input
                         data-test-new-project-title
                         @placeholder={{t 'new_project.title_placeholder'}}
                         @autofocus='autofocus'
-                        @class='form-control project-name'
+                        @class='form-control'
                         @required={{true}}
                         @value={{this.nodeTitle}}
                         @type='text'
@@ -26,8 +26,8 @@
             </div>
 
             {{#if this.institutions.length}}
-                <div class='form-group m-v-sm' local-class='NewProject__institution-selector'>
-                    <label class='f-w-lg text-bigger'>{{t 'new_project.affiliation'}}</label>
+                <div local-class='m-v-sm NewProject__institution-selector'>
+                    <label local-class='f-w-lg text-bigger'>{{t 'new_project.affiliation'}}</label>
                     <Button
                         data-analytics-name='Remove all institutions'
                         @layout='fake-link'
@@ -59,8 +59,7 @@
                                                     name='{{institution.name}}'
                                                     width='45px'
                                                     height='45px'
-                                                    class='img-circle pointer'
-                                                    local-class='NewProject__institution-img-{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
+                                                    local-class='img-circle NewProject__institution-img-{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
                                                     src='{{institution.logoRoundedUrl}}'
                                                     alt='{{institution.name}}'
                                                     title='{{institution.name}}'>
@@ -74,8 +73,8 @@
                 </div>
             {{/if}}
             {{#if this.storageI18nEnabled}}
-                <div data-test-select-storage-location class='form-group m-v-md'>
-                    <label class='f-w-lg text-bigger' local-class='NewProject__label'>
+                <div data-test-select-storage-location local-class='m-v-md'>
+                    <label local-class='f-w-lg text-bigger NewProject__label'>
                         {{t 'new_project.storage_region'}}
                         <PowerSelect
                             @options={{this.regions}}
@@ -101,22 +100,22 @@
                 <FaIcon @icon={{concat 'caret-' (if this.more 'down' 'right')}} /> {{t 'new_project.more'}}
             </Button>
             {{#if this.more}}
-                <div class='form-group m-v-sm'>
-                    <label for='projectDesc' class='f-w-lg text-bigger' local-class='NewProject__label'>
+                <div local-class='m-v-sm'>
+                    <label for='projectDesc' local-class='f-w-lg text-bigger NewProject__label'>
                         {{t 'general.description'}}
                         <Input
                             data-test-project-description-input
                             @placeholder={{t 'new_project.description_placeholder'}}
-                            @class='form-control noresize project-desc'
+                            @class={{local-class 'form-control noresize'}}
                             @value={{this.description}}
                             @type='text'
                         />
                     </label>
                 </div>
-                <div data-test-select-template class='form-group m-v-md'>
-                    <label class='f-w-lg text-bigger' local-class='NewProject__label'>
+                <div data-test-select-template local-class='m-v-md'>
+                    <label local-class='f-w-lg text-bigger NewProject__label'>
                         {{t 'new_project.template_title'}}
-                        <p class='f-w-xs help-text'>{{t 'new_project.template_search_help'}}</p>
+                        <p local-class='f-w-xs'>{{t 'new_project.template_search_help'}}</p>
                         <PowerSelect
                             @search={{action this.searchNodes}}
                             @selected={{this.templateFrom}}

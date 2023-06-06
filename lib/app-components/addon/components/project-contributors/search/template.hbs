@@ -1,8 +1,7 @@
 <form {{action (perform this.search) on='submit'}}>
     <div
         data-test-project-contributors-search-box
-        local-class='author-search-box'
-        class='input-group'
+        local-class='author-search-box input-group'
     >
         <Input
             aria-label={{t 'app_components.project_contributors.search.placeholder'}}
@@ -10,14 +9,14 @@
             @value={{this.query}}
             @placeholder={{t 'app_components.project_contributors.search.placeholder'}}
         />
-        <span class='input-group-btn'>
+        <span local-class='input-group-btn'>
             <Button
                 data-test-project-contributors-search-button
                 aria-label={{t 'app_components.project_contributors.search.perform_search'}}
                 local-class='authors-search-button'
                 type='submit'
             >
-                <i class='glyphicon glyphicon-search'></i>
+                <FaIcon @icon='search' />
             </Button>
         </span>
     </div>
@@ -30,8 +29,7 @@
     />
 {{else if this.results.isLoaded}}
     <div
-        local-class='unregisteredUsers'
-        class='text-center'
+        local-class='unregistered-users'
     >
         <p>{{t 'app_components.project_contributors.search.unregistered_description'}}</p>
         <Button
@@ -47,11 +45,11 @@
         {{t 'app_components.project_contributors.search.results'}}
     </h3>
     {{#if this.search.isRunning}}
-        <div class='text-center'>
+        <div local-class='text-center'>
             <FaIcon @icon='spinner' @pulse={{true}} @size='2x' />
         </div>
     {{else if this.results.length}}
-        <table class='table'>
+        <table local-class='table'>
             <tbody>
                 {{#each this.results as |result|}}
                     <ProjectContributors::Search::Result
@@ -63,7 +61,7 @@
                 {{/each}}
             </tbody>
         </table>
-        <div class='pull-right text-right'>
+        <div local-class='pull-right text-right'>
             <SearchPaginator
                 @pageChanged={{action (perform this.search)}}
                 @current={{this.page}}

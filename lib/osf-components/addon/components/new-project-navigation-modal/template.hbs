@@ -4,11 +4,11 @@
     as |dialog|
 >
     <dialog.main local-class='main' data-analytics-scope='New project navigation modal'>
-        <h4 data-test-modal-message class='add-project-success text-success'>
+        <h4 data-test-modal-message local-class='text-success'>
             <Button
                 data-test-close-with-x
                 aria-label={{t 'general.close'}}
-                class='close'
+                local-class='close'
                 {{on 'click' (action this.closeModal reload=true)}}
             >
                 <FaIcon @icon='times' @size='sm' />
@@ -28,7 +28,7 @@
         <OsfLink
             data-test-go-to-new
             data-analytics-name='go_to_new_project'
-            class='btn btn-success'
+            local-class='btn btn-success'
             @href={{@node.links.html}}
         >
             {{t 'move_to_project.go_to_project'}}

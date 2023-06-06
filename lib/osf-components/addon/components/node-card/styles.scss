@@ -18,7 +18,7 @@
                 }
             }
 
-            :global(.label-danger) {
+            .label-danger {
                 background-color: $brand-danger;
             }
 
@@ -26,11 +26,25 @@
                 line-height: 1.5;
             }
 
-            :global(.label-info) {
+            .label-info {
                 background-color: darken($brand-info, 15%);
             }
 
-            
+            .label-primary {
+                background-color: #337ab7;
+            }
+
+            .label {
+                display: inline;
+                padding: 0.2em 0.6em 0.3em;
+                font-size: 75%;
+                font-weight: 700;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: baseline;
+                border-radius: 0.25em;
+            }
         }
 
         .body {
@@ -143,4 +157,13 @@
         background-image: none;
         background-color: $color-bg-gray-dark;
     }
+}
+
+.list-group-item-heading {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.pull-right {
+    float: right !important;
 }

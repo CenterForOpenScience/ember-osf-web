@@ -108,7 +108,10 @@
         color: $white;
     }
 
-    :global(.lead) {
+    .lead {
         font-size: 21px;
+        margin-bottom: 20px;
+        font-weight: 300;
+        line-height: 1.4;
     }
 }
