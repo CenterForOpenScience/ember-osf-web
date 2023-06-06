@@ -148,32 +148,4 @@ as |layout|>
         {{/unless}}
     </layout.main>
 </OsfLayout>
-<section local-class='search-help-tutorial' data-test-search-help onload={{this.placePopover}}>
-    <span>
-        <h2 class='visible'>
-            {{t 'search_help.header_1'}}
-        </h2>
-        <h2 class='hidden'>
-            {{t 'search_help.header_2'}}
-        </h2>
-        <h2 class='hidden'>
-            {{t 'search_help.header_3'}}
-        </h2>
-    </span>
-    <span>
-        <p class='visible'>{{t 'search_help.body_1'}}</p>
-        <p class='hidden'>{{t 'search_help.body_2'}}</p>
-        <p class='hidden'>{{t 'search_help.body_3'}}</p>
-    </span>
-    <div local-class='pagination'>
-        <span local-class='enummeration'>
-            <p class='visible' data-test-help-1>{{t 'search_help.index_1'}}</p>
-            <p class='hidden' data-test-help-2>{{t 'search_help.index_2'}}</p>
-            <p class='hidden' data-test-help-3>{{t 'search_help.index_3'}}</p>
-        </span>
-        <span local-class='help-buttons'>
-            <button type='reset' local-class='skip-button' {{on 'click' this.dismissHelp}}>{{t 'search_help.footer.skip'}}</button>
-            <button type='submit' name='helpNextButton' local-class='next-button' {{on 'click' this.updateHelp}}>{{t 'search_help.footer.next'}}</button>
-        </span>
-    </div>
-</section>
+<NewFeaturePopover />
