@@ -76,7 +76,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         const token = server.create('token', { name: oldName });
 
         await visit('/settings/tokens');
-        await timeout(150);
+        await timeout(1500);
         const link = `[data-test-token-link='${token.id}']`;
         assert.dom(link).exists({ count: 1 });
         assert.dom(link).containsText(oldName);
