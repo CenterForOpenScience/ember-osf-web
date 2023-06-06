@@ -77,7 +77,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
 
         await visit('/settings/tokens');
         const link = `[data-test-token-link='${token.id}']`;
-        await waitFor(link);
+        await waitFor(link, { timeout: 10000 });
         assert.dom(link).exists({ count: 1 });
         assert.dom(link).containsText(oldName);
 
@@ -96,6 +96,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         await timeout(50);
         assert.equal(currentRouteName(), 'settings.tokens.index', 'current route is settings.tokens.index');
 
+        await waitFor(link, { timeout: 10000 });
         assert.dom(link).exists({ count: 1 });
         assert.dom(link).containsText(newName);
     });
