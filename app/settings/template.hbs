@@ -1,89 +1,86 @@
-<div data-analytics-scope='Settings' class='container'>
-    <div class='row'>
-        <div class='col-xs-12'>
-            <h2 class='page-header'>
-                {{t 'general.settings'}}
+<div data-analytics-scope='Settings' local-class='settings-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='setting-container'>
+        <h2 class='page-header' local-class='local-page-header'>
+            {{t 'general.settings'}}
+            {{#if this.isMobile}}
                 <Button
-                   data-test-toggle-nav
-                   local-class='NavToggle'
-                   aria-label={{t 'settings.toggleNav'}}
-                   class='hidden-md hidden-lg'
-                   @layout='fake-link'
-                   {{on 'click' (action (mut this.navCollapsed) (not this.navCollapsed))}}
+                    data-test-toggle-nav
+                    local-class='navigation-toggle'
+                    aria-label={{t 'settings.toggleNav'}}
+                    @layout='fake-link'
+                    {{on 'click' (action (mut this.navCollapsed) (not this.navCollapsed))}}
                 >
                     <FaIcon @icon='bars' />
                 </Button>
-            </h2>
-        </div>
+            {{/if}}
+        </h2>
     </div>
-    <div class='row'>
-        <div class='col-md-3'>
+    <div local-class='setting-container'>
+        <div local-class='navigation-container'>
             {{#if this.shouldShowNavLinks}}
-                <div local-class='SideNav'>
-                    <div class='panel panel-default'>
-                        <nav local-class='stacked-nav'>
-                            <ul>
-                                <li>
-                                    <OsfLink
-                                        data-analytics-name='Settings'
-                                        data-test-settings-link
-                                        @href='/settings'
-                                    >
-                                        {{t 'settings.profile.title'}}
-                                    </OsfLink>
-                                </li>
-                                <li local-class={{if (eq this.router.currentRouteName 'settings.account') 'active'}}>
-                                    <OsfLink
-                                        data-analytics-name='Account'
-                                        data-test-account-link
-                                        @route='settings.account'
-                                    >
-                                        {{t 'settings.account.title'}}
-                                    </OsfLink>
-                                </li>
-                                <li>
-                                    <OsfLink
-                                        data-analytics-name='Configure add-on accounts'
-                                        data-test-addons-link
-                                        @href='/settings/addons'
-                                    >
-                                        {{t 'settings.addons.title'}}
-                                    </OsfLink>
-                                </li>
-                                <li>
-                                    <OsfLink
-                                        data-analytics-name='Notifications'
-                                        data-test-notifications-link
-                                        @href='/settings/notifications'
-                                    >
-                                        {{t 'settings.notifications.title'}}
-                                    </OsfLink>
-                                </li>
-                                <li local-class={{if (eq this.router.currentRouteName 'settings.developer-apps.index') 'active'}}>
-                                    <OsfLink
-                                        data-analytics-name='Developer apps'
-                                        data-test-apps-link
-                                        @route='settings.developer-apps'
-                                    >
-                                        {{t 'settings.developer-apps.title'}}
-                                    </OsfLink>
-                                </li>
-                                <li local-class={{if (eq this.router.currentRouteName 'settings.tokens.index') 'active'}}>
-                                    <OsfLink
-                                        data-analytics-name='Personal access tokens'
-                                        data-test-tokens-link
-                                        @route='settings.tokens'
-                                    >
-                                        {{t 'settings.tokens.title'}}
-                                    </OsfLink>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                <div class='panel panel-default'>
+                    <nav local-class='stacked-nav'>
+                        <ul>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Settings'
+                                    data-test-settings-link
+                                    @href='/settings'
+                                >
+                                    {{t 'settings.profile.title'}}
+                                </OsfLink>
+                            </li>
+                            <li local-class={{if (eq this.router.currentRouteName 'settings.account') 'active'}}>
+                                <OsfLink
+                                    data-analytics-name='Account'
+                                    data-test-account-link
+                                    @route='settings.account'
+                                >
+                                    {{t 'settings.account.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Configure add-on accounts'
+                                    data-test-addons-link
+                                    @href='/settings/addons'
+                                >
+                                    {{t 'settings.addons.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Notifications'
+                                    data-test-notifications-link
+                                    @href='/settings/notifications'
+                                >
+                                    {{t 'settings.notifications.title'}}
+                                </OsfLink>
+                            </li>
+                            <li local-class={{if (eq this.router.currentRouteName 'settings.developer-apps.index') 'active'}}>
+                                <OsfLink
+                                    data-analytics-name='Developer apps'
+                                    data-test-apps-link
+                                    @route='settings.developer-apps'
+                                >
+                                    {{t 'settings.developer-apps.title'}}
+                                </OsfLink>
+                            </li>
+                            <li local-class={{if (eq this.router.currentRouteName 'settings.tokens.index') 'active'}}>
+                                <OsfLink
+                                    data-analytics-name='Personal access tokens'
+                                    data-test-tokens-link
+                                    @route='settings.tokens'
+                                >
+                                    {{t 'settings.tokens.title'}}
+                                </OsfLink>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             {{/if}}
         </div>
-        <div class='col-md-9'>
+        <div local-class='profile-container'>
             {{#if this.currentUser.user}}
                 {{outlet}}
             {{/if}}

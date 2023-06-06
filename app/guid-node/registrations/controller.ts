@@ -7,12 +7,14 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
+import Media from 'ember-responsive';
 
 import Node from 'ember-osf-web/models/node';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class GuidNodeRegistrations extends Controller {
+    @service media!: Media;
     @service analytics!: Analytics;
     @service store!: Store;
 
@@ -87,6 +89,10 @@ export default class GuidNodeRegistrations extends Controller {
             branchedFrom.id,
             draftRegistration.id,
         );
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }
 

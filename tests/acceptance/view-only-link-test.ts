@@ -68,8 +68,8 @@ module('Acceptance | view-only-links', hooks => {
         server.create('root');
 
         const viewOnlyToken = 'thisisatoken';
-        await visit(`/support?view_only=${viewOnlyToken}`);
-        assert.equal(currentURL(), `/support?view_only=${viewOnlyToken}`);
+        await visit(`/dashboard?view_only=${viewOnlyToken}`);
+        assert.equal(currentURL(), `/dashboard?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
@@ -81,9 +81,9 @@ module('Acceptance | view-only-links', hooks => {
         server.create('root', 'withAnonymizedVOL');
 
         const viewOnlyToken = 'thisisatoken';
-        await visit(`/support?view_only=${viewOnlyToken}`);
+        await visit(`/dashboard?view_only=${viewOnlyToken}`);
 
-        assert.equal(currentURL(), `/support?view_only=${viewOnlyToken}`);
+        assert.equal(currentURL(), `/dashboard?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
@@ -95,28 +95,28 @@ module('Acceptance | view-only-links', hooks => {
         server.create('root', 'loggedOut');
 
         const viewOnlyToken = 'thisisatoken';
-        await visit(`/support?view_only=${viewOnlyToken}`);
+        await visit(`/?view_only=${viewOnlyToken}`);
 
-        assert.equal(currentURL(), `/support?view_only=${viewOnlyToken}`);
+        assert.equal(currentURL(), `/?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
 
-        assert.equal(currentURL(), '/?view_only=');
+        assert.equal(currentURL(), '/');
     });
 
     test('View-only banner (logged out, anonymized)', async function(assert: Assert) {
         server.create('root', 'loggedOut', 'withAnonymizedVOL');
 
         const viewOnlyToken = 'thisisatoken';
-        await visit(`/support?view_only=${viewOnlyToken}`);
+        await visit(`/?view_only=${viewOnlyToken}`);
 
-        assert.equal(currentURL(), `/support?view_only=${viewOnlyToken}`);
+        assert.equal(currentURL(), `/?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
 
-        assert.equal(currentURL(), '/?view_only=');
+        assert.equal(currentURL(), '/');
     });
 
     test('Transition from project to registration does not add bad VOL', async assert => {
