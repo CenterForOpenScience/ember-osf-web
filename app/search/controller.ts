@@ -152,16 +152,4 @@ export default class SearchController extends Controller {
             this.toast.error(e);
         }
     }
-
-    @action
-    placePopover() {
-        const dt = document.querySelector('[data-test-update-button]');
-        const searchHelp = document.getElementsByTagName('section')[0];
-        const pos = dt?.getBoundingClientRect();
-        const posX = Number(pos?.x) / 2 + 'px';
-        const posY = Number(pos?.y) / 2 + 'px';
-        searchHelp.style.position = 'absolute';
-        searchHelp.style.marginLeft = posX;
-        searchHelp.style.marginTop = posY;
-    }
 }
