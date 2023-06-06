@@ -189,7 +189,7 @@ dashboard:
         description: 'Discover public projects'
         new_and_noteworthy: 'New and noteworthy'
         failed_noteworthy: 'Failed loading "new and noteworthy" projects'
-        most_popular: 'Most nopular'
+        most_popular: 'Most popular'
         failed_popular: 'Failed loading "most popular" projects'
         search_more: 'Search for more projects'
         by: by
