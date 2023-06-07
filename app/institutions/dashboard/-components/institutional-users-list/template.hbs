@@ -37,17 +37,17 @@
                             <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
                             <SortButton @sortBy='department' />
                         </th>
-                        <th local-class='nested-header' class='text-center' colspan='2' width='128'>
+                        <th local-class='nested-header text-center' colspan='2' width='128'>
                             {{t 'institutions.dashboard.users_list.projects'}}
                         </th>
                     </tr>
                     <tr>
-                        <th local-class='nested-header' class='text-center' data-test-header-public-projects>
+                        <th local-class='nested-header text-center' data-test-header-public-projects>
                             <img src='/assets/images/global/open-lock.svg'
                                 alt={{t 'institutions.dashboard.users_list.public_projects'}}
                             >
                         </th>
-                        <th local-class='nested-header' class='text-center' data-test-header-private-projects>
+                        <th local-class='nested-header text-center' data-test-header-private-projects>
                             <img src='/assets/images/global/closed-lock.svg'
                                 alt={{t 'institutions.dashboard.users_list.private_projects'}}
                             >
@@ -63,8 +63,8 @@
                         </OsfLink>
                     </td>
                     <td data-test-item-department>{{institutionalUser.department}}</td>
-                    <td class='text-center' data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
-                    <td class='text-center' data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
+                    <td local-class='text-center' data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
+                    <td local-class='text-center' data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
                 {{else}}
                     <td>{{placeholder.text lines=1}}</td>
                     <td>{{placeholder.text lines=1}}</td>
