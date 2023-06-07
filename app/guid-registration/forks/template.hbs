@@ -18,7 +18,7 @@
                 data-test-close-create-forks-modal
                 data-analytics-name='Close'
                 aria-label={{t 'general.close'}}
-                class='close'
+                local-class='close'
                 {{on 'click' (action this.closeNewModal)}}
             >
                 <FaIcon @icon='times' @size='sm' />
@@ -50,10 +50,7 @@
         @closeModal={{action this.closeDeleteModal}}
         @nodeType={{this.nodeType}}
     />
-    <div local-class='Forks__header' class='page-header visible-xs'>
-        <h2 class='text-300'>{{t 'forks.title'}}</h2>
-    </div>
-    <div class='m-md' local-class='Forks__nav'>
+    <div local-class='Forks__nav m-md'>
         <OsfLink
             data-test-back-to-analytics
             data-analytics-name='forks.back'
@@ -92,7 +89,7 @@
         {{/paginated-list/has-many}}
     </div>
     <div local-class='Forks__new-fork'>
-        <div class='m-md'>
+        <div local-class='m-md'>
             {{#if this.currentUser.user}}
                 <Button
                     data-test-new-fork-button
