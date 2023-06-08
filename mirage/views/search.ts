@@ -326,6 +326,26 @@ export function cardSearch(_: Schema, __: Request) {
                                 type: 'search-result',
                                 id: 'propertyMatch3',
                             },
+                            {
+                                type: 'search-result',
+                                id: 'propertyMatch4',
+                            },
+                            {
+                                type: 'search-result',
+                                id: 'propertyMatch5',
+                            },
+                            {
+                                type: 'search-result',
+                                id: 'propertyMatch6',
+                            },
+                            {
+                                type: 'search-result',
+                                id: 'propertyMatch7',
+                            },
+                            {
+                                type: 'search-result',
+                                id: 'propertyMatch8',
+                            },
                         ],
                         links: {
                             next: '...',
@@ -407,40 +427,128 @@ export function cardSearch(_: Schema, __: Request) {
                 },
             },
             {
-                type: 'index-card',
-                id: 'idForPropertyRecord1',
+                type: 'search-result',
+                id: 'propertyMatch4',
                 attributes: {
-                    resourceType: [
-                        'rdf:Property',
+                    matchEvidence: [
+                        {
+                            propertyPath: 'resourceType',
+                            matchingIri: 'rdf:Property',
+                        },
                     ],
-                    resourceIdentifier: [
-                        'http://purl.org/dc/terms/license',
-                    ],
-                    resourceMetadata: {
-                        '@id': 'http://purl.org/dc/terms/license',
-                        '@type': 'rdf:Property',
-                        label: [
-                            {
-                                '@value': 'License',
-                                '@language': 'en',
-                            },
-                        ],
-                        description: [
-                            {
-                                '@value': 'Some description about license in this case',
-                                '@language': 'en',
-                            },
-                        ],
+                    recordResultCount: 33,
+                },
+                relationships: {
+                    indexCard: {
+                        data: {
+                            type: 'index-card',
+                            id: 'idForPropertyRecord4',
+                        },
+                        links: {
+                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord4',
+                        },
                     },
                 },
-                links: {
-                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord1',
-                    resource: 'http://purl.org/dc/terms/license',
+            },
+            {
+                type: 'search-result',
+                id: 'propertyMatch5',
+                attributes: {
+                    matchEvidence: [
+                        {
+                            propertyPath: 'resourceType',
+                            matchingIri: 'rdf:Property',
+                        },
+                    ],
+                    recordResultCount: 33,
+                },
+                relationships: {
+                    indexCard: {
+                        data: {
+                            type: 'index-card',
+                            id: 'idForPropertyRecord5',
+                        },
+                        links: {
+                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord5',
+                        },
+                    },
+                },
+            },
+            {
+                type: 'search-result',
+                id: 'propertyMatch6',
+                attributes: {
+                    matchEvidence: [
+                        {
+                            propertyPath: 'resourceType',
+                            matchingIri: 'rdf:Property',
+                        },
+                    ],
+                    recordResultCount: 33,
+                },
+                relationships: {
+                    indexCard: {
+                        data: {
+                            type: 'index-card',
+                            id: 'idForPropertyRecord6',
+                        },
+                        links: {
+                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord6',
+                        },
+                    },
+                },
+            },
+            {
+                type: 'search-result',
+                id: 'propertyMatch7',
+                attributes: {
+                    matchEvidence: [
+                        {
+                            propertyPath: 'resourceType',
+                            matchingIri: 'rdf:Property',
+                        },
+                    ],
+                    recordResultCount: 33,
+                },
+                relationships: {
+                    indexCard: {
+                        data: {
+                            type: 'index-card',
+                            id: 'idForPropertyRecord7',
+                        },
+                        links: {
+                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord7',
+                        },
+                    },
+                },
+            },
+            {
+                type: 'search-result',
+                id: 'propertyMatch8',
+                attributes: {
+                    matchEvidence: [
+                        {
+                            propertyPath: 'resourceType',
+                            matchingIri: 'rdf:Property',
+                        },
+                    ],
+                    recordResultCount: 33,
+                },
+                relationships: {
+                    indexCard: {
+                        data: {
+                            type: 'index-card',
+                            id: 'idForPropertyRecord8',
+                        },
+                        links: {
+                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord8',
+                        },
+                    },
                 },
             },
             {
                 type: 'index-card',
-                id: 'idForPropertyRecord2',
+                id: 'idForPropertyRecord1',
                 attributes: {
                     resourceType: [
                         'rdf:Property',
@@ -453,26 +561,26 @@ export function cardSearch(_: Schema, __: Request) {
                         '@type': 'rdf:Property',
                         label: [
                             {
-                                '@value': 'Date Published',
+                                '@value': 'Date Created',
                                 '@language': 'en',
                             },
                         ],
                         description: [
                             {
-                                '@value': 'Some description about published date in this case',
+                                '@value': 'Some description about date created in this case',
                                 '@language': 'en',
                             },
                         ],
                     },
                 },
                 links: {
-                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord2',
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord1',
                     resource: 'http://purl.org/dc/terms/published',
                 },
             },
             {
                 type: 'index-card',
-                id: 'idForPropertyRecord3',
+                id: 'idForPropertyRecord2',
                 attributes: {
                     resourceType: [
                         'rdf:Property',
@@ -500,6 +608,198 @@ export function cardSearch(_: Schema, __: Request) {
                 links: {
                     self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord2',
                     resource: 'http://purl.org/dc/terms/funder',
+                },
+            },
+            {
+                type: 'index-card',
+                id: 'idForPropertyRecord3',
+                attributes: {
+                    resourceType: [
+                        'rdf:Property',
+                    ],
+                    resourceIdentifier: [
+                        'http://purl.org/dc/terms/subject',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'http://purl.org/dc/terms/subject',
+                        '@type': 'rdf:Property',
+                        label: [
+                            {
+                                '@value': 'Subject',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description about subject in this case',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord3',
+                    resource: 'http://purl.org/dc/terms/subject',
+                },
+            },
+            {
+                type: 'index-card',
+                id: 'idForPropertyRecord4',
+                attributes: {
+                    resourceType: [
+                        'rdf:Property',
+                    ],
+                    resourceIdentifier: [
+                        'http://purl.org/dc/terms/license',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'http://purl.org/dc/terms/license',
+                        '@type': 'rdf:Property',
+                        label: [
+                            {
+                                '@value': 'License',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description about license in this case',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord4',
+                    resource: 'http://purl.org/dc/terms/license',
+                },
+            },
+            {
+                type: 'index-card',
+                id: 'idForPropertyRecord5',
+                attributes: {
+                    resourceType: [
+                        'rdf:Property',
+                    ],
+                    resourceIdentifier: [
+                        'http://purl.org/dc/terms/resourceType',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'http://purl.org/dc/terms/resourceType',
+                        '@type': 'rdf:Property',
+                        label: [
+                            {
+                                '@value': 'Resource Type',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description about resource type in this case',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord5',
+                    resource: 'http://purl.org/dc/terms/resourceType',
+                },
+            },
+            {
+                type: 'index-card',
+                id: 'idForPropertyRecord6',
+                attributes: {
+                    resourceType: [
+                        'rdf:Property',
+                    ],
+                    resourceIdentifier: [
+                        'http://purl.org/dc/terms/collection',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'http://purl.org/dc/terms/collection',
+                        '@type': 'rdf:Property',
+                        label: [
+                            {
+                                '@value': 'Collection',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description about collection in this case',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord6',
+                    resource: 'http://purl.org/dc/terms/collection',
+                },
+            },
+            {
+                type: 'index-card',
+                id: 'idForPropertyRecord7',
+                attributes: {
+                    resourceType: [
+                        'rdf:Property',
+                    ],
+                    resourceIdentifier: [
+                        'http://purl.org/dc/terms/institution',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'http://purl.org/dc/terms/institution',
+                        '@type': 'rdf:Property',
+                        label: [
+                            {
+                                '@value': 'Institution',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description about institution in this case',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord7',
+                    resource: 'http://purl.org/dc/terms/institution',
+                },
+            },
+            {
+                type: 'index-card',
+                id: 'idForPropertyRecord8',
+                attributes: {
+                    resourceType: [
+                        'rdf:Property',
+                    ],
+                    resourceIdentifier: [
+                        'http://purl.org/dc/terms/registry',
+                    ],
+                    resourceMetadata: {
+                        '@id': 'http://purl.org/dc/terms/registry',
+                        '@type': 'rdf:Property',
+                        label: [
+                            {
+                                '@value': 'Registry',
+                                '@language': 'en',
+                            },
+                        ],
+                        description: [
+                            {
+                                '@value': 'Some description about registry in this case',
+                                '@language': 'en',
+                            },
+                        ],
+                    },
+                },
+                links: {
+                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord8',
+                    resource: 'http://purl.org/dc/terms/registry',
                 },
             },
         ],

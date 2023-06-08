@@ -1,4 +1,3 @@
-{{! template-lint-disable no-bare-strings --}}
 {{! template-lint-disable no-duplicate-landmark-elements --}}
 {{page-title (t 'search.page-title')}}
 <OsfLayout
@@ -105,7 +104,7 @@ as |layout|>
             </ul>
         {{/if}}
         {{#each this.filterableProperties as |filterableProperty index|}}
-            {{#if (eq index 2)}}
+            {{#if (eq index 1)}}
                 {{#let filterableProperty.indexCard as |propertyCard|}}
                     <div id='fundersFilter'>
                         <Search::-Components::FilterFacet
@@ -114,7 +113,7 @@ as |layout|>
                             @propertyCard={{propertyCard}}
                             @propertySearch={{filterableProperty}}
                             @toggleFilter={{this.toggleFilter}}
-                            @event='hover'
+                            @event='click'
                         />
                     </div>
                 {{/let}}
@@ -124,8 +123,9 @@ as |layout|>
                     @innerClass='tooltip-wrapper'
                     @targetId='fundersFilter'
                     @side='right'
-                    @event='hover'
+                    @event='click'
                     local-class='search-help-tutorial'
+                    as |popover2|
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header'>
@@ -135,14 +135,14 @@ as |layout|>
                         <span local-class='pagination'>
                             <p local-class='enumeration'>{{t 'search_help.index_2'}}</p>
                             <span>
-                                <button type='reset' local-class='skip-button' {{on 'click' this.dismissHelp}}>{{t 'search_help.footer.skip'}}</button>
-                                <button type='submit' name='helpNextButton' local-class='next-button' {{on 'click' this.updateHelp}}>{{t 'search_help.footer.next'}}</button>
+                                <button type='reset' local-class='skip-button' onClick={{action 'hide' target=popover2}}>{{t 'search_help.footer.skip'}}</button>
+                                <button type='submit' name='helpNextButton' local-class='next-button' onClick={{action this.updateHelp 3}}>{{t 'search_help.footer.next'}}</button>
                             </span>
                         </span>
                     </aside>
                 </EmberPopover>
                 {{!-- template-lint-disable no-heading-inside-button --}}
-            {{else if (eq index 5)}}
+            {{else if (eq index 4)}}
                 {{#let filterableProperty.indexCard as |propertyCard|}}
                     <div id='resourcesFilter'>
                         <Search::-Components::FilterFacet
@@ -151,7 +151,7 @@ as |layout|>
                             @propertyCard={{propertyCard}}
                             @propertySearch={{filterableProperty}}
                             @toggleFilter={{this.toggleFilter}}
-                            @event='hover'
+                            @event='click'
                         />
                     </div>
                 {{/let}}
@@ -161,8 +161,9 @@ as |layout|>
                     @innerClass='tooltip-wrapper'
                     @targetId='resourcesFilter'
                     @side='right'
-                    @event='hover'
+                    @event='click'
                     local-class='search-help-tutorial'
+                    as |popover3|
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header'>
@@ -172,8 +173,8 @@ as |layout|>
                         <span local-class='pagination'>
                             <p local-class='enumeration'>{{t 'search_help.index_3'}}</p>
                             <span>
-                                <button type='reset' local-class='skip-button' {{on 'click' this.dismissHelp}}>{{t 'search_help.footer.skip'}}</button>
-                                <button type='submit' name='helpNextButton' local-class='next-button' {{on 'click' this.updateHelp}}>{{t 'search_help.footer.next'}}</button>
+                                <button type='reset' local-class='skip-button' onClick={{action 'hide' target=popover3}}>{{t 'search_help.footer.skip'}}</button>
+                                <button type='submit' name='helpNextButton' local-class='next-button' {{action 'hide' target=popover3}}>{{t 'search_help.footer.done'}}</button>
                             </span>
                         </span>
                     </aside>
@@ -241,6 +242,7 @@ as |layout|>
                     @side='bottom'
                     @isShown={{this.showTooltip}}
                     local-class='search-help-tutorial'
+                    as |popover1|
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header'>
@@ -250,8 +252,8 @@ as |layout|>
                         <span local-class='pagination'>
                             <p local-class='enumeration'>{{t 'search_help.index_1'}}</p>
                             <span>
-                                <button type='reset' local-class='skip-button' {{on 'click' this.dismissHelp}}>{{t 'search_help.footer.skip'}}</button>
-                                <button type='submit' name='helpNextButton' local-class='next-button' {{on 'click' this.updateHelp}}>{{t 'search_help.footer.next'}}</button>
+                                <button type='reset' local-class='skip-button' onClick={{action 'hide' target=popover1}}>{{t 'search_help.footer.skip'}}</button>
+                                <button type='submit' name='helpNextButton' local-class='next-button' onClick={{action this.updateHelp 2}}>{{t 'search_help.footer.next'}}</button>
                             </span>
                         </span>
                     </aside>
