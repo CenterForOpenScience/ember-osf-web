@@ -158,28 +158,22 @@ export default class SearchController extends Controller {
     }
 
     @action
-    displayHelp() {
-        const searchHelp = document.querySelector('[data-test-search-help]') as HTMLElement;
-        if (searchHelp) {
-            searchHelp.style.display = 'flex';
+    updateHelp(index: number) {
+        const tooltip = document.querySelector('.tooltip') as HTMLElement;
+
+        if (index === 2) {
+            if (tooltip) {
+                tooltip.style.display = 'none';
+                const fundersFilter = document.getElementById('fundersFilter');
+                fundersFilter?.click();
+            }
         }
-    }
-
-    @action
-    updateHelp() {
-        const searchHelp = document.querySelector('[data-test-search-help]') as HTMLElement;
-        const firstHelp = document.querySelector('[data-test-help-1]');
-        const secondHelp = document.querySelector('[data-test-help-2]');
-        const thirdHelp = document.querySelector('[data-test-help-3]');
-    }
-
-    @action
-    dismissHelp() {
-        const searchHelp = document.querySelector('[data-test-search-help-1]') as HTMLElement;
-        const tooltip = document.querySelector('div[role=tooltip]') as HTMLElement;
-        if (searchHelp) {
-            searchHelp.style.display = 'none';
-            tooltip.style.display = 'none';
+        if (index === 3) {
+            if (tooltip) {
+                tooltip.style.display = 'none';
+                const resourcesFilter = document.getElementById('resourcesFilter') as HTMLElement;
+                resourcesFilter?.click();
+            }
         }
     }
 }

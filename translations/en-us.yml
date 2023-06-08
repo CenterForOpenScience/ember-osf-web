@@ -2593,3 +2593,4 @@ search_help:
     footer:
         skip: 'Skip'
         next: 'Next'
+        done: 'Done'
