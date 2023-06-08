@@ -211,6 +211,7 @@ search:
     search-header: 'Search OSF'
     textbox-placeholder: 'Search placeholder'
     search-button-label: 'Search'
+    search-help-label: 'Help tutorial'
     resource-type:
         search-by: 'Search by resource type'
         all: 'All'

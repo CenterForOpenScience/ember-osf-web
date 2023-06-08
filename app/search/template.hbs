@@ -1,4 +1,5 @@
-{{!-- template-lint-disable no-bare-strings --}}
+{{! template-lint-disable no-bare-strings --}}
+{{! template-lint-disable no-duplicate-landmark-elements --}}
 {{page-title (t 'search.page-title')}}
 <OsfLayout
     @backgroundClass='search-page'
@@ -29,6 +30,17 @@ as |layout|>
                 {{on 'click' (perform this.doDebounceSearch)}}
             >
                 <FaIcon @icon='search' />
+            </Button>
+            <Button
+                data-test-search-help
+                data-analytics-name='search help'
+                local-class='help-button'
+                aria-label={{t 'search.search-help-label'}}
+                @type='primary'
+                @layout='large'
+                {{on 'click' (perform this.displayHelp)}}
+            >
+                <FaIcon @icon='question' />
             </Button>
         </span>
         {{#if this.showSidePanelToggle}}
@@ -76,7 +88,7 @@ as |layout|>
                         local-class='active-filter-item'
                     >
                         <span>
-                            {{filter.property}}:
+                            {{filter.property}}
                             {{filter.value}}
                         </span>
                         <Button
@@ -92,16 +104,92 @@ as |layout|>
                 {{/each}}
             </ul>
         {{/if}}
-        {{#each this.filterableProperties as |filterableProperty|}}
-            {{#let filterableProperty.indexCard as |propertyCard|}}
-                <Search::-Components::FilterFacet
-                    @cardSearchText={{this.q}}
-                    @cardSearchFilters={{this.activeFilters}}
-                    @propertyCard={{propertyCard}}
-                    @propertySearch={{filterableProperty}}
-                    @toggleFilter={{this.toggleFilter}}
-                />
-            {{/let}}
+        {{#each this.filterableProperties as |filterableProperty index|}}
+            {{#if (eq index 2)}}
+                {{#let filterableProperty.indexCard as |propertyCard|}}
+                    <div id='fundersFilter'>
+                        <Search::-Components::FilterFacet
+                            @cardSearchText={{this.q}}
+                            @cardSearchFilters={{this.activeFilters}}
+                            @propertyCard={{propertyCard}}
+                            @propertySearch={{filterableProperty}}
+                            @toggleFilter={{this.toggleFilter}}
+                            @event='hover'
+                        />
+                    </div>
+                {{/let}}
+                {{!-- template-lint-disable no-heading-inside-button --}}
+                <EmberPopover
+                    data-test-search-help-2
+                    @innerClass='tooltip-wrapper'
+                    @targetId='fundersFilter'
+                    @side='right'
+                    @event='hover'
+                    local-class='search-help-tutorial'
+                >
+                    <aside local-class='help-content'>
+                        <h2 local-class='search-help-header'>
+                            {{t 'search_help.header_2'}}
+                        </h2>
+                        <p>{{t 'search_help.body_2'}}</p>
+                        <span local-class='pagination'>
+                            <p local-class='enumeration'>{{t 'search_help.index_2'}}</p>
+                            <span>
+                                <button type='reset' local-class='skip-button' {{on 'click' this.dismissHelp}}>{{t 'search_help.footer.skip'}}</button>
+                                <button type='submit' name='helpNextButton' local-class='next-button' {{on 'click' this.updateHelp}}>{{t 'search_help.footer.next'}}</button>
+                            </span>
+                        </span>
+                    </aside>
+                </EmberPopover>
+                {{!-- template-lint-disable no-heading-inside-button --}}
+            {{else if (eq index 5)}}
+                {{#let filterableProperty.indexCard as |propertyCard|}}
+                    <div id='resourcesFilter'>
+                        <Search::-Components::FilterFacet
+                            @cardSearchText={{this.q}}
+                            @cardSearchFilters={{this.activeFilters}}
+                            @propertyCard={{propertyCard}}
+                            @propertySearch={{filterableProperty}}
+                            @toggleFilter={{this.toggleFilter}}
+                            @event='hover'
+                        />
+                    </div>
+                {{/let}}
+                {{!-- template-lint-disable no-heading-inside-button --}}
+                <EmberPopover
+                    data-test-search-help-3
+                    @innerClass='tooltip-wrapper'
+                    @targetId='resourcesFilter'
+                    @side='right'
+                    @event='hover'
+                    local-class='search-help-tutorial'
+                >
+                    <aside local-class='help-content'>
+                        <h2 local-class='search-help-header'>
+                            {{t 'search_help.header_3'}}
+                        </h2>
+                        <p>{{t 'search_help.body_3'}}</p>
+                        <span local-class='pagination'>
+                            <p local-class='enumeration'>{{t 'search_help.index_3'}}</p>
+                            <span>
+                                <button type='reset' local-class='skip-button' {{on 'click' this.dismissHelp}}>{{t 'search_help.footer.skip'}}</button>
+                                <button type='submit' name='helpNextButton' local-class='next-button' {{on 'click' this.updateHelp}}>{{t 'search_help.footer.next'}}</button>
+                            </span>
+                        </span>
+                    </aside>
+                </EmberPopover>
+                {{!-- template-lint-disable no-heading-inside-button --}}
+            {{else}}
+                {{#let filterableProperty.indexCard as |propertyCard|}}
+                    <Search::-Components::FilterFacet
+                        @cardSearchText={{this.q}}
+                        @cardSearchFilters={{this.activeFilters}}
+                        @propertyCard={{propertyCard}}
+                        @propertySearch={{filterableProperty}}
+                        @toggleFilter={{this.toggleFilter}}
+                    />
+                {{/let}}
+            {{/if}}
         {{else}}
             {{t 'search.left-panel.no-filterable-properties'}}
         {{/each}}
@@ -115,22 +203,60 @@ as |layout|>
                     local-class='object-type-nav'
                 >
                     <ul>
-                        {{#each this.resourceTypeOptions as |resourceType|}}
+                        {{#each this.resourceTypeOptions as |resourceType index|}}
                             <li>
-                                <LinkTo
-                                    data-analytics-name='Object type filter={{resourceType.value}}'
-                                    data-test-topbar-object-type-link='{{resourceType.value}}'
-                                    local-class='object-type-filter-link'
-                                    @route='search'
-                                    @query={{hash resourceType=resourceType.value}}
-                                    {{on 'click' (fn this.updateResourceType resourceType)}}
-                                >
-                                    {{resourceType.display}}
-                                </LinkTo>
+                                {{#if (eq index 0)}}
+                                    <LinkTo
+                                        data-analytics-name='Object type filter={{resourceType.value}}'
+                                        data-test-topbar-object-type-link='{{resourceType.value}}'
+                                        local-class='object-type-filter-link'
+                                        @route='search'
+                                        id='allItems'
+                                        @query={{hash resourceType=resourceType.value}}
+                                        {{on 'click' (fn this.updateResourceType resourceType)}}
+                                    >
+                                        {{resourceType.display}}
+                                    </LinkTo>
+                                {{else}}
+                                    <LinkTo
+                                        data-analytics-name='Object type filter={{resourceType.value}}'
+                                        data-test-topbar-object-type-link='{{resourceType.value}}'
+                                        local-class='object-type-filter-link'
+                                        @route='search'
+                                        @query={{hash resourceType=resourceType.value}}
+                                        {{on 'click' (fn this.updateResourceType resourceType)}}
+                                    >
+                                        {{resourceType.display}}
+                                    </LinkTo>
+                                {{/if}}
                             </li>
                         {{/each}}
                     </ul>
                 </nav>
+                {{!-- template-lint-disable no-heading-inside-button --}}
+                <EmberPopover
+                    data-test-search-help-1
+                    @innerClass='tooltip-wrapper'
+                    @targetId='allItems'
+                    @side='bottom'
+                    @isShown={{this.showTooltip}}
+                    local-class='search-help-tutorial'
+                >
+                    <aside local-class='help-content'>
+                        <h2 local-class='search-help-header'>
+                            {{t 'search_help.header_1'}}
+                        </h2>
+                        <p>{{t 'search_help.body_1'}}</p>
+                        <span local-class='pagination'>
+                            <p local-class='enumeration'>{{t 'search_help.index_1'}}</p>
+                            <span>
+                                <button type='reset' local-class='skip-button' {{on 'click' this.dismissHelp}}>{{t 'search_help.footer.skip'}}</button>
+                                <button type='submit' name='helpNextButton' local-class='next-button' {{on 'click' this.updateHelp}}>{{t 'search_help.footer.next'}}</button>
+                            </span>
+                        </span>
+                    </aside>
+                </EmberPopover>
+                {{!-- template-lint-disable no-heading-inside-button --}}
                 <div
                     data-test-topbar-sort-dropdown
                     local-class='sort-dropdown'
@@ -148,4 +274,3 @@ as |layout|>
         {{/unless}}
     </layout.main>
 </OsfLayout>
-<NewFeaturePopover />
