@@ -186,6 +186,11 @@
         width: 100%;
         padding-top: 20px;
         padding-bottom: 20px;
+
+        .img-responsive {
+            display: block;
+            max-width: 100%;
+        }
     }
 
     .noteworthy-container {
@@ -327,9 +332,4 @@
         background: $color-bg-gray-blue-dark;
         color: $color-text-white;
     }
-}
-
-.img-responsive {
-    display: block;
-    max-width: 100%;
 }
