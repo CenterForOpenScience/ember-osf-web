@@ -178,7 +178,7 @@
         background-size: cover;
     }
 
-    .views-container {
+    .products-container {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -327,4 +327,9 @@
         background: $color-bg-gray-blue-dark;
         color: $color-text-white;
     }
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
 }

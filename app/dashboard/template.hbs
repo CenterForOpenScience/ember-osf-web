@@ -153,8 +153,48 @@
         </div>
     </div>
 
-    <div local-class='views-container background'>
-        {{!-- OSF Views links go here --}}
+    <div local-class='products-container background'>
+        <OsfLink 
+            data-test-products-collections
+            @href='https://www.cos.io/products/osf-collections'
+            @target='_blank'
+        >
+            <img
+                class='img-responsive'
+                src='/assets/images/dashboard/products/osf-collections.png'
+                alt={{t 'dashboard.products.collections'}}
+            >
+        </OsfLink>
+        <OsfLink
+            data-test-products-registries
+            @route='registries'
+        >
+            <img
+                class='img-responsive'
+                src='/assets/images/dashboard/products/osf-registries.png'
+                alt={{t 'dashboard.products.registries'}}
+            >
+        </OsfLink>
+        <OsfLink
+            data-test-products-institutions
+            @route='institutions'
+        >
+            <img
+                class='img-responsive'
+                src='/assets/images/dashboard/products/osf-institutions.png'
+                alt={{t 'dashboard.products.institutions'}}
+            >
+        </OsfLink>
+        <OsfLink
+            data-test-products-preprints
+            @href='/preprints/'
+        >
+            <img
+                class='img-responsive'
+                src='/assets/images/dashboard/products/osf-preprints.png'
+                alt={{t 'dashboard.products.preprints'}}
+            >
+        </OsfLink>
     </div>
 
     <div local-class='noteworthy-container {{if this.isMobile 'mobile'}}'>
@@ -220,7 +260,7 @@
                     data-analytics-name='meetings_button'
                     class='btn btn-banner btn-success btn-lg btn-success-high-contrast'
                     local-class='button-banner'
-                    @href='/meetings/'
+                    @route='meetings'
                 >
                     {{t 'dashboard.meetings.button'}}
                 </OsfLink>
