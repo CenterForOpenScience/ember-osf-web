@@ -152,17 +152,11 @@
             {{/if}}
         </div>
     </div>
-    
-    {{#unless this.isMobile}}
-        <div local-class='institution-container background'>
-            <div local-class='institutions'>
-                <InstitutionCarousel
-                    data-test-institution-carousel
-                    @institutions={{this.institutions}}
-                />
-            </div>
-        </div>
-    {{/unless}}
+
+    <div local-class='views-container background'>
+        {{!-- OSF Views links go here --}}
+    </div>
+
     <div local-class='noteworthy-container {{if this.isMobile 'mobile'}}'>
         <div local-class='noteworthy-header-container'>
             <h3>{{t 'dashboard.noteworthy.description'}}</h3>
