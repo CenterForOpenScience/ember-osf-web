@@ -37,7 +37,7 @@ as |layout|>
                 aria-label={{t 'search.search-help-label'}}
                 @type='primary'
                 @layout='large'
-                {{on 'click' (perform this.displayHelp)}}
+                {{on 'click' (action (mut this.showTooltip1) true)}}
             >
                 <FaIcon @icon='question' />
             </Button>
@@ -123,9 +123,9 @@ as |layout|>
                     @innerClass='tooltip-wrapper'
                     @targetId='fundersFilter'
                     @side='right'
-                    @event='click'
+                    @isShown={{this.showTooltip2}}
+                    @event='none'
                     local-class='search-help-tutorial'
-                    as |popover2|
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header'>
@@ -135,8 +135,24 @@ as |layout|>
                         <span local-class='pagination'>
                             <p local-class='enumeration'>{{t 'search_help.index_2'}}</p>
                             <span>
-                                <button type='reset' local-class='skip-button' onClick={{action 'hide' target=popover2}}>{{t 'search_help.footer.skip'}}</button>
-                                <button type='submit' name='helpNextButton' local-class='next-button' onClick={{action this.updateHelp 3}}>{{t 'search_help.footer.next'}}</button>
+                                <Button
+                                    type='reset'
+                                    local-class='skip-button'
+                                    onclick={{fn (mut this.showTooltip2) false}}
+                                >
+                                    {{t 'search_help.footer.skip'}}
+                                </Button>
+                                <Button
+                                    type='submit'
+                                    name='helpNextButton'
+                                    local-class='next-button'
+                                    onclick={{queue
+                                        (fn (mut this.showTooltip2) false)
+                                        (fn (mut this.showTooltip3) true)
+                                    }}
+                                >
+                                    {{t 'search_help.footer.next'}}
+                                </Button>
                             </span>
                         </span>
                     </aside>
@@ -161,9 +177,9 @@ as |layout|>
                     @innerClass='tooltip-wrapper'
                     @targetId='resourcesFilter'
                     @side='right'
-                    @event='click'
+                    @isShown={{this.showTooltip3}}
+                    @event='none'
                     local-class='search-help-tutorial'
-                    as |popover3|
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header'>
@@ -173,8 +189,14 @@ as |layout|>
                         <span local-class='pagination'>
                             <p local-class='enumeration'>{{t 'search_help.index_3'}}</p>
                             <span>
-                                <button type='reset' local-class='skip-button' onClick={{action 'hide' target=popover3}}>{{t 'search_help.footer.skip'}}</button>
-                                <button type='submit' name='helpNextButton' local-class='next-button' {{action 'hide' target=popover3}}>{{t 'search_help.footer.done'}}</button>
+                                <Button
+                                    type='submit'
+                                    name='helpNextButton'
+                                    local-class='next-button'
+                                    onclick={{fn (mut this.showTooltip3) false}}
+                                >
+                                    {{t 'search_help.footer.done'}}
+                                </Button>
                             </span>
                         </span>
                     </aside>
@@ -212,9 +234,9 @@ as |layout|>
                                         data-test-topbar-object-type-link='{{resourceType.value}}'
                                         local-class='object-type-filter-link'
                                         @route='search'
-                                        id='allItems'
                                         @query={{hash resourceType=resourceType.value}}
                                         {{on 'click' (fn this.updateResourceType resourceType)}}
+                                        id='allItems'
                                     >
                                         {{resourceType.display}}
                                     </LinkTo>
@@ -240,9 +262,10 @@ as |layout|>
                     @innerClass='tooltip-wrapper'
                     @targetId='allItems'
                     @side='bottom'
-                    @isShown={{this.showTooltip}}
+                    @isShown={{this.showTooltip1}}
+                    @event='none'
                     local-class='search-help-tutorial'
-                    as |popover1|
+                    id='popover1'
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header'>
@@ -252,8 +275,24 @@ as |layout|>
                         <span local-class='pagination'>
                             <p local-class='enumeration'>{{t 'search_help.index_1'}}</p>
                             <span>
-                                <button type='reset' local-class='skip-button' onClick={{action 'hide' target=popover1}}>{{t 'search_help.footer.skip'}}</button>
-                                <button type='submit' name='helpNextButton' local-class='next-button' onClick={{action this.updateHelp 2}}>{{t 'search_help.footer.next'}}</button>
+                                <Button
+                                    type='reset'
+                                    local-class='skip-button'
+                                    onclick={{fn (mut this.showTooltip1) false}}
+                                >
+                                    {{t 'search_help.footer.skip'}}
+                                </Button>
+                                <Button
+                                    type='submit'
+                                    name='helpNextButton'
+                                    local-class='next-button'
+                                    onclick={{queue
+                                        (fn (mut this.showTooltip1) false)
+                                        (fn (mut this.showTooltip2) true)
+                                    }}
+                                >
+                                    {{t 'search_help.footer.next'}}
+                                </Button>
                             </span>
                         </span>
                     </aside>
