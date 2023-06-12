@@ -10,7 +10,6 @@
     "@fortawesome/ember-fontawesome": "*",
     "@fortawesome/free-brands-svg-icons": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
-    "ember-bootstrap": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-sanitize-html": "*",

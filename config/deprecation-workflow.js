@@ -3,7 +3,6 @@ self.deprecationWorkflow.config = {
     workflow: [
         { handler: 'silence', matchId: 'manager-capabilities.modifiers-3-13' },
         { handler: 'silence', matchId: 'this-property-fallback' },
-        { handler: 'silence', matchId: 'ember-bootstrap.subclassing#Alert' },
         { handler: 'silence', matchId: 'routing.transition-methods' },
         { handler: 'silence', matchId: 'ember-utils.try-invoke' },
         { handler: 'silence', matchId: 'has-block-and-has-block-params' },

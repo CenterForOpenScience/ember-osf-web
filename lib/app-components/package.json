@@ -7,8 +7,6 @@
     "@glimmer/tracking": "*",
     "@glimmer/component": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
-    "ember-bootstrap": "*",
-    "ember-bootstrap-datepicker": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-sanitize-html": "*",
