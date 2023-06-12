@@ -69,7 +69,6 @@
                                         @sortAction={{action this.sortProjects}}
                                         @sort={{this.sort}}
                                         @sortBy='title'
-                                        @class='sort_button'
                                     />
                                 </div>
                                 <div local-class='column-25'>
@@ -81,7 +80,6 @@
                                         @sortAction={{action this.sortProjects}}
                                         @sort={{this.sort}}
                                         @sortBy='last_logged'
-                                        @class='sort_button'
                                     />
                                 </div>
                             </div>
@@ -141,7 +139,7 @@
                         <OsfLink
                             data-test-get-started-button
                             data-analytics-name='Get started button'
-                            class='btn btn-primary'
+                            local-class='btn btn-primary'
                             @target='_blank'
                             @href='https://help.osf.io/article/342-getting-started-on-the-osf'
                         >
@@ -240,7 +238,7 @@
         <div local-class='noteworthy-search-container'>
             <OsfLink
                 data-analytics-name='noteworthy_search'
-                class='btn btn-default'
+                local-class='btn btn-default'
                 @href='/search/?q=*'
             >
                 {{t 'dashboard.noteworthy.search_more'}}
@@ -258,8 +256,7 @@
             <div local-class='button-container'>
                 <OsfLink
                     data-analytics-name='meetings_button'
-                    class='btn btn-banner btn-success btn-lg btn-success-high-contrast'
-                    local-class='button-banner'
+                    local-class='btn btn-banner btn-success btn-lg button-banner'
                     @route='meetings'
                 >
                     {{t 'dashboard.meetings.button'}}
@@ -278,8 +275,7 @@
             <div local-class='button-container'>
                 <OsfLink
                     data-analytics-name='preprints_button'
-                    local-class='button-banner'
-                    class='btn btn-banner btn-success btn-lg btn-success-high-contrast'
+                    local-class='btn btn-banner btn-success btn-lg button-banner'
                     @href='/preprints/'
                 >
                     {{t 'dashboard.preprints.button'}}

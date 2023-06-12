@@ -18,7 +18,7 @@
                 {{t 'settings.account.security.why'}}
             </p>
             {{#if (and this.settings.twoFactorEnabled (not this.settings.twoFactorConfirmed))}}
-                <p data-test-2f-important-warning class='bg-danger'>
+                <p data-test-2f-important-warning local-class='bg-danger'>
                     {{t 'settings.account.security.importantWarning'}}
                 </p>
                 <p data-test-2f-how-to>

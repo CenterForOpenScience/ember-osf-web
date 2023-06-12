@@ -1,6 +1,5 @@
 // stylelint-disable selector-class-pattern
 .SortButton {
-    composes: sort-group from global;
 
     padding-left: 10px;
     display: table-cell;

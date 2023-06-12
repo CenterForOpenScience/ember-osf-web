@@ -11,7 +11,7 @@
         local-class='header'
     >
         <div local-class='logo'></div>
-        <p class='lead' local-class='information'>
+        <p local-class='information lead'>
             {{t 'institutions.description'}}
             <br>
             <OsfLink
@@ -45,7 +45,7 @@
                         local-class='button-margin'
                     />
                 </div>
-                <div class='filter-input' local-class='sort-input'>
+                <div local-class='sort-input'>
                     <Input
                         data-test-institutions-filter='filter'
                         aria-label={{t 'institutions.search_placeholder'}}
@@ -90,7 +90,7 @@
                     @layout='fake-link'
                     {{on 'click' (action 'next')}}
                 >
-                    <FaIcon @icon='chevron-down' class='pagination' />
+                    <FaIcon @icon='chevron-down' local-class='pagination' />
                 </Button>
             {{/if}}
         </div>
@@ -101,7 +101,7 @@
     >
         <p
             data-test-insitutions-footer
-            class='lead'
+            local-class='lead'
         >
             {{t 'institutions.footer'}}
             <OsfLink
