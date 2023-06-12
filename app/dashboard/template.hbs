@@ -152,17 +152,51 @@
             {{/if}}
         </div>
     </div>
-    
-    {{#unless this.isMobile}}
-        <div local-class='institution-container background'>
-            <div local-class='institutions'>
-                <InstitutionCarousel
-                    data-test-institution-carousel
-                    @institutions={{this.institutions}}
-                />
-            </div>
-        </div>
-    {{/unless}}
+
+    <div local-class='products-container background'>
+        <OsfLink 
+            data-test-products-collections
+            @href='https://www.cos.io/products/osf-collections'
+            @target='_blank'
+        >
+            <img
+                local-class='img-responsive'
+                src='/assets/images/dashboard/products/osf-collections.png'
+                alt={{t 'dashboard.products.collections'}}
+            >
+        </OsfLink>
+        <OsfLink
+            data-test-products-registries
+            @route='registries'
+        >
+            <img
+                local-class='img-responsive'
+                src='/assets/images/dashboard/products/osf-registries.png'
+                alt={{t 'dashboard.products.registries'}}
+            >
+        </OsfLink>
+        <OsfLink
+            data-test-products-institutions
+            @route='institutions'
+        >
+            <img
+                local-class='img-responsive'
+                src='/assets/images/dashboard/products/osf-institutions.png'
+                alt={{t 'dashboard.products.institutions'}}
+            >
+        </OsfLink>
+        <OsfLink
+            data-test-products-preprints
+            @href='/preprints/'
+        >
+            <img
+                local-class='img-responsive'
+                src='/assets/images/dashboard/products/osf-preprints.png'
+                alt={{t 'dashboard.products.preprints'}}
+            >
+        </OsfLink>
+    </div>
+
     <div local-class='noteworthy-container {{if this.isMobile 'mobile'}}'>
         <div local-class='noteworthy-header-container'>
             <h3>{{t 'dashboard.noteworthy.description'}}</h3>
@@ -226,7 +260,7 @@
                     data-analytics-name='meetings_button'
                     class='btn btn-banner btn-success btn-lg btn-success-high-contrast'
                     local-class='button-banner'
-                    @href='/meetings/'
+                    @route='meetings'
                 >
                     {{t 'dashboard.meetings.button'}}
                 </OsfLink>

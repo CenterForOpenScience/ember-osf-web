@@ -178,7 +178,7 @@
         background-size: cover;
     }
 
-    .institution-container {
+    .products-container {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -187,8 +187,9 @@
         padding-top: 20px;
         padding-bottom: 20px;
 
-        .institutions {
-            width: 60%;
+        .img-responsive {
+            display: block;
+            max-width: 100%;
         }
     }
 
