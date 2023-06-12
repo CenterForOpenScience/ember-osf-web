@@ -101,16 +101,28 @@ div[role='tooltip'] {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    background-color: #204762;
-    color: #fff;
+    // background-color: #263947;
+    background-color: $osf-dark-blue-navbar;
+    color: $color-text-white;
     width: 400px;
     height: 158px;
-    line-height: 1.4;
+    // line-height: 1.4;
     margin-left: -0.2rem;
 }
 
 div[role='tooltip'] > div > div {
     height: 100%;
+}
+
+.tooltip-arrow {
+    width: 44px;
+    height: 44px;
+    border: 10px solid transparent;
+}
+
+.ember-tooltip-arrow,
+.ember-popover-arrow {
+    border: 10px solid transparent;
 }
 
 .help-content {
@@ -122,6 +134,16 @@ div[role='tooltip'] > div > div {
     width: 100%;
 }
 
+.search-help-header {
+    height: 22px;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    margin-top: 0.4rem;
+    margin-left: 0.75rem;
+}
+
 .help-content > p {
     padding: 0;
     margin-top: 1rem;
@@ -130,19 +152,9 @@ div[role='tooltip'] > div > div {
     margin-left: 0.2rem;
 }
 
-.tooltip-arrow {
-    width: 44px;
-    height: 44px;
-}
 
-.search-help-header {
-    height: 22px;
-    font-weight: 400;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    margin-top: 0.5rem;
-    margin-left: 0.75rem;
+.help-content p {
+    padding-left: 0.5rem;
 }
 
 .tooltip-wrapper > p {
@@ -156,15 +168,10 @@ div[role='tooltip'] > div > div {
 
 .pagination {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    align-self: end;
-    width: 100%;
-
-    margin-left: -1rem;
     align-items: center;
-
-    margin-top: -1rem;
+    width: 100%;
+    margin-top: -0.8rem;
 }
 
 .enumeration {
@@ -177,23 +184,23 @@ div[role='tooltip'] > div > div {
     padding: 0.2rem;
 }
 
-.next-button {
-    background-color: #5bc0de;
-    border-color: #5bc0de;
-}
-
-.skip-button {
-    background-color: #204762;
-    border-color: none;
-    margin-right: 0.5rem;
-}
-
-.help-content p {
-    padding-left: 0.5rem;
-}
-
 .help-content button {
     height: 30px;
     width: 65px;
+    text-align: center;
+    border-color: $color-bg-white-transparent;
+    color: $color-text-white;
     border-radius: 2px;
+    line-height: 18px;
+    overflow: visible;
 }
+
+.skip-button {
+    background-color: $osf-dark-blue-navbar;
+    margin-right: 0.5rem;
+}
+
+.next-button {
+    background-color: $color-select;
+}
+
