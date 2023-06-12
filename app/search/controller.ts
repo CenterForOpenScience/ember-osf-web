@@ -43,7 +43,9 @@ export default class SearchController extends Controller {
 
     @tracked page?: number = 1;
 
-    showTooltip?: boolean = true;
+    showTooltip1?: boolean;
+    showTooltip2?: boolean;
+    showTooltip3?: boolean;
 
     // Resource type
     resourceTypeOptions: ResourceTypeOption[] = [
@@ -154,26 +156,6 @@ export default class SearchController extends Controller {
             this.searchResults =  searchResult.searchResultPage.toArray();
         } catch (e) {
             this.toast.error(e);
-        }
-    }
-
-    @action
-    updateHelp(index: number) {
-        const tooltip = document.querySelector('.tooltip') as HTMLElement;
-
-        if (index === 2) {
-            if (tooltip) {
-                tooltip.style.display = 'none';
-                const fundersFilter = document.getElementById('fundersFilter');
-                fundersFilter?.click();
-            }
-        }
-        if (index === 3) {
-            if (tooltip) {
-                tooltip.style.display = 'none';
-                const resourcesFilter = document.getElementById('resourcesFilter') as HTMLElement;
-                resourcesFilter?.click();
-            }
         }
     }
 }
