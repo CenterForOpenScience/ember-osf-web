@@ -31,5 +31,5 @@ export default class NewFeaturePopover extends Component<Args> {
             });
         }
     }
-    
+
 }
