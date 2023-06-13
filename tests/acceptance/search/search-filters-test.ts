@@ -40,10 +40,10 @@ module(moduleName, hooks => {
         // assert there are no search filters
         assert.dom('[data-test-filter-facet]').exists({ count: 8 }, 'Filterable properties shown after initial search');
         // click the first filterable property
-        await click('[data-test-filter-facet-toggle="License"]');
+        await click('[data-test-filter-facet-toggle="Date Created"]');
         // open the see-more modal
         await click('[data-test-see-more-filterable-values]');
-        assert.dom('[data-test-see-more-dialog-heading]').containsText('License', 'See more modal shown');
+        assert.dom('[data-test-see-more-dialog-heading]').containsText('Date Created', 'See more modal shown');
         assert.dom('[data-test-property-value-select]')
             .containsText('Search for a filter to apply', 'Placeholder message shown in select');
         assert.dom('[data-test-see-more-dialog-apply-button]').isDisabled('Apply button disabled initially');
