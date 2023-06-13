@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
