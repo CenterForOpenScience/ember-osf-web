@@ -2,7 +2,7 @@
     <div local-class='primary-metadata-container'>
         <div local-class='header'>
             <div local-class='type-label'>
-                Label
+                {{this.cardTypeLabel}}
             </div>
             <Button
                 {{on 'click' this.toggleSecondaryMetadata}}
@@ -18,12 +18,18 @@
                 {{/if}}
             </Button>
         </div>
-        <h4 local-class='diplay-name'>
-            <a>This is the title</a>
+        <h4 local-class='display-name'>
+            <a href={{@result.absoluteUrl}}> {{@result.displayTitle}} </a>
         </h4>
         <div local-class='name-fields'>
-            <span>Yeji Huang</span>
-            <span>Ryujin Shin</span>
+            <InlineList
+                @items={{@result.affiliatedEntities}}
+                @total={{@result.affiliatedEntities.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                {{list.item}}
+            </InlineList>
         </div>
         <div local-class='date-fields'>
             <span>date</span> |

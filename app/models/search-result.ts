@@ -33,29 +33,54 @@ export default class SearchResultModel extends Model {
     }
 
     get displayTitle() {
-        if (this.indexCard.resourceType.includes('foaf:person')) {
-            return this.indexCard.resourceMetadata['foaf:name'];
-        } else if (this.indexCard.resourceType.includes('osf:File')) {
-            return this.indexCard.resourceMetadata['osf:fileName'];
+        if (this.resourceType === 'user') {
+            return this.indexCard.get('resourceMetadata')['name'][0]['@value'];
+        } else if (this.resourceType === 'file') {
+            return this.indexCard.get('resourceMetadata')['fileName'][0]['@value'];
         }
-        return this.indexCard.resourceMetadata['dcterms:title'];
+        return this.indexCard.get('resourceMetadata')['title'][0]['@value'];
+    }
+
+    get absoluteUrl() {
+        return this.indexCard.get('resourceMetadata')['@id'];
     }
 
     // returns list of contributors for osf objects
     // returns list of affiliated institutions for osf users
     get affiliatedEntities() {
-        if (this.indexCard.resourceType.includes('foaf:person')) {
+        if (this.resourceType === 'user') {
             // return something
         } else {
-            // return something else
+            return this.indexCard.get('resourceMetadata').creator.map( (item:any) => item.name[0]['@value']);
         }
     }
 
     get dateFields() {
-        if (this.indexCard.resourceType.includes('foaf:person')) {
+        if (this.resourceType === 'user') {
             return [];
-        } else if (this.indexCard.resourceType) {
-            return [];
+        }
+        return [
+            { label: 'Date created', date: this.indexCard.get('resourceMetadata').created },
+            { label: 'Last edited', date: this.indexCard.get('resourceMetadata').modified },
+        ]
+    }
+
+    get resourceType() {
+        const types = this.indexCard.get('resourceMetadata').resourceType.map( (item: any) => item['@id']);
+        if (types.includes('Project')) {
+            return 'project';
+        } else if (types.includes('Registration')) {
+            return 'registration';
+        } else if (types.includes('Preprint')) {
+            return 'preprint';
+        } else if (types.includes('ProjectComponent')) {
+            return 'project_component';
+        } else if (types.includes('RegistrationComponent')) {
+            return 'registration_component';
+        } else if (types.includes('Person')) {
+            return 'user';
+        } else if(types.includes('File')) {
+            return 'file';
         }
     }
 }
