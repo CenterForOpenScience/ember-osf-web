@@ -15,7 +15,7 @@ module(moduleName, hooks => {
         // Load search page
         await visit('/search');
         // assert there are search filters after initial search
-        assert.dom('[data-test-filter-facet]').exists({ count: 3 }, 'Filterable properties shown after initial search');
+        assert.dom('[data-test-filter-facet]').exists({ count: 8 }, 'Filterable properties shown after initial search');
         // assert that mobile only side panel toggle is not shown
         assert.dom('[data-test-toggle-side-panel]').doesNotExist('Side panel toggle not shown in desktop view');
         // assert there are no active filters
@@ -38,7 +38,7 @@ module(moduleName, hooks => {
         // Load search page
         await visit('/search');
         // assert there are no search filters
-        assert.dom('[data-test-filter-facet]').exists({ count: 3 }, 'Filterable properties shown after initial search');
+        assert.dom('[data-test-filter-facet]').exists({ count: 8 }, 'Filterable properties shown after initial search');
         // click the first filterable property
         await click('[data-test-filter-facet-toggle="License"]');
         // open the see-more modal
