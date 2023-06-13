@@ -101,76 +101,34 @@ div[role='tooltip'] {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    // background-color: #263947;
     background-color: $osf-dark-blue-navbar;
     color: $color-text-white;
     width: 400px;
     height: 158px;
-    // line-height: 1.4;
     margin-left: -0.2rem;
-}
-
-div[role='tooltip'] > div > div {
-    height: 100%;
-}
-
-.tooltip-arrow {
-    width: 44px;
-    height: 44px;
-    border: 10px solid transparent;
-}
-
-.ember-tooltip-arrow,
-.ember-popover-arrow {
-    border: 10px solid transparent;
-}
-
-.help-content {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-    width: 100%;
 }
 
 .search-help-header {
     height: 22px;
     font-weight: 400;
-    padding: 0;
-    margin: 0;
-    width: 100%;
     margin-top: 0.4rem;
     margin-left: 0.75rem;
 }
 
 .help-content > p {
-    padding: 0;
     margin-top: 1rem;
-    margin-left: -1rem;
     height: 50px;
     margin-left: 0.2rem;
 }
 
-
 .help-content p {
     padding-left: 0.5rem;
-}
-
-.tooltip-wrapper > p {
-    height: 65px;
-    max-height: 65px;
-    height: fit-content;
-    padding: 0;
-    margin-top: 1rem;
-    margin-left: -1rem;
 }
 
 .pagination {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
     margin-top: -0.8rem;
 }
 
@@ -185,13 +143,9 @@ div[role='tooltip'] > div > div {
 }
 
 .help-content button {
-    height: 30px;
     width: 65px;
-    text-align: center;
-    border-color: $color-bg-white-transparent;
     color: $color-text-white;
     border-radius: 2px;
-    line-height: 18px;
     overflow: visible;
 }
 
@@ -203,4 +157,3 @@ div[role='tooltip'] > div > div {
 .next-button {
     background-color: $color-select;
 }
-
