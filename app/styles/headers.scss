@@ -53,9 +53,69 @@ body {
     line-height: 1.42857;
 }
 
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
 a {
     color: #337ab7;
     text-decoration: none;
+}
+
+dl,
+ol,
+ul {
+    margin-top: 0;
+}
+
+ol,
+ul {
+    margin-bottom: 10px;
+}
+
+dl {
+    margin-bottom: 20px;
+}
+
+dd,
+dt {
+    line-height: 1.42857;
+}
+
+dd {
+    margin-left: 0;
+}
+
+dl,
+ol,
+ul {
+    margin-top: 0;
+}
+
+blockquote ol:last-child,
+blockquote p:last-child,
+blockquote ul:last-child,
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+    margin-bottom: 0;
+}
+
+ol,
+ul {
+    margin-bottom: 10px;
+}
+
+dt,
+kbd kbd,
+label {
+    font-weight: 700;
 }
 
 a:focus,
@@ -67,6 +127,26 @@ a:hover {
 a:focus {
     outline: -webkit-focus-ring-color auto 5px;
     outline-offset: -2px;
+}
+
+fieldset,
+legend {
+    padding: 0;
+    border: 0;
+}
+
+fieldset {
+    min-width: 0;
+    margin: 0;
+}
+
+legend {
+    display: block;
+    width: 100%;
+    font-size: 21px;
+    line-height: inherit;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 20px;
 }
 
 
