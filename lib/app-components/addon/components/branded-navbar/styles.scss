@@ -47,6 +47,7 @@
 
 .nav-wrapper {
     @include clamp-width;
+    display: flex;
 }
 
 .navbar-image {
@@ -75,6 +76,7 @@
 // The default 340px isn't quite enough for the auth dropdown
 .secondary-navigation {
     max-height: 400px !important;
+    margin-right: 0 !important;
 }
 
 @media (min-width: 992px) {
@@ -86,6 +88,11 @@
 
     .links > li > a {
         line-height: 27px !important;
-        
+    }
+}
+
+@media (max-width: 991px) {
+    .links > li > a:hover {
+        background-color: #263947;
     }
 }

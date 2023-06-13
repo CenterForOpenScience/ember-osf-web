@@ -30,6 +30,12 @@
     padding: 11px 15px;
 }
 
+@media (max-width: 767px) {
+    .auth-trigger.auth-trigger.auth-trigger.auth-trigger {
+        padding-bottom: 35px;
+    }
+}
+
 :global(.dropdown.secondary-nav-dropdown .btn-link.dropdown-toggle) {
     padding: 11px 15px;
 
