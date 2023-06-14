@@ -109,16 +109,14 @@ as |layout|>
         {{#each this.filterableProperties as |filterableProperty index|}}
             {{#if (eq index 1)}}
                 {{#let filterableProperty.indexCard as |propertyCard|}}
-                    <div id='fundersFilter'>
-                        <Search::-Components::FilterFacet
-                            @cardSearchText={{this.q}}
-                            @cardSearchFilters={{this.activeFilters}}
-                            @propertyCard={{propertyCard}}
-                            @propertySearch={{filterableProperty}}
-                            @toggleFilter={{this.toggleFilter}}
-                            @event='click'
-                        />
-                    </div>
+                    <Search::-Components::FilterFacet
+                        @cardSearchText={{this.q}}
+                        @cardSearchFilters={{this.activeFilters}}
+                        @propertyCard={{propertyCard}}
+                        @propertySearch={{filterableProperty}}
+                        @toggleFilter={{this.toggleFilter}}
+                        id='fundersFilter'
+                    />
                 {{/let}}
                 {{!-- template-lint-disable no-heading-inside-button --}}
                 <EmberPopover
