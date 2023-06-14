@@ -9,12 +9,13 @@
     button:focus,
     button:focus:active,
     button:hover {
-        appearance: none;
-        outline: none;
-        border: 0;
-        background: transparent;
-        height: 29px;
-        padding: 0.4em 0 0 0.2em;
+        appearance: none !important;
+        outline: none !important;
+        border: 0 !important;
+        background: transparent !important;
+        height: 29px !important;
+        padding: 0.4em 0 0 0.2em !important;
+        color: $color-text-white !important;
     }
 
     :global(.btn) {
