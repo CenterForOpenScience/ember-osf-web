@@ -39,6 +39,7 @@ as |layout|>
                 @layout='large'
                 {{on 'click' (queue
                     (fn (mut this.showTooltip3) false)
+                    (fn (mut this.showTooltip2) false)
                     (fn (mut this.showTooltip1) true)
                 )}}
             >
@@ -109,14 +110,15 @@ as |layout|>
         {{#each this.filterableProperties as |filterableProperty index|}}
             {{#if (eq index 1)}}
                 {{#let filterableProperty.indexCard as |propertyCard|}}
-                    <Search::-Components::FilterFacet
-                        @cardSearchText={{this.q}}
-                        @cardSearchFilters={{this.activeFilters}}
-                        @propertyCard={{propertyCard}}
-                        @propertySearch={{filterableProperty}}
-                        @toggleFilter={{this.toggleFilter}}
-                        id='fundersFilter'
-                    />
+                    <div id='fundersFilter'>
+                        <Search::-Components::FilterFacet
+                            @cardSearchText={{this.q}}
+                            @cardSearchFilters={{this.activeFilters}}
+                            @propertyCard={{propertyCard}}
+                            @propertySearch={{filterableProperty}}
+                            @toggleFilter={{this.toggleFilter}}
+                        />
+                    </div>
                 {{/let}}
                 {{!-- template-lint-disable no-heading-inside-button --}}
                 <EmberPopover
@@ -170,7 +172,6 @@ as |layout|>
                             @propertyCard={{propertyCard}}
                             @propertySearch={{filterableProperty}}
                             @toggleFilter={{this.toggleFilter}}
-                            @event='click'
                         />
                     </div>
                 {{/let}}
