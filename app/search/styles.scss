@@ -96,56 +96,69 @@
     justify-content: space-between;
 }
 
-div[role='tooltip'] {
+.search-help-tutorial-1,
+.search-help-tutorial-2,
+.search-help-tutorial-3 {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     background-color: $osf-dark-blue-navbar;
     color: $color-text-white;
     width: 400px;
-    height: 158px;
     margin-left: -0.2rem;
+
+    h2 {
+        font-weight: 400;
+        height: 22px;
+        margin-top: 0.5rem;
+        margin-left: 0.2rem;
+    }
+
+    aside > p {
+        height: 50px;
+        margin-top: 1rem;
+        padding-top: 0.2rem;
+        padding-bottom: 3rem;
+    }
+
+    p {
+        margin-left: 0.2rem;
+    }
+
+    button {
+        width: 65px;
+        color: $color-text-white;
+        border-radius: 2px;
+        overflow: visible;
+    }
 }
 
-.search-help-header {
-    height: 22px;
-    font-weight: 400;
-    margin-top: 0.4rem;
-    margin-left: 0.75rem;
+.search-help-tutorial-2 {
+    margin-bottom: 1.1rem;
 }
 
-.help-content > p {
-    margin-top: 1rem;
-    height: 50px;
-    margin-left: 0.2rem;
-}
-
-.help-content p {
-    padding-left: 0.5rem;
+.search-help-tutorial-inner {
+    background-color: $osf-dark-blue-navbar;
+    color: $color-text-white;
+    width: 400px;
+    height: 158px;
 }
 
 .pagination {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: -0.8rem;
+
+    span {
+        position: relative;
+        right: -0.2rem;
+        bottom: 0.3rem;
+    }
 }
 
 .enumeration {
-    margin: 0;
     padding: 0;
-    margin-left: 0.2rem;
-}
-
-.search-help-tutorial {
-    padding: 0.2rem;
-}
-
-.help-content button {
-    width: 65px;
-    color: $color-text-white;
-    border-radius: 2px;
-    overflow: visible;
+    margin: 0 0 0.5rem 0.2rem;
 }
 
 .skip-button {
