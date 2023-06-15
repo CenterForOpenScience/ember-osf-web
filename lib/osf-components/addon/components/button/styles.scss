@@ -50,7 +50,7 @@
 .SecondaryButton {
     background-color: $color-bg-white;
     border: 1px solid $color-border-gray-light;
-    color: var(--primary-color);
+    color: $color-text-black;
 
     &:hover:not([disabled]) {
         border: 1px solid $color-bg-gray-blue;
