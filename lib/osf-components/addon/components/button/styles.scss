@@ -67,6 +67,10 @@
     }
 }
 
+.DefaultButton {
+    color: $color-text-black;
+}
+
 .DestroyButton {
     background-color: $brand-danger;
     color: $color-text-white;
