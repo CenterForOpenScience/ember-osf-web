@@ -123,13 +123,13 @@ as |layout|>
                 {{!-- template-lint-disable no-heading-inside-button --}}
                 <EmberPopover
                     data-test-search-help-2
-                    @innerClass='tooltip-wrapper'
                     @targetId='fundersFilter'
                     @side='right'
                     @isShown={{this.showTooltip2}}
                     @event='none'
                     @spacing={{20}}
-                    local-class='search-help-tutorial'
+                    @tooltipClass={{local-class 'search-help-tutorial-2'}}
+                    @innerClass={{'search-help-tutorial-inner'}}
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header' data-test-help-heading-2>
@@ -178,13 +178,13 @@ as |layout|>
                 {{!-- template-lint-disable no-heading-inside-button --}}
                 <EmberPopover
                     data-test-search-help-3
-                    @innerClass='tooltip-wrapper'
                     @targetId='resourcesFilter'
                     @side='right'
                     @isShown={{this.showTooltip3}}
                     @event='none'
                     @spacing={{20}}
-                    local-class='search-help-tutorial'
+                    @tooltipClass={{local-class 'search-help-tutorial-3'}}
+                    @innerClass={{'search-help-tutorial-inner'}}
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header' data-test-help-heading-3>
@@ -264,14 +264,13 @@ as |layout|>
                 {{!-- template-lint-disable no-heading-inside-button --}}
                 <EmberPopover
                     data-test-search-help-1
-                    @innerClass='tooltip-wrapper'
+                    @tooltipClass={{local-class 'search-help-tutorial-1'}}
+                    @innerClass={{'search-help-tutorial-inner'}}
                     @targetId='allItems'
                     @side='bottom'
                     @isShown={{this.showTooltip1}}
                     @event='none'
                     @spacing={{20}}
-                    local-class='search-help-tutorial'
-                    id='popover1'
                 >
                     <aside local-class='help-content'>
                         <h2 local-class='search-help-header' data-test-help-heading-1>
