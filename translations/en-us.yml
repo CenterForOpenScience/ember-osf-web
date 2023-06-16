@@ -2583,7 +2583,7 @@ search_help:
     panel_3: '3 of 3'
     header_1: 'Improved OSF Search'
     header_2: 'OSF Smart Facets'
-    header_3: 'Resources'
+    header_3: 'Add Metadata'
     body_1: 'Enter any term in the search box and filter by specific object types.'
     body_2: 'Narrow the source, discipline, and more. For example, find content supported by a specific funder or view only datasets.'
     body_3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable!'
