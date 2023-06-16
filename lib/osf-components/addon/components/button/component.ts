@@ -12,6 +12,7 @@ const typeClasses = {
     secondary: 'SecondaryButton',
     create: 'CreateButton',
     destroy: 'DestroyButton',
+    default: 'DefaultButton',
 };
 
 type Layout = keyof typeof layoutClasses;

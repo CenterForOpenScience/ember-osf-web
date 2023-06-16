@@ -357,7 +357,8 @@ fieldset[disabled] .form-control {
     .navbar-fixed-bottom .navbar-collapse,
     .navbar-fixed-top .navbar-collapse,
     .navbar-static-top .navbar-collapse {
-        padding-right: 0;
+        padding-right: 15px;
+        padding-bottom: 15px;
         padding-left: 0;
     }
 }

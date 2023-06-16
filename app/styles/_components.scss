@@ -422,11 +422,11 @@
 
 #navbarScope a:hover {
     color: rgba(255, 255, 255, 0.8);
+    background-color: inherit;
 }
 
 #navbarScope .button-container {
     display: flex;
-    margin-top: -20px;
 }
 
 #navbarScope .btn-top-signup {
@@ -440,6 +440,11 @@
     padding: 4px 17px;
     margin-top: 3px;
     font-size: 15px;
+}
+
+#navbarScope .btn-top-login:hover {
+    background-color: #124a5b;
+    border-color: #0e3946;
 }
 
 .navbar-default {
@@ -676,6 +681,7 @@
 
 .sign-in {
     padding-top: 5px;
+    list-style: none;
 }
 
 #menuLogin {

@@ -84,6 +84,7 @@
         /* necessary for the parent flexbox container to shrink smaller than the child element's text */
         min-width: 0;
         margin-left: auto !important;
+        display: flex;
     }
 
     .links > li > a {
@@ -94,5 +95,11 @@
 @media (max-width: 991px) {
     .links > li > a:hover {
         background-color: #263947;
+    }
+
+    .secondary-navigation {
+        min-width: 210px;
+        position: absolute;
+        right: 0;
     }
 }
