@@ -23,13 +23,16 @@ export default class SearchResultModel extends Model {
 
     // TODO: double check how matchEvidence works
     get context() {
-        return this.matchEvidence.reduce(
-            (acc, current) => acc.concat(
-                `${current.propertyPath}:
-                ${current['@type'] === 'TextMatchEvidence' ? current.matchingHighlight : current.matchingIri}`,
-            ),
-            '',
-        );
+        if (this.matchEvidence) {
+            return this.matchEvidence.reduce(
+                (acc, current) => acc.concat(
+                    `${current.propertyPath}:
+                    ${current['@type'] === 'TextMatchEvidence' ? current.matchingHighlight : current.matchingIri}`,
+                ),
+                '',
+            );
+        }
+        return null;
     }
 
     get displayTitle() {
@@ -82,6 +85,7 @@ export default class SearchResultModel extends Model {
         } else if(types.includes('File')) {
             return 'file';
         }
+        return 'unknown';
     }
 }
 

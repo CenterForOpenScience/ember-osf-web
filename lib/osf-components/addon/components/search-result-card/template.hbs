@@ -32,14 +32,13 @@
             </InlineList>
         </div>
         <div local-class='date-fields'>
-            <span>date</span> |
-            <span>date</span>
+            {{#each @result.dateFields as |field|}}
+                <span>{{field.label}}: {{field.date}}</span>
+            {{/each}}
         </div>
         <div local-class='context-field'>
-            <p>Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <p>
+                {{@result.context}}
             </p>
         </div>
     </div>
