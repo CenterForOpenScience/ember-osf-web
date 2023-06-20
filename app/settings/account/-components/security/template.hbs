@@ -27,7 +27,7 @@
                 <p data-test-2f-once-verified>
                     {{t 'settings.account.security.onceVerified'}}
                 </p>
-                <p data-test-2f-scan-image>
+                <p data-test-2f-scan-image local-class='scan-image'>
                     {{t 'settings.account.security.scanImage' secretKey=this.settings.secret htmlSafe=true}}
                 </p>
                 <QrCode
@@ -41,7 +41,7 @@
                     data-analytics-scope='Verification form'
                     @changeset={{this.changeset}}
                 as |form|>
-                    <div>
+                    <div local-class='verification-code'>
                         <form.text
                             data-test-verification-code-field
                             @valuePath='twoFactorVerification'

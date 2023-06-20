@@ -18,3 +18,11 @@
 .bg-danger {
     background-color: #f2dede;
 }
+
+.scan-image code {
+    color: $color-red;
+}
+
+.verification-code input {
+    margin-bottom: 20px;
+}
