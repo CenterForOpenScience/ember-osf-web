@@ -103,7 +103,7 @@
                                                 data-analytics-scope='Delete'
                                                 local-class='dropdown-link'
                                                 @layout='fake-link'
-                                                {{on 'click' (action @delete @node)}}
+                                                {{on 'click' (queue (action dd.close) (action @delete @node))}}
                                             >
                                                 {{t 'general.delete'}}
                                             </Button>
