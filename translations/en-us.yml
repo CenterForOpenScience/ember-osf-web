@@ -225,7 +225,7 @@ search:
             next: 'Next'
             done: 'Done'
     search-header: 'Search OSF'
-    textbox-placeholder: 'Search placeholder'
+    textbox-placeholder: 'Search "Open Science"'
     search-button-label: 'Search'
     search-help-label: 'Help tutorial'
     refine-search: 'Refine Search'
