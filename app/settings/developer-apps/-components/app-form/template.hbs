@@ -6,29 +6,31 @@
         @changeset={{this.changeset}}
         as |form|
     >
-        <form.text
-            data-test-developer-app-name
-            @valuePath='name'
-            @label={{t 'settings.developer-apps.appName'}}
-            @placeholder={{t 'general.required'}}
-        />
-        <form.text
-            data-test-developer-app-homepage
-            @valuePath='homeUrl'
-            @label={{t 'settings.developer-apps.appHomepage'}}
-            @placeholder={{t 'general.required'}}
-        />
-        <form.textarea
-            data-test-developer-app-description
-            @valuePath='description'
-            @label={{t 'settings.developer-apps.appDescription'}}
-        />
-        <form.text
-            data-test-developer-app-callback-url
-            @valuePath='callbackUrl'
-            @label={{t 'settings.developer-apps.appCallbackUrl'}}
-            @placeholder={{t 'general.required'}}
-        />
+        <div local-class='dev-apps-form'>
+            <form.text
+                data-test-developer-app-name
+                @valuePath='name'
+                @label={{t 'settings.developer-apps.appName'}}
+                @placeholder={{t 'general.required'}}
+            />
+            <form.text
+                data-test-developer-app-homepage
+                @valuePath='homeUrl'
+                @label={{t 'settings.developer-apps.appHomepage'}}
+                @placeholder={{t 'general.required'}}
+            />
+            <form.textarea
+                data-test-developer-app-description
+                @valuePath='description'
+                @label={{t 'settings.developer-apps.appDescription'}}
+            />
+            <form.text
+                data-test-developer-app-callback-url
+                @valuePath='callbackUrl'
+                @label={{t 'settings.developer-apps.appCallbackUrl'}}
+                @placeholder={{t 'general.required'}}
+            />
+        </div>
 
         <div>
             {{#if this.createMode}}
