@@ -84,7 +84,6 @@ as |layout|>
                         <span>
                             <Button
                                 data-test-help-skip-2
-                                type='reset'
                                 local-class='skip-button'
                                 onclick={{fn (mut this.showTooltip2) false}}
                             >
@@ -92,7 +91,6 @@ as |layout|>
                             </Button>
                             <Button
                                 data-test-help-next-2
-                                type='submit'
                                 local-class='next-button'
                                 onclick={{queue
                                     (fn (mut this.showTooltip2) false)
@@ -182,7 +180,6 @@ as |layout|>
                                         <span>
                                             <Button
                                                 data-test-help-done
-                                                type='submit'
                                                 local-class='next-button'
                                                 onclick={{fn (mut this.showTooltip3) false}}
                                             >
@@ -255,7 +252,6 @@ as |layout|>
                                                     <span>
                                                         <Button
                                                             data-test-help-skip-1
-                                                            type='reset'
                                                             local-class='skip-button'
                                                             onclick={{fn (mut this.showTooltip1) false}}
                                                         >
@@ -263,7 +259,6 @@ as |layout|>
                                                         </Button>
                                                         <Button
                                                             data-test-help-next-1
-                                                            type='submit'
                                                             local-class='next-button'
                                                             onclick={{queue
                                                                 (fn (mut this.showTooltip1) false)
