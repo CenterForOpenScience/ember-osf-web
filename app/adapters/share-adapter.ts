@@ -1,6 +1,7 @@
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
+import config from 'ember-get-config';
 
 export default class ShareAdapter extends JSONAPIAdapter {
-    host = 'https://share.osf.io';
-    namespace = 'api/v2';
+    host = config.OSF.shareBaseUrl.replace(/\/$/, ''); // Remove trailing slash to avoid // in URLs
+    namespace = 'api/v3';
 }
