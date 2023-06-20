@@ -53,10 +53,6 @@ module('Integration | Component | Search help', hooks => {
         assert.dom('[data-test-help-enumeration-1]').exists();
         assert.dom('[data-test-help-enumeration-1]').hasText(this.intl.t('search_help_test.enumeration_1_test'));
 
-        // verify popover position and spacing
-        // assertTooltipSpacing(assert, 20);
-        // assertTooltipSide(assert, 'bottom');
-
         // verify second popover displays
         await click('[data-test-help-next-1]');
         assert.dom('[data-test-search-help-2]').exists();
