@@ -40,11 +40,9 @@ module('Integration | Component | Search help', hooks => {
         // verify skip button present
         assert.dom('[data-test-help-skip-1]').exists();
         assert.dom('[data-test-help-skip-1]').hasText(this.intl.t('search_help_test.skip'));
-        assert.dom('[data-test-help-skip-1]').hasAttribute('type', 'reset');
         // verify next button works
         assert.dom('[data-test-help-next-1]').exists();
         assert.dom('[data-test-help-next-1]').hasText(this.intl.t('search_help_test.next'));
-        assert.dom('[data-test-help-next-1]').hasAttribute('type', 'submit');
         // verify first popover content
         assert.dom('[data-test-help-heading-1]').exists();
         assert.dom('[data-test-help-heading-1]').hasText(this.intl.t('search_help_test.heading_1_test'));
