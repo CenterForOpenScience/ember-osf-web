@@ -12,7 +12,7 @@ module('Integration | Component | Search help', hooks => {
         search_help_test: {
             heading_1_test: 'Improved OSF Search',
             heading_2_test: 'OSF Smart Facets',
-            heading_3_test: 'Resources',
+            heading_3_test: 'Add Metadata',
             body_1_test: 'Enter any term in the search box and filter by specific object types.',
             body_2_test: `Narrow the source, discipline, and more. For example, 
                 find content supported by a specific funder or view only datasets.`,
