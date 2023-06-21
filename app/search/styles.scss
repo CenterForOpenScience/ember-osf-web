@@ -158,3 +158,60 @@
 .next-button {
     background-color: $color-select;
 }
+
+.mobile {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        padding: 0;
+        text-align: left;
+        width: 100%;
+        margin-left: 1rem;
+
+        h1 {
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+        }
+    }
+
+    span {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        margin: 0 0 0.5rem 0.5rem;
+
+        button:nth-of-type(2) {
+            transform: scale(0.5);
+            border-radius: 50%;
+            margin-left: 0;
+            position: absolute;
+            right: 0.1rem;
+        }
+    }
+
+    > button {
+        width: 100%;
+    }
+}
+
+.mobile-filter {
+    > h2 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    > span {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin-bottom: 0.5rem;
+
+        > div {
+            max-width: 50%;
+            padding: 0.75rem;
+        }
+    }
+}

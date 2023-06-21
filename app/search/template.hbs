@@ -5,7 +5,7 @@
 as |layout|>
     {{#let (unique-id 'heading') as |headingWrapper|}}
         <div id={{headingWrapper}}>
-            <layout.heading local-class='heading-wrapper'>
+            <layout.heading local-class='heading-wrapper {{if this.showSidePanelToggle 'mobile'}}'>
                 <label
                     for='search-input'
                     local-class='heading-label'
@@ -74,7 +74,7 @@ as |layout|>
                         local-class='sidenav-toggle'
                         {{on 'click' layout.toggleSidenav}}
                     >
-                        <FaIcon @icon='bars' />
+                        {{t 'search.refine-search'}}
                     </Button>
                 {{/if}}
             </layout.heading>
@@ -191,7 +191,7 @@ as |layout|>
     {{/let}}
     <layout.left
         data-analytics-scope='Search page left panel'
-        local-class='left-panel'
+        local-class='left-panel {{if this.showSidePanelToggle 'mobile-filter'}}'
     >
         {{#let (unique-id 'two') as |twoId|}}
             <h2 id={{twoId}}>{{t 'search.left-panel.header'}}</h2>
