@@ -2591,4 +2591,3 @@ dev-tools:
         show-url-bar: 'Show URL bar -- navigate by URL without reloading'
     features:
         title: 'Features'
-
