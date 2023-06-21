@@ -44,6 +44,9 @@ export default class SearchController extends Controller {
     showTooltip1?: boolean;
     showTooltip2?: boolean;
     showTooltip3?: boolean;
+    showTooltipMobile1?: boolean;
+    showTooltipMobile2?: boolean;
+    showTooltipMobile3?: boolean;
 
     // Resource type
     resourceTypeOptions: ResourceTypeOption[] = [
