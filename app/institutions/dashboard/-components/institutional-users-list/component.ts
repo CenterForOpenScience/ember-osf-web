@@ -42,12 +42,10 @@ export default class InstitutionalUsersList extends Component {
             departments = departments.concat(institutionDepartments);
         }
 
-        /*
         if (!this.department) {
             // eslint-disable-next-line ember/no-side-effects
             this.set('department', departments[0]);
         }
-        */
 
         return departments;
     }
