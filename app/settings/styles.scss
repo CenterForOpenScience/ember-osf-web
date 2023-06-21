@@ -69,7 +69,7 @@
                     background-color: $color-bg-gray-lighter;
                 }
 
-                .active {
+                :global(.active) {
                     background-color: $color-bg-blue-dark;
 
                     :hover {
