@@ -412,23 +412,9 @@ fieldset[disabled] .form-control {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.hidden,
-.visible-lg,
-.visible-lg-block,
-.visible-lg-inline,
-.visible-lg-inline-block,
-.visible-md,
-.visible-md-block,
-.visible-md-inline,
-.visible-md-inline-block,
+
 .visible-sm,
-.visible-sm-block,
-.visible-sm-inline,
-.visible-sm-inline-block,
-.visible-xs,
-.visible-xs-block,
-.visible-xs-inline,
-.visible-xs-inline-block {
+.visible-xs {
     display: none !important;
 }
 
