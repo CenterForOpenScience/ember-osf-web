@@ -49,22 +49,23 @@ import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl } } = config;
+const { OSF: { apiUrl, shareBaseUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
     this.passthrough('https://api.crossref.org/*');
-    // SHARE search
-    this.urlPrefix = 'https://share.osf.io';
-    this.namespace = '/api/v2/';
 
     // SHARE-powered registration discover endpoint
+    this.urlPrefix = 'https://share.osf.io';
+    this.namespace = '/api/v2/';
     this.post('/search/creativeworks/_search', shareSearch);
 
     // SHARE-powered search endpoints
-    this.get('/index-card-searches', cardSearch);
-    this.get('/index-value-searches', valueSearch);
-    // this.get('/index-cards/:id', Detail);
+    this.urlPrefix = shareBaseUrl;
+    this.namespace = '/api/v3/';
+    this.get('/index-card-search', cardSearch);
+    this.get('/index-value-search', valueSearch);
+    // this.get('/index-card/:id', Detail);
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
