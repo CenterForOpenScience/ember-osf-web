@@ -4,14 +4,16 @@
 >
     <panel.heading @title={{t 'settings.account.deactivation.title'}} />
     <panel.body data-analytics-scope='Deactivation panel'>
-        <Alert
-            @type='warning'
-            @dismissible={{false}}
-            @visible={{true}}
-        >
-            <strong>{{t 'settings.account.deactivation.warning'}}</strong>
-            {{t 'settings.account.deactivation.warningText'}}
-        </Alert>
+        <div local-class='warning-alert'>
+            <Alert
+                @type='warning'
+                @dismissible={{false}}
+                @visible={{true}}
+            >
+                <strong>{{t 'settings.account.deactivation.warning'}}</strong>
+                {{t 'settings.account.deactivation.warningText'}}
+            </Alert>
+        </div>
         <p>
             {{t 'settings.account.deactivation.body' htmlSafe=true}}
         </p>
