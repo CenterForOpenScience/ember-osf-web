@@ -8,6 +8,12 @@
         flex-direction: row;
 
         .heading {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+
             :global(.ember-content-placeholders-heading__title) {
                 height: 1em;
                 margin-top: 5px;
@@ -44,6 +50,16 @@
                 white-space: nowrap;
                 vertical-align: baseline;
                 border-radius: 0.25em;
+            }
+
+            .osf-link {
+                margin-left: 5px;
+                margin-top: 2px;
+
+                &.mobile {
+                    margin-left: 0;
+
+                }
             }
         }
 
