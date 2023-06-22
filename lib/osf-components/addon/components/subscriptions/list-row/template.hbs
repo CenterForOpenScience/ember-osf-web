@@ -1,14 +1,9 @@
 <li data-test-subscription-list-row={{@subscription.id}}>
-    <div local-class='SubscriptionRow'>
-        <span
-            data-test-subscription-event-name
-        >
+    <div local-class='subscription-row'>
+        <span data-test-subscription-event-name>
             {{humanize @subscription.eventName}}
         </span>
-        <span
-            data-test-power-select
-            local-class='RowPowerSelectSection'
-        >
+        <span data-test-power-select>
             <PowerSelect
                 @selected={{@subscription.frequency}}
                 @options={{this.frequencyOptions}}
