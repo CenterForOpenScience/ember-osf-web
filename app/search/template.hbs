@@ -1,11 +1,159 @@
 {{page-title (t 'search.page-title')}}
 
-<SearchPage
-    @route='search'
+{{!-- <SearchPage
     @query={{this.q}}
-    @queryParams={{this.queryParams}}
-    @onSearch={{action this.onSearch}}
-    @showResourceTypeFilter={{true}}
-    @sort={{this.sort}}
-    @resourceType={{this.resourceType}}
-/>
+    @activeFilters={{this.activeFilters}}
+    @backgroundClass={{local-class 'search-page'}}
+    @selected={{this.selectedResourceTypeOption}}
+    @selected={{this.selectedSortOption}}
+    @defaultParams={{''}}
+/> --}}
+
+<OsfLayout
+    @backgroundClass='search-page'
+as |layout|>
+    <layout.heading local-class='heading-wrapper'>
+        <label
+            for='search-input'
+            local-class='heading-label'
+        >
+            <h1>{{t 'search.search-header'}}</h1>
+        </label>
+        <span local-class='search-input-wrapper'>
+            <Input
+                local-class='search-input'
+                id='search-input'
+                @type='search'
+                @placeholder={{t 'search.textbox-placeholder'}}
+                @value={{this.seachBoxText}}
+                @enter={{perform this.doDebounceSearch}}
+            />
+            <Button
+                data-test-search-submit
+                data-analytics-name='search button'
+                local-class='search-button'
+                aria-label={{t 'search.search-button-label'}}
+                @type='primary'
+                @layout='large'
+                {{on 'click' (perform this.doDebounceSearch)}}
+            >
+                <FaIcon @icon='search' />
+            </Button>
+        </span>
+        {{#if this.showSidePanelToggle}}
+            <Button
+                data-test-toggle-side-panel
+                data-analytics-name='toggle side panel'
+                aria-label={{t 'search.toggle-sidenav'}}
+                local-class='sidenav-toggle'
+                {{on 'click' layout.toggleSidenav}}
+            >
+                <FaIcon @icon='bars' />
+            </Button>
+        {{/if}}
+    </layout.heading>
+    <layout.left
+        data-analytics-scope='Search page left panel'
+        local-class='left-panel'
+    >
+        <h2>{{t 'search.left-panel.header'}}</h2>
+        {{#if this.showSidePanelToggle}}
+            <div data-test-left-panel-object-type-dropdown>
+                <label>
+                    {{t 'search.resource-type.search-by'}}
+                    <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
+                        @onChange={{this.updateResourceType}} as |resourceType|>
+                        {{resourceType.display}}
+                    </PowerSelect>
+                </label>
+            </div>
+            <div data-test-left-panel-sort-dropdown>
+                <label>
+                    {{t 'search.sort.sort-by'}}
+                    <PowerSelect @options={{this.sortOptions}} @selected={{this.selectedSortOption}}
+                        @onChange={{this.updateSort}} as |sortOption|>
+                        {{sortOption.display}}
+                    </PowerSelect>
+                </label>
+            </div>
+        {{/if}}
+        {{#if this.activeFilters.length}}
+            <ul local-class='active-filter-list'>
+                {{#each this.activeFilters as |filter|}}
+                    <li
+                        data-test-active-filter='{{filter.property}}-{{filter.value}}'
+                        local-class='active-filter-item'
+                    >
+                        <span>
+                            {{filter.property}}:
+                            {{filter.value}}
+                        </span>
+                        <Button
+                            data-analytics-name='remove filter'
+                            data-test-remove-active-filter='{{filter.property}}-{{filter.value}}'
+                            aria-label={{t 'search.active-filters.remove-filter' property=filter.property value=filter.value}}
+                            @layout='fake-link'
+                            {{on 'click' (fn this.toggleFilter filter)}}
+                        >
+                            <FaIcon @icon='times' />
+                        </Button>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+        {{#each this.filterableProperties as |filterableProperty|}}
+            {{#let filterableProperty.indexCard as |propertyCard|}}
+                <Search::-Components::FilterFacet
+                    @cardSearchText={{this.q}}
+                    @cardSearchFilters={{this.activeFilters}}
+                    @propertyCard={{propertyCard}}
+                    @propertySearch={{filterableProperty}}
+                    @toggleFilter={{this.toggleFilter}}
+                />
+            {{/let}}
+        {{else}}
+            {{t 'search.left-panel.no-filterable-properties'}}
+        {{/each}}
+    </layout.left>
+    <layout.main data-analytics-scope='Search page main'>
+        {{!-- paginator --}}
+        {{#unless this.showSidePanelToggle}}
+            <div local-class='topbar'>
+                <nav
+                    data-test-topbar-object-type-nav
+                    local-class='object-type-nav'
+                >
+                    <ul>
+                        {{#each this.resourceTypeOptions as |resourceType|}}
+                            <li>
+                                <LinkTo
+                                    data-analytics-name='Object type filter={{resourceType.value}}'
+                                    data-test-topbar-object-type-link='{{resourceType.value}}'
+                                    local-class='object-type-filter-link'
+                                    @route='search'
+                                    @query={{hash resourceType=resourceType.value}}
+                                    {{on 'click' (fn this.updateResourceType resourceType)}}
+                                >
+                                    {{resourceType.display}}
+                                </LinkTo>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </nav>
+                <div
+                    data-test-topbar-sort-dropdown
+                    local-class='sort-dropdown'
+                >
+                    <PowerSelect
+                        @options={{this.sortOptions}}
+                        @selected={{this.selectedSortOption}}
+                        @onChange={{this.updateSort}}
+                        as |sortOption|
+                    >
+                        {{sortOption.display}}
+                    </PowerSelect>
+                </div>
+            </div>
+        {{/unless}}
+    </layout.main>
+</OsfLayout>
