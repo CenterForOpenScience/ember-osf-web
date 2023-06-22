@@ -1,17 +1,17 @@
 .panel {
-    :global(.panel) {
+    .panel-overall {
         border: 0;
         margin-bottom: 30px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    :global(.panel-heading) {
+    .panel-heading {
         background: #365063;
         padding: 15px;
         border: 0;
     }
 
-    :global(.panel-title) {
+    .panel-title {
         display: block;
         float: none;
         color: #fff;
@@ -20,12 +20,15 @@
         text-align: center;
         text-transform: uppercase;
         line-height: 20px;
-        margin-top: 0;
-        margin-bottom: 0;
     }
 
-    :global(.panel-body) {
+    .panel-body {
         color: #263947;
         text-align: center;
+
+        h3 {
+            font-size: 18pt;
+            font-weight: 800;
+        }
     }
 }
