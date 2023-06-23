@@ -159,6 +159,13 @@
     background-color: $color-select;
 }
 
+.sort-dropdown > div {
+    height: 28px;
+    max-height: 28px;
+    width: 175px;
+    text-overflow: ellipsis;
+}
+
 .mobile {
     display: flex;
     flex-direction: column;
