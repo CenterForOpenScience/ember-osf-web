@@ -70,7 +70,9 @@
                     {{propertyLabel}}
                 </dialog.heading>
                 <dialog.main local-class='see-more-dialog'>
-                    {{t 'search.filter-facet.see-more-modal-text'}}
+                    <p>
+                        {{t 'search.filter-facet.see-more-modal-text'}}
+                    </p>
                     <PowerSelect
                         data-test-property-value-select
                         @options={{this.filterableValues}}

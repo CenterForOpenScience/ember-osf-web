@@ -2,6 +2,11 @@
     background-color: $color-bg-gray;
 }
 
+[data-analytics-scope='Search page main'] {
+    margin-right: 3rem;
+    width: 70%;
+}
+
 .heading-wrapper {
     text-align: center;
     color: $color-text-white;
@@ -43,6 +48,7 @@
     margin-left: 20px;
     display: flex;
     border-bottom: 1px solid $color-text-black;
+    width: 100%;
 }
 
 .object-type-nav {
@@ -50,11 +56,15 @@
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
     }
 
     li {
         display: inline-flex;
         margin-right: 10px;
+        white-space: nowrap;
     }
 }
 
