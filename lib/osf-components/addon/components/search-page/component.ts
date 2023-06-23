@@ -9,12 +9,9 @@ import Intl from 'ember-intl/services/intl';
 import { A } from '@ember/array';
 import Store from '@ember-data/store';
 import { action } from '@ember/object';
-import Media from 'ember-responsive';
 
 import IndexPropertySearchModel from 'ember-osf-web/models/index-property-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
-import ProviderModel from 'ember-osf-web/models/provider';
-import uniqueId from 'ember-osf-web/utils/unique-id';
 
 interface ResourceTypeOption {
     display: string;
@@ -31,26 +28,13 @@ export interface Filter {
     value: string;
 }
 
-export interface OnSearchParams {
-    q?: string;
-    page?: string;
-    sort?: string;
-    resourceType?: string;
-}
-
 interface SearchArgs {
-    onSearch?: (obj: OnSearchParams) => void;
     query?: string;
     cardSearchText: string;
     cardSearchFilters: Filter[];
     propertyCard: IndexCardModel;
     propertySearch: SearchResultModel;
     toggleFilter: (filter: Filter) => void;
-    sort: string;
-    resourceType: string;
-    defaultQueryOptions: Record<string, string>;
-    provider?: ProviderModel;
-    showResourceTypeFilter: boolean;
 }
 
 const searchDebounceTime = 100;
@@ -59,56 +43,11 @@ export default class SearchPage extends Component<SearchArgs> {
     @service intl!: Intl;
     @service toast!: Toastr;
     @service store!: Store;
-    @service media!: Media;
 
-    @tracked searchText?: string;
+    @tracked seachBoxText?: string = '';
     @tracked searchResults?: SearchResultModel[];
     @tracked propertySearch?: IndexPropertySearchModel;
     @tracked page?: number = 1;
-    @tracked totalResultCount?: number;
-
-    constructor( owner: unknown, args: SearchArgs) {
-        super(owner, args);
-        this.searchText = this.args.query;
-        this.sort = this.args.sort;
-        this.resourceType = this.args.resourceType;
-        taskFor(this.search).perform();
-    }
-
-    showTooltip1?: boolean;
-    showTooltip2?: boolean;
-    showTooltip3?: boolean;
-
-    leftPanelObjectDropdownId = uniqueId(['left-panel-object-dropdown']);
-    firstTopbarObjectTypeLinkId = uniqueId(['first-topbar-object-type-link']);
-    searchInputWrapperId = uniqueId(['search-input-wrapper']);
-    leftPanelHeaderId = uniqueId(['left-panel-header']);
-    firstFilterId = uniqueId(['first-filter']);
-
-    get tooltipTarget1Id() {
-        if (this.args.showResourceTypeFilter) {
-            if (this.showSidePanelToggle) {
-                return this.leftPanelObjectDropdownId;
-            }
-            return this.firstTopbarObjectTypeLinkId;
-        }
-        return this.searchInputWrapperId;
-    }
-
-    get tooltipTarget2Id() {
-        return this.leftPanelHeaderId;
-    }
-
-    get tooltipTarget3Id() {
-        if (this.propertySearch) {
-            return this.firstFilterId;
-        }
-        return this.leftPanelHeaderId;
-    }
-
-    get showSidePanelToggle() {
-        return this.media.isMobile || this.media.isTablet;
-    }
 
     get filterableProperties() {
         if (!this.propertySearch) {
@@ -119,16 +58,6 @@ export default class SearchPage extends Component<SearchArgs> {
 
     get selectedResourceTypeOption() {
         return this.resourceTypeOptions.find(option => option.value === this.resourceType);
-    }
-
-    get showResultCountMiddle() {
-        const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
-    }
-
-    get showResultCountLeft() {
-        const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && this.showSidePanelToggle;
     }
 
     get selectedSortOption() {
@@ -154,34 +83,30 @@ export default class SearchPage extends Component<SearchArgs> {
         { display: this.intl.t('search.sort.modified-date-ascending'), value: 'date_modified' },
     ];
 
-    @tracked resourceType: string;
-    @tracked sort: string;
+    @tracked resourceType = this.resourceTypeOptions[0].value;
+    @tracked sort: string = this.sortOptions[0].value;
     @tracked activeFilters = A<Filter>([]);
 
-    @task({ restartable: true })
+    @task({ restartable: true, on: 'init' })
     @waitFor
     async search() {
         try {
-            const q = this.searchText;
+            const q = this.args.query;
             const { page, sort, activeFilters, resourceType } = this;
-            let filterQueryObject = activeFilters.reduce((acc, filter) => {
+            const filterQueryObject = activeFilters.reduce((acc, filter) => {
                 acc[filter.property] = filter.value;
                 return acc;
             }, {} as { [key: string]: string });
             filterQueryObject['resourceType'] = resourceType;
-            filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             const searchResult = await this.store.queryRecord('index-card-search', {
                 q,
                 page,
                 sort,
                 filter: filterQueryObject,
             });
+
             this.propertySearch = await searchResult.relatedPropertySearch;
-            this.searchResults = searchResult.searchResultPage.toArray();
-            this.totalResultCount = searchResult.totalResultCount;
-            if (this.args.onSearch) {
-                this.args.onSearch({q, sort, resourceType});
-            }
+            this.searchResults =  searchResult.searchResultPage.toArray();
         } catch (e) {
             this.toast.error(e);
         }
@@ -191,6 +116,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async doDebounceSearch() {
         await timeout(searchDebounceTime);
+        this.args.query = this.seachBoxText;
         taskFor(this.search).perform();
     }
 
