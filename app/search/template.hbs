@@ -3,7 +3,8 @@
 <SearchPage
     @route='search'
     @query={{this.q}}
-    @backgroundClass={{local-class 'search-page'}}
     @queryParams={{this.queryParams}}
     @showSidePanelToggle={{this.showSidePanelToggle}}
+    @onSearch={{action this.onSearch}}
+    @sort={{this.sort}}
 />

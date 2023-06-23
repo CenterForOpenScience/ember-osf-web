@@ -29,12 +29,14 @@ export interface Filter {
 }
 
 interface SearchArgs {
+    onSearch?: (obj: object) => void;
     query?: string;
     cardSearchText: string;
     cardSearchFilters: Filter[];
     propertyCard: IndexCardModel;
     propertySearch: SearchResultModel;
     toggleFilter: (filter: Filter) => void;
+    sort: string;
 }
 
 const searchDebounceTime = 100;
@@ -44,10 +46,16 @@ export default class SearchPage extends Component<SearchArgs> {
     @service toast!: Toastr;
     @service store!: Store;
 
-    @tracked seachBoxText?: string = '';
+    @tracked searchText?: string;
     @tracked searchResults?: SearchResultModel[];
     @tracked propertySearch?: IndexPropertySearchModel;
     @tracked page?: number = 1;
+
+    constructor( owner: unknown, args: SearchArgs) {
+        super(owner, args);
+        this.searchText = this.args.query;
+        this.sort = this.args.sort;
+    }
 
     get filterableProperties() {
         if (!this.propertySearch) {
@@ -91,7 +99,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async search() {
         try {
-            const q = this.args.query;
+            const q = this.searchText;
             const { page, sort, activeFilters, resourceType } = this;
             const filterQueryObject = activeFilters.reduce((acc, filter) => {
                 acc[filter.property] = filter.value;
@@ -104,9 +112,11 @@ export default class SearchPage extends Component<SearchArgs> {
                 sort,
                 filter: filterQueryObject,
             });
-
             this.propertySearch = await searchResult.relatedPropertySearch;
             this.searchResults =  searchResult.searchResultPage.toArray();
+            if (this.args.onSearch) {
+                this.args.onSearch({q, sort, resourceType});
+            }
         } catch (e) {
             this.toast.error(e);
         }
@@ -116,7 +126,6 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async doDebounceSearch() {
         await timeout(searchDebounceTime);
-        this.args.query = this.seachBoxText;
         taskFor(this.search).perform();
     }
 

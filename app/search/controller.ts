@@ -13,7 +13,8 @@ export default class SearchController extends Controller {
     @service toast!: Toastr;
 
     @tracked q?: string = '';
-    @tracked seachBoxText?: string = '';
+    @tracked sort?: string =  '-relevance';
+    @tracked resourceType?: string =  'All';
 
     queryParams = ['q', 'page', 'sort', 'resourceType'];
 
@@ -22,10 +23,9 @@ export default class SearchController extends Controller {
     }
 
     @action
-    ingestQueryParams() {
-        const { q } = this;
-        if (q) {
-            this.seachBoxText = q;
-        }
+    onSearch(queryOptions: Record<string, string>) {
+        this.q = queryOptions.q;
+        this.sort = queryOptions.sort;
+        this.resourceType = queryOptions.resourceType;
     }
 }
