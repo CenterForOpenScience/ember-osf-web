@@ -13,7 +13,7 @@ import GetLocalizedPropertyHelper from 'ember-osf-web/helpers/get-localized-prop
 import IndexCardModel from 'ember-osf-web/models/index-card';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 
-import { Filter } from '../../controller';
+import { Filter } from '../component';
 
 interface FilterFacetArgs {
     cardSearchText: string;

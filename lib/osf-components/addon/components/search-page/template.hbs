@@ -92,7 +92,7 @@ as |layout|>
         {{/if}}
         {{#each this.filterableProperties as |filterableProperty|}}
             {{#let filterableProperty.indexCard as |propertyCard|}}
-                <Search::-Components::FilterFacet
+                <SearchPage::FilterFacet
                     @cardSearchText={{@query}}
                     @cardSearchFilters={{this.activeFilters}}
                     @propertyCard={{propertyCard}}
