@@ -14,7 +14,7 @@ as |layout|>
                 id='search-input'
                 @type='search'
                 @placeholder={{t 'search.textbox-placeholder'}}
-                @value={{this.seachBoxText}}
+                @value={{this.searchText}}
                 @enter={{perform this.doDebounceSearch}}
             />
             <Button
@@ -93,7 +93,7 @@ as |layout|>
         {{#each this.filterableProperties as |filterableProperty|}}
             {{#let filterableProperty.indexCard as |propertyCard|}}
                 <Search::-Components::FilterFacet
-                    @cardSearchText={{@q}}
+                    @cardSearchText={{@query}}
                     @cardSearchFilters={{this.activeFilters}}
                     @propertyCard={{propertyCard}}
                     @propertySearch={{filterableProperty}}
@@ -104,7 +104,6 @@ as |layout|>
             {{t 'search.left-panel.no-filterable-properties'}}
         {{/each}}
     </layout.left>
-
     <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
         {{#unless @showSidePanelToggle}}
@@ -137,7 +136,7 @@ as |layout|>
                     <PowerSelect
                         @options={{this.sortOptions}}
                         @selected={{this.selectedSortOption}}
-                        @onChange={{this.updateSort}}
+                        @onChange={{action this.updateSort}}
                         as |sortOption|
                     >
                         {{sortOption.display}}
@@ -146,5 +145,4 @@ as |layout|>
             </div>
         {{/unless}}
     </layout.main>
-
 </OsfLayout>
