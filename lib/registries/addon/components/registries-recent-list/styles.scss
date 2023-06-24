@@ -5,8 +5,6 @@
     border-bottom: 1px solid #e0e6ea;
     padding-bottom: 15px;
     padding-top: 15px;
-    padding-left: 50px;
-    padding-right: 50px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -37,6 +35,8 @@
         width: 100%;
         padding-left: 10px;
         padding-right: 10px;
+        padding-left: 50px;
+        padding-right: 50px;
 
         .contributors,
         .title {
