@@ -1,8 +1,9 @@
-import { attr, hasMany, AsyncHasMany } from '@ember-data/model';
+import { attr, hasMany, AsyncHasMany, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import BrandModel from 'ember-osf-web/models/brand';
 
 import { RelatedLinkMeta } from 'osf-api';
 
@@ -25,6 +26,9 @@ export default class PreprintProviderModel extends ProviderModel {
     @attr('boolean', { allowNull: true }) reviewsCommentsPrivate!: boolean | null;
 
     // Relationships
+    @belongsTo('brand')
+    brand!: AsyncBelongsTo<BrandModel> & BrandModel;
+
     @hasMany('preprint', { inverse: 'provider' })
     preprints!: AsyncHasMany<PreprintModel>;
 
