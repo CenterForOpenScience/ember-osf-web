@@ -214,6 +214,15 @@
 }
 
 .mobile-filter {
+    [data-test-left-panel-object-type-dropdown],
+    [data-test-left-panel-sort-dropdown] {
+        width: 175px;
+    }
+
+    [data-test-left-panel-sort-dropdown] {
+        margin-bottom: 0.5rem;
+    }
+
     > h2 {
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;

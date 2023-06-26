@@ -238,7 +238,9 @@ as |layout|>
         {{#if this.showSidePanelToggle}}
             <div data-test-left-panel-object-type-dropdown>
                 <label>
-                    {{t 'search.resource-type.search-by'}}
+                    <p>
+                        {{t 'search.resource-type.search-by'}}
+                    </p>
                     <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
                         @onChange={{this.updateResourceType}} as |resourceType|>
                         {{resourceType.display}}
@@ -247,7 +249,9 @@ as |layout|>
             </div>
             <div data-test-left-panel-sort-dropdown>
                 <label>
-                    {{t 'search.sort.sort-by'}}
+                    <p>
+                        {{t 'search.sort.sort-by'}}
+                    </p>
                     <PowerSelect @options={{this.sortOptions}} @selected={{this.selectedSortOption}}
                         @onChange={{this.updateSort}} as |sortOption|>
                         {{sortOption.display}}
@@ -290,6 +294,7 @@ as |layout|>
                                 @propertyCard={{propertyCard}}
                                 @propertySearch={{filterableProperty}}
                                 @toggleFilter={{this.toggleFilter}}
+                                @showSidePanelToggle={{this.showSidePanelToggle}}
                             />
                             <EmberPopover
                                 data-test-search-help-3
