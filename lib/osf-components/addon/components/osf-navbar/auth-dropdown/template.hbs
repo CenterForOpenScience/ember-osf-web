@@ -11,7 +11,7 @@
                 <img src='{{this.user.profileImage}}&s=25' alt='{{t 'auth_dropdown.user_gravatar'}}'>
             </div>
             <div class='nav-profile-name'>{{this.user.fullName}}</div>
-            <span class='caret'></span>
+            <FaIcon @icon='caret-down' local-class='caret' />
         </dd.trigger>
 
         <dd.content

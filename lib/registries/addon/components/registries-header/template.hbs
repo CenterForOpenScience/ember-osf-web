@@ -11,7 +11,7 @@
         {{yield (hash lead=(element ''))}}
     </p>
 
-    <div local-class='search-container'>
+    <div local-class='search-container {{if this.media.isMobile 'mobile'}}'>
         <form
             local-class='form'
             data-test-search-form
