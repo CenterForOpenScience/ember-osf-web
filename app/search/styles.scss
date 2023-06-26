@@ -214,7 +214,7 @@
 }
 
 .mobile-filter {
-    [data-test-left-panel-object-type-dropdown],
+    [data-test-left-panel-object-type-dropdown] > *,
     [data-test-left-panel-sort-dropdown] {
         width: 175px;
     }
