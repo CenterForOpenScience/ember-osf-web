@@ -215,9 +215,21 @@
 }
 
 .mobile-filter {
-    [data-test-left-panel-object-type-dropdown] > *,
-    [data-test-left-panel-sort-dropdown] > * {
-        width: 175px;
+    [data-test-left-panel-object-type-dropdown] {
+        margin-bottom: 0.2rem;
+    }
+
+    [data-test-left-panel-object-type-dropdown] label > *,
+    [data-test-left-panel-sort-dropdown] label > * {
+        width: 185px;
+        height: 28px;
+    }
+
+    [data-test-left-panel-object-type-dropdown] label,
+    [data-test-left-panel-sort-dropdown] label {
+        p {
+            padding: 5px 0 0;
+        }
     }
 
     [data-test-left-panel-sort-dropdown] {
