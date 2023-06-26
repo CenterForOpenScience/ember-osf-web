@@ -133,6 +133,7 @@
 
     p {
         margin-left: 0.2rem;
+        white-space: break-spaces;
     }
 
     button {
@@ -215,7 +216,7 @@
 
 .mobile-filter {
     [data-test-left-panel-object-type-dropdown] > *,
-    [data-test-left-panel-sort-dropdown] {
+    [data-test-left-panel-sort-dropdown] > * {
         width: 175px;
     }
 
