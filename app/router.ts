@@ -22,7 +22,7 @@ Router.map(function() {
     this.route('goodbye');
     this.route('search');
     this.route('institutions', function() {
-        this.route('search', { path: '/:institution_id' });
+        this.route('discover', { path: '/:institution_id' });
         this.route('dashboard', { path: '/:institution_id/dashboard' });
     });
     this.route('register');
