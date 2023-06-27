@@ -1,43 +1,34 @@
-.search-page {
-    background-color: $color-bg-gray;
-}
-
-[data-analytics-scope='Search page main'] {
-    margin-right: 3rem;
-    width: 70%;
-}
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors, selector-no-qualifying-type
 
 .heading-wrapper {
-    text-align: center;
-    color: $color-text-white;
-    background-color: $osf-dark-blue-navbar;
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: center;
+    background-color: $osf-dark-blue-navbar;
+    color: $color-text-white;
 }
 
 .heading-label {
     padding: 40px;
 }
 
-.search-input-wrapper {
-    white-space: nowrap;
-    align-items: center;
-    display: flex;
+[data-analytics-scope='Search page main'] {
+    width: 90%;
+    display: inline-flex;
+    justify-content: center;
 }
 
-.search-input-wrapper > button {
-    border-radius: 2px;
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
 }
 
 .search-input {
     color: $color-text-black;
-    padding: 9px 5px;
     font-size: 1.5em;
-    max-width: 700px;
-    min-width: 250px;
     width: 50vw;
+    min-width: 250px;
+    max-width: 700px;
+    padding: 9px 5px;
 }
 
 .help-button {
@@ -45,26 +36,33 @@
 }
 
 .topbar {
-    margin-left: 20px;
     display: flex;
+    justify-content: space-around;
+    height: fit-content;
+    width: 94%;
     border-bottom: 1px solid $color-text-black;
-    width: 100%;
-}
 
-.object-type-nav {
-    ul {
-        padding-left: 0;
-        margin-bottom: 0;
-        list-style: none;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-    }
+    nav {
+        width: 100%;
 
-    li {
-        display: inline-flex;
-        margin-right: 10px;
-        white-space: nowrap;
+        ul {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+        }
+
+        li {
+            display: inline-flex;
+            white-space: nowrap;
+
+            &.active,
+            &:hover {
+                background-color: $color-bg-gray;
+            }
+        }
     }
 }
 
@@ -83,7 +81,7 @@
 
 .sort-dropdown {
     width: 170px;
-    margin-top: 10px;
+    margin: auto 0;
 }
 
 .sidenav-toggle {
