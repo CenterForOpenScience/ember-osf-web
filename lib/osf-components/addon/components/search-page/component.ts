@@ -37,6 +37,7 @@ interface SearchArgs {
     propertySearch: SearchResultModel;
     toggleFilter: (filter: Filter) => void;
     sort: string;
+    resourceType: string;
 }
 
 const searchDebounceTime = 100;
@@ -55,6 +56,8 @@ export default class SearchPage extends Component<SearchArgs> {
         super(owner, args);
         this.searchText = this.args.query;
         this.sort = this.args.sort;
+        this.resourceType = this.args.resourceType;
+        taskFor(this.search).perform();
     }
 
     get filterableProperties() {
@@ -91,11 +94,11 @@ export default class SearchPage extends Component<SearchArgs> {
         { display: this.intl.t('search.sort.modified-date-ascending'), value: 'date_modified' },
     ];
 
-    @tracked resourceType = this.resourceTypeOptions[0].value;
-    @tracked sort: string = this.sortOptions[0].value;
+    @tracked resourceType: string;
+    @tracked sort: string;
     @tracked activeFilters = A<Filter>([]);
 
-    @task({ restartable: true, on: 'init' })
+    @task({ restartable: true })
     @waitFor
     async search() {
         try {
