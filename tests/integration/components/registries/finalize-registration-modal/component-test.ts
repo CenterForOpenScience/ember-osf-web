@@ -5,7 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';

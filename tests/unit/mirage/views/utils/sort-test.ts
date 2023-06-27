@@ -1,6 +1,6 @@
 import { Request } from 'ember-cli-mirage';
 import { setupTest } from 'ember-qunit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import {

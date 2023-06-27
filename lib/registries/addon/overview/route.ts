@@ -5,7 +5,7 @@ import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import Identifier from 'ember-osf-web/models/identifier';
 import LicenseModel from 'ember-osf-web/models/license';

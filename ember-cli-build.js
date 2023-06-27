@@ -22,11 +22,6 @@ module.exports = function(defaults) {
             modes: ['handlebars'],
         },
         autoImport: {
-            webpack: {
-                node: {
-                    path: true,
-                },
-            },
             exclude: ['jsonapi-typescript'],
         },
         addons: {
@@ -109,6 +104,7 @@ module.exports = function(defaults) {
         },
         'ember-cli-babel': {
             includePolyfill: IS_PROD,
+            enableTypescriptTransform: true,
         },
         assetLoader: {
             generateURI(filePath) {

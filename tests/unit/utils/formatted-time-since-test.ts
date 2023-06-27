@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';

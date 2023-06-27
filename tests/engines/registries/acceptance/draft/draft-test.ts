@@ -1121,13 +1121,13 @@ module('Registries | Acceptance | draft form', hooks => {
         await click(`[data-test-delete-current-folder="${folderOne.id}"] > button`);
         assert.dom('[data-test-confirm-delete]')
             .isVisible('folder delete hard-confirm modal has a confirm button');
+
         await click('[data-test-confirm-delete]');
 
         assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
             t('osf-components.files-widget.delete_success', { filename: folderOne.itemName }),
             'Toast success message shows; folderOne succesfully deleted',
         );
-
         await settled();
         assert.dom(`[data-test-file-browser-item="${folderOne.id}"]`)
             .doesNotExist('folderOne no longer shows in the parent folder view');

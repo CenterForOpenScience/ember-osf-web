@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';

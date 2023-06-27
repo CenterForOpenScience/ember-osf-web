@@ -8,7 +8,7 @@ import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import faker from 'faker';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import { NodeCategory } from 'ember-osf-web/models/node';
