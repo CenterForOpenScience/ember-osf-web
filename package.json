@@ -59,9 +59,7 @@
     "ember-element-helper": "^0.6.1",
     "ember-validators": "^4.1.1"
   },
-  "dependencies": {
-    "ember-tooltips": "^3.6.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@centerforopenscience/eslint-config": "3.0.0",
     "@ember-intl/cp-validations": "^4.0.1",
@@ -213,6 +211,7 @@
     "ember-template-compiler": "^1.9.0-alpha",
     "ember-template-lint": "^3.2.0",
     "ember-toastr": "^3.0.0",
+    "ember-tooltips": "^3.6.0",
     "ember-wormhole": "^0.5.4",
     "eslint": "^7.24.0",
     "eslint-config-airbnb-base": "14.0.0",
