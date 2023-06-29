@@ -1,6 +1,10 @@
 .facet-wrapper {
     border-top: 1px solid $color-border-gray;
-    padding: 0.5rem 0;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.mobile-facet-wrapper {
+    margin-right: 0.2rem;
 }
 
 .facet-expand-button {
@@ -32,9 +36,14 @@
     .facet-link,
     .facet-count {
         margin: 0 5px;
+        white-space: nowrap;
     }
 }
 
 .see-more-dialog {
     min-width: 50vw;
+
+    p {
+        margin-left: 3px;
+    }
 }

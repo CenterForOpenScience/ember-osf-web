@@ -3,7 +3,7 @@
 as |layout|>
     {{#let (unique-id 'heading') as |headingWrapper|}}
         <div id={{headingWrapper}}>
-            <layout.heading local-class='heading-wrapper'>
+            <layout.heading local-class='heading-wrapper {{if @showSidePanelToggle 'mobile'}}'>
                 <label
                     for='search-input'
                     local-class='heading-label'
@@ -82,7 +82,7 @@ as |layout|>
                 data-test-search-help-mobile-1
                 @targetId={{headingWrapper}}
                 @tooltipClass={{local-class 'search-help-tutorial-1'}}
-                @innerClass={{'search-help-tutorial-inner'}}
+                @innerClass={{local-class 'search-help-tutorial-inner'}}
                 @isShown={{this.showTooltipMobile1}}
                 @event='none'
                 @side='bottom'
@@ -123,7 +123,7 @@ as |layout|>
                 data-test-search-help-mobile-2
                 @targetId={{headingWrapper}}
                 @tooltipClass={{local-class 'search-help-tutorial-2'}}
-                @innerClass={{'search-help-tutorial-inner'}}
+                @innerClass={{local-class 'search-help-tutorial-inner'}}
                 @isShown={{this.showTooltipMobile2}}
                 @event='none'
                 @side='bottom'
@@ -164,7 +164,7 @@ as |layout|>
                 data-test-search-help-mobile-3
                 @targetId={{headingWrapper}}
                 @tooltipClass={{local-class 'search-help-tutorial-3'}}
-                @innerClass={{'search-help-tutorial-inner'}}
+                @innerClass={{local-class 'search-help-tutorial-inner'}}
                 @isShown={{this.showTooltipMobile3}}
                 @event='none'
                 @side='bottom'

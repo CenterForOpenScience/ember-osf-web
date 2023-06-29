@@ -1,9 +1,13 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors, selector-no-qualifying-type
+
 .search-page {
     background-color: $color-bg-gray;
 }
 
 .heading-wrapper {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: $color-text-white;
     background-color: $osf-dark-blue-navbar;
 }
@@ -14,27 +18,59 @@
 
 .search-input-wrapper {
     white-space: nowrap;
+    align-items: center;
+    display: flex;
+}
+
+[data-analytics-scope='Search page main'] {
+    display: inline-flex;
+    justify-content: center;
+    width: 90%;
 }
 
 .search-input {
     color: $color-text-black;
-    padding: 9px 5px;
     font-size: 1.5em;
-    max-width: 700px;
-    min-width: 250px;
     width: 50vw;
-}
-
-.search-button {
-    position: relative;
-    right: 3px;
-    bottom: 4px;
+    min-width: 250px;
+    max-width: 700px;
+    padding: 9px 5px;
 }
 
 .topbar {
-    margin-left: 20px;
     display: flex;
+    justify-content: space-around;
+    height: fit-content;
+    width: 94%;
+    margin-left: 20px;
     border-bottom: 1px solid $color-text-black;
+
+    nav {
+        width: 100%;
+
+        ul {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        li {
+            display: inline-flex;
+            white-space: nowrap;
+
+            &.active,
+            &:hover {
+                background-color: $color-bg-gray;
+            }
+        }
+    }
+}
+
+.help-button {
+    margin-left: 1.2rem;
 }
 
 .object-type-nav {
@@ -65,7 +101,7 @@
 
 .sort-dropdown {
     width: 170px;
-    margin-top: 10px;
+    margin: auto 0;
 }
 
 .sidenav-toggle {
@@ -90,8 +126,142 @@
 .search-help-tutorial-1,
 .search-help-tutorial-2,
 .search-help-tutorial-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     background-color: $osf-dark-blue-navbar;
     color: $color-text-white;
     width: 400px;
+    margin-left: -0.2rem;
     z-index: 10;
+
+    h2 {
+        font-weight: 400;
+        height: 22px;
+        margin-top: 0.5rem;
+        margin-left: 0.2rem;
+    }
+
+    div > p {
+        height: 50px;
+        margin-top: 1rem;
+        padding-top: 0.2rem;
+        padding-bottom: 3rem;
+    }
+
+    p {
+        margin-left: 0.2rem;
+        white-space: break-spaces;
+    }
+
+    button {
+        color: $color-text-white;
+        overflow: visible;
+    }
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+        position: relative;
+        right: -0.2rem;
+        bottom: 0.3rem;
+    }
+}
+
+.enumeration {
+    padding: 0;
+    margin: 0 0 0.5rem 0.2rem;
+}
+
+.skip-button {
+    margin-right: 0.5rem;
+}
+
+.sort-dropdown > div {
+    height: 28px;
+    max-height: 28px;
+    width: 175px;
+    text-overflow: ellipsis;
+}
+
+.mobile {
+    display: flex;
+    flex-direction: column;
+
+    label {
+        padding: 0;
+        text-align: left;
+        width: 100%;
+        margin-left: 1rem;
+
+        h1 {
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
+        }
+    }
+
+    span {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        margin: 0 0 0.5rem 0.5rem;
+
+        button:nth-of-type(2) {
+            transform: scale(0.5);
+            border-radius: 50%;
+            margin-left: 0;
+            position: absolute;
+            right: 0.1rem;
+        }
+    }
+
+    > button {
+        width: 100%;
+    }
+}
+
+.mobile-filter {
+    [data-test-left-panel-object-type-dropdown] {
+        margin-bottom: 0.2rem;
+    }
+
+    [data-test-left-panel-object-type-dropdown] label > *,
+    [data-test-left-panel-sort-dropdown] label > * {
+        width: 185px;
+        height: 28px;
+    }
+
+    [data-test-left-panel-object-type-dropdown] label,
+    [data-test-left-panel-sort-dropdown] label {
+        p {
+            padding: 5px 0 0;
+        }
+    }
+
+    [data-test-left-panel-sort-dropdown] {
+        margin-bottom: 0.5rem;
+    }
+
+    > h2 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    > span {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin-bottom: 0.5rem;
+
+        > div {
+            max-width: 50%;
+            padding: 0.75rem;
+        }
+    }
 }

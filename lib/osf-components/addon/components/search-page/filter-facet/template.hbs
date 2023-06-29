@@ -1,6 +1,6 @@
 <div
     data-test-filter-facet
-    local-class='facet-wrapper'
+    local-class='facet-wrapper {{if @showSidePanelToggle 'mobile-facet-wrapper'}}'
 >
     {{#let (get-localized-property @propertyCard.resourceMetadata 'label') as |propertyLabel|}}
         {{#let (unique-id propertyLabel) as |facetElementId|}}
