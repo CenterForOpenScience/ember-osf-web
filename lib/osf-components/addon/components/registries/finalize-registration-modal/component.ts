@@ -4,7 +4,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import {

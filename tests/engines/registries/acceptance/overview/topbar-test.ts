@@ -5,7 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { assertTooltipRendered, assertTooltipVisible } from 'ember-tooltips/test-support';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import { MirageCollection } from 'ember-osf-web/mirage/factories/collection';

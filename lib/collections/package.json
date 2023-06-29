@@ -10,6 +10,7 @@
     "@fortawesome/ember-fontawesome": "*",
     "@fortawesome/free-brands-svg-icons": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
+    "ember-auto-import": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-sanitize-html": "*",
@@ -34,7 +35,8 @@
     "ember-toastr": "*",
     "ember-tooltips": "*",
     "ember-wormhole": "*",
-    "liquid-fire": "*"
+    "liquid-fire": "*",
+    "moment-timezone": "*"
   },
   "ember-addon": {
     "paths": [

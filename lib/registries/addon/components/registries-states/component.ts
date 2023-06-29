@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import pathJoin from 'ember-osf-web/utils/path-join';
 

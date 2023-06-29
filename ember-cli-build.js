@@ -22,11 +22,6 @@ module.exports = function(defaults) {
             modes: ['handlebars'],
         },
         autoImport: {
-            webpack: {
-                node: {
-                    path: true,
-                },
-            },
             exclude: ['jsonapi-typescript'],
         },
         addons: {

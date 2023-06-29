@@ -5,7 +5,7 @@ import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import Institution from 'ember-osf-web/models/institution';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';

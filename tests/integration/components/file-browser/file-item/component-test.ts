@@ -3,7 +3,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { TestContext, t } from 'ember-intl/test-support';
 import { click } from 'ember-osf-web/tests/helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import styles from 'osf-components/components/file-browser/file-item/styles';
