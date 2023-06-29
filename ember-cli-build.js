@@ -104,7 +104,6 @@ module.exports = function(defaults) {
         },
         'ember-cli-babel': {
             includePolyfill: IS_PROD,
-            enableTypescriptTransform: true,
         },
         assetLoader: {
             generateURI(filePath) {

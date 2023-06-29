@@ -23,7 +23,7 @@ export default class InstitutionalUsersList extends Component {
 
     // Private properties
     modelTaskInstance!: TaskInstance<InstitutionsDashboardModel>;
-    department?: string;
+    department = this.intl.t('institutions.dashboard.select_default');
     sort = 'user_name';
 
     reloadUserList?: () => void;
