@@ -211,6 +211,7 @@ search:
     search-header: 'Search OSF'
     textbox-placeholder: 'Search placeholder'
     search-button-label: 'Search'
+    total-results: '{count} results'
     resource-type:
         search-by: 'Search by resource type'
         all: 'All'

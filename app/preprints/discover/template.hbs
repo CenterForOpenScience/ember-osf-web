@@ -1,1 +1,10 @@
-{{!-- placeholder route for preprint discover --}}
+<SearchPage
+    @route='search'
+    @query={{this.q}}
+    @defaultQueryOptions={{this.defaultQueryOptions}}
+    @provider={{this.model}}
+    @queryParams={{this.queryParams}}
+    @showSidePanelToggle={{this.showSidePanelToggle}}
+    @onSearch={{action this.onSearch}}
+    @sort={{this.sort}}
+/>

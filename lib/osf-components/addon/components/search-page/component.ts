@@ -12,6 +12,9 @@ import { action } from '@ember/object';
 
 import IndexPropertySearchModel from 'ember-osf-web/models/index-property-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+import ProviderModel from 'ember-osf-web/models/provider';
 
 interface ResourceTypeOption {
     display: string;
@@ -38,6 +41,8 @@ interface SearchArgs {
     toggleFilter: (filter: Filter) => void;
     sort: string;
     resourceType: string;
+    defaultQueryOptions: Record<string, string>;
+    provider: ProviderModel;
 }
 
 const searchDebounceTime = 100;
@@ -51,6 +56,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked searchResults?: SearchResultModel[];
     @tracked propertySearch?: IndexPropertySearchModel;
     @tracked page?: number = 1;
+    @tracked totalResultCount?: number;
 
     constructor( owner: unknown, args: SearchArgs) {
         super(owner, args);
@@ -69,6 +75,12 @@ export default class SearchPage extends Component<SearchArgs> {
 
     get selectedResourceTypeOption() {
         return this.resourceTypeOptions.find(option => option.value === this.resourceType);
+    }
+
+    get showResourceTypeFilter() {
+        const isPreprintProvider = this.args.provider instanceof PreprintProviderModel;
+        const isRegistrationProvider = this.args.provider instanceof RegistrationProviderModel;
+        return !(isPreprintProvider || isRegistrationProvider);
     }
 
     get selectedSortOption() {
@@ -104,11 +116,12 @@ export default class SearchPage extends Component<SearchArgs> {
         try {
             const q = this.searchText;
             const { page, sort, activeFilters, resourceType } = this;
-            const filterQueryObject = activeFilters.reduce((acc, filter) => {
+            let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 acc[filter.property] = filter.value;
                 return acc;
             }, {} as { [key: string]: string });
             filterQueryObject['resourceType'] = resourceType;
+            filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             const searchResult = await this.store.queryRecord('index-card-search', {
                 q,
                 page,
@@ -116,7 +129,8 @@ export default class SearchPage extends Component<SearchArgs> {
                 filter: filterQueryObject,
             });
             this.propertySearch = await searchResult.relatedPropertySearch;
-            this.searchResults =  searchResult.searchResultPage.toArray();
+            this.searchResults = searchResult.searchResultPage.toArray();
+            this.totalResultCount = searchResult.totalResultCount;
             if (this.args.onSearch) {
                 this.args.onSearch({q, sort, resourceType});
             }

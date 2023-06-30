@@ -45,17 +45,22 @@ as |layout|>
         data-analytics-scope='Search page left panel'
         local-class='left-panel'
     >
+        {{#if this.showResourceTypeFilter}}
+            <p local-class='search-count'>{{t 'search.total-results' count=this.totalResultCount}}</p>
+        {{/if}}
         <h2>{{t 'search.left-panel.header'}}</h2>
         {{#if @showSidePanelToggle}}
-            <div data-test-left-panel-object-type-dropdown>
-                <label>
-                    {{t 'search.resource-type.search-by'}}
-                    <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
-                        @onChange={{this.updateResourceType}} as |resourceType|>
-                        {{resourceType.display}}
-                    </PowerSelect>
-                </label>
-            </div>
+            {{#if this.showResourceTypeFilter}}
+                <div data-test-left-panel-object-type-dropdown>
+                    <label>
+                        {{t 'search.resource-type.search-by'}}
+                        <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
+                            @onChange={{this.updateResourceType}} as |resourceType|>
+                            {{resourceType.display}}
+                        </PowerSelect>
+                    </label>
+                </div>
+            {{/if}}
             <div data-test-left-panel-sort-dropdown>
                 <label>
                     {{t 'search.sort.sort-by'}}
@@ -108,27 +113,30 @@ as |layout|>
         {{!-- paginator --}}
         {{#unless @showSidePanelToggle}}
             <div local-class='topbar'>
-                <nav
-                    data-test-topbar-object-type-nav
-                    local-class='object-type-nav'
-                >
-                    <ul>
-                        {{#each this.resourceTypeOptions as |resourceType|}}
-                            <li>
-                                <LinkTo
-                                    data-analytics-name='Object type filter={{resourceType.value}}'
-                                    data-test-topbar-object-type-link='{{resourceType.value}}'
-                                    local-class='object-type-filter-link'
-                                    @route={{@route}}
-                                    @query={{hash resourceType=resourceType.value}}
-                                    {{on 'click' (fn this.updateResourceType resourceType)}}
-                                >
-                                    {{resourceType.display}}
-                                </LinkTo>
-                            </li>
-                        {{/each}}
-                    </ul>
-                </nav>
+                {{#if this.showResourceTypeFilter}}
+                    <nav
+                        data-test-topbar-object-type-nav
+                        local-class='object-type-nav'
+                    >
+                        <ul>
+                            {{#each this.resourceTypeOptions as |resourceType|}}
+                                <li>
+                                    <LinkTo
+                                        data-analytics-name='Object type filter={{resourceType.value}}'
+                                        data-test-topbar-object-type-link='{{resourceType.value}}'
+                                        local-class='object-type-filter-link'
+                                        @query={{hash resourceType=resourceType.value}}
+                                        {{on 'click' (fn this.updateResourceType resourceType)}}
+                                    >
+                                        {{resourceType.display}}
+                                    </LinkTo>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </nav>
+                {{else}}
+                    <p local-class='search-count'>{{t 'search.total-results' count=this.totalResultCount}}</p>
+                {{/if}}
                 <div
                     data-test-topbar-sort-dropdown
                     local-class='sort-dropdown'

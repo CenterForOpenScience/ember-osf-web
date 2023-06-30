@@ -7,7 +7,7 @@ import Intl from 'ember-intl/services/intl';
 import { RelatedLinkMeta } from 'osf-api';
 
 import PreprintModel from './preprint';
-import ProviderModel from './provider';
+import ProviderModel, { ReviewPermissions } from './provider';
 
 export type PreprintWord = 'default' | 'work' | 'paper' | 'preprint' | 'thesis';
 export type PreprintWordGrammar = 'plural' | 'pluralCapitalized' | 'singular' | 'singularCapitalized';
@@ -21,7 +21,7 @@ export default class PreprintProviderModel extends ProviderModel {
     @attr('string') preprintWord!: PreprintWord;
 
     // Reviews settings
-    @attr('array') permissions!: string[];
+    @attr('array') permissions!: ReviewPermissions[];
     @attr('boolean', { allowNull: true }) reviewsCommentsPrivate!: boolean | null;
 
     // Relationships

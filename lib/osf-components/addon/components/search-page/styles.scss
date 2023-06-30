@@ -34,6 +34,7 @@
 .topbar {
     margin-left: 20px;
     display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid $color-text-black;
 }
 
@@ -75,6 +76,13 @@
 .left-panel {
     padding-left: 12px;
     width: 300px;
+}
+
+.search-count {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+    font-weight: bold;
 }
 
 .active-filter-list {
