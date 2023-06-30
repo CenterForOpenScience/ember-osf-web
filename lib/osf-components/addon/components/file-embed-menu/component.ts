@@ -47,7 +47,7 @@ export default class FileEmbedMenuComponent extends Component<Args>{
         }
         jq.src = 'http://code.jquery.com/jquery-1.11.2.min.js';
     }
-</script>`);
+</script>`).toString();
     }
 
     get shareiFrameDirect() {
@@ -59,7 +59,7 @@ export default class FileEmbedMenuComponent extends Component<Args>{
     frameborder="0"
     allowfullscreen
     webkitallowfullscreen
->`);
+>`).toString();
     }
 
     @action successMessage(){

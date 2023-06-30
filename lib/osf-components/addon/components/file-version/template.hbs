@@ -28,9 +28,9 @@
                 local-class='DropdownSection'
             >
                 <CopyButton
-                    @clipboardText={{@version.attributes.extra.hashes.md5}}
-                    @success={{this.copySuccess}}
-                    @error={{this.copyError}}
+                    @text={{@version.attributes.extra.hashes.md5}}
+                    @onSuccess={{this.copySuccess}}
+                    @onError={{this.copyError}}
                     local-class='FakeLink'
                 >
                     <FaIcon @icon='copy' />
@@ -53,9 +53,9 @@
             local-class='DropdownSection'
             >
                 <CopyButton
-                    @clipboardText={{@version.attributes.extra.hashes.sha256}}
-                    @success={{this.copySuccess}}
-                    @error={{this.copyError}}
+                    @text={{@version.attributes.extra.hashes.sha256}}
+                    @onSuccess={{this.copySuccess}}
+                    @onError={{this.copyError}}
                     local-class='FakeLink'
                 >
                     <FaIcon @icon='copy' />

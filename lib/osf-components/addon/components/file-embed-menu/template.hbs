@@ -5,9 +5,9 @@
             <li>
                 <CopyButton
                     data-test-copy-js
-                    @clipboardText={{this.shareiFrameDynamic}}
-                    @success={{action this.successMessage}}
-                    @error={{action this.errorMessage}}
+                    @text={{this.shareiFrameDynamic}}
+                    @onSuccess={{action this.successMessage}}
+                    @onError={{action this.errorMessage}}
                     local-class='FakeLink Dropdown__option'
                 >
                     {{t 'file_actions_menu.copy_js'}}
@@ -16,9 +16,9 @@
             <li>
                 <CopyButton
                     data-test-copy-html
-                    @clipboardText={{this.shareiFrameDirect}}
-                    @success={{action this.successMessage}}
-                    @error={{action this.errorMessage}}
+                    @text={{this.shareiFrameDirect}}
+                    @onSuccess={{action this.successMessage}}
+                    @onError={{action this.errorMessage}}
                     local-class='FakeLink Dropdown__option'
                 >
                     {{t 'file_actions_menu.copy_html'}}
