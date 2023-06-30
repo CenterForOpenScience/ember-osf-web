@@ -293,7 +293,7 @@ move_to_project:
     go_to_project: 'Go to project'
 navbar:
     add: Add
-    # add_a_preprint: 'Add a {preprintWords.preprint}'
+    add_a_preprint: 'Add a {preprintWord}'
     add_registration: 'Add New'
     moderation: 'Moderation'
     browse: Browse
@@ -301,6 +301,7 @@ navbar:
     donate: Donate
     go_home: 'Go home'
     my_projects: 'My Projects'
+    my_preprints: 'My Preprints'
     my_registrations: 'My Registrations'
     reviews: 'My Reviewing'
     search: Search
