@@ -149,6 +149,7 @@ class EventInfo {
                 this.category = 'button';
                 break;
             case 'A':
+            case 'LINK':
                 this.category = 'link';
                 break;
             case 'INPUT':
