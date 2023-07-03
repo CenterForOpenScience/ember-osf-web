@@ -391,7 +391,7 @@
 .nav-tabs>li.active>a,
 .nav-tabs>li.active>a:hover,
 .nav-tabs>li.active>a:focus {
-    background-color: $bg-light;
+    background-color: inherit;
     border: none;
     border-bottom: 2px solid #204762;
 }
@@ -403,7 +403,7 @@
 
 .nav>li>a:hover,
 .nav>li>a:focus {
-    background-color: $bg-light;
+    background-color: inherit;
 }
 
 
