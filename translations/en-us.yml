@@ -726,6 +726,24 @@ social:
     facebook: Facebook
     google_group: 'Google Group'
     github: GitHub
+preprints:
+    subjects:
+        heading:
+            hasHighlightedSubjects: 'Highlighted Subjects'
+            noHighlightedSubjects: 'No Highlighted Subjects'
+    services:
+        top:
+            heading: 'Heading'
+            paragraph: 'Paragraph'
+        bottom:
+            contact: 'contact'
+            p1: 'Bottom P1'
+            div: 
+                line1: 'Line 1'
+                line2: 'Line 2'
+                line3: 'Line 3'
+                linkText1: 'Link Text 1'
+                linkText2: 'Link Text 2'
 institutions:
     description: 'OSF Institutions enhances transparency and increases the visibility of research outputs, accelerating discovery and reuse. Institutional members focus on generating and sharing research, and let OSF Institutions handle the infrastructure.'
     read_more: 'Read more'
