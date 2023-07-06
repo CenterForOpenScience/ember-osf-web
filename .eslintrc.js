@@ -282,13 +282,13 @@ module.exports = {
             },
         },
         {
-            files: ['app/locales/*/translations.ts'],
+            files: ['./app/locales/*/translations.ts'],
             rules: {
                 'max-len': 'off',
             },
         },
         {
-            files: ['tests/**/*'],
+            files: ['./tests/**/*'],
             rules: {
                 'no-await-in-loop': 'off',
                 'ember/avoid-leaking-state-in-components': 'off',
@@ -296,38 +296,43 @@ module.exports = {
             },
         },
         {
-            files: ['mirage/**/*'],
+            // Test files:
+            files: ['tests/**/*-test.{js,ts}'],
+            extends: ['plugin:qunit/recommended'],
+        },
+        {
+            files: ['./mirage/**/*'],
             rules: {
                 'ember/avoid-leaking-state-in-ember-objects': 'off',
             },
         },
         {
-            files: ['lib/*/index.js'],
+            files: ['./lib/*/index.js'],
             rules: {
                 'ember/avoid-leaking-state-in-ember-objects': 'off',
                 '@typescript-eslint/no-var-requires': 'off',
             },
         },
         {
-            files: ['lib/*/addon/engine.js'],
+            files: ['./lib/*/addon/engine.js'],
             rules: {
                 'ember/avoid-leaking-state-in-ember-objects': 'off',
             },
         },
         {
             files: [
-                '.eslintrc.js',
-                '.prettierrc.js',
-                '.template-lintrc.js',
-                'ember-cli-build.js',
-                'testem.js',
-                'run-node-test.js',
-                'lib/**/environment.js',
-                'lib/**/index.js',
-                'blueprints/*/index.js',
-                'blueprints/**/*.js',
-                'node-tests/**/*.js',
-                'config/**/*.js',
+                './.eslintrc.js',
+                './.prettierrc.js',
+                './.template-lintrc.js',
+                './ember-cli-build.js',
+                './testem.js',
+                './run-node-test.js',
+                './lib/**/environment.js',
+                './lib/**/index.js',
+                './blueprints/*/index.js',
+                './blueprints/**/*.js',
+                './node-tests/**/*.js',
+                './config/**/*.js',
             ],
             parserOptions: {
                 sourceType: 'script',
