@@ -1,4 +1,5 @@
 <SearchPage
+    {{with-branding (get-model this.model.brand)}}
     @route='search'
     @query={{this.q}}
     @defaultQueryOptions={{this.defaultQueryOptions}}
