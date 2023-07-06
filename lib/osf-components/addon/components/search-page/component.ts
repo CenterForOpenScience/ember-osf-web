@@ -42,7 +42,7 @@ interface SearchArgs {
     sort: string;
     resourceType: string;
     defaultQueryOptions: Record<string, string>;
-    provider: ProviderModel;
+    provider?: ProviderModel;
 }
 
 const searchDebounceTime = 100;

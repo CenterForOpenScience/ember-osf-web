@@ -19,5 +19,6 @@ export function preprintsScenario(
         brand,
         moderators: [currentUserModerator],
         preprints,
+        description: 'This is the description for Thesis Commons',
     });
 }

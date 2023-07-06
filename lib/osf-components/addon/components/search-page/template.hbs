@@ -2,13 +2,26 @@
     @backgroundClass='search-page'
     ...attributes
 as |layout|>
-    <layout.heading local-class='heading-wrapper'>
-        <label
-            for='search-input'
-            local-class='heading-label'
-        >
-            <h1>{{t 'search.search-header'}}</h1>
-        </label>
+    <layout.heading
+        {{with-branding (get-model @provider.brand)}}
+        local-class='heading-wrapper {{if @provider 'hero-overlay'}}'
+    >
+        {{#if @provider}}
+            <div
+                local-class='provider-logo'
+            >
+            </div>
+            <p>
+                {{@provider.description}}
+            </p>
+        {{else}}
+            <label
+                for='search-input'
+                local-class='heading-label'
+            >
+                <h1>{{t 'search.search-header'}}</h1>
+            </label>
+        {{/if}}
         <span local-class='search-input-wrapper'>
             <Input
                 local-class='search-input'
