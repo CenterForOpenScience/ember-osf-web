@@ -265,7 +265,6 @@
   "ember-addon": {
     "paths": [
       "lib/analytics-page",
-      "lib/app-components",
       "lib/assets-prefix-middleware",
       "lib/collections",
       "lib/app-components",
