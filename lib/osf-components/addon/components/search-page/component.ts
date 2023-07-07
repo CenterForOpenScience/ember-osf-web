@@ -152,6 +152,14 @@ export default class SearchPage extends Component<SearchArgs> {
         return this.totalResultCount && (this.args.showResourceTypeFilter || this.showSidePanelToggle);
     }
 
+    get showResultCountMiddle() {
+        return this.totalResultCount && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
+    }
+
+    get showResultCountLeft() {
+        return this.totalResultCount && (this.args.showResourceTypeFilter || this.showSidePanelToggle);
+    }
+
     get selectedSortOption() {
         return this.sortOptions.find(option => option.value === this.sort);// || this.sortOptions[0];
     }
