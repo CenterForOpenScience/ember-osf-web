@@ -14,9 +14,9 @@ module('Integration | Helper | unique-id', hooks => {
             await render(hbs`{{unique-id}}`);
             const uniqueId = this.element.textContent!.trim();
 
-            assert.ok(typeof uniqueId === 'string', 'is a string');
+            assert.strictEqual(typeof uniqueId, 'string', 'is a string');
             assert.ok(uniqueId.length >= 5, 'is reasonably long (at least 5 chars)');
-            assert.ok(!ids.has(uniqueId), 'has not already been seen');
+            assert.notOk(ids.has(uniqueId), 'has not already been seen');
 
             ids.add(uniqueId);
         }

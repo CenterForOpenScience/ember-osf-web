@@ -30,7 +30,7 @@ module('Integration | Component | registration-form-navigation-dropdown', hooks 
         this.set('schemaBlocks', schemaBlocks);
     });
 
-    test('it renders only schema anchors and no metadata anchors by default', async assert => {
+    test('it renders only schema anchors and no metadata anchors by default', async function(assert) {
         await render(hbs`
             <Registries::RegistrationFormNavigationDropdown
                 @schemaBlocks={{this.schemaBlocks}}
@@ -47,7 +47,7 @@ module('Integration | Component | registration-form-navigation-dropdown', hooks 
         assert.dom('[data-test-list-item="question-label"]').exists({ count: 5 });
     });
 
-    test('it renders schema and metadata anchors with showMetadata flag', async assert => {
+    test('it renders schema and metadata anchors with showMetadata flag', async function(assert) {
         await render(hbs`
             <Registries::RegistrationFormNavigationDropdown
                 @schemaBlocks={{this.schemaBlocks}}

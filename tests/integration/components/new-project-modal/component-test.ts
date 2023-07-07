@@ -19,7 +19,7 @@ module('Integration | Component | new-project-modal', hooks => {
         this.owner.register('service:current-user', currentUserStub);
     });
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`<NewProjectModal @openModal={{true}} />`);
         assert.dom('[data-test-create-project-header]').exists();
         assert.dom('[data-test-create-project-header]').hasText('Create new project');

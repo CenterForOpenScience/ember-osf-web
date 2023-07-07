@@ -23,7 +23,7 @@ module('Integration | Component | simple-paginator', hooks => {
     });
 
     module('pagination button disabling', () => {
-        test('first page', async assert => {
+        test('first page', async function(assert) {
             await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=3 curPage=1}}`);
             assert.dom('[class*="SimplePaginator__element"]:first-child button')
                 .isDisabled('Previous page button disabled.');
@@ -31,7 +31,7 @@ module('Integration | Component | simple-paginator', hooks => {
                 .isNotDisabled('Next page button not disabled.');
         });
 
-        test('middle page', async assert => {
+        test('middle page', async function(assert) {
             await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=3 curPage=2}}`);
             assert.dom('[class*="SimplePaginator__element"]:first-child button')
                 .isNotDisabled('Previous page button not disabled.');
@@ -39,7 +39,7 @@ module('Integration | Component | simple-paginator', hooks => {
                 .isNotDisabled('Next page button not disabled.');
         });
 
-        test('last page', async assert => {
+        test('last page', async function(assert) {
             await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=3 curPage=3}}`);
             assert.dom('[class*="SimplePaginator__element"]:first-child button')
                 .isNotDisabled('Previous page button not disabled.');

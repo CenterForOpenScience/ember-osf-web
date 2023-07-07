@@ -9,7 +9,7 @@ import {
 import { Resource } from 'osf-api';
 
 module('Unit | Utility | sparse fieldsets', () => {
-    test('buildFieldsParam works', assert => {
+    test('buildFieldsParam works', function(assert) {
         const testCases: Array<{ fieldset: SparseFieldset, expected: Record<string, string> }> = [
             { fieldset: {}, expected: {} },
             { fieldset: { user: ['fullName'] }, expected: { users: 'full_name' } },
@@ -33,7 +33,7 @@ module('Unit | Utility | sparse fieldsets', () => {
         });
     });
 
-    test('parseSparseResource works', assert => {
+    test('parseSparseResource works', function(assert) {
         const testCases: Array<{ resource: Resource, expected: SparseModel }> = [
             {
                 resource: {

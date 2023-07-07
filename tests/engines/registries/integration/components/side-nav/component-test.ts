@@ -38,13 +38,13 @@ module('Registries | Integration | Component | side-nav', hooks => {
         this.owner.register('service:head-tags', headTagsStub);
     });
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`<SideNav />`);
 
         assert.dom('nav[data-test-side-nav]').exists('The nav element is rendered');
     });
 
-    test('it renders data badges', async assert => {
+    test('it renders data badges', async function(assert) {
         await render(hbs`<OpenResource @hasResource={{this.registration.hasData}}
         @registration={{@registration}}
         @resourceType='data' />`);
@@ -54,7 +54,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
         assert.dom('[data-test-resource-link]').hasText('Data');
     });
 
-    test('it renders analytic code badges', async assert => {
+    test('it renders analytic code badges', async function(assert) {
         await render(hbs`<OpenResource @hasResource={{this.registration.hasAnalyticCode}}
         @registration={{@registration}}
         @resourceType='analytic_code' />`);
@@ -64,7 +64,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
         assert.dom('[data-test-resource-link]').hasText('Analytic code');
     });
 
-    test('it renders badges', async assert => {
+    test('it renders materials badges', async function(assert) {
         await render(hbs`<OpenResource @hasResource={{this.registration.hasMaterials}}
         @registration={{@registration}}
         @resourceType='materials' />`);
@@ -74,7 +74,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
         assert.dom('[data-test-resource-link]').hasText('Materials');
     });
 
-    test('it renders badges', async assert => {
+    test('it renders papers badges', async function(assert) {
         await render(hbs`<OpenResource @hasResource={{this.registration.hasPapers}}
         @registration={{@registration}}
         @resourceType='papers' />`);
@@ -84,7 +84,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
         assert.dom('[data-test-resource-link]').hasText('Papers');
     });
 
-    test('it renders badges', async assert => {
+    test('it renders supplements badges', async function(assert) {
         await render(hbs`<OpenResource @hasResource={{this.registration.hasSupplements}}
         @registration={{@registration}}
         @resourceType='supplements' />`);
@@ -94,13 +94,13 @@ module('Registries | Integration | Component | side-nav', hooks => {
         assert.dom('[data-test-resource-link]').hasText('Supplements');
     });
 
-    test('it renders splattributes', async assert => {
+    test('it renders splattributes', async function(assert) {
         await render(hbs`<SideNav data-for-a-test="foo" />`);
 
         assert.dom('nav[data-test-side-nav][data-for-a-test="foo"]').exists('The nav element contains splattributes');
     });
 
-    test('it yielded component render splattributes', async assert => {
+    test('it yielded component render splattributes', async function(assert) {
         await render(hbs`
             <SideNav as |nav|>
                 <nav.link data-for-a-test="bar" @route="home" @icon="home" @label="test" />

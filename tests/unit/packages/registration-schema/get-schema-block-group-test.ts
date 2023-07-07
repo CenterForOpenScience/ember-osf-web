@@ -2,7 +2,7 @@ import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/regist
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | get-schema-block-group', () => {
-    test('Get groups from a schema', assert => {
+    test('Get groups from a schema', function(assert) {
         const testSchema: SchemaBlock[] = [
             {
                 blockType: 'section-heading',
@@ -80,7 +80,7 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
             throw new Error('getSchemaBlockGroups() returned undefined');
         }
         // section heading
-        assert.ok(!result[0].registrationResponseKey, 'section heading has proper registrationResponseKey (none)');
+        assert.notOk(result[0].registrationResponseKey, 'section heading has proper registrationResponseKey (none)');
         assert.ok(result[0].labelBlock, 'section heading has labelBlock');
         assert.equal(result[0].blocks!.length, 1, 'section heading has proper blocks length (1)');
         // standalone text input
@@ -88,13 +88,10 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
             'standalone text input has proper registrationResponseKey');
         assert.equal(result[1].schemaBlockGroupKey, 'q1',
             'standalone text input has proper schemaBlockGroupKey');
-        assert.ok(!result[1].optionBlocks, 'standalone text input has proper optionBlocks (none)');
+        assert.notOk(result[1].optionBlocks, 'standalone text input has proper optionBlocks (none)');
         assert.equal(result[1].blocks!.length, 1, 'standalone text input has proper blocks length (1)');
         // subsection heading
-        assert.ok(
-            !result[2].registrationResponseKey,
-            'subsection heading has proper registrationResponseKey (none)',
-        );
+        assert.notOk(result[2].registrationResponseKey, 'subsection heading has proper registrationResponseKey (none)');
         assert.ok(result[2].labelBlock, 'subsection heading has labelBlock');
         assert.equal(result[2].blocks!.length, 1, 'subsection heading has proper blocks length (1)');
         // multi select

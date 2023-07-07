@@ -2,7 +2,7 @@ import { extractDoi, validateDoi } from 'ember-osf-web/utils/doi';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | doi', () => {
-    test('doi regex', assert => {
+    test('doi regex', function(assert) {
         const strs = [
             ['', null, false],
             ['10.12/f2tg', null, false],

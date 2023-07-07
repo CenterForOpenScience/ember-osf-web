@@ -2,7 +2,7 @@ import { addPathSegment, addQueryParam, joinUrl, splitUrl } from 'ember-osf-web/
 import { module, test } from 'qunit';
 
 module('Unit | Utility | url-parts', () => {
-    test('splitUrl and joinUrl', assert => {
+    test('splitUrl and joinUrl', function(assert) {
         const testCases = [
             {
                 input: 'https://osf.io/',
@@ -70,7 +70,7 @@ module('Unit | Utility | url-parts', () => {
         }
     });
 
-    test('addQueryParam', assert => {
+    test('addQueryParam', function(assert) {
         const testCases = [
             {
                 initial: 'https://osf.io/',
@@ -108,7 +108,7 @@ module('Unit | Utility | url-parts', () => {
         }
     });
 
-    test('addPathSegment', assert => {
+    test('addPathSegment', function(assert) {
         const testCases = [
             {
                 initial: 'https://osf.io/',

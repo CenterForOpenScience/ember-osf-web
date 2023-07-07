@@ -29,7 +29,7 @@ module('Integration | Component | subscriptions', hooks => {
         });
     });
 
-    test('it renders all notifications if no subscriptionIds are specified', async assert => {
+    test('it renders all notifications if no subscriptionIds are specified', async function(assert) {
         await render(hbs`
             <Subscriptions::Manager as |manager|>
                 <Subscriptions::List @manager={{manager}} />
@@ -53,7 +53,7 @@ module('Integration | Component | subscriptions', hooks => {
         );
     });
 
-    test('it renders only subscription that is in subscriptionIds', async assert => {
+    test('it renders only subscription that is in subscriptionIds', async function(assert) {
         await render(hbs`
             <Subscriptions::Manager @subscriptionIds={{array 'test_subscription_a'}} as |manager|>
                 <Subscriptions::List @manager={{manager}} />
@@ -98,7 +98,7 @@ module('Integration | Component | subscriptions', hooks => {
         assert.dom('[data-test-subscription-list-row="test_subscription_b"]').doesNotExist();
     });
 
-    test('it updates frequency', async assert => {
+    test('it updates frequency', async function(assert) {
         await render(hbs`
             <Subscriptions::Manager as |manager|>
                 <Subscriptions::List @manager={{manager}} />

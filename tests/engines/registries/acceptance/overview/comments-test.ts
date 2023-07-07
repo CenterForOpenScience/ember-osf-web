@@ -11,7 +11,7 @@ module('Registries | Acceptance | overview.comments', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         const registration = server.create(
             'registration',
             { currentUserPermissions: [Permission.Admin] },

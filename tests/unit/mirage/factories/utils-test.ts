@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 module('Unit | Mirage | Factories | Utils | guid generation', hooks => {
     setupTest(hooks);
 
-    test('it can create guids', assert => {
+    test('it can create guids', function(assert) {
         const guidFactory = guid('node');
         const generatedGuids: Record<string, true> = {};
 

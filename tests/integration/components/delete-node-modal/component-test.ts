@@ -20,7 +20,7 @@ module('Integration | Component | delete-node-modal', hooks => {
         assert.dom(this.element).hasText('');
     });
 
-    test('shown when openModal=true', async assert => {
+    test('shown when openModal=true', async function(assert) {
         await render(hbs`{{delete-node-modal closeModal=closeModal delete=delete openModal=true}}`);
         assert.dom('[data-test-delete-warning]').includesText(
             t('delete_modal.title', { nodeType: 'project' }).toString(),

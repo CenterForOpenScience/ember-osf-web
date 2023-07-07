@@ -9,7 +9,7 @@ import { module, test } from 'qunit';
 module('Integration | routes | settings | account | -components | change-password', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`{{settings/account/-components/change-password}}`);
 
         assert.dom('[data-test-change-password-panel]').exists('Password section renders');
@@ -18,7 +18,7 @@ module('Integration | routes | settings | account | -components | change-passwor
     });
 
     // Validation works
-    test('validation works', async assert => {
+    test('validation works', async function(assert) {
         await render(hbs`{{settings/account/-components/change-password}}`);
 
         const oldPassword = 'oldPassword1234';
@@ -70,7 +70,7 @@ module('Integration | routes | settings | account | -components | change-passwor
     });
 
     // Check validation double message for new password
-    test('double validation messages do not appear', async assert => {
+    test('double validation messages do not appear', async function(assert) {
         await render(hbs`{{settings/account/-components/change-password}}`);
 
         await click('[data-test-update-password-button]');

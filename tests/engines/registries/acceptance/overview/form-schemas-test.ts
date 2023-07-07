@@ -9,7 +9,7 @@ module('Registries | Acceptance | overview form schemas', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('All registration schemas render', async assert => {
+    test('All registration schemas render', async function(assert) {
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
 

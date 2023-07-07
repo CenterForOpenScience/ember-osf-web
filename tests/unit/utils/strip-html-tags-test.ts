@@ -2,7 +2,7 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | strip-html-tags', () => {
-    test('removes html tags from string', assert => {
+    test('removes html tags from string', function(assert) {
         const strs = [
             ['', ''],
             ['OSF', 'OSF'],

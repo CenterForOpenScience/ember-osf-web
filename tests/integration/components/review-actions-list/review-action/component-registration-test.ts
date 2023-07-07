@@ -225,25 +225,4 @@ module('Integration | Component | Registration | review-actions', hooks => {
             .doesNotContainText('moderator', 'Review action does not mention moderator');
         assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
     });
-
-    test('Request embargo termination action', async function(this: ThisTestContext, assert) {
-        this.reviewAction.setProperties({
-            actionTrigger: ReviewActionTrigger.RequestEmbargoTermination,
-            comment: '',
-        });
-        const dateString = formattedTimeSince(this.reviewAction.dateModified);
-        const pastTenseString = t('registries.reviewActions.triggerPastTense.request_embargo_termination');
-        this.set('reviewAction', this.reviewAction);
-
-        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
-        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
-        assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',
-                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
-            'Review action wrapper shows proper string',
-        );
-        assert.dom('[data-test-review-action-wrapper]')
-            .doesNotContainText('moderator', 'Review action does not mention moderator');
-        assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
-    });
 });

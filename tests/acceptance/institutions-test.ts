@@ -9,7 +9,7 @@ module('Acceptance | institutions', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visiting /institutions', async assert => {
+    test('visiting /institutions', async function(assert) {
         server.createList('institution', 20);
 
         await visit('/institutions');
@@ -23,7 +23,7 @@ module('Acceptance | institutions', hooks => {
         assert.dom('[data-test-more-institutions]').doesNotExist();
     });
 
-    test('few institutions means no pagination', async assert => {
+    test('few institutions means no pagination', async function(assert) {
         server.createList('institution', 8);
 
         await visit('/institutions');
@@ -31,7 +31,7 @@ module('Acceptance | institutions', hooks => {
         assert.dom('[data-test-more-institutions]').doesNotExist();
     });
 
-    test('can filter by name', async assert => {
+    test('can filter by name', async function(assert) {
         server.create('institution', { name: 'aa' });
         server.create('institution', { name: 'az' });
         server.create('institution', { name: 'za' });
@@ -53,7 +53,7 @@ module('Acceptance | institutions', hooks => {
         assert.dom('[data-test-visit-institution]').exists({ count: 3 });
     });
 
-    test('can sort by name', async assert => {
+    test('can sort by name', async function(assert) {
         server.create('institution', { name: 'aa' });
         server.create('institution', { name: 'az' });
         server.create('institution', { name: 'za' });

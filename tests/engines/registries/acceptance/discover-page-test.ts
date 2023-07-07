@@ -20,7 +20,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         server.createList('registration', 3, { provider: anotherProvider });
     });
 
-    test('page renders with all functionality', async assert => {
+    test('page renders with all functionality', async function(assert) {
         await visit('/registries/discover');
         await click('[data-test-sort-dropdown]');
         await percySnapshot('happy path');
@@ -49,7 +49,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         assert.dom('[data-test-result-title-id]').doesNotExist('No results rendered');
     });
 
-    test('paginator works', async assert => {
+    test('paginator works', async function(assert) {
         server.createList('registration', 2, { provider: server.schema.registrationProviders.first() });
 
         await visit('/registries/discover/');
@@ -66,7 +66,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         assert.dom('[data-test-result-title-id]').exists({ count: 1 }, 'Second page has correct number of results');
     });
 
-    test('initial state from query params', async assert => {
+    test('initial state from query params', async function(assert) {
         const anotherProvider = server.schema.registrationProviders.find('another');
         const searchableReg = anotherProvider.registrations.models[0];
 
