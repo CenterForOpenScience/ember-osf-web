@@ -8,14 +8,16 @@ as |layout|>
     >
         {{#if @provider}}
             <div
+                data-test-search-provider-logo
                 local-class='provider-logo'
             >
             </div>
-            <p>
+            <p data-test-search-provider-description>
                 {{@provider.description}}
             </p>
         {{else}}
             <label
+                data-test-search-header
                 for='search-input'
                 local-class='heading-label'
             >
@@ -59,8 +61,13 @@ as |layout|>
         data-analytics-scope='Search page left panel'
         local-class='left-panel'
     >
-        {{#if this.showResourceTypeFilter}}
-            <p local-class='search-count'>{{t 'search.total-results' count=this.totalResultCount}}</p>
+        {{#if this.showResultCountLeft}}
+            <p
+                data-test-left-search-count
+                local-class='search-count'
+            >
+                {{t 'search.total-results' count=this.totalResultCount}}
+            </p>
         {{/if}}
         <h2>{{t 'search.left-panel.header'}}</h2>
         {{#if @showSidePanelToggle}}
@@ -148,8 +155,13 @@ as |layout|>
                             {{/each}}
                         </ul>
                     </nav>
-                {{else}}
-                    <p local-class='search-count'>{{t 'search.total-results' count=this.totalResultCount}}</p>
+                {{else if this.showResultCountMiddle}}
+                    <p
+                        data-test-middle-search-count
+                        local-class='search-count'
+                    >
+                        {{t 'search.total-results' count=this.totalResultCount}}
+                    </p>
                 {{/if}}
                 <div
                     data-test-topbar-sort-dropdown

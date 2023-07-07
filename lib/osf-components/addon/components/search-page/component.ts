@@ -43,6 +43,7 @@ interface SearchArgs {
     resourceType: string;
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
+    showSidePanelToggle: boolean;
 }
 
 const searchDebounceTime = 100;
@@ -82,6 +83,17 @@ export default class SearchPage extends Component<SearchArgs> {
         const isRegistrationProvider = this.args.provider instanceof RegistrationProviderModel;
         return !(isPreprintProvider || isRegistrationProvider);
     }
+
+    get showResultCountMiddle() {
+        const hasResults = this.totalResultCount && this.totalResultCount > 0;
+        return hasResults && !this.showResourceTypeFilter && !this.args.showSidePanelToggle;
+    }
+
+    get showResultCountLeft() {
+        const hasResults = this.totalResultCount && this.totalResultCount > 0;
+        return hasResults && this.args.showSidePanelToggle;
+    }
+
 
     get selectedSortOption() {
         return this.sortOptions.find(option => option.value === this.sort);// || this.sortOptions[0];
