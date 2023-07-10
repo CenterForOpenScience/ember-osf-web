@@ -10925,7 +10925,7 @@ ember-cli-stylelint@^4.0.0:
     ember-cli-version-checker "^5.0.2"
     js-string-escape "^1.0.1"
 
-ember-cli-terser@^4.0.2:
+ember-cli-terser@^4.0.1:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/ember-cli-terser/-/ember-cli-terser-4.0.2.tgz#c436a9e4159f76a615b051cba0584844652b7dcd"
   integrity sha512-Ej77K+YhCZImotoi/CU2cfsoZaswoPlGaM5TB3LvjvPDlVPRhxUHO2RsaUVC5lsGeRLRiHCOxVtoJ6GyqexzFA==

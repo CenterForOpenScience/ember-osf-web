@@ -117,18 +117,19 @@ export default class ContributorsManager extends Component {
     @enqueueTask
     @waitFor
     async removeContributor(contributor: ContributorModel) {
+        const contributorName = contributor.unregisteredContributor
+            ? contributor.unregisteredContributor
+            : contributor.users.get('fullName');
+        const userId = contributor.users.get('id');
         const user = this.currentUser.get('user');
         try {
             await contributor.destroyRecord();
             this.contributors.removeObject(contributor);
 
-            if (user && user.id === contributor.users.get('id')) {
+            if (user && user.id === userId) {
                 this.toast.success(this.intl.t('contributor_list.remove_contributor.success'));
                 this.router.transitionTo('home');
             } else {
-                const contributorName = contributor.unregisteredContributor
-                    ? contributor.unregisteredContributor
-                    : contributor.users.get('fullName');
                 this.toast.success(this.intl.t(
                     'osf-components.contributors.removeContributor.success',
                     { contributorName, htmlSafe: true },
