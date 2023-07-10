@@ -45,7 +45,7 @@ as |layout|>
                 <FaIcon @icon='search' />
             </Button>
         </span>
-        {{#if @showSidePanelToggle}}
+        {{#if this.showSidePanelToggle}}
             <Button
                 data-test-toggle-side-panel
                 data-analytics-name='toggle side panel'
@@ -70,8 +70,8 @@ as |layout|>
             </p>
         {{/if}}
         <h2>{{t 'search.left-panel.header'}}</h2>
-        {{#if @showSidePanelToggle}}
-            {{#if this.showResourceTypeFilter}}
+        {{#if this.showSidePanelToggle}}
+            {{#if @showResourceTypeFilter}}
                 <div data-test-left-panel-object-type-dropdown>
                     <label>
                         {{t 'search.resource-type.search-by'}}
@@ -132,9 +132,9 @@ as |layout|>
     </layout.left>
     <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
-        {{#unless @showSidePanelToggle}}
+        {{#unless this.showSidePanelToggle}}
             <div local-class='topbar'>
-                {{#if this.showResourceTypeFilter}}
+                {{#if @showResourceTypeFilter}}
                     <nav
                         data-test-topbar-object-type-nav
                         local-class='object-type-nav'

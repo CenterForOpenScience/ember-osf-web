@@ -9,11 +9,10 @@ import Intl from 'ember-intl/services/intl';
 import { A } from '@ember/array';
 import Store from '@ember-data/store';
 import { action } from '@ember/object';
+import Media from 'ember-responsive';
 
 import IndexPropertySearchModel from 'ember-osf-web/models/index-property-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
-import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
-import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import ProviderModel from 'ember-osf-web/models/provider';
 
 interface ResourceTypeOption {
@@ -43,7 +42,7 @@ interface SearchArgs {
     resourceType: string;
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
-    showSidePanelToggle: boolean;
+    showResourceTypeFilter: boolean;
 }
 
 const searchDebounceTime = 100;
@@ -52,6 +51,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @service intl!: Intl;
     @service toast!: Toastr;
     @service store!: Store;
+    @service media!: Media;
 
     @tracked searchText?: string;
     @tracked searchResults?: SearchResultModel[];
@@ -67,6 +67,10 @@ export default class SearchPage extends Component<SearchArgs> {
         taskFor(this.search).perform();
     }
 
+    get showSidePanelToggle() {
+        return this.media.isMobile || this.media.isTablet;
+    }
+
     get filterableProperties() {
         if (!this.propertySearch) {
             return [];
@@ -78,22 +82,15 @@ export default class SearchPage extends Component<SearchArgs> {
         return this.resourceTypeOptions.find(option => option.value === this.resourceType);
     }
 
-    get showResourceTypeFilter() {
-        const isPreprintProvider = this.args.provider instanceof PreprintProviderModel;
-        const isRegistrationProvider = this.args.provider instanceof RegistrationProviderModel;
-        return !(isPreprintProvider || isRegistrationProvider);
-    }
-
     get showResultCountMiddle() {
         const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && !this.showResourceTypeFilter && !this.args.showSidePanelToggle;
+        return hasResults && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
     }
 
     get showResultCountLeft() {
         const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && this.args.showSidePanelToggle;
+        return hasResults && this.showSidePanelToggle;
     }
-
 
     get selectedSortOption() {
         return this.sortOptions.find(option => option.value === this.sort);// || this.sortOptions[0];
