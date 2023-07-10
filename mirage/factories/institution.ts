@@ -20,6 +20,8 @@ export default Factory.extend<Institution & InstitutionTraits>({
         return {
             banner: placekitten(512, 80),
             logo: randomGravatar(100),
+            primary_color: faker.internet.color(),
+            secondary_color: faker.internet.color(),
         };
     },
     currentUserIsAdmin: true,

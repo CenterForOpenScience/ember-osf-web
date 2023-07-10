@@ -1,1 +1,11 @@
-{{!-- placeholder route template --}}
+<SearchPage
+    @route='search'
+    @query={{this.q}}
+    @defaultQueryOptions={{this.defaultQueryOptions}}
+    @queryParams={{this.queryParams}}
+    @showSidePanelToggle={{this.showSidePanelToggle}}
+    @onSearch={{action this.onSearch}}
+    @resourceType={{this.resourceType}}
+    @institution={{this.model}}
+    @sort={{this.sort}}
+/>

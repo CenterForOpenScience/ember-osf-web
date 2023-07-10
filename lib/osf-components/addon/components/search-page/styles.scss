@@ -39,6 +39,65 @@
     }
 }
 
+.heading-wrapper-institutions,
+.heading-wrapper-institutions-mobile {
+    background-color: $osf-dark-blue-navbar;
+    color: $color-text-white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0.5rem;
+
+    label {
+        max-width: 835px;
+        min-width: 250px;
+        width: 50vw;
+        padding-bottom: 0;
+
+        img {
+            display: block;
+            margin: 0 auto;
+            max-height: 65px;
+        }
+
+        p {
+            font-weight: 400;
+            text-align: center;
+            padding: 1rem 0;
+            margin: 0;
+        }
+    }
+
+    .search-input-wrapper {
+        padding-bottom: 1rem;
+    }
+}
+
+.heading-wrapper-institutions-mobile {
+    label {
+        padding-bottom: 0.5rem;
+        margin-bottom: 0;
+        width: 95%;
+
+        img {
+            margin: 0.5rem auto;
+            max-height: inherit;
+        }
+
+        p {
+            margin: 0 auto;
+        }
+    }
+
+    span {
+        padding: 0 1rem 1rem;
+    }
+}
+
+.heading-wrapper-institutions-mobile + button {
+    width: 100%;
+}
+
 .heading-label {
     padding: 40px;
 }

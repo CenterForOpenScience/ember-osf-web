@@ -1,3 +1,4 @@
+/* eslint-disable ember/use-brace-expansion */
 import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
@@ -15,6 +16,8 @@ export interface Assets {
     banner?: string;
     logo?: string;
     logo_rounded?: string;
+    primary_color?: string;
+    secondary_color?: string;
 }
 /* eslint-enable camelcase */
 
@@ -70,6 +73,14 @@ export default class InstitutionModel extends OsfModel {
             return this.assets.logo;
         }
         return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
+    }
+
+    @computed('assets', 'assets.primary_color', 'assets.secondary_color')
+    get brandColors(): string[] {
+        if (this.assets && this.assets.primary_color && this.assets.secondary_color) {
+            return [this.assets.primary_color, this.assets.secondary_color];
+        }
+        return ['$osf-dark-blue-navbar', 'color: $color-text-white'];
     }
 
     @computed('assets', 'assets.logo_rounded', 'logoUrl')

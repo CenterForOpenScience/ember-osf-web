@@ -3,6 +3,7 @@ import config from 'ember-get-config';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
+import { placekitten } from '../utils';
 
 const {
     dashboard: {
@@ -62,5 +63,28 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     // Create a specific institution to test institutional dashboard with; should be ID 29 at this point
     server.create('institution', {
         id: 'has-users',
+    }, 'withMetrics');
+
+    // primary and secondary colors provided in mock-up
+    server.create('institution', {
+        id: 'mock-up',
+        description: `In partnership with the University of Virginia Library Scholarly Communication Services & 
+            Research Data Services, Vice President for Research, School of Data Science, and the Health Sciences 
+            Library. Projects must abide by the University Security and Data Protection Policies.`,
+        assets: {
+            banner: placekitten(512, 80),
+            primary_color: '#0c275c',
+            secondary_color: '$color-text-white',
+        },
+    }, 'withMetrics');
+
+    // default OSF colors when none provided
+    server.create('institution', {
+        id: 'default-colors',
+        assets: {
+            banner: placekitten(512, 80),
+            primary_color: '',
+            secondary_color: '',
+        },
     }, 'withMetrics');
 }

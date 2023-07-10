@@ -205,6 +205,7 @@ dashboard:
 
 search:
     page-title: 'Search'
+    institutions-title: 'Search Institutions'
     index-card:
         no-label: 'No label found'
         no-title: 'No title found'
@@ -238,6 +239,8 @@ search:
         see-more: 'See more'
         see-more-modal-text: 'Please select a filter to apply to your search.'
         see-more-modal-placeholder: 'Search for a filter to apply'
+    institutions:
+        institution-logo: 'Logo for '
 helpers:
     get-localized-property:
         not-provided: 'Not provided'
