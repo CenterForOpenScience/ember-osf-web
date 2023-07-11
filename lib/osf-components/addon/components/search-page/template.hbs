@@ -62,9 +62,10 @@ as |layout|>
     {{#if @institution.assets}}
         <layout.heading>
             <div
+                data-test-heading-wrapper-institutions
                 local-class={{if this.showSidePanelToggle 'heading-wrapper-institutions-mobile' 'heading-wrapper-institutions'}}
-                data-test-heading-wrapper
-                style={{concat 'background-color: ' @institution.assets.primary_color ';' htmlSafe=true}}>
+                style={{concat 'background-color: ' @primaryColor ';'}}
+            >
                 <label
                     for='search-input'
                     local-class='heading-label'
@@ -78,16 +79,22 @@ as |layout|>
                         >
                     {{else}}
                         <img
-                            data-test-institution-logo
+                            data-test-institution-banner
                             local-class='logo-img'
                             src={{@institution.assets.banner}}
                             alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
                         >
                     {{/if}}
-                    <p style={{concat 'color: '@institution.assets.secondary_color ';' htmlSafe=true}}>{{@institution.description}}</p>
+                    <p
+                        data-test-institution-description
+                        style={{concat 'color: ' @secondaryColor ';'}}
+                    >
+                        {{@institution.description htmlSafe=true}}
+                    </p>
                 </label>
                 <span local-class='search-input-wrapper'>
                     <Input
+                        data-test-search-input-institutions
                         local-class='search-input'
                         id='search-input'
                         @type='search'
@@ -96,7 +103,7 @@ as |layout|>
                         @enter={{perform this.doDebounceSearch}}
                     />
                     <Button
-                        data-test-search-submit
+                        data-test-search-submit-institutions
                         data-analytics-name='search button'
                         local-class='search-button'
                         aria-label={{t 'search.search-button-label'}}
@@ -198,7 +205,10 @@ as |layout|>
             </div>
         {{/if}}
         {{#if this.activeFilters.length}}
-            <ul local-class='active-filter-list'>
+            <ul
+                data-test-active-filters-list
+                local-class='active-filter-list'
+            >
                 {{#each this.activeFilters as |filter|}}
                     <li
                         data-test-active-filter='{{filter.property}}-{{filter.value}}'

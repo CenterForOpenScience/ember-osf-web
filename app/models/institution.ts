@@ -75,12 +75,20 @@ export default class InstitutionModel extends OsfModel {
         return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
     }
 
-    @computed('assets', 'assets.primary_color', 'assets.secondary_color')
-    get brandColors(): string[] {
-        if (this.assets && this.assets.primary_color && this.assets.secondary_color) {
-            return [this.assets.primary_color, this.assets.secondary_color];
+    get primaryColor(): string {
+        if (this.assets && this.assets.primary_color) {
+            return this.assets.primary_color;
+        } else {
+            return '#214661';
         }
-        return ['$osf-dark-blue-navbar', 'color: $color-text-white'];
+    }
+
+    get secondaryColor(): string {
+        if (this.assets && this.assets.secondary_color) {
+            return this.assets.secondary_color;
+        } else {
+            return '#fff';
+        }
     }
 
     @computed('assets', 'assets.logo_rounded', 'logoUrl')
