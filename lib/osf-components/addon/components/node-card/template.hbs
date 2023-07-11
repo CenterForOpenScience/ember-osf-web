@@ -247,6 +247,8 @@
                         {{#if this.shouldShowUpdateButton}}
                             <Button
                                 data-test-update-button={{@node.id}}
+                                @type='secondary'
+                                local-class='update-button'
                                 {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
                             >
                                 {{t 'node_card.update_button'}}
