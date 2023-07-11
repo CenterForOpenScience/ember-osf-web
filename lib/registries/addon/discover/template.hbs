@@ -1,4 +1,10 @@
 {{page-title (t 'registries.discover.page_title') prepend=false}}
+<RegistriesNavbar
+    class='RegistriesStyle'
+    @campaign='{{if @provider @provider.id 'osf'}}-registries'
+    @provider={{this.model}}
+    {{with-branding (get-model this.model.brand)}}
+/>
 
 <SearchPage
     {{with-branding (get-model this.model.brand)}}
