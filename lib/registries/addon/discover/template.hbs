@@ -1,13 +1,13 @@
 {{page-title (t 'registries.discover.page_title') prepend=false}}
 
 <SearchPage
-    {{!-- {{with-branding (get-model this.model.brand)}} --}}
+    {{with-branding (get-model this.model.brand)}}
     @route='discover'
     @provider={{this.model}}
     @defaultQueryOptions={{this.defaultQueryOptions}}
     @queryParams={{this.queryParams}}
     @query={{this.q}}
     @sort={{this.sort}}
-    @showSidePanelToggle={{this.showSidePanelToggle}}
     @onSearch={{action this.onSearch}}
+    @showResourceTypeFilter={{false}}
 />
