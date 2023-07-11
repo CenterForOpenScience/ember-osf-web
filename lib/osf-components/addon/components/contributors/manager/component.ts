@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -114,9 +114,14 @@ export default class ContributorsManager extends Component {
         }
     }
 
+    @action
+    removeContributor(contributor: ContributorModel) {
+        taskFor(this.removeContributorTask).perform(contributor);
+    }
+
     @enqueueTask
     @waitFor
-    async removeContributor(contributor: ContributorModel) {
+    async removeContributorTask(contributor: ContributorModel) {
         const contributorName = contributor.unregisteredContributor
             ? contributor.unregisteredContributor
             : contributor.users.get('fullName');
