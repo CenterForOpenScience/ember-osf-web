@@ -163,9 +163,8 @@ export default class FilesManagerComponent extends Component {
     @task
     @waitFor
     async getCurrentFolderItems(targetFolder: File) {
+        await targetFolder.files;
         this.set('currentFolder', targetFolder);
-
-        await this.currentFolder.files;
     }
 
     @task
