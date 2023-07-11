@@ -211,6 +211,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         });
+        server.create('root');
 
         await visit(`/${reg.id}/`);
 
