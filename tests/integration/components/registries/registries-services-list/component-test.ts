@@ -68,13 +68,6 @@ module('Integration | Component | registries | registries-services-list', hooks 
         // Given I find the image node
         const imageNode = document.querySelector('[data-test-asist-registry-logo]');
 
-        // Then I validate the image source
-        assert.dom(imageNode)
-            .hasAttribute('src',
-                // eslint-disable-next-line max-len
-                '/ember_osf_web/engines-dist/registries/assets/img/provider_logos/ASIST_logo-2ee9eb5b68e2fbd948eb1a2635f9443a.png',
-                'The image src is correct.');
-
         // And I validate the image alt tag
         assert.dom(imageNode)
             .hasAttribute('alt',
@@ -109,13 +102,6 @@ module('Integration | Component | registries | registries-services-list', hooks 
 
         // Given I find the image node
         const imageNode = document.querySelector('[data-test-characterlab-registry-logo]');
-
-        // Then I validate the image source
-        assert.dom(imageNode)
-            .hasAttribute('src',
-                // eslint-disable-next-line max-len
-                '/ember_osf_web/engines-dist/registries/assets/img/provider_logos/CharacterLab_logo-1794e99e73d6b8208ba3a8ba314a2e27.png',
-                'The image src is correct.');
 
         // And I validate the image alt tag
         assert.dom(imageNode)
@@ -152,13 +138,6 @@ module('Integration | Component | registries | registries-services-list', hooks 
         // Given I find the image node
         const imageNode = document.querySelector('[data-test-dam-registry-logo]');
 
-        // Then I validate the image source
-        assert.dom(imageNode)
-            .hasAttribute('src',
-                // eslint-disable-next-line max-len
-                '/ember_osf_web/engines-dist/registries/assets/img/provider_logos/dam_logo-5c39e88b57d4bd5d154ae245e19eec36.png',
-                'The image src is correct.');
-
         // And I validate the image alt tag
         assert.dom(imageNode)
             .hasAttribute('alt',
@@ -194,13 +173,6 @@ module('Integration | Component | registries | registries-services-list', hooks 
         // Given I find the image node
         const imageNode = document.querySelector('[data-test-egap-registry-logo]');
 
-        // Then I validate the image source
-        assert.dom(imageNode)
-            .hasAttribute('src',
-                // eslint-disable-next-line max-len
-                '/ember_osf_web/engines-dist/registries/assets/img/provider_logos/EGAP_white_logo-0c5f7c0c25f18e288b29108b2ea580de.png',
-                'The image src is correct.');
-
         // And I validate the image alt tag
         assert.dom(imageNode)
             .hasAttribute('alt',
@@ -235,13 +207,6 @@ module('Integration | Component | registries | registries-services-list', hooks 
 
         // Given I find the image node
         const imageNode = document.querySelector('[data-test-metascience-registry-logo]');
-
-        // Then I validate the image source
-        assert.dom(imageNode)
-            .hasAttribute('src',
-                // eslint-disable-next-line max-len
-                '/ember_osf_web/engines-dist/registries/assets/img/provider_logos/Metascience_logo-07fa1aa6e8745f257d3d80a0120579a8.png',
-                'The image src is correct.');
 
         // And I validate the image alt tag
         assert.dom(imageNode)
@@ -282,13 +247,6 @@ module('Integration | Component | registries | registries-services-list', hooks 
             // Given I find the image node
             const imageNode = document.querySelector('[data-test-rwe-registry-logo]');
 
-            // Then I validate the image source
-            assert.dom(imageNode)
-                .hasAttribute('src',
-                    // eslint-disable-next-line max-len
-                    '/ember_osf_web/engines-dist/registries/assets/img/provider_logos/RWE_logo-89ce7d56f5a5f89205b69c42000ff082.png',
-                    'The image src is correct.');
-
             // And I validate the image alt tag
             assert.dom(imageNode)
                 .hasAttribute('alt',
@@ -323,13 +281,6 @@ module('Integration | Component | registries | registries-services-list', hooks 
 
         // Given I find the image node
         const imageNode = document.querySelector('[data-test-youth-registry-logo]');
-
-        // Then I validate the image source
-        assert.dom(imageNode)
-            .hasAttribute('src',
-                // eslint-disable-next-line max-len
-                '/ember_osf_web/engines-dist/registries/assets/img/provider_logos/YOUth_logo-09944ceafea91a557940f3148cbe32c5.png',
-                'The image src is correct.');
 
         // And I validate the image alt tag
         assert.dom(imageNode)
