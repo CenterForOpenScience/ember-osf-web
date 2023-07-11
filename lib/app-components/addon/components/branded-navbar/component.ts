@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 import Session from 'ember-simple-auth/services/session';
@@ -10,12 +11,16 @@ import { tracked } from 'tracked-built-ins';
 
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import styles from './styles';
 import template from './template';
 
 type ObjectType = 'collection' | 'preprint' | 'registration';
+
+const osfURL = config.OSF.url;
 
 @layout(template, styles)
 @tagName('')
@@ -25,6 +30,7 @@ export default class BrandedNavbar extends Component {
     @service media!: Media;
     @service session!: Session;
     @service theme!: Theme;
+    @service currentUser!: CurrentUserService;
 
     brandRoute!: string;
     objectType!: ObjectType;
@@ -35,6 +41,15 @@ export default class BrandedNavbar extends Component {
 
     myProjectsUrl = serviceLinks.myProjects;
 
+    get reviewUrl() {
+        return `${osfURL}reviews`;
+    }
+
+    get submitPreprintUrl() {
+        return this.theme.isProvider ? `${osfURL}preprints/${this.theme.id}/submit/` : `${osfURL}preprints/submit/`;
+    }
+
+    @alias('theme.provider') provider!: ProviderModel;
     @alias('theme.provider.id') providerId!: string;
 
     @computed('intl.locale', 'theme.provider', 'translateKey')

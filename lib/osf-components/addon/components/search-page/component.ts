@@ -9,9 +9,11 @@ import Intl from 'ember-intl/services/intl';
 import { A } from '@ember/array';
 import Store from '@ember-data/store';
 import { action } from '@ember/object';
+import Media from 'ember-responsive';
 
 import IndexPropertySearchModel from 'ember-osf-web/models/index-property-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
+import ProviderModel from 'ember-osf-web/models/provider';
 
 interface ResourceTypeOption {
     display: string;
@@ -38,6 +40,9 @@ interface SearchArgs {
     toggleFilter: (filter: Filter) => void;
     sort: string;
     resourceType: string;
+    defaultQueryOptions: Record<string, string>;
+    provider?: ProviderModel;
+    showResourceTypeFilter: boolean;
 }
 
 const searchDebounceTime = 100;
@@ -46,11 +51,13 @@ export default class SearchPage extends Component<SearchArgs> {
     @service intl!: Intl;
     @service toast!: Toastr;
     @service store!: Store;
+    @service media!: Media;
 
     @tracked searchText?: string;
     @tracked searchResults?: SearchResultModel[];
     @tracked propertySearch?: IndexPropertySearchModel;
     @tracked page?: number = 1;
+    @tracked totalResultCount?: number;
 
     constructor( owner: unknown, args: SearchArgs) {
         super(owner, args);
@@ -58,6 +65,10 @@ export default class SearchPage extends Component<SearchArgs> {
         this.sort = this.args.sort;
         this.resourceType = this.args.resourceType;
         taskFor(this.search).perform();
+    }
+
+    get showSidePanelToggle() {
+        return this.media.isMobile || this.media.isTablet;
     }
 
     get filterableProperties() {
@@ -69,6 +80,16 @@ export default class SearchPage extends Component<SearchArgs> {
 
     get selectedResourceTypeOption() {
         return this.resourceTypeOptions.find(option => option.value === this.resourceType);
+    }
+
+    get showResultCountMiddle() {
+        const hasResults = this.totalResultCount && this.totalResultCount > 0;
+        return hasResults && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
+    }
+
+    get showResultCountLeft() {
+        const hasResults = this.totalResultCount && this.totalResultCount > 0;
+        return hasResults && this.showSidePanelToggle;
     }
 
     get selectedSortOption() {
@@ -104,11 +125,12 @@ export default class SearchPage extends Component<SearchArgs> {
         try {
             const q = this.searchText;
             const { page, sort, activeFilters, resourceType } = this;
-            const filterQueryObject = activeFilters.reduce((acc, filter) => {
+            let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 acc[filter.property] = filter.value;
                 return acc;
             }, {} as { [key: string]: string });
             filterQueryObject['resourceType'] = resourceType;
+            filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             const searchResult = await this.store.queryRecord('index-card-search', {
                 q,
                 page,
@@ -116,7 +138,8 @@ export default class SearchPage extends Component<SearchArgs> {
                 filter: filterQueryObject,
             });
             this.propertySearch = await searchResult.relatedPropertySearch;
-            this.searchResults =  searchResult.searchResultPage.toArray();
+            this.searchResults = searchResult.searchResultPage.toArray();
+            this.totalResultCount = searchResult.totalResultCount;
             if (this.args.onSearch) {
                 this.args.onSearch({q, sort, resourceType});
             }

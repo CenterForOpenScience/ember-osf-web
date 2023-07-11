@@ -1,13 +1,29 @@
 <OsfLayout
     @backgroundClass='search-page'
+    ...attributes
 as |layout|>
-    <layout.heading local-class='heading-wrapper'>
-        <label
-            for='search-input'
-            local-class='heading-label'
-        >
-            <h1>{{t 'search.search-header'}}</h1>
-        </label>
+    <layout.heading
+        {{with-branding (get-model @provider.brand)}}
+        local-class='heading-wrapper {{if @provider 'hero-overlay'}}'
+    >
+        {{#if @provider}}
+            <div
+                data-test-search-provider-logo
+                local-class='provider-logo'
+            >
+            </div>
+            <p data-test-search-provider-description>
+                {{@provider.description}}
+            </p>
+        {{else}}
+            <label
+                data-test-search-header
+                for='search-input'
+                local-class='heading-label'
+            >
+                <h1>{{t 'search.search-header'}}</h1>
+            </label>
+        {{/if}}
         <span local-class='search-input-wrapper'>
             <Input
                 local-class='search-input'
@@ -29,7 +45,7 @@ as |layout|>
                 <FaIcon @icon='search' />
             </Button>
         </span>
-        {{#if @showSidePanelToggle}}
+        {{#if this.showSidePanelToggle}}
             <Button
                 data-test-toggle-side-panel
                 data-analytics-name='toggle side panel'
@@ -45,17 +61,27 @@ as |layout|>
         data-analytics-scope='Search page left panel'
         local-class='left-panel'
     >
+        {{#if this.showResultCountLeft}}
+            <p
+                data-test-left-search-count
+                local-class='search-count'
+            >
+                {{t 'search.total-results' count=this.totalResultCount}}
+            </p>
+        {{/if}}
         <h2>{{t 'search.left-panel.header'}}</h2>
-        {{#if @showSidePanelToggle}}
-            <div data-test-left-panel-object-type-dropdown>
-                <label>
-                    {{t 'search.resource-type.search-by'}}
-                    <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
-                        @onChange={{this.updateResourceType}} as |resourceType|>
-                        {{resourceType.display}}
-                    </PowerSelect>
-                </label>
-            </div>
+        {{#if this.showSidePanelToggle}}
+            {{#if @showResourceTypeFilter}}
+                <div data-test-left-panel-object-type-dropdown>
+                    <label>
+                        {{t 'search.resource-type.search-by'}}
+                        <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
+                            @onChange={{this.updateResourceType}} as |resourceType|>
+                            {{resourceType.display}}
+                        </PowerSelect>
+                    </label>
+                </div>
+            {{/if}}
             <div data-test-left-panel-sort-dropdown>
                 <label>
                     {{t 'search.sort.sort-by'}}
@@ -106,29 +132,37 @@ as |layout|>
     </layout.left>
     <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
-        {{#unless @showSidePanelToggle}}
+        {{#unless this.showSidePanelToggle}}
             <div local-class='topbar'>
-                <nav
-                    data-test-topbar-object-type-nav
-                    local-class='object-type-nav'
-                >
-                    <ul>
-                        {{#each this.resourceTypeOptions as |resourceType|}}
-                            <li>
-                                <LinkTo
-                                    data-analytics-name='Object type filter={{resourceType.value}}'
-                                    data-test-topbar-object-type-link='{{resourceType.value}}'
-                                    local-class='object-type-filter-link'
-                                    @route={{@route}}
-                                    @query={{hash resourceType=resourceType.value}}
-                                    {{on 'click' (fn this.updateResourceType resourceType)}}
-                                >
-                                    {{resourceType.display}}
-                                </LinkTo>
-                            </li>
-                        {{/each}}
-                    </ul>
-                </nav>
+                {{#if @showResourceTypeFilter}}
+                    <nav
+                        data-test-topbar-object-type-nav
+                        local-class='object-type-nav'
+                    >
+                        <ul>
+                            {{#each this.resourceTypeOptions as |resourceType|}}
+                                <li>
+                                    <LinkTo
+                                        data-analytics-name='Object type filter={{resourceType.value}}'
+                                        data-test-topbar-object-type-link='{{resourceType.value}}'
+                                        local-class='object-type-filter-link'
+                                        @query={{hash resourceType=resourceType.value}}
+                                        {{on 'click' (fn this.updateResourceType resourceType)}}
+                                    >
+                                        {{resourceType.display}}
+                                    </LinkTo>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </nav>
+                {{else if this.showResultCountMiddle}}
+                    <p
+                        data-test-middle-search-count
+                        local-class='search-count'
+                    >
+                        {{t 'search.total-results' count=this.totalResultCount}}
+                    </p>
+                {{/if}}
                 <div
                     data-test-topbar-sort-dropdown
                     local-class='sort-dropdown'
