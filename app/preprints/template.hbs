@@ -1,8 +1,9 @@
-{{page-title this.theme.provider.providerTitle replace=true}}
-<ThemeStyles />
-<BrandedNavbar
-    @translateKey='collections.general.brand'
-    @brandRoute='preprints.discover'
-    @addLinkKey='collections.navbar.add'
-/>
+{{#if this.theme.isProvider}}
+    <ThemeStyles />
+    <BrandedNavbar
+        @translateKey='collections.general.brand'
+        @brandRoute='preprints.discover'
+        @addLinkKey='collections.navbar.add'
+    />
+{{/if}}
 {{outlet}}

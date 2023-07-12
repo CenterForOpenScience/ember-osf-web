@@ -15,7 +15,11 @@ export function preprintsScenario(
     const preprints = server.createList('preprint', 3, {
         provider: thesisCommons,
     });
+
+    const subjects = server.createList('subject', 2);
+
     thesisCommons.update({
+        highlightedSubjects: subjects,
         brand,
         moderators: [currentUserModerator],
         preprints,
