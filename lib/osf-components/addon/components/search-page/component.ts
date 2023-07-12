@@ -52,6 +52,13 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked propertySearch?: IndexPropertySearchModel;
     @tracked page?: number = 1;
 
+    showTooltip1?: boolean;
+    showTooltip2?: boolean;
+    showTooltip3?: boolean;
+    showTooltipMobile1?: boolean;
+    showTooltipMobile2?: boolean;
+    showTooltipMobile3?: boolean;
+
     constructor( owner: unknown, args: SearchArgs) {
         super(owner, args);
         this.searchText = this.args.query;

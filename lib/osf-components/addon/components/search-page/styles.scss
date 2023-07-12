@@ -86,3 +86,12 @@
     display: flex;
     justify-content: space-between;
 }
+
+.search-help-tutorial-1,
+.search-help-tutorial-2,
+.search-help-tutorial-3 {
+    background-color: $osf-dark-blue-navbar;
+    color: $color-text-white;
+    width: 400px;
+    z-index: 10;
+}

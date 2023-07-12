@@ -204,18 +204,14 @@ dashboard:
         title: 'Browse the latest research'
         description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
         button: 'View preprints'
-    products:
-        collections: 'OSF Collections'
-        registries: 'OSF Registries'
-        preprints: 'OSF Preprints'
-        institutions: 'OSF Institutions'
-
 search:
     page-title: 'Search'
     index-card:
         no-label: 'No label found'
         no-title: 'No title found'
     search-help:
+        header: 'Improved OSF Search'
+        body: 'Enter any term in the search box and filter by specific object types.'
         header-1: 'Improved OSF Search'
         header-2: 'OSF Smart Facets'
         header-3: 'Add Metadata'
@@ -231,9 +227,7 @@ search:
             done: 'Done'
     search-header: 'Search OSF'
     textbox-placeholder: 'Search placeholder'
-    search-button-label: 'Search'
-    search-help-label: 'Help tutorial'
-    total-results: '{count} results'
+    search-button-label: 'Search button'
     resource-type:
         search-by: 'Search by resource type'
         all: 'All'
