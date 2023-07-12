@@ -21,14 +21,6 @@ export default class InstitutionDiscoverController extends Controller {
         return this.media.isMobile || this.media.isTablet;
     }
 
-    get primaryColor(): string {
-        return this.model.primaryColor();
-    }
-
-    get secondaryColor(): string {
-        return this.model.secondaryColor();
-    }
-
     get defaultQueryOptions() {
         return {
             resourceType: 'osf:Institutions',

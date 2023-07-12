@@ -16,8 +16,6 @@ export interface Assets {
     banner?: string;
     logo?: string;
     logo_rounded?: string;
-    primary_color?: string;
-    secondary_color?: string;
 }
 /* eslint-enable camelcase */
 
@@ -73,22 +71,6 @@ export default class InstitutionModel extends OsfModel {
             return this.assets.logo;
         }
         return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
-    }
-
-    get primaryColor(): string {
-        if (this.assets && this.assets.primary_color) {
-            return this.assets.primary_color;
-        } else {
-            return '#214661';
-        }
-    }
-
-    get secondaryColor(): string {
-        if (this.assets && this.assets.secondary_color) {
-            return this.assets.secondary_color;
-        } else {
-            return '#fff';
-        }
     }
 
     @computed('assets', 'assets.logo_rounded', 'logoUrl')

@@ -4,8 +4,9 @@
     ...attributes
 as |layout|>
     <layout.heading
+        data-test-heading-wrapper
         {{with-branding (get-model @provider.brand)}}
-        local-class='heading-wrapper {{if @provider 'hero-overlay'}}'
+        local-class='heading-wrapper {{if @provider 'hero-overlay'}} {{if (and (not @showSidePanelToggle) @institution) 'heading-wrapper-institutions' 'heading-wrapper-institutions-mobile'}}'
     >
         {{#if @provider}}
             <div
@@ -16,6 +17,30 @@ as |layout|>
             <p data-test-search-provider-description>
                 {{@provider.description}}
             </p>
+        {{else if @institution}}
+            <div data-test-heading-wrapper>
+                <label
+                    for='search-input'
+                    local-class='heading-label'
+                >
+                    {{#if this.showSidePanelToggle}}
+                        <img
+                            data-test-institution-logo
+                            local-class='logo-img'
+                            src={{@institution.assets.logo}}
+                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
+                        >
+                    {{else}}
+                        <img
+                            data-test-institution-banner
+                            local-class='logo-img'
+                            src={{@institution.assets.banner}}
+                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
+                        >
+                    {{/if}}
+                    <p data-test-institution-description>{{@institution.description}}</p>
+                </label>
+            </div>
         {{else}}
             <label
                 data-test-search-header
@@ -58,117 +83,6 @@ as |layout|>
             </Button>
         {{/if}}
     </layout.heading>
-    as |layout|>
-    {{#if @institution.assets}}
-        <layout.heading>
-            <div
-                data-test-heading-wrapper-institutions
-                local-class={{if this.showSidePanelToggle 'heading-wrapper-institutions-mobile' 'heading-wrapper-institutions'}}
-                style={{concat 'background-color: ' @primaryColor ';'}}
-            >
-                <label
-                    for='search-input'
-                    local-class='heading-label'
-                >
-                    {{#if this.showSidePanelToggle}}
-                        <img
-                            data-test-institution-logo
-                            local-class='logo-img'
-                            src={{@institution.assets.logo}}
-                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
-                        >
-                    {{else}}
-                        <img
-                            data-test-institution-banner
-                            local-class='logo-img'
-                            src={{@institution.assets.banner}}
-                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
-                        >
-                    {{/if}}
-                    <p
-                        data-test-institution-description
-                        style={{concat 'color: ' @secondaryColor ';'}}
-                    >
-                        {{@institution.description htmlSafe=true}}
-                    </p>
-                </label>
-                <span local-class='search-input-wrapper'>
-                    <Input
-                        data-test-search-input-institutions
-                        local-class='search-input'
-                        id='search-input'
-                        @type='search'
-                        @placeholder={{t 'search.textbox-placeholder'}}
-                        @value={{this.searchText}}
-                        @enter={{perform this.doDebounceSearch}}
-                    />
-                    <Button
-                        data-test-search-submit-institutions
-                        data-analytics-name='search button'
-                        local-class='search-button'
-                        aria-label={{t 'search.search-button-label'}}
-                        @type='primary'
-                        @layout='large'
-                        {{on 'click' (perform this.doDebounceSearch)}}
-                    >
-                        <FaIcon @icon='search' />
-                    </Button>
-                </span>
-            </div>
-            {{#if @showSidePanelToggle}}
-                <Button
-                    data-test-toggle-side-panel
-                    data-analytics-name='toggle side panel'
-                    aria-label={{t 'search.toggle-sidenav'}}
-                    local-class='sidenav-toggle'
-                    {{on 'click' layout.toggleSidenav}}
-                >
-                    <FaIcon @icon='bars' />
-                </Button>
-            {{/if}}
-        </layout.heading>
-    {{else}}
-        <layout.heading local-class='heading-wrapper'>
-            <label
-                for='search-input'
-                local-class='heading-label'
-            >
-                <h1>{{t 'search.search-header'}}</h1>
-            </label>
-            <span local-class='search-input-wrapper'>
-                <Input
-                    local-class='search-input'
-                    id='search-input'
-                    @type='search'
-                    @placeholder={{t 'search.textbox-placeholder'}}
-                    @value={{this.searchText}}
-                    @enter={{perform this.doDebounceSearch}}
-                />
-                <Button
-                    data-test-search-submit
-                    data-analytics-name='search button'
-                    local-class='search-button'
-                    aria-label={{t 'search.search-button-label'}}
-                    @type='primary'
-                    @layout='large'
-                    {{on 'click' (perform this.doDebounceSearch)}}
-                >
-                    <FaIcon @icon='search' />
-                </Button>
-            </span>
-            {{#if @showSidePanelToggle}}
-                <Button
-                    data-test-toggle-side-panel
-                    data-analytics-name='toggle side panel'
-                    aria-label={{t 'search.toggle-sidenav'}}
-                    local-class='sidenav-toggle'
-                    {{on 'click' layout.toggleSidenav}}
-                >
-                    <FaIcon @icon='bars' />
-                </Button>
-            {{/if}}
-        </layout.heading>
-    {{/if}}
     <layout.left
         data-analytics-scope='Search page left panel'
         local-class='left-panel'
@@ -248,7 +162,7 @@ as |layout|>
     <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
         {{#unless this.showSidePanelToggle}}
-            <div local-class='topbar'>
+            <div data-test-topbar-wrapper local-class='topbar'>
                 {{#if @showResourceTypeFilter}}
                     <nav
                         data-test-topbar-object-type-nav

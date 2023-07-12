@@ -74,6 +74,8 @@
 }
 
 .heading-wrapper-institutions-mobile {
+    padding-bottom: 0;
+
     label {
         padding-bottom: 0.5rem;
         margin-bottom: 0;
@@ -91,6 +93,10 @@
 
     span {
         padding: 0 1rem 1rem;
+    }
+
+    > button {
+        width: 100%;
     }
 }
 
