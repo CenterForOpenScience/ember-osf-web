@@ -1,11 +1,11 @@
 <Alert
     data-analytics-scope='View-only link banner'
-    local-class='Alert'
+    local-class='alert'
     @visible={{this.shouldDisplay}}
     @type='info'
 >
-    <div local-class='Banner'>
-        <p>
+    <div local-class='banner'>
+        <p local-class='banner-warning'>
             {{t 'banners.view_only.warning'}}
         </p>
 
