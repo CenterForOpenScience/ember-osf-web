@@ -13,7 +13,7 @@ as |layout|>
             >
             </div>
             <p data-test-search-provider-description>
-                {{@provider.description}}
+                {{html-safe @provider.description}}
             </p>
         {{else}}
             <label

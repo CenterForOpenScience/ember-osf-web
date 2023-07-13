@@ -19,6 +19,6 @@ export function preprintsScenario(
         brand,
         moderators: [currentUserModerator],
         preprints,
-        description: 'This is the description for Thesis Commons',
+        description: '<p style="color: red">This is the description for Thesis Commons and it has an inline-style!</p>',
     });
 }
