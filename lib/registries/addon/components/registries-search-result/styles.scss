@@ -1,60 +1,107 @@
-// stylelint-disable selector-no-qualifying-type
-h3.RegistriesSearchResult__Title {
-    line-height: inherit;
-    margin-top: 10px;
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-    :global(.label-default) {
-        background-color: $color-bg-gray-darker;
-    }
-}
-
-.RegistriesSearchResult__Sources {
-    font-weight: 700;
-}
-
-.RegistriesSearchResult__HyperLinks {
-    list-style: none;
-    padding-left: 0;
-}
-
-.RegistriesSearchResult__InfoLinks {
-    list-style: none;
-    padding-left: 0;
-}
-
-.Description {
-    height: 42px;  // Roughtly 2x line height;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-}
-
-.Contributors {
+.search-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    list-style: none;
-    padding-left: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
 
-    & > li {
-        display: inline-flex;
-        padding-right: 5px;
+    &.mobile {
+        .search-result-container {
+            width: calc(100% - 50px);
+        } 
 
-        &::after {
-            content: ',';
+        .badges-container {
+            width: 50px;
+            min-width: 50px;
+            padding-left: 0;
         }
     }
 
-    & > li:last-child::after {
-        content: '';
+    .search-result-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 75%;
+
+        .title {
+            width: 100%;
+            line-height: inherit;
+            margin-top: 10px;
+
+            :global(.label-default) {
+                background-color: $color-bg-gray-darker;
+            }
+        }
+
+        .updated {
+            width: 100%;
+            font-style: italic;
+        }
+
+        .sources {
+            width: 100%;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .contributors {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            list-style: none;
+            padding-left: 0;
+
+            & > li {
+                display: inline-flex;
+                padding-right: 5px;
+
+                &::after {
+                    content: ',';
+                }
+            }
+
+            & > li:last-child::after {
+                content: '';
+            }
+        }
+
+        .description {
+            max-height: 120px;
+            height: fit-content;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+            margin-top: 10px;
+            width: 100%;
+            padding-right: 10px;
+        }
     }
+
+    .badges-container {
+        min-width: 150px;
+        width: 25%;
+        border-left-width: thin;
+        border-left-color: $color-bg-gray-light;
+        border-left-style: solid;
+        padding-left: 10px;
+        margin-top: 12px;
+    }
+
 }
 
-.OpenBadges {
-    border-left-width: thin;
-    border-left-color: $color-bg-gray-light;
-    border-left-style: solid;
-    padding-left: 10px;
-    margin-top: 12px;
+.label {
+    display: inline;
+    padding: 0.2em 0.6em 0.3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: $color-text-white;
+    background-color: $color-bg-gray-darker;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
 }

@@ -71,13 +71,12 @@
                                         @icon='globe'
                                     >
                                     </FaIcon>
-                                    <BsTooltip
-                                        @placement='right'
-                                        @triggerEvents='hover'
+                                    <EmberTooltip
+                                        @side='right'
                                     >
                                         {{t 'osf-components.file-browser.storage_location'}}
                                         {{this.model.taskInstance.value.region.name}}
-                                    </BsTooltip>
+                                    </EmberTooltip>
                                 </span>
                             {{/if}}
                         </div>

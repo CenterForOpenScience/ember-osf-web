@@ -1,11 +1,10 @@
 {{#each this.messages as |stat|}}
-    <BsAlert
+    <Alert
         @type={{stat.class}}
         @dismissible={{stat.dismiss}}
-        class={{if stat.jumbo (local-class 'StatusBanner__jumbo')}}
+        @visible={{true}}
+        @class={{if stat.jumbo (local-class 'StatusBanner__jumbo')}}
     >
-        <div class='{{if stat.jumbo 'jumbotron'}}'>
-            <p data-test-status-message={{stat.id}}>{{t stat.id extra=stat.extra htmlSafe=true}}</p>
-        </div>
-    </BsAlert>
+        <p data-test-status-message={{stat.id}}>{{t stat.id extra=stat.extra htmlSafe=true}}</p>
+    </Alert>
 {{/each}}

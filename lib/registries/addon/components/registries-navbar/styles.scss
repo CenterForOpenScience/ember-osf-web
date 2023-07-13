@@ -99,6 +99,25 @@
 
 .ServiceDropdownMenu {
     font-size: 20px;
+
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
+
+    li>a {
+        display: block;
+        padding: 3px 20px;
+        line-height: 1.8;
+        white-space: nowrap;
+        clear: both;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    li>a:hover {
+        text-decoration: none;
+    }
 }
 
 .ServiceDropdownEntry {
@@ -114,6 +133,18 @@
     margin-left: 15px;
 }
 
+.logout-link {
+    color: $color-text-white;
+    font-size: 16px;
+    padding: 3px 20px;
+}
+
+.logout-link:hover {
+    color: #15a5eb;
+    background-color: #263947;
+    background-image: none;
+}
+
 .Gravatar {
     .Dropdown:hover &,
     // Bootstrap interop
@@ -126,6 +157,11 @@
     font-size: 16px;
     right: 0;
     left: auto;
+
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
 
     // Logout and sign in buttons
     & > li > :global(.btn.btn-link) {
@@ -141,9 +177,29 @@
         }
     }
 
+    li>a {
+        display: block;
+        padding: 3px 20px;
+        line-height: 1.8;
+        white-space: nowrap;
+        clear: both;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    li>a:hover,
+    li>button:hover {
+        text-decoration: none;
+    }
+
     :global(.fa.fa-user-plus) {
         position: relative;
         left: 2px;
         margin-right: 3px;
     }
+}
+
+.login-link {
+    color: $color-text-white;
+    margin-left: 15px;
 }

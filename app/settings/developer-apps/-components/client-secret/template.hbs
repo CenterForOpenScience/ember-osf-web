@@ -9,10 +9,10 @@
         />
     </p>
 
-    <BsButton
+    <Button
         data-test-toggle-client-secret
         data-analytics-name='Toggle show secret'
-        @onClick={{action this.toggleShowSecret}}
+        {{on 'click' (action this.toggleShowSecret)}}
     >
         {{#if this.shouldShowSecret}}
             <FaIcon @icon='eye-slash' />
@@ -21,7 +21,7 @@
             <FaIcon @icon='eye' />
             {{t 'settings.developer-apps.showSecret'}}
         {{/if}}
-    </BsButton>
+    </Button>
 
     <DeleteButton
         data-test-reset-client-secret

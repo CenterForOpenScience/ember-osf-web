@@ -41,17 +41,17 @@
             {{else if this.shouldTruncate}}
                 {{t 'contributor_list.x_more' x=list.remainingCount}}
             {{else}}
-                <BsButton
+                <Button
                     data-test-load-more-contribs
                     data-analytics-name='Load more contributors'
                     aria-label={{t 'contributor_list.more'}}
                     local-class='load-contribs'
-                    @type='link'
-                    @onClick={{perform this.loadContributors true}}
+                    @layout='fake-link'
+                    {{on 'click' (perform this.loadContributors true)}}
                 >
                     {{t 'contributor_list.x_more' x=list.remainingCount}}
                     <FaIcon @icon='caret-down' />
-                </BsButton>
+                </Button>
             {{/if}}
         {{/if~}}
     </InlineList>

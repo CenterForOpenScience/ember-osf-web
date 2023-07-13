@@ -19,9 +19,33 @@
 
 .Tabs {
     min-width: 60vw;
+    padding-left: 0;
+    margin-bottom: 5px;
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+    overflow: hidden;
 
-    :global(.tab-content) {
+    li {
+        float: left;
+        margin-bottom: -1px;
+        display: block;
+        position: relative;
         padding: 10px;
+        height: 40px;
+    }
+
+    .active {
+        background-color: $color-light;
+        border-bottom: 3px solid $color-bg-black;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    a:hover,
+    a:focus {
+        text-decoration: none;
     }
 }
 

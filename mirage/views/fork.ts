@@ -1,4 +1,5 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Schema } from 'ember-cli-mirage';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { MirageNode } from '../factories/node';
 import { MirageRegistration } from '../factories/registration';
 
@@ -12,6 +13,7 @@ export function createFork(this: HandlerContext, schema: Schema) {
         category: node.category,
         fork: true,
         title: `Fork of ${node.title}`,
+        currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
         description: node.description,
         ...attrs,
     });
@@ -36,6 +38,7 @@ export function createRegistrationFork(this: HandlerContext, schema: Schema) {
         category: registration.category,
         fork: true,
         title: `Fork of ${registration.title}`,
+        currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
         description: registration.description,
         ...attrs,
     });

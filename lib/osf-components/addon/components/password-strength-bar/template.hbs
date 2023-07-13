@@ -1,13 +1,14 @@
 {{#if (and @shouldShowMessages this.message)}}
-    <div class='{{if this.valid 'text-warning' 'text-danger'}}' local-class='warning-message'>
+    <div local-class='{{if this.valid 'text-warning' 'text-danger'}} warning-message'>
         {{this.message}}
     </div>
 {{/if}}
 <div data-test-password-bar hidden={{not this.progress}}>
-    <div class='progress' local-class='create-password'>
+    <div local-class='progress create-password'>
         <div
             data-test-password-color-bar
-            class='progress-bar progress-bar-sm progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
+            class='progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
+            local-class='progress-bar progress-bar-sm'
             role='progressbar'>
         </div>
     </div>

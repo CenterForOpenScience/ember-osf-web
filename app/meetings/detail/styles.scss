@@ -1,3 +1,21 @@
-.meeting-submission-list {
-    margin-top: 0;
+.meeting-detail-container {
+    background-color: $color-bg-white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+
+    .meeting-detail,
+    .meeting-submission-list-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 90%;
+    }
+
+    .meeting-submission-list-container {
+        align-items: center;
+    }
 }

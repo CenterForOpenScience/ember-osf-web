@@ -1,19 +1,16 @@
-<button
+<Button
     aria-label={{t 'registries.discover.search_result.sharing_popover'}}
-    type='button'
+    @layout='fake-link'
     local-class='SharingIconsPopover__anchor'
-    class='btn-link pull-right'
     tabindex='0'
     data-analytics-name='Sharing Icons Popover{{if @provider (concat ' ' @provider.name)}}'
     ...attributes
 >
     <FaIcon @icon='share-alt' />
-    <BsPopover
+    <EmberPopover
         local-class='Popover'
-        @placement='left'
-        @viewportSelector='#{{@parentId}}'
-        @autoPlacement={{true}}
-        @renderInPlace={{true}}
+        @side='left'
+        @popperContainer='#{{@parentId}}'
     >
         <SharingIcons
             @title={{@title}}
@@ -23,5 +20,5 @@
             @parentId={{@parentId}}
             @showText={{@showText}}
         />
-    </BsPopover>
-</button>
+    </EmberPopover>
+</Button>

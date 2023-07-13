@@ -46,23 +46,23 @@
                                 {{/if}}
                             </label>
                             {{#if this.showAddContributorWidget}}
-                                <BsButton
+                                <Button
                                     aria-label={{t 'registries.registration_metadata.add_contributors.done_add_new_button'}}
                                     local-class='ContributorButton'
-                                    @type='danger'
-                                    @onClick={{action this.toggleAddContributorWidget}}
+                                    @type='destroy'
+                                    {{on 'click' (action this.toggleAddContributorWidget)}}
                                 >
                                     <FaIcon @icon='times' />
-                                </BsButton>
+                                </Button>
                             {{else}}
-                                <BsButton
+                                <Button
                                     aria-label={{t 'registries.registration_metadata.add_contributors.add_new_button'}}
                                     local-class='ContributorButton'
                                     @type='primary'
-                                    @onClick={{action this.toggleAddContributorWidget}}
+                                    {{on 'click' (action this.toggleAddContributorWidget)}}
                                 >
                                     <FaIcon @icon='plus' />
-                                </BsButton>
+                                </Button>
                             {{/if}}
                         </div>
                         <Contributors::Widget

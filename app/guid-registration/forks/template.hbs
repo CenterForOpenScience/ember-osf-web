@@ -5,45 +5,44 @@
     class='container'
     local-class='Forks'
 >
-    <BsModal
-        @open={{this.newModal}}
-        @onSubmit={{action this.newFork}}
-        @onHide={{action (mut this.newModal) false}}
-        as |modal|
+    <OsfDialog
+        @isOpen={{this.newModal}}
+        @onClose={{action (mut this.newModal) false}}
+        as |dialog|
     >
-        <modal.body
+        <dialog.main
             data-test-new-fork-modal-body
             data-analytics-scope='Registation Forks - New forks modal'
         >
-            <BsButton
+            <Button
                 data-test-close-create-forks-modal
                 data-analytics-name='Close'
                 aria-label={{t 'general.close'}}
-                class='close'
-                @onClick={{action this.closeNewModal}}
+                local-class='close'
+                {{on 'click' (action this.closeNewModal)}}
             >
                 <FaIcon @icon='times' @size='sm' />
-            </BsButton>
+            </Button>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
-        </modal.body>
-        <modal.footer data-analytics-scope='Registation Forks - New forks modal footer'>
-            <BsButton
+        </dialog.main>
+        <dialog.footer data-analytics-scope='Registation Forks - New forks modal footer'>
+            <Button
                 data-test-cancel-create-fork
                 data-analytics-name='Close'
-                @onClick={{action (mut this.newModal) false}}
+                {{on 'click' (action (mut this.newModal) false)}}
             >
                 {{t 'general.cancel'}}
-            </BsButton>
-            <BsButton
+            </Button>
+            <Button
                 data-test-confirm-create-fork
                 data-analytics-name='Create fork'
-                @onClick={{action modal.submit}}
-                @type='info'
+                {{on 'click' (action this.newFork)}}
+                @type='create'
             >
                 {{t 'forks.fork'}}
-            </BsButton>
-        </modal.footer>
-    </BsModal>
+            </Button>
+        </dialog.footer>
+    </OsfDialog>
     {{! Analytics being called in the controller action }}
     <DeleteNodeModal
         @delete={{action this.delete}}
@@ -51,10 +50,7 @@
         @closeModal={{action this.closeDeleteModal}}
         @nodeType={{this.nodeType}}
     />
-    <div local-class='Forks__header' class='page-header visible-xs'>
-        <h2 class='text-300'>{{t 'forks.title'}}</h2>
-    </div>
-    <div class='m-md' local-class='Forks__nav'>
+    <div local-class='Forks__nav m-md'>
         <OsfLink
             data-test-back-to-analytics
             data-analytics-name='forks.back'
@@ -93,21 +89,21 @@
         {{/paginated-list/has-many}}
     </div>
     <div local-class='Forks__new-fork'>
-        <div class='m-md'>
+        <div local-class='m-md'>
             {{#if this.currentUser.user}}
-                <BsButton
+                <Button
                     data-test-new-fork-button
                     data-analytics-name='Create fork modal'
                     disabled={{this.loadingNew}}
-                    @type='success'
-                    @onClick={{action (mut this.newModal) true}}
+                    @type='create'
+                    {{on 'click' (action (mut this.newModal) true)}}
                 >
                     {{#if this.loadingNew}}
                         {{t 'forks.loading_new'}}
                     {{else}}
                         {{t 'forks.new'}}
                     {{/if}}
-                </BsButton>
+                </Button>
             {{/if}}
         </div>
     </div>

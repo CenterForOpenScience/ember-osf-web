@@ -1,4 +1,4 @@
-.learnMoreButton {
+.learnMoreButton.learnMoreButton {
     width: 250px;
     height: 60px;
     font-size: 20px;
@@ -14,4 +14,41 @@
         height: 40px;
         font-size: 18px;
     }
+}
+
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    user-select: none;
+    vertical-align: middle;
+}
+
+.btn-primary {
+    color: $color-text-white;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+    color: $color-text-white;
+    background-color: #286090;
+    border-color: #122b40;
+}
+
+.btn-primary:hover {
+    color: $color-text-white;
+    background-color: #286090;
+    border-color: #204d74;
 }

@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
+import { tracked } from 'tracked-built-ins';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -33,6 +34,7 @@ export default class OsfModeFooter extends Component {
     showDevBanner = config.showDevBanner;
     showUrlInput = false;
     url = '/';
+    @tracked activeTab='zoom';
 
     get featureList() {
         return this.features.flags.map(flag => underscore(flag)).sort();

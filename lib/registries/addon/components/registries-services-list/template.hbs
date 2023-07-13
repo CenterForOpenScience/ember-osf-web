@@ -1,27 +1,18 @@
-<div local-class='ServicesList' class='p-v-md'>
-    <div class='container'>
-        <div class='row'>
-            <div class='col-xs-12'>
-                <h2
-                    data-test-registries-list-header
-                >
-                    {{t 'registries.index.services.top.heading'}}
-                </h2>
-                <p
-                    data-test-registries-list-paragraph
-                    class='m-b-lg'
-                >
-                    {{t 'registries.index.services.top.paragraph'}}
-                </p>
-            </div>
-        </div>
+<div local-class='service-list-container'>
+    <div local-class='header-container'>
+        <h2 data-test-registries-list-header>
+            {{t 'registries.index.services.top.heading'}}
+        </h2>
+        <p data-test-registries-list-paragraph>
+            {{t 'registries.index.services.top.paragraph'}}
+        </p>
     </div>
-    <div class='container'>
+    <div local-class='service-container'>
         <div
             data-test-registries-list-row-one
-            class='row p-v-md'
+            local-class='service-row-container {{if this.isMobile 'mobile'}}'
         >
-            <div class='col-sm-3 text-center'>
+            <div local-class='service-25'>
                 <a
                     href='https://osf.io/registries/darpaasist' 
                     data-analytics-name='asist - Registry'
@@ -30,13 +21,13 @@
                 >
                     <img
                         alt={{concat (t 'registries.index.services.asist') (t 'registries.index.services.logo')}}
-                        local-class='ServicesList__ProviderLogo'
+                        local-class='logo'
                         data-test-asist-registry-logo
                         src='/img/provider_logos/ASIST_logo.png'
                     />
                 </a>
             </div>
-            <div class='col-sm-3 text-center'>
+            <div local-class='service-25'>
                 <a
                     href='https://osf.io/registries/characterlabregistry' 
                     data-analytics-name='characterlab - Registry'
@@ -45,13 +36,13 @@
                 >
                     <img
                         alt={{concat (t 'registries.index.services.characterlab') (t 'registries.index.services.logo')}}
-                        local-class='ServicesList__ProviderLogo'
+                        local-class='logo'
                         data-test-characterlab-registry-logo
                         src='/img/provider_logos/CharacterLab_logo.png'
                     />
                 </a>
             </div>
-            <div class='col-sm-3 text-center'>
+            <div local-class='service-25'>
                 <a
                     href='https://osf.io/registries/dam'
                     data-analytics-name='dam - Registry'
@@ -60,13 +51,13 @@
                 >
                     <img
                         alt={{concat (t 'registries.index.services.dam') (t 'registries.index.services.logo')}}
-                        local-class='ServicesList__ProviderLogo'
+                        local-class='logo'
                         data-test-dam-registry-logo
                         src='/img/provider_logos/dam_logo.png'
                     />
                 </a>
             </div>
-            <div class='col-sm-3 text-center'>
+            <div local-class='service-25'>
                 <a
                     href='https://osf.io/registries/egap'
                     data-analytics-name='egap - Registry'
@@ -75,7 +66,7 @@
                 >
                     <img
                         alt='{{concat (t 'registries.index.services.egap') (t 'registries.index.services.logo')}}'
-                        local-class='ServicesList__ProviderLogo'
+                        local-class='logo'
                         data-test-egap-registry-logo
                         src='/img/provider_logos/EGAP_white_logo.png'
                     />
@@ -84,9 +75,9 @@
         </div>
         <div
             data-test-registries-list-row-two
-            class='row p-v-md'
+            local-class='service-row-container {{if this.isMobile 'mobile'}}'
         >
-            <div class='col-sm-4 text-center'>
+            <div local-class='service-33'>
                 <a
                     href='https://osf.io/registries/metascience'
                     data-analytics-name='Metascience - Registry'
@@ -95,13 +86,13 @@
                 >
                     <img
                         alt='{{concat (t 'registries.index.services.metascience') (t 'registries.index.services.logo')}}'
-                        local-class='ServicesList__ProviderLogo'
+                        local-class='logo'
                         data-test-metascience-registry-logo
                         src='/img/provider_logos/Metascience_logo.png'
                     />
                 </a>
             </div>
-            <div class='col-sm-4 text-center'>
+            <div local-class='service-33'>
                 <a
                     href='https://osf.io/registries/rwe'
                     data-analytics-name='RWE - Registry'
@@ -110,13 +101,13 @@
                 >
                     <img
                         alt='{{concat (t 'registries.index.services.rwe') (t 'registries.index.services.logo')}}'
-                        local-class='ServicesList__ProviderLogo'
+                        local-class='logo'
                         data-test-rwe-registry-logo
                         src='/img/provider_logos/RWE_logo.png'
                     />
                 </a>
             </div>
-            <div class='col-sm-4 text-center'>
+            <div local-class='service-33'>
                 <a
                     href='https://osf.io/registries/youthstudy'
                     aria-label={{t 'registries.index.services.youth'}}
@@ -125,7 +116,7 @@
                 >
                     <img
                         alt='{{concat (t 'registries.index.services.youth') (t 'registries.index.services.logo')}}'
-                        local-class='ServicesList__ProviderLogo'
+                        local-class='logo'
                         data-test-youth-registry-logo
                         src='/img/provider_logos/YOUth_logo.png'
                     />
@@ -133,18 +124,14 @@
             </div>
         </div>
     </div>
-    <div class='row p-v-md'>
-        <div
-            class='col-md-12 text-center'
+    <div local-class='contact-container'>
+        <a
+            data-test-registries-list-contact-link
+            data-analytics-name='Index - Contact'
+            href='mailto:contact@osf.io'
+            local-class='btn'
         >
-            <a
-                data-test-registries-list-contact-link
-                data-analytics-name='Index - Contact'
-                href='mailto:contact@osf.io'
-                class='btn btn-info btn-lg'
-            >
-                {{t 'registries.index.services.bottom.contact'}}
-            </a>
-        </div>
+            {{t 'registries.index.services.bottom.contact'}}
+        </a>
     </div>
 </div>

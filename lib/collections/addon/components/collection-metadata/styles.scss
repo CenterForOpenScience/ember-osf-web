@@ -1,0 +1,28 @@
+.metadata-field-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+
+    .metadata-field {
+        width: calc(50% - 15px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        &.mobile {
+            width: 100%;
+        }
+
+        .label {
+            width: 100%;
+        }
+
+        .input {
+            width: 100%;
+        }
+    }
+}

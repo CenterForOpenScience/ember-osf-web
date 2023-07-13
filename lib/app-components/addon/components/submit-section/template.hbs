@@ -1,9 +1,10 @@
 {{#if this.showTooltip}}
-    <BsTooltip
-        @title={{this.tooltip}}
+    <EmberTooltip
         @autoPlacement={{true}}
-        @viewportSelector={{this.elementId}}
-    />
+        @targetId={{this.elementId}}
+    >
+        {{this.tooltip}}
+    </EmberTooltip>
 {{/if}}
 {{#@panels.panel
     open=this.isOpen

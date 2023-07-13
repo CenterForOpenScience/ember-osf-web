@@ -5,7 +5,6 @@
         <div
             data-test-file-browser-list
             local-class='file-browser-list'
-            class='file-browser-list'
         >
             <div local-class='header'>
                 <div local-class='column'>
@@ -74,17 +73,16 @@
                     {{#if @filesManager.loadingMore}}
                         <LoadingIndicator @inline={{true}} @dark={{true}} />
                     {{else}}
-                        <BsButton
+                        <Button
                             data-test-load-more-items
-                            local-class='load-more-button'
-                            class='btn-block'
+                            local-class='load-more-button btn-block'
                             aria-label={{t 'osf-components.files-widget.load_more'}}
                             tabindex='0'
-                            @type='link'
-                            @onClick={{@filesManager.loadMore}}
+                            @layout='fake-link'
+                            {{on 'click' @filesManager.loadMore}}
                         >
                             <FaIcon @icon='chevron-down' @fixedWidth={{true}} />
-                        </BsButton>
+                        </Button>
                     {{/if}}
                 </div>
             {{/if}}

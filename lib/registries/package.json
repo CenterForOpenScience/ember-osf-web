@@ -15,7 +15,6 @@
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-aria-tabs": "*",
     "ember-basic-dropdown": "*",
-    "ember-bootstrap": "*",
     "ember-changeset": "*",
     "ember-changeset-validations": "*",
     "ember-cli-babel": "*",
@@ -45,6 +44,7 @@
     "ember-responsive": "*",
     "ember-sortable": "*",
     "ember-toastr": "*",
+    "ember-tooltips": "*",
     "ember-truth-helpers": "*",
     "immutable": "*"
   },

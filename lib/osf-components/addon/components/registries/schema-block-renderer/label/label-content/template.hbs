@@ -15,17 +15,17 @@
         {{~@schemaBlock.helpText~}}
     </p>
     {{#if @schemaBlock.exampleText}}
-        <BsButton
+        <Button
             local-class='ExampleButton'
-            @type='link'
-            @onClick={{action this.toggleShouldShowExample}}
+            @layout='fake-link'
+            {{on 'click' (action this.toggleShouldShowExample)}}
         >
             {{#if this.shouldShowExample}}
                 {{t 'osf-components.registries.schema-block-renderer/label.hideExample'}}
             {{else}}
                 {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
             {{/if}}
-        </BsButton>
+        </Button>
         {{#if this.shouldShowExample}}
             <p local-class='ExampleText'>
                 {{~this.schemaBlock.exampleText~}}

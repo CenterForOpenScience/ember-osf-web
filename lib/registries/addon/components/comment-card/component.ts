@@ -46,7 +46,6 @@ export default class CommentCard extends Component {
     abuseCategories: AbuseCategories[] = Object.values(AbuseCategories);
 
     page = 1;
-    reporting? = false;
     showReplies? = false;
     loadingMoreReplies? = false;
 
@@ -148,38 +147,12 @@ export default class CommentCard extends Component {
     }
 
     @action
-    report() {
-        this.set('reporting', true);
-    }
-
-    @action
-    cancelReport() {
-        this.set('reporting', false);
-    }
-
-    @action
-    onSave() {
-        this.toast.success(this.intl.t('registries.overview.comments.create_report.success'));
-        this.comment.setProperties({
-            isAbuse: true,
-            hasReport: true,
-        });
-        this.set('reporting', false);
-    }
-
-    @action
     toggleReplies() {
         this.toggleProperty('showReplies');
 
         if (this.showReplies) {
             taskFor(this.loadReplies).perform();
         }
-    }
-
-    @action
-    onError() {
-        this.comment.rollbackAttributes();
-        this.toast.error(this.intl.t('registries.overview.comments.create_report.error'));
     }
 
     @action
