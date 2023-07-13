@@ -8,6 +8,7 @@
                 @selected={{@subscription.frequency}}
                 @options={{this.frequencyOptions}}
                 @onChange={{fn @manager.updateSubscriptionFrequency @subscription}}
+                local-class='power-select-box'
                 as |option|
             >
                 <span data-test-subscription-option={{option}}>

@@ -107,21 +107,23 @@
                         as |nl|
                     >
                         <nl.empty>
-                            <p>
-                                {{t 'node.registrations.no_registrations'}}
-                                {{#if (and this.node.currentUserIsContributor (not this.node.userHasAdminPermission))}}
-                                    {{t 'node.registrations.only_admins_can_initiate'}}
+                            <div local-class={{if this.isMobile 'no-registrations-mobile'}}>
+                                <p>
+                                    {{t 'node.registrations.no_registrations'}}
+                                    {{#if (and this.node.currentUserIsContributor (not this.node.userHasAdminPermission))}}
+                                        {{t 'node.registrations.only_admins_can_initiate'}}
+                                    {{/if}}
+                                </p>
+                                {{#if this.node.userHasAdminPermission}}
+                                    <p>{{t 'node.registrations.start_new'}}</p>
                                 {{/if}}
-                            </p>
-                            {{#if this.node.userHasAdminPermission}}
-                                <p>{{t 'node.registrations.start_new'}}</p>
-                            {{/if}}
-                            <p>
-                                {{t 'node.registrations.learn_more'
-                                    learnMoreLink='https://help.osf.io/'
-                                    htmlSafe=true
-                                }}
-                            </p>
+                                <p>
+                                    {{t 'node.registrations.learn_more'
+                                        learnMoreLink='https://help.osf.io/'
+                                        htmlSafe=true
+                                    }}
+                                </p>
+                            </div>
                         </nl.empty>
                     </NodeList>
                 </div>
@@ -145,16 +147,18 @@
                             </list.item>
 
                             <list.empty>
-                                <p>{{t 'node.registrations.no_drafts'}}</p>
-                                {{#if this.node.userHasAdminPermission}}
-                                    <p>{{t 'node.registrations.start_new'}}</p>
-                                {{/if}}
-                                <p>
-                                    {{t 'node.registrations.learn_more'
-                                        learnMoreLink='https://help.osf.io/'
-                                        htmlSafe=true
-                                    }}
-                                </p>
+                                <div local-class={{if this.isMobile 'no-registrations-mobile'}}>
+                                    <p>{{t 'node.registrations.no_drafts'}}</p>
+                                    {{#if this.node.userHasAdminPermission}}
+                                        <p>{{t 'node.registrations.start_new'}}</p>
+                                    {{/if}}
+                                    <p>
+                                        {{t 'node.registrations.learn_more'
+                                            learnMoreLink='https://help.osf.io/'
+                                            htmlSafe=true
+                                        }}
+                                    </p>
+                                </div>
                             </list.empty>
                         </PaginatedList::HasMany>
                     </div>

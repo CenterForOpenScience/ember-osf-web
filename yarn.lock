@@ -21826,24 +21826,12 @@ walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
-watch-detector@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/watch-detector/-/watch-detector-0.1.0.tgz#e37b410d149e2a8bf263a4f8b71e2f667633dbf8"
-  integrity sha512-vfzMMfpjQc88xjETwl2HuE6PjEuxCBeyC4bQmqrHrofdfYWi/4mEJklYbNgSzpqM9PxubsiPIrE5SZ1FDyiQ2w==
-  dependencies:
-    heimdalljs-logger "^0.1.9"
-    quick-temp "^0.1.8"
-    rsvp "^4.7.0"
-    semver "^5.4.1"
-    silent-error "^1.1.0"
-
-watch-detector@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/watch-detector/-/watch-detector-1.0.0.tgz#c7b722d8695fee9ab6071e0f38f258e6adb22609"
-  integrity sha512-siywMl3fXK30Tlpu/dUBHhlpxhQmHdguZ8OIb813eU9lrVmmsJa9k0+n1HtJ+7p3SzFCPq2XbmR3GUYpPC3TBA==
+watch-detector@^0.1.0, watch-detector@^1.0.0, watch-detector@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/watch-detector/-/watch-detector-1.0.2.tgz#95deb9189f8c89c0a9f211739cef6d01cffcf452"
+  integrity sha512-MrJK9z7kD5Gl3jHBnnBVHvr1saVGAfmkyyrvuNzV/oe0Gr1nwZTy5VSA0Gw2j2Or0Mu8HcjUa44qlBvC2Ofnpg==
   dependencies:
     heimdalljs-logger "^0.1.10"
-    semver "^6.3.0"
     silent-error "^1.1.1"
     tmp "^0.1.0"
 
