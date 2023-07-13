@@ -1,4 +1,3 @@
-/* eslint-disable ember/use-brace-expansion */
 import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
