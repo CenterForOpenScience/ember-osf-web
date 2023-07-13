@@ -31,6 +31,8 @@ module('Acceptance | preprints | discover', hooks => {
     test('Desktop', async function(this: PreprintDiscoverTestContext, assert) {
         await visit(`/preprints/${this.provider.id}/discover`);
         assert.equal(currentRouteName(), 'preprints.discover', 'Current route is preprints discover');
+        const pageTitle = document.getElementsByTagName('title')[0].innerText;
+        assert.equal(pageTitle, 'Thesis Commons | Search', 'Page title is correct');
         assert.dom('[data-test-search-provider-logo]').exists('Desktop: Preprint provider logo is shown');
         assert.dom('[data-test-search-provider-description]').exists('Desktop: Preprint provider description is shown');
         assert.dom('[data-test-search-header]').doesNotExist('Desktop: Non-branded search header is not shown');
