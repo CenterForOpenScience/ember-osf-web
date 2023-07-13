@@ -7,6 +7,39 @@ export function preprintsScenario(
     server: Server,
     currentUser: ModelInstance<User>,
 ) {
+    buildOSF(server, currentUser);
+    buildThesisCommons(server, currentUser);
+}
+
+function buildOSF(
+    server: Server,
+    currentUser: ModelInstance<User>,
+) {
+    const osf = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProvider>;
+    const brand = server.create('brand');
+    const currentUserModerator = server.create('moderator',
+        { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
+
+    const preprints = server.createList('preprint', 4, {
+        provider: osf,
+    });
+
+    const subjects = server.createList('subject', 7);
+
+    osf.update({
+        allowSubmissions: true,
+        highlightedSubjects: subjects,
+        brand,
+        moderators: [currentUserModerator],
+        preprints,
+        description: 'This is the description for osf',
+    });
+}
+
+function buildThesisCommons(
+    server: Server,
+    currentUser: ModelInstance<User>,
+) {
     const thesisCommons = server.schema.preprintProviders.find('thesiscommons') as ModelInstance<PreprintProvider>;
     const brand = server.create('brand', {
         primaryColor: '#821e1e',

@@ -32,6 +32,10 @@ export default class BrandedHeader extends Component<InputArgs> {
         return this.args.showHelp;
     }
 
+    get brandLogo(): string {
+        return this.args.translationParent === 'preprints' ? 'preprints-brand-logo' : 'registries-brand-logo';
+    }
+
     @computed('providerModel.name', 'args.translationParent')
     get headerAriaLabel() {
         return this.providerModel ?

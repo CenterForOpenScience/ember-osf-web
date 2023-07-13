@@ -13,6 +13,8 @@ export default class Preprints extends Controller {
     @service analytics!: Analytics;
 
     livedata = 'livedata';
+    providerAsset = 'https://localhost:4200';
+    routePrefix = 'https://localhost:4200';
 
     @action
     onSearch(query: string) {

@@ -728,10 +728,24 @@ social:
     google_group: 'Google Group'
     github: GitHub
 preprints:
+    title: 'Preprints'
+    header:
+        osf_registrations: 'OSF Preprints'
+        registrations: 'Preprints'
+        search_placeholder: 'Search preprints ...'
+        search_button: 'Perform search'
+        search_label: 'Search'
+        search_help: 'Search help'
+        powered_by: 'Powered by OSF Preprints'
+        or: 'or'
+        submit_label: 'Submit a preprint'
+        example: 'See an example'
     subjects:
         heading:
             hasHighlightedSubjects: 'Highlighted Subjects'
             noHighlightedSubjects: 'No Highlighted Subjects'
+        links:
+            seeAllSubjects: 'See all subjects'
     services:
         top:
             heading: 'Heading'
