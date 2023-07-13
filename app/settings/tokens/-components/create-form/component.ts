@@ -34,6 +34,12 @@ export default class CreateFormComponent extends Component {
                 presence: true,
             }),
         ],
+        scopes: [
+            validatePresence({
+                type: 'blank',
+                presence: true,
+            }),
+        ],
     };
     @alias('onSave.isRunning') disabled!: boolean;
 
