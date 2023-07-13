@@ -37,8 +37,8 @@ as |layout|>
                     </Button>
                     {{#if @showSidePanelToggle}}
                         <Button
-                            data-test-start-help
                             data-analytics-name='Search help button'
+                            data-test-start-help
                             local-class='help-button'
                             aria-label={{t 'search.search-help-label'}}
                             @type='primary'
@@ -53,8 +53,8 @@ as |layout|>
                         </Button>
                     {{else}}
                         <Button
-                            data-test-start-help
                             data-analytics-name='Search help button'
+                            data-test-start-help
                             local-class='help-button'
                             aria-label={{t 'search.search-help-label'}}
                             @type='primary'
@@ -71,8 +71,8 @@ as |layout|>
                 </span>
                 {{#if @showSidePanelToggle}}
                     <Button
-                        data-test-toggle-side-panel
                         data-analytics-name='Toggle side panel'
+                        data-test-toggle-side-panel
                         aria-label={{t 'search.toggle-sidenav'}}
                         local-class='sidenav-toggle'
                         {{on 'click' layout.toggleSidenav}}
