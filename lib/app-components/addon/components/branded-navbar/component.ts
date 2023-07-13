@@ -11,10 +11,12 @@ import { tracked } from 'tracked-built-ins';
 
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
+
 import styles from './styles';
 import template from './template';
 
@@ -52,11 +54,14 @@ export default class BrandedNavbar extends Component {
     @alias('theme.provider') provider!: ProviderModel;
     @alias('theme.provider.id') providerId!: string;
 
-    @computed('intl.locale', 'theme.provider', 'translateKey')
+    @computed('intl.locale', 'theme.{providerType,provider.providerTitle}', 'translateKey')
     get brandTitle(): string {
-        const { name } = this.theme.provider!;
-
-        return this.intl.t(this.translateKey, { name });
+        if (this.theme.providerType === 'collection') {
+            const { name } = this.theme.provider!;
+            return this.intl.t(this.translateKey, { name });
+        } else { // preprint
+            return (this.theme.provider as PreprintProviderModel).providerTitle;
+        }
     }
 
     @requiredAction loginAction!: () => void;
