@@ -23,7 +23,7 @@
                 @analyticsLabel='Settings - Tokens - Copy token'
             />
         </p>
-        <p local-class='NewTokenWarning' class='bg-danger'>
+        <p local-class='NewTokenWarning bg-danger'>
             <strong>
                 {{t 'settings.tokens.createSuccess.warning'}}
             </strong>
@@ -31,44 +31,20 @@
         <p>
             {{t 'settings.tokens.createSuccess.instructions'}}
         </p>
-        <BsButton
-            @onClick={{action this.refresh}}
+        <Button
+            {{on 'click' (action this.refresh)}}
         >
             {{t 'settings.tokens.createSuccess.editScopes'}}
-        </BsButton>
+        </Button>
     {{else}}
         <h4>{{t 'settings.tokens.editToken'}}</h4>
 
         {{#if this.model.taskInstance.isError}}
             {{this.model.taskInstance.error}}
         {{else}}
-            {{#settings/tokens/-components/token-form
-                onSave=(action this.tokenSaved)
-                token=this.token
-                disabled=this.model.taskInstance.isRunning
-                as |form|
-            }}
-                <DeleteButton
-                    @delete={{action this.deleteToken}}
-                    @disabled={{form.disabled}}
-                    @modalTitle={{t
-                        'settings.tokens.confirmDelete.title'
-                        tokenName=this.token.name
-                        htmlSafe=true
-                    }}
-                    @modalBody={{t 'settings.tokens.confirmDelete.body'}}
-                />
-
-                <BsButton
-                    data-test-save-token-button
-                    data-analytics-name='Save'
-                    @buttonType='submit'
-                    @type='primary'
-                    @disabled={{form.disabled}}
-                >
-                    {{t 'general.save'}}
-                </BsButton>
-            {{/settings/tokens/-components/token-form}}
+            <Settings::Tokens::-Components::EditForm
+                @token={{this.token}}
+            />
         {{/if}}
     {{/if}}
 </div>

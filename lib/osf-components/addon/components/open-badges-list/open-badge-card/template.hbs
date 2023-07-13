@@ -24,12 +24,13 @@
                 }}
             >
             {{#if @isMobile}}
-                <BsTooltip
-                    @placement='left'
-                    @triggerEvents='hover'
+                <EmberTooltip
+                    @side='left'
                 >
-                    {{t (concat 'osf-components.open-badges-list.open-' @resourceType)}}
-                </BsTooltip>
+                    <span data-test-badge-tooltip='{{@resourceType}}'>
+                        {{t (concat 'osf-components.open-badges-list.open-' @resourceType)}}
+                    </span>
+                </EmberTooltip>
             {{/if}}
         </span>
         {{#unless @isMobile}}

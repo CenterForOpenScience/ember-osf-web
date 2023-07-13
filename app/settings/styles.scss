@@ -1,22 +1,105 @@
-@media(min-width: $screen-md-min) {
-    .SideNav.SideNav {
-        display: block;
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.settings-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    &.mobile {
+        .setting-container {
+            flex-direction: column;
+
+            .profile-container {
+                width: 100%;
+            }
+
+            .navigation-container {
+                width: 100%;
+            }
+        }
+    }
+
+    .setting-container {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .local-page-header {
+            width: 100%;
+        }
+
+        .navigation-toggle {
+            color: $color-text-black;
+            float: right;
+            font-size: large;
+            padding: 0;
+            line-height: 1em;
+        }
+
+        .navigation-container {
+            width: calc(30% - 25px);
+
+            .stacked-nav {
+                ul {
+                    list-style: none;
+                    padding-left: 0;
+                }
+
+                a:global(.active) {
+                    color: $color-text-white;
+                }
+
+                li > a {
+                    position: relative;
+                    display: block;
+                    padding: 10px 15px;
+                    border-radius: 0;
+                    text-decoration: none;
+                }
+
+                li > a:hover {
+                    text-decoration: none;
+                }
+
+                li:hover {
+                    background-color: $color-bg-gray-lighter;
+                }
+
+                :global(.active) {
+                    background-color: $color-bg-blue-dark;
+
+                    :hover {
+                        background-color: $color-bg-blue-dark;
+                    }
+                }
+            }
+        }
+
+        .profile-container {
+            width: 70%;
+        }
     }
 }
 
-.NavToggle {
-    color: $color-text-black;
-    float: right;
-    font-size: large;
-    padding: 0;
-    line-height: 1em;
+.page-header {
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 1px solid $color-border-gray;
 }
 
-.ProfileNav {
-    margin-left: 20px;
-    display: none;
+.panel {
+    margin-bottom: 20px;
+    background-color: $color-bg-white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 }
 
-:global(.active) .ProfileNav {
-    display: block;
+
+.panel-default {
+    border-color: $color-border-gray;
 }

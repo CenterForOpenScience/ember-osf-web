@@ -38,13 +38,12 @@
                 </CopyButton>
                 <div>
                     <FaIcon local-class='HelpIcon' @icon='question-circle' />
-                    <BsTooltip
+                    <EmberTooltip
                         data-test-md5-tooltip
-                        @placement='left'
-                        @triggerEvents='hover focus'
+                        @side='left'
                     >
                         {{t 'osf-components.file-version.md5_description'}}
-                    </BsTooltip>
+                    </EmberTooltip>
                 </div>
             </div>
         {{/if}}
@@ -64,13 +63,12 @@
                 </CopyButton>
                 <div>
                     <FaIcon local-class='HelpIcon' @icon='question-circle' />
-                    <BsTooltip
+                    <EmberTooltip
                         data-test-sha2-tooltip
-                        @placement='left'
-                        @triggerEvents='hover focus'
+                        @side='left'
                     >
                         {{t 'osf-components.file-version.sha2_description'}}
-                    </BsTooltip>
+                    </EmberTooltip>
                 </div>
             </div>
         {{/if}}

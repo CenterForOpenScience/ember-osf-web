@@ -2,17 +2,17 @@
     <OsfDialog @isModal={{false}} as |dialog|>
         <dialog.trigger>
             <div local-class='DevBanner'>
-                <BsButton
-                    title={{t 'dev_tools.title'}}
-                    @type='link'
-                    @onClick={{dialog.open}}
+                <Button
+                    title={{t 'dev-tools.title'}}
+                    @layout='fake-link'
+                    {{on 'click' dialog.open}}
                 >
                     {{#if this.showUrlInput}}
                         <FaIcon @icon='rocket' />
                     {{else}}
                         <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
                     {{/if}}
-                </BsButton>
+                </Button>
                 {{#if this.showUrlInput}}
                     <Input
                         @type='text'
@@ -24,54 +24,69 @@
         </dialog.trigger>
 
         <dialog.heading>
-            {{t 'dev_tools.title'}}
+            {{t 'dev-tools.title'}}
         </dialog.heading>
 
         <dialog.main>
-            <BsTab local-class='Tabs' as |tab|>
-                <tab.pane @title='Options'>
-                    <ul local-class='OptionsList'>
+            <ul local-class='Tabs' aria-role='tablist'>
+                <li local-class={{if (eq this.activeTab 'zoom') 'active'}}>
+                    <a href='#' {{on 'click' (action (mut this.activeTab) 'zoom')}}>
+                        {{t 'dev-tools.zoom-to-route.title'}}
+                    </a>
+                </li>
+                <li local-class={{if (eq this.activeTab 'options') 'active'}}>
+                    <a href='#' {{on 'click' (action (mut this.activeTab) 'options')}}>
+                        {{t 'dev-tools.options.title'}}
+                    </a>
+                </li>
+                <li local-class={{if (eq this.activeTab 'features') 'active'}}>
+                    <a href='#' {{on 'click' (action (mut this.activeTab) 'features')}}>
+                        {{t 'dev-tools.features.title'}}
+                    </a>
+                </li>
+            </ul>
+            {{#if (eq this.activeTab 'options')}}
+                <ul local-class='OptionsList'>
+                    <li>
+                        <label>
+                            <Input
+                                @type='checkbox'
+                                @checked={{this.analytics.shouldToastOnEvent}}
+                            />
+                            {{t 'dev-tools.options.toast-events'}}
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <Input
+                                @type='checkbox'
+                                @checked={{this.showUrlInput}}
+                            />
+                            {{t 'dev-tools.options.show-url-bar'}}
+                        </label>
+                    </li>
+                </ul>
+                <BrandColorInputs />
+            {{/if}}
+            {{#if (eq this.activeTab 'zoom')}}
+                <ZoomToRoute />
+            {{/if}}
+            {{#if (eq this.activeTab 'features')}}
+                <ul local-class='features'>
+                    {{#each this.featureList as |feature|}}
                         <li>
                             <label>
                                 <Input
                                     @type='checkbox'
-                                    @checked={{this.analytics.shouldToastOnEvent}}
+                                    @click={{action this.toggleFeature feature}}
+                                    @checked={{is-feature-enabled this.features feature}}
                                 />
-                                {{t 'dev_tools.options.toast_events'}}
+                                {{feature}}
                             </label>
                         </li>
-                        <li>
-                            <label>
-                                <Input
-                                    @type='checkbox'
-                                    @checked={{this.showUrlInput}}
-                                />
-                                {{t 'dev_tools.options.show_url_bar'}}
-                            </label>
-                        </li>
-                    </ul>
-                    <BrandColorInputs />
-                </tab.pane>
-                <tab.pane @title='Zoom to route'>
-                    <ZoomToRoute />
-                </tab.pane>
-                <tab.pane @title='Features'>
-                    <ul local-class='features'>
-                        {{#each this.featureList as |feature|}}
-                            <li>
-                                <label>
-                                    <Input
-                                        @type='checkbox'
-                                        @click={{action this.toggleFeature feature}}
-                                        @checked={{is-feature-enabled this.features feature}}
-                                    />
-                                    {{feature}}
-                                </label>
-                            </li>
-                        {{/each}}
-                    </ul>
-                </tab.pane>
-            </BsTab>
+                    {{/each}}
+                </ul>
+            {{/if}}
         </dialog.main>
     </OsfDialog>
 {{/if}}

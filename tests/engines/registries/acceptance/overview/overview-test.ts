@@ -371,11 +371,12 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await fillIn('[data-test-publication-doi-input] input', invalidDoi);
         await click('[data-test-save-publication-doi]');
 
-        assert.dom('.help-block').hasText('Please use a valid DOI format (10.xxxx/xxxxx)', 'validation works');
+        assert.dom('[data-test-help-block]')
+            .hasText('Please use a valid DOI format (10.xxxx/xxxxx)', 'validation works');
         await untrackedClick('[data-test-cancel-publication-doi]');
 
         await click('[data-test-edit-button="publication DOI"]');
-        assert.dom('.help-block').isNotVisible();
+        assert.dom('[data-test-help-block]').isNotVisible();
 
         const publicationDoi = '10.12312/123';
         await fillIn('[data-test-publication-doi-input] input', publicationDoi);
@@ -612,7 +613,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const missingFields = 'Copyright Holders';
         const validationErrorMsg = t('validationErrors.node_license_missing_fields',
             { missingFields, numOfFields: 1 }).toString();
-        assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
+        assert.dom('[data-test-help-block]').hasText(validationErrorMsg, 'validation works');
 
         await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');
         await click('[data-test-save-license]');

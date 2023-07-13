@@ -31,12 +31,9 @@
                     local-class='Icon'
                     @icon='code-branch'
                 />
-                <BsTooltip
-                    @placement='top'
-                    @triggerEvents='hover'
-                >
-                    {{t 'registries.overview.tooltips.fork'}}
-                </BsTooltip>
+                <EmberTooltip>
+                    <span data-test-fork-tooltip>{{t 'registries.overview.tooltips.fork'}}</span>
+                </EmberTooltip>
             </dd.trigger>
             <dd.content>
                 <div data-test-forks-dropdown-options local-class='ForksMenu'>
@@ -48,27 +45,27 @@
                     >
                         {{t 'registries.overview.view_forks'}}
                     </OsfLink>
-                    <BsButton
+                    <Button
                         data-analytics-name='Fork registration'
                         data-test-fork-registration
                         disabled={{this.forkRegistration.isRunning}}
-                        @type='link'
-                        @onClick={{action (perform this.forkRegistration (action dd.close))}}
+                        @layout='fake-link'
+                        {{on 'click' (queue (perform this.forkRegistration) (action dd.close))}}
                         local-class='ForkButton'
                     >
                         {{t 'registries.overview.fork_registration'}}
-                    </BsButton>
+                    </Button>
                 </div>
             </dd.content>
         </ResponsiveDropdown>
 
-        <BsButton
+        <Button
             data-test-bookmarks-button
             data-analytics-name={{if this.isBookmarked 'Remove from bookmarks' 'Bookmark'}}
             data-analytics-extra='Registration ID: {{this.registration.id}}'
             disabled={{or this.bookmark.isRunning @registration.isAnonymous}}
-            @type='link'
-            @onClick={{action (perform this.bookmark)}}
+            @layout='fake-link'
+            {{on 'click' (action (perform this.bookmark))}}
             local-class='ActionButton'
             aria-label={{if
                 this.isBookmarked
@@ -81,17 +78,16 @@
                 @icon='bookmark'
                 @prefix={{if this.isBookmarked 'fas' 'far'}}
             />
-            <BsTooltip
-                @placement='top'
-                @triggerEvents='hover'
-            >
-                {{#if this.isBookmarked}}
-                    {{t 'registries.overview.tooltips.remove_bookmark'}}
-                {{else}}
-                    {{t 'registries.overview.tooltips.bookmark'}}
-                {{/if}}
-            </BsTooltip>
-        </BsButton>
+            <EmberTooltip>
+                <span data-test-bookmark-tooltip>
+                    {{#if this.isBookmarked}}
+                        {{t 'registries.overview.tooltips.remove_bookmark'}}
+                    {{else}}
+                        {{t 'registries.overview.tooltips.bookmark'}}
+                    {{/if}}
+                </span>
+            </EmberTooltip>
+        </Button>
 
         <SharingIcons::Dropdown
             @title={{@registration.title}}
@@ -111,13 +107,10 @@
                     local-class='Icon'
                     @icon='share-alt'
                 />
-                <BsTooltip
-                    @placement='top'
-                    @triggerEvents='hover'
-                >
-                    {{t 'registries.overview.tooltips.share'}}
-                </BsTooltip>
             </dd.trigger>
+            <EmberTooltip>
+                <span data-test-sharing-tooltip>{{t 'registries.overview.tooltips.share'}}</span>
+            </EmberTooltip>
         </SharingIcons::Dropdown>
     </div>
 {{/if}}

@@ -21,22 +21,6 @@ export default class SettingsTokensEditController extends Controller {
     token?: Token;
 
     @action
-    tokenSaved() {
-        // Analytics handled by `settings/tokens/-components/token-form`
-        this.toast.success(this.intl.t('settings.tokens.saved'));
-        this.router.transitionTo('settings.tokens');
-    }
-
-    @action
-    async deleteToken() {
-        // Analytics handled by delete-button
-        await this.token!.destroyRecord();
-
-        this.toast.success(this.intl.t('settings.tokens.deleted'));
-        this.router.transitionTo('settings.tokens');
-    }
-
-    @action
     refresh() {
         this.clearTokenValue();
 

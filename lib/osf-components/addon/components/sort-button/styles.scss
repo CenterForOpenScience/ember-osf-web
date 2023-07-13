@@ -1,6 +1,5 @@
 // stylelint-disable selector-class-pattern
 .SortButton {
-    composes: sort-group from global;
 
     padding-left: 10px;
     display: table-cell;
@@ -12,10 +11,11 @@
     button:hover {
         appearance: none;
         outline: none;
-        border: 0;
-        background: transparent;
+        border: 0 !important;
+        background: transparent !important;
         height: 29px;
         padding: 0.4em 0 0 0.2em;
+        color: $secondary-blue !important;
     }
 
     :global(.btn) {
@@ -24,11 +24,11 @@
         }
     }
 
-    :global(.selected) {
+    .selected {
         color: $color-text-blue-dark !important;
     }
 
-    :global(.not-selected) {
+    .not-selected {
         color: $color-text-gray-dark !important;
     }
 }

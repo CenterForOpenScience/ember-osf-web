@@ -50,9 +50,10 @@ module('Integration | Component | new-feature-popover', hooks => {
                 <div id='divIdForTesting' >
                 </div>
                 <NewFeaturePopover
-                    @triggerElement={{concat '#' 'divIdForTesting'}}
+                    @triggerElement='divIdForTesting'
                     @featureCookie={{this.featureCookie}}
-                >
+                    @side='right'
+                    >
                     <:header>
                         {{this.headingText}}
                     </:header>
@@ -88,9 +89,10 @@ module('Integration | Component | new-feature-popover', hooks => {
                 <div id='divIdForTesting' >
                 </div>
                 <NewFeaturePopover
-                    @triggerElement={{concat '#' 'divIdForTesting'}}
+                    @triggerElement='divIdForTesting'
                     @featureCookie={{this.featureCookie}}
-                >
+                    @side='right'
+                    >
                     <:header>
                         {{this.headingText}}
                     </:header>
@@ -127,8 +129,9 @@ module('Integration | Component | new-feature-popover', hooks => {
             <div id='divIdForTesting' >
             </div>
             <NewFeaturePopover
-                @triggerElement={{concat '#' 'divIdForTesting'}}
+                @triggerElement='divIdForTesting'
                 @featureCookie={{this.featureCookie}}
+                @side='right'
             >
                 <:header>
                     {{this.headingText}}

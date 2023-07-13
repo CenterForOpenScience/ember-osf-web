@@ -9,6 +9,7 @@ import { all, restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 import $ from 'jquery';
+import Media from 'ember-responsive';
 
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
@@ -29,6 +30,7 @@ export default class Dashboard extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: Store;
+    @service media!: Media;
 
     page = 1;
     loading = false;
@@ -155,9 +157,16 @@ export default class Dashboard extends Controller {
         taskFor(this.findNodes).perform();
     }
 
-    @action
-    projectCreated(newNode: Node) {
+    @task
+    async projectCreated(newNode: Node) {
+        this.set('modalOpen', false);
+        await timeout(1);
         this.set('newNode', newNode);
         this.set('showNewNodeNavigation', true);
+        this.set('modalOpen', true);
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

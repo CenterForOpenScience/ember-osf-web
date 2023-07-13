@@ -19,16 +19,15 @@
 {{/component}}
 
 {{#if @expandable}}
-    <div class='text-center'>
-        <button
+    <div local-class='text-center'>
+        <Button
             data-test-collection-search-expand-button
-            type='button'
-            class='btn btn-link'
+            @layout='fake-link'
             local-class='toggleShowBody'
             aria-label={{t (concat 'collections.collection_search_result.' (if this.showBody 'collapse' 'expand'))}}
             {{action 'toggleShowBody'}}
         >
             <FaIcon @icon={{concat 'caret-' (if this.showBody 'up' 'down')}} />
-        </button>
+        </Button>
     </div>
 {{/if}}

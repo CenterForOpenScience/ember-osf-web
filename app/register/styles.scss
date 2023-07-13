@@ -90,3 +90,38 @@
         background-color: $color-bg-gray-light;
     }
 }
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.row::before,
+.row::after {
+    display: table;
+    content: ' ';
+}
+
+.row::after {
+    clear: both;
+}
+
+.m-t-xl {
+    margin-top: 50px;
+}
+  
+.m-b-xl {
+    margin-bottom: 50px;
+}
+
+.p-md {
+    padding: 15px;
+}
+
+.m-sm {
+    margin: 10px;
+}
+
+.m-md {
+    margin: 15px;
+}

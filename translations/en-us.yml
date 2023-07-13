@@ -100,6 +100,8 @@ general:
         preprints: Preprints
         registries: Registries
     other: Other
+    structured_data:
+        json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
@@ -201,6 +203,11 @@ dashboard:
         title: 'Browse the latest research'
         description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
         button: 'View preprints'
+    products:
+        collections: 'OSF Collections'
+        registries: 'OSF Registries'
+        preprints: 'OSF Preprints'
+        institutions: 'OSF Institutions'
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
@@ -634,14 +641,6 @@ node:
             title: Register
             info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>Continue your registration by selecting a registration form:'
             create: 'Create draft'
-        prereg_modal:
-            title: 'Preregistration Challenge'
-            notice: Notice
-            eligibility: 'Articles must be published by an <a href="{approvedJournalLink}">approved</a> journal by December 31, 2018, to be eligible for a prize.'
-            info: 'Below are some important items for those who choose to enter the Preregistration Challenge. If you do not agree to the terms you may still continue, use the form, and register your research study without entering the Challenge. <strong>Only Preregistrations that enter the challenge and undergo review are eligible for a $1,000 prize.</strong> We welcome questions and comments (learn more <a href="{learnMoreLink}">here</a> or email us at <a href="mailto:prereg@cos.io">prereg@cos.io</a>).'
-            list: '<li>After submitting your research plan for review, it is not yet registered. Your research plan will become a static, time stamped preregistration after it passes review. <strong>Please do not begin your study until it is registered.</strong> You will hear back from the review team within 2 business days.</li><li>The published article must also be reviewed before receiving the prize.</li><li>Prizes will be awarded at predetermined dates to eligible entrants. If more eligible entrants exist than available prizes, entrants will be ranked based on the date of registration.</li><li>Articles must be published in an <a href="{eligibleJournalLink}">eligible journal</a>.</li><li>Residents of countries on the U.S. State Department''s <a href="{embargoedCountriesLink}">list of embargoed countries</a> may not participate in the Preregistration Challenge.</li><li>Entering the Preregistration Challenge requires that you agree to <a href="{termsLink}">all of its terms</a>.</li>'
-            consent: 'I have read these terms. I understand that articles must be published by December 31, 2018, in order to be eligible for a prize.'
-            continue: Continue
         page_title: '{nodeTitle} Registrations'
         no_registrations: 'There have been no completed registrations of this project.'
         only_admins_can_initiate: 'Only project administrators can initiate registrations.'
@@ -2495,8 +2494,11 @@ settings:
         scopes: Scopes
         scopesDescription: 'Scopes limit access for personal access tokens.'
         created: 'Token created.'
+        create-error: 'There was an error creating your token.'
         saved: 'Token saved.'
+        save-error: 'There was an error saving your token.'
         deleted: 'Token deleted.'
+        delete-error: 'There was an error deleting your token.'
         confirmDelete:
             title: 'Delete token <strong>{tokenName}</strong>?'
             body: 'Are you sure you want to delete this personal access token? This cannot be reversed.'
@@ -2528,12 +2530,15 @@ ipsum:
     title: 'tempor nec feugiat nisl pretium'
     sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id velit ut tortor pretium. Nisi porta lorem mollis aliquam ut porttitor leo a. Cras fermentum odio eu feugiat. Eget mi proin sed libero enim. Quam adipiscing vitae proin sagittis. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. At varius vel pharetra vel turpis nunc eget. Purus ut faucibus pulvinar elementum integer enim neque volutpat. Turpis nunc eget lorem dolor. Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Arcu felis bibendum ut tristique et egestas quis. Nisl tincidunt eget nullam non nisi est sit amet. Fringilla urna porttitor rhoncus dolor purus non enim.'
-dev_tools:
+dev-tools:
     title: 'Dev tools'
-    zoom_to_route:
+    zoom-to-route:
         title: 'Zoom to route'
         zoom: Zoom!
         placeholder: 'Choose a route'
     options:
-        toast_events: 'Display toast for tracked events'
-        show_url_bar: 'Show URL bar -- navigate by URL without reloading'
+        title: 'Options'
+        toast-events: 'Display toast for tracked events'
+        show-url-bar: 'Show URL bar -- navigate by URL without reloading'
+    features:
+        title: 'Features'

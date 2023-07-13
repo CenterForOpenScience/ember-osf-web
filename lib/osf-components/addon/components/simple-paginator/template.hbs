@@ -1,12 +1,12 @@
 {{#if this.hasMultiplePages}}
     <span local-class='SimplePaginator__element'>
-        <BsButton
+        <Button
             data-test-previous-page-button
             data-analytics-name='Pagination previous'
             aria-label={{t 'paginator.previous'}}
             disabled={{not this.hasPrev}}
             local-class='SimplePaginator__previous'
-            @onClick={{action this._previous}}
+            {{on 'click' (action this._previous)}}
         />
     </span>
     <span local-class='SimplePaginator__element SimplePaginator__text'>
@@ -15,13 +15,13 @@
         {{/if}}
     </span>
     <span local-class='SimplePaginator__element'>
-        <BsButton
+        <Button
             data-test-next-page-button
             data-analytics-name='Pagination next'
             aria-label={{t 'paginator.next'}}
             disabled={{not this.hasNext}}
             local-class='SimplePaginator__next'
-            @onClick={{action this._next}}
+            {{on 'click' (action this._next)}}
         />
     </span>
 {{/if}}

@@ -6,13 +6,6 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 export function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
-    // ValidatedModelForm
-    server.create('node', {
-        id: 'extng',
-        title: 'Existing node!',
-        description: 'Passing in `model=this.node` tells the form to make changes to this model instance directly.',
-    });
-
     // EditableField
     const editable = server.create('registration', {
         id: 'editj',

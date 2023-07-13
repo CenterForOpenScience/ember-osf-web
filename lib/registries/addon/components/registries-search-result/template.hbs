@@ -1,10 +1,10 @@
 <div
-    class='row'
+    local-class='search-container {{if this.isMobile 'mobile'}}'
     data-analytics-scope='Registries search results'
     ...attributes
 >
-    <div class={{if @result.relatedResourceTypes 'col-xs-10 col-sm-9' 'col-xs-12'}}>
-        <h3 local-class='RegistriesSearchResult__Title'>
+    <div local-class='search-result-container'>
+        <h3 local-class='title'>
             {{#if @result.relatedResourceTypes}}
                 {{!-- This means it's an OSF resource, which means it'll have a guid --}}
                 <OsfLink
@@ -25,53 +25,51 @@
                 </OsfLink>
             {{/if}}
             {{#if @result.withdrawn}}
-                <span class='label label-default'>{{t 'registries.discover.search_result.withdrawn'}}</span>
+                <span local-class='label'>{{t 'registries.discover.search_result.withdrawn'}}</span>
             {{/if}}
         </h3>
 
-        <ul local-class='Contributors'>
-            {{#each this.contributors as |contrib|}}
-                <li>
-                    {{#if contrib.link}}
-                        <OsfLink
-                            @href={{contrib.link}}
-                            data-analytics-name='Contributor Link'
-                        >
+        {{#if this.contributors}}
+            <ul local-class='contributors'>
+                {{#each this.contributors as |contrib|}}
+                    <li>
+                        {{#if contrib.link}}
+                            <OsfLink
+                                @href={{contrib.link}}
+                                data-analytics-name='Contributor Link'
+                            >
+                                {{contrib.name}}
+                            </OsfLink>
+                        {{else}}
                             {{contrib.name}}
-                        </OsfLink>
-                    {{else}}
-                        {{contrib.name}}
-                    {{/if}}
-                </li>
-            {{/each}}
-        </ul>
+                        {{/if}}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
 
         {{#if @result.dateUpdated}}
-            <div class='m-t-sm'>
-                <em>
-                    {{t 'registries.discover.search_result.last_edited' date=(moment-format (utc @result.dateUpdated) 'MMMM D, YYYY UTC')}}
-                </em>
+            <div local-class='updated'>
+                {{t 'registries.discover.search_result.last_edited' date=(moment-format (utc @result.dateUpdated) 'MMMM D, YYYY UTC')}}
             </div>
         {{/if}}
 
-        <div class='m-t-sm'>
-            <span local-class='RegistriesSearchResult__Sources'>
-                {{#each @result.sources as |source index|}}
-                    {{if index '| '}}{{source}}
-                {{/each}}
+        <div local-class='sources'>
+            {{#each @result.sources as |source index|}}
+                {{if index '| '}}{{source}}
+            {{/each}}
 
-                {{#if @result.registrationType}}
-                    | {{@result.registrationType}}
-                {{/if}}
-            </span>
+            {{#if @result.registrationType}}
+                | {{@result.registrationType}}
+            {{/if}}
         </div>
 
-        <p local-class='Description' class='text-muted m-t-sm'>
+        <p local-class='description'>
             {{math @result.description}}
         </p>
     </div>
     {{#if @result.relatedResourceTypes}}
-        <div class='col-xs-2 col-sm-3' local-class='OpenBadges'>
+        <div local-class='badges-container'>
             <OpenBadgesList
                 @registration={{@result.sourceUniqueId}}
                 @hasData={{@result.relatedResourceTypes.data}}

@@ -1,5 +1,20 @@
-.grey-background {
+.meeting-container {
     background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
     z-index: 2;
     position: relative;
+
+    .meeting-list-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        width: 90%;
+    }
 }

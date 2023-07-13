@@ -44,3 +44,42 @@
         }
     }
 }
+
+.modal-title {
+    margin: 0;
+    line-height: $tall-line-height;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.m-v-sm {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.m-v-md {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.text-bigger {
+    font-size: 1.1em;
+}
+
+.f-w-lg {
+    font-weight: 500;
+}
+
+.f-w-xs {
+    font-weight: 200;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.noresize {
+    resize: none;
+}

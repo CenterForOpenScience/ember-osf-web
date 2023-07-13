@@ -4,6 +4,7 @@ import { action, computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import Media from 'ember-responsive';
 
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
@@ -13,6 +14,7 @@ export default class ApplicationController extends Controller {
     @service analytics!: AnalyticsService;
     @service router!: RouterService;
     @service store!: Store;
+    @service media!: Media;
 
     queryParams = ['timespan'];
     timespan: Timespan = 'week';
@@ -81,5 +83,9 @@ export default class ApplicationController extends Controller {
             'button',
             'Analytics - View links - Close modal',
         );
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

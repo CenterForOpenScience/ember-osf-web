@@ -1,7 +1,7 @@
 <OsfLink @href={{this.project.links.html}}>
     <div local-class='NoteworthyProject__item'>
         <h5 data-test-nnwp-project-title>{{this.project.title}}</h5>
-        <span class='prevent-overflow' local-class='Byline'>
+        <span local-class='Byline'>
             <i>
                 {{t 'dashboard.noteworthy.by'}}
                 <ContributorList
@@ -10,8 +10,7 @@
                 />
             </i>
         </span>
-        <p data-test-nnwp-project-description class='prevent-overflow'>
-            <BsTooltip @title={{this.compactDescription}} />
+        <p data-test-nnwp-project-description>
             {{this.project.description}}
         </p>
     </div>

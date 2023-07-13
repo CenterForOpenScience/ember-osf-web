@@ -3,13 +3,55 @@
 }
 
 // osf-style interop
-.AuthDropdown {
-    right: 0 !important;
+.AuthDropdown.AuthDropdown {
+    z-index: 2000;
+    background-color: #2e6a74;
+
+    ul {
+        list-style: none;
+        padding-inline-start: 0;
+    }
+
+    a {
+        color: $color-text-white;
+        display: block;
+        padding: 3px 20px;
+        line-height: 1.8;
+        font-size: 16px;
+        white-space: nowrap;
+    }
+
+    a:hover {
+        background-color: #5a8288;
+    }
+}
+
+.auth-trigger.auth-trigger.auth-trigger.auth-trigger {
+    padding: 11px 15px;
+}
+
+@media (max-width: 767px) {
+    .auth-trigger.auth-trigger.auth-trigger.auth-trigger {
+        padding-bottom: 35px;
+    }
 }
 
 :global(.dropdown.secondary-nav-dropdown .btn-link.dropdown-toggle) {
     padding: 11px 15px;
 
+}
+
+.logout-link {
+    color: $color-text-white;
+    font-size: 16px;
+    padding: 3px 20px;
+}
+
+.logout-link:hover {
+    background-color: #5a8288;
+    width: 100%;
+    color: $color-text-white;
+    text-align: inherit;
 }
 
 .LogOutButton:hover {
@@ -22,4 +64,14 @@
     .LogOutButton:hover {
         background-color: #262f36 !important;
     }
+}
+
+:global(.btn-top-login) {
+    color: #fff;
+    background-color: #1b6d85;
+    border-color: #175b70;
+}
+
+.caret {
+    margin-left: 5px;
 }

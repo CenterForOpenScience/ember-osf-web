@@ -6,10 +6,43 @@
     height: 34px;
 }
 
-.unregisteredUsers {
+.unregistered-users {
     text-align: center;
     margin-top: 20px;
     padding-top: 10px;
     padding-bottom: 20px;
     background-color: #eee;
+}
+
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+}
+
+.input-group-btn {
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.text-right {
+    text-align: right;
 }

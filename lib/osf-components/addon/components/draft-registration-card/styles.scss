@@ -1,13 +1,12 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
 .draft-registration-card {
     margin-bottom: 10px;
     width: 100%;
-    min-width: 300px;
 
     :global(.ember-content-placeholders-text__line) {
         height: 1em;
     }
-
 
     :global(.btn) {
         margin-left: 5px;
@@ -51,7 +50,7 @@
 
             .review-container {
                 flex: 1;
-                min-width: 200px; 
+                min-width: 180px; 
             }
 
             .delete-container {

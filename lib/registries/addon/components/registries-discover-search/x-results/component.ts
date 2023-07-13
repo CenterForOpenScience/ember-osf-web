@@ -1,4 +1,3 @@
-import { classNames } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { localClassNames } from 'ember-css-modules';
@@ -10,7 +9,6 @@ import template from './template';
 
 @layout(template)
 @localClassNames('SearchResults')
-@classNames('col-sm-9', 'col-xs-12')
 export default class SearchResults<T> extends Component {
     static positionalParams = ['results'];
 

@@ -8,46 +8,42 @@
 >
     <div local-class='tabSortingWrapper'>
         <div local-class='tabs'>
-            <button
+            <Button
                 data-test-submissions-type='accepted'
                 data-test-is-selected={{if (eq this.state 'accepted') 'true' 'false'}}
-                type='button'
                 {{on 'click' (fn this.changeTab 'accepted')}}
                 local-class='tab {{if (eq this.state 'accepted') 'selected'}}'
             >
                 <FaIcon @icon='check' />
                 {{t 'registries.moderation.states.accepted'}}
-            </button>
-            <button
+            </Button>
+            <Button
                 data-test-submissions-type='embargo'
                 data-test-is-selected={{if (eq this.state 'embargo') 'true' 'false'}}
-                type='button'
                 {{on 'click' (fn this.changeTab 'embargo')}}
                 local-class='tab {{if (eq this.state 'embargo') 'selected'}}'
             >
                 <FaIcon @icon='lock' />
                 {{t 'registries.moderation.states.embargo'}}
-            </button>
-            <button
+            </Button>
+            <Button
                 data-test-submissions-type='rejected'
                 data-test-is-selected={{if (eq this.state 'rejected') 'true' 'false'}}
-                type='button'
                 {{on 'click' (fn this.changeTab 'rejected')}}
                 local-class='tab {{if (eq this.state 'rejected') 'selected'}}'
             >
                 <FaIcon @icon='times' />
                 {{t 'registries.moderation.states.rejected'}}
-            </button>
-            <button
+            </Button>
+            <Button
                 data-test-submissions-type='withdrawn'
                 data-test-is-selected={{if (eq this.state 'withdrawn') 'true' 'false'}}
-                type='button'
                 {{on 'click' (fn this.changeTab 'withdrawn')}}
                 local-class='tab {{if (eq this.state 'withdrawn') 'selected'}}'
             >
                 <FaIcon @icon='ban' />
                 {{t 'registries.moderation.states.withdrawn'}}
-            </button>
+            </Button>
         </div>
         <SortButton
             local-class='sortButton'

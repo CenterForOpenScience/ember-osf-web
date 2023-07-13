@@ -20,23 +20,20 @@
         @placeholder={{t 'app_components.project_contributors.search.unregistered_contributor.email'}}
     />
 </label>
-<p class='text-muted'>
+<p local-class='text-muted'>
     {{t 'app_components.project_contributors.search.unregistered_contributor.paragraph'}}
 </p>
-<div class='pull-right text-right'>
-    <button
-        type='button'
-        class='btn btn-default'
-        {{action this.cancel}}
+<div local-class='pull-right text-right'>
+    <Button
+        {{on 'click' (action this.cancel)}}
     >
         {{t 'app_components.project_contributors.search.unregistered_contributor.cancel'}}
-    </button>
-    <button
-        type='button'
-        class='btn btn-success'
+    </Button>
+    <Button
+        @type='create'
         disabled={{and this.didValidate (v-get this.model 'isInvalid')}}
-        {{action (perform this.add)}}
+        {{on 'click' (action (perform this.add))}}
     >
         {{t 'app_components.project_contributors.search.unregistered_contributor.add'}}
-    </button>
+    </Button>
 </div>

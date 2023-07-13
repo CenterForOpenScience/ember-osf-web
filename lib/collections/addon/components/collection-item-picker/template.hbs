@@ -1,33 +1,27 @@
 {{#if this.findNodes.last}}
-    <div data-test-collections-item-picker class='form-group'>
-        <div class='m-t-sm'>
-            <PowerSelect
-                @renderInPlace={{false}}
-                @searchEnabled={{true}}
-                @placeholder={{t 'move_to_project.select_placeholder'}}
-                @options={{this.items}}
-                @matcher={{this.matcher}}
-                @afterOptionsComponent={{component
-                    'collection-item-picker/after-options'
-                    loadMore=(action 'loadMore')
-                    hasMore=this.hasMore
-                    isLoading=this.loadingMore
-                }}
-                @search={{perform this.findNodes}}
-                @oninput={{action 'oninput'}}
-                @selected={{this.selected}}
-                @searchField='title'
-                @onChange={{action 'valueChanged'}}
-                as |item|
-            >
-                {{get-ancestor-descriptor item}} <strong data-test-collections-node-title={{item.title}}>{{item.title}}</strong>
-            </PowerSelect>
-        </div>
+    <div data-test-collections-item-picker local-class='form-group'>
+        <PowerSelect
+            @renderInPlace={{false}}
+            @searchEnabled={{true}}
+            @placeholder={{t 'move_to_project.select_placeholder'}}
+            @options={{this.items}}
+            @matcher={{this.matcher}}
+            @afterOptionsComponent={{component
+                'collection-item-picker/after-options'
+                loadMore=(action 'loadMore')
+                hasMore=this.hasMore
+                isLoading=this.loadingMore
+            }}
+            @search={{perform this.findNodes}}
+            @oninput={{action 'oninput'}}
+            @selected={{this.selected}}
+            @searchField='title'
+            @onChange={{action 'valueChanged'}}
+            as |item|
+        >
+            {{get-ancestor-descriptor item}} <strong data-test-collections-node-title={{item.title}}>{{item.title}}</strong>
+        </PowerSelect>
     </div>
 {{else}}
-    <div class='ball-pulse ball-dark text-center'>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
+    <LoadingIndicator @dark={{true}} />
 {{/if}}

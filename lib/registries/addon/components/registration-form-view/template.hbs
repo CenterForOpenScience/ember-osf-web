@@ -1,27 +1,27 @@
 <ResponsiveDropdown @renderInPlace={{true}} as |dd|>
     <dd.trigger local-class='MenuTrigger'>
-        <BsButton
+        <Button
             data-analytics-name='Expand'
             data-test-toggle-anchor-nav-button
             local-class='ToggleNav__button'
-            @type='link'
+            @layout='fake-link'
         >
             <FaIcon @icon='bars' />
-        </BsButton>
+        </Button>
     </dd.trigger>
     <dd.content>
         <div data-analytics-scope='Form navigation menu' local-class='NavigationMenu'>
             <div local-class='Header' data-test-anchor-nav-title>
                 <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
-                <BsButton
+                <Button
                     data-analytics-name='Collapse'
                     data-test-toggle-anchor-nav-button
                     local-class='ToggleNav__button'
-                    @onClick={{action dd.close}}
-                    @type='link'
+                    {{on 'click' (action dd.close)}}
+                    @layout='fake-link'
                 >
                     <FaIcon @icon='times' />
-                </BsButton>
+                </Button>
             </div>
             <div local-class='Anchors' data-test-form-block-anchors>
                 {{#each this.anchors as |section|}}
