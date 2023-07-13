@@ -30,8 +30,15 @@ export interface Filter {
     value: string;
 }
 
+export interface OnSearchParams {
+    q?: string;
+    page?: string;
+    sort?: string;
+    resourceType?: string;
+}
+
 interface SearchArgs {
-    onSearch?: (obj: object) => void;
+    onSearch?: (obj: OnSearchParams) => void;
     query?: string;
     cardSearchText: string;
     cardSearchFilters: Filter[];

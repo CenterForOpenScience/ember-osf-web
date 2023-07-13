@@ -1,0 +1,16 @@
+{{page-title (t 'registries.discover.page_title') prepend=false}}
+<RegistriesWrapper
+    @provider={{this.model}}
+    {{with-branding (get-model this.model.brand)}}
+    data-analytics-scope='Registries Discover page'
+>
+    <SearchPage
+        @provider={{this.model}}
+        @defaultQueryOptions={{this.defaultQueryOptions}}
+        @queryParams={{this.queryParams}}
+        @query={{this.q}}
+        @sort={{this.sort}}
+        @onSearch={{action this.onSearch}}
+        @showResourceTypeFilter={{false}}
+    />
+</RegistriesWrapper>
