@@ -3,55 +3,49 @@
 <div class='preprints-page'>
 
     {{!HEADER}}
-    <div local-class='preprint-header'>
+    <div class='preprint-header'>
         {{!CONTAINER}}
         <div class='container'>
             <BrandedHeader
-                @translationParent='preprints'
+                @translationParent='registries'
                 @onSearch={{action this.onSearch}}
                 @showHelp=true
                 as |branded-header|
             >
-                <div class='provider-brand' style={{html-safe (concat 'background-image: url(' this.providerAsset '/' this.theme.id '/wide_color.png' ')' )}}></div>
-                {{#branded-header.lead}}
-                    <div>
+                {{#if this.theme.isProvider}}
+                    <div class='provider-brand' style={{safe-markup (concat 'background-image: url(' (provider-asset this.theme.id 'wide_color.png') ')')}}></div>
+                {{else}}
+                    <div class='provider-brand'></div>
+                {{/if}}
+                {{#if this.theme.isProvider}}
+                    {{#branded-header.lead}}
                         {{html-safe this.theme.provider.description}}
-                    </div>
-                    <div>
-                        <a href='{{@host}}preprints' onclick={{action 'click' 'link' 'Index - Powered By' target=this.analytics}}>
-                            {{t 'preprints.header.powered_by'}}
-                        </a>
-                    </div>
-                {{/branded-header.lead}}
-                {{#branded-header.row}}
-                    {{#if this.theme.provider.allowSubmissions}}
-                        <div class='row'>
-                            <div class='text-center col-xs-12'>
-                                <p class='lead'>{{t 'preprints.header.or'}}</p>
-                                <OsfLink
-                                    data-test-submit-button
-                                    data-analytics-name='Preprints submit button'
-                                    local-class='btn-info'
-                                    class='btn btn-success btn-lg preprint-submit-button' 
-                                    @href={{concat this.theme.pathPrefix 'submit'}}
-                                >
-                                    {{t 'preprints.header.submit_label' documentType=this.theme.provider.content.documentType}}
-                                </OsfLink>
-                                <div local-class='example-container'>
-                                    <OsfLink
-                                        data-test-see-example
-                                        data-analytics-name='Preprints - See Example'
-                                        @href={{concat this.routePrefix '/content/' (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
-                                    >
-                                        {{t 'preprints.header.example'}}
-                                    </OsfLink>
-                                </div>
-                            </div>
+                    {{/branded-header.lead}}
+                    {{#branded-header.row}}
+                        <div local-class='example-container'>
+                            <a href='{{@host}}preprints' onbeforeclick={{action 'click' 'link' 'Index - Powered By'}}>
+                                {{t 'preprints.header.powered_by'}}
+                            </a>
                         </div>
-                    {{/if}}
-                {{/branded-header.row}}
+                    {{/branded-header.row}}
+                {{/if}}
             </BrandedHeader>
             {{!END ROW}}
+            {{#if this.theme.provider.allowSubmissions}}
+                <div class='row'>
+                    <div class='text-center col-xs-12'>
+                        <p class='lead'>{{t 'preprints.header.or'}}</p>
+                        <a type='button' class='btn btn-success btn-lg preprint-submit-button' onclick={{action 'click' 'link' 'Index - Add preprint'}} href={{concat this.theme.pathPrefix 'submit'}}>
+                            {{t this.submitLabel documentType=this.theme.provider.content.documentType}}
+                        </a>
+                        <div class='m-t-md'>
+                            {{#link-to (route-prefix 'content') (if this.theme.provider.example this.theme.provider.example 'khbvy') invokeAction=(action 'click' 'link' 'Index - See example')}}
+                                {{t 'preprints.header.example'}}
+                            {{/link-to}}
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
         </div>
         {{!END CONTAINER}}
     </div>
@@ -69,7 +63,7 @@
                         {{/if}}
                     </h2>
                     {{#if this.theme.provider.hasHighlightedSubjects}}
-                        {{#link-to (this.route-prefix 'discover') class='seeAllSubjects'}}
+                        {{#link-to (route-prefix 'discover') class='seeAllSubjects'}}
                             {{t 'preprints.subjects.links.seeAllSubjects'}}
                         {{/link-to}}
                     {{/if}}
@@ -100,7 +94,7 @@
                     <div class='provider-logos'>
                         {{#each this.model.brandedProviders as |provider| }}
                             {{#if (not-eq provider.id this.livedata) }}
-                                <a href='{{branded-preprint-url provider}}' title='{{this.provider.name}}' class='provider-logo-item' style={{safe-markup (concat 'background-image: url('' (this.provider-asset provider.id "wide_white.png") '')')}}></a>
+                                <a href='{{branded-preprint-url provider}}' title='{{this.provider.name}}' class='provider-logo-item' style={{safe-markup (concat 'background-image: url('' (provider-asset provider.id "wide_white.png") '')')}}></a>
                             {{/if}}
                         {{/each}}
                     </div>
