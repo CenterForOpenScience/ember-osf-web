@@ -741,10 +741,11 @@ preprints:
         example: 'See an example'
     subjects:
         heading:
-            hasHighlightedSubjects: 'Highlighted Subjects'
-            noHighlightedSubjects: 'No Highlighted Subjects'
+            provider: 'Browse by provider'
+            hasHighlightedSubjects: 'Browse by featured subjects'
+            noHighlightedSubjects: 'Browse by subjects'
         links:
-            seeAllSubjects: 'See all subjects'
+            seeAllSubjects: 'See all subjects available'
     services:
         top:
             heading: 'Heading'
