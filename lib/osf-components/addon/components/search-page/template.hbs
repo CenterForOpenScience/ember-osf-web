@@ -5,7 +5,7 @@ as |layout|>
     <layout.heading
         data-test-heading-wrapper
         {{with-branding (get-model @provider.brand)}}
-        local-class='heading-wrapper {{if @provider 'hero-overlay'}} {{if (and (not @showSidePanelToggle) @institution) 'heading-wrapper-institutions' 'heading-wrapper-institutions-mobile'}}'
+        local-class='heading-wrapper {{if @provider 'hero-overlay'}} {{if (and (not this.showSidePanelToggle) @institution) 'heading-wrapper-institutions' 'heading-wrapper-institutions-mobile'}}'
     >
         {{#if @provider}}
             <div
