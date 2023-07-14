@@ -17,6 +17,10 @@ export default class InstitutionDiscoverController extends Controller {
 
     queryParams = ['q', 'page', 'sort', 'resourceType'];
 
+    get showSidePanelToggle() {
+        return this.media.isMobile || this.media.isTablet;
+    }
+
     get defaultQueryOptions() {
         return {
             resourceType: 'osf:Institutions',
