@@ -23,6 +23,7 @@ module.exports = function(defaults) {
         },
         autoImport: {
             exclude: ['jsonapi-typescript'],
+            publicAssetURL: `${config.assetsPrefix}assets`,
         },
         addons: {
             blacklist: [
