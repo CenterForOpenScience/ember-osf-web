@@ -4,56 +4,53 @@
 
     {{!HEADER}}
     <div local-class='preprint-header'>
-        {{!CONTAINER}}
-        <div class='container'>
-            <BrandedHeader
-                @translationParent='preprints'
-                @onSearch={{action this.onSearch}}
-                @showHelp=true
-                as |branded-header|
-            >
-                <div class='provider-brand' style={{html-safe (concat 'background-image: url(' this.providerAsset '/' this.theme.id '/wide_color.png' ')' )}}></div>
-                {{#branded-header.lead}}
-                    <div>
-                        {{html-safe this.theme.provider.description}}
-                    </div>
-                    <div>
-                        <a href='{{@host}}preprints' onclick={{action 'click' 'link' 'Index - Powered By' target=this.analytics}}>
-                            {{t 'preprints.header.powered_by'}}
-                        </a>
-                    </div>
-                {{/branded-header.lead}}
-                {{#branded-header.row}}
-                    {{#if this.theme.provider.allowSubmissions}}
-                        <div class='row'>
-                            <div class='text-center col-xs-12'>
-                                <p class='lead'>{{t 'preprints.header.or'}}</p>
-                                <OsfLink
-                                    data-test-submit-button
-                                    data-analytics-name='Preprints submit button'
-                                    local-class='btn-info'
-                                    class='btn btn-success btn-lg preprint-submit-button' 
-                                    @href={{concat this.theme.pathPrefix 'submit'}}
-                                >
-                                    {{t 'preprints.header.submit_label' documentType=this.theme.provider.content.documentType}}
-                                </OsfLink>
-                                <div local-class='example-container'>
-                                    <OsfLink
-                                        data-test-see-example
-                                        data-analytics-name='Preprints - See Example'
-                                        @href={{concat this.routePrefix '/content/' (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
-                                    >
-                                        {{t 'preprints.header.example'}}
-                                    </OsfLink>
-                                </div>
-                            </div>
+        <BrandedHeader
+            @translationParent='preprints'
+            @onSearch={{action this.onSearch}}
+            @showHelp=true
+            as |branded-header|
+        >
+            <div class='provider-brand' style={{html-safe (concat 'background-image: url(' this.providerAsset '/' this.theme.id '/wide_color.png' ')' )}}></div>
+            {{#branded-header.lead}}
+                <div>
+                    {{html-safe this.theme.provider.description}}
+                </div>
+                <div>
+                    <OsfLink
+                        data-test-poweredby-button
+                        data-analytics-name='Preprints powered-by button'
+                        @href={{concat @host 'preprints'}}
+                    >
+                        {{t 'preprints.header.powered_by'}}
+                    </OsfLink>
+                </div>
+            {{/branded-header.lead}}
+            {{#branded-header.row}}
+                {{#if this.theme.provider.allowSubmissions}}
+                    <div local-class='submit-container'>
+                        <p class='lead'>{{t 'preprints.header.or'}}</p>
+                        <OsfLink
+                            data-test-submit-button
+                            data-analytics-name='Preprints submit button'
+                            local-class='btn-info'
+                            class='btn btn-success btn-lg preprint-submit-button' 
+                            @href={{concat this.theme.pathPrefix 'submit'}}
+                        >
+                            {{t 'preprints.header.submit_label' documentType=this.theme.provider.content.documentType}}
+                        </OsfLink>
+                        <div local-class='example-container'>
+                            <OsfLink
+                                data-test-see-example
+                                data-analytics-name='Preprints - See Example'
+                                @href={{concat this.routePrefix '/content/' (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
+                            >
+                                {{t 'preprints.header.example'}}
+                            </OsfLink>
                         </div>
-                    {{/if}}
-                {{/branded-header.row}}
-            </BrandedHeader>
-            {{!END ROW}}
-        </div>
-        {{!END CONTAINER}}
+                    </div>
+                {{/if}}
+            {{/branded-header.row}}
+        </BrandedHeader>
     </div>
     {{!END HEADER}}
 

@@ -14,6 +14,12 @@
         margin-bottom: 20px;
         font-weight: 300;
         line-height: 1.4;
+
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     p {
