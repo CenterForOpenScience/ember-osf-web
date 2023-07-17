@@ -1,67 +1,95 @@
-/* Main header with search bar */
-.preprint-header {
-    background: #214661 url('img/preprints-bg.jpg') top center;
-    background-position-y: -50px;
-    border-bottom: 1px solid #ddd;
-    color: $color-text-white;
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.preprints-page-container {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    a:not(:global(.btn)) {
-        color: #80c2f7;
-        text-decoration: underline;
-    }
-
-    .btn-info {
+    .preprint-header {
+        background: #214661 url('img/preprints-bg.jpg') top center;
+        background-position-y: -50px;
+        border-bottom: 1px solid #ddd;
         color: $color-text-white;
+        width: 100%;
+
+        a:not(:global(.btn)) {
+            color: $color-link-blue;
+            text-decoration: underline;
+        }
+
+        .btn-info {
+            color: $color-text-white;
+        }
+
+
+        .submit-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .example-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                margin-top: 25px;
+            }
+        }
     }
 
-
-    .submit-container {
+    /* Subject Panel */
+    .preprint-subjects-container {
+        background-color: $color-bg-gray-lighter;
+        border-bottom: 1px solid #6d8a98;
+        padding-top: 15px;
+        padding-bottom: 15px;
         width: 100%;
-        display: flex;
         flex-direction: column;
+        display: flex;
         justify-content: center;
         align-items: center;
 
-        .example-container {
+        .preprint-subjects-inner-container {
+            background-color: $color-bg-gray-lighter;
+            padding-right: 30px;
+            padding-left: 30px;
+            width: calc(100% - 60px);
+            flex-direction: column;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin-top: 25px;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            .subject-list-container {
+                padding: 25px;
+                width: 100%;
+                flex-direction: column;
+                display: flex;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
         }
     }
-}
 
+    /* Preprint providers and become provider */
+    .preprint-tool {
+        background: #cbd9d5 url('img/index-tool-bg.jpg') top center;
+        color: $color-text-white;
+        text-shadow: 0 0 5px #506069;
+        background-size: cover;
 
-/* Subject Panel */
-.preprint-subjects {
-    background-color: #f1f3f2;
-    border-bottom: 1px solid #6d8a98;
+        h2 {
+            text-transform: capitalize;
+        }
 
-    .subject-item a {
-        width: 100%;
-        font-size: 17px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
-
-/* Preprint providers and become provider */
-.preprint-tool {
-    background: #cbd9d5 url('img/index-tool-bg.jpg') top center;
-    color: $color-text-white;
-    text-shadow: 0 0 5px #506069;
-    background-size: cover;
-
-    h2 {
-        text-transform: capitalize;
-    }
-
-    .provider-logo {
-        height: 120px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
+        .provider-logo {
+            height: 120px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
     }
 }

@@ -1,6 +1,6 @@
 {{page-title (t 'preprints.title')}}
 
-<div class='preprints-page'>
+<div local-class='preprints-page-container'>
 
     {{!HEADER}}
     <div local-class='preprint-header'>
@@ -55,29 +55,29 @@
     {{!END HEADER}}
 
     {{!SUBJECTS}}
-    <div class='preprint-subjects p-v-md'>
-        <div class='container'>
-            <div class='row p-v-md'>
-                <div class='col-xs-12'>
-                    <h2>{{#if this.theme.provider.additionalProviders}}
-                            {{t 'preprints.subjects.heading.provider'}}
-                        {{else}}
-                            {{if this.theme.provider.hasHighlightedSubjects (t 'preprints.subjects.heading.hasHighlightedSubjects') (t 'preprints.subjects.heading.noHighlightedSubjects')}}
-                        {{/if}}
-                    </h2>
-                    {{#if this.theme.provider.hasHighlightedSubjects}}
-                        {{#link-to (this.route-prefix 'discover') class='seeAllSubjects'}}
-                            {{t 'preprints.subjects.links.seeAllSubjects'}}
-                        {{/link-to}}
-                    {{/if}}
-                    <div class='subjectsList p-lg'>
-                        {{#if this.theme.provider.additionalProviders}}
-                            {{additional-provider-list additionalProviders=this.theme.provider.additionalProviders}}
-                        {{else}}
-                            <Preprints::TaxonomyTopList @list={{this.model.taxonomies}}></Preprints::TaxonomyTopList>
-                        {{/if}}
-                    </div>
-                </div>
+    <div local-class='preprint-subjects-container'>
+        <div local-class='preprint-subjects-inner-container'>
+            <h2>{{#if this.theme.provider.additionalProviders}}
+                    {{t 'preprints.subjects.heading.provider'}}
+                {{else}}
+                    {{if this.theme.provider.hasHighlightedSubjects (t 'preprints.subjects.heading.hasHighlightedSubjects') (t 'preprints.subjects.heading.noHighlightedSubjects')}}
+                {{/if}}
+            </h2>
+            {{#if this.theme.provider.hasHighlightedSubjects}}
+                <OsfLink
+                    data-test-see-example
+                    data-analytics-name='Preprints - See Example'
+                    @href={{concat this.routePrefix '/discover/'}}
+                >
+                    {{t 'preprints.subjects.links.seeAllSubjects'}}
+                </OsfLink>
+            {{/if}}
+            <div local-class='subject-list-container p-lg'>
+                {{#if this.theme.provider.additionalProviders}}
+                    {{additional-provider-list additionalProviders=this.theme.provider.additionalProviders}}
+                {{else}}
+                    <Preprints::TaxonomyTopList @list={{this.model.taxonomies}}></Preprints::TaxonomyTopList>
+                {{/if}}
             </div>
         </div>
     </div>

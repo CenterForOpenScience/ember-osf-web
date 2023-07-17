@@ -1,0 +1,21 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.subject-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+
+    .subject-item {
+        width: calc(50% - 20px);
+
+        .subject-button {
+            width: 100%;
+            font-size: 17px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
