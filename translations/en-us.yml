@@ -208,9 +208,24 @@ search:
     index-card:
         no-label: 'No label found'
         no-title: 'No title found'
+    search-help:
+        header-1: 'Improved OSF Search'
+        header-2: 'OSF Smart Facets'
+        header-3: 'Add Metadata'
+        body-1: 'Enter any term in the search box and filter by specific object types.'
+        body-2: 'Narrow the source, discipline, and more. For example, find content supported by a specific funder or view only datasets.'
+        body-3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable!'
+        index-1: '1 of 3'
+        index-2: '2 of 3'
+        index-3: '3 of 3'
+        footer:
+            skip: 'Skip'
+            next: 'Next'
+            done: 'Done'
     search-header: 'Search OSF'
     textbox-placeholder: 'Search placeholder'
     search-button-label: 'Search'
+    search-help-label: 'Help tutorial'
     total-results: '{count} results'
     resource-type:
         search-by: 'Search by resource type'

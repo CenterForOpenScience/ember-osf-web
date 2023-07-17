@@ -74,6 +74,31 @@ export default class SearchPage extends Component<SearchArgs> {
         taskFor(this.search).perform();
     }
 
+    showTooltip1?: boolean;
+    showTooltip2?: boolean;
+    showTooltip3?: boolean;
+
+    get tooltipTarget1Id() {
+        if (this.args.showResourceTypeFilter) {
+            if (this.showSidePanelToggle) {
+                return 'left-panel-object-dropdown';
+            }
+            return 'first-topbar-object-type-link';
+        }
+        return 'search-input-wrapper';
+    }
+
+    get tooltipTarget2Id() {
+        return 'left-panel-header';
+    }
+
+    get tooltipTarget3Id() {
+        if (this.propertySearch) {
+            return 'first-filter';
+        }
+        return 'left-panel-header';
+    }
+
     get showSidePanelToggle() {
         return this.media.isMobile || this.media.isTablet;
     }
