@@ -726,39 +726,6 @@ social:
     facebook: Facebook
     google_group: 'Google Group'
     github: GitHub
-preprints:
-    title: 'Preprints'
-    header:
-        osf_registrations: 'OSF Preprints'
-        registrations: 'Preprints'
-        search_placeholder: 'Search preprints ...'
-        search_button: 'Perform search'
-        search_label: 'Search'
-        search_help: 'Search help'
-        powered_by: 'Powered by OSF Preprints'
-        or: 'or'
-        submit_label: 'Submit a preprint'
-        example: 'See an example'
-    subjects:
-        heading:
-            provider: 'Browse by provider'
-            hasHighlightedSubjects: 'Browse by featured subjects'
-            noHighlightedSubjects: 'Browse by subjects'
-        links:
-            seeAllSubjects: 'See all subjects available'
-    services:
-        top:
-            heading: 'Heading'
-            paragraph: 'Paragraph'
-        bottom:
-            contact: 'contact'
-            p1: 'Bottom P1'
-            div: 
-                line1: 'Line 1'
-                line2: 'Line 2'
-                line3: 'Line 3'
-                linkText1: 'Link Text 1'
-                linkText2: 'Link Text 2'
 institutions:
     description: 'OSF Institutions enhances transparency and increases the visibility of research outputs, accelerating discovery and reuse. Institutional members focus on generating and sharing research, and let OSF Institutions handle the infrastructure.'
     read_more: 'Read more'
@@ -1140,6 +1107,38 @@ preprints:
     provider-title: '{name} {pluralizedPreprintWord}'
     discover:
         title: 'Search'
+    title: 'Preprints'
+    header:
+        osf_registrations: 'OSF Preprints'
+        registrations: 'Preprints'
+        search_placeholder: 'Search preprints ...'
+        search_button: 'Perform search'
+        search_label: 'Search'
+        search_help: 'Search help'
+        powered_by: 'Powered by OSF Preprints'
+        or: 'or'
+        submit_label: 'Submit a preprint'
+        example: 'See an example'
+    subjects:
+        heading:
+            provider: 'Browse by provider'
+            hasHighlightedSubjects: 'Browse by featured subjects'
+            noHighlightedSubjects: 'Browse by subjects'
+        links:
+            seeAllSubjects: 'See all subjects available'
+    services:
+        top:
+            heading: 'Heading'
+            paragraph: 'Paragraph'
+        bottom:
+            contact: 'contact'
+            p1: 'Bottom P1'
+            div: 
+                line1: 'Line 1'
+                line2: 'Line 2'
+                line3: 'Line 3'
+                linkText1: 'Link Text 1'
+                linkText2: 'Link Text 2'
 registries:
     header:
         osf_registrations: 'OSF Registrations'
