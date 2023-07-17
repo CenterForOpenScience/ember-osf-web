@@ -24,7 +24,7 @@ as |layout|>
                 <h1>{{t 'search.search-header'}}</h1>
             </label>
         {{/if}}
-        <span id='search-input-wrapper' local-class='search-input-wrapper'>
+        <span id={{this.searchInputWrapperId}} local-class='search-input-wrapper'>
             <Input
                 local-class='search-input'
                 @type='search'
@@ -84,10 +84,10 @@ as |layout|>
                 {{t 'search.total-results' count=this.totalResultCount}}
             </p>
         {{/if}}
-        <h2 id='left-panel-header'>{{t 'search.left-panel.header'}}</h2>
+        <h2 id={{this.leftPanelHeaderId}}>{{t 'search.left-panel.header'}}</h2>
         {{#if this.showSidePanelToggle}}
             {{#if @showResourceTypeFilter}}
-                <div data-test-left-panel-object-type-dropdown id='left-panel-object-dropdown'>
+                <div data-test-left-panel-object-type-dropdown id={{this.leftPanelObjectDropdownId}}>
                     <label>
                         {{t 'search.resource-type.search-by'}}
                         <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
@@ -134,7 +134,7 @@ as |layout|>
         {{#each this.filterableProperties as |filterableProperty index|}}
             {{#let filterableProperty.indexCard as |propertyCard|}}
                 <SearchPage::FilterFacet
-                    id={{if (eq index 0) 'first-filter' null}}
+                    id={{if (eq index 0) this.firstFilterId null}}
                     @cardSearchText={{@query}}
                     @cardSearchFilters={{this.activeFilters}}
                     @propertyCard={{propertyCard}}
@@ -162,7 +162,7 @@ as |layout|>
                                         data-analytics-name='Object type filter={{resourceType.value}}'
                                         data-test-topbar-object-type-link='{{resourceType.value}}'
                                         local-class='object-type-filter-link'
-                                        id={{if (eq index 0) 'first-topbar-object-type-link' null}}
+                                        id={{if (eq index 0) this.firstTopbarObjectTypeLinkId null}}
                                         @query={{hash resourceType=resourceType.value}}
                                         {{on 'click' (fn this.updateResourceType resourceType)}}
                                     >
@@ -199,7 +199,7 @@ as |layout|>
 </OsfLayout>
 {{#if this.showTooltip1}}
     <EmberPopover
-        data-test-search-help-mobile-1
+        data-test-search-help-1
         @targetId={{this.tooltipTarget1Id}}
         @tooltipClass={{local-class 'search-help-tutorial'}}
         @innerClass={{'search-help-tutorial-inner'}}
@@ -242,7 +242,7 @@ as |layout|>
 {{/if}}
 {{#if this.showTooltip2}}
     <EmberPopover
-        data-test-search-help-mobile-2
+        data-test-search-help-2
         @targetId={{this.tooltipTarget2Id}}
         @tooltipClass={{local-class 'search-help-tutorial'}}
         @innerClass={{'search-help-tutorial-inner'}}
@@ -285,7 +285,7 @@ as |layout|>
 {{/if}}
 {{#if this.showTooltip3}}
     <EmberPopover
-        data-test-search-help-mobile-3
+        data-test-search-help-3
         @targetId={{this.tooltipTarget3Id}}
         @tooltipClass={{local-class 'search-help-tutorial'}}
         @innerClass={{'search-help-tutorial-inner'}}
