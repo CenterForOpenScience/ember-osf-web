@@ -1128,17 +1128,23 @@ preprints:
             seeAllSubjects: 'See all subjects available'
     services:
         top:
-            heading: 'Heading'
-            paragraph: 'Paragraph'
+            # heading: '{documentType.singularCapitalized} Services'
+            heading: '{documentType} Services'
+            # paragraph: 'Leading {documentType.singular} service providers use this open source infrastructure to support their communities.'
+            paragraph: 'Leading {documentType} service providers use this open source infrastructure to support their communities.'
         bottom:
-            contact: 'contact'
-            p1: 'Bottom P1'
+            contact: 'Contact us'
+            # p1: 'Create your own branded {documentType.singular} servers backed by the OSF.'
+            p1: 'Create your own branded {documentType} servers backed by the OSF.'
             div: 
-                line1: 'Line 1'
-                line2: 'Line 2'
-                line3: 'Line 3'
-                linkText1: 'Link Text 1'
-                linkText2: 'Link Text 2'
+                line1: 'Check out the'
+                linkText1: 'open source code'
+                line2: 'and our'
+                linkText2: 'public roadmap'
+                line3: '. Input welcome!'
+        advisory: 
+            heading: 'Advisory Group'
+            paragraph: 'Our advisory group includes leaders in preprints and scholarly communication'
 registries:
     header:
         osf_registrations: 'OSF Registrations'
