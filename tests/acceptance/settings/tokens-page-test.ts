@@ -11,14 +11,14 @@ module('Acceptance | settings | personal access tokens', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visit page', async assert => {
+    test('visit page', async function(assert) {
         server.create('user', 'loggedIn');
         await visit('/settings/tokens');
 
         assert.equal(currentURL(), '/settings/tokens', 'Went to the PAT route.');
     });
 
-    test('empty tokens list', async assert => {
+    test('empty tokens list', async function(assert) {
         server.create('user', 'loggedIn');
 
         await visit('/settings/tokens');
@@ -26,7 +26,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         assert.dom('[data-test-token-card]').doesNotExist();
     });
 
-    test('tokens list', async assert => {
+    test('tokens list', async function(assert) {
         server.create('user', 'loggedIn');
         server.createList('token', 7);
 
@@ -35,7 +35,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         assert.dom('[data-test-token-card]').exists({ count: 7 });
     });
 
-    test('long tokens list', async assert => {
+    test('long tokens list', async function(assert) {
         server.create('user', 'loggedIn');
         server.createList('token', 27);
 
@@ -45,7 +45,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         await percySnapshot(assert);
     });
 
-    test('create token', async assert => {
+    test('create token', async function(assert) {
         server.create('user', 'loggedIn');
         server.create('scope');
         const tokenName = 'my token!';
@@ -68,7 +68,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         assert.dom('[data-test-token-card]').exists({ count: 1 });
     });
 
-    test('edit token', async assert => {
+    test('edit token', async function(assert) {
         server.create('user', 'loggedIn');
 
         const oldName = 'token the grey';
@@ -101,7 +101,7 @@ module('Acceptance | settings | personal access tokens', hooks => {
         assert.dom(link).containsText(newName);
     });
 
-    test('delete token', async assert => {
+    test('delete token', async function(assert) {
         server.create('user', 'loggedIn');
 
         const [token] = server.createList('token', 2);

@@ -39,8 +39,11 @@ module('Unit | Model | osf-model', hooks => {
             assert.equal(nodes.length, nodeIds.length);
             assert.notEqual(nodes.length, 0);
             for (const node of nodes) {
-                assert.ok((nodeIds.indexOf(node.id) !== -1),
-                    `All the node ids should be in the array, but ${node.id} isn't in nodeIds.`);
+                assert.notStrictEqual(
+                    nodeIds.indexOf(node.id),
+                    -1,
+                    `All the node ids should be in the array, but ${node.id} isn't in nodeIds.`,
+                );
             }
         });
 

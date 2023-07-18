@@ -17,7 +17,7 @@ const apiError: ErrorDocument = {
 };
 
 module('Unit | Utility | capture-exception', () => {
-    test('utils: getApiErrorMessage, getApiErrors work', assert => {
+    test('utils: getApiErrorMessage, getApiErrors work', function(assert) {
         assert.equal(getApiErrorMessage(apiError), error1, 'getApiErrorMessage returns first api error text');
         assert.propEqual(getApiErrors(apiError), {
             api_error_0: { detail: error1, code: '400' },
@@ -26,7 +26,7 @@ module('Unit | Utility | capture-exception', () => {
         }, 'getApiErrors reduces error list to an object');
     });
 
-    test('captureException works', assert => {
+    test('captureException works', function(assert) {
         // @ts-ignore: Mock Raven global. TODO: use sinon.
         window.Raven = {
             captureException: (_: ErrorDocument, { extra }: { extra: object }) => extra,

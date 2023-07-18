@@ -17,7 +17,7 @@ module('Acceptance | view-only-links', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('View-only links', async assert => {
+    test('View-only links', async function(assert) {
         server.create('root', 'withAnonymizedVOL');
         const viewOnlyToken = 'thisisatoken';
 
@@ -32,17 +32,13 @@ module('Acceptance | view-only-links', hooks => {
 
         const [bootRequest1, bootRequest2, ...otherRequests] = requests;
 
-        assert.ok(
-            bootRequest1.url.split('?')[0] === `${apiUrl}/v2/`
-            && bootRequest1.queryParams.view_only === viewOnlyToken,
-            `First API request is root boot with VOL: ${bootRequest1.url}`,
-        );
+        assert.strictEqual(bootRequest1.url.split('?')[0], `${apiUrl}/v2/`, 'First request is api request');
+        assert.strictEqual(bootRequest1.queryParams.view_only, viewOnlyToken,
+            `First API request is root boot with VOL: ${bootRequest1.url}`);
 
-        assert.ok(
-            bootRequest2.url.split('?')[0] === `${apiUrl}/v2/`
-            && !bootRequest2.queryParams.view_only,
-            `Second API request is root boot without VOL: ${bootRequest2.url}`,
-        );
+        assert.strictEqual(bootRequest2.url.split('?')[0], `${apiUrl}/v2/`, 'Second request is api request');
+        assert.notOk(bootRequest2.queryParams.view_only,
+            `Second API request is root boot without VOL: ${bootRequest2.url}`);
 
         for (const request of otherRequests) {
             assert.equal(request.queryParams.view_only, viewOnlyToken, `VOL token passed to API - ${request.url}`);
@@ -56,8 +52,10 @@ module('Acceptance | view-only-links', hooks => {
             const href = anchor.getAttribute('href');
             if (href) {
                 if (href.startsWith('/') || href.startsWith(osfUrl)) {
+                    // eslint-disable-next-line qunit/no-conditional-assertions
                     assert.ok(paramRegex.test(href), `OSF link has VOL token: ${href}`);
                 } else {
+                    // eslint-disable-next-line qunit/no-conditional-assertions
                     assert.notOk(paramRegex.test(href), `Non-OSF link does not have VOL token: ${href}`);
                 }
             }
@@ -119,7 +117,7 @@ module('Acceptance | view-only-links', hooks => {
         assert.equal(currentURL(), '/');
     });
 
-    test('Transition from project to registration does not add bad VOL', async assert => {
+    test('Transition from project to registration does not add bad VOL', async function(assert) {
         const mirageProject = server.create('node', 'currentUserAdmin');
         const mirageRegistration = server.create('registration', {
             registeredFrom: mirageProject,

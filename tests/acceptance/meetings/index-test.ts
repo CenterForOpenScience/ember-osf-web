@@ -12,7 +12,7 @@ module(moduleName, hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('meetings index', async assert => {
+    test('meetings index', async function(assert) {
         server.createList('meeting', 15);
         server.create('meeting', { name: faker.lorem.paragraph() });
         await visit('/meetings');

@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
+import Store from '@ember-data/store';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -32,6 +33,7 @@ export default class GuidFile extends Route {
     @service metaTags!: MetaTags;
     @service ready!: Ready;
     @service currentUser!: CurrentUserService;
+    @service store!: Store;
 
     headTags?: HeadTagDef[];
     metadata!: CustomFileMetadataRecordModel;

@@ -14,13 +14,13 @@ module('Integration | Component | hyper-link', hooks => {
         assert.dom('a').exists();
     });
 
-    test('it renders external hrefs', async assert => {
+    test('it renders external hrefs', async function(assert) {
         await render(hbs`{{osf-navbar/x-links/hyper-link 'http://example.com'}}`);
 
         assert.dom('a[href="http://example.com"]').exists();
     });
 
-    test('it renders internal hrefs', async assert => {
+    test('it renders internal hrefs', async function(assert) {
         await render(hbs`{{osf-navbar/x-links/hyper-link '/'}}`);
 
         assert.dom('a[href="/"]').exists();
@@ -40,13 +40,13 @@ module('Integration | Component | hyper-link', hooks => {
         assert.dom('a').doesNotExist();
     });
 
-    test('it renders `text`', async assert => {
+    test('it renders `text`', async function(assert) {
         await render(hbs`{{osf-navbar/x-links/hyper-link '/' text='This is my text'}}`);
 
         assert.dom('a').hasText('This is my text');
     });
 
-    test('it renders yields', async assert => {
+    test('it renders yields', async function(assert) {
         await render(hbs`
             {{#osf-navbar/x-links/hyper-link '/' text='This is my text'}}
                 This is not my text
@@ -56,7 +56,7 @@ module('Integration | Component | hyper-link', hooks => {
         assert.dom('a').hasText('This is not my text');
     });
 
-    test('it allows overriding route when curried', async assert => {
+    test('it allows overriding route when curried', async function(assert) {
         await render(hbs`
             {{#let (
                 hash

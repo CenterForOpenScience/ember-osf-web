@@ -25,7 +25,7 @@ module('Registries | Integration | Component | x-dummy', hooks => {
         assert.dom('[data-attr="foo"]').hasText('This is a test!');
     });
 
-    test('it yields yieldValue', async assert => {
+    test('it yields yieldValue', async function(assert) {
         await render(hbs`
             {{#x-dummy (html-attributes data-test-dummy='1') yieldValue='It works!' as |val|}}
                 <p>{{val}}</p>
@@ -35,7 +35,7 @@ module('Registries | Integration | Component | x-dummy', hooks => {
         assert.dom('[data-test-dummy="1"]').hasText('It works!');
     });
 
-    test('it binds href', async assert => {
+    test('it binds href', async function(assert) {
         await render(hbs`
             {{x-dummy tagName='a' href='example.com'}}
         `);

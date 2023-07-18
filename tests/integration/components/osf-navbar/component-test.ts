@@ -31,7 +31,7 @@ module('Integration | Component | osf-navbar', hooks => {
         this.owner.register('service:session', sessionStub);
     });
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`<OsfNavbar />`);
         assert.dom('.service-name').includesText('OSF');
         assert.dom('.current-service').hasText('HOME');

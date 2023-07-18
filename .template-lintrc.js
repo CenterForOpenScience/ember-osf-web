@@ -3,7 +3,7 @@
 'use strict';
 
 module.exports = {
-    extends: 'octane',
+    extends: 'recommended',
 
     rules: {
         'block-indentation': 4,

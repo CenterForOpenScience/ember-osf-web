@@ -10,7 +10,7 @@ module('Registries | Acceptance | registries index (landing page)', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('recent registrations list', async assert => {
+    test('recent registrations list', async function(assert) {
         const indexPageRegistrationIds = [...registriesConfig.indexPageRegistrationIds];
 
         const recentRegs = server.createList('registration', 5, 'withContributors');

@@ -10,7 +10,7 @@ module('Registries | Acceptance | overview.components', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('With components', async assert => {
+    test('With components', async function(assert) {
         const parentRegistration = server.create('registration');
         const childRegistration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
@@ -31,7 +31,7 @@ module('Registries | Acceptance | overview.components', hooks => {
         assert.dom('[data-test-no-components]').doesNotExist('No components message is not shown');
     });
 
-    test('Without components', async assert => {
+    test('Without components', async function(assert) {
         const registration = server.create('registration');
         await visit(`/${registration.id}/components`);
 

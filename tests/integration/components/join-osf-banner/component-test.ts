@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 module('Integration | Component | join-osf-banner', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.set('myAction', function(val) { ... });
 
@@ -15,6 +15,6 @@ module('Integration | Component | join-osf-banner', hooks => {
       {{#join-osf-banner}}
       {{/join-osf-banner}}
     `);
-        assert.equal(true, true);
+        assert.true(true);
     });
 });

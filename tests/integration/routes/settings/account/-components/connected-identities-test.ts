@@ -13,7 +13,7 @@ module('Integration | routes | settings | account | -components | connected-iden
     setupMirage(hooks);
     setupIntl(hooks);
 
-    test('no connected identities', async assert => {
+    test('no connected identities', async function(assert) {
         await render(hbs`{{settings/account/-components/connected-identities}}`);
 
         assert.dom('[data-test-connected-identities-panel]')
@@ -40,7 +40,7 @@ module('Integration | routes | settings | account | -components | connected-iden
         await percySnapshot(assert);
     });
 
-    test('identity statuses', async assert => {
+    test('identity statuses', async function(assert) {
         const identity1 = server.create('external-identity', 'withStatusVerified');
         const identity2 = server.create('external-identity', 'withStatusCreate');
         const identity3 = server.create('external-identity', 'withStatusLink');
@@ -81,7 +81,7 @@ module('Integration | routes | settings | account | -components | connected-iden
         await percySnapshot(assert);
     });
 
-    test('pagination', async assert => {
+    test('pagination', async function(assert) {
         server.createList('external-identity', 12);
 
         await render(hbs`{{settings/account/-components/connected-identities}}`);
@@ -104,7 +104,7 @@ module('Integration | routes | settings | account | -components | connected-iden
         );
     });
 
-    test('remove identity', async assert => {
+    test('remove identity', async function(assert) {
         const identities = server.createList('external-identity', 12);
         const identity = identities[2];
 
@@ -129,7 +129,7 @@ module('Integration | routes | settings | account | -components | connected-iden
         );
     });
 
-    test('remove last identity', async assert => {
+    test('remove last identity', async function(assert) {
         const identity = server.create('external-identity');
 
         await render(hbs`{{settings/account/-components/connected-identities}}`);

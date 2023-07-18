@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 module('Integration | Component | meetings-footer', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`<Meetings::Index::-Components::MeetingsFooter />`);
         assert.dom('[data-test-eye-icon]').exists({ count: 1 }, '1 fa-eye icon');
         assert.dom('[data-test-share-alt-icon]').exists({ count: 1 }, '1 fa-share-alt icon');

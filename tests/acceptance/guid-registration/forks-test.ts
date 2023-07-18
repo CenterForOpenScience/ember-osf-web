@@ -17,7 +17,7 @@ module('Acceptance | guid-registration/forks', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('logged out, no forks', async assert => {
+    test('logged out, no forks', async function(assert) {
         const node = server.create('node', { id: 'regis', currentUserPermissions: [] });
         const registration = server.create('registration', { registeredFrom: node });
         const url = `/${registration.id}/forks`;
@@ -31,7 +31,7 @@ module('Acceptance | guid-registration/forks', hooks => {
             .hasText('Forks you have permission to view are shown here.');
     });
 
-    test('logged out, 1 fork', async assert => {
+    test('logged out, 1 fork', async function(assert) {
         const node = server.create('node', { id: 'regis', currentUserPermissions: [] });
         const registration = server.create('registration', { registeredFrom: node });
         const url = `/${registration.id}/forks`;
@@ -54,7 +54,7 @@ module('Acceptance | guid-registration/forks', hooks => {
             .includesText(`Fork of ${registration.title}`);
     });
 
-    test('logged in admin, no forks', async assert => {
+    test('logged in admin, no forks', async function(assert) {
         server.create('user', 'loggedIn');
         const node = server.create('node', { id: 'f0rk5', currentUserPermissions: [Permission.Admin] });
         const registration = server.create('registration', { registeredFrom: node });
@@ -67,7 +67,7 @@ module('Acceptance | guid-registration/forks', hooks => {
             .hasText('Forks you have permission to view are shown here.');
     });
 
-    test('logged in admin, 1 fork', async assert => {
+    test('logged in admin, 1 fork', async function(assert) {
         const contributorUser = server.create('user', 'loggedIn');
         const node = server.create('node', {
             id: 'decaf',
@@ -92,7 +92,7 @@ module('Acceptance | guid-registration/forks', hooks => {
         assert.dom('[data-test-node-menu]').exists({ count: 1 });
     });
 
-    test('logged in admin, 12 forks', async assert => {
+    test('logged in admin, 12 forks', async function(assert) {
         const contributorUser = server.create('user', 'loggedIn');
         const node = server.create('node', {
             id: 'f0rk5',
@@ -123,7 +123,7 @@ module('Acceptance | guid-registration/forks', hooks => {
         assert.dom('[data-test-node-card]').includesText(registration.title);
     });
 
-    test('logged in admin, new fork', async assert => {
+    test('logged in admin, new fork', async function(assert) {
         assert.expect(7);
         server.create('user', 'loggedIn');
         const node = server.create(

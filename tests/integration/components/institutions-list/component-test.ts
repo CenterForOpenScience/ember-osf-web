@@ -49,7 +49,7 @@ module('Integration | Component | institutions-list', hooks => {
         this.set('manager', managerStub);
     });
 
-    test('no institutions', async assert => {
+    test('no institutions', async function(assert) {
         await render(hbs`<InstitutionsList @manager={{this.manager}} />`);
 
         assert.dom('[data-test-institutions-list]').exists();

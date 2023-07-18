@@ -76,7 +76,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         this.set('registration', registration);
     });
 
-    test('Branded overview page', async assert => {
+    test('Branded overview page', async function(assert) {
         const brandedProvider = server.create('registration-provider', {
             assets: {
                 favicon: 'fakelink',
@@ -136,7 +136,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             }
         });
 
-    test('only write and admin can edit registration tags', async assert => {
+    test('only write and admin can edit registration tags', async function(assert) {
         const tags = ['Suspendisse', 'Mauris', 'ipsum', 'facilisis'];
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
@@ -166,7 +166,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
     });
 
-    test('only write and admin can edit affiliated institutions', async assert => {
+    test('only write and admin can edit affiliated institutions', async function(assert) {
         const user = server.create('user', {
             institutions: server.createList('institution', 2),
         }, 'loggedIn');
@@ -236,7 +236,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .doesNotExist('registration institution list is not updated after discarding edits'));
     });
 
-    test('Form navigation menu', async assert => {
+    test('Form navigation menu', async function(assert) {
         const prereg = server.schema.registrationSchemas.find('prereg_challenge');
         const reg = server.create('registration', {
             registrationSchema: prereg,
@@ -259,7 +259,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-page-anchor]').exists({ count: blocksWithAnchors.length });
     });
 
-    test('Check head meta tags', async assert => {
+    test('Check head meta tags', async function(assert) {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             tags: ['Social Media', 'Education'],
@@ -282,7 +282,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assertHeadMetaTags(assert, 'affiliatedInstitutions', affiliatedInstitutions.mapBy('name'), true);
     });
 
-    test('Editable description', async assert => {
+    test('Editable description', async function(assert) {
         const reg = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             description: '',
@@ -321,7 +321,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-edit-button="description"]').isNotVisible();
     });
 
-    test('editable registration category', async assert => {
+    test('editable registration category', async function(assert) {
         const reg = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             category: NodeCategory.Project,
@@ -355,7 +355,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-edit-button="category"]').exists();
     });
 
-    test('editable publication doi', async assert => {
+    test('editable publication doi', async function(assert) {
         const reg = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
         });
@@ -407,7 +407,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-edit-button="publication DOI"]').doesNotExist();
     });
 
-    test('Check only admin can mint registration DOI', async assert => {
+    test('Check only admin can mint registration DOI', async function(assert) {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         });
@@ -455,7 +455,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-editable-field="doi"]').doesNotExist('DOIs are only available for public registrations');
     });
 
-    test('Editable subjects', async assert => {
+    test('Editable subjects', async function(assert) {
         const subjects = [server.create('subject', { text: 'Candy and confection studies' }),
             server.create('subject', { text: 'Soda and soft drink studies' })];
         const provider = server.create('registration-provider');
@@ -493,7 +493,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-selected-subject]').exists({ count: 2 }, 'Subjects saved');
     });
 
-    test('Editable provider metadata', async assert => {
+    test('Editable provider metadata', async function(assert) {
         server.create('user', 'loggedIn');
 
         const regOne = server.create('registration', {
@@ -583,7 +583,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .containsText('No metadata', 'All empty fields means no metadata to show');
     });
 
-    test('Editable license', async assert => {
+    test('Editable license', async function(assert) {
         server.loadFixtures('licenses');
 
         const reg = server.create('registration', {
@@ -625,7 +625,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.deepEqual(reg.nodeLicense!.copyright_holders, ['Jane Doe', 'John Doe']);
     });
 
-    test('File links show on registration detail', async assert => {
+    test('File links show on registration detail', async function(assert) {
         const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
         const registeredFrom = server.create('node', 'currentUserAdmin');
         const fileOne = server.create('file', { target: registeredFrom });
@@ -651,7 +651,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom(`[data-test-file-link="${fileTwo.id}"]`).hasAttribute('href', `fakedomain/${fileTwo.id}`);
     });
 
-    test('File links show on registration detail from registrations list', async assert => {
+    test('File links show on registration detail from registrations list', async function(assert) {
         const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
         const registeredFrom = server.create('node', 'currentUserAdmin');
         const fileOne = server.create('file', { target: registeredFrom });
@@ -681,7 +681,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom(`[data-test-file-link="${fileTwo.id}"]`).hasAttribute('href', `fakedomain/${fileTwo.id}`);
     });
 
-    test('Logged out user can claim an unregistered contributor', async assert => {
+    test('Logged out user can claim an unregistered contributor', async function(assert) {
         const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
         const registeredFrom = server.create('node');
 
@@ -710,7 +710,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .doesNotExist('claim unregistered user modal gone after canceling claim');
     });
 
-    test('Logged in user can claim an unregistered contributor', async assert => {
+    test('Logged in user can claim an unregistered contributor', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
         const registeredFrom = server.create('node');

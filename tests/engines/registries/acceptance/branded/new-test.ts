@@ -14,7 +14,7 @@ module('Registries | Acceptance | branded.new', hooks => {
         server.create('user', 'loggedIn');
     });
 
-    test('serves branded.new route if provider.allowSubmissions: true', async assert => {
+    test('serves branded.new route if provider.allowSubmissions: true', async function(assert) {
         const brandedProvider = server.create('registration-provider', {
             assets: {
                 favicon: 'fakelink',
@@ -27,7 +27,7 @@ module('Registries | Acceptance | branded.new', hooks => {
     });
 
     test('serves branded.new route if provider.allowSubmissions: false and user is moderator',
-        async assert => {
+        async function(assert) {
             const brandedProvider = server.create('registration-provider', {
                 assets: {
                     favicon: 'fakelink',
@@ -39,14 +39,17 @@ module('Registries | Acceptance | branded.new', hooks => {
             assert.equal(currentRouteName(), 'registries.branded.new', 'At the correct route: branded.new');
         });
 
-    test('redirects to page-not-found if provider.allowSubmissions: false and user not moderator', async assert => {
-        const brandedProvider = server.create('registration-provider',
-            'withBrand', 'submissionsNotAllowed');
-        await visit(`/registries/${brandedProvider.id}/new`);
-        assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
-    });
+    test(
+        'redirects to page-not-found if provider.allowSubmissions: false and user not moderator',
+        async function(assert) {
+            const brandedProvider = server.create('registration-provider',
+                'withBrand', 'submissionsNotAllowed');
+            await visit(`/registries/${brandedProvider.id}/new`);
+            assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
+        },
+    );
 
-    test('users are prevented from submitting incomplete form with project', async assert => {
+    test('users are prevented from submitting incomplete form with project', async function(assert) {
         server.loadFixtures('registration-schemas');
         server.loadFixtures('schema-blocks');
         const currentUser = server.create('user', 'loggedIn');
@@ -77,7 +80,8 @@ module('Registries | Acceptance | branded.new', hooks => {
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata',
             'Go to draft registration metadata page on start');
     });
-    test('users are prevented from submitting incomplete form no project', async assert => {
+
+    test('users are prevented from submitting incomplete form no project', async function(assert) {
         server.loadFixtures('registration-schemas');
         server.loadFixtures('schema-blocks');
         const brandedProvider = server.create('registration-provider', 'withBrand', 'withSchemas');
@@ -93,7 +97,7 @@ module('Registries | Acceptance | branded.new', hooks => {
             'Go to draft registration metadata page on start');
     });
 
-    test('creating a no-project draft registration does not have any metadata', async assert => {
+    test('creating a no-project draft registration does not have any metadata', async function(assert) {
         server.loadFixtures('registration-schemas');
         server.loadFixtures('schema-blocks');
         const brandedProvider = server.create('registration-provider', 'withBrand', 'withSchemas');

@@ -1,4 +1,4 @@
-import { click, render } from '@ember/test-helpers';
+import { TestContext, click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -6,15 +6,18 @@ import { module, test } from 'qunit';
 module('Integration | Component | delete-button', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async function(assert) {
+    test('it renders', async function(this: TestContext, assert) {
+        this.set('delete', () => true);
+
         await render(hbs`
-        <DeleteButton
-            @buttonLabel='Button here!'
-            @modalTitle='Head'
-            @modalBody='Shoulders'
-            @cancelButtonText='Knees'
-            @confirmButtonText='Toes'
-        />
+<DeleteButton
+    @buttonLabel='Button here!'
+    @modalTitle='Head'
+    @modalBody='Shoulders'
+    @cancelButtonText='Knees'
+    @confirmButtonText='Toes'
+    @delete={{this.delete}}
+/>
         `);
         assert.dom('[data-test-delete-button]').hasText('Button here!');
         await click('[data-test-delete-button]');

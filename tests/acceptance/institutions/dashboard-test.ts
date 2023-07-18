@@ -11,7 +11,7 @@ module(moduleName, hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('institutions dashboard', async assert => {
+    test('institutions dashboard', async function(assert) {
         server.create('institution', {
             id: 'has-users',
         }, 'withMetrics');
