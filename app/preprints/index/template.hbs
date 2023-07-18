@@ -72,7 +72,7 @@
                     {{t 'preprints.subjects.links.seeAllSubjects'}}
                 </OsfLink>
             {{/if}}
-            <div local-class='subject-list-container p-lg'>
+            <div local-class='subject-list-container'>
                 {{#if this.theme.provider.additionalProviders}}
                     {{additional-provider-list additionalProviders=this.theme.provider.additionalProviders}}
                 {{else}}
@@ -84,24 +84,27 @@
 
     {{#unless this.theme.isProvider}}
         {{!SERVICES}}
-        <div class='preprint-tool p-v-md'>
-            <div class='container'>
-                <div class='row'>
-                    <div class='col-xs-12'>
-                        <h2>{{t 'preprints.services.top.heading' documentType=this.theme.provider.content.documentType}}</h2>
-                        <p class='m-b-lg'>
-                            {{t 'preprints.services.top.paragraph' documentType=this.theme.provider.content.documentType}}
-                        </p>
-                    </div>
-                </div>
-                <div class='row p-v-md'>
-                    <div class='provider-logos'>
-                        {{#each this.model.brandedProviders as |provider| }}
-                            {{#if (not-eq provider.id this.livedata) }}
-                                <a href='{{branded-preprint-url provider}}' title='{{this.provider.name}}' class='provider-logo-item' style={{safe-markup (concat 'background-image: url('' (this.provider-asset provider.id "wide_white.png") '')')}}></a>
-                            {{/if}}
-                        {{/each}}
-                    </div>
+        <div local-class='preprint-tool-container'>
+            <div local-class='preprint-tool-inner-container'>
+                <h2>{{t 'preprints.services.top.heading' documentType=this.theme.provider.documentType.singularCapitalized}}</h2>
+                <p localclass='subtitle'>
+                    {{t 'preprints.services.top.paragraph' documentType=this.theme.provider.documentType.singular}}
+                </p>
+                <div local-class='preprint-logos-container'>
+                    {{#each this.model.brandedProviders as |provider| }}
+                        {{#if (not-eq provider.id this.livedata) }}
+                            <OsfLink
+                                data-test-see-example
+                                data-analytics-name='Preprints - See Example'
+                                @href={{concat this.brandedPreprintUrl '/' provider.id }}
+                                title='{{provider.name}}'
+                                local-class='provider-logo'
+                                style={{html-safe (concat 'background-image: url(' this.providerAsset '/' provider.id '/wide_white.png' ')' )}}
+                            >
+                                {{ provider.name }}
+                            </OsfLink>
+                        {{/if}}
+                    {{/each}}
                 </div>
                 <div class='row p-v-md'>
                     <div class='col-md-12 text-center'>

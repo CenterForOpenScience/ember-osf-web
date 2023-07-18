@@ -12,7 +12,6 @@ export default class Preprints extends Route {
     @service store!: Store;
     @service theme!: Theme;
     @service router!: RouterService;
-    livedata = 'livedata';
 
     async model() {
         try {
@@ -26,9 +25,15 @@ export default class Preprints extends Route {
                 },
             });
 
+            const brandedProviders = this.theme.id === 'osf' ? await this.store
+                .findAll('preprint-provider', { reload: true })
+                .then(result => result
+                    .filter(item => item.id !== 'osf')) : [];
+
             return {
                 provider,
                 taxonomies,
+                brandedProviders,
             };
 
         } catch (e) {
