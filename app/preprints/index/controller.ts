@@ -13,6 +13,7 @@ export default class Preprints extends Controller {
     livedata = 'livedata';
     providerAsset = 'https://localhost:4200';
     routePrefix = 'https://localhost:4200';
+    brandedPreprintUrl = 'http://localhost:4200';
 
     @action
     onSearch(query: string) {
