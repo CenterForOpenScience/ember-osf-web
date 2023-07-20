@@ -8,7 +8,7 @@ import {
 import { module, test } from 'qunit';
 
 module('Unit | Utility | page-param', () => {
-    test('getPageIndex works', assert => {
+    test('getPageIndex works', function(assert) {
         [
             ['', undefined],
             ['-', undefined],
@@ -24,7 +24,7 @@ module('Unit | Utility | page-param', () => {
         });
     });
 
-    test('getPageParam works', assert => {
+    test('getPageParam works', function(assert) {
         [
             [1, 'sample-analysis', '2-sample-analysis'],
             [2, '', '3'],
@@ -34,7 +34,7 @@ module('Unit | Utility | page-param', () => {
         });
     });
 
-    test('getNextPageParam works', assert => {
+    test('getNextPageParam works', function(assert) {
         [
             [1, 'sample-analysis', '3-sample-analysis'],
             [0, 'study-information', '2-study-information'],
@@ -43,7 +43,7 @@ module('Unit | Utility | page-param', () => {
         });
     });
 
-    test('getPrevPageParam works', assert => {
+    test('getPrevPageParam works', function(assert) {
         [
             [0, 'study-information', undefined],
             [2, 'sample-analysis', '2-sample-analysis'],

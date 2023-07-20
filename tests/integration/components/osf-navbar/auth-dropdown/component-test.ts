@@ -43,7 +43,7 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
 
         await render(hbs`{{osf-navbar/auth-dropdown}}`);
 
-        assert.ok(!this.owner.lookup('service:currentUser').loginCalled, 'login has not been called');
+        assert.notOk(this.owner.lookup('service:currentUser').loginCalled, 'login has not been called');
         await click('[data-analytics-name="SignIn"]');
         assert.ok(this.owner.lookup('service:currentUser').loginCalled, 'login was called');
     });

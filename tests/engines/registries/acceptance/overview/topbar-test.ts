@@ -92,7 +92,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('topbar is not visible for archiving or withdrawn registrations', async assert => {
+    test('topbar is not visible for archiving or withdrawn registrations', async function(assert) {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             provider: server.create('registration-provider'),
@@ -121,7 +121,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.dom('[data-test-topbar-states]').doesNotExist();
     });
 
-    test('registration state shown in topbar when viewing registrations anonymously', async assert => {
+    test('registration state shown in topbar when viewing registrations anonymously', async function(assert) {
         const anonymousReg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         }, 'anonymized');
@@ -139,7 +139,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         );
     });
 
-    test('bookmarks work', async assert => {
+    test('bookmarks work', async function(assert) {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             provider: server.create('registration-provider'),
@@ -182,7 +182,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.notOk(bookmarksColl.linkedRegistrationIds.includes(reg.id));
     });
 
-    test('sharing dropdown works', async assert => {
+    test('sharing dropdown works', async function(assert) {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         });
@@ -207,10 +207,11 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         );
     });
 
-    test('forks dropdown works', async assert => {
+    test('forks dropdown works', async function(assert) {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         });
+        server.create('root');
 
         await visit(`/${reg.id}/`);
 
@@ -236,7 +237,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.ok(Boolean(reg.forkIds.length), 'Now there are forks');
     });
 
-    test('reviews state description has correct text', async assert => {
+    test('reviews state description has correct text', async function(assert) {
         for (const [state, stateInfo] of Object.entries(registrationStates)) {
             const reg = server.create('registration', {
                 registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
@@ -273,7 +274,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         }
     });
 
-    test('revision state description has correct text', async assert => {
+    test('revision state description has correct text', async function(assert) {
         for (const stateInfo of Object.values(revisionStates)) {
             const reg = server.create('registration', {
                 registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
@@ -304,7 +305,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
     });
 
     test('non-moderators cannot see moderator top-bar',
-        async assert => {
+        async function(assert) {
             const reg = server.create('registration', {
                 currentUserPermissions: Object.values(Permission),
                 provider: server.create('registration-provider'),
@@ -318,7 +319,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         });
 
     test('moderator does not see decision dropdown in standard view mode',
-        async assert => {
+        async function(assert) {
             server.create('user', 'loggedIn');
             const reg = server.create('registration', {
                 provider: server.create('registration-provider', 'currentUserIsModerator'),
@@ -331,7 +332,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         });
 
     test('moderators can see dropdown to make decision on public registration',
-        async assert => {
+        async function(assert) {
             server.create('user', 'loggedIn');
             const reg = server.create('registration', {
                 provider: server.create('registration-provider', 'currentUserIsModerator'),

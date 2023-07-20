@@ -59,7 +59,7 @@ module('Integration | Component | carousel', hooks => {
         </Carousel>`);
     });
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         assert.dom('[data-test-carousel-container]').exists();
 
         // Check that dot navigation exists

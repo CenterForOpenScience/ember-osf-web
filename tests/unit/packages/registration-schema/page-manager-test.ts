@@ -2,7 +2,7 @@ import { PageManager, SchemaBlock } from 'ember-osf-web/packages/registration-sc
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | page-manager', () => {
-    test('page-manager constructor', assert => {
+    test('page-manager constructor', function(assert) {
         const schemaBlocks = [
             {
                 id: 'SB1',

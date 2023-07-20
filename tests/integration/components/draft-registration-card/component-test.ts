@@ -85,7 +85,7 @@ module('Integration | Component | draft-registration-card', hooks => {
         assert.dom('[data-test-draft-card-review]').exists('Read-only users can review draft');
     });
 
-    test('placeholders appear without draftRegistration', async assert => {
+    test('placeholders appear without draftRegistration', async function(assert) {
         await render(hbs`<DraftRegistrationCard />`);
         assert.dom('[data-test-header-placeholder]').exists();
         assert.dom('[data-test-content-placeholder]').exists();

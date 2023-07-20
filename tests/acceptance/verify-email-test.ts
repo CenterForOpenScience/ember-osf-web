@@ -18,7 +18,7 @@ module('Acceptance | verify email', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('no unverified emails', async assert => {
+    test('no unverified emails', async function(assert) {
         server.create('user', 'loggedIn');
 
         await visit('/dashboard');
@@ -26,7 +26,7 @@ module('Acceptance | verify email', hooks => {
         assert.dom('[data-test-verify-email-prompt]').doesNotExist();
     });
 
-    test('verify email', async assert => {
+    test('verify email', async function(assert) {
         const user = server.create('user', 'loggedIn', 'withUnverifiedEmail');
         const beforeCount = user.emails.length;
 
@@ -41,7 +41,7 @@ module('Acceptance | verify email', hooks => {
         assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
 
-    test('verify emails', async assert => {
+    test('verify emails', async function(assert) {
         const user = server.create('user', 'loggedIn', 'withUnverifiedEmail');
         const beforeCount = user.emails.length;
         await visit('/dashboard');
@@ -62,7 +62,7 @@ module('Acceptance | verify email', hooks => {
         assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
 
-    test('deny email', async assert => {
+    test('deny email', async function(assert) {
         const user = server.create('user', 'loggedIn', 'withUnverifiedEmail');
         const beforeCount = user.emails.length;
 
@@ -77,7 +77,7 @@ module('Acceptance | verify email', hooks => {
         assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
 
-    test('deny emails', async assert => {
+    test('deny emails', async function(assert) {
         const user = server.create('user', 'loggedIn', 'withUnverifiedEmails');
         const beforeCount = user.emails.length;
 

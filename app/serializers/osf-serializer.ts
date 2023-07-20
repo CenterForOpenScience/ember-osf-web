@@ -138,26 +138,13 @@ export default class OsfSerializer extends JSONAPISerializer {
 
         const includeCleanData = options && options.osf && options.osf.includeCleanData;
         if (!includeCleanData && !snapshot.record.get('isNew')) {
-            // Only send dirty attributes and relationships in request
+            // Only send dirty attributes in request
             const changedAttributes = snapshot.record.changedAttributes();
             for (const attribute of Object.keys(serialized.data.attributes!)) {
                 const { attrs }: { attrs: any } = this;
                 const alwaysSerialize = attrs && attrs[attribute] && attrs[attribute].serialize === true;
                 if (!alwaysSerialize && !(camelize(attribute) in changedAttributes)) {
                     delete serialized.data.attributes![attribute];
-                }
-            }
-            // HACK: There's no public-API way to tell whether a relationship has been changed.
-            const relationships = (snapshot as any)._internalModel.__recordData._relationships.initializedRelationships;
-            if (serialized.data.relationships) {
-                for (const key of Object.keys(serialized.data.relationships)) {
-                    const rel = relationships[camelize(key)];
-                    if (rel
-                        && rel.members.list.length === rel.canonicalMembers.list.length
-                        && rel.members.list.every((v: any, i: any) => v === rel.canonicalMembers.list[i])
-                    ) {
-                        delete serialized.data.relationships[key];
-                    }
                 }
             }
         }

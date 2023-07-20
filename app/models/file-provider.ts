@@ -16,10 +16,10 @@ export default class FileProviderModel extends BaseFileItem {
     @attr('string') path!: string;
     @attr('fixstring') provider!: string;
 
-    @belongsTo('file')
+    @belongsTo('base-file-item', { polymorphic: true })
     rootFolder!: AsyncBelongsTo<FileModel> & FileModel;
 
-    @hasMany('file', { inverse: 'parentFolder' })
+    @hasMany('file', { polymorphic: true })
     files!: AsyncHasMany<FileModel>;
 
     @belongsTo('abstract-node', { inverse: 'files', polymorphic: true })

@@ -11,7 +11,7 @@ module('Integration | Component | sort-button', hooks => {
         this.set('sortAction', () => assert.ok(true));
     });
 
-    test('selected works with sortBy', async assert => {
+    test('selected works with sortBy', async function(assert) {
         await render(hbs`{{sort-button sortAction=sortAction sortBy='kindness' sort='-kindndess'}}`);
 
         assert.equal(findAll('button').length, 2, 'Two buttons found.');

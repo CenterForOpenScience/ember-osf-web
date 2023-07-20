@@ -12,7 +12,7 @@ module(moduleName, hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('meetings detail', async assert => {
+    test('meetings detail', async function(assert) {
         const longTitleSubmission = server.create('meeting-submission', {
             title: faker.lorem.paragraph(),
         });

@@ -15,7 +15,7 @@ module('Acceptance | logged-out home page test', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visiting home', async assert => {
+    test('visiting home', async function(assert) {
         await visit('/');
 
         assert.equal(currentURL(), '/', "Still at 'home'.");
@@ -90,7 +90,7 @@ module('Acceptance | logged-out home page test', hooks => {
         await percySnapshot(assert);
     });
 
-    test('Get Started button works', async assert => {
+    test('Get Started button works', async function(assert) {
         await visit('/');
 
         await click('[data-test-get-started-button]');

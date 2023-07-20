@@ -20,7 +20,7 @@ module('Acceptance | Status Banner', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('welcome message shows correctly', async assert => {
+    test('welcome message shows correctly', async function(assert) {
         server.create('user', 'loggedIn');
 
         /* eslint-disable-next-line max-len */

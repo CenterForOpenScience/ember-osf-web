@@ -559,7 +559,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
     });
 
-    test('review: contributor can remove herself', async assert => {
+    test('review: contributor can remove herself', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const branchedFrom = server.create('node');
@@ -731,7 +731,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
     test(
         'Project-based registration: partial and finalize registration modal show, can register draft',
-        async assert => {
+        async function(assert) {
             const initiator = server.create('user', 'loggedIn');
             const registrationSchema = server.schema.registrationSchemas.find('testSchema');
             const rootNode = server.create('node');
@@ -803,7 +803,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
     test(
         'No-project registration: only finalize registration modal show, can register draft',
-        async assert => {
+        async function(assert) {
             const initiator = server.create('user', 'loggedIn');
             const registrationSchema = server.schema.registrationSchemas.find('testSchema');
             const draftNode = server.create('draft-node');

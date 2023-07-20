@@ -15,7 +15,7 @@ module('Integration | routes | meetings | index | -components | meetings-list', 
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 
-    test('it renders and paginates', async assert => {
+    test('it renders and paginates', async function(assert) {
         server.createList('meeting', 11);
 
         await render(hbs`<Meetings::Index::-Components::MeetingsList />`);
@@ -64,7 +64,7 @@ module('Integration | routes | meetings | index | -components | meetings-list', 
             .hasText('Meeting B', 'Meeting name matches search term');
     });
 
-    test('it sorts', async assert => {
+    test('it sorts', async function(assert) {
         server.create('meeting', {
             name: 'Meeting B',
             submissionsCount: 9,

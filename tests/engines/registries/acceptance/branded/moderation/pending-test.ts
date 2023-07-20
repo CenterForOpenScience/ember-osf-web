@@ -23,12 +23,12 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
         this.registrationProvider = server.create('registration-provider', { id: 'sbmit' });
     });
 
-    test('logged out users are rerouted', async assert => {
+    test('logged out users are rerouted', async function(assert) {
         await visit('/registries/sbmit/moderation/pending');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'Logged out users are rerouted');
     });
 
-    test('logged in, non-moderators are rerouted', async assert => {
+    test('logged in, non-moderators are rerouted', async function(assert) {
         server.create('user', 'loggedIn');
         await visit('/registries/sbmit/moderation/pending');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'Non-moderators are rerouted');

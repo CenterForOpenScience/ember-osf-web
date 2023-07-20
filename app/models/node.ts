@@ -147,7 +147,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @hasMany('registration', { inverse: 'registeredFrom' })
     registrations!: AsyncHasMany<RegistrationModel>;
 
-    @hasMany('node', { inverse: 'forkedFrom' })
+    @hasMany('node', { inverse: 'forkedFrom', polymorphic: true })
     forks!: AsyncHasMany<NodeModel>;
 
     @belongsTo('node', { inverse: 'forks', polymorphic: true })
