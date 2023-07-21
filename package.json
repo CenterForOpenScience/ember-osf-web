@@ -197,7 +197,6 @@
     "ember-parachute": "^1.0.2",
     "ember-percy": "^1.5.0",
     "ember-power-select": "^4.1.7",
-    "ember-promise-helpers": "^1.0.4",
     "ember-qrcode-shim": "^0.4.0",
     "ember-qunit": "^5.1.5",
     "ember-radio-button": "^2.0.0",
