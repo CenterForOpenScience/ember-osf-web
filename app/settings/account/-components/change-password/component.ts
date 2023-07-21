@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { alias, not, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
-import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { task, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -17,7 +16,7 @@ export default class ChangePasswordPane extends Component {
     // Private properties
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
-    @service passwordStrength!: PasswordStrength;
+
     @service toast!: Toast;
     @service store!: Store;
 

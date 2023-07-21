@@ -35,14 +35,10 @@ module.exports = function(defaults) {
         'ember-composable-helpers': {
             only: ['compose', 'contains', 'flatten', 'includes', 'range', 'queue', 'map-by', 'without', 'find-by'],
         },
-        'ember-cli-password-strength': {
-            bundleZxcvbn: !IS_PROD,
-        },
         fingerprint: {
             enabled: true,
             extensions: broccoliAssetRevDefaults.extensions.concat(['svg']),
             exclude: [
-                'zxcvbn.js',
                 'assets/osf-assets',
                 'assets/images/addons/icons',
                 // Exclude <engine-name>/config/environment.js from fingerprinting so it matches
@@ -87,20 +83,6 @@ module.exports = function(defaults) {
                     </script>
                 `,
                 postProcess,
-            },
-            zxcvbn: {
-                enabled: IS_PROD,
-                /* eslint-disable max-len */
-                content: `
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"
-                        integrity="sha256-Znf8FdJF85f1LV0JmPOob5qudSrns8pLPZ6qkd/+F0o=
-                                   sha384-jhGcGHNZytnBnH1wbEM3KxJYyRDy9Q0QLKjE65xk+aMqXFCdvFuYIjzMWAAWBBtR
-                                   sha512-TZlMGFY9xKj38t/5m2FzJ+RM/aD5alMHDe26p0mYUMoCF5G7ibfHUQILq0qQPV3wlsnCwL+TPRNK4vIWGLOkUQ=="
-                        crossorigin="anonymous">
-                    </script>
-                `,
-                postProcess,
-                /* eslint-enable max-len */
             },
         },
         'ember-cli-babel': {

@@ -114,6 +114,7 @@
     "@types/sanitize-html": "^1.14.0",
     "@types/sinon": "^10.0.3",
     "@types/toastr": "^2.1.37",
+    "@types/zxcvbn": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "babel-eslint": "^8.0.0",
@@ -145,7 +146,6 @@
     "ember-cli-inline-content": "0.4.1",
     "ember-cli-meta-tags": "^7.0.0",
     "ember-cli-mirage": "^2.4.0",
-    "ember-cli-password-strength": "^2.0.0",
     "ember-cli-sanitize-html": "^2.0.3",
     "ember-cli-sass": "^10.0.0",
     "ember-cli-showdown": "^4.4.4",
@@ -253,7 +253,8 @@
     "tracked-built-ins": "^3.1.0",
     "typescript": "^4.2.3",
     "webpack": "^5.88.0",
-    "wicg-inert": "^3.1.1"
+    "wicg-inert": "^3.1.1",
+    "zxcvbn": "^4.4.2"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
