@@ -6,6 +6,10 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const broccoliAssetRevDefaults = require('broccoli-asset-rev/lib/default-options');
 
 const { EMBER_ENV } = process.env;
+
+process.env.BROCCOLI_ENABLED_MEMOIZE = true;
+process.env.EMBER_CLI_BROCCOLI_WATCHER = true;
+
 const IS_PROD = EMBER_ENV === 'production';
 
 function postProcess(content) {
@@ -122,5 +126,15 @@ module.exports = function(defaults) {
 
     app.import('node_modules/wicg-inert/dist/inert.min.js');
 
+    // if (process.env.USE_EMBROIDER) {
+    // const { Webpack } = require('@embroider/webpack');
+    // return require('@embroider/compat').compatBuild(app, Webpack, {
+    //     not sure if any of these are needed, but I've thrown them here in case
+    //     staticAddonTestSupportTrees: true,
+    //     staticAddonTrees: true,
+    //     staticHelpers: true,
+    //     staticComponents: true,
+    // });
+    // }
     return app.toTree();
 };
