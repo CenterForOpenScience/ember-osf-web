@@ -205,7 +205,6 @@ dashboard:
 
 search:
     page-title: 'Search'
-    institutions-title: 'Search Institutions'
     index-card:
         no-label: 'No label found'
         no-title: 'No title found'
