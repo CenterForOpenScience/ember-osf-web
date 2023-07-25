@@ -1,0 +1,8 @@
+<button
+    type='button'
+    disabled={{@disabled}}
+    {{on 'click' (perform this.copy)}}
+    ...attributes
+>
+    {{yield}}
+</button>
