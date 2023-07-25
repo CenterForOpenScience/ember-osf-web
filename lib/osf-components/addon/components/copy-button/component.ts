@@ -10,8 +10,6 @@ interface Args {
 }
 
 export default class CopyButton extends Component<Args> {
-    disabled = false;
-
     @task
     async copy() {
         assert('clipboardText is a required parameter.', Boolean(this.args.clipboardText));
