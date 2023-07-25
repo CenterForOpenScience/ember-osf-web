@@ -1,4 +1,5 @@
 import { assert } from '@ember/debug';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { task } from 'ember-concurrency';
 
@@ -11,6 +12,7 @@ interface Args {
 
 export default class CopyButton extends Component<Args> {
     @task
+    @waitFor
     async copy() {
         assert('clipboardText is a required parameter.', Boolean(this.args.clipboardText));
         try {
