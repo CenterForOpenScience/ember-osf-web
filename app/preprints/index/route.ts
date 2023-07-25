@@ -13,11 +13,13 @@ export default class Preprints extends Route {
     @service theme!: Theme;
     @service router!: RouterService;
 
-    async model() {
+    async model(params: { provider_id : string }) {
         try {
-            const provider = await this.store.findRecord('preprint-provider', 'osf');
+            const provider_id = params.provider_id ? params.provider_id : 'osf';
+
+            const provider = await this.store.findRecord('preprint-provider', provider_id);
             this.theme.set('providerType', 'preprint');
-            this.theme.set('id', 'osf');
+            this.theme.set('id', provider_id);
 
             const taxonomies = await this.theme.provider?.queryHasMany('highlightedSubjects', {
                 page: {
