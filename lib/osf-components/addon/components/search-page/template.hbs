@@ -25,14 +25,12 @@ as |layout|>
                     {{#if this.showSidePanelToggle}}
                         <img
                             data-test-institution-logo
-                            local-class='logo-img'
                             src={{@institution.assets.logo}}
                             alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
                         >
                     {{else}}
                         <img
                             data-test-institution-banner
-                            local-class='logo-img'
                             src={{@institution.assets.banner}}
                             alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
                         >
