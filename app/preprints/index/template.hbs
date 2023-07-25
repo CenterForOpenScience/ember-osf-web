@@ -106,27 +106,44 @@
                         {{/if}}
                     {{/each}}
                 </div>
-                <div class='row p-v-md'>
-                    <div class='col-md-12 text-center'>
-                        <p class='lead'>
-                            {{t 'preprints.services.bottom.p1' documentType=this.theme.provider.content.documentType}}
-                            <div class='p-t-sm'>
-                                {{t 'preprints.services.bottom.div.line1'}}
-                                <a class='source_code_link' href='https://github.com/CenterForOpenScience/ember-preprints'
-                                    onclick={{action 'click' 'link' 'Index - GitHub Repo' 'https://github.com/CenterForOpenScience/ember-preprints'}}>
-                                    {{t 'preprints.services.bottom.div.linkText1'}}
-                                </a>
-                                {{t 'preprints.services.bottom.div.line2'}}
-                                <a class='source_code_link' href='https://cos.io/our-products/product-roadmap/'
-                                    onclick={{action 'click' 'link' 'Index - public roadmap' 'https://cos.io/our-products/product-roadmap/'}}>
-                                    {{t 'preprints.services.bottom.div.linkText2'}}
-                                </a>
-                                {{t 'preprints.services.bottom.div.line3'}}
-                            </div>
-                        </p>
-                        <a href='mailto:contact@osf.io' class='btn btn-info btn-lg' onclick={{action 'contactLink'  @emailHref 'link' 'click' 'Index - contact email'}}>
-                            {{t 'prints.services.bottom.contact'}}
-                        </a>
+                <div local-class='preprint-contact-container'>
+                    <div local-class='lead'>
+                        {{t 'preprints.services.bottom.p1' documentType=this.theme.provider.documentType.singular}}
+                    </div>
+                    <div local-class='lead'>
+                        {{t 'preprints.services.bottom.div.line1'}}
+
+                        <OsfLink
+                            data-test-github-repo
+                            data-analytics-name='Preprints - Index - Github Repo'
+                            local-class='links'
+                            @href='https://github.com/CenterForOpenScience/ember-preprints'
+                        >
+                            {{t 'preprints.services.bottom.div.linkText1'}}
+                        </OsfLink>
+                        
+                        {{t 'preprints.services.bottom.div.line2'}}
+
+                        <OsfLink
+                            data-test-public-roadmap
+                            data-analytics-name='Preprints - Index - Public Roadmap'
+                            local-class='links'
+                            @href='https://cos.io/our-products/product-roadmap/'
+                        >
+                            {{t 'preprints.services.bottom.div.linkText2'}}
+                        </OsfLink>
+
+                        {{t 'preprints.services.bottom.div.line3'}}
+                    </div>
+                    <div local-class='contact'>
+                        <OsfLink
+                            data-test-contact-link
+                            data-analytics-name='Preprints - Index - Contact Email'
+                            class='btn btn-info btn-lg'
+                            @href='mailto:contact@osf.io'
+                        >
+                            {{t 'preprints.services.bottom.contact'}}
+                        </OsfLink>
                     </div>
                 </div>
             </div>
