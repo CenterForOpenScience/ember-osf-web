@@ -13,18 +13,16 @@ export default class CopyButton extends Component<Args> {
     @task
     async copy() {
         assert('clipboardText is a required parameter.', Boolean(this.args.clipboardText));
-        if(!this.args.disabled){
-            try {
-                await navigator.clipboard.writeText(this.args.clipboardText);
-                if(this.args.success) {
-                    this.args.success();
-                }
-            } catch(e) {
-                if(this.args.error) {
-                    this.args.error();
-                } else {
-                    throw(e);
-                }
+        try {
+            await navigator.clipboard.writeText(this.args.clipboardText);
+            if(this.args.success) {
+                this.args.success();
+            }
+        } catch(e) {
+            if(this.args.error) {
+                this.args.error();
+            } else {
+                throw(e);
             }
         }
     }
