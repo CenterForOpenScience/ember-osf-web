@@ -39,8 +39,7 @@
     }
 }
 
-.heading-wrapper-institutions,
-.heading-wrapper-institutions-mobile {
+.heading-wrapper-institutions {
     background-color: $color-shadow-gray-dark;
     color: $color-text-gray-cool;
     display: flex;
@@ -68,7 +67,7 @@
 }
 
 .heading-wrapper-institutions-mobile {
-    padding-bottom: 0;
+    padding-bottom: 0.5rem;
 
     label {
         padding-bottom: 0.5rem;
@@ -91,6 +90,7 @@
 
     > button {
         width: 100%;
+        margin-top: 0.5rem;
     }
 }
 
