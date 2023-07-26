@@ -10,11 +10,6 @@ export default class Preprints extends Controller {
     @service theme!: Theme;
     @service router!: RouterService;
 
-    livedata = 'livedata';
-    providerAsset = 'https://localhost:4200';
-    routePrefix = 'https://localhost:4200';
-    brandedPreprintUrl = 'http://localhost:4200';
-
     @action
     onSearch(query: string) {
         let route = 'search';
