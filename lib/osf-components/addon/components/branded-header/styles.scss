@@ -39,13 +39,8 @@
             height: 70px;
             width: 100%;
 
-            &.registries-brand-logo {
-                background: var(--hero-logo-registries-img-url) top center no-repeat;
-                background-size: contain;
-            }
-
-            &.preprints-brand-logo {
-                background: var(--hero-logo-preprints-img-url) top center no-repeat;
+            &.brand-logo {
+                background: var(--hero-logo-img-url) top center no-repeat;
                 background-size: contain;
             }
         }

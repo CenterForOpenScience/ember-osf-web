@@ -1,6 +1,6 @@
 {{page-title (t 'preprints.title')}}
 
-<div local-class='preprints-page-container'>
+<div local-class='preprints-page-container' {{with-branding (get-model this.theme.provider.brand) }}>
 
     {{!HEADER}}
     <div local-class='preprint-header'>
@@ -10,9 +10,8 @@
             @showHelp=true
             as |branded-header|
         >
-            <div class='provider-brand' style={{html-safe (concat 'background-image: url(' this.providerAsset '/' this.theme.id '/wide_color.png' ')' )}}></div>
             {{#branded-header.lead}}
-                <div>
+                <div local-class='description'>
                     {{html-safe this.theme.provider.description}}
                 </div>
                 <div>
@@ -28,7 +27,7 @@
             {{#branded-header.row}}
                 {{#if this.theme.provider.allowSubmissions}}
                     <div local-class='submit-container'>
-                        <p class='lead'>{{t 'preprints.header.or'}}</p>
+                        <div class='lead'>{{t 'preprints.header.or'}}</div>
                         <OsfLink
                             data-test-submit-button
                             data-analytics-name='Preprints submit button'
@@ -42,7 +41,7 @@
                             <OsfLink
                                 data-test-see-example
                                 data-analytics-name='Preprints - See Example'
-                                @href={{concat this.routePrefix '/content/' (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
+                                @href={{concat '/content/' (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
                             >
                                 {{t 'preprints.header.example'}}
                             </OsfLink>
@@ -67,7 +66,7 @@
                 <OsfLink
                     data-test-see-example
                     data-analytics-name='Preprints - See Example'
-                    @href={{concat this.routePrefix '/discover/'}}
+                    @href='/discover/'
                 >
                     {{t 'preprints.subjects.links.seeAllSubjects'}}
                 </OsfLink>
@@ -92,17 +91,15 @@
                 </p>
                 <div local-class='preprint-logos-container'>
                     {{#each this.model.brandedProviders as |provider| }}
-                        {{#if (not-eq provider.id this.livedata) }}
+                        {{#if (not-eq provider.id 'livedata') }}
                             <OsfLink
                                 data-test-see-example
                                 data-analytics-name='Preprints - See Example'
-                                @href={{concat this.brandedPreprintUrl '/' provider.id }}
+                                @href={{concat '/preprints/' provider.id }}
                                 title='{{provider.name}}'
                                 local-class='provider-logo'
-                                style={{html-safe (concat 'background-image: url(' this.providerAsset '/' provider.id '/wide_white.png' ')' )}}
-                            >
-                                {{ provider.name }}
-                            </OsfLink>
+                                style={{html-safe (concat 'background-image: url(' provider.assets.wide_white ')' )}}
+                            ></OsfLink>
                         {{/if}}
                     {{/each}}
                 </div>

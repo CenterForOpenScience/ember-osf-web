@@ -16,6 +16,13 @@
             font-size: 17px;
             overflow: hidden;
             text-overflow: ellipsis;
+            background-color: var(--primary-color);
+            border: 1px solid var(--secondary-color);
+
+            &:hover {
+                background-color: var(--secondary-color);
+                border: 1px solid var(--primary-color);
+            }
         }
     }
 }
