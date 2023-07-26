@@ -8,21 +8,23 @@
     align-items: center;
 
     .preprint-header {
-        background: #214661 url('img/preprints-bg.jpg') top center;
-        background-position-y: -50px;
-        border-bottom: 1px solid #ddd;
-        color: $color-text-white;
+        border-bottom: 1px solid var(--primary-color);
         width: 100%;
+        background-color: var(--secondary-color);
+        color: var(--primary-color) !important;
 
         a:not(:global(.btn)) {
-            color: $color-link-blue;
+            color: var(--primary-color);
             text-decoration: underline;
+        }
+
+        .description {
+            color: var(--primary-color);
         }
 
         .btn-info {
             color: $color-text-white;
         }
-
 
         .submit-container {
             width: 100%;
@@ -30,6 +32,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            color: var(--primary-color);
 
             .example-container {
                 display: flex;
@@ -126,7 +129,7 @@
             .preprint-contact-container {
                 flex-direction: column;
                 align-items: center;
-                
+
                 .lead {
                     font-size: 21px;
                     line-height: 1.4;
