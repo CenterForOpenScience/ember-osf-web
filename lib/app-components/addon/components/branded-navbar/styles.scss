@@ -2,6 +2,7 @@
 
 .branded-nav-wrapper {
     .branded-nav {
+        background-color: var(--primary-color);
         z-index: 999;
     }
 
@@ -63,6 +64,9 @@
     background-position-y: center;
     background-size: contain;
     background-repeat: no-repeat;
+    // This is overwritten by theme-styles component,
+    // but if there is no provider.asset.square_color_transparent, we fallback to use the logo off the brand
+    background-image: var(--navbar-logo-img-url);
 }
 
 .NavBarBuffer {

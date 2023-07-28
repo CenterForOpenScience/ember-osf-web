@@ -1,7 +1,6 @@
 {{page-title (t 'preprints.discover.title')}}
 <div data-analytics-scope='{{concat this.model.providerTitle ' Discover'}}'>
     <SearchPage
-        {{with-branding (get-model this.model.brand)}}
         @route='search'
         @query={{this.q}}
         @defaultQueryOptions={{this.defaultQueryOptions}}
