@@ -16,7 +16,10 @@ function buildOSF(
     currentUser: ModelInstance<User>,
 ) {
     const osf = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProvider>;
-    const brand = server.create('brand');
+    const brand = server.create('brand', {
+        primaryColor: '#286090',
+        secondaryColor: '#fff',
+    });
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
 
@@ -43,7 +46,10 @@ function buildThesisCommons(
     currentUser: ModelInstance<User>,
 ) {
     const thesisCommons = server.schema.preprintProviders.find('thesiscommons') as ModelInstance<PreprintProvider>;
-    const brand = server.create('brand');
+    const brand = server.create('brand', {
+        primaryColor: '#721a0e',
+        secondaryColor: '#fec216',
+    });
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: thesisCommons }, 'asAdmin');
 

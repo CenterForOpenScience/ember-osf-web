@@ -15,6 +15,7 @@ import { inject as service } from '@ember/service';
 
 interface InputArgs {
     isOpen: false;
+    onClose: () => void;
 }
 
 export default class SearchHelpModal extends Component<InputArgs> {
