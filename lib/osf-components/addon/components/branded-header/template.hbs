@@ -58,6 +58,8 @@
         {{yield (hash row=(element ''))}}
     </div>
 
-    <SearchHelpModal @isOpen={{this.showingHelp}} />
+    <SearchHelpModal @isOpen={{this.showingHelp}}
+    @onClose={{this.toggleHelp}}
+     />
 
 </div>
