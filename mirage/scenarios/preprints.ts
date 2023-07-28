@@ -16,7 +16,10 @@ function buildOSF(
     currentUser: ModelInstance<User>,
 ) {
     const osf = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProvider>;
-    const brand = server.create('brand');
+    const brand = server.create('brand', {
+        primaryColor: '#286090',
+        secondaryColor: '#fff',
+    });
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
 
