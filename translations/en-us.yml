@@ -1823,6 +1823,11 @@ routes:
         email: Email
 osf-components:
     search-result-card:
+        funder: Funder
+        registration_template: Registration template
+        doi: DOI
+        description: Description
+        license: License
         from: From
         date_created: Date created
         date_registered: Date registered

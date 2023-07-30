@@ -50,7 +50,9 @@
     <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
         <panel.body>
             <hr>
-            This is the body
+            {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
+                <SearchResultCard::RegistrationSecondaryMetadata @result={{@result}} />
+            {{/if}}
         </panel.body>
     </CpPanel>
 </div>
