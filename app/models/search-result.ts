@@ -108,6 +108,24 @@ export default class SearchResultModel extends Model {
         return null;
     }
 
+    get funders() {
+        return this.resourceMetadata.funder.map( (item: any) => ({
+            name: item.name[0]['@value'],
+            identifier: item.identifier[0]['@value'],
+        }));
+    }
+
+    get doi() {
+        return this.indexCard.get('resourceIdentifier').filter(id => id.includes('https://doi.org'));
+    }
+
+    get license() {
+        return {
+            name: this.resourceMetadata.rights[0].name[0]['@value'],
+            identifier: this.resourceMetadata.rights[0]['@id'],
+        };
+    }
+
     get resourceType() {
         const types = this.resourceMetadata.resourceType.map( (item: any) => item['@id']);
         if (types.includes('Project')) {
