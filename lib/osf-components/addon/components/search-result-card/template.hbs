@@ -19,7 +19,7 @@
             </Button>
         </div>
         <h4 local-class='display-name'>
-            <a href={{@result.absoluteUrl}}> {{@result.displayTitle}} </a>
+            <a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
         </h4>
         <div local-class='name-fields'>
             <InlineList
@@ -31,6 +31,11 @@
                 {{list.item}}
             </InlineList>
         </div>
+        {{#if @result.isPartOf}}
+            <div>
+                <span>{{@result.isPartOf.label}}: <a href={{@result.isPartOf.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOf.title}} </a></span>
+            </div>
+        {{/if}}
         <div local-class='date-fields'>
             {{#each @result.dateFields as |field|}}
                 <span>{{field.label}}: {{field.date}}</span>

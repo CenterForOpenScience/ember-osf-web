@@ -1,4 +1,6 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
+import { inject as service } from '@ember/service';
+import IntlService from 'ember-intl/services/intl';
 
 import IndexCardModel from './index-card';
 
@@ -15,11 +17,17 @@ export interface TextMatchEvidence {
 }
 
 export default class SearchResultModel extends Model {
+    @service intl!: IntlService;
+
     @attr('array') matchEvidence!: Array<IriMatchEvidence | TextMatchEvidence>;
     @attr('number') recordResultCount!: number;
 
     @belongsTo('index-card', { inverse: null })
     indexCard!: IndexCardModel;
+
+    get resourceMetadata() {
+        return this.indexCard.get('resourceMetadata');
+    }
 
     // TODO: double check how matchEvidence works
     get context() {
@@ -37,15 +45,15 @@ export default class SearchResultModel extends Model {
 
     get displayTitle() {
         if (this.resourceType === 'user') {
-            return this.indexCard.get('resourceMetadata')['name'][0]['@value'];
+            return this.resourceMetadata['name'][0]['@value'];
         } else if (this.resourceType === 'file') {
-            return this.indexCard.get('resourceMetadata')['fileName'][0]['@value'];
+            return this.resourceMetadata['fileName'][0]['@value'];
         }
-        return this.indexCard.get('resourceMetadata')['title'][0]['@value'];
+        return this.resourceMetadata['title'][0]['@value'];
     }
 
     get absoluteUrl() {
-        return this.indexCard.get('resourceMetadata')['@id'];
+        return this.resourceMetadata['@id'];
     }
 
     // returns list of contributors for osf objects
@@ -54,22 +62,54 @@ export default class SearchResultModel extends Model {
         if (this.resourceType === 'user') {
             // return something
         } else {
-            return this.indexCard.get('resourceMetadata').creator.map( (item:any) => item.name[0]['@value']);
+            return this.resourceMetadata.creator.map( (item:any) => item.name[0]['@value']);
         }
     }
 
     get dateFields() {
-        if (this.resourceType === 'user') {
+        switch (this.resourceType) {
+        case 'user':
             return [];
+        case 'registration':
+        case 'registration_component':
+            return [
+                {
+                    label: this.intl.t('osf-components.search-result-card.date_registered'),
+                    date: this.resourceMetadata.dateCreated[0]['@value'],
+                },
+                {
+                    label: this.intl.t('osf-components.search-result-card.date_modified'),
+                    date: this.resourceMetadata.dateModified[0]['@value'],
+                },
+            ];
+        default:
+            return [
+                {
+                    label: this.intl.t('osf-components.search-result-card.date_created'),
+                    date: this.resourceMetadata.dateCreated[0]['@value'],
+                },
+                {
+                    label: this.intl.t('osf-components.search-result-card.date_modified'),
+                    date: this.resourceMetadata.dateModified[0]['@value'],
+                },
+            ];
         }
-        return [
-            { label: 'Date created', date: this.indexCard.get('resourceMetadata').created },
-            { label: 'Last edited', date: this.indexCard.get('resourceMetadata').modified },
-        ]
+    }
+
+    get isPartOf() {
+        const isPartOf = this.resourceMetadata.isPartOf;
+        if (isPartOf) {
+            return {
+                label: this.intl.t('osf-components.search-result-card.from'),
+                title: this.resourceMetadata.isPartOf[0].title[0]['@value'],
+                absoluteUrl: this.resourceMetadata.isPartOf[0]['@id'],
+            };
+        }
+        return null;
     }
 
     get resourceType() {
-        const types = this.indexCard.get('resourceMetadata').resourceType.map( (item: any) => item['@id']);
+        const types = this.resourceMetadata.resourceType.map( (item: any) => item['@id']);
         if (types.includes('Project')) {
             return 'project';
         } else if (types.includes('Registration')) {

@@ -221,6 +221,9 @@ as |layout|>
                 </div>
             </div>
         {{/unless}}
+        {{#each this.searchResults as |item|}}
+            <SearchResultCard @result={{item}} />
+        {{/each}}
     </layout.main>
 </OsfLayout>
 {{#if this.showTooltip1}}
