@@ -1823,7 +1823,10 @@ routes:
         email: Email
 osf-components:
     search-result-card:
+        from: From
         date_created: Date created
+        date_registered: Date registered
+        date_modified: Date modified
         last_edited: Last edited
         member_since: Member since
         project: Project

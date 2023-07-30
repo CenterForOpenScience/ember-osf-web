@@ -17,3 +17,11 @@
     padding: 5px;
     background-color: $color-gradient-primary;
 }
+
+.date-fields {
+    span {
+        &:not(:last-child)::after {
+            content: ' | ';
+        }
+    }
+}
