@@ -3,8 +3,9 @@
     ...attributes
 as |layout|>
     <layout.heading
+        data-test-heading-wrapper
         {{with-branding (get-model @provider.brand)}}
-        local-class='heading-wrapper {{if @provider 'hero-overlay'}}'
+        local-class='heading-wrapper {{if @provider 'hero-overlay'}} {{if (and (not this.showSidePanelToggle) @institution) 'heading-wrapper-institutions' 'heading-wrapper-institutions-mobile'}}'
     >
         {{#if @provider}}
             <div
@@ -15,6 +16,28 @@ as |layout|>
             <p data-test-search-provider-description>
                 {{html-safe @provider.description}}
             </p>
+        {{else if @institution}}
+            <div>
+                <label
+                    for='search-input'
+                    local-class='heading-label'
+                >
+                    {{#if this.showSidePanelToggle}}
+                        <img
+                            data-test-institution-logo
+                            src={{@institution.assets.logo}}
+                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
+                        >
+                    {{else}}
+                        <img
+                            data-test-institution-banner
+                            src={{@institution.assets.banner}}
+                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
+                        >
+                    {{/if}}
+                    <p data-test-institution-description>{{@institution.description}}</p>
+                </label>
+            </div>
         {{else}}
             <label
                 data-test-search-header
@@ -93,7 +116,10 @@ as |layout|>
             </div>
         {{/if}}
         {{#if this.activeFilters.length}}
-            <ul local-class='active-filter-list'>
+            <ul
+                data-test-active-filters-list
+                local-class='active-filter-list'
+            >
                 {{#each this.activeFilters as |filter|}}
                     <li
                         data-test-active-filter='{{filter.property}}-{{filter.value}}'
@@ -133,7 +159,7 @@ as |layout|>
     <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
         {{#unless this.showSidePanelToggle}}
-            <div local-class='topbar'>
+            <div data-test-topbar-wrapper local-class='topbar'>
                 {{#if @showResourceTypeFilter}}
                     <nav
                         data-test-topbar-object-type-nav
