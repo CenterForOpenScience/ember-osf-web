@@ -1,6 +1,7 @@
 <div
     data-test-filter-facet
     local-class='facet-wrapper'
+    ...attributes
 >
     {{#let (get-localized-property @propertyCard.resourceMetadata 'label') as |propertyLabel|}}
         {{#let (unique-id propertyLabel) as |facetElementId|}}

@@ -14,6 +14,7 @@ import Media from 'ember-responsive';
 import IndexPropertySearchModel from 'ember-osf-web/models/index-property-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
+import uniqueId from 'ember-osf-web/utils/unique-id';
 
 interface ResourceTypeOption {
     display: string;
@@ -72,6 +73,37 @@ export default class SearchPage extends Component<SearchArgs> {
         this.sort = this.args.sort;
         this.resourceType = this.args.resourceType;
         taskFor(this.search).perform();
+    }
+
+    showTooltip1?: boolean;
+    showTooltip2?: boolean;
+    showTooltip3?: boolean;
+
+    leftPanelObjectDropdownId = uniqueId(['left-panel-object-dropdown']);
+    firstTopbarObjectTypeLinkId = uniqueId(['first-topbar-object-type-link']);
+    searchInputWrapperId = uniqueId(['search-input-wrapper']);
+    leftPanelHeaderId = uniqueId(['left-panel-header']);
+    firstFilterId = uniqueId(['first-filter']);
+
+    get tooltipTarget1Id() {
+        if (this.args.showResourceTypeFilter) {
+            if (this.showSidePanelToggle) {
+                return this.leftPanelObjectDropdownId;
+            }
+            return this.firstTopbarObjectTypeLinkId;
+        }
+        return this.searchInputWrapperId;
+    }
+
+    get tooltipTarget2Id() {
+        return this.leftPanelHeaderId;
+    }
+
+    get tooltipTarget3Id() {
+        if (this.propertySearch) {
+            return this.firstFilterId;
+        }
+        return this.leftPanelHeaderId;
     }
 
     get showSidePanelToggle() {
