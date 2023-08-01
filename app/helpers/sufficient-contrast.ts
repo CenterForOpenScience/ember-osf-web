@@ -34,6 +34,11 @@ export function sufficientContrast(
 ): boolean {
     const standard = useAAA ? wcagAAA : wcagAA;
     const threshold = largeText ? standard.largeText : standard.normalText;
+
+    if (!backgroundColor || !foregroundColor) {
+        return false;
+    }
+
     let bg = backgroundColor.replace('#', '');
     let fg = foregroundColor.replace('#', '');
     bg = bg.length === 3 ? threeDigitHexToSixDigit(bg) : bg;
