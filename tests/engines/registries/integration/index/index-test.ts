@@ -61,7 +61,7 @@ module('Registries | Integration | index', hooks => {
                 {
                     name: 'See Example',
                     action: async () => click(
-                        `.${HeaderStyles.RegistriesHeader} a`,
+                        `.${HeaderStyles.BrandedHeader} a`,
                     ),
                     expected: [
                         'link',
