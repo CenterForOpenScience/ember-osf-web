@@ -1,11 +1,7 @@
 import { getOwner } from '@ember/application';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-
-import { layout } from 'ember-osf-web/decorators/component';
-import styles from './styles';
-import template from './template';
 
 /**
  * Modal that provides examples and explanation of Lucene Search syntax
@@ -16,11 +12,13 @@ import template from './template';
  * }}
  * ```
  */
-@layout(template, styles)
-export default class SearchHelpModal extends Component {
-    @service router!: RouterService;
 
-    isOpen = false;
+interface InputArgs {
+    isOpen: false;
+}
+
+export default class SearchHelpModal extends Component<InputArgs> {
+    @service router!: RouterService;
 
     examples: Array<{ q: string, text: string }> = [
         {
