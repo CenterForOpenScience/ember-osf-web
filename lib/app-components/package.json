@@ -28,7 +28,11 @@
     "ember-toastr": "*",
     "ember-wormhole": "*",
     "katex": "*",
-    "liquid-fire": "*",
-    "moment-timezone": "*"
+    "liquid-fire": "*"
+  },
+  "ember-addon": {
+    "paths": [
+      "lib/osf-components"
+    ]
   }
 }
