@@ -1,7 +1,7 @@
 {{page-title (t 'routes.register.sign_up')}}
 <div class='container'>
-    <div class='row m-t-xl m-b-xl'>
-        <div local-class='sign-up-container' class='p-md bg-color-light'>
+    <div local-class='row m-t-xl m-b-xl'>
+        <div local-class='sign-up-container p-md' class='bg-color-light'>
             {{#if this.hasProvider}}
                 <h2 local-class='provider'>
                     <div local-class='provider-logo'>
@@ -34,9 +34,9 @@
                     local-class='osf-service-logo'
                 >
             {{/if}}
-            <h3 class='m-sm'>{{t 'routes.register.create_a_free_account'}}</h3>
-            <h4 class='m-md'>{{t 'routes.register.sign_up_using'}}</h4>
-            <div local-class='sign-up-buttons' class='m-md'>
+            <h3 local-class='m-sm'>{{t 'routes.register.create_a_free_account'}}</h3>
+            <h4 local-class='m-md'>{{t 'routes.register.sign_up_using'}}</h4>
+            <div local-class='sign-up-buttons m-md'>
                 <OsfLink
                     data-analytics-name='ORCID'
                     local-class='sign-up-button'
@@ -66,7 +66,7 @@
 
             <hr local-class='hr-text' data-content='OR'>
 
-            <div local-class='sign-up-form' class='m-sm'>
+            <div local-class='sign-up-form m-sm'>
                 <SignUpForm @campaign={{this.signUpCampaign}} />
             </div>
         </div>

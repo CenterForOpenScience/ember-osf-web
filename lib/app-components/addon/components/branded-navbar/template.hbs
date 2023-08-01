@@ -111,15 +111,15 @@
                                 {{t 'navbar.donate'}}
                             </a>
                         </li>
-                        <OsfNavbar::AuthDropdown
-                            @signupUrl={{@signupUrl}}
-                            @loginAction={{@loginAction}}
-                            @onLinkClicked={{action (mut this.showNavLinks) false}}
-                            @headline={{t 'app_components.branded_navbar.on_the_osf'}}
-                            @externalLink={{true}}
-                            @campaign={{this.campaign}}
-                        />
                     </ul>
+                    <OsfNavbar::AuthDropdown
+                        @signupUrl={{@signupUrl}}
+                        @loginAction={{@loginAction}}
+                        @onLinkClicked={{action (mut this.showNavLinks) false}}
+                        @headline={{t 'app_components.branded_navbar.on_the_osf'}}
+                        @externalLink={{true}}
+                        @campaign={{this.campaign}}
+                    />
                 </div>
             {{/if}}
         </div>

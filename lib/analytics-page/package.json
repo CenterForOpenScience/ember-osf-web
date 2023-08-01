@@ -9,7 +9,6 @@
     "@fortawesome/free-solid-svg-icons": "*",
     "@fortawesome/ember-fontawesome": "*",
     "@fortawesome/free-brands-svg-icons": "*",
-    "ember-bootstrap": "*",
     "ember-truth-helpers": "*",
     "ember-component-attributes": "*",
     "ember-composable-helpers": "*",

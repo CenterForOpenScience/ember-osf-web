@@ -69,7 +69,7 @@
                     background-color: $color-bg-gray-lighter;
                 }
 
-                .active {
+                :global(.active) {
                     background-color: $color-bg-blue-dark;
 
                     :hover {
@@ -83,4 +83,23 @@
             width: 70%;
         }
     }
+}
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: $color-bg-white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+
+.panel-default {
+    border-color: $color-border-gray;
 }

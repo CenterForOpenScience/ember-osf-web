@@ -11,7 +11,7 @@
                 <img src='{{this.user.profileImage}}&s=25' alt='{{t 'auth_dropdown.user_gravatar'}}'>
             </div>
             <div class='nav-profile-name'>{{this.user.fullName}}</div>
-            <span class='caret'></span>
+            <FaIcon @icon='caret-down' local-class='caret' />
         </dd.trigger>
 
         <dd.content
@@ -72,7 +72,7 @@
         </dd.content>
     </ResponsiveDropdown>
 {{else}}
-    <li class='sign-in'>
+    <span class='sign-in'>
         <div class='button-container'>
             <OsfLink
                 data-test-ad-sign-up-button
@@ -96,5 +96,5 @@
                 {{t 'auth_dropdown.sign_in'}}
             </Button>
         </div>
-    </li>
+    </span>
 {{/if}}

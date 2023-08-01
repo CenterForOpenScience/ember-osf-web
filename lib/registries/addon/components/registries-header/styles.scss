@@ -76,11 +76,12 @@
 
         }
     }
+    
+    .search-container.mobile {
+        width: 100%;
+    }
 
     .provider-description {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
         justify-content: center;
         margin-top: 15px;
         margin-bottom: 25px;

@@ -106,7 +106,7 @@
                         <Input
                             data-test-project-description-input
                             @placeholder={{t 'new_project.description_placeholder'}}
-                            @class={{local-class 'form-control noresize'}}
+                            @class={{concat 'form-control ' (local-class 'noresize')}}
                             @value={{this.description}}
                             @type='text'
                         />

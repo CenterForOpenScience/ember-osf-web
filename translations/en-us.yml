@@ -101,6 +101,8 @@ general:
         preprints: Preprints
         registries: Registries
     other: Other
+    structured_data:
+        json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
@@ -202,6 +204,11 @@ dashboard:
         title: 'Browse the latest research'
         description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
         button: 'View preprints'
+    products:
+        collections: 'OSF Collections'
+        registries: 'OSF Registries'
+        preprints: 'OSF Preprints'
+        institutions: 'OSF Institutions'
 
 search:
     page-title: 'Search'
@@ -258,6 +265,7 @@ search:
 helpers:
     get-localized-property:
         not-provided: 'Not provided'
+
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'

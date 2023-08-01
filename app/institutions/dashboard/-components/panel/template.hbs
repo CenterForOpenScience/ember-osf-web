@@ -1,10 +1,12 @@
-<Panel local-class='panel' ...attributes as |panel|>
-    <panel.heading @title={{@title}} />
+<Panel local-class='panel panel-overall' ...attributes as |panel|>
+    <panel.heading>
+        <span data-test-panel-title local-class='panel-heading panel-title'>{{@title}}</span>
+    </panel.heading>
     <panel.body>
         {{#if @isLoading}}
             <LoadingIndicator data-test-loading-indicator @dark={{true}} />
         {{else}}
-            {{yield}}
+            <div local-class='panel-body'>{{yield}}</div>
         {{/if}}
     </panel.body>
 </Panel>

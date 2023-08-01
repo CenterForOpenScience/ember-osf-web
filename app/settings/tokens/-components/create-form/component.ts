@@ -12,6 +12,8 @@ import Toast from 'ember-toastr/services/toast';
 import Token from 'ember-osf-web/models/token';
 import Analytics from 'ember-osf-web/services/analytics';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import { ValidationObject } from 'ember-changeset-validations';
+import { validatePresence } from 'ember-changeset-validations/validators';
 
 
 export default class CreateFormComponent extends Component {
@@ -25,20 +27,37 @@ export default class CreateFormComponent extends Component {
 
     token!: Token;
     changeset!: BufferedChangeset;
+    validation: ValidationObject<Token> = {
+        name: [
+            validatePresence({
+                type: 'empty',
+                presence: true,
+            }),
+        ],
+        scopes: [
+            validatePresence({
+                type: 'blank',
+                presence: true,
+            }),
+        ],
+    };
     @alias('onSave.isRunning') disabled!: boolean;
 
     constructor(owner: unknown, args: object) {
         super(owner, args);
         this.token = this.store.createRecord('token');
-        this.changeset = buildChangeset(this.token, null);
+        this.changeset = buildChangeset(this.token, this.validation);
     }
 
     @task
     async onSave() {
         try {
-            await this.changeset.save();
-            this.toast.success(this.intl.t('settings.tokens.created'));
-            this.router.transitionTo('settings.tokens.edit', this.token.get('id'));
+            this.changeset.validate();
+            if (this.changeset.isValid) {
+                await this.changeset.save();
+                this.toast.success(this.intl.t('settings.tokens.created'));
+                this.router.transitionTo('settings.tokens.edit', this.token.get('id'));
+            }
         } catch {
             this.toast.error(this.intl.t('settings.tokens.create-error'));
         }

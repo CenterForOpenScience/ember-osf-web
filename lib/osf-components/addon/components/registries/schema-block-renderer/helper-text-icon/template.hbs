@@ -9,7 +9,8 @@
             ...attributes
         />
         <EmberPopover
-            @triggerElement={{id}}
+            @targetId={{id}}
+            @tooltipClass={{local-class 'schema-block-popover'}}
         >
             {{this.helpText}}
         </EmberPopover>

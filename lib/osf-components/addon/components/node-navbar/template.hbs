@@ -20,7 +20,7 @@
                 </div>
                 {{#if this.shouldShowNavLinks}}
                     <div class='navbar-collapse'>
-                        <ul data-test-node-navbar-links class='nav navbar-nav'>
+                        <ul data-test-node-navbar-links class='nav navbar-nav' local-class='nav-list'>
                             {{#if this.fakeParent}}
                                 {{#node-navbar/link node=this.fakeParent useLinkTo=false}}
                                     <FaIcon @icon='level-down-alt' @rotation={{180}} />

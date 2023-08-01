@@ -20,42 +20,69 @@
                         </span> |
                     {{/unless}}
                     {{#if @node.pendingRegistrationApproval}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
+                        </span>
                     {{else if @node.pendingEmbargoApproval}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
+                        </span>
                     {{else if (eq @node.reviewsState 'pending')}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
+                        </span>
                     {{else if (eq @node.reviewsState 'embargo')}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
+                        </span>
                     {{else if (eq @node.reviewsState 'rejected')}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
+                        </span>
                     {{else if (eq @node.reviewsState 'pending_embargo_termination')}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
+                        </span>
                     {{else if (eq @node.reviewsState 'pending_withdraw_request')}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
+                        </span>
                     {{else if (eq @node.reviewsState 'pending_withdraw')}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
+                        </span>
                     {{else if @node.withdrawn}}
-                        <span local-class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
+                        <span>
+                            <span local-class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
+                        </span>
                     {{/if}}
                     {{#if @node.archiving}}
-                        <span local-class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
+                        <span>
+                            <span local-class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
+                        </span>
                     {{/if}}
 
                     {{#if (eq @node.revisionState 'unapproved')}}
                         {{#unless @node.pendingRegistrationApproval}}
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                            <span>
+                                <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                            </span>
                         {{/unless}}
                     {{else if (eq @node.revisionState 'in_progress')}}
-                        <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                        <span>
+                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                        </span>
                     {{else if (eq @node.revisionState 'pending_moderation')}}
                         {{#if (not-eq @node.reviewsState 'pending')}}
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                            <span>
+                                <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                            </span>
                         {{/if}}
                     {{/if}}
 
                     {{node-card/node-icon category=@node.category}}
                     <OsfLink
+                        local-class='osf-link {{if this.isMobile 'mobile'}}'
                         data-analytics-name='Title'
                         data-test-node-title='{{@node.id}}'
                         @route='resolve-guid'
@@ -103,7 +130,7 @@
                                                 data-analytics-scope='Delete'
                                                 local-class='dropdown-link'
                                                 @layout='fake-link'
-                                                {{on 'click' (action @delete @node)}}
+                                                {{on 'click' (queue (action dd.close) (action @delete @node))}}
                                             >
                                                 {{t 'general.delete'}}
                                             </Button>
@@ -220,6 +247,8 @@
                         {{#if this.shouldShowUpdateButton}}
                             <Button
                                 data-test-update-button={{@node.id}}
+                                @type='secondary'
+                                local-class='update-button'
                                 {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
                             >
                                 {{t 'node_card.update_button'}}

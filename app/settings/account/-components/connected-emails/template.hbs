@@ -33,7 +33,7 @@
                 as |list|
             >
                 <list.item as |email|>
-                    <div local-class='email-object' class='clearfix'>
+                    <div local-class='email-object clearfix'>
                         {{#if email}}
                             <div data-test-alternate-email-item='{{email.emailAddress}}'>
                                 <div local-class='email-address'>
@@ -69,7 +69,7 @@
                     </div>
                 </list.item>
                 <list.empty>
-                    <div local-class='no-object-message' class='clearfix'>
+                    <div local-class='no-object-message clearfix'>
                         {{t 'settings.account.connected_emails.no_alternate_emails'}}
                     </div>
                 </list.empty>
@@ -90,7 +90,7 @@
                 as |list|
             >
                 <list.item as |email|>
-                    <div local-class='email-object' class='clearfix'>
+                    <div local-class='email-object clearfix'>
                         {{#if email}}
                             <div data-test-unconfirmed-email-item={{email.emailAddress}}>
                                 <div local-class='email-address'>
@@ -110,7 +110,7 @@
                                         as |dialog|
                                     >
                                         <dialog.heading>
-                                            <h3 class='modal-title'>
+                                            <h3 local-class='modal-title'>
                                                 {{t 'settings.account.connected_emails.resend_confirmation_modal.title'}}
                                             </h3>
                                         </dialog.heading>
@@ -166,7 +166,7 @@
                     </div>
                 </list.item>
                 <list.empty>
-                    <div local-class='no-object-message' class='clearfix'>
+                    <div local-class='no-object-message clearfix'>
                         {{t 'settings.account.connected_emails.no_unconfirmed_emails'}}
                     </div>
                 </list.empty>
@@ -202,7 +202,7 @@
                 as |dialog|
             >
                 <dialog.heading>
-                    <h3 class='modal-title'>
+                    <h3 local-class='modal-title'>
                         {{t 'settings.account.connected_emails.add_email_modal.title'}}
                     </h3>
                 </dialog.heading>
