@@ -25,5 +25,10 @@
     "ember-radio-button": "*",
     "ember-responsive": "*",
     "ember-in-viewport": "*"
+  },
+  "ember-addon": {
+    "paths": [
+      "lib/app-components"
+    ]
   }
 }
