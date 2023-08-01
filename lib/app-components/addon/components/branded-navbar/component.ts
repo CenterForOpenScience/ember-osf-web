@@ -11,6 +11,7 @@ import { tracked } from 'tracked-built-ins';
 
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import BrandModel from 'ember-osf-web/models/brand';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -53,6 +54,7 @@ export default class BrandedNavbar extends Component {
 
     @alias('theme.provider') provider!: ProviderModel;
     @alias('theme.provider.id') providerId!: string;
+    @alias('theme.provider.brand.primaryColor') brandPrimaryColor!: BrandModel;
 
     @computed('intl.locale', 'theme.{providerType,provider.providerTitle}', 'translateKey')
     get brandTitle(): string {
@@ -68,7 +70,7 @@ export default class BrandedNavbar extends Component {
 
     @action
     toggleSecondaryNavigation() {
-        this.toggleProperty('showNavLinks');
+        this.showNavLinks = !this.showNavLinks;
     }
 
     get isMobileOrTablet() {

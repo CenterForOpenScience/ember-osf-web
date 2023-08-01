@@ -1,6 +1,8 @@
 <div local-class='branded-nav-wrapper'>
     <nav
-        local-class='branded-nav'
+        local-class='branded-nav
+        {{if (eq this.theme.providerType 'preprint') 'preprint-branded-navbar'}}
+        {{if (sufficient-contrast this.brandPrimaryColor '#fff') 'light-text' 'dark-text'}}'
         class='navbar navbar-inverse navbar-fixed-top'
         id='navbarScope'
     >

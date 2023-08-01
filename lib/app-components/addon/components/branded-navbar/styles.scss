@@ -2,7 +2,6 @@
 
 .branded-nav-wrapper {
     .branded-nav {
-        background-color: var(--primary-color);
         z-index: 999;
     }
 
@@ -105,5 +104,27 @@
         min-width: 210px;
         position: absolute;
         right: 0;
+    }
+}
+
+// preprint-branded navbar uses brand relationship and not custom CSS
+// !importants needed to override the default styles set in app/styles/_components.scss
+// branded-navbar dark/light text only used for preprint providers, as collection providers currently use custom CSS
+.preprint-branded-navbar {
+    background-color: var(--primary-color) !important;
+    background-image: none !important;
+
+    &.light-text {
+        a,
+        :global(.secondary-nav-dropdown) {
+            color: $color-text-white !important;
+        }
+    }
+
+    &.dark-text {
+        a,
+        :global(.secondary-nav-dropdown) {
+            color: $color-text-black !important;
+        }
     }
 }
