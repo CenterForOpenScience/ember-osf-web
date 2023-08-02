@@ -50,7 +50,7 @@ export default class Button extends Component<Args> {
     }
 
     get primaryColor(): string {
-        if (!this.theme.provider) {
+        if (!this.theme?.provider) {
             return '#337ab7'; // $color-osf-primary;
         }
         // Only preprint-providers will have brands that need to be checked for color contrast
