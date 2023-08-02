@@ -52,6 +52,8 @@
             <hr>
             {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
                 <SearchResultCard::RegistrationSecondaryMetadata @result={{@result}} />
+            {{else if (or (eq @result.resourceType 'project') (eq @result.resourceType 'project_component'))}}
+                <SearchResultCard::ProjectSecondaryMetadata @result={{@result}} />
             {{/if}}
         </panel.body>
     </CpPanel>
