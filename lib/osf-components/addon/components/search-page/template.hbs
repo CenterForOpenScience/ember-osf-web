@@ -35,7 +35,7 @@ as |layout|>
                     >
                         <FaIcon @icon='search' />
                     </Button>
-                    {{#if @showSidePanelToggle}}
+                    {{#if this.showSidePanelToggle}}
                         <Button
                             data-analytics-name='Search help button'
                             data-test-start-help
@@ -69,7 +69,7 @@ as |layout|>
                         </Button>
                     {{/if}}
                 </span>
-                {{#if @showSidePanelToggle}}
+                {{#if this.showSidePanelToggle}}
                     <Button
                         data-analytics-name='Toggle side panel'
                         data-test-toggle-side-panel
@@ -82,7 +82,7 @@ as |layout|>
                 {{/if}}
             </layout.heading>
         </div>
-        {{#if @showSidePanelToggle}}
+        {{#if this.showSidePanelToggle}}
             <EmberPopover
                 data-analytics-scope='Search help mobile'
                 data-test-search-help-mobile-1
@@ -256,7 +256,7 @@ as |layout|>
                 </div>
             </EmberPopover>
         {{/let}}
-        {{#if @showSidePanelToggle}}
+        {{#if this.showSidePanelToggle}}
             <div data-test-left-panel-object-type-dropdown>
                 <label>
                     <p>
@@ -368,7 +368,7 @@ as |layout|>
     </layout.left>
     <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
-        {{#unless @showSidePanelToggle}}
+        {{#unless this.showSidePanelToggle}}
             <div local-class='topbar'>
                 <nav
                     data-test-topbar-object-type-nav
