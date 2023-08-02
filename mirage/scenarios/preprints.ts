@@ -25,4 +25,26 @@ export function preprintsScenario(
         preprints,
         description: '<p style="color: red">This is the description for Thesis Commons and it has an inline-style!</p>',
     });
+
+    const agrixiv = server.schema.preprintProviders.find('agrixiv') as ModelInstance<PreprintProvider>;
+    const agrixivBrand = server.create('brand', {
+        primaryColor: '#85BF9B',
+        secondaryColor: '#E7F7E1',
+        heroBackgroundImage: 'https://singlecolorimage.com/get/E7F7E1/1000x1000',
+    });
+    agrixiv.update({
+        brand: agrixivBrand,
+        description: '<p style="color: black">This is the description for agrixiv!</p>',
+    });
+
+    const biohackrxiv = server.schema.preprintProviders.find('biohackrxiv') as ModelInstance<PreprintProvider>;
+    const biohackrxivBrand = server.create('brand', {
+        primaryColor: '#000000',
+        secondaryColor: '#888888',
+        heroBackgroundImage: 'https://singlecolorimage.com/get/ffffff/1000x1000',
+    });
+    biohackrxiv.update({
+        brand: biohackrxivBrand,
+        description: '<p style="color: black">This is the description for biohackrxiv!</p>',
+    });
 }
