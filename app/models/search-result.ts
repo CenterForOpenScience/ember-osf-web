@@ -109,10 +109,13 @@ export default class SearchResultModel extends Model {
     }
 
     get funders() {
-        return this.resourceMetadata.funder.map( (item: any) => ({
-            name: item.name[0]['@value'],
-            identifier: item.identifier[0]['@value'],
-        }));
+        if (this.resourceMetadata.funder) {
+            return this.resourceMetadata.funder.map( (item: any) => ({
+                name: item.name[0]['@value'],
+                identifier: item.identifier[0]['@value'],
+            }));
+        }
+        return null;
     }
 
     get doi() {
