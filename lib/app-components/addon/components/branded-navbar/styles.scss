@@ -108,11 +108,15 @@
 }
 
 // preprint-branded navbar uses brand relationship and not custom CSS
-// !importants needed to override the default styles set in app/styles/_components.scss
+// Extra specificity needed to override the default styles set in app/styles/_components.scss
 // branded-navbar dark/light text only used for preprint providers, as collection providers currently use custom CSS
-.preprint-branded-navbar {
-    background-color: var(--primary-color) !important;
-    background-image: none !important;
+.preprint-branded-navbar.preprint-branded-navbar {
+    background-color: var(--primary-color);
+    background-image: none;
+
+    .secondary-navigation {
+        border-color: transparent;
+    }
 
     &.light-text {
         a,
@@ -126,5 +130,14 @@
         :global(.secondary-nav-dropdown) {
             color: $color-text-black !important;
         }
+    }
+}
+
+.biohackrxiv-branded-navbar.biohackrxiv-branded-navbar.biohackrxiv-branded-navbar {
+    background-color: #fff;
+
+    a,
+    :global(.secondary-nav-dropdown) {
+        color: $color-text-black !important;
     }
 }
