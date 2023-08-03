@@ -238,7 +238,7 @@ as |layout|>
             @side='bottom'
             @spacing={{10}}
         >
-            <div local-class='help-content'>
+            <div data-analytics-scope='Search help 1 of 3' local-class='help-content'>
                 <h2 local-class='search-help-header' data-test-help-heading-1>
                     {{t 'search.search-help.header-1'}}
                 </h2>
@@ -275,7 +275,6 @@ as |layout|>
     {{#if this.showTooltip2}}
         <EmberPopover
             data-test-search-help-2
-            data-analytics-scope='Search help 2 of 3'
             @targetId={{this.tooltipTarget2Id}}
             @tooltipClass={{local-class 'search-help-tutorial'}}
             @innerClass={{'search-help-tutorial-inner'}}
@@ -284,7 +283,7 @@ as |layout|>
             @side='{{if this.showSidePanelToggle 'bottom' 'right'}}'
             @spacing={{10}}
         >
-            <div local-class='help-content'>
+            <div data-analytics-scope='Search help 2 of 3' local-class='help-content'>
                 <h2 local-class='search-help-header' data-test-help-heading-2>
                     {{t 'search.search-help.header-2'}}
                 </h2>
@@ -321,7 +320,6 @@ as |layout|>
     {{#if this.showTooltip3}}
         <EmberPopover
             data-test-search-help-3
-            data-analytics-scope='Search help 2 of 3'
             @targetId={{this.tooltipTarget3Id}}
             @tooltipClass={{local-class 'search-help-tutorial'}}
             @innerClass={{'search-help-tutorial-inner'}}
@@ -330,7 +328,7 @@ as |layout|>
             @side='{{if this.showSidePanelToggle 'bottom' 'right'}}'
             @spacing={{10}}
         >
-            <div local-class='help-content'>
+            <div data-analytics-scope='Search help 3 of 3' local-class='help-content'>
                 <h2 local-class='search-help-header' data-test-help-heading-3>
                     {{t 'search.search-help.header-3'}}
                 </h2>
