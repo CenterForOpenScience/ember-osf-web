@@ -1,278 +1,131 @@
 <OsfLayout
     @backgroundClass='search-page'
+    ...attributes
 as |layout|>
-    {{#let (unique-id 'heading') as |headingWrapper|}}
-        <div id={{headingWrapper}}>
-            <layout.heading
-                data-analytics-scope='Search page heading'
-                local-class='heading-wrapper'
+    <layout.heading
+        data-test-heading-wrapper
+        data-analytics-scope='Search page heading'
+        {{with-branding (get-model @provider.brand)}}
+        local-class='heading-wrapper {{if @provider 'hero-overlay'}} {{if (and (not this.showSidePanelToggle) @institution) 'heading-wrapper-institutions' 'heading-wrapper-institutions-mobile'}}'
+    >
+        {{#if @provider}}
+            <div
+                data-test-search-provider-logo
+                local-class='provider-logo'
             >
+            </div>
+            <p data-test-search-provider-description>
+                {{html-safe @provider.description}}
+            </p>
+        {{else if @institution}}
+            <div>
                 <label
                     for='search-input'
                     local-class='heading-label'
                 >
-                    <h1>{{t 'search.search-header'}}</h1>
-                </label>
-                <span local-class='search-input-wrapper'>
-                    <Input
-                        data-test-search-input
-                        data-analytics-name='Search input'
-                        local-class='search-input'
-                        id='search-input'
-                        @type='search'
-                        @placeholder={{t 'search.textbox-placeholder'}}
-                        @value={{this.searchText}}
-                        @enter={{perform this.doDebounceSearch}}
-                    />
-                    <Button
-                        data-test-search-submit
-                        data-analytics-name='Search button'
-                        local-class='search-button'
-                        aria-label={{t 'search.search-button-label'}}
-                        @type='primary'
-                        @layout='large'
-                        {{on 'click' (perform this.doDebounceSearch)}}
-                    >
-                        <FaIcon @icon='search' />
-                    </Button>
                     {{#if this.showSidePanelToggle}}
-                        <Button
-                            data-analytics-name='Search help button'
-                            data-test-start-help
-                            local-class='help-button'
-                            aria-label={{t 'search.search-help-label'}}
-                            @type='primary'
-                            @layout='large'
-                            {{on 'click' (queue
-                                (fn (mut this.showTooltipMobile3) false)
-                                (fn (mut this.showTooltipMobile2) false)
-                                (fn (mut this.showTooltipMobile1) true)
-                            )}}
+                        <img
+                            data-test-institution-logo
+                            src={{@institution.assets.logo}}
+                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
                         >
-                            <FaIcon @icon='question' />
-                        </Button>
                     {{else}}
-                        <Button
-                            data-analytics-name='Search help button'
-                            data-test-start-help
-                            local-class='help-button'
-                            aria-label={{t 'search.search-help-label'}}
-                            @type='primary'
-                            @layout='large'
-                            {{on 'click' (queue
-                                (fn (mut this.showTooltip3) false)
-                                (fn (mut this.showTooltip2) false)
-                                (fn (mut this.showTooltip1) true)
-                            )}}
+                        <img
+                            data-test-institution-banner
+                            src={{@institution.assets.banner}}
+                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
                         >
-                            <FaIcon @icon='question' />
-                        </Button>
                     {{/if}}
-                </span>
-                {{#if this.showSidePanelToggle}}
-                    <Button
-                        data-analytics-name='Toggle side panel'
-                        data-test-toggle-side-panel
-                        aria-label={{t 'search.toggle-sidenav'}}
-                        local-class='sidenav-toggle'
-                        {{on 'click' layout.toggleSidenav}}
-                    >
-                        <FaIcon @icon='bars' />
-                    </Button>
-                {{/if}}
-            </layout.heading>
-        </div>
-        {{#if this.showSidePanelToggle}}
-            <EmberPopover
-                data-analytics-scope='Search help mobile'
-                data-test-search-help-mobile-1
-                @targetId={{headingWrapper}}
-                @tooltipClass={{local-class 'search-help-tutorial-1'}}
-                @innerClass={{'search-help-tutorial-inner'}}
-                @isShown={{this.showTooltipMobile1}}
-                @event='none'
-                @side='bottom'
-                @spacing={{10}}
+                    <p data-test-institution-description>{{@institution.description}}</p>
+                </label>
+            </div>
+        {{else}}
+            <label
+                data-test-search-header
+                for='search-input'
+                local-class='heading-label'
             >
-                <div local-class='help-content'>
-                    <h2 local-class='search-help-header' data-test-help-heading-1>
-                        {{t 'search.search-help.header-1'}}
-                    </h2>
-                    <p data-test-help-body-1>{{t 'search.search-help.body-1'}}</p>
-                    <span local-class='pagination'>
-                        <p local-class='enumeration' data-test-help-enumeration-1>{{t 'search.search-help.index-1'}}</p>
-                        <span>
-                            <Button
-                                data-analytics-name='Skip help'
-                                data-test-help-skip-1
-                                local-class='skip-button'
-                                @layout='fake-link'
-                                onclick={{fn (mut this.showTooltipMobile1) false}}
-                            >
-                                {{t 'search.search-help.footer.skip'}}
-                            </Button>
-                            <Button
-                                data-analytics-name='Next help'
-                                data-test-help-next-1
-                                local-class='next-button'
-                                @type='primary'
-                                onclick={{queue
-                                    (fn (mut this.showTooltipMobile1) false)
-                                    (fn (mut this.showTooltipMobile2) true)
-                                }}
-                            >
-                                {{t 'search.search-help.footer.next'}}
-                            </Button>
-                        </span>
-                    </span>
-                </div>
-            </EmberPopover>
-            <EmberPopover
-                data-analytics-scope='Search help mobile'
-                data-test-search-help-mobile-2
-                @targetId={{headingWrapper}}
-                @tooltipClass={{local-class 'search-help-tutorial-2'}}
-                @innerClass={{'search-help-tutorial-inner'}}
-                @isShown={{this.showTooltipMobile2}}
-                @event='none'
-                @side='bottom'
-                @spacing={{10}}
-            >
-                <div local-class='help-content'>
-                    <h2 local-class='search-help-header' data-test-help-heading-2>
-                        {{t 'search.search-help.header-2'}}
-                    </h2>
-                    <p data-test-help-body-2>{{t 'search.search-help.body-2'}}</p>
-                    <span local-class='pagination'>
-                        <p local-class='enumeration' data-test-help-enumeration-2>{{t 'search.search-help.index-2'}}</p>
-                        <span>
-                            <Button
-                                data-analytics-name='Skip help'
-                                data-test-help-skip-2
-                                local-class='skip-button'
-                                @layout='fake-link'
-                                onclick={{fn (mut this.showTooltipMobile2) false}}
-                            >
-                                {{t 'search.search-help.footer.skip'}}
-                            </Button>
-                            <Button
-                                data-analytics-name='Next help'
-                                data-test-help-next-2
-                                local-class='next-button'
-                                @type='primary'
-                                onclick={{queue
-                                    (fn (mut this.showTooltipMobile2) false)
-                                    (fn (mut this.showTooltipMobile3) true)
-                                }}
-                            >
-                                {{t 'search.search-help.footer.next'}}
-                            </Button>
-                        </span>
-                    </span>
-                </div>
-            </EmberPopover>
-            <EmberPopover
-                data-analytics-scope='Search help mobile'
-                data-test-search-help-mobile-3
-                @targetId={{headingWrapper}}
-                @tooltipClass={{local-class 'search-help-tutorial-3'}}
-                @innerClass={{'search-help-tutorial-inner'}}
-                @isShown={{this.showTooltipMobile3}}
-                @event='none'
-                @side='bottom'
-                @spacing={{10}}
-            >
-                <div local-class='help-content'>
-                    <h2 local-class='search-help-header' data-test-help-heading-3>
-                        {{t 'search.search-help.header-3'}}
-                    </h2>
-                    <p data-test-help-body-3>{{t 'search.search-help.body-3'}}</p>
-                    <span local-class='pagination'>
-                        <p local-class='enumeration' data-test-help-enumeration-3>{{t 'search.search-help.index-3'}}</p>
-                        <span>
-                            <Button
-                                data-analytics-name='Complete help'
-                                data-test-help-done
-                                local-class='next-button'
-                                @type='primary'
-                                onclick={{fn (mut this.showTooltipMobile3) false}}
-                            >
-                                {{t 'search.search-help.footer.done'}}
-                            </Button>
-                        </span>
-                    </span>
-                </div>
-            </EmberPopover>
+                <h1>{{t 'search.search-header'}}</h1>
+            </label>
         {{/if}}
-    {{/let}}
+        <span id={{this.searchInputWrapperId}} local-class='search-input-wrapper'>
+            <Input
+                data-test-search-input
+                data-analytics-name='Search input'
+                local-class='search-input'
+                @type='search'
+                @placeholder={{t 'search.textbox-placeholder'}}
+                @value={{this.searchText}}
+                @enter={{perform this.doDebounceSearch}}
+            />
+            <Button
+                data-test-search-submit
+                data-analytics-name='Search button'
+                local-class='search-button'
+                aria-label={{t 'search.search-button-label'}}
+                @type='primary'
+                @layout='large'
+                {{on 'click' (perform this.doDebounceSearch)}}
+            >
+                <FaIcon @icon='search' />
+            </Button>
+            <Button
+                data-test-start-help
+                data-analytics-name='Search help button'
+                local-class='help-button'
+                aria-label={{t 'search.search-help-label'}}
+                @type='primary'
+                @layout='large'
+                {{on 'click' (queue
+                    layout.openSidenavGutter
+                    (fn (mut this.showTooltip3) false)
+                    (fn (mut this.showTooltip2) false)
+                    (fn (mut this.showTooltip1) true)
+                )}}
+            >
+                <FaIcon @icon='question' />
+            </Button>
+        </span>
+        {{#if this.showSidePanelToggle}}
+            <Button
+                data-test-toggle-side-panel
+                data-analytics-name='Toggle side panel'
+                aria-label={{t 'search.toggle-sidenav'}}
+                local-class='sidenav-toggle'
+                {{on 'click' layout.toggleSidenav}}
+            >
+                <FaIcon @icon='bars' />
+            </Button>
+        {{/if}}
+    </layout.heading>
     <layout.left
         data-analytics-scope='Search page left panel'
         local-class='left-panel'
     >
-        {{#let (unique-id 'two') as |twoId|}}
-            <h2 id={{twoId}}>{{t 'search.left-panel.header'}}</h2>
-            <EmberPopover
-                data-analytics-scope='Search help desktop'
-                data-test-search-help-2
-                @targetId={{twoId}}
-                @tooltipClass={{local-class 'search-help-tutorial-2'}}
-                @innerClass={{local-class 'search-help-tutorial-inner'}}
-                @isShown={{this.showTooltip2}}
-                @event='none'
-                @side='right'
-                @spacing={{20}}
+        {{#if this.showResultCountLeft}}
+            <p
+                data-test-left-search-count
+                local-class='search-count'
             >
-                <div local-class='help-content'>
-                    <h2 local-class='search-help-header' data-test-help-heading-2>
-                        {{t 'search.search-help.header-2'}}
-                    </h2>
-                    <p data-test-help-body-2>{{t 'search.search-help.body-2'}}</p>
-                    <span local-class='pagination'>
-                        <p local-class='enumeration' data-test-help-enumeration-2>{{t 'search.search-help.index-2'}}</p>
-                        <span>
-                            <Button
-                                data-analytics-name='Skip help'
-                                data-test-help-skip-2
-                                local-class='skip-button'
-                                @layout='fake-link'
-                                onclick={{fn (mut this.showTooltip2) false}}
-                            >
-                                {{t 'search.search-help.footer.skip'}}
-                            </Button>
-                            <Button
-                                data-analytics-name='Next help'
-                                data-test-help-next-2
-                                local-class='next-button'
-                                @type='primary'
-                                onclick={{queue
-                                    (fn (mut this.showTooltip2) false)
-                                    (fn (mut this.showTooltip3) true)
-                                }}
-                            >
-                                {{t 'search.search-help.footer.next'}}
-                            </Button>
-                        </span>
-                    </span>
-                </div>
-            </EmberPopover>
-        {{/let}}
+                {{t 'search.total-results' count=this.totalResultCount}}
+            </p>
+        {{/if}}
+        <h2 id={{this.leftPanelHeaderId}}>{{t 'search.left-panel.header'}}</h2>
         {{#if this.showSidePanelToggle}}
-            <div data-test-left-panel-object-type-dropdown>
-                <label>
-                    <p>
+            {{#if @showResourceTypeFilter}}
+                <div data-test-left-panel-object-type-dropdown id={{this.leftPanelObjectDropdownId}}>
+                    <label>
                         {{t 'search.resource-type.search-by'}}
-                    </p>
-                    <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
-                        @onChange={{this.updateResourceType}} as |resourceType|>
-                        {{resourceType.display}}
-                    </PowerSelect>
-                </label>
-            </div>
+                        <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
+                            @onChange={{this.updateResourceType}} as |resourceType|>
+                            {{resourceType.display}}
+                        </PowerSelect>
+                    </label>
+                </div>
+            {{/if}}
             <div data-test-left-panel-sort-dropdown>
                 <label>
-                    <p>
-                        {{t 'search.sort.sort-by'}}
-                    </p>
+                    {{t 'search.sort.sort-by'}}
                     <PowerSelect @options={{this.sortOptions}} @selected={{this.selectedSortOption}}
                         @onChange={{this.updateSort}} as |sortOption|>
                         {{sortOption.display}}
@@ -281,7 +134,10 @@ as |layout|>
             </div>
         {{/if}}
         {{#if this.activeFilters.length}}
-            <ul local-class='active-filter-list'>
+            <ul
+                data-test-active-filters-list
+                local-class='active-filter-list'
+            >
                 {{#each this.activeFilters as |filter|}}
                     <li
                         data-test-active-filter='{{filter.property}}-{{filter.value}}'
@@ -305,63 +161,16 @@ as |layout|>
             </ul>
         {{/if}}
         {{#each this.filterableProperties as |filterableProperty index|}}
-            {{#if (eq index 0)}}
-                {{#let filterableProperty.indexCard as |propertyCard|}}
-                    {{#let (unique-id 'three') as |threeId|}}
-                        <div id={{threeId}}>
-                            <SearchPage::FilterFacet
-                                @cardSearchText={{@query}}
-                                @cardSearchFilters={{this.activeFilters}}
-                                @propertyCard={{propertyCard}}
-                                @propertySearch={{filterableProperty}}
-                                @toggleFilter={{this.toggleFilter}}
-                            />
-                            <EmberPopover
-                                data-analytics-scope='Search help desktop'
-                                data-test-search-help-3
-                                @targetId={{threeId}}
-                                @tooltipClass={{local-class 'search-help-tutorial-3'}}
-                                @innerClass={{local-class 'search-help-tutorial-inner'}}
-                                @isShown={{this.showTooltip3}}
-                                @event='none'
-                                @side='right'
-                                @spacing={{20}}
-                            >
-                                <div local-class='help-content'>
-                                    <h2 local-class='search-help-header' data-test-help-heading-3>
-                                        {{t 'search.search-help.header-3'}}
-                                    </h2>
-                                    <p data-test-help-body-3>{{t 'search.search-help.body-3'}}</p>
-                                    <span local-class='pagination'>
-                                        <p local-class='enumeration' data-test-help-enumeration-3>{{t 'search.search-help.index-3'}}</p>
-                                        <span>
-                                            <Button
-                                                data-analytics-name='Complete help'
-                                                data-test-help-done
-                                                local-class='next-button'
-                                                @type='primary'
-                                                onclick={{fn (mut this.showTooltip3) false}}
-                                            >
-                                                {{t 'search.search-help.footer.done'}}
-                                            </Button>
-                                        </span>
-                                    </span>
-                                </div>
-                            </EmberPopover>
-                        </div>
-                    {{/let}}
-                {{/let}}
-            {{else}}
-                {{#let filterableProperty.indexCard as |propertyCard|}}
-                    <SearchPage::FilterFacet
-                        @cardSearchText={{@query}}
-                        @cardSearchFilters={{this.activeFilters}}
-                        @propertyCard={{propertyCard}}
-                        @propertySearch={{filterableProperty}}
-                        @toggleFilter={{this.toggleFilter}}
-                    />
-                {{/let}}
-            {{/if}}
+            {{#let filterableProperty.indexCard as |propertyCard|}}
+                <SearchPage::FilterFacet
+                    id={{if (eq index 0) this.firstFilterId null}}
+                    @cardSearchText={{@query}}
+                    @cardSearchFilters={{this.activeFilters}}
+                    @propertyCard={{propertyCard}}
+                    @propertySearch={{filterableProperty}}
+                    @toggleFilter={{this.toggleFilter}}
+                />
+            {{/let}}
         {{else}}
             {{t 'search.left-panel.no-filterable-properties'}}
         {{/each}}
@@ -369,89 +178,37 @@ as |layout|>
     <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
         {{#unless this.showSidePanelToggle}}
-            <div local-class='topbar'>
-                <nav
-                    data-test-topbar-object-type-nav
-                    local-class='object-type-nav'
-                >
-                    <ul>
-                        {{#each this.resourceTypeOptions as |resourceType index|}}
-                            <li>
-                                {{#if (eq index 0)}}
-                                    {{#let (unique-id 'one') as |oneId|}}
-                                        <div id={{oneId}}>
-                                            <LinkTo
-                                                data-analytics-name='Object type filter={{resourceType.value}}'
-                                                data-test-topbar-object-type-link='{{resourceType.value}}'
-                                                local-class='object-type-filter-link'
-                                                @route='search'
-                                                @query={{hash resourceType=resourceType.value}}
-                                                {{on 'click' (fn this.updateResourceType resourceType)}}
-                                            >
-                                                {{resourceType.display}}
-                                            </LinkTo>
-                                            <EmberPopover
-                                                data-analytics-scope='Search help desktop'
-                                                data-test-search-help-1
-                                                @targetId={{oneId}}
-                                                @tooltipClass={{local-class 'search-help-tutorial-1'}}
-                                                @innerClass={{local-class 'search-help-tutorial-inner'}}
-                                                @isShown={{this.showTooltip1}}
-                                                @event='none'
-                                                @side='bottom'
-                                                @spacing={{20}}
-                                            >
-                                                <div local-class='help-content'>
-                                                    <h2 local-class='search-help-header' data-test-help-heading-1>
-                                                        {{t 'search.search-help.header-1'}}
-                                                    </h2>
-                                                    <p data-test-help-body-1>{{t 'search.search-help.body-1'}}</p>
-                                                    <span local-class='pagination'>
-                                                        <p local-class='enumeration' data-test-help-enumeration-1>{{t 'search.search-help.index-1'}}</p>
-                                                        <span>
-                                                            <Button
-                                                                data-analytics-name='Skip help'
-                                                                data-test-help-skip-1
-                                                                local-class='skip-button'
-                                                                @layout='fake-link'
-                                                                onclick={{fn (mut this.showTooltip1) false}}
-                                                            >
-                                                                {{t 'search.search-help.footer.skip'}}
-                                                            </Button>
-                                                            <Button
-                                                                data-analytics-name='Next help'
-                                                                data-test-help-next-1
-                                                                local-class='next-button'
-                                                                @type='primary'
-                                                                onclick={{queue
-                                                                    (fn (mut this.showTooltip1) false)
-                                                                    (fn (mut this.showTooltip2) true)
-                                                                }}
-                                                            >
-                                                                {{t 'search.search-help.footer.next'}}
-                                                            </Button>
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </EmberPopover>
-                                        </div>
-                                    {{/let}}
-                                {{else}}
+            <div data-test-topbar-wrapper local-class='topbar'>
+                {{#if @showResourceTypeFilter}}
+                    <nav
+                        data-test-topbar-object-type-nav
+                        local-class='object-type-nav'
+                    >
+                        <ul>
+                            {{#each this.resourceTypeOptions as |resourceType index|}}
+                                <li>
                                     <LinkTo
                                         data-analytics-name='Object type filter={{resourceType.value}}'
                                         data-test-topbar-object-type-link='{{resourceType.value}}'
                                         local-class='object-type-filter-link'
-                                        @route='search'
+                                        id={{if (eq index 0) this.firstTopbarObjectTypeLinkId null}}
                                         @query={{hash resourceType=resourceType.value}}
                                         {{on 'click' (fn this.updateResourceType resourceType)}}
                                     >
                                         {{resourceType.display}}
                                     </LinkTo>
-                                {{/if}}
-                            </li>
-                        {{/each}}
-                    </ul>
-                </nav>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </nav>
+                {{else if this.showResultCountMiddle}}
+                    <p
+                        data-test-middle-search-count
+                        local-class='search-count'
+                    >
+                        {{t 'search.total-results' count=this.totalResultCount}}
+                    </p>
+                {{/if}}
                 <div
                     data-test-topbar-sort-dropdown
                     local-class='sort-dropdown'
@@ -469,3 +226,130 @@ as |layout|>
         {{/unless}}
     </layout.main>
 </OsfLayout>
+<div data-analytics-scope='Search help'>
+    {{#if this.showTooltip1}}
+        <EmberPopover
+            data-test-search-help-1
+            @targetId={{this.tooltipTarget1Id}}
+            @tooltipClass={{local-class 'search-help-tutorial'}}
+            @innerClass={{'search-help-tutorial-inner'}}
+            @isShown={{this.showTooltip1}}
+            @event='none'
+            @side='bottom'
+            @spacing={{10}}
+        >
+            <div local-class='help-content'>
+                <h2 local-class='search-help-header' data-test-help-heading-1>
+                    {{t 'search.search-help.header-1'}}
+                </h2>
+                <p data-test-help-body-1>{{t 'search.search-help.body-1'}}</p>
+                <span local-class='pagination'>
+                    <p local-class='enumeration' data-test-help-enumeration-1>{{t 'search.search-help.index-1'}}</p>
+                    <span local-class='help-button-wrappers'>
+                        <Button
+                            data-test-help-skip-1
+                            data-analytics-name='Skip help'
+                            local-class='skip-button'
+                            @layout='fake-link'
+                            onclick={{fn (mut this.showTooltip1) false}}
+                        >
+                            {{t 'search.search-help.footer.skip'}}
+                        </Button>
+                        <Button
+                            data-test-help-next-1
+                            data-analytics-name='Next help'
+                            local-class='next-button'
+                            @type='primary'
+                            onclick={{queue
+                                (fn (mut this.showTooltip1) false)
+                                (fn (mut this.showTooltip2) true)
+                            }}
+                        >
+                            {{t 'search.search-help.footer.next'}}
+                        </Button>
+                    </span>
+                </span>
+            </div>
+        </EmberPopover>
+    {{/if}}
+    {{#if this.showTooltip2}}
+        <EmberPopover
+            data-test-search-help-2
+            data-analytics-scope='Search help 2 of 3'
+            @targetId={{this.tooltipTarget2Id}}
+            @tooltipClass={{local-class 'search-help-tutorial'}}
+            @innerClass={{'search-help-tutorial-inner'}}
+            @isShown={{this.showTooltip2}}
+            @event='none'
+            @side='{{if this.showSidePanelToggle 'bottom' 'right'}}'
+            @spacing={{10}}
+        >
+            <div local-class='help-content'>
+                <h2 local-class='search-help-header' data-test-help-heading-2>
+                    {{t 'search.search-help.header-2'}}
+                </h2>
+                <p data-test-help-body-2>{{t 'search.search-help.body-2'}}</p>
+                <span local-class='pagination'>
+                    <p local-class='enumeration' data-test-help-enumeration-2>{{t 'search.search-help.index-2'}}</p>
+                    <span local-class='help-button-wrappers'>
+                        <Button
+                            data-test-help-skip-2
+                            data-analytics-name='Skip help'
+                            local-class='skip-button'
+                            @layout='fake-link'
+                            onclick={{fn (mut this.showTooltip2) false}}
+                        >
+                            {{t 'search.search-help.footer.skip'}}
+                        </Button>
+                        <Button
+                            data-test-help-next-2
+                            data-analytics-name='Next help'
+                            local-class='next-button'
+                            @type='primary'
+                            onclick={{queue
+                                (fn (mut this.showTooltip2) false)
+                                (fn (mut this.showTooltip3) true)
+                            }}
+                        >
+                            {{t 'search.search-help.footer.next'}}
+                        </Button>
+                    </span>
+                </span>
+            </div>
+        </EmberPopover>
+    {{/if}}
+    {{#if this.showTooltip3}}
+        <EmberPopover
+            data-test-search-help-3
+            data-analytics-scope='Search help 2 of 3'
+            @targetId={{this.tooltipTarget3Id}}
+            @tooltipClass={{local-class 'search-help-tutorial'}}
+            @innerClass={{'search-help-tutorial-inner'}}
+            @isShown={{this.showTooltip3}}
+            @event='none'
+            @side='{{if this.showSidePanelToggle 'bottom' 'right'}}'
+            @spacing={{10}}
+        >
+            <div local-class='help-content'>
+                <h2 local-class='search-help-header' data-test-help-heading-3>
+                    {{t 'search.search-help.header-3'}}
+                </h2>
+                <p data-test-help-body-3>{{t 'search.search-help.body-3'}}</p>
+                <span local-class='pagination'>
+                    <p local-class='enumeration' data-test-help-enumeration-3>{{t 'search.search-help.index-3'}}</p>
+                    <span local-class='help-button-wrappers'>
+                        <Button
+                            data-test-help-done
+                            data-analytics-name='Complete help'
+                            local-class='next-button'
+                            @type='primary'
+                            onclick={{fn (mut this.showTooltip3) false}}
+                        >
+                            {{t 'search.search-help.footer.done'}}
+                        </Button>
+                    </span>
+                </span>
+            </div>
+        </EmberPopover>
+    {{/if}}
+</div>
