@@ -7,6 +7,7 @@ import Media from 'ember-responsive';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import { tracked } from '@glimmer/tracking';
+import { requiredAction } from 'ember-osf-web/decorators/component';
 
 interface InputArgs {
     onSearch: (value: string) => void;

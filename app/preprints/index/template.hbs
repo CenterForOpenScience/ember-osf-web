@@ -5,7 +5,7 @@
 >
 
     {{!HEADER}}
-    <div local-class='preprint-header {{if this.isOsf 'osf'}}'>
+    <div local-class='preprint-header'>
         <BrandedHeader
             @translationParent='preprints'
             @onSearch={{action this.onSearch}}
@@ -34,7 +34,7 @@
                             data-test-submit-button
                             data-analytics-name='submit button'
                             local-class='btn-info'
-                            class='btn btn-success btn-lg preprint-submit-button' 
+                            class='btn btn-success btn-lg preprint-submit-button'
                             @href={{concat this.theme.pathPrefix 'submit'}}
                         >
                             {{t 'preprints.header.submit_label' documentType=this.theme.provider.content.documentType}}
@@ -152,8 +152,8 @@
 
     {{!ADVISORY GROUP}}
     {{#if this.theme.provider.advisoryBoard.length}}
-        <div local-class='preprint-advisory-container {{unless this.isOsf 'provider'}}'>
-            <div local-class='preprint-advisory-inner-container'>
+        <div class='preprint-advisory-container'>
+            <div class='preprint-advisory-inner-container'>
                 {{html-safe this.theme.provider.advisoryBoard 'advisory-board'}}
             </div>
         </div>
