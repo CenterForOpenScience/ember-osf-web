@@ -1,9 +1,9 @@
 {{page-title (t 'preprints.title')}}
 
-<div local-class='preprints-page-container' {{with-branding (get-model this.theme.provider.brand) }}
+<div local-class='preprints-page-container'
+    {{with-branding this.model.brand}}
     data-analytics-scope='preprints landing page'
 >
-
     {{!HEADER}}
     <div local-class='preprint-header'>
         <BrandedHeader
@@ -29,7 +29,7 @@
             {{#branded-header.row}}
                 {{#if this.theme.provider.allowSubmissions}}
                     <div local-class='submit-container'>
-                        <div class='lead'>{{t 'preprints.header.or'}}</div>
+                        <div local-class='or-container'>{{t 'preprints.header.or'}}</div>
                         <OsfLink
                             data-test-submit-button
                             data-analytics-name='submit button'
@@ -152,7 +152,10 @@
 
     {{!ADVISORY GROUP}}
     {{#if this.theme.provider.advisoryBoard.length}}
-        <div class='preprint-advisory-container'>
+        <div
+            class='preprint-advisory-container'
+            local-class='{{if this.isOsf 'osf-preprint-advisory-container'}}'
+        >
             <div class='preprint-advisory-inner-container'>
                 {{html-safe this.theme.provider.advisoryBoard 'advisory-board'}}
             </div>
