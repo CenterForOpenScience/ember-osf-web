@@ -21,16 +21,18 @@
         <h4 local-class='display-name'>
             <a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
         </h4>
-        <div local-class='name-fields'>
-            <InlineList
-                @items={{@result.affiliatedEntities}}
-                @total={{@result.affiliatedEntities.count}}
-                @truncate={{5}}
-                as |list|
-            >
-                {{list.item}}
-            </InlineList>
-        </div>
+        {{#if @result.affiliatedEntities}}
+            <div local-class='name-fields'>
+                <InlineList
+                    @items={{@result.affiliatedEntities}}
+                    @total={{@result.affiliatedEntities.count}}
+                    @truncate={{5}}
+                    as |list|
+                >
+                    {{list.item}}
+                </InlineList>
+            </div>
+        {{/if}}
         {{#if @result.isPartOf}}
             <div>
                 <span>{{@result.isPartOf.label}}: <a href={{@result.isPartOf.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOf.title}} </a></span>
@@ -50,11 +52,14 @@
     <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
         <panel.body>
             <hr>
-            {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
+            {{component this.secondaryMetadataComponent result=@result}}
+            {{!-- {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
                 <SearchResultCard::RegistrationSecondaryMetadata @result={{@result}} />
             {{else if (or (eq @result.resourceType 'project') (eq @result.resourceType 'project_component'))}}
                 <SearchResultCard::ProjectSecondaryMetadata @result={{@result}} />
-            {{/if}}
+            {{else if (eq @result.resourceType 'preprint')}}
+                <SearchResultCard::PreprintSecondaryMetadata @result={{@result}} />
+            {{/if}} --}}
         </panel.body>
     </CpPanel>
 </div>

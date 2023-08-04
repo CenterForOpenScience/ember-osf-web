@@ -118,6 +118,16 @@ export default class SearchResultModel extends Model {
         return null;
     }
 
+    get provider() {
+        if (this.resourceMetadata.publisher) {
+            return {
+                name: this.resourceMetadata.publisher[0].name[0]['@value'],
+                identifier: this.resourceMetadata.publisher[0]['@id'],
+            };
+        }
+        return null;
+    }
+
     get doi() {
         return this.indexCard.get('resourceIdentifier').filter(id => id.includes('https://doi.org'));
     }
