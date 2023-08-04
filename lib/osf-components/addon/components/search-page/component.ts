@@ -18,7 +18,7 @@ import uniqueId from 'ember-osf-web/utils/unique-id';
 
 interface ResourceTypeOption {
     display: string;
-    value: string;
+    value: string | null;
 }
 
 interface SortOption {
@@ -137,12 +137,12 @@ export default class SearchPage extends Component<SearchArgs> {
 
     // Resource type
     resourceTypeOptions: ResourceTypeOption[] = [
-        { display: this.intl.t('search.resource-type.all'), value: 'All' },
-        { display: this.intl.t('search.resource-type.projects'), value: 'Projects' },
-        { display: this.intl.t('search.resource-type.registrations'), value: 'Registrations' },
-        { display: this.intl.t('search.resource-type.preprints'), value: 'Preprints' },
-        { display: this.intl.t('search.resource-type.files'), value: 'Files' },
-        { display: this.intl.t('search.resource-type.users'), value: 'Users' },
+        { display: this.intl.t('search.resource-type.all'), value: null },
+        { display: this.intl.t('search.resource-type.projects'), value: 'Project,ProjectComponent' },
+        { display: this.intl.t('search.resource-type.registrations'), value: 'Registration,RegistrationComponent' },
+        { display: this.intl.t('search.resource-type.preprints'), value: 'Preprint' },
+        { display: this.intl.t('search.resource-type.files'), value: 'File' },
+        { display: this.intl.t('search.resource-type.users'), value: 'User' },
     ];
 
     // Sort
@@ -162,19 +162,21 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async search() {
         try {
-            const q = this.searchText;
+            const cardSearchText = this.searchText;
             const { page, sort, activeFilters, resourceType } = this;
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 acc[filter.property] = filter.value;
                 return acc;
             }, {} as { [key: string]: string });
-            filterQueryObject['resourceType'] = resourceType;
+            if (resourceType) {
+                filterQueryObject['resourceType'] = resourceType;
+            }
             filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             const searchResult = await this.store.queryRecord('index-card-search', {
-                q,
+                cardSearchText,
                 page,
                 sort,
-                filter: filterQueryObject,
+                cardSearchFilter: filterQueryObject,
             });
             this.propertySearch = await searchResult.relatedPropertySearch;
             this.searchResults = searchResult.searchResultPage.toArray();

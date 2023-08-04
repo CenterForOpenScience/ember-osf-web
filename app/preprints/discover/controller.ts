@@ -20,7 +20,6 @@ export default class PreprintDiscoverController extends Controller {
 
     get defaultQueryOptions() {
         return {
-            resourceType: 'osf:Preprints',
             // TODO: get this from the API?
             publisher: pathJoin(config.OSF.url, 'preprints', this.theme.id),
         };
