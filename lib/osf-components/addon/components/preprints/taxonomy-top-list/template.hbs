@@ -1,13 +1,12 @@
 {{#each this.sortedList as |pair|}}
-    <div local-class='subject-container'>
+    <div local-class='subject-container {{if this.isMobile 'mobile'}}'>
         {{#each pair as |subject|}}
             <div local-class='subject-item'>
                 <OsfLink
                     data-test-taxonomy-link
                     data-analytics-name='Preprints taxonomy link'
-                    class='btn btn-primary p-sm' 
-                    local-class='subject-button'
-                    @href={{concat (this.routePrefix 'discover') (query-params subject=subject.path) }}
+                    local-class='btn subject-button'
+                    @href={{concat 'discover/' (query-params subject=subject.path) }}
                 >
                     {{subject.text}}
                 </OsfLink>
