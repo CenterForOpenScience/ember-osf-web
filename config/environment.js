@@ -24,6 +24,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
+    GOOGLE_TAG_MANAGER_ID,
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     MIRAGE_ENABLED = false,
@@ -117,6 +118,13 @@ module.exports = function(environment) {
                     isPublic: 'dimension3',
                     isWithdrawn: 'dimension4',
                     version: 'dimension5',
+                },
+            },
+            {
+                name: 'GoogleTagManager',
+                environments: GOOGLE_TAG_MANAGER_ID ? ['all'] : [],
+                config: {
+                    id: GOOGLE_TAG_MANAGER_ID,
                 },
             },
         ],
