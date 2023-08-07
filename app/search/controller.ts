@@ -8,7 +8,7 @@ export default class SearchController extends Controller {
     @tracked sort?: string =  '-relevance';
     @tracked resourceType?: ResourceTypeFilterValue | null =  null;
 
-    queryParams = ['q', 'page', 'sort', 'resourceType'];
+    queryParams = ['cardSearchText', 'page', 'sort', 'resourceType'];
 
     @action
     onSearch(queryOptions: OnSearchParams) {

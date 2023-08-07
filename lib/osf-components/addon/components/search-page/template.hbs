@@ -185,8 +185,8 @@ as |layout|>
                             {{#each this.resourceTypeOptions as |resourceType index|}}
                                 <li>
                                     <LinkTo
-                                        data-analytics-name='Object type filter={{resourceType.value}}'
-                                        data-test-topbar-object-type-link='{{resourceType.value}}'
+                                        data-analytics-name='Object type filter={{resourceType.display}}'
+                                        data-test-topbar-object-type-link='{{resourceType.display}}'
                                         local-class='object-type-filter-link'
                                         id={{if (eq index 0) this.firstTopbarObjectTypeLinkId null}}
                                         @query={{hash resourceType=resourceType.value}}
