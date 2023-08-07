@@ -26,7 +26,7 @@
         </dd>
     {{/if}}
 
-    {{!-- Conflict of interest statement statedConflictOfInterest: [{ @id: 'no-conflict-of-interest' | @value: 'This is my conflict of interest that I input' }] --}}
+    {{!-- Conflict of interest statement --}}
     {{#if @result.resourceMetadata.statedConflictOfInterest}}
         <dt>{{t 'osf-components.search-result-card.conflict_of_interest'}}</dt>
         <dd>
@@ -38,7 +38,7 @@
         </dd>
     {{/if}}
 
-    {{!-- Associated Data hasDataResource: [{ @id: 'https://myurl.com'}] --}}
+    {{!-- Associated Data --}}
     {{#if @result.resourceMetadata.hasDataResource}}
         <dt>{{t 'osf-components.search-result-card.associated_data'}}</dt>
         <dd>
@@ -51,7 +51,7 @@
         </dd>
     {{/if}}
 
-    {{!-- Associated Preregistration hasPreregisteredAnalysisPlan and/or hasPreregisteredStudyDesign: [{ @id: 'https://myurl.com'}] --}}
+    {{!-- Associated Preregistration: hasPreregisteredAnalysisPlan and/or hasPreregisteredStudyDesign --}}
     {{#if @result.resourceMetadata.hasPreregisteredAnalysisPlan}}
         <dt>{{t 'osf-components.search-result-card.associated_analysis_plan'}}</dt>
         <dd>
