@@ -1,4 +1,4 @@
-{{page-title (t 'preprints.title')}}
+{{page-title this.theme.provider.providerTitle}}
 
 <div local-class='preprints-page-container {{if this.isMobile 'mobile'}}'
     {{with-branding this.model.brand}}
@@ -164,5 +164,11 @@
             </div>
         </div>
     {{/if}}
+
+    <div>
+        <Preprints::BrandedFooter
+            @footerLinks={{this.model.provider.footerLinks}}
+        ></Preprints::BrandedFooter>
+    </div>
 </div>
 {{!END INDEX}}

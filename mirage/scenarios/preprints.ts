@@ -36,11 +36,11 @@ function buildOSF(
         highlightedSubjects: subjects,
         // eslint-disable-next-line max-len
         advisory_board: '<div class=\'preprint-advisory-header\'>\n<h2>Advisory Group</h2>\n<p>Our advisory group includes leaders in preprints and scholarly communication\n</p></div>\n<div class=\'preprint-advisory-list\'><div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>Devin Berg</strong> : engrXiv, University of Wisconsin-Stout</li>\n<li><strong>Pete Binfield</strong> : PeerJ PrePrints</li>\n<li><strong>Benjamin Brown</strong> : PsyArXiv, Georgia Gwinnett College</li>\n<li><strong>Philip Cohen</strong> : SocArXiv, University of Maryland</li>\n<li><strong>Kathleen Fitzpatrick</strong> : Modern Language Association</li>\n</ul>\n</div>\n<div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>John Inglis</strong> : bioRxiv, Cold Spring Harbor Laboratory Press</li>\n<li><strong>Rebecca Kennison</strong> : K | N Consultants</li>\n<li><strong>Kristen Ratan</strong> : CoKo Foundation</li>\n<li><strong>Oya Riege</strong>r : Ithaka S+R</li>\n<li><strong>Judy Ruttenberg</strong> : SHARE, Association of Research Libraries</li>\n</ul>\n</div>\n</div>',
+        footer_links: '',
         brand,
         moderators: [currentUserModerator],
         preprints,
         description: 'This is the description for osf',
-        email_support: 'overwritten-email@osf.io',
     });
 }
 
@@ -71,6 +71,9 @@ function buildThesisCommons(
         description: '<p style="color: red">This is the description for Thesis Commons and it has an inline-style!</p>',
         // eslint-disable-next-line max-len
         advisory_board: '<h2><strong>Steering Committee</strong></h2>\n<div class=\'col-xs-6\'>\n<ul>\n<li><strong>Obasegun Ayodele</strong>, Vilsquare.org, Nigeria </li>\n<li><strong>Fayza Mahmoud</strong>, Alexandria University, Egypt</li>\n<li><strong>Johanssen Obanda</strong>, Jabulani Youths for Transformation (JAY4T), Kenya</li>\n<li><strong>Umar Ahmad</strong>, University Putra Malaysia (UPM) and the Malaysia Genome Institute (MGI)</li>\n<li><strong>Michael Cary</strong>, West Virginia University, USA</li>\n<li><strong>Nada Fath</strong>, Mohamed V University &amp; Hassan II Institute of Agronomy and Veterinary Medicine, Rabat, Morocco</li>\n<li><strong>Greg Simpson</strong>, Cranfield University, England &amp; South Africa</li>\n</ul>\n</div>\n<ul>\n<li><strong>Hisham Arafat</strong>, EMEA Applications Consulting, Egypt</li>\n<li><strong>Justin Sègbédji Ahinon</strong>, AfricArXiv co-founder, IGDORE, Bénin</li>\n<li><strong>Mahmoud M Ibrahim</strong>, Uniklinik RWTH Aachen, Germany &amp; Egypt</li>\n<li><strong>Luke Okelo</strong>, Technical University of Kenya </li>\n<li><strong>Ryszard Auksztulewicz</strong>, MPI of Empirical Aesthetics, Germany &amp; City University of Hong Kong</li>\n<li><strong>Osman Aldirdiri</strong>, University of Khartoum, Sudan</li>\n<li><strong>Jo Havemann</strong>, AfricArXiv co-founder, Access 2 Perspectives‘, IGDORE, Germany &amp; Kenya</li>\n</ul>',
+        // eslint-disable-next-line max-len
+        footer_links: '<p><span><span style="vertical-align: baseline;">AfricArXiv: <a href="https://info.africarxiv.org/">About</a> | </span></span><span><span style="vertical-align: baseline;"><a href="https://info.africarxiv.org/before-you-submit/" target="_blank">Submission Guidelines</a> | </span></span><span><span style="vertical-align: baseline;"><a href="mailto:support+africarxiv@osf.io">Support</a> | <a href="mailto:contact+africarxiv@osf.io">Contact</a> |</span></span><span style="text-align: center;"> </span><a href="https://twitter.com/AfricArxiv" style="text-align: center;" target="_blank" title="AfricArxiv on Twitter"><span class="fa fa-twitter fa-2x" style="vertical-align: middle;"> </span></a><span style="text-align: center;"> </span><a href="https://www.facebook.com/africarxiv" style="text-align: center;" target="_blank" title="AfricArxiv on Facebook"><span class="fa fa-facebook fa-2x" style="vertical-align: middle;"> </span></a></p>',
+        email_support: 'overwritten-email@osf.io',
     });
 
     const agrixiv = server.schema.preprintProviders.find('agrixiv') as ModelInstance<PreprintProvider>;
