@@ -5,15 +5,18 @@ import { inject as service } from '@ember/service';
 
 interface InputArgs {
     list: SubjectModel[];
+    provider: string;
 }
 
 interface PairModel {
-    path: string[];
+    queryParam: string;
     text: string;
 }
 
 export default class TaxonomyTopList extends Component<InputArgs> {
     @service media!: Media;
+
+    provider = this.args.provider;
 
     get isMobile(): boolean {
         return this.media.isMobile;
@@ -31,7 +34,7 @@ export default class TaxonomyTopList extends Component<InputArgs> {
                 const pair: PairModel[] = [];
                 const subject= sortedList.objectAt(i) as SubjectModel;
                 pair.pushObject({
-                    path: [subject?.taxonomyName],
+                    queryParam: subject?.taxonomyName,
                     text: subject?.text,
                 } as PairModel);
                 pairedList.pushObject(pair);
@@ -43,14 +46,14 @@ export default class TaxonomyTopList extends Component<InputArgs> {
                 // subject param in the discover controller is expecting
                 const subjectOdd = sortedList.objectAt(i) as SubjectModel;
                 pair.pushObject({
-                    path: [subjectOdd?.taxonomyName],
+                    queryParam: subjectOdd?.taxonomyName,
                     text: subjectOdd?.text,
                 } as PairModel);
 
                 if (sortedList.objectAt(i + 1)) {
                     const subjectEven = sortedList.objectAt(i + 1) as SubjectModel;
                     pair.pushObject({
-                        path: [subjectEven?.taxonomyName],
+                        queryParam: subjectEven?.taxonomyName,
                         text: subjectEven?.text,
                     });
                 }
