@@ -28,6 +28,7 @@ declare const config: {
     rootURL: string;
     assetsPrefix: string;
     sentryDSN: string | null;
+    googleTagManagerId: string | null;
     sentryOptions: {
         release?: string;
         ignoreErrors: string[];
@@ -195,7 +196,6 @@ declare const config: {
     pageTitle: {
         prepend: boolean;
     };
-    gtm: string;
 };
 
 export default config;
