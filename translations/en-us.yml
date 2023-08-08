@@ -794,6 +794,8 @@ app_components:
     brand_color_inputs:
         primary_label: 'Brand Primary Color'
         primary_set: 'Set Primary Color'
+        secondary_label: 'Brand Secondary Color'
+        secondary_set: 'Set Secondary Color'
     error_page:
         email_message: 'If this should not have occurred and the issue persists, please report it to'
         go_to: 'Go to {brand}'

@@ -63,6 +63,9 @@
     background-position-y: center;
     background-size: contain;
     background-repeat: no-repeat;
+    // This is overwritten by theme-styles component,
+    // but if there is no provider.asset.square_color_transparent, we fallback to use the logo off the brand
+    background-image: var(--navbar-logo-img-url);
 }
 
 .NavBarBuffer {
@@ -101,5 +104,40 @@
         min-width: 210px;
         position: absolute;
         right: 0;
+    }
+}
+
+// preprint-branded navbar uses brand relationship and not custom CSS
+// Extra specificity needed to override the default styles set in app/styles/_components.scss
+// branded-navbar dark/light text only used for preprint providers, as collection providers currently use custom CSS
+.preprint-branded-navbar.preprint-branded-navbar {
+    background-color: var(--primary-color);
+    background-image: none;
+
+    .secondary-navigation {
+        border-color: transparent;
+    }
+
+    &.light-text {
+        a,
+        :global(.secondary-nav-dropdown) {
+            color: $color-text-white !important;
+        }
+    }
+
+    &.dark-text {
+        a,
+        :global(.secondary-nav-dropdown) {
+            color: $color-text-black !important;
+        }
+    }
+}
+
+.biohackrxiv-branded-navbar.biohackrxiv-branded-navbar.biohackrxiv-branded-navbar {
+    background-color: #fff;
+
+    a,
+    :global(.secondary-nav-dropdown) {
+        color: $color-text-black !important;
     }
 }
