@@ -303,6 +303,7 @@ module.exports = function(environment) {
         pageTitle: {
             prepend: false,
         },
+        gtm: '<script></script>',
     };
 
     if (environment === 'development') {

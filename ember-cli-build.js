@@ -106,6 +106,11 @@ module.exports = function(defaults) {
                 postProcess,
                 /* eslint-enable max-len */
             },
+            gtm: {
+                enabled: IS_PROD,
+                content: config.gtm,
+                postProcess,
+            },
         },
         'ember-cli-babel': {
             includePolyfill: IS_PROD,
