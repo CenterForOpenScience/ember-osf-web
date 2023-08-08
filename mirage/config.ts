@@ -294,6 +294,13 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
+    osfNestedResource(this, 'preprint-provider', 'highlightedSubjects', {
+        only: ['index'],
+        path: '/providers/preprints/:parentID/subjects/highlighted/',
+        relatedModelName: 'subject',
+    });
+
+
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
     osfNestedResource(this, 'registration-provider', 'moderators', {
         only: ['index', 'show', 'update', 'delete'],
