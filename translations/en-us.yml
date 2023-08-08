@@ -1108,7 +1108,6 @@ collections:
             reject: rejected
             remove: 'removed'
 preprints:
-    osf-title: 'OSF Preprints'
     provider-title: '{name} {pluralizedPreprintWord}'
     discover:
         title: 'Search'
