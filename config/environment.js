@@ -77,6 +77,7 @@ module.exports = function(environment) {
         assetsPrefix,
         locationType: 'auto',
         sentryDSN: null,
+        googleTagManagerId: null,
         sentryOptions: {
             release,
             ignoreErrors: [
@@ -303,7 +304,6 @@ module.exports = function(environment) {
         pageTitle: {
             prepend: false,
         },
-        gtm: '<script></script>',
     };
 
     if (environment === 'development') {
