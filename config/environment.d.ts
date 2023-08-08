@@ -195,6 +195,7 @@ declare const config: {
     pageTitle: {
         prepend: boolean;
     };
+    gtm: string;
 };
 
 export default config;
