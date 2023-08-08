@@ -13,6 +13,8 @@ export default class PreprintProviderSerializer extends ApplicationSerializer<Pr
     }
 
     buildRelationships(model: ModelInstance<PreprintProvider>) {
+        const has_highlighted_subjects = model.highlightedSubjects.length > 0;
+
         const relationships: SerializedRelationships<PreprintProvider> = {
             subjects: {
                 links: {
@@ -25,8 +27,10 @@ export default class PreprintProviderSerializer extends ApplicationSerializer<Pr
             highlightedSubjects: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/providers/preprints/${model.id}/highlightedSubjects/`,
-                        meta: this.buildRelatedLinkMeta(model, 'highlightedSubjects'),
+                        href: `${apiUrl}/v2/providers/preprints/${model.id}/subjects/highlighted/`,
+                        meta: {
+                            has_highlighted_subjects,
+                        },
                     },
                 },
             },
