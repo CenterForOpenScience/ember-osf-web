@@ -52,11 +52,14 @@
     <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
         <panel.body>
             <hr>
-            {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
+            {{component this.secondaryMetadataComponent result=@result}}
+            {{!-- {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
                 <SearchResultCard::RegistrationSecondaryMetadata @result={{@result}} />
             {{else if (or (eq @result.resourceType 'project') (eq @result.resourceType 'project_component'))}}
                 <SearchResultCard::ProjectSecondaryMetadata @result={{@result}} />
-            {{/if}}
+            {{else if (eq @result.resourceType 'preprint')}}
+                <SearchResultCard::PreprintSecondaryMetadata @result={{@result}} />
+            {{/if}} --}}
         </panel.body>
     </CpPanel>
 </div>
