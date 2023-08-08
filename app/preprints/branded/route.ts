@@ -16,9 +16,29 @@ export default class Preprints extends Route {
     @service store!: Store;
     @service theme!: Theme;
     livedata = 'livedata';
+    templateName = 'index';
 
+    async model(args: any) {
+        try {
+            const provider = await this.store.findRecord('preprint-provider', args.provider_id);
+            this.theme.set('providerType', 'preprint');
+            this.theme.set('id', args.provider_id);
 
-    async model() {
+            const taxonomies = await this.theme.provider?.queryHasMany('highlightedSubjects', {
+                page: {
+                    size: 20,
+                },
+            });
+
+            return {
+                provider,
+                taxonomies,
+            };
+        } catch (e) {
+            return null;
+        }
+
+        /*
         return {
             taxonomies: await this.theme.provider?.queryHasMany('highlightedSubjects', {
                 page: {
@@ -30,7 +50,11 @@ export default class Preprints extends Route {
                 : await this.store
                     .findAll('preprint-provider', {
                         reload: true,
-                    }).filter(item => item.id !== 'osf'),
+                    }).filter((item: any) => {
+                        console.log('item', item);
+                        return item.id !== 'osf';
+                    }),
         };
+        */
     }
 }
