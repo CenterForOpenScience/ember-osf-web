@@ -1,28 +1,34 @@
-<div>
-    <span>{{t 'osf-components.search-result-card.funder'}}: </span>
-    <InlineList
-        @items={{@result.funders}}
-        @total={{@result.funders.count}}
-        @truncate={{5}}
-        as |list|
-    >
-        <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
-    </InlineList>
-</div>
+{{#if @result.funder}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.funder'}}: </span>
+        <InlineList
+            @items={{@result.funders}}
+            @total={{@result.funders.count}}
+            @truncate={{5}}
+            as |list|
+        >
+            <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
+        </InlineList>
+    </div>
+{{/if}}
 <div>
     <span>{{t 'osf-components.search-result-card.registration_template'}}:</span>
 </div>
-<div>
-    <span>{{t 'osf-components.search-result-card.license'}}: <a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></span>
-</div>
-<div>
-    <span>{{t 'osf-components.search-result-card.doi'}}: </span>
-    <InlineList
-        @items={{@result.doi}}
-        @total={{@result.doi.count}}
-        @truncate={{5}}
-        as |list|
-    >
-        <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
-    </InlineList>
-</div>
+{{#if @result.license}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.license'}}: <a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></span>
+    </div>
+{{/if}}
+{{#if @result.doi}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.doi'}}: </span>
+        <InlineList
+            @items={{@result.doi}}
+            @total={{@result.doi.count}}
+            @truncate={{5}}
+            as |list|
+        >
+            <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
+        </InlineList>
+    </div>
+{{/if}}

@@ -49,7 +49,7 @@ export default class SearchResultModel extends Model {
         } else if (this.resourceType === 'file') {
             return this.resourceMetadata['fileName'][0]['@value'];
         }
-        return this.resourceMetadata['title'][0]['@value'];
+        return this.resourceMetadata['title']?.[0]['@value'];
     }
 
     get absoluteUrl() {
@@ -62,7 +62,7 @@ export default class SearchResultModel extends Model {
         if (this.resourceType === 'user') {
             // return something
         } else {
-            return this.resourceMetadata.creator.map( (item:any) => item.name[0]['@value']);
+            return this.resourceMetadata.creator?.map( (item:any) => item.name[0]['@value']);
         }
     }
 
@@ -75,22 +75,22 @@ export default class SearchResultModel extends Model {
             return [
                 {
                     label: this.intl.t('osf-components.search-result-card.date_registered'),
-                    date: this.resourceMetadata.dateCreated[0]['@value'],
+                    date: this.resourceMetadata.dateCreated?.[0]['@value'],
                 },
                 {
                     label: this.intl.t('osf-components.search-result-card.date_modified'),
-                    date: this.resourceMetadata.dateModified[0]['@value'],
+                    date: this.resourceMetadata.dateModified?.[0]['@value'],
                 },
             ];
         default:
             return [
                 {
                     label: this.intl.t('osf-components.search-result-card.date_created'),
-                    date: this.resourceMetadata.dateCreated[0]['@value'],
+                    date: this.resourceMetadata.dateCreated?.[0]['@value'],
                 },
                 {
                     label: this.intl.t('osf-components.search-result-card.date_modified'),
-                    date: this.resourceMetadata.dateModified[0]['@value'],
+                    date: this.resourceMetadata.dateModified?.[0]['@value'],
                 },
             ];
         }
@@ -101,8 +101,8 @@ export default class SearchResultModel extends Model {
         if (isPartOf) {
             return {
                 label: this.intl.t('osf-components.search-result-card.from'),
-                title: this.resourceMetadata.isPartOf[0].title[0]['@value'],
-                absoluteUrl: this.resourceMetadata.isPartOf[0]['@id'],
+                title: this.resourceMetadata.isPartOf?.[0]?.title?.[0]?.['@value'],
+                absoluteUrl: this.resourceMetadata.isPartOf?.[0]?.['@id'],
             };
         }
         return null;
@@ -112,7 +112,7 @@ export default class SearchResultModel extends Model {
         if (this.resourceMetadata.funder) {
             return this.resourceMetadata.funder.map( (item: any) => ({
                 name: item.name[0]['@value'],
-                identifier: item.identifier[0]['@value'],
+                identifier: item.identifier?.[0]['@value'],
             }));
         }
         return null;
@@ -123,10 +123,13 @@ export default class SearchResultModel extends Model {
     }
 
     get license() {
-        return {
-            name: this.resourceMetadata.rights[0].name[0]['@value'],
-            identifier: this.resourceMetadata.rights[0]['@id'],
-        };
+        if (this.resourceMetadata.rights) {
+            return {
+                name: this.resourceMetadata.rights?.[0].name[0]['@value'],
+                identifier: this.resourceMetadata.rights?.[0]['@id'],
+            };
+        }
+        return null;
     }
 
     get resourceType() {
