@@ -147,6 +147,14 @@ export default class OsfSerializer extends JSONAPISerializer {
                     delete serialized.data.attributes![attribute];
                 }
             }
+            if (serialized.data.relationships) {
+                for (const key of Object.keys(serialized.data.relationships)) {
+                    const rel = serialized.data.relationships[key];
+                    if (rel === null) {
+                        delete serialized.data.relationships[key];
+                    }
+                }
+            }
         }
 
         return serialized;
