@@ -33,7 +33,7 @@
                 id='search'
                 @value={{this.value}}
                 @class='form-control'
-                @placeholder={{t (concat @translationParent '.header.search_placeholder') }}
+                @placeholder={{this.searchPlaceholder}}
             />
             {{#if this.showHelp}}
                 <Button
