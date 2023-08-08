@@ -1,19 +1,22 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 import { inject as service } from '@ember/service';
+import { htmlSafe } from '@ember/template';
 import IntlService from 'ember-intl/services/intl';
 
 import IndexCardModel from './index-card';
 
+const textMatchEvidenceType = 'https://share.osf.io/vocab/2023/trove/TextMatchEvidence';
+
 export interface IriMatchEvidence {
-    '@type': 'IriMatchEvidence';
+    '@type': [string];
     matchingIri: string;
-    propertyPath: string[];
+    osfmapPropertyPath: string[];
 }
 
 export interface TextMatchEvidence {
-    '@type': 'TextMatchEvidence';
+    '@type': [string];
     matchingHighlight: string;
-    propertyPath: string[];
+    osfmapPropertyPath: string[];
 }
 
 export default class SearchResultModel extends Model {
@@ -32,13 +35,15 @@ export default class SearchResultModel extends Model {
     // TODO: double check how matchEvidence works
     get context() {
         if (this.matchEvidence) {
-            return this.matchEvidence.reduce(
+            const matchEvidenceString = this.matchEvidence.reduce(
                 (acc, current) => acc.concat(
-                    `${current.propertyPath}:
-                    ${current['@type'] === 'TextMatchEvidence' ? current.matchingHighlight : current.matchingIri}`,
+                    `${current.osfmapPropertyPath[0]}: ${current['@type'][0] === textMatchEvidenceType
+                        ? (current as TextMatchEvidence).matchingHighlight
+                        : (current as IriMatchEvidence).matchingIri}; `,
                 ),
                 '',
             );
+            return htmlSafe(matchEvidenceString);
         }
         return null;
     }

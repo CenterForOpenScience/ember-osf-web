@@ -43,11 +43,11 @@
                 <span>{{field.label}}: {{field.date}}</span>
             {{/each}}
         </div>
-        <div local-class='context-field'>
-            <p>
-                {{@result.context}}
-            </p>
-        </div>
+        {{#if @result.context}}
+            <div local-class='context-field'>
+                <span>{{t 'osf-components.search-result-card.context'}}: {{@result.context}}</span>
+            </div>
+        {{/if}}
     </div>
     <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
         <panel.body>
