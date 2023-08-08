@@ -18,7 +18,15 @@ import uniqueId from 'ember-osf-web/utils/unique-id';
 
 interface ResourceTypeOption {
     display: string;
-    value: string;
+    value?: ResourceTypeFilterValue | null;
+}
+
+export enum ResourceTypeFilterValue {
+    Registrations = 'Registration,RegistrationComponent',
+    Projects = 'Project,ProjectComponent',
+    Preprints = 'Preprint',
+    Users = 'User',
+    Files = 'File',
 }
 
 interface SortOption {
@@ -32,10 +40,10 @@ export interface Filter {
 }
 
 export interface OnSearchParams {
-    q?: string;
+    cardSearchText?: string;
     page?: string;
     sort?: string;
-    resourceType?: string;
+    resourceType?: ResourceTypeFilterValue | null;
 }
 
 interface SearchArgs {
@@ -47,7 +55,7 @@ interface SearchArgs {
     propertySearch: SearchResultModel;
     toggleFilter: (filter: Filter) => void;
     sort: string;
-    resourceType: string;
+    resourceType?: ResourceTypeFilterValue;
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
     showResourceTypeFilter: boolean;
@@ -137,12 +145,30 @@ export default class SearchPage extends Component<SearchArgs> {
 
     // Resource type
     resourceTypeOptions: ResourceTypeOption[] = [
-        { display: this.intl.t('search.resource-type.all'), value: 'All' },
-        { display: this.intl.t('search.resource-type.projects'), value: 'Projects' },
-        { display: this.intl.t('search.resource-type.registrations'), value: 'Registrations' },
-        { display: this.intl.t('search.resource-type.preprints'), value: 'Preprints' },
-        { display: this.intl.t('search.resource-type.files'), value: 'Files' },
-        { display: this.intl.t('search.resource-type.users'), value: 'Users' },
+        {
+            display: this.intl.t('search.resource-type.all'),
+            value: null,
+        },
+        {
+            display: this.intl.t('search.resource-type.projects'),
+            value: ResourceTypeFilterValue.Projects,
+        },
+        {
+            display: this.intl.t('search.resource-type.registrations'),
+            value: ResourceTypeFilterValue.Registrations,
+        },
+        {
+            display: this.intl.t('search.resource-type.preprints'),
+            value: ResourceTypeFilterValue.Preprints,
+        },
+        {
+            display: this.intl.t('search.resource-type.files'),
+            value: ResourceTypeFilterValue.Files,
+        },
+        {
+            display: this.intl.t('search.resource-type.users'),
+            value: ResourceTypeFilterValue.Users,
+        },
     ];
 
     // Sort
@@ -154,7 +180,7 @@ export default class SearchPage extends Component<SearchArgs> {
         { display: this.intl.t('search.sort.modified-date-ascending'), value: 'date_modified' },
     ];
 
-    @tracked resourceType: string;
+    @tracked resourceType?: ResourceTypeFilterValue | null;
     @tracked sort: string;
     @tracked activeFilters = A<Filter>([]);
 
@@ -162,25 +188,27 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async search() {
         try {
-            const q = this.searchText;
+            const cardSearchText = this.searchText;
             const { page, sort, activeFilters, resourceType } = this;
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 acc[filter.property] = filter.value;
                 return acc;
             }, {} as { [key: string]: string });
-            filterQueryObject['resourceType'] = resourceType;
+            if (resourceType) {
+                filterQueryObject['resourceType'] = resourceType;
+            }
             filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             const searchResult = await this.store.queryRecord('index-card-search', {
-                q,
+                cardSearchText,
                 page,
                 sort,
-                filter: filterQueryObject,
+                cardSearchFilter: filterQueryObject,
             });
             this.propertySearch = await searchResult.relatedPropertySearch;
             this.searchResults = searchResult.searchResultPage.toArray();
             this.totalResultCount = searchResult.totalResultCount;
             if (this.args.onSearch) {
-                this.args.onSearch({q, sort, resourceType});
+                this.args.onSearch({cardSearchText, sort, resourceType});
             }
         } catch (e) {
             this.toast.error(e);
