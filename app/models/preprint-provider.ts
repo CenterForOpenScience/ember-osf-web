@@ -64,12 +64,14 @@ export default class PreprintProviderModel extends ProviderModel {
     get providerTitle() {
         if (this.id !== defaultProvider) {
             if (this.preprintWordInTitle) {
+                return this.name;
+            } else {
                 return this.intl.t('preprints.provider-title',
                     { name: this.name, pluralizedPreprintWord: this.documentType.pluralCapitalized });
             }
-            return this.name;
+        } else {
+            return this.documentType.pluralCapitalized;
         }
-        return this.intl.t('preprints.osf-title');
     }
 }
 
