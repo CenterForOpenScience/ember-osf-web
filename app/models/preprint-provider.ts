@@ -18,6 +18,7 @@ const { defaultProvider } = config;
 export default class PreprintProviderModel extends ProviderModel {
     @service intl!: Intl;
 
+    @attr('fixstring') email_support!: string | null;
     @attr('array') subjectsAcceptable!: string[];
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
