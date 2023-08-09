@@ -1,3 +1,8 @@
+{{#if @result.description}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.description'}}: {{@result.description}}</span>
+    </div>
+{{/if}}
 {{#if @result.funders}}
     <div>
         <span>{{t 'osf-components.search-result-card.funder'}}: </span>
@@ -11,14 +16,14 @@
         </InlineList>
     </div>
 {{/if}}
-{{#if @result.description}}
+{{#if @result.isPartOfCollection}}
     <div>
-        <span>{{t 'osf-components.search-result-card.description'}}: {{@result.description}}</span>
+        <span>{{t 'osf-components.search-result-card.collection'}}: <a href={{@result.isPartOfCollection.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOfCollection.title}} </a></span>
     </div>
 {{/if}}
-{{#if @result.license}}
+{{#if @resource.language}}
     <div>
-        <span>{{t 'osf-components.search-result-card.license'}}: <a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></span>
+        <span>{{t 'osf-components.search-result-card.language'}}: {{@resource.language}}</span>
     </div>
 {{/if}}
 {{#if @result.doi}}
@@ -32,5 +37,10 @@
         >
             <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
         </InlineList>
+    </div>
+{{/if}}
+{{#if @result.license}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.license'}}: <a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></span>
     </div>
 {{/if}}

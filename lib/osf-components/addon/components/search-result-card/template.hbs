@@ -35,12 +35,14 @@
         {{/if}}
         {{#if @result.isPartOf}}
             <div>
-                <span>{{@result.isPartOf.label}}: <a href={{@result.isPartOf.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOf.title}} </a></span>
+                <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isPartOf.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOf.title}} </a></span>
             </div>
         {{/if}}
         <div local-class='date-fields'>
             {{#each @result.dateFields as |field|}}
-                <span>{{field.label}}: {{field.date}}</span>
+                {{#if field.date}}
+                    <span>{{field.label}}: {{field.date}}</span>   
+                {{/if}}
             {{/each}}
         </div>
         {{#if @result.context}}

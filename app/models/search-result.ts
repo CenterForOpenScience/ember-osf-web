@@ -57,6 +57,10 @@ export default class SearchResultModel extends Model {
         return this.resourceMetadata['title']?.[0]['@value'];
     }
 
+    get description() {
+        return this.resourceMetadata.description?.[0]?.['@value'];
+    }
+
     get absoluteUrl() {
         return this.resourceMetadata['@id'];
     }
@@ -105,12 +109,26 @@ export default class SearchResultModel extends Model {
         const isPartOf = this.resourceMetadata.isPartOf;
         if (isPartOf) {
             return {
-                label: this.intl.t('osf-components.search-result-card.from'),
                 title: this.resourceMetadata.isPartOf?.[0]?.title?.[0]?.['@value'],
                 absoluteUrl: this.resourceMetadata.isPartOf?.[0]?.['@id'],
             };
         }
         return null;
+    }
+
+    get isPartOfCollection() {
+        const isPartOfCollection = this.resourceMetadata.isPartOfCollection;
+        if (isPartOfCollection) {
+            return {
+                title: this.resourceMetadata.isPartOfCollection?.[0]?.title?.[0]?.['@value'],
+                absoluteUrl: this.resourceMetadata.isPartOfCollection?.[0]?.['@id'],
+            };
+        }
+        return null;
+    }
+
+    get language() {
+        return this.resourceMetadata.language;
     }
 
     get funders() {

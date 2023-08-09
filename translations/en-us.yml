@@ -1848,6 +1848,7 @@ routes:
         email: Email
 osf-components:
     search-result-card:
+        collection: Collection
         context: Context
         funder: Funder
         registration_template: Registration template
