@@ -11,7 +11,6 @@ import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Media from 'ember-responsive';
 
-import IndexPropertySearchModel from 'ember-osf-web/models/index-property-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
 import uniqueId from 'ember-osf-web/utils/unique-id';
@@ -37,6 +36,7 @@ interface SortOption {
 export interface Filter {
     property: string;
     value: string;
+    label: string;
 }
 
 export interface OnSearchParams {
@@ -71,7 +71,7 @@ export default class SearchPage extends Component<SearchArgs> {
 
     @tracked searchText?: string;
     @tracked searchResults?: SearchResultModel[];
-    @tracked propertySearch?: IndexPropertySearchModel;
+    @tracked relatedProperties?: SearchResultModel[] = [];
     @tracked page?: number = 1;
     @tracked totalResultCount?: number;
 
@@ -116,13 +116,6 @@ export default class SearchPage extends Component<SearchArgs> {
 
     get showSidePanelToggle() {
         return this.media.isMobile || this.media.isTablet;
-    }
-
-    get filterableProperties() {
-        if (!this.propertySearch) {
-            return [];
-        }
-        return this.propertySearch.get('searchResultPage');
     }
 
     get selectedResourceTypeOption() {
@@ -204,7 +197,8 @@ export default class SearchPage extends Component<SearchArgs> {
                 sort,
                 cardSearchFilter: filterQueryObject,
             });
-            this.propertySearch = await searchResult.relatedPropertySearch;
+            await searchResult.relatedProperties;
+            this.relatedProperties = searchResult.relatedProperties;
             this.searchResults = searchResult.searchResultPage.toArray();
             this.totalResultCount = searchResult.totalResultCount;
             if (this.args.onSearch) {

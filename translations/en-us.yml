@@ -254,7 +254,7 @@ search:
         header: Refine
         no-filterable-properties: 'No properties'
     active-filters:
-        remove-filter: 'Remove filter {property} {value}'
+        remove-filter: 'Remove filter {property} {label}'
     filter-facet:
         facet-load-failed: 'Failed to load facet values'
         see-more: 'See more'
