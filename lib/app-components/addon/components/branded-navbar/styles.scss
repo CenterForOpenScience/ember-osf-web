@@ -63,8 +63,8 @@
     background-position-y: center;
     background-size: contain;
     background-repeat: no-repeat;
-    // This is overwritten by theme-styles component,
-    // but if there is no provider.asset.square_color_transparent, we fallback to use the logo off the brand
+    // This is overwritten by theme-styles component for Collections,
+    // For Preprints we use the logo off the brand
     background-image: var(--navbar-logo-img-url);
 }
 
