@@ -23,7 +23,7 @@ export default class SearchResultModel extends Model {
     @service intl!: IntlService;
 
     @attr('array') matchEvidence!: Array<IriMatchEvidence | TextMatchEvidence>;
-    @attr('number') recordResultCount!: number;
+    @attr('number') cardSearchResultCount!: number;
 
     @belongsTo('index-card', { inverse: null })
     indexCard!: IndexCardModel;
