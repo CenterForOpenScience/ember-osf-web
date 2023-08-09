@@ -56,6 +56,15 @@ export default class BrandedNavbar extends Component {
     @alias('theme.provider.id') providerId!: string;
     @alias('theme.provider.brand.primaryColor') brandPrimaryColor!: BrandModel;
 
+    @computed('theme.{providerType,provider.id}')
+    get useWhiteBackground(): boolean {
+        const { provider } = this.theme;
+        if (provider) {
+            return this.theme.providerType === 'preprint' && ['biohackrxiv', 'nutrixiv'].includes(provider.id);
+        }
+        return false;
+    }
+
     @computed('intl.locale', 'theme.{providerType,provider.providerTitle}', 'translateKey')
     get brandTitle(): string {
         if (this.theme.providerType === 'collection') {
