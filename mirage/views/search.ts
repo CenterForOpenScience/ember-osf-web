@@ -11,14 +11,14 @@ export function cardSearch(_: Schema, __: Request) {
                 cardSearchText: 'hello',
                 cardSearchFilter: [
                     {
-                        propertyPath: 'resourceType',
+                        osfmapPropertyPath: 'resourceType',
                         filterType: 'eq',
                         filterValues: [
                             'osf:Registration',
                         ],
                     },
                     {
-                        propertyPath: 'subject',
+                        osfmapPropertyPath: 'subject',
                         filterType: 'eq',
                         filterValues: [
                             'https://subjects.org/subjectId',
@@ -63,11 +63,13 @@ export function cardSearch(_: Schema, __: Request) {
                 attributes: {
                     matchEvidence: [
                         {
-                            propertyPath: 'description',
+                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
+                            osfmapPropertyPath: 'description',
                             matchingHighlight: '... say <em>hello</em>!',
                         },
                         {
-                            propertyPath: 'title',
+                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
+                            osfmapPropertyPath: 'title',
                             matchingHighlight: '... shout <em>hello</em>!',
                         },
                     ],
@@ -90,7 +92,8 @@ export function cardSearch(_: Schema, __: Request) {
                 attributes: {
                     matchEvidence: [
                         {
-                            propertyPath: 'description',
+                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
+                            osfmapPropertyPath: 'description',
                             matchingHighlight: '... computer said <em>hello</em> world!',
                         },
                     ],
@@ -113,7 +116,8 @@ export function cardSearch(_: Schema, __: Request) {
                 attributes: {
                     matchEvidence: [
                         {
-                            propertyPath: 'title',
+                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
+                            osfmapPropertyPath: 'title',
                             matchingHighlight: '... you said <em>hello</em>!',
                         },
                     ],
@@ -134,15 +138,15 @@ export function cardSearch(_: Schema, __: Request) {
                 type: 'index-card',
                 id: 'abc',
                 attributes: {
-                    resourceType: [
-                        'osf:Registration',
-                        'dcterms:Dataset',
-                    ],
                     resourceIdentifier: [
                         'https://osf.example/abcfoo',
                         'https://doi.org/10.0000/osf.example/abcfoo',
                     ],
                     resourceMetadata: {
+                        resourceType: [
+                            'osf:Registration',
+                            'dcterms:Dataset',
+                        ],
                         '@id': 'https://osf.example/abcfoo',
                         '@type': 'osf:Registration',
                         title: [
@@ -203,12 +207,12 @@ export function cardSearch(_: Schema, __: Request) {
                                 ],
                             },
                         ],
-                        creator: {
+                        creator: [{
                             '@id': 'https://osf.example/person',
                             '@type': 'dcterms:Agent',
                             specificType: 'foaf:Person',
                             name: 'person person, prsn',
-                        },
+                        }],
                     },
                 },
                 links: {
@@ -220,15 +224,15 @@ export function cardSearch(_: Schema, __: Request) {
                 type: 'index-card',
                 id: 'def',
                 attributes: {
-                    resourceType: [
-                        'osf:Registration',
-                        'dcterms:Dataset',
-                    ],
                     resourceIdentifier: [
                         'https://osf.example/abcfoo',
                         'https://doi.org/10.0000/osf.example/abcfoo',
                     ],
                     resourceMetadata: {
+                        resourceType: [
+                            'osf:Registration',
+                            'dcterms:Dataset',
+                        ],
                         '@id': 'https://osf.example/abcfoo',
                         '@type': 'osf:Registration',
                         title: [
@@ -248,15 +252,15 @@ export function cardSearch(_: Schema, __: Request) {
                 type: 'index-card',
                 id: 'ghi',
                 attributes: {
-                    resourceType: [
-                        'osf:Registration',
-                        'dcterms:Dataset',
-                    ],
                     resourceIdentifier: [
                         'https://osf.example/abcfoo',
                         'https://doi.org/10.0000/osf.example/abcfoo',
                     ],
                     resourceMetadata: {
+                        resourceType: [
+                            'osf:Registration',
+                            'dcterms:Dataset',
+                        ],
                         '@id': 'https://osf.example/abcfoo',
                         '@type': 'osf:Registration',
                         title: [
@@ -340,7 +344,8 @@ export function cardSearch(_: Schema, __: Request) {
                 attributes: {
                     matchEvidence: [
                         {
-                            propertyPath: 'resourceType',
+                            '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
+                            osfmapPropertyPath: 'resourceType',
                             matchingIri: 'rdf:Property',
                         },
                     ],
@@ -364,7 +369,8 @@ export function cardSearch(_: Schema, __: Request) {
                 attributes: {
                     matchEvidence: [
                         {
-                            propertyPath: 'resourceType',
+                            '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
+                            osfmapPropertyPath: 'resourceType',
                             matchingIri: 'rdf:Property',
                         },
                     ],
@@ -388,7 +394,8 @@ export function cardSearch(_: Schema, __: Request) {
                 attributes: {
                     matchEvidence: [
                         {
-                            propertyPath: 'resourceType',
+                            '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
+                            osfmapPropertyPath: 'resourceType',
                             matchingIri: 'rdf:Property',
                         },
                     ],
@@ -517,7 +524,7 @@ export function valueSearch(_: Schema, __: Request) {
                 valueSearchText: 'Institute of Health',
                 valueSearchFilter: [
                     {
-                        propertyPath: 'resourceType',
+                        osfmapPropertyPath: 'resourceType',
                         filterType: 'eq',
                         filterValues: ['datacite:Funder'],
                     },
@@ -525,7 +532,7 @@ export function valueSearch(_: Schema, __: Request) {
                 cardSearchText: 'influenza',
                 cardSearchFilter: [
                     {
-                        propertyPath: 'resourceType',
+                        osfmapPropertyPath: 'resourceType',
                         filterType: 'eq',
                         filterValues: ['datacite:Dataset'],
                     },
@@ -554,7 +561,11 @@ export function valueSearch(_: Schema, __: Request) {
                 id: property1Id,
                 attributes: {
                     matchEvidence: [
-                        {propertyPath: 'title', matchingHighlight: 'National <em>Institute of Health</em>'},
+                        {
+                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
+                            osfmapPropertyPath: 'title',
+                            matchingHighlight: 'National <em>Institute of Health</em>',
+                        },
                     ],
                     recordResultCount: 2134,
                 },
@@ -570,7 +581,11 @@ export function valueSearch(_: Schema, __: Request) {
                 id: property2Id,
                 attributes: {
                     matchEvidence: [
-                        {propertyPath: 'title', matchingHighlight: 'Virginia <em>Institute of Health</em>'},
+                        {
+                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
+                            osfmapPropertyPath: 'title',
+                            matchingHighlight: 'Virginia <em>Institute of Health</em>',
+                        },
                     ],
                     recordResultCount: 2,
                 },
