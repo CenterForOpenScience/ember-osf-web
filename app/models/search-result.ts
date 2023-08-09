@@ -204,6 +204,10 @@ export default class SearchResultModel extends Model {
     get hasSupplementalResource() {
         return this.resourceMetadata.hasSupplementalResource;
     }
+
+    get registrationTemplate() {
+        return this.resourceMetadata['https://osf.io/vocab/2022/registration_type']?.[0]?.['@value'];
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
