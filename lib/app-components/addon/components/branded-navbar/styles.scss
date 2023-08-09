@@ -63,8 +63,8 @@
     background-position-y: center;
     background-size: contain;
     background-repeat: no-repeat;
-    // This is overwritten by theme-styles component for Collections,
-    // For Preprints we use the logo off the brand
+    // Preprints uses the brand's navbar logo
+    // Collections uses the theme-styles component and will overwrite this
     background-image: var(--navbar-logo-img-url);
 }
 
