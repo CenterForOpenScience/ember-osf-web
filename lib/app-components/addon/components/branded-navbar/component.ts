@@ -56,7 +56,6 @@ export default class BrandedNavbar extends Component {
     @alias('theme.provider.id') providerId!: string;
     @alias('theme.provider.brand.primaryColor') brandPrimaryColor!: BrandModel;
 
-    // @computed('theme.{providerType,provider.id}')
     get useWhiteBackground(): boolean {
         const { provider } = this.theme;
         if (provider) {
