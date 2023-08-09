@@ -166,6 +166,26 @@ export default class SearchResultModel extends Model {
         }
         return 'unknown';
     }
+
+    get hasDataResource() {
+        return this.resourceMetadata.hasDataResource;
+    }
+
+    get hasAnalyticCodeResource() {
+        return this.resourceMetadata.hasAnalyticCodeResource;
+    }
+
+    get hasMaterialsResource() {
+        return this.resourceMetadata.hasMaterialsResource;
+    }
+
+    get hasPapersResource() {
+        return this.resourceMetadata.hasPapersResource;
+    }
+
+    get hasSupplementalResource() {
+        return this.resourceMetadata.hasSupplementalResource;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

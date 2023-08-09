@@ -48,6 +48,17 @@
                 <span>{{t 'osf-components.search-result-card.context'}}: {{@result.context}}</span>
             </div>
         {{/if}}
+        {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
+            <OpenBadgesList
+                    @hasData={{@result.hasDataResource}}
+                    @hasMaterials={{@result.hasMaterialsResource}}
+                    @hasAnalyticCode={{@result.hasAnalyticCodeResource}}
+                    @hasPapers={{@result.hasPapersResource}}
+                    @hasSupplements={{@result.hasSupplementsResource}}
+                    @registration={{'abcde'}}
+                    @verticalLayout={{false}}
+                />
+        {{/if}}
     </div>
     <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
         <panel.body>
