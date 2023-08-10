@@ -11,9 +11,11 @@
         </InlineList>
     </div>
 {{/if}}
-<div>
-    <span>{{t 'osf-components.search-result-card.registration_template'}}:</span>
-</div>
+{{#if @result.registrationTemplate}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.registration_template'}}: {{@result.registrationTemplate}}</span>
+    </div>
+{{/if}}
 {{#if @result.license}}
     <div>
         <span>{{t 'osf-components.search-result-card.license'}}: <a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></span>
