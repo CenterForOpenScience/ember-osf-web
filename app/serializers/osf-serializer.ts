@@ -9,10 +9,7 @@ import { AttributesObject } from 'jsonapi-typescript';
 // This import will change with 4.12 of ember-data. It will instead be
 // import { peekGraph } from '@ember-data/graph/-private';
 import { peekGraph } from '@ember-data/record-data/-private';
-// You should also be able to
-// import { recordIdentifierFor } from '@ember-data/store';
-// and use that to const relationship = peekGraph(store).get(recordIdentifierFor(record), key)
-// instead of what I did in the hack below.
+import { recordIdentifierFor } from '@ember-data/store';
 
 import {
     PaginatedMeta,
@@ -140,17 +137,6 @@ export default class OsfSerializer extends JSONAPISerializer {
         return underscore(key);
     }
 
-    getGraphRelationships(snapshot: DS.Snapshot) {
-        const graph = peekGraph(this.store);
-        const identifiers = graph.identifiers;
-        for (const [key, value] of identifiers) {
-            if(key.id === snapshot.id && key.type === snapshot.type.modelName) {
-                return value;
-            }
-        }
-        return undefined;
-    }
-
     serialize(snapshot: DS.Snapshot, options: { includeId?: boolean, osf?: OsfSerializerOptions } = {}) {
         const serialized = super.serialize(snapshot, options) as SingleResourceDocument;
         serialized.data.type = underscore(serialized.data.type);
@@ -171,9 +157,9 @@ export default class OsfSerializer extends JSONAPISerializer {
             // When https://github.com/emberjs/data/pull/8131 is merged, we should have public access
             // to this data from a new import location.
             if (serialized.data.relationships) {
-                const relationships = this.getGraphRelationships(snapshot);
+                const graph = peekGraph(this.store);
                 for (const key of Object.keys(serialized.data.relationships)) {
-                    const rel = relationships[camelize(key)];
+                    const rel = graph.get(recordIdentifierFor(snapshot.record), camelize(key));
                     let isClean = true;
                     if (rel.definition.kind === 'belongsTo') {
                         isClean = rel.localState === rel.remoteState;
