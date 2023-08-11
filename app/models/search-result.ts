@@ -57,6 +57,13 @@ export default class SearchResultModel extends Model {
         return this.resourceMetadata['title']?.[0]['@value'];
     }
 
+    get fileTitle() {
+        if (this.resourceType === 'file') {
+            return this.resourceMetadata.title?.[0]['@value'];
+        }
+        return null;
+    }
+
     get description() {
         return this.resourceMetadata.description?.[0]?.['@value'];
     }
