@@ -34,13 +34,9 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked filterableValues: SearchResultModel[] = [];
     @tracked seeMoreModalShown = false;
     @tracked selectedProperty: SearchResultModel | null = null;
+    @tracked showSeeMoreButton = false;
 
     getLocalizedString = new GetLocalizedPropertyHelper(getOwner(this));
-
-    get showSeeMoreButton() {
-        // TODO: make this actually check if there are more
-        return true;
-    }
 
     get propertyCard() {
         return this.args.property.get('indexCard');
@@ -95,7 +91,9 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             page,
             sort,
         });
-        const results = valueSearch.get('searchResultPage').toArray();
+        const searchResultPage = valueSearch.get('searchResultPage');
+        this.showSeeMoreButton = Boolean(searchResultPage.links.next);
+        const results = searchResultPage.toArray();
         this.filterableValues = results;
     }
 }
