@@ -1,7 +1,7 @@
 {{#each this.sortedList as |pair|}}
-    <div local-class='subject-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='subject-container {{if this.isMobile 'mobile'}}' data-test-subject-container>
         {{#each pair as |subject|}}
-            <div local-class='subject-item'>
+            <div local-class='subject-item' data-test-taxonomy-container>
                 <OsfLink
                     data-test-taxonomy-link
                     data-analytics-name='Preprints taxonomy link'
