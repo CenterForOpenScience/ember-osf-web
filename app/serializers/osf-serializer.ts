@@ -6,6 +6,11 @@ import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { AttributesObject } from 'jsonapi-typescript';
 
+// This import will change with 4.12 of ember-data. It will instead be
+// import { peekGraph } from '@ember-data/graph/-private';
+import { peekGraph } from '@ember-data/record-data/-private';
+import { recordIdentifierFor } from '@ember-data/store';
+
 import {
     PaginatedMeta,
     Resource,
@@ -147,10 +152,30 @@ export default class OsfSerializer extends JSONAPISerializer {
                     delete serialized.data.attributes![attribute];
                 }
             }
+
+            // The following is a bit of a hack as it relies on currently private information.
+            // When https://github.com/emberjs/data/pull/8131 is merged, we should have public access
+            // to this data from a new import location.
             if (serialized.data.relationships) {
+                const graph = peekGraph(this.store);
                 for (const key of Object.keys(serialized.data.relationships)) {
-                    const rel = serialized.data.relationships[key];
-                    if (rel === null) {
+                    const rel = graph.get(recordIdentifierFor(snapshot.record), camelize(key));
+                    let isClean = true;
+                    if (rel.definition.kind === 'belongsTo') {
+                        isClean = rel.localState === rel.remoteState;
+                    } else if (rel.definition.kind === 'hasMany') {
+                        if (rel.canonicalState.length !== rel.currentState.length) {
+                            isClean = false;
+                        } else {
+                            for (const stateKey in rel.canonicalState) {
+                                if(rel.canonicalState[stateKey] !== rel.currentState[stateKey]) {
+                                    isClean = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (isClean) {
                         delete serialized.data.relationships[key];
                     }
                 }
