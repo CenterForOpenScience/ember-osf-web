@@ -62,6 +62,10 @@ export default class TaxonomyTopList extends Component<InputArgs> {
 
         }
 
+        if (pairedList.length > 0 && typeof this.args.provider !== 'string') {
+            throw new Error('A provider string must be provided with a valid list');
+        }
+
         return pairedList;
     }
 }
