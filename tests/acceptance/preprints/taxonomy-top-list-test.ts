@@ -1,3 +1,4 @@
+import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import Ember from 'ember';
 import { hbs } from 'ember-cli-htmlbars';
@@ -147,6 +148,63 @@ module('Acceptance | preprints | taxonomy-top-list', hooks => {
         assert.equal(linkContainers.length, 1, 'The link container is grouped in one');
 
         // And the third link is verified to be sorted correctly
+        links = linkContainers[0].querySelectorAll('[data-test-taxonomy-link]');
+        assert.dom(links[0]).hasText('elephant', 'The first link is elephant');
+        // And the href is corrected
+        // eslint-disable-next-line max-len
+        assert.dom(links[0]).hasAttribute('href', 'preprints/outdoorLife/discover?subject=forgetful', 'The href is blank');
+    });
+
+    test('it creates a 2 rows and one subjects in mobile mode', async function(this: EnginesTestContext,assert) {
+
+        const mediaServiceStub = Service.extend({
+            isMobile: true,
+            isDesktop: false,
+        });
+
+        this.owner.register('service:media', mediaServiceStub);
+
+        // Given the taxonomy list is created with two subjects
+        this.set('list', [
+            {
+                text: 'elephant',
+                taxonomyName: 'forgetful',
+            } as SubjectModel,
+            {
+                text: 'deer',
+                taxonomyName: 'The sneaky',
+            } as SubjectModel,
+        ]);
+
+        // When the component is rendered
+        await render(hbs`
+            <Preprints::-components::TaxonomyTopList
+                @list={{this.list}}
+                @provider='outdoorLife'
+            >
+            </Preprints::-components::TaxonomyTopList>
+        `);
+
+        // Then the subject container is verified
+        const subjectContainers = this.element.querySelectorAll('[data-test-subject-container]');
+        assert.equal(subjectContainers.length, 2, 'The subject container has 1 container');
+
+        // And the link containers are verified
+        let linkContainers = subjectContainers[0].querySelectorAll('[data-test-taxonomy-container]');
+        assert.equal(linkContainers.length, 1, 'The link container is grouped in one');
+
+        // And the first link is verified to be sorted correctly
+        let links = linkContainers[0].querySelectorAll('[data-test-taxonomy-link]');
+        assert.dom(links[0]).hasText('deer', 'The first link is deer');
+        // And the href is corrected
+        // eslint-disable-next-line max-len
+        assert.dom(links[0]).hasAttribute('href', 'preprints/outdoorLife/discover?subject=The sneaky', 'The href is blank');
+
+        // And the link containers are verified
+        linkContainers = subjectContainers[1].querySelectorAll('[data-test-taxonomy-container]');
+        assert.equal(linkContainers.length, 1, 'The link container is grouped in one');
+
+        // And the first link is verified to be sorted correctly
         links = linkContainers[0].querySelectorAll('[data-test-taxonomy-link]');
         assert.dom(links[0]).hasText('elephant', 'The first link is elephant');
         // And the href is corrected
