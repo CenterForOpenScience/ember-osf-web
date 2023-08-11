@@ -48,7 +48,6 @@ export interface OnSearchParams {
 
 interface SearchArgs {
     onSearch?: (obj: OnSearchParams) => void;
-    query?: string;
     cardSearchText: string;
     cardSearchFilters: Filter[];
     propertyCard: IndexCardModel;
@@ -59,6 +58,7 @@ interface SearchArgs {
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
     showResourceTypeFilter: boolean;
+    page: string;
 }
 
 const searchDebounceTime = 100;
@@ -69,15 +69,15 @@ export default class SearchPage extends Component<SearchArgs> {
     @service store!: Store;
     @service media!: Media;
 
-    @tracked searchText?: string;
+    @tracked cardSearchText?: string;
     @tracked searchResults?: SearchResultModel[];
     @tracked propertySearch?: IndexPropertySearchModel;
-    @tracked page?: number = 1;
+    @tracked page?: string = '';
     @tracked totalResultCount?: number;
 
     constructor( owner: unknown, args: SearchArgs) {
         super(owner, args);
-        this.searchText = this.args.query;
+        this.cardSearchText = this.args.cardSearchText;
         this.sort = this.args.sort;
         this.resourceType = this.args.resourceType;
         taskFor(this.search).perform();
@@ -188,7 +188,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async search() {
         try {
-            const cardSearchText = this.searchText;
+            const cardSearchText = this.cardSearchText;
             const { page, sort, activeFilters, resourceType } = this;
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 acc[filter.property] = filter.value;
@@ -215,6 +215,11 @@ export default class SearchPage extends Component<SearchArgs> {
         } catch (e) {
             this.toast.error(e);
         }
+    }
+
+    async switchPage(page: string) {
+        this.page = page;
+        taskFor(this.search).perform();
     }
 
     @task({ restartable: true })

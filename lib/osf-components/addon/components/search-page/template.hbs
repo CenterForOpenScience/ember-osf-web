@@ -234,6 +234,21 @@ as |layout|>
                 <p local-class='no-results'>{{t 'search.no-results'}}</p>
             {{/each}}
         {{/if}}
+        {{#each this.searchResults as |item|}}
+            <SearchResultCard @result={{item}} />
+        {{/each}}
+        <div local-class='pagination-buttons'>
+            <Button
+            >
+                {{t 'search.first'}}
+            </Button>
+            <Button>
+                {{t 'search.prev'}}
+            </Button>
+            <Button>
+                {{t 'search.next'}}
+            </Button>
+        </div>
     </layout.main>
 </OsfLayout>
 {{#if this.showTooltip1}}
