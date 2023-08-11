@@ -75,6 +75,8 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked page?: number = 1;
     @tracked totalResultCount?: number;
 
+    @tracked filterQueryObject: Record<string, string> = {};
+
     constructor( owner: unknown, args: SearchArgs) {
         super(owner, args);
         this.searchText = this.args.query;
@@ -191,6 +193,7 @@ export default class SearchPage extends Component<SearchArgs> {
                 filterQueryObject['resourceType'] = resourceType;
             }
             filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
+            this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
                 cardSearchText,
                 page,

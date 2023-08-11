@@ -161,7 +161,7 @@ as |layout|>
             <SearchPage::FilterFacet
                 id={{if (eq index 0) this.firstFilterId null}}
                 @cardSearchText={{@query}}
-                @cardSearchFilter={{this.activeFilters}}
+                @cardSearchFilter={{this.filterQueryObject}}
                 @property={{filterableProperty}}
                 @toggleFilter={{this.toggleFilter}}
             />

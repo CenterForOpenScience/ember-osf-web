@@ -92,7 +92,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             sort,
         });
         const searchResultPage = valueSearch.get('searchResultPage');
-        this.showSeeMoreButton = Boolean(searchResultPage.links.next);
+        this.showSeeMoreButton = Boolean(searchResultPage.links?.next);
         const results = searchResultPage.toArray();
         this.filterableValues = results;
     }
