@@ -12,6 +12,7 @@
                 local-class='facet-expand-button'
                 aria-controls={{facetElementId}}
                 aria-expanded={{not this.collapsed}}
+                title={{this.propertyCard.label}}
                 {{on 'click' this.toggleFacet}}
             >
                 <span>{{this.propertyCard.label}}</span>
@@ -35,6 +36,7 @@
                                 data-analytics-name='toggle filter facet value {{value.indexCard.label}}'
                                 local-class='facet-link'
                                 @layout='fake-link'
+                                title={{value.indexCard.label}}
                                 {{on 'click' (fn @toggleFilter (hash property=this.propertyCard.label label=value.indexCard.label value=value.indexCard.resourceId))}}
                             >
                                 {{value.indexCard.label}}
