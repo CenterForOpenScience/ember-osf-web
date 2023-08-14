@@ -238,16 +238,27 @@ as |layout|>
             <SearchResultCard @result={{item}} />
         {{/each}}
         <div local-class='pagination-buttons'>
-            <Button
-            >
-                {{t 'search.first'}}
-            </Button>
-            <Button>
-                {{t 'search.prev'}}
-            </Button>
-            <Button>
-                {{t 'search.next'}}
-            </Button>
+            {{#if this.firstPageCursor}}
+                <Button
+                    {{on 'click' (fn this.switchPage this.firstPageCursor)}}
+                >
+                    {{t 'search.first'}}
+                </Button>
+            {{/if}}
+            {{#if this.prevPageCursor}}
+                <Button
+                    {{on 'click' (fn this.switchPage this.prevPageCursor)}}
+                >
+                    {{t 'search.prev'}}
+                </Button>
+            {{/if}}
+            {{#if this.nextPageCursor}}
+                <Button
+                    {{on 'click' (fn this.switchPage this.nextPageCursor)}}
+                >
+                    {{t 'search.next'}}
+                </Button>
+            {{/if}}
         </div>
     </layout.main>
 </OsfLayout>

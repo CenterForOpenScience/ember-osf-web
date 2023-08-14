@@ -74,6 +74,9 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked propertySearch?: IndexPropertySearchModel;
     @tracked page?: string = '';
     @tracked totalResultCount?: number;
+    @tracked firstPageCursor?: string | null;
+    @tracked prevPageCursor?: string | null;
+    @tracked nextPageCursor?: string | null;
 
     constructor( owner: unknown, args: SearchArgs) {
         super(owner, args);
@@ -202,23 +205,27 @@ export default class SearchPage extends Component<SearchArgs> {
             filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             const searchResult = await this.store.queryRecord('index-card-search', {
                 cardSearchText,
-                page,
+                'page[cursor]': page,
                 sort,
                 cardSearchFilter: filterQueryObject,
             });
+            this.firstPageCursor = searchResult.firstPageCursor;
+            this.nextPageCursor = searchResult.nextPageCursor;
+            this.prevPageCursor = searchResult.prevPageCursor;
             this.propertySearch = await searchResult.relatedPropertySearch;
             this.searchResults = searchResult.searchResultPage.toArray();
             this.totalResultCount = searchResult.totalResultCount;
             if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType});
+                this.args.onSearch({cardSearchText, sort, resourceType, page});
             }
         } catch (e) {
             this.toast.error(e);
         }
     }
 
-    async switchPage(page: string) {
-        this.page = page;
+    @action
+    switchPage(pageCursor: string) {
+        this.page = pageCursor;
         taskFor(this.search).perform();
     }
 
