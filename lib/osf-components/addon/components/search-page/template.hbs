@@ -234,9 +234,6 @@ as |layout|>
                 <p local-class='no-results'>{{t 'search.no-results'}}</p>
             {{/each}}
         {{/if}}
-        {{#each this.searchResults as |item|}}
-            <SearchResultCard @result={{item}} />
-        {{/each}}
         <div local-class='pagination-buttons'>
             {{#if this.firstPageCursor}}
                 <Button
