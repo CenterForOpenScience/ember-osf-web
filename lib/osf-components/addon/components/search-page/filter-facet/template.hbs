@@ -15,7 +15,7 @@
                 title={{this.propertyCardLabel}}
                 {{on 'click' this.toggleFacet}}
             >
-                <span>{{this.propertyCardLabel}}</span>
+                <span>{{t (concat 'search.filterable-properties.' this.propertyCardLabel)}}</span>
                 <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
             </Button>
             {{#if this.fetchFacetValues.isRunning}}
