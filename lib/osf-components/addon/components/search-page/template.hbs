@@ -157,17 +157,21 @@ as |layout|>
                 {{/each}}
             </ul>
         {{/if}}
-        {{#each this.relatedProperties as |filterableProperty index|}}
-            <SearchPage::FilterFacet
-                id={{if (eq index 0) this.firstFilterId null}}
-                @cardSearchText={{@query}}
-                @cardSearchFilter={{this.filterQueryObject}}
-                @property={{filterableProperty}}
-                @toggleFilter={{this.toggleFilter}}
-            />
+        {{#if this.search.isRunning}}
+            <LoadingIndicator @dark={{true}} />
         {{else}}
-            {{t 'search.left-panel.no-filterable-properties'}}
-        {{/each}}
+            {{#each this.relatedProperties as |filterableProperty index|}}
+                <SearchPage::FilterFacet
+                    id={{if (eq index 0) this.firstFilterId null}}
+                    @cardSearchText={{@query}}
+                    @cardSearchFilter={{this.filterQueryObject}}
+                    @property={{filterableProperty}}
+                    @toggleFilter={{this.toggleFilter}}
+                />
+            {{else}}
+                {{t 'search.left-panel.no-filterable-properties'}}
+            {{/each}}
+        {{/if}}
     </layout.left>
     <layout.main data-analytics-scope='Search page main'>
         {{!-- paginator --}}
@@ -218,9 +222,15 @@ as |layout|>
                 </div>
             </div>
         {{/unless}}
-        {{#each this.searchResults as |item|}}
-            <SearchResultCard @result={{item}} />
-        {{/each}}
+        {{#if this.search.isRunning}}
+            <LoadingIndicator @size='large' @dark={{true}} />
+        {{else}}
+            {{#each this.searchResults as |item|}}
+                <SearchResultCard @result={{item}} />
+            {{else}}
+                <p local-class='no-results'>{{t 'search.no-results'}}</p>
+            {{/each}}
+        {{/if}}
     </layout.main>
 </OsfLayout>
 {{#if this.showTooltip1}}

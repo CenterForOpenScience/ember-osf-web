@@ -234,6 +234,7 @@ search:
     search-button-label: 'Search'
     search-help-label: 'Help tutorial'
     total-results: '{count} results'
+    no-results: 'No results found'
     resource-type:
         search-by: 'Search by resource type'
         all: 'All'

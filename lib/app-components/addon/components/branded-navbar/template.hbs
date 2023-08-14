@@ -3,7 +3,7 @@
         local-class='branded-nav
         {{if (eq this.theme.providerType 'preprint') 'preprint-branded-navbar'}}
         {{if (sufficient-contrast this.brandPrimaryColor '#fff') 'light-text' 'dark-text'}}
-        {{if (eq this.theme.id 'biohackrxiv') 'biohackrxiv-branded-navbar'}}'
+        {{if this.useWhiteBackground 'white-background-branded-navbar'}}'
         class='navbar navbar-inverse navbar-fixed-top'
         id='navbarScope'
     >

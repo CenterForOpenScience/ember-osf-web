@@ -37,10 +37,21 @@ export function preprintsScenario(
         description: '<p style="color: black">This is the description for agrixiv!</p>',
     });
 
+    const nutrixiv = server.schema.preprintProviders.find('nutrixiv') as ModelInstance<PreprintProvider>;
+    const nutrixivBrand = server.create('brand', {
+        primaryColor: '#000000',
+        secondaryColor: '#888888',
+        heroBackgroundImage: 'https://singlecolorimage.com/get/4a4a4a/1000x1000',
+    });
+    nutrixiv.update({
+        brand: nutrixivBrand,
+        description: '<p style="color: green">This is the description for nutrixiv!</p>',
+    });
+
     const biohackrxiv = server.schema.preprintProviders.find('biohackrxiv') as ModelInstance<PreprintProvider>;
     const biohackrxivBrand = server.create('brand', {
         primaryColor: '#000000',
-        secondaryColor: '#888888',
+        secondaryColor: '#ccc',
         heroBackgroundImage: 'https://singlecolorimage.com/get/ffffff/1000x1000',
     });
     biohackrxiv.update({

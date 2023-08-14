@@ -189,9 +189,11 @@ export default class SearchPage extends Component<SearchArgs> {
                 acc[filter.property] = filter.value;
                 return acc;
             }, {} as { [key: string]: string });
-            if (resourceType) {
-                filterQueryObject['resourceType'] = resourceType;
+            let resourceTypeFilter = this.resourceType as string;
+            if (!resourceTypeFilter) {
+                resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
             }
+            filterQueryObject['resourceType'] = resourceTypeFilter;
             filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
