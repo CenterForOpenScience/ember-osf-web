@@ -48,10 +48,24 @@ export function cardSearch(_: Schema, __: Request) {
                         last: '...',
                     },
                 },
-                relatedPropertySearch: {
-                    data: {
-                        type: 'index-property-search',
-                        id: 'tuv',
+                relatedProperties: {
+                    data: [
+                        {
+                            type: 'search-result',
+                            id: 'propertyMatch1',
+                        },
+                        {
+                            type: 'search-result',
+                            id: 'propertyMatch2',
+                        },
+                        {
+                            type: 'search-result',
+                            id: 'propertyMatch3',
+                        },
+                    ],
+                    links: {
+                        next: '...',
+                        last: '...',
                     },
                 },
             },
@@ -282,62 +296,7 @@ export function cardSearch(_: Schema, __: Request) {
                     resource: 'https://osf.example/abcfoo',
                 },
             },
-            // Related properties search object
-            {
-                type: 'index-property-search',
-                id: 'tuv',
-                attributes: {
-                    cardSearchText: 'hello',
-                    cardSearchFilter: [
-                        {
-                            propertyPath: 'resourceType',
-                            filterType: 'eq',
-                            filterValues: [
-                                'osf:Registration',
-                            ],
-                        },
-                        {
-                            propertyPath: 'subject',
-                            filterType: 'eq',
-                            filterValues: [
-                                'https://subjects.org/subjectId',
-                            ],
-                        },
-                    ],
-                    propertySearchText: '',
-                    propertySearchFilter: [
-                        {
-                            propertyPath: 'resourceType',
-                            filterType: 'eq',
-                            filterValues: [
-                                'rdf:Property',
-                            ],
-                        },
-                    ],
-                },
-                relationships: {
-                    searchResultPage: {
-                        data: [
-                            {
-                                type: 'search-result',
-                                id: 'propertyMatch1',
-                            },
-                            {
-                                type: 'search-result',
-                                id: 'propertyMatch2',
-                            },
-                            {
-                                type: 'search-result',
-                                id: 'propertyMatch3',
-                            },
-                        ],
-                        links: {
-                            next: '...',
-                            last: '...',
-                        },
-                    },
-                },
-            },
+            // Related properties
             {
                 type: 'search-result',
                 id: 'propertyMatch1',
@@ -349,7 +308,7 @@ export function cardSearch(_: Schema, __: Request) {
                             matchingIri: 'rdf:Property',
                         },
                     ],
-                    recordResultCount: 345,
+                    cardSearchResultCount: 345,
                 },
                 relationships: {
                     indexCard: {
@@ -374,7 +333,7 @@ export function cardSearch(_: Schema, __: Request) {
                             matchingIri: 'rdf:Property',
                         },
                     ],
-                    recordResultCount: 123,
+                    cardSearchResultCount: 123,
                 },
                 relationships: {
                     indexCard: {
@@ -399,7 +358,7 @@ export function cardSearch(_: Schema, __: Request) {
                             matchingIri: 'rdf:Property',
                         },
                     ],
-                    recordResultCount: 33,
+                    cardSearchResultCount: 33,
                 },
                 relationships: {
                     indexCard: {
@@ -550,9 +509,6 @@ export function valueSearch(_: Schema, __: Request) {
                         last: '...',
                     },
                 },
-                relatedPropertySearch: {
-                    data: {type: 'index-property-search', id: '12345'},
-                },
             },
         },
         included: [
@@ -567,7 +523,7 @@ export function valueSearch(_: Schema, __: Request) {
                             matchingHighlight: 'National <em>Institute of Health</em>',
                         },
                     ],
-                    recordResultCount: 2134,
+                    cardSearchResultCount: 2134,
                 },
                 relationships: {
                     indexCard: {
@@ -587,7 +543,7 @@ export function valueSearch(_: Schema, __: Request) {
                             matchingHighlight: 'Virginia <em>Institute of Health</em>',
                         },
                     ],
-                    recordResultCount: 2,
+                    cardSearchResultCount: 2,
                 },
                 relationships: {
                     indexCard: {

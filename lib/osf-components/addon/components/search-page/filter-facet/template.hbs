@@ -4,18 +4,18 @@
         local-class='facet-wrapper'
         ...attributes
     >
-        {{#let (unique-id this.propertyCard.label) as |facetElementId|}}
+        {{#let (unique-id this.propertyCardLabel) as |facetElementId|}}
             <Button
-                data-analytics-name='filter facet toggle {{this.propertyCard.label}}'
-                data-test-filter-facet-toggle={{this.propertyCard.label}}
+                data-analytics-name='filter facet toggle {{this.propertyCardLabel}}'
+                data-test-filter-facet-toggle={{this.propertyCardLabel}}
                 @layout='fake-link'
                 local-class='facet-expand-button'
                 aria-controls={{facetElementId}}
                 aria-expanded={{not this.collapsed}}
-                title={{this.propertyCard.label}}
+                title={{this.propertyCardLabel}}
                 {{on 'click' this.toggleFacet}}
             >
-                <span>{{this.propertyCard.label}}</span>
+                <span>{{this.propertyCardLabel}}</span>
                 <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
             </Button>
             {{#if this.fetchFacetValues.isRunning}}
@@ -37,7 +37,7 @@
                                 local-class='facet-link'
                                 @layout='fake-link'
                                 title={{value.indexCard.label}}
-                                {{on 'click' (fn @toggleFilter (hash property=this.propertyCard.label label=value.indexCard.label value=value.indexCard.resourceId))}}
+                                {{on 'click' (fn @toggleFilter (hash property=this.propertyCardLabel label=value.indexCard.label value=value.indexCard.resourceId))}}
                             >
                                 {{value.indexCard.label}}
                             </Button>
@@ -50,8 +50,8 @@
                     {{#if this.showSeeMoreButton}}
                         <li>
                             <Button
-                                data-analytics-name='see more filterable values {{this.propertyCard.label}}'
-                                data-test-see-more-filterable-values={{this.propertyCard.label}}
+                                data-analytics-name='see more filterable values {{this.propertyCardLabel}}'
+                                data-test-see-more-filterable-values={{this.propertyCardLabel}}
                                 @layout='fake-link'
                                 {{on 'click' (fn (mut this.seeMoreModalShown) true)}}
                             >
@@ -68,7 +68,7 @@
                 as |dialog|
             >
                 <dialog.heading data-test-see-more-dialog-heading>
-                    {{this.propertyCard.label}}
+                    {{this.propertyCardLabel}}
                 </dialog.heading>
                 <dialog.main local-class='see-more-dialog'>
                     {{t 'search.filter-facet.see-more-modal-text'}}

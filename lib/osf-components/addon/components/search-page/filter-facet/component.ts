@@ -42,6 +42,10 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
         return this.args.property.get('indexCard');
     }
 
+    get propertyCardLabel() {
+        return this.propertyCard.get('label');
+    }
+
     @action
     toggleFacet() {
         if (this.filterableValues.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
@@ -62,8 +66,8 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             const { toggleFilter } = this.args;
             const card = this.selectedProperty.indexCard;
             const filter = {
-                property: this.propertyCard.get('label'),
-                label: card.label,
+                property: this.propertyCardLabel,
+                label: card.get('label'),
                 value: card.resourceId,
             };
             toggleFilter(filter);
@@ -86,7 +90,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
         const valueSearch = await this.store.queryRecord('index-value-search', {
             cardSearchText,
             cardSearchFilter,
-            valueSearchPropertyPath: this.propertyCard.get('label'),
+            valueSearchPropertyPath: this.propertyCardLabel,
             valueSearchText: filterString || '',
             page,
             sort,
