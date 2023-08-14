@@ -12,7 +12,7 @@ export default class LogModel extends OsfModel {
     @belongsTo('node', { inverse: null })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
-    @belongsTo('node', { inverse: 'logs' })
+    @belongsTo('node', { polymorphic: true, inverse: 'logs' })
     originalNode!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('user')
