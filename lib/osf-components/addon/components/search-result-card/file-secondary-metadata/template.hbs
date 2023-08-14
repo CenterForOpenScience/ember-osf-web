@@ -8,3 +8,8 @@
         <span>{{t 'osf-components.search-result-card.description'}}: {{@result.description}}</span>
     </div>
 {{/if}}
+{{#if @result.resourceNature}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.resource_nature'}}: {{@result.resourceNature}}</span>
+    </div>
+{{/if}}

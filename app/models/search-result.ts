@@ -192,6 +192,10 @@ export default class SearchResultModel extends Model {
         return 'unknown';
     }
 
+    get resourceNature() {
+        return this.resourceMetadata.resourceNature?.[0]['@value'];
+    }
+
     get hasDataResource() {
         return this.resourceMetadata.hasDataResource;
     }

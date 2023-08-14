@@ -1850,6 +1850,7 @@ routes:
         email: Email
 osf-components:
     search-result-card:
+        resource_nature: Resource nature
         title: Title
         collection: Collection
         context: Context
