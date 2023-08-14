@@ -258,6 +258,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @action
     updateResourceType(resourceTypeOption: ResourceTypeOption) {
         this.resourceType = resourceTypeOption.value;
+        this.page = '';
         taskFor(this.search).perform();
     }
 }
