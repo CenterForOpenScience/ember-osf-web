@@ -4,6 +4,7 @@
 as |layout|>
     <layout.heading
         data-test-heading-wrapper
+        data-analytics-scope='Search page heading'
         {{with-branding (get-model @provider.brand)}}
         local-class='heading-wrapper {{if @provider 'hero-overlay'}} {{if (and (not this.showSidePanelToggle) @institution) 'heading-wrapper-institutions' 'heading-wrapper-institutions-mobile'}}'
     >
@@ -49,6 +50,8 @@ as |layout|>
         {{/if}}
         <span id={{this.searchInputWrapperId}} local-class='search-input-wrapper'>
             <Input
+                data-test-search-input
+                data-analytics-name='Search input'
                 local-class='search-input'
                 @type='search'
                 @placeholder={{t 'search.textbox-placeholder'}}
@@ -57,7 +60,7 @@ as |layout|>
             />
             <Button
                 data-test-search-submit
-                data-analytics-name='search button'
+                data-analytics-name='Search button'
                 local-class='search-button'
                 aria-label={{t 'search.search-button-label'}}
                 @type='primary'
@@ -68,7 +71,7 @@ as |layout|>
             </Button>
             <Button
                 data-test-start-help
-                data-analytics-name='search help'
+                data-analytics-name='Search help button'
                 local-class='help-button'
                 aria-label={{t 'search.search-help-label'}}
                 @type='primary'
@@ -86,7 +89,7 @@ as |layout|>
         {{#if this.showSidePanelToggle}}
             <Button
                 data-test-toggle-side-panel
-                data-analytics-name='toggle side panel'
+                data-analytics-name='Toggle side panel'
                 aria-label={{t 'search.toggle-sidenav'}}
                 local-class='sidenav-toggle'
                 {{on 'click' layout.toggleSidenav}}
@@ -238,7 +241,6 @@ as |layout|>
 </OsfLayout>
 {{#if this.showTooltip1}}
     <EmberPopover
-        data-test-search-help-1
         @targetId={{this.tooltipTarget1Id}}
         @tooltipClass={{local-class 'search-help-tutorial'}}
         @innerClass={{'search-help-tutorial-inner'}}
@@ -247,7 +249,7 @@ as |layout|>
         @side='bottom'
         @spacing={{10}}
     >
-        <div local-class='help-content'>
+        <div data-test-search-help-1 data-analytics-scope='Search help 1 of 3' local-class='help-content'>
             <h2 local-class='search-help-header' data-test-help-heading-1>
                 {{t 'search.search-help.header-1'}}
             </h2>
@@ -257,6 +259,7 @@ as |layout|>
                 <span local-class='help-button-wrappers'>
                     <Button
                         data-test-help-skip-1
+                        data-analytics-name='Skip help'
                         local-class='skip-button'
                         @layout='fake-link'
                         onclick={{fn (mut this.showTooltip1) false}}
@@ -265,6 +268,7 @@ as |layout|>
                     </Button>
                     <Button
                         data-test-help-next-1
+                        data-analytics-name='Next help'
                         local-class='next-button'
                         @type='primary'
                         onclick={{queue
@@ -281,7 +285,6 @@ as |layout|>
 {{/if}}
 {{#if this.showTooltip2}}
     <EmberPopover
-        data-test-search-help-2
         @targetId={{this.tooltipTarget2Id}}
         @tooltipClass={{local-class 'search-help-tutorial'}}
         @innerClass={{'search-help-tutorial-inner'}}
@@ -290,7 +293,7 @@ as |layout|>
         @side='{{if this.showSidePanelToggle 'bottom' 'right'}}'
         @spacing={{10}}
     >
-        <div local-class='help-content'>
+        <div data-test-search-help-2 data-analytics-scope='Search help 2 of 3' local-class='help-content'>
             <h2 local-class='search-help-header' data-test-help-heading-2>
                 {{t 'search.search-help.header-2'}}
             </h2>
@@ -300,6 +303,7 @@ as |layout|>
                 <span local-class='help-button-wrappers'>
                     <Button
                         data-test-help-skip-2
+                        data-analytics-name='Skip help'
                         local-class='skip-button'
                         @layout='fake-link'
                         onclick={{fn (mut this.showTooltip2) false}}
@@ -308,6 +312,7 @@ as |layout|>
                     </Button>
                     <Button
                         data-test-help-next-2
+                        data-analytics-name='Next help'
                         local-class='next-button'
                         @type='primary'
                         onclick={{queue
@@ -324,7 +329,6 @@ as |layout|>
 {{/if}}
 {{#if this.showTooltip3}}
     <EmberPopover
-        data-test-search-help-3
         @targetId={{this.tooltipTarget3Id}}
         @tooltipClass={{local-class 'search-help-tutorial'}}
         @innerClass={{'search-help-tutorial-inner'}}
@@ -333,7 +337,7 @@ as |layout|>
         @side='{{if this.showSidePanelToggle 'bottom' 'right'}}'
         @spacing={{10}}
     >
-        <div local-class='help-content'>
+        <div data-test-search-help-3 data-analytics-scope='Search help 3 of 3' local-class='help-content'>
             <h2 local-class='search-help-header' data-test-help-heading-3>
                 {{t 'search.search-help.header-3'}}
             </h2>
@@ -343,6 +347,7 @@ as |layout|>
                 <span local-class='help-button-wrappers'>
                     <Button
                         data-test-help-done
+                        data-analytics-name='Complete help'
                         local-class='next-button'
                         @type='primary'
                         onclick={{fn (mut this.showTooltip3) false}}
