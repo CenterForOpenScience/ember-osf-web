@@ -1,12 +1,13 @@
 {{#if @property.cardSearchResultCount}}
     <div
+        data-analytics-scope='Search page filter facet wrapper'
         data-test-filter-facet
         local-class='facet-wrapper'
         ...attributes
     >
         {{#let (unique-id this.propertyVisibleLabel) as |facetElementId|}}
             <Button
-                data-analytics-name='filter facet toggle {{this.propertyVisibleLabel}}'
+                data-analytics-name='Filter facet toggle {{this.propertyVisibleLabel}}'
                 data-test-filter-facet-toggle={{this.propertyVisibleLabel}}
                 @layout='fake-link'
                 local-class='facet-expand-button'
@@ -33,7 +34,7 @@
                             local-class='facet-value'
                         >
                             <Button
-                                data-analytics-name='toggle filter facet value {{value.indexCard.label}}'
+                                data-analytics-name='Toggle filter facet value {{value.indexCard.label}}'
                                 local-class='facet-link'
                                 @layout='fake-link'
                                 title={{value.indexCard.label}}
@@ -51,11 +52,10 @@
                             </span>
                         </li>
                     {{/each}}
-                
                     {{#if this.showSeeMoreButton}}
                         <li>
                             <Button
-                                data-analytics-name='see more filterable values {{this.propertyVisibleLabel}}'
+                                data-analytics-name='See more filterable values {{this.propertyVisibleLabel}}'
                                 data-test-see-more-filterable-values={{this.propertyVisibleLabel}}
                                 @layout='fake-link'
                                 {{on 'click' this.openSeeMoreModal}}
@@ -67,7 +67,7 @@
                 </ul>
             {{/if}}
             <OsfDialog
-                data-analytics-scope='filter facet - see more modal'
+                data-analytics-scope='Search page filter facet modal'
                 @isOpen={{this.seeMoreModalShown}}
                 @onClose={{fn (mut this.seeMoreModalShown) false}}
                 as |dialog|
@@ -93,7 +93,7 @@
                 </dialog.main>
                 <dialog.footer>
                     <Button
-                        data-analytics-name='cancel filter'
+                        data-analytics-name='Cancel filter'
                         data-test-see-more-dialog-cancel-button
                         @type='secondary'
                         {{on 'click' (fn (mut this.seeMoreModalShown) false)}}
@@ -101,7 +101,7 @@
                         {{t 'general.cancel'}}
                     </Button>
                     <Button
-                        data-analytics-name='apply filter'
+                        data-analytics-name='Apply filter'
                         data-test-see-more-dialog-apply-button
                         @type='primary'
                         disabled={{not this.selectedProperty}}
