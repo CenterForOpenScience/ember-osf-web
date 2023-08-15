@@ -39,7 +39,7 @@ export default class IndexCardSearchModel extends Model {
     }
 
     get nextPageCursor() {
-        if (this.searchResultPage.links.next?.hjref) {
+        if (this.searchResultPage.links.next?.href) {
             const nextPageLinkUrl = new URL(this.searchResultPage.links.next?.href);
             const nextPageLinkQueryParams = new URLSearchParams(nextPageLinkUrl.search);
             return nextPageLinkQueryParams.get('page[cursor]');
