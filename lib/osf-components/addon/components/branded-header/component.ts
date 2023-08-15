@@ -33,10 +33,6 @@ export default class BrandedHeader extends Component<InputArgs> {
         return this.args.showHelp;
     }
 
-    get isMobile(): boolean {
-        return this.media.isMobile;
-    }
-
     @computed('providerModel.name', 'args.translationParent')
     get headerAriaLabel() {
         return this.providerModel ?

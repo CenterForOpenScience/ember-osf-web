@@ -4,7 +4,8 @@
     background: var(--hero-background-img-url);
     background-color: $color-bg-gray-lighter;
     border-bottom: 1px solid #6d8a98;
-    padding: 15px 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
     width: 100%;
     flex-direction: column;
     display: flex;
@@ -12,7 +13,8 @@
     align-items: center;
 
     .preprint-advisory-inner-container {
-        padding: 0 30px;
+        padding-right: 30px;
+        padding-left: 30px;
         width: calc(100% - 60px);
         flex-direction: column;
         display: flex;
@@ -40,25 +42,6 @@
                     li {
                         padding-top: 5px;
                         font-size: 16px;
-                    }
-                }
-            }
-        }
-    }
-
-    &.mobile {
-        .preprint-advisory-inner-container {
-            padding: 0 10px;
-            width: calc(100% - 20px);
-
-            .preprint-advisory-list {
-                flex-direction: column;
-
-                .preprint-advisory-list-column {
-                    width: 100%;
-
-                    ul {
-                        padding: 0;
                     }
                 }
             }

@@ -101,6 +101,9 @@
         }
     }
     
+    .search-container.mobile {
+        width: 100%;
+    }
 
     .provider-description {
         justify-content: center;
@@ -113,17 +116,5 @@
         width: 100%;
         padding-top: 10px;
         padding-bottom: 10px;
-    }
-
-    &.mobile {
-        padding: 30px 10px;
-
-        .search-container {
-            width: 100%;
-
-            .form {
-                margin: 0;
-            }
-        }
     }
 }

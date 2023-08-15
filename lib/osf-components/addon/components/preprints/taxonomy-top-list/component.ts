@@ -1,7 +1,5 @@
 import Component from '@glimmer/component';
 import SubjectModel from 'ember-osf-web/models/subject';
-import Media from 'ember-responsive';
-import { inject as service } from '@ember/service';
 
 interface InputArgs {
     list: SubjectModel[];
@@ -13,11 +11,7 @@ interface PairModel {
 }
 
 export default class TaxonomyTopList extends Component<InputArgs> {
-    @service media!: Media;
-
-    get isMobile(): boolean {
-        return this.media.isMobile;
-    }
+    routerPrefix = 'http://localhost:4200';
 
     get sortedList() {
         if (!this.args.list) {
@@ -25,40 +19,25 @@ export default class TaxonomyTopList extends Component<InputArgs> {
         }
         const sortedList = this.args.list.sortBy('text');
         const pairedList = [] as  PairModel[][];
+        for (let i = 0; i < sortedList.get('length'); i += 2) {
+            const pair: PairModel[] = [];
+            // path in pair needs to be a list because that's what the
+            // subject param in the discover controller is expecting
+            const subjectOdd = sortedList.objectAt(i) as SubjectModel;
+            pair.pushObject({
+                path: [subjectOdd?.taxonomyName],
+                text: subjectOdd?.text,
+            } as PairModel);
 
-        if (this.isMobile) {
-            for (let i = 0; i < sortedList.get('length'); i += 1) {
-                const pair: PairModel[] = [];
-                const subject= sortedList.objectAt(i) as SubjectModel;
+            if (sortedList.objectAt(i + 1)) {
+                const subjectEven = sortedList.objectAt(i + 1) as SubjectModel;
                 pair.pushObject({
-                    path: [subject?.taxonomyName],
-                    text: subject?.text,
-                } as PairModel);
-                pairedList.pushObject(pair);
+                    path: [subjectEven?.taxonomyName],
+                    text: subjectEven?.text,
+                });
             }
-        } else {
-            for (let i = 0; i < sortedList.get('length'); i += 2) {
-                const pair: PairModel[] = [];
-                // path in pair needs to be a list because that's what the
-                // subject param in the discover controller is expecting
-                const subjectOdd = sortedList.objectAt(i) as SubjectModel;
-                pair.pushObject({
-                    path: [subjectOdd?.taxonomyName],
-                    text: subjectOdd?.text,
-                } as PairModel);
-
-                if (sortedList.objectAt(i + 1)) {
-                    const subjectEven = sortedList.objectAt(i + 1) as SubjectModel;
-                    pair.pushObject({
-                        path: [subjectEven?.taxonomyName],
-                        text: subjectEven?.text,
-                    });
-                }
-                pairedList.pushObject(pair);
-            }
-
+            pairedList.pushObject(pair);
         }
-
         return pairedList;
     }
 }
