@@ -70,6 +70,7 @@ Router.map(function() {
         this.route('files', function() {
             this.route('provider', { path: '/:providerId' });
         });
+        this.route('preprints');
         this.route('metadata');
         this.route('registrations');
         this.route('drafts', { path: '/drafts/:draftId' }, function() {
