@@ -1,4 +1,5 @@
 import Store from '@ember-data/store';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
@@ -31,5 +32,16 @@ export default class Preprints extends Route {
                         reload: true,
                     }).filter(item => item.id !== 'osf'),
         };
+    }
+
+    @action
+    onSearch(query: string) {
+        let route = 'search';
+
+        if (this.theme.isSubRoute) {
+            route = 'provider.discover';
+        }
+
+        this.transitionTo(route, { queryParams: { q: query } });
     }
 }

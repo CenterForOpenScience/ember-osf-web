@@ -6,12 +6,10 @@ import Media from 'ember-responsive';
 
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
-import { tracked } from '@glimmer/tracking';
 
 interface InputArgs {
     onSearch: (value: string) => void;
     translationParent?: string;
-    showHelp: false;
 }
 
 export default class BrandedHeader extends Component<InputArgs> {
@@ -19,18 +17,15 @@ export default class BrandedHeader extends Component<InputArgs> {
     @service intl!: Intl;
     @service media!: Media;
     @requiredAction onSearch!: (value: string) => void;
-    @tracked showingHelp = false;
 
     providerModel?: ProviderModel;
     notBranded = true;
     localClassNameBindings = ['notBranded:Header'];
     today = new Date();
+    showingHelp = false;
     value = '';
     searchable = 0;
-
-    get showHelp(): boolean {
-        return this.args.showHelp;
-    }
+    showHelp = false;
 
     @computed('providerModel.name', 'args.translationParent')
     get headerAriaLabel() {

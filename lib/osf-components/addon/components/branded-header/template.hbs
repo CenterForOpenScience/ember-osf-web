@@ -41,7 +41,7 @@
                     aria-label={{t (concat @translationParent '.header.search_help' )}}
                     local-class='help-icon'
                     @layout='fake-link'
-                    {{on 'click' (action this.toggleHelp)}}
+                    {{on 'click' this.toggleHelp}}
                 >
                     <FaIcon @icon='question' />
                 </Button>
@@ -58,6 +58,6 @@
         {{yield (hash row=(element ''))}}
     </div>
 
-    <SearchHelpModal @isOpen={{this.showingHelp}} />
+    {{search-help-modal isOpen=(mut this.showingHelp)}}
 
 </div>

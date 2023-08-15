@@ -1,31 +1,56 @@
 {{page-title (t 'preprints.title')}}
 
 <div class='preprints-page'>
+    {{#branded-header onSearch=(action 'onSearch') as |header|}}
+        {{#header.lead}}
+            <span>{{t 'registries.index.lead' htmlSafe=true}}</span>
+        {{/header.lead}}
+        {{#header.row}}
+            <div local-class='example-container'>
+                <a
+                    href='https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67'
+                    onclick={{action 'click' 'link' 'Index - See Example' 'https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67' target=this.analytics}}
+                >
+                    {{t 'registries.index.see_example'}}
+                </a>
+            </div>
+        {{/header.row}}
+    {{/branded-header}}
 
     {{!HEADER}}
     <div class='preprint-header'>
         {{!CONTAINER}}
         <div class='container'>
-            <BrandedHeader
-                @translationParent='registries'
-                @onSearch={{action this.onSearch}}
-                @showHelp=true
-                as |branded-header|
-            >
-                {{#branded-header.lead}}
-                    <span>{{t 'registries.index.lead' htmlSafe=true}}</span>
-                {{/branded-header.lead}}
-                {{#branded-header.row}}
-                    <div local-class='example-container'>
-                        <a
-                            href='https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67'
-                            onclick={{action 'click' 'link' 'Index - See Example' 'https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67' target=this.analytics}}
-                        >
-                            {{t 'registries.index.see_example'}}
-                        </a>
-                    </div>
-                {{/branded-header.row}}
-            </BrandedHeader>
+            {{!HEADER ROW}}
+            <div class='row'>
+                {{!TITLE}}
+                <div class='text-center m-t-lg col-xs-12'>
+                    {{#if this.theme.isProvider}}
+                        <div class='provider-brand' style={{safe-markup 
+        (concat 'background-image: url('' (provider-asset this.theme.id "wide_color.png") '')')}}></div>
+                    {{else}}
+                        <div class='provider-brand'></div>
+                    {{/if}}
+                    <p class='lead'>
+                        {{#if this.theme.isProvider}}
+                            {{html-safe this.theme.provider.description 'description'}}
+                            <br>
+                            <small>
+                                <a href='{{this.host}}preprints' onbeforeclick={{action 'click' 'link' 'Index - Powered By'}}>
+                                    {{t 'index.header.powered_by'}}
+                                </a>
+                            </small>
+                        {{/if}}
+                    </p>
+                </div>
+                {{!SEARCH}}
+                <div class='preprint-search col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 m-v-lg' >
+                    {{search-preprints search='search'}}
+                    {{#unless this.theme.isProvider}}
+                        {{this.total-share-results}}
+                    {{/unless}}
+                </div>
+            </div>
             {{!END ROW}}
             {{#if this.theme.provider.allowSubmissions}}
                 <div class='row'>
@@ -67,6 +92,7 @@
                         {{#if this.theme.provider.additionalProviders}}
                             {{additional-provider-list additionalProviders=this.theme.provider.additionalProviders}}
                         {{else}}
+                            {{taxonomy-top-list list=this.model.taxonomies}}
                         {{/if}}
                     </div>
                 </div>
