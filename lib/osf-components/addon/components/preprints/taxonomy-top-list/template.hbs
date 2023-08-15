@@ -6,7 +6,7 @@
                     data-test-taxonomy-link
                     data-analytics-name='Preprints taxonomy link'
                     local-class='btn subject-button'
-                    @href='preprints/{{this.provider}}/discover?subject={{subject.queryParam}}'
+                    @href={{concat 'discover/' (query-params subject=subject.path) }}
                 >
                     {{subject.text}}
                 </OsfLink>

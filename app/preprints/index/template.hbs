@@ -76,10 +76,7 @@
                 {{#if this.theme.provider.additionalProviders}}
                     {{additional-provider-list additionalProviders=this.theme.provider.additionalProviders}}
                 {{else}}
-                    <Preprints::TaxonomyTopList
-                    @list={{this.model.taxonomies}}
-                    @provider={{this.model.provider.id}}
-                    ></Preprints::TaxonomyTopList>
+                    <Preprints::TaxonomyTopList @list={{this.model.taxonomies}}></Preprints::TaxonomyTopList>
                 {{/if}}
             </div>
         </div>
