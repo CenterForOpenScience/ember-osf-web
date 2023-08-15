@@ -29,5 +29,10 @@
     "ember-wormhole": "*",
     "katex": "*",
     "liquid-fire": "*"
+  },
+  "ember-addon": {
+    "paths": [
+      "lib/osf-components"
+    ]
   }
 }
