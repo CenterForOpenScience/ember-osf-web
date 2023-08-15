@@ -192,6 +192,13 @@ export default class SearchResultModel extends Model {
         return 'unknown';
     }
 
+    get orcids() {
+        const orcids = this.resourceMetadata.identifier.filter(
+            (item: any) => item['@value'].includes('http://orcid.org/'),
+        );
+        return orcids.map( (item: any) => item['@value']);
+    }
+
     get resourceNature() {
         return this.resourceMetadata.resourceNature?.[0]['@value'];
     }

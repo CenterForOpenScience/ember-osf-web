@@ -4,23 +4,31 @@
             <div local-class='type-label'>
                 {{this.cardTypeLabel}}
             </div>
-            <Button
-                {{on 'click' this.toggleSecondaryMetadata}}
-            >
-                {{#if this.isOpenSecondaryMetadata}}
-                    <FaIcon
-                        @icon={{'angle-up'}}
-                    />
-                {{else}}
-                    <FaIcon
-                        @icon={{'angle-down'}}
-                    />  
-                {{/if}}
-            </Button>
+            {{#if (not-eq @result.resourceType 'user')}}
+                <Button
+                    {{on 'click' this.toggleSecondaryMetadata}}
+                >
+                    {{#if this.isOpenSecondaryMetadata}}
+                        <FaIcon
+                            @icon={{'angle-up'}}
+                        />
+                    {{else}}
+                        <FaIcon
+                            @icon={{'angle-down'}}
+                        />  
+                    {{/if}}
+                </Button>
+            {{/if}}
         </div>
         <h4 local-class='display-name'>
             <a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
+            {{#if @result.orcids}}
+                {{#each @result.orcids as |item|}}
+                    <a href={{item}} target='_blank' rel='noopener noreferrer'> <FaIcon @prefix='fab' @icon='orcid' /> </a>
+                {{/each}}
+            {{/if}}
         </h4>
+        
         {{#if @result.affiliatedEntities}}
             <div local-class='name-fields'>
                 <InlineList
