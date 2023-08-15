@@ -13,10 +13,6 @@
         background-color: var(--secondary-color);
         color: var(--primary-color) !important;
 
-        &.osf {
-            background: url('images/default-brand/bg-dark.jpg');
-        }
-
         a:not(:global(.btn)) {
             color: var(--primary-color);
             text-decoration: underline;

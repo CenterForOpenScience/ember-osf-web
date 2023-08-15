@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { computed } from '@ember/object';
 import SubjectModel from 'ember-osf-web/models/subject';
 
 interface InputArgs {
@@ -13,6 +14,8 @@ interface PairModel {
 export default class TaxonomyTopList extends Component<InputArgs> {
     routerPrefix = 'http://localhost:4200';
 
+
+    @computed('args.list')
     get sortedList() {
         if (!this.args.list) {
             return;

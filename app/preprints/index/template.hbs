@@ -1,11 +1,9 @@
 {{page-title (t 'preprints.title')}}
 
-<div local-class='preprints-page-container' {{with-branding (get-model this.theme.provider.brand) }}
-    data-analytics-scope='preprints landing page'
->
+<div local-class='preprints-page-container' {{with-branding (get-model this.theme.provider.brand) }}>
 
     {{!HEADER}}
-    <div local-class='preprint-header {{if this.isOsf 'osf'}}'>
+    <div local-class='preprint-header'>
         <BrandedHeader
             @translationParent='preprints'
             @onSearch={{action this.onSearch}}
@@ -19,7 +17,7 @@
                 <div>
                     <OsfLink
                         data-test-poweredby-button
-                        data-analytics-name='powered-by button'
+                        data-analytics-name='Preprints powered-by button'
                         @href={{concat @host 'preprints'}}
                     >
                         {{t 'preprints.header.powered_by'}}
@@ -32,7 +30,7 @@
                         <div class='lead'>{{t 'preprints.header.or'}}</div>
                         <OsfLink
                             data-test-submit-button
-                            data-analytics-name='submit button'
+                            data-analytics-name='Preprints submit button'
                             local-class='btn-info'
                             class='btn btn-success btn-lg preprint-submit-button' 
                             @href={{concat this.theme.pathPrefix 'submit'}}
@@ -42,7 +40,7 @@
                         <div local-class='example-container'>
                             <OsfLink
                                 data-test-see-example
-                                data-analytics-name='See Example'
+                                data-analytics-name='Preprints - See Example'
                                 @href={{concat '/content/' (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
                             >
                                 {{t 'preprints.header.example'}}
@@ -67,7 +65,7 @@
             {{#if this.theme.provider.hasHighlightedSubjects}}
                 <OsfLink
                     data-test-see-example
-                    data-analytics-name='See Example'
+                    data-analytics-name='Preprints - See Example'
                     @href='/discover/'
                 >
                     {{t 'preprints.subjects.links.seeAllSubjects'}}
@@ -96,7 +94,7 @@
                         {{#if (not-eq provider.id 'livedata') }}
                             <OsfLink
                                 data-test-see-example
-                                data-analytics-name='See Example'
+                                data-analytics-name='Preprints - See Example'
                                 @href={{concat '/preprints/' provider.id }}
                                 title='{{provider.name}}'
                                 local-class='provider-logo'
@@ -114,9 +112,9 @@
 
                         <OsfLink
                             data-test-github-repo
-                            data-analytics-name='Github Repo'
+                            data-analytics-name='Preprints - Index - Github Repo'
                             local-class='links'
-                            @href='https://github.com/CenterForOpenScience/ember-osf-web'
+                            @href='https://github.com/CenterForOpenScience/ember-preprints'
                         >
                             {{t 'preprints.services.bottom.div.linkText1'}}
                         </OsfLink>
@@ -125,7 +123,7 @@
 
                         <OsfLink
                             data-test-public-roadmap
-                            data-analytics-name='Public Roadmap'
+                            data-analytics-name='Preprints - Index - Public Roadmap'
                             local-class='links'
                             @href='https://cos.io/our-products/product-roadmap/'
                         >
@@ -137,7 +135,7 @@
                     <div local-class='contact'>
                         <OsfLink
                             data-test-contact-link
-                            data-analytics-name='Contact Email'
+                            data-analytics-name='Preprints - Index - Contact Email'
                             class='btn btn-info btn-lg'
                             @href='mailto:contact@osf.io'
                         >

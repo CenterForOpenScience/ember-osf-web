@@ -3,7 +3,6 @@ import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import Theme from 'ember-osf-web/services/theme';
-import captureException from 'ember-osf-web/utils/capture-exception';
 
 /**
  * Loads all disciplines and preprint providers to the index page
@@ -39,8 +38,7 @@ export default class Preprints extends Route {
                 brandedProviders,
             };
 
-        } catch (error) {
-            captureException(error);
+        } catch (e) {
             this.router.transitionTo('not-found', 'preprints');
             return null;
         }

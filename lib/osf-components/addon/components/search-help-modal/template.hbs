@@ -1,7 +1,7 @@
 <div id='ember-bootstrap-modal-container'>
     <OsfDialog
         @isOpen={{@isOpen}}
-        @onClose={{@onClose}}
+        @onClose={{action (mut @isOpen) false}}
         as |dialog|
     >
         <dialog.heading data-test-search-help-modal-header>
