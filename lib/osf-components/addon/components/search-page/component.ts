@@ -34,7 +34,8 @@ interface SortOption {
 }
 
 export interface Filter {
-    property: string;
+    propertyVisibleLabel: string;
+    propertyShortFormLabel: string; // OSFMAP shorthand label
     value: string;
     label: string;
 }
@@ -186,7 +187,7 @@ export default class SearchPage extends Component<SearchArgs> {
             const cardSearchText = this.searchText;
             const { page, sort, activeFilters, resourceType } = this;
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
-                acc[filter.property] = filter.value;
+                acc[filter.propertyShortFormLabel] = filter.value;
                 return acc;
             }, {} as { [key: string]: string });
             let resourceTypeFilter = this.resourceType as string;
@@ -224,7 +225,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @action
     toggleFilter(filter: Filter) {
         const filterIndex = this.activeFilters.findIndex(
-            f => f.property === filter.property && f.value === filter.value,
+            f => f.propertyShortFormLabel === filter.propertyShortFormLabel && f.value === filter.value,
         );
         if (filterIndex > -1) {
             this.activeFilters.removeAt(filterIndex);

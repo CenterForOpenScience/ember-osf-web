@@ -262,25 +262,6 @@ search:
         see-more-modal-text: 'Please select a filter to apply to your search.'
         see-more-modal-placeholder: 'Search for a filter to apply'
         load-more: 'Load more'
-    filterable-properties:
-        dateCreated: 'Date Created'
-        funder: 'Funder'
-        publisher: 'Publisher'
-        subject: 'Subject'
-        rights: 'License'
-        resourceNature: 'Resource Type'
-        affiliation: 'Institution'
-        isPartOfCollection: 'Collection'
-        hasVersion: 'Version'
-        supplements: 'Supplements'
-        conformsTo: 'Registration Template'
-        hasAnalyticCodeResource: 'Has Analytic Code' # registration
-        hasMaterialsResource: 'Has Materials Links' # registration
-        hasPapersResource: 'Has Papers' # registration
-        hasSupplementalResource: 'Has Supplemental Resources' #registration
-        hasDataResource: 'Has Data' # preprint and registration
-        hasPreregisteredAnalysisPlan: 'Has Preregistered Analysis Plan' #preprint
-        hasPreregisteredStudyDesign: 'Has Preregistered Study Design' #preprint
 
     institutions:
         institution-logo: 'Logo for '

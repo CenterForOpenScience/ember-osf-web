@@ -46,7 +46,11 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
         return this.args.property.get('indexCard');
     }
 
-    get propertyCardLabel() {
+    get propertyShortFormLabel() {
+        return this.getLocalizedString.compute([this.propertyCard.get('resourceMetadata'), 'shortFormLabel']);
+    }
+
+    get propertyVisibleLabel() {
         return this.propertyCard.get('label');
     }
 
@@ -76,7 +80,8 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             const { toggleFilter } = this.args;
             const card = this.selectedProperty.indexCard;
             const filter = {
-                property: this.propertyCardLabel,
+                propertyVisibleLabel: this.propertyVisibleLabel,
+                propertyShortFormLabel: this.propertyShortFormLabel,
                 label: card.get('label'),
                 value: card.get('resourceId'),
             };
@@ -110,7 +115,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
         const valueSearch = await this.store.queryRecord('index-value-search', {
             cardSearchText,
             cardSearchFilter,
-            valueSearchPropertyPath: this.propertyCardLabel,
+            valueSearchPropertyPath: this.propertyShortFormLabel,
             valueSearchText: filterString || '',
             'page[cursor]': page,
             sort,
