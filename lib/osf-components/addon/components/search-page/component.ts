@@ -246,12 +246,14 @@ export default class SearchPage extends Component<SearchArgs> {
         } else {
             this.activeFilters.pushObject(filter);
         }
+        this.page = '';
         taskFor(this.search).perform();
     }
 
     @action
     updateSort(sortOption: SortOption) {
         this.sort = sortOption.value;
+        this.page = '';
         taskFor(this.search).perform();
     }
 
