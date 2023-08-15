@@ -1,12 +1,11 @@
 {{#each this.sortedList as |pair|}}
-    <div local-class='subject-container'>
+    <div class='subject row m-b-sm'>
         {{#each pair as |subject|}}
-            <div local-class='subject-item'>
+            <div class='col-xs-12 col-sm-6 subject-item'>
                 <OsfLink
                     data-test-taxonomy-link
                     data-analytics-name='Preprints taxonomy link'
                     class='btn btn-primary p-sm' 
-                    local-class='subject-button'
                     @href={{concat (this.routePrefix 'discover') (query-params subject=subject.path) }}
                 >
                     {{subject.text}}
