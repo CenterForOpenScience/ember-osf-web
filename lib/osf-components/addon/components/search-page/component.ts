@@ -130,7 +130,6 @@ export default class SearchPage extends Component<SearchArgs> {
         return this.resourceTypeOptions.find(option => option.value === this.resourceType);
     }
 
-<<<<<<< HEAD
     get showResultCountMiddle() {
         const hasResults = this.totalResultCount && this.totalResultCount > 0;
         return hasResults && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
@@ -141,17 +140,16 @@ export default class SearchPage extends Component<SearchArgs> {
         return hasResults && this.showSidePanelToggle;
     }
 
-=======
->>>>>>> 198df048d (Group CR feedback re: search-page component arguments)
     get showResultCountMiddle() {
         const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
+        return hasResults && !this.showResourceTypeFilter && !this.args.showSidePanelToggle;
     }
 
     get showResultCountLeft() {
         const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && this.showSidePanelToggle;
+        return hasResults && this.args.showSidePanelToggle;
     }
+
 
     get selectedSortOption() {
         return this.sortOptions.find(option => option.value === this.sort);// || this.sortOptions[0];
