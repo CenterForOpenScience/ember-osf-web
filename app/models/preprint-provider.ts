@@ -75,7 +75,7 @@ export default class PreprintProviderModel extends ProviderModel {
             return this.intl.t('preprints.provider-title',
                 { name: this.name, pluralizedPreprintWord: this.documentType.pluralCapitalized });
         } else {
-            return this.intl.t('preprints.header.osf_registrations');
+            return this.documentType.pluralCapitalized;
         }
     }
 }
