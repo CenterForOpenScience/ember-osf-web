@@ -13,7 +13,6 @@ interface InputArgs {
     onSearch: (value: string) => void;
     translationParent?: string;
     showHelp: false;
-    searchPlaceholder?: string;
 }
 
 export default class BrandedHeader extends Component<InputArgs> {
@@ -36,11 +35,6 @@ export default class BrandedHeader extends Component<InputArgs> {
 
     get isMobile(): boolean {
         return this.media.isMobile;
-    }
-
-    get searchPlaceholder() {
-        return this.args.searchPlaceholder ? this.args.searchPlaceholder
-            : this.intl.t(`${this.args.translationParent}.header.search_placeholder`);
     }
 
     @computed('providerModel.name', 'args.translationParent')

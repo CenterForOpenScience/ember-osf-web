@@ -53,12 +53,6 @@ export default class PreprintProviderModel extends ProviderModel {
         };
     }
 
-    @computed('documentType.plural')
-    get searchPlaceholder(): string {
-        return this.intl.t('preprints.header.search_placeholder',
-            { placeholder: this.documentType.plural});
-    }
-
     @computed('id')
     get preprintWordInTitle() {
         return this.id === 'thesiscommons';

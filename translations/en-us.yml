@@ -1115,7 +1115,7 @@ preprints:
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'
-        search_placeholder: 'Search {placeholder} ...'
+        search_placeholder: 'Search preprints ...'
         search_button: 'Perform search'
         search_label: 'Search'
         search_help: 'Search help'
