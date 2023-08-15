@@ -1,21 +1,6 @@
 {{page-title (t 'preprints.title')}}
 
 <div class='preprints-page'>
-    {{#branded-header onSearch=(action 'onSearch') as |header|}}
-        {{#header.lead}}
-            <span>{{t 'registries.index.lead' htmlSafe=true}}</span>
-        {{/header.lead}}
-        {{#header.row}}
-            <div local-class='example-container'>
-                <a
-                    href='https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67'
-                    onclick={{action 'click' 'link' 'Index - See Example' 'https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67' target=this.analytics}}
-                >
-                    {{t 'registries.index.see_example'}}
-                </a>
-            </div>
-        {{/header.row}}
-    {{/branded-header}}
 
     {{!HEADER}}
     <div class='preprint-header'>

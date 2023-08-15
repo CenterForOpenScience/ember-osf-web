@@ -1,18 +1,16 @@
-import Component from '@glimmer/component';
+import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
+import template from './template';
 
-interface InputArgs {
-    onSearch: (value: string) => void;
-    translationParent?: string;
-}
-
-export default class BrandedHeader extends Component<InputArgs> {
+@layout(template)
+export default class RegistriesHeader extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
     @service media!: Media;
@@ -20,18 +18,17 @@ export default class BrandedHeader extends Component<InputArgs> {
 
     providerModel?: ProviderModel;
     notBranded = true;
-    localClassNameBindings = ['notBranded:Header'];
+    localClassNameBindings = ['notBranded:RegistriesHeader'];
     today = new Date();
     showingHelp = false;
     value = '';
     searchable = 0;
     showHelp = false;
 
-    @computed('providerModel.name', 'args.translationParent')
+    @computed('providerModel.name')
     get headerAriaLabel() {
-        return this.providerModel ?
-            this.providerModel.name.concat(' ', this.intl.t(`${this.args.translationParent}.header.registrations`))
-            : this.intl.t(`${this.args.translationParent}.header.osf_registrations`);
+        return this.providerModel ? this.providerModel.name.concat(' ', this.intl.t('registries.header.registrations'))
+            : this.intl.t('registries.header.osf_registrations');
     }
 
     @action
@@ -41,12 +38,12 @@ export default class BrandedHeader extends Component<InputArgs> {
         } else {
             this.analytics.click('link', 'Discover - Search', this.value);
         }
-        this.args.onSearch(this.value);
+        this.onSearch(this.value);
     }
 
     @action
     toggleHelp() {
-        this.showingHelp = !this.showingHelp;
+        this.set('showingHelp', !this.showingHelp);
     }
 
     @action

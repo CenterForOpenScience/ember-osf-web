@@ -7,18 +7,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: $color-text-white;
-
-    .lead {
-        font-size: 21px;
-        margin-bottom: 20px;
-        font-weight: 300;
-        line-height: 1.4;
-    }
-
-    p {
-        color: $color-text-white;
-    }
 
     .brand-container {
         display: flex;
@@ -104,5 +92,27 @@
         width: 100%;
         padding-top: 10px;
         padding-bottom: 10px;
+    }
+}
+
+.RegistriesHeader {
+    color: #fff;
+    width: 100%;
+    margin-bottom: 25px;
+
+    a {
+        color: #80c2f7;
+        text-decoration: none;
+    }
+
+    p {
+        color: $white;
+    }
+
+    .lead {
+        font-size: 21px;
+        margin-bottom: 20px;
+        font-weight: 300;
+        line-height: 1.4;
     }
 }
