@@ -17,7 +17,6 @@ export default class Preprints extends Route {
     @service theme!: Theme;
     livedata = 'livedata';
 
-
     async model() {
         return {
             taxonomies: await this.theme.provider?.queryHasMany('highlightedSubjects', {
