@@ -18,7 +18,6 @@ const { defaultProvider } = config;
 export default class PreprintProviderModel extends ProviderModel {
     @service intl!: Intl;
 
-    @attr('fixstring') email_support!: string | null;
     @attr('array') subjectsAcceptable!: string[];
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
@@ -53,15 +52,9 @@ export default class PreprintProviderModel extends ProviderModel {
         };
     }
 
-    @computed('documentType.plural')
-    get searchPlaceholder(): string {
-        return this.intl.t('preprints.header.search_placeholder',
-            { placeholder: this.documentType.plural});
-    }
-
     @computed('id')
     get preprintWordInTitle() {
-        return this.id === 'thesiscommons';
+        return this.id !== 'thesiscommons';
     }
 
     // Is either OSF Preprints if provider is the default provider,
@@ -70,13 +63,12 @@ export default class PreprintProviderModel extends ProviderModel {
     get providerTitle() {
         if (this.id !== defaultProvider) {
             if (this.preprintWordInTitle) {
-                return this.name;
+                return this.intl.t('preprints.provider-title',
+                    { name: this.name, pluralizedPreprintWord: this.documentType.pluralCapitalized });
             }
-            return this.intl.t('preprints.provider-title',
-                { name: this.name, pluralizedPreprintWord: this.documentType.pluralCapitalized });
-        } else {
-            return this.intl.t('preprints.header.osf_registrations');
+            return this.name;
         }
+        return this.intl.t('preprints.osf-title');
     }
 }
 

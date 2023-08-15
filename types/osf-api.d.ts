@@ -89,7 +89,6 @@ export interface RelatedLinkMeta {
     id?: string;
     count?: number;
     type?: string;
-    has_highlighted_subjects?: boolean;
 }
 
 export interface NormalLinks extends JSONAPI.Links {

@@ -59,7 +59,6 @@ interface SearchArgs {
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
     showResourceTypeFilter: boolean;
-    showSidePanelToggle: boolean;
 }
 
 const searchDebounceTime = 100;

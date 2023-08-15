@@ -24,8 +24,6 @@ documentType:
         pluralCapitalized: Theses
         singular: thesis
         singularCapitalized: Thesis
-contact: 
-    email: support@osf.io
 general:
     OSF: OSF
     share: Share
@@ -1108,47 +1106,10 @@ collections:
             reject: rejected
             remove: 'removed'
 preprints:
+    osf-title: 'OSF Preprints'
     provider-title: '{name} {pluralizedPreprintWord}'
     discover:
         title: 'Search'
-    title: 'Preprints'
-    header:
-        osf_registrations: 'OSF Preprints'
-        registrations: 'Preprints'
-        search_placeholder: 'Search {placeholder} ...'
-        search_button: 'Perform search'
-        search_label: 'Search'
-        search_help: 'Search help'
-        powered_by: 'Powered by OSF Preprints'
-        or: 'or'
-        submit_label: 'Submit a preprint'
-        example: 'See an example'
-    subjects:
-        heading:
-            provider: 'Browse by provider'
-            hasHighlightedSubjects: 'Browse by featured subjects'
-            noHighlightedSubjects: 'Browse by subjects'
-        links:
-            seeAllSubjects: 'See all subjects available'
-    services:
-        top:
-            # heading: '{documentType.singularCapitalized} Services'
-            heading: '{documentType} Services'
-            # paragraph: 'Leading {documentType.singular} service providers use this open source infrastructure to support their communities.'
-            paragraph: 'Leading {documentType} service providers use this open source infrastructure to support their communities.'
-        bottom:
-            contact: 'Contact us'
-            # p1: 'Create your own branded {documentType.singular} servers backed by the OSF.'
-            p1: 'Create your own branded {documentType} servers backed by the OSF.'
-            div: 
-                line1: 'Check out the'
-                linkText1: 'open source code'
-                line2: 'and our'
-                linkText2: 'public roadmap'
-                line3: '. Input welcome!'
-        advisory: 
-            heading: 'Advisory Group'
-            paragraph: 'Our advisory group includes leaders in preprints and scholarly communication'
 registries:
     header:
         osf_registrations: 'OSF Registrations'

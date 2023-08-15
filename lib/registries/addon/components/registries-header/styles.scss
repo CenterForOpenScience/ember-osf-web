@@ -7,25 +7,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: $color-text-white;
-    background: var(--hero-background-img-url);
-
-    .lead {
-        font-size: 21px;
-        margin-bottom: 20px;
-        font-weight: 300;
-        line-height: 1.4;
-
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    p {
-        color: $color-text-white;
-    }
 
     .brand-container {
         display: flex;
@@ -35,17 +16,12 @@
         width: 100%;
         margin-top: 25px;
 
-
         .brand {
+            background: var(--hero-logo-img-url) top center no-repeat;
+            background-size: contain;
             height: 70px;
             width: 100%;
-
-            &.brand-logo {
-                background: var(--hero-logo-img-url) top center no-repeat;
-                background-size: contain;
-            }
         }
-
     }
 
     .search-container {
@@ -101,6 +77,9 @@
         }
     }
     
+    .search-container.mobile {
+        width: 100%;
+    }
 
     .provider-description {
         justify-content: center;
@@ -114,16 +93,26 @@
         padding-top: 10px;
         padding-bottom: 10px;
     }
+}
 
-    &.mobile {
-        padding: 30px 10px;
+.RegistriesHeader {
+    color: #fff;
+    width: 100%;
+    margin-bottom: 25px;
 
-        .search-container {
-            width: 100%;
+    a {
+        color: #80c2f7;
+        text-decoration: none;
+    }
 
-            .form {
-                margin: 0;
-            }
-        }
+    p {
+        color: $white;
+    }
+
+    .lead {
+        font-size: 21px;
+        margin-bottom: 20px;
+        font-weight: 300;
+        line-height: 1.4;
     }
 }
