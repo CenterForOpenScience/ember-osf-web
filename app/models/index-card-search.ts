@@ -21,7 +21,7 @@ export default class IndexCardSearchModel extends Model {
     relatedPropertySearch!: AsyncBelongsTo<IndexPropertySearchModel> & IndexPropertySearchModel;
 
     get firstPageCursor() {
-        if (this.searchResultPage.links.first) {
+        if (this.searchResultPage.links.first?.href) {
             const firstPageLinkUrl = new URL(this.searchResultPage.links.first?.href);
             const firstPageLinkQueryParams = new URLSearchParams(firstPageLinkUrl.search);
             return firstPageLinkQueryParams.get('page[cursor]');
@@ -30,7 +30,7 @@ export default class IndexCardSearchModel extends Model {
     }
 
     get prevPageCursor() {
-        if (this.searchResultPage.links.prev) {
+        if (this.searchResultPage.links.prev?.href) {
             const prevPageLinkUrl = new URL(this.searchResultPage.links.prev?.href);
             const prevPageLinkQueryParams = new URLSearchParams(prevPageLinkUrl.search);
             return prevPageLinkQueryParams.get('page[cursor]');
@@ -39,7 +39,7 @@ export default class IndexCardSearchModel extends Model {
     }
 
     get nextPageCursor() {
-        if (this.searchResultPage.links.next) {
+        if (this.searchResultPage.links.next?.hjref) {
             const nextPageLinkUrl = new URL(this.searchResultPage.links.next?.href);
             const nextPageLinkQueryParams = new URLSearchParams(nextPageLinkUrl.search);
             return nextPageLinkQueryParams.get('page[cursor]');
