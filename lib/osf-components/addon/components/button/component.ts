@@ -1,4 +1,8 @@
 import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
+
+import Theme from 'ember-osf-web/services/theme';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
 const layoutClasses = {
     small: 'SmallButton',
@@ -24,6 +28,8 @@ interface Args {
 }
 
 export default class Button extends Component<Args> {
+    @service theme!: Theme;
+
     get classList(): string {
         const classes = [];
         const { layout, type } = this.args;
@@ -41,5 +47,14 @@ export default class Button extends Component<Args> {
         }
 
         return classes.join(' ');
+    }
+
+    get primaryColor(): string {
+        if (!this.theme?.provider) {
+            return '#337ab7'; // $color-osf-primary;
+        }
+        // Only preprint-providers will have brands that need to be checked for color contrast
+        const brand = (this.theme.provider as PreprintProviderModel).brand;
+        return brand ? brand.get('primaryColor') : '#337ab7';
     }
 }

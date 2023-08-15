@@ -2,8 +2,9 @@
     <OsfLink
         data-analytics-name='Badge link to registration'
         data-test-registration-link='{{@registration}}'
-        @route='registries.overview.resources'
-        @models={{array @registration}}
+        @route={{if @registration 'registries.overview.resources'}}
+        @models={{if @registration (array @registration)}}
+        @href={{if @absoluteUrl (concat @absoluteUrl 'resources')}}
     >
         <span
             data-test-badge-icon={{@resourceType}}

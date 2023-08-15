@@ -1,6 +1,9 @@
 <div local-class='branded-nav-wrapper'>
     <nav
-        local-class='branded-nav'
+        local-class='branded-nav
+        {{if (eq this.theme.providerType 'preprint') 'preprint-branded-navbar'}}
+        {{if (sufficient-contrast this.brandPrimaryColor '#fff') 'light-text' 'dark-text'}}
+        {{if this.useWhiteBackground 'white-background-branded-navbar'}}'
         class='navbar navbar-inverse navbar-fixed-top'
         id='navbarScope'
     >
@@ -34,47 +37,75 @@
                     local-class='secondary-navigation'
                 >
                     <ul class='nav navbar-nav' local-class='links'>
-                        {{#if @displayModerationButton}}
+                        {{#if (eq this.theme.providerType 'collection')}}
+                            {{#if @displayModerationButton}}
+                                <li>
+                                    <OsfLink
+                                        data-analytics-name='Collection moderation'
+                                        data-test-branded-navbar-moderation
+                                        @route='collections.provider.moderation'
+                                        @models={{array this.providerId}}
+                                    >
+                                        {{t 'app_components.branded_navbar.moderation'}}
+                                    </OsfLink>
+                                </li>
+                            {{/if}}
+                            <li>
+                                <a
+                                    href={{this.myProjectsUrl}}
+                                    onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=this.analytics}}
+                                >
+                                    {{t 'app_components.branded_navbar.my_osf_projects'}}
+                                </a>
+                            </li>
+                            <li>
+                                <LinkTo
+                                    @route='provider.submit'
+                                    onclick={{action
+                                        'click'
+                                        'link'
+                                        (concat 'Navbar - ' (t @addLinkKey) ' - ' this.theme.id)
+                                        target=this.analytics
+                                    }}
+                                >
+                                    <span role='button'>{{t @addLinkKey}}</span>
+                                </LinkTo>
+                            </li>
+                            <li>
+                                <LinkTo
+                                    @route='provider.discover'
+                                    onclick={{action 'click' 'link' 'Navbar - Search' target=this.analytics}}
+                                >
+                                    <span role='button'>{{t 'navbar.search'}}</span>
+                                </LinkTo>
+                            </li>
+                        {{else if (eq this.theme.providerType 'preprint')}}
                             <li>
                                 <OsfLink
-                                    data-analytics-name='Collection moderation'
-                                    data-test-branded-navbar-moderation
-                                    @route='collections.provider.moderation'
-                                    @models={{array this.providerId}}
+                                    @href={{concat this.myProjectsUrl '#preprints'}}
                                 >
-                                    {{t 'app_components.branded_navbar.moderation'}}
+                                    <span role='button'>{{t 'navbar.my_preprints'}}</span>
+                                </OsfLink>
+                            </li>
+                            {{#if this.currentUser.user.canViewReviews}}
+                                <li>
+                                    <OsfLink
+                                        {{!-- TODO Preprint emberization: make this an in-app transition --}}
+                                        @href={{this.reviewUrl}}
+                                    >
+                                        <span role='button'>{{t 'navbar.reviews'}}</span>
+                                    </OsfLink>
+                                </li>
+                            {{/if}}
+                            <li>
+                                <OsfLink
+                                    {{!-- TODO Preprint emberization: make this an in-app transition --}}
+                                    @href={{this.submitPreprintUrl}}
+                                >
+                                    <span role='button'>{{t 'navbar.add_a_preprint' preprintWord=this.provider.preprintWord}}</span>
                                 </OsfLink>
                             </li>
                         {{/if}}
-                        <li>
-                            <a
-                                href={{this.myProjectsUrl}}
-                                onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=this.analytics}}
-                            >
-                                {{t 'app_components.branded_navbar.my_osf_projects'}}
-                            </a>
-                        </li>
-                        <li>
-                            <LinkTo
-                                @route='provider.submit'
-                                onclick={{action
-                                    'click'
-                                    'link'
-                                    (concat 'Navbar - ' (t @addLinkKey) ' - ' this.theme.id)
-                                    target=this.analytics
-                                }}
-                            >
-                                <span role='button'>{{t @addLinkKey}}</span>
-                            </LinkTo>
-                        </li>
-                        <li>
-                            <LinkTo
-                                @route='provider.discover'
-                                onclick={{action 'click' 'link' 'Navbar - Search' target=this.analytics}}
-                            >
-                                <span role='button'>{{t 'navbar.search'}}</span>
-                            </LinkTo>
-                        </li>
                         <li>
                             <a
                                 href='https://cos.io/donate'

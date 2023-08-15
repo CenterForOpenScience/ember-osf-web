@@ -37,6 +37,7 @@ module('Integration | Component | open-badges-list', hooks => {
             @hasPapers={{true}}
             @hasSupplements={{true}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-list-title]')
             .hasText(t('osf-components.open-badges-list.title'), 'Title shows in desktop');
@@ -52,6 +53,7 @@ module('Integration | Component | open-badges-list', hooks => {
             @hasPapers={{false}}
             @hasSupplements={{false}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-list-title]')
             .doesNotExist('Title does not show in mobile');
@@ -65,6 +67,7 @@ module('Integration | Component | open-badges-list', hooks => {
             @hasAnalyticCode={{true}}
             @hasMaterials={{true}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-image="data"]').hasAttribute(
             'src',
@@ -113,6 +116,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             @resourceType='data'
             @isMobile={{false}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-image="data"]').hasAttribute(
             'src',
@@ -138,6 +142,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             @resourceType='materials'
             @isMobile={{true}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-image="materials"]').hasAttribute(
             'src',
@@ -168,6 +173,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             @resourceType='materials'
             @isMobile={{true}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-image="materials"]').hasAttribute(
             'src',

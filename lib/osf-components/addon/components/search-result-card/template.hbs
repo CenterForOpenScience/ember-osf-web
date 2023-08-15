@@ -1,0 +1,78 @@
+<div local-class='result-card-container'>
+    <div local-class='primary-metadata-container'>
+        <div local-class='header'>
+            <div local-class='type-label'>
+                {{this.cardTypeLabel}}
+            </div>
+            <Button
+                {{on 'click' this.toggleSecondaryMetadata}}
+            >
+                {{#if this.isOpenSecondaryMetadata}}
+                    <FaIcon
+                        @icon={{'angle-up'}}
+                    />
+                {{else}}
+                    <FaIcon
+                        @icon={{'angle-down'}}
+                    />  
+                {{/if}}
+            </Button>
+        </div>
+        <h4 local-class='display-name'>
+            <a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
+        </h4>
+        {{#if @result.affiliatedEntities}}
+            <div local-class='name-fields'>
+                <InlineList
+                    @items={{@result.affiliatedEntities}}
+                    @total={{@result.affiliatedEntities.count}}
+                    @truncate={{5}}
+                    as |list|
+                >
+                    {{list.item}}
+                </InlineList>
+            </div>
+        {{/if}}
+        {{#if @result.isPartOf}}
+            <div>
+                <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isPartOf.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOf.title}} </a></span>
+            </div>
+        {{/if}}
+        <div local-class='date-fields'>
+            {{#each @result.dateFields as |field|}}
+                {{#if field.date}}
+                    <span>{{field.label}}: {{field.date}}</span>   
+                {{/if}}
+            {{/each}}
+        </div>
+        {{#if @result.context}}
+            <div local-class='context-field'>
+                <span>{{t 'osf-components.search-result-card.context'}}: {{@result.context}}</span>
+            </div>
+        {{/if}}
+        {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
+            <OpenBadgesList
+                    @hasData={{@result.hasDataResource}}
+                    @hasMaterials={{@result.hasMaterialsResource}}
+                    @hasAnalyticCode={{@result.hasAnalyticCodeResource}}
+                    @hasPapers={{@result.hasPapersResource}}
+                    @hasSupplements={{@result.hasSupplementsResource}}
+                    @absoluteUrl={{@result.absoluteUrl}}
+                    @verticalLayout={{false}}
+                />
+        {{/if}}
+    </div>
+    <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
+        <panel.body>
+            <hr>
+            {{component this.secondaryMetadataComponent result=@result}}
+            {{!-- {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
+                <SearchResultCard::RegistrationSecondaryMetadata @result={{@result}} />
+            {{else if (or (eq @result.resourceType 'project') (eq @result.resourceType 'project_component'))}}
+                <SearchResultCard::ProjectSecondaryMetadata @result={{@result}} />
+            {{else if (eq @result.resourceType 'preprint')}}
+                <SearchResultCard::PreprintSecondaryMetadata @result={{@result}} />
+            {{/if}} --}}
+        </panel.body>
+    </CpPanel>
+</div>

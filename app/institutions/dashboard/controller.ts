@@ -1,6 +1,6 @@
+import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 
 import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
