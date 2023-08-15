@@ -75,10 +75,10 @@
                 {{#if this.theme.provider.additionalProviders}}
                     {{additional-provider-list additionalProviders=this.theme.provider.additionalProviders}}
                 {{else}}
-                    <Preprints::-components::TaxonomyTopList
+                    <Preprints::TaxonomyTopList
                     @list={{this.model.taxonomies}}
                     @provider={{this.model.provider.id}}
-                    ></Preprints::-components::TaxonomyTopList>
+                    ></Preprints::TaxonomyTopList>
                 {{/if}}
             </div>
         </div>
@@ -165,9 +165,9 @@
     {{/if}}
 
     <div>
-        <Preprints::-components::BrandedFooter
+        <Preprints::BrandedFooter
             @footerLinks={{this.model.provider.footerLinks}}
-        ></Preprints::-components::BrandedFooter>
+        ></Preprints::BrandedFooter>
     </div>
 </div>
 {{!END INDEX}}
