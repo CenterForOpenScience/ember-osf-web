@@ -14,6 +14,15 @@ import SearchResultModel from 'ember-osf-web/models/search-result';
 
 import { Filter } from '../component';
 
+interface FakeIndexCard {
+    resourceId: string;
+    indexCard: {
+        label: string,
+        resourceId: string,
+    };
+}
+
+
 interface FilterFacetArgs {
     cardSearchText: string;
     cardSearchFilter: Filter[];
@@ -23,6 +32,16 @@ interface FilterFacetArgs {
 
 const searchDebounceTime = 500;
 
+export const booleanFilterProperties = [
+    'hasAnalyticCodeResource', // registrations
+    'hasMaterialsResource', // registrations
+    'hasPapersResource', // registrations
+    'hasSupplementalResource', // registrations
+    'hasDataResource', // registrations and preprints
+    'hasPreregisteredAnalysisPlan', // preprints
+    'hasPreregisteredStudyDesign', // preprints
+];
+
 export default class FilterFacet extends Component<FilterFacetArgs> {
     @service store!: Store;
     @service intl!: IntlService;
@@ -31,7 +50,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked page = '';
     @tracked sort = '-relevance';
     @tracked collapsed = true;
-    @tracked filterableValues: SearchResultModel[] = [];
+    @tracked filterableValues: SearchResultModel[] | FakeIndexCard[] = [];
     @tracked modalValueOptions: SearchResultModel[] = [];
     @tracked seeMoreModalShown = false;
     @tracked selectedProperty: SearchResultModel | null = null;
@@ -56,6 +75,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
 
     @action
     toggleFacet() {
+        // check boolean properties
         if (this.filterableValues.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
             taskFor(this.fetchFacetValues).perform();
         }
@@ -70,7 +90,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @action
     openSeeMoreModal() {
         this.seeMoreModalShown = true;
-        this.modalValueOptions = [...this.filterableValues];
+        this.modalValueOptions = [...this.filterableValues] as SearchResultModel[];
     }
 
     @task
@@ -110,6 +130,25 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @task
     @waitFor
     async fetchFacetValues() {
+        if (booleanFilterProperties.includes(this.propertyShortFormLabel)) {
+            this.filterableValues = [
+                {
+                    resourceId: 'is-present',
+                    indexCard: {
+                        label: this.intl.t('search.filter-facet.has-resource', { resource: this.propertyVisibleLabel }),
+                        resourceId: 'is-present',
+                    },
+                },
+                {
+                    resourceId: 'is-absent',
+                    indexCard: {
+                        label: this.intl.t('search.filter-facet.no-resource', { resource: this.propertyVisibleLabel }),
+                        resourceId: 'is-present',
+                    },
+                },
+            ];
+            return;
+        }
         const { cardSearchText, cardSearchFilter } = this.args;
         const { page, sort, filterString } = this;
         const valueSearch = await this.store.queryRecord('index-value-search', {

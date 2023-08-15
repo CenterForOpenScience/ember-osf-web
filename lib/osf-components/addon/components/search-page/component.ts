@@ -15,6 +15,8 @@ import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
 import uniqueId from 'ember-osf-web/utils/unique-id';
 
+import { booleanFilterProperties } from './filter-facet/component';
+
 interface ResourceTypeOption {
     display: string;
     value?: ResourceTypeFilterValue | null;
@@ -187,9 +189,14 @@ export default class SearchPage extends Component<SearchArgs> {
             const cardSearchText = this.searchText;
             const { page, sort, activeFilters, resourceType } = this;
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
+                if (booleanFilterProperties.includes(filter.propertyShortFormLabel)) {
+                    acc[filter.propertyShortFormLabel] = {};
+                    acc[filter.propertyShortFormLabel][filter.value] = true;
+                    return acc;
+                }
                 acc[filter.propertyShortFormLabel] = filter.value;
                 return acc;
-            }, {} as { [key: string]: string });
+            }, {} as { [key: string]: any });
             let resourceTypeFilter = this.resourceType as string;
             if (!resourceTypeFilter) {
                 resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
