@@ -44,8 +44,9 @@ export function cardSearch(_: Schema, __: Request) {
                         },
                     ],
                     links: {
-                        next: '...',
-                        last: '...',
+                        next: {
+                            href: 'https://staging-share.osf.io/api/v3/index-card-search?page%5Bcursor%5D=lmnop',
+                        },
                     },
                 },
                 relatedProperties: {
@@ -64,8 +65,9 @@ export function cardSearch(_: Schema, __: Request) {
                         },
                     ],
                     links: {
-                        next: '...',
-                        last: '...',
+                        next: {
+                            href: 'https://staging-share.osf.io/api/v3/index-card-search?page%5Bcursor%5D=lmnop',
+                        },
                     },
                 },
             },
@@ -505,8 +507,9 @@ export function valueSearch(_: Schema, __: Request) {
                         {type: 'search-result', id: property2Id},
                     ],
                     links: {
-                        next: '...',
-                        last: '...',
+                        next: {
+                            href: 'https://staging-share.osf.io/api/v3/index-value-search?page%5Bcursor%5D=lmnop',
+                        },
                     },
                 },
             },
