@@ -103,7 +103,6 @@
                 margin-bottom: 25px;
             }
 
-            .preprint-contact-container,
             .preprint-logos-container {
                 padding: 25px;
                 width: 100%;
@@ -120,28 +119,6 @@
                     background-repeat: no-repeat;
                     background-position: center;
                     margin: 15px;
-                }
-            }
-
-            .preprint-contact-container {
-                flex-direction: column;
-                align-items: center;
-                
-                .lead {
-                    font-size: 21px;
-                    line-height: 1.4;
-                    font-weight: 300;
-
-                    .links {
-                        color: $color-text-white;
-                        text-decoration: underline;
-
-                    }
-
-                }
-
-                .contact {
-                    margin-top: 20px;
                 }
             }
         }
