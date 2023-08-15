@@ -65,7 +65,7 @@
                     <h2>{{#if this.theme.provider.additionalProviders}}
                             {{t 'index.subjects.heading.provider'}}
                         {{else}}
-                            {{if this.theme.provider.hasHighlightedSubjects (t 'index.subjects.heading.hasHighlightedSubjects') (t 'preprints.subjects.heading.noHighlightedSubjects')}}
+                            {{if this.theme.provider.hasHighlightedSubjects (t 'index.subjects.heading.hasHighlightedSubjects') (t 'index.subjects.heading.noHighlightedSubjects')}}
                         {{/if}}
                     </h2>
                     {{#if this.theme.provider.hasHighlightedSubjects}}
@@ -91,9 +91,9 @@
             <div class='container'>
                 <div class='row'>
                     <div class='col-xs-12'>
-                        <h2>{{t 'preprints.services.top.heading' documentType=this.theme.provider.content.documentType}}</h2>
+                        <h2>{{t 'index.services.top.heading' documentType=this.theme.provider.content.documentType}}</h2>
                         <p class='m-b-lg'>
-                            {{t 'preprints.services.top.paragraph' documentType=this.theme.provider.content.documentType}}
+                            {{t 'index.services.top.paragraph' documentType=this.theme.provider.content.documentType}}
                         </p>
                     </div>
                 </div>
@@ -109,23 +109,23 @@
                 <div class='row p-v-md'>
                     <div class='col-md-12 text-center'>
                         <p class='lead'>
-                            {{t 'preprints.services.bottom.p1' documentType=this.theme.provider.content.documentType}}
+                            {{t 'index.services.bottom.p1' documentType=this.theme.provider.content.documentType}}
                             <div class='p-t-sm'>
-                                {{t 'preprints.services.bottom.div.line1'}}
+                                {{t 'index.services.bottom.div.line1'}}
                                 <a class='source_code_link' href='https://github.com/CenterForOpenScience/ember-preprints'
                                     onclick={{action 'click' 'link' 'Index - GitHub Repo' 'https://github.com/CenterForOpenScience/ember-preprints'}}>
-                                    {{t 'preprints.services.bottom.div.linkText1'}}
+                                    {{t 'index.services.bottom.div.linkText1'}}
                                 </a>
-                                {{t 'preprints.services.bottom.div.line2'}}
+                                {{t 'index.services.bottom.div.line2'}}
                                 <a class='source_code_link' href='https://cos.io/our-products/product-roadmap/'
                                     onclick={{action 'click' 'link' 'Index - public roadmap' 'https://cos.io/our-products/product-roadmap/'}}>
-                                    {{t 'preprints.services.bottom.div.linkText2'}}
+                                    {{t 'index.services.bottom.div.linkText2'}}
                                 </a>
-                                {{t 'preprints.services.bottom.div.line3'}}
+                                {{t 'index.services.bottom.div.line3'}}
                             </div>
                         </p>
                         <a href='mailto:contact@osf.io' class='btn btn-info btn-lg' onclick={{action 'contactLink'  @emailHref 'link' 'click' 'Index - contact email'}}>
-                            {{t 'prints.services.bottom.contact'}}
+                            {{t 'index.services.bottom.contact'}}
                         </a>
                     </div>
                 </div>
