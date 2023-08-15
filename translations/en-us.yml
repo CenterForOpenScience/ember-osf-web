@@ -24,8 +24,6 @@ documentType:
         pluralCapitalized: Theses
         singular: thesis
         singularCapitalized: Thesis
-contact: 
-    email: support@osf.io
 general:
     OSF: OSF
     share: Share

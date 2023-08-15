@@ -40,7 +40,6 @@ function buildOSF(
         moderators: [currentUserModerator],
         preprints,
         description: 'This is the description for osf',
-        email_support: 'overwritten-email@osf.io',
     });
 }
 
