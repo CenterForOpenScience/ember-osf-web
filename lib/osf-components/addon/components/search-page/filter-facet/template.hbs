@@ -18,7 +18,7 @@
                 <span>{{t (concat 'search.filterable-properties.' this.propertyCardLabel)}}</span>
                 <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
             </Button>
-            {{#if this.fetchFacetValues.isRunning}}
+            {{#if (and this.fetchFacetValues.isRunning (not this.seeMoreModalShown))}}
                 <LoadingIndicator @dark={{true}} />
             {{else if this.fetchFacetValues.isError}}
                 {{t 'search.filter-facet.facet-load-failed'}}
@@ -53,7 +53,7 @@
                                 data-analytics-name='see more filterable values {{this.propertyCardLabel}}'
                                 data-test-see-more-filterable-values={{this.propertyCardLabel}}
                                 @layout='fake-link'
-                                {{on 'click' (fn (mut this.seeMoreModalShown) true)}}
+                                {{on 'click' this.openSeeMoreModal}}
                             >
                                 {{t 'search.filter-facet.see-more'}}
                             </Button>
@@ -74,15 +74,16 @@
                     {{t 'search.filter-facet.see-more-modal-text'}}
                     <PowerSelect
                         data-test-property-value-select
-                        @options={{this.filterableValues}}
+                        @options={{this.modalValueOptions}}
                         @searchEnabled={{true}}
                         @selected={{this.selectedProperty}}
                         @placeholder={{t 'search.filter-facet.see-more-modal-placeholder'}}
                         @search={{perform this.debouncedValueSearch}}
                         @onChange={{action this.updateSelectedProperty}}
+                        @afterOptionsComponent={{component 'search-page/filter-facet/after-options' fetchValues=(perform this.loadMoreValues) hasMoreValues=this.hasMoreValueOptions}}
                         as |property|
                     >
-                        {{property.indexCard.label}}
+                        <span>{{property.indexCard.label}} ({{property.cardSearchResultCount}})</span>
                     </PowerSelect>
                 </dialog.main>
                 <dialog.footer>

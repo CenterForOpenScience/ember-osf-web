@@ -28,13 +28,17 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @service intl!: IntlService;
     @service toast!: Toastr;
 
-    @tracked page = 1;
+    @tracked page = '';
     @tracked sort = '-relevance';
     @tracked collapsed = true;
     @tracked filterableValues: SearchResultModel[] = [];
+    @tracked modalValueOptions: SearchResultModel[] = [];
     @tracked seeMoreModalShown = false;
     @tracked selectedProperty: SearchResultModel | null = null;
     @tracked showSeeMoreButton = false;
+    @tracked filterString = '';
+    @tracked hasMoreValueOptions = false;
+    @tracked nextPageCursor = '';
 
     getLocalizedString = new GetLocalizedPropertyHelper(getOwner(this));
 
@@ -59,6 +63,12 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
         this.selectedProperty = property;
     }
 
+    @action
+    openSeeMoreModal() {
+        this.seeMoreModalShown = true;
+        this.modalValueOptions = [...this.filterableValues];
+    }
+
     @task
     @waitFor
     async applySelectedProperty() {
@@ -68,7 +78,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             const filter = {
                 property: this.propertyCardLabel,
                 label: card.get('label'),
-                value: card.resourceId,
+                value: card.get('resourceId'),
             };
             toggleFilter(filter);
             this.selectedProperty = null;
@@ -79,25 +89,44 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @waitFor
     async debouncedValueSearch(filterString: string) {
         await timeout(searchDebounceTime);
-        await taskFor(this.fetchFacetValues).perform(filterString);
+        this.filterString = filterString;
+        this.page = '';
+        this.modalValueOptions = [];
+        await taskFor(this.fetchFacetValues).perform();
     }
 
     @task
     @waitFor
-    async fetchFacetValues(filterString?: string) {
+    async loadMoreValues() {
+        this.page = this.nextPageCursor;
+        await taskFor(this.fetchFacetValues).perform();
+    }
+
+    @task
+    @waitFor
+    async fetchFacetValues() {
         const { cardSearchText, cardSearchFilter } = this.args;
-        const { page, sort } = this;
+        const { page, sort, filterString } = this;
         const valueSearch = await this.store.queryRecord('index-value-search', {
             cardSearchText,
             cardSearchFilter,
             valueSearchPropertyPath: this.propertyCardLabel,
             valueSearchText: filterString || '',
-            page,
+            'page[cursor]': page,
             sort,
         });
         const searchResultPage = valueSearch.get('searchResultPage');
-        this.showSeeMoreButton = Boolean(searchResultPage.links?.next);
         const results = searchResultPage.toArray();
-        this.filterableValues = results;
+        if (!this.seeMoreModalShown) {
+            this.filterableValues = results;
+            this.showSeeMoreButton = Boolean(searchResultPage.links?.next);
+        }
+        this.modalValueOptions = [...this.modalValueOptions, ...results];
+        this.hasMoreValueOptions = Boolean(searchResultPage.links?.next);
+        if (searchResultPage.links?.next) {
+            this.nextPageCursor = new URL(searchResultPage.links.next.href).searchParams.get('page[cursor]') || '';
+        } else {
+            this.nextPageCursor = '';
+        }
     }
 }
