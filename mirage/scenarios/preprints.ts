@@ -19,8 +19,6 @@ function buildOSF(
     const brand = server.create('brand', {
         primaryColor: '#286090',
         secondaryColor: '#fff',
-        heroLogoImage: 'images/default-brand/osf-preprints-white.png',
-        heroBackgroundImage: 'images/default-brand/bg-dark.jpg',
     });
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');

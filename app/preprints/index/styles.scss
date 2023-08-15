@@ -13,6 +13,10 @@
         background-color: var(--secondary-color);
         color: var(--primary-color) !important;
 
+        &.osf {
+            background: url('images/default-brand/bg-dark.jpg');
+        }
+
         a:not(:global(.btn)) {
             color: var(--primary-color);
             text-decoration: underline;
@@ -33,20 +37,6 @@
             justify-content: center;
             align-items: center;
             color: var(--primary-color);
-
-            .or-container {
-                font-size: 21px;
-                margin-bottom: 20px;
-                font-weight: 300;
-                line-height: 1.4;
-                color: $color-text-white;
-        
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
 
             .example-container {
                 display: flex;
@@ -93,7 +83,7 @@
 
     /* Preprint providers and become provider */
     .preprint-tool-container {
-        background: var(--hero-background-img-url);
+        background: url('images/default-brand/bg-dark.jpg');
         color: $color-text-white;
         text-shadow: 0 0 5px #506069;
         background-size: cover;
@@ -152,7 +142,9 @@
                     .links {
                         color: $color-text-white;
                         text-decoration: underline;
+
                     }
+
                 }
 
                 .contact {
@@ -164,9 +156,7 @@
         h2 {
             text-transform: capitalize;
         }
+
     }
 
-    .osf-preprint-advisory-container {
-        background-image: none;
-    }
 }
