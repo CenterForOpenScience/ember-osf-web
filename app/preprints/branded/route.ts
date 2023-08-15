@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
-import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import RouterService from '@ember/routing/router-service';
 import Theme from 'ember-osf-web/services/theme';
 
 /**
@@ -12,12 +12,13 @@ export default class Preprints extends Route {
     @service store!: Store;
     @service theme!: Theme;
     @service router!: RouterService;
+    livedata = 'livedata';
 
-    async model() {
+    async model(args: any) {
         try {
-            const provider = await this.store.findRecord('preprint-provider', 'osf');
+            const provider = await this.store.findRecord('preprint-provider', args.provider_id);
             this.theme.set('providerType', 'preprint');
-            this.theme.set('id', 'osf');
+            this.theme.set('id', args.provider_id);
 
             const taxonomies = await this.theme.provider?.queryHasMany('highlightedSubjects', {
                 page: {
@@ -25,17 +26,10 @@ export default class Preprints extends Route {
                 },
             });
 
-            const brandedProviders = this.theme.id === 'osf' ? await this.store
-                .findAll('preprint-provider', { reload: true })
-                .then(result => result
-                    .filter(item => item.id !== 'osf')) : [];
-
             return {
                 provider,
                 taxonomies,
-                brandedProviders,
             };
-
         } catch (e) {
             this.router.transitionTo('not-found', 'preprints');
             return null;
