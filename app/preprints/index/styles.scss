@@ -154,31 +154,4 @@
         }
 
     }
-
-    .preprint-advisory-container {
-        background-color: $color-bg-gray-lighter;
-        border-bottom: 1px solid #6d8a98;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        width: 100%;
-        flex-direction: column;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &.provider {
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-        }
-
-        .preprint-advisory-inner-container {
-            padding-right: 30px;
-            padding-left: 30px;
-            width: calc(100% - 60px);
-            flex-direction: column;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-        }
-    }
 }

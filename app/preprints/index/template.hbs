@@ -150,9 +150,11 @@
 
     {{!ADVISORY GROUP}}
     {{#if this.theme.provider.advisoryBoard.length}}
-        <div local-class='preprint-advisory-container {{unless this.isOsf 'provider'}}'>
-            <div local-class='preprint-advisory-inner-container'>
-                {{html-safe this.theme.provider.advisoryBoard 'advisory-board'}}
+        <div class='preprint-advisory p-v-md'>
+            <div class='container'>
+                <div class='row'>
+                    {{html-safe this.theme.provider.advisoryBoard 'advisory-board'}}
+                </div>
             </div>
         </div>
     {{/if}}

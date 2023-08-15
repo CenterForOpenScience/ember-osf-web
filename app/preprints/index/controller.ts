@@ -10,10 +10,6 @@ export default class Preprints extends Controller {
     @service theme!: Theme;
     @service router!: RouterService;
 
-    get isOsf(): boolean {
-        return this.theme?.provider?.id === 'osf';
-    }
-
     @action
     onSearch(query: string) {
         let route = 'search';
