@@ -75,57 +75,21 @@
     }
 
     /* Preprint providers and become provider */
-    .preprint-tool-container {
-        background: url('images/default-brand/bg-dark.jpg');
+    .preprint-tool {
+        background: #cbd9d5 url('img/index-tool-bg.jpg') top center;
         color: $color-text-white;
         text-shadow: 0 0 5px #506069;
         background-size: cover;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        min-width: 100%;
-        min-height: 100%;
-        width: 100%;
-        flex-direction: column;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .preprint-tool-inner-container {
-            padding-right: 30px;
-            padding-left: 30px;
-            width: calc(100% - 60px);
-            flex-direction: column;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-
-            .subtitle {
-                margin-bottom: 25px;
-            }
-
-            .preprint-logos-container {
-                padding: 25px;
-                width: 100%;
-                flex-direction: row;
-                flex-wrap: wrap;
-                display: flex;
-                justify-content: center;
-                align-items: flex-start;
-
-                .provider-logo {
-                    width: 150px;
-                    height: 75px;
-                    background-size: contain;
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    margin: 15px;
-                }
-            }
-        }
 
         h2 {
             text-transform: capitalize;
         }
 
+        .provider-logo {
+            height: 120px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
     }
 }
