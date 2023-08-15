@@ -1,8 +1,12 @@
 import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import RouterService from '@ember/routing/router-service';
+
 import Theme from 'ember-osf-web/services/theme';
+/**
+ * @module ember-preprints
+ * @submodule routes
+ */
 
 /**
  * Loads all disciplines and preprint providers to the index page
@@ -11,8 +15,8 @@ import Theme from 'ember-osf-web/services/theme';
 export default class Preprints extends Route {
     @service store!: Store;
     @service theme!: Theme;
-    @service router!: RouterService;
     livedata = 'livedata';
+    templateName = 'index';
 
     async model(args: any) {
         try {
@@ -31,8 +35,26 @@ export default class Preprints extends Route {
                 taxonomies,
             };
         } catch (e) {
-            this.router.transitionTo('not-found', 'preprints');
             return null;
         }
+
+        /*
+        return {
+            taxonomies: await this.theme.provider?.queryHasMany('highlightedSubjects', {
+                page: {
+                    size: 20,
+                },
+            }),
+            brandedProviders: this.theme.isProvider
+                ? []
+                : await this.store
+                    .findAll('preprint-provider', {
+                        reload: true,
+                    }).filter((item: any) => {
+                        console.log('item', item);
+                        return item.id !== 'osf';
+                    }),
+        };
+        */
     }
 }
