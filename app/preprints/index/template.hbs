@@ -159,7 +159,7 @@
             local-class='{{if this.isOsf 'osf-preprint-advisory-container'}}'
         >
             <div class='preprint-advisory-inner-container'>
-                {{html-safe this.theme.provider.advisoryBoard}}
+                {{html-safe this.theme.provider.advisoryBoard 'advisory-board'}}
             </div>
         </div>
     {{/if}}
