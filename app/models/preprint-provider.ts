@@ -55,7 +55,7 @@ export default class PreprintProviderModel extends ProviderModel {
 
     @computed('id')
     get preprintWordInTitle() {
-        return this.id === 'thesiscommons';
+        return this.id !== 'thesiscommons';
     }
 
     // Is either OSF Preprints if provider is the default provider,
@@ -65,9 +65,10 @@ export default class PreprintProviderModel extends ProviderModel {
         if (this.id !== defaultProvider) {
             if (this.preprintWordInTitle) {
                 return this.name;
+            } else {
+                return this.intl.t('preprints.provider-title',
+                    { name: this.name, pluralizedPreprintWord: this.documentType.pluralCapitalized });
             }
-            return this.intl.t('preprints.provider-title',
-                { name: this.name, pluralizedPreprintWord: this.documentType.pluralCapitalized });
         } else {
             return this.documentType.pluralCapitalized;
         }
