@@ -49,11 +49,6 @@
             {{/if}}
         </form>
     </div>
-    {{#if @providerModel.htmlSafeDescription}}
-        <div  local-class='provider-description' data-test-provider-description>
-            {{@providerModel.htmlSafeDescription}}
-        </div>
-    {{/if}}
 
     <div local-class='example-container'>
         {{yield (hash row=(element ''))}}
