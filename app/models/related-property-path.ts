@@ -15,7 +15,7 @@ interface PropertyPath {
 
 export default class RelatedPropertyPathModel extends OsfModel {
     @attr('string') propertyPathKey!: string;
-    @attr('string') cardSearchResultCount!: string;
+    @attr('number') cardSearchResultCount!: number;
     @attr('array') osfmapPropertyPath!: string[];
     @attr('array') propertyPath!: PropertyPath[];
 
