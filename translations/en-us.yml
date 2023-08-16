@@ -243,6 +243,9 @@ search:
         preprints: 'Preprints'
         files: 'Files'
         users: 'Users'
+    first: First
+    prev: Prev
+    next: Next
     sort:
         sort-by: 'Sort by'
         relevance: 'Relevance'

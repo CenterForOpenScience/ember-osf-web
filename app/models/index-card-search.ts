@@ -19,6 +19,30 @@ export default class IndexCardSearchModel extends Model {
 
     @belongsTo('index-property-search', { inverse: null })
     relatedPropertySearch!: AsyncBelongsTo<IndexPropertySearchModel> & IndexPropertySearchModel;
+
+    get firstPageCursor() {
+        if (this.searchResultPage.links.first?.href) {
+            const firstPageLinkUrl = new URL(this.searchResultPage.links.first?.href);
+            return firstPageLinkUrl.searchParams.get('page[cursor]');
+        }
+        return null;
+    }
+
+    get prevPageCursor() {
+        if (this.searchResultPage.links.prev?.href) {
+            const prevPageLinkUrl = new URL(this.searchResultPage.links.prev?.href);
+            return prevPageLinkUrl.searchParams.get('page[cursor]');
+        }
+        return null;
+    }
+
+    get nextPageCursor() {
+        if (this.searchResultPage.links.next?.href) {
+            const nextPageLinkUrl = new URL(this.searchResultPage.links.next?.href);
+            return nextPageLinkUrl.searchParams.get('page[cursor]');
+        }
+        return null;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
