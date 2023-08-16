@@ -23,8 +23,7 @@ export default class IndexCardSearchModel extends Model {
     get firstPageCursor() {
         if (this.searchResultPage.links.first?.href) {
             const firstPageLinkUrl = new URL(this.searchResultPage.links.first?.href);
-            const firstPageLinkQueryParams = new URLSearchParams(firstPageLinkUrl.search);
-            return firstPageLinkQueryParams.get('page[cursor]');
+            return firstPageLinkUrl.searchParams.get('page[cursor]');
         }
         return null;
     }
@@ -32,8 +31,7 @@ export default class IndexCardSearchModel extends Model {
     get prevPageCursor() {
         if (this.searchResultPage.links.prev?.href) {
             const prevPageLinkUrl = new URL(this.searchResultPage.links.prev?.href);
-            const prevPageLinkQueryParams = new URLSearchParams(prevPageLinkUrl.search);
-            return prevPageLinkQueryParams.get('page[cursor]');
+            return prevPageLinkUrl.searchParams.get('page[cursor]');
         }
         return null;
     }
@@ -41,8 +39,7 @@ export default class IndexCardSearchModel extends Model {
     get nextPageCursor() {
         if (this.searchResultPage.links.next?.href) {
             const nextPageLinkUrl = new URL(this.searchResultPage.links.next?.href);
-            const nextPageLinkQueryParams = new URLSearchParams(nextPageLinkUrl.search);
-            return nextPageLinkQueryParams.get('page[cursor]');
+            return nextPageLinkUrl.searchParams.get('page[cursor]');
         }
         return null;
     }
