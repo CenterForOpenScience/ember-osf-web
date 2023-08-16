@@ -13,3 +13,21 @@
         <span>{{t 'osf-components.search-result-card.resource_nature'}}: {{@result.resourceNature}}</span>
     </div>
 {{/if}}
+{{#if @result.nodeFunders}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.funder'}}: </span>
+        <InlineList
+            @items={{@result.nodeFunders}}
+            @total={{@result.nodeFunders.count}}
+            @truncate={{5}}
+            as |list|
+        >
+            <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
+        </InlineList>
+    </div>
+{{/if}}
+{{#if @result.nodeLicense}}
+    <div>
+        <span>{{t 'osf-components.search-result-card.license'}}: <a href={{@result.nodeLicense.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.nodeLicense.name}}</a></span>
+    </div>
+{{/if}}
