@@ -193,15 +193,18 @@ export default class SearchPage extends Component<SearchArgs> {
             const cardSearchText = this.cardSearchText;
             const { page, sort, activeFilters, resourceType } = this;
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
+                // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
                 if (booleanFilterProperties.includes(filter.propertyShortFormLabel)) {
                     acc[filter.propertyShortFormLabel] = {};
                     acc[filter.propertyShortFormLabel][filter.value] = true;
                     return acc;
                 }
+                // other filters should look like cardSearchFilter[propertyName]=IRI
                 acc[filter.propertyShortFormLabel] = filter.value;
                 return acc;
             }, {} as { [key: string]: any });
             let resourceTypeFilter = this.resourceType as string;
+            // If resourceType is null, we want to search all resource types
             if (!resourceTypeFilter) {
                 resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
             }
