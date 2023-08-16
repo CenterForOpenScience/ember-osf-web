@@ -24,7 +24,13 @@
             <a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
             {{#if @result.orcids}}
                 {{#each @result.orcids as |item|}}
-                    <a href={{item}} target='_blank' rel='noopener noreferrer'> <FaIcon @prefix='fab' @icon='orcid' /> </a>
+                    <a href={{item}}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        aria-label={{t 'osf-components.search-result-card.link_to_orcid_id'}}
+                    >
+                        <FaIcon @prefix='fab' @icon='orcid' />
+                    </a>
                 {{/each}}
             {{/if}}
         </h4>

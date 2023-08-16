@@ -1879,6 +1879,7 @@ osf-components:
         user: User
         project_component: Project component
         registration_component: Registration component
+        link_to_orcid_id: Link to orcid id
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
         add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
