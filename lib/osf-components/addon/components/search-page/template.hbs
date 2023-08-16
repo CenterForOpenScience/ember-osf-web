@@ -140,17 +140,17 @@ as |layout|>
             >
                 {{#each this.activeFilters as |filter|}}
                     <li
-                        data-test-active-filter='{{filter.property}}-{{filter.value}}'
+                        data-test-active-filter='{{filter.propertyVisibleLabel}}-{{filter.value}}'
                         local-class='active-filter-item'
                     >
                         <span>
-                            {{filter.property}}:
-                            {{filter.value}}
+                            {{filter.propertyVisibleLabel}}:
+                            {{filter.label}}
                         </span>
                         <Button
                             data-analytics-name='remove filter'
-                            data-test-remove-active-filter='{{filter.property}}-{{filter.value}}'
-                            aria-label={{t 'search.active-filters.remove-filter' property=filter.property value=filter.value}}
+                            data-test-remove-active-filter='{{filter.propertyVisibleLabel}}-{{filter.label}}'
+                            aria-label={{t 'search.active-filters.remove-filter' property=filter.propertyVisibleLabel label=filter.label}}
                             @layout='fake-link'
                             {{on 'click' (fn this.toggleFilter filter)}}
                         >
@@ -163,17 +163,14 @@ as |layout|>
         {{#if this.search.isRunning}}
             <LoadingIndicator @dark={{true}} />
         {{else}}
-            {{#each this.filterableProperties as |filterableProperty index|}}
-                {{#let filterableProperty.indexCard as |propertyCard|}}
-                    <SearchPage::FilterFacet
-                        id={{if (eq index 0) this.firstFilterId null}}
-                        @cardSearchText={{@query}}
-                        @cardSearchFilters={{this.activeFilters}}
-                        @propertyCard={{propertyCard}}
-                        @propertySearch={{filterableProperty}}
-                        @toggleFilter={{this.toggleFilter}}
-                    />
-                {{/let}}
+            {{#each this.relatedProperties as |filterableProperty index|}}
+                <SearchPage::FilterFacet
+                    id={{if (eq index 0) this.firstFilterId null}}
+                    @cardSearchText={{@cardSearchText}}
+                    @cardSearchFilter={{this.filterQueryObject}}
+                    @property={{filterableProperty}}
+                    @toggleFilter={{this.toggleFilter}}
+                />
             {{else}}
                 {{t 'search.left-panel.no-filterable-properties'}}
             {{/each}}

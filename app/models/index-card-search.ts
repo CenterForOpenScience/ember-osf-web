@@ -1,6 +1,6 @@
-import Model, { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
-import IndexPropertySearchModel from './index-property-search';
+import RelatedPropertyPathModel from './related-property-path';
 import SearchResultModel from './search-result';
 
 export interface SearchFilter {
@@ -17,8 +17,8 @@ export default class IndexCardSearchModel extends Model {
     @hasMany('search-result', { inverse: null })
     searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];
 
-    @belongsTo('index-property-search', { inverse: null })
-    relatedPropertySearch!: AsyncBelongsTo<IndexPropertySearchModel> & IndexPropertySearchModel;
+    @hasMany('related-property-path', { inverse: null })
+    relatedProperties!: RelatedPropertyPathModel[];
 
     get firstPageCursor() {
         if (this.searchResultPage.links.first?.href) {

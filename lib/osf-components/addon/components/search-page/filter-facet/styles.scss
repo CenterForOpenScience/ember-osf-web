@@ -18,6 +18,8 @@
     padding: 0;
     margin: 0;
     list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
 
     &.collapsed {
         display: none;
@@ -32,6 +34,10 @@
     .facet-link,
     .facet-count {
         margin: 0 5px;
+        max-width: 90%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 }
 

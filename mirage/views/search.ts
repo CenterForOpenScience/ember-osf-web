@@ -44,14 +44,30 @@ export function cardSearch(_: Schema, __: Request) {
                         },
                     ],
                     links: {
-                        next: '...',
-                        last: '...',
+                        next: {
+                            href: 'https://staging-share.osf.io/api/v3/index-card-search?page%5Bcursor%5D=lmnop',
+                        },
                     },
                 },
-                relatedPropertySearch: {
-                    data: {
-                        type: 'index-property-search',
-                        id: 'tuv',
+                relatedProperties: {
+                    data: [
+                        {
+                            type: 'related-property-path',
+                            id: 'propertyMatch1',
+                        },
+                        {
+                            type: 'related-property-path',
+                            id: 'propertyMatch2',
+                        },
+                        {
+                            type: 'related-property-path',
+                            id: 'propertyMatch3',
+                        },
+                    ],
+                    links: {
+                        next: {
+                            href: 'https://staging-share.osf.io/api/v3/index-card-search?page%5Bcursor%5D=lmnop',
+                        },
                     },
                 },
             },
@@ -282,64 +298,9 @@ export function cardSearch(_: Schema, __: Request) {
                     resource: 'https://osf.example/abcfoo',
                 },
             },
-            // Related properties search object
+            // Related properties
             {
-                type: 'index-property-search',
-                id: 'tuv',
-                attributes: {
-                    cardSearchText: 'hello',
-                    cardSearchFilter: [
-                        {
-                            propertyPath: 'resourceType',
-                            filterType: 'eq',
-                            filterValues: [
-                                'osf:Registration',
-                            ],
-                        },
-                        {
-                            propertyPath: 'subject',
-                            filterType: 'eq',
-                            filterValues: [
-                                'https://subjects.org/subjectId',
-                            ],
-                        },
-                    ],
-                    propertySearchText: '',
-                    propertySearchFilter: [
-                        {
-                            propertyPath: 'resourceType',
-                            filterType: 'eq',
-                            filterValues: [
-                                'rdf:Property',
-                            ],
-                        },
-                    ],
-                },
-                relationships: {
-                    searchResultPage: {
-                        data: [
-                            {
-                                type: 'search-result',
-                                id: 'propertyMatch1',
-                            },
-                            {
-                                type: 'search-result',
-                                id: 'propertyMatch2',
-                            },
-                            {
-                                type: 'search-result',
-                                id: 'propertyMatch3',
-                            },
-                        ],
-                        links: {
-                            next: '...',
-                            last: '...',
-                        },
-                    },
-                },
-            },
-            {
-                type: 'search-result',
+                type: 'related-property-path',
                 id: 'propertyMatch1',
                 attributes: {
                     matchEvidence: [
@@ -349,22 +310,33 @@ export function cardSearch(_: Schema, __: Request) {
                             matchingIri: 'rdf:Property',
                         },
                     ],
-                    recordResultCount: 345,
-                },
-                relationships: {
-                    indexCard: {
-                        data: {
-                            type: 'index-card',
-                            id: 'idForPropertyRecord1',
+                    cardSearchResultCount: 345,
+                    propertyPath: [
+                        {
+                            '@id': 'http://purl.org/dc/terms/license',
+                            resourceType: [
+                                {
+                                    '@id': 'Property',
+                                },
+                            ],
+                            displayLabel: [
+                                {
+                                    '@value': 'License',
+                                    '@language': 'en',
+                                },
+                            ],
+                            shortFormLabel: [
+                                {
+                                    '@value': 'rights',
+                                    '@language': 'en',
+                                },
+                            ],
                         },
-                        links: {
-                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord1',
-                        },
-                    },
+                    ],
                 },
             },
             {
-                type: 'search-result',
+                type: 'related-property-path',
                 id: 'propertyMatch2',
                 attributes: {
                     matchEvidence: [
@@ -374,22 +346,33 @@ export function cardSearch(_: Schema, __: Request) {
                             matchingIri: 'rdf:Property',
                         },
                     ],
-                    recordResultCount: 123,
-                },
-                relationships: {
-                    indexCard: {
-                        data: {
-                            type: 'index-card',
-                            id: 'idForPropertyRecord2',
+                    cardSearchResultCount: 123,
+                    propertyPath: [
+                        {
+                            '@id': 'http://purl.org/dc/terms/published',
+                            resourceType: [
+                                {
+                                    '@id': 'Property',
+                                },
+                            ],
+                            displayLabel: [
+                                {
+                                    '@value': 'Date Published',
+                                    '@language': 'en',
+                                },
+                            ],
+                            shortFormLabel: [
+                                {
+                                    '@value': 'datePublished',
+                                    '@language': 'en',
+                                },
+                            ],
                         },
-                        links: {
-                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord2',
-                        },
-                    },
+                    ],
                 },
             },
             {
-                type: 'search-result',
+                type: 'related-property-path',
                 id: 'propertyMatch3',
                 attributes: {
                     matchEvidence: [
@@ -399,114 +382,29 @@ export function cardSearch(_: Schema, __: Request) {
                             matchingIri: 'rdf:Property',
                         },
                     ],
-                    recordResultCount: 33,
-                },
-                relationships: {
-                    indexCard: {
-                        data: {
-                            type: 'index-card',
-                            id: 'idForPropertyRecord3',
+                    cardSearchResultCount: 33,
+                    propertyPath: [
+                        {
+                            '@id': 'http://purl.org/dc/terms/funder',
+                            resourceType: [
+                                {
+                                    '@id': 'Property',
+                                },
+                            ],
+                            displayLabel: [
+                                {
+                                    '@value': 'Funder',
+                                    '@language': 'en',
+                                },
+                            ],
+                            shortFormLabel: [
+                                {
+                                    '@value': 'funder',
+                                    '@language': 'en',
+                                },
+                            ],
                         },
-                        links: {
-                            related: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord3',
-                        },
-                    },
-                },
-            },
-            {
-                type: 'index-card',
-                id: 'idForPropertyRecord1',
-                attributes: {
-                    resourceType: [
-                        'rdf:Property',
                     ],
-                    resourceIdentifier: [
-                        'http://purl.org/dc/terms/license',
-                    ],
-                    resourceMetadata: {
-                        '@id': 'http://purl.org/dc/terms/license',
-                        '@type': 'rdf:Property',
-                        label: [
-                            {
-                                '@value': 'License',
-                                '@language': 'en',
-                            },
-                        ],
-                        description: [
-                            {
-                                '@value': 'Some description about license in this case',
-                                '@language': 'en',
-                            },
-                        ],
-                    },
-                },
-                links: {
-                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord1',
-                    resource: 'http://purl.org/dc/terms/license',
-                },
-            },
-            {
-                type: 'index-card',
-                id: 'idForPropertyRecord2',
-                attributes: {
-                    resourceType: [
-                        'rdf:Property',
-                    ],
-                    resourceIdentifier: [
-                        'http://purl.org/dc/terms/published',
-                    ],
-                    resourceMetadata: {
-                        '@id': 'http://purl.org/dc/terms/published',
-                        '@type': 'rdf:Property',
-                        label: [
-                            {
-                                '@value': 'Date Published',
-                                '@language': 'en',
-                            },
-                        ],
-                        description: [
-                            {
-                                '@value': 'Some description about published date in this case',
-                                '@language': 'en',
-                            },
-                        ],
-                    },
-                },
-                links: {
-                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord2',
-                    resource: 'http://purl.org/dc/terms/published',
-                },
-            },
-            {
-                type: 'index-card',
-                id: 'idForPropertyRecord3',
-                attributes: {
-                    resourceType: [
-                        'rdf:Property',
-                    ],
-                    resourceIdentifier: [
-                        'http://purl.org/dc/terms/funder',
-                    ],
-                    resourceMetadata: {
-                        '@id': 'http://purl.org/dc/terms/funder',
-                        '@type': 'rdf:Property',
-                        label: [
-                            {
-                                '@value': 'Funder',
-                                '@language': 'en',
-                            },
-                        ],
-                        description: [
-                            {
-                                '@value': 'Some description about funder in this case',
-                                '@language': 'en',
-                            },
-                        ],
-                    },
-                },
-                links: {
-                    self: 'https://share.osf.io/api/v2/index-card/idForPropertyRecord2',
-                    resource: 'http://purl.org/dc/terms/funder',
                 },
             },
         ],
@@ -546,12 +444,10 @@ export function valueSearch(_: Schema, __: Request) {
                         {type: 'search-result', id: property2Id},
                     ],
                     links: {
-                        next: '...',
-                        last: '...',
+                        next: {
+                            href: 'https://staging-share.osf.io/api/v3/index-value-search?page%5Bcursor%5D=lmnop',
+                        },
                     },
-                },
-                relatedPropertySearch: {
-                    data: {type: 'index-property-search', id: '12345'},
                 },
             },
         },
@@ -567,7 +463,7 @@ export function valueSearch(_: Schema, __: Request) {
                             matchingHighlight: 'National <em>Institute of Health</em>',
                         },
                     ],
-                    recordResultCount: 2134,
+                    cardSearchResultCount: 2134,
                 },
                 relationships: {
                     indexCard: {
@@ -587,7 +483,7 @@ export function valueSearch(_: Schema, __: Request) {
                             matchingHighlight: 'Virginia <em>Institute of Health</em>',
                         },
                     ],
-                    recordResultCount: 2,
+                    cardSearchResultCount: 2,
                 },
                 relationships: {
                     indexCard: {

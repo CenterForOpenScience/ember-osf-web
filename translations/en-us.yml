@@ -258,12 +258,16 @@ search:
         header: Refine
         no-filterable-properties: 'No properties'
     active-filters:
-        remove-filter: 'Remove filter {property} {value}'
+        remove-filter: 'Remove filter {property} {label}'
     filter-facet:
         facet-load-failed: 'Failed to load facet values'
         see-more: 'See more'
         see-more-modal-text: 'Please select a filter to apply to your search.'
         see-more-modal-placeholder: 'Search for a filter to apply'
+        load-more: 'Load more'
+        has-resource: 'Has {resource}'
+        no-resource: 'No {resource}'
+
     institutions:
         institution-logo: 'Logo for '
 helpers:
