@@ -84,6 +84,22 @@ module.exports = function(defaults) {
                 `,
                 postProcess,
             },
+            gtm: {
+                enabled: IS_PROD,
+                content: `<script>
+                    var configJson = document.head.querySelector("meta[name$='/config/environment']").content;
+                    var configObject = JSON.parse(unescape(configJson));
+                    if (configObject.googleTagManagerId) {
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+
+                        gtag('config', configObject.googleTagManagerId);
+                    }
+                </script>
+            `,
+                postProcess,
+            },
         },
         'ember-cli-babel': {
             includePolyfill: IS_PROD,

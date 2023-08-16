@@ -32,10 +32,7 @@ export function getApiError(error: ErrorDocument): ErrorObject|undefined {
 
 export function getApiErrorMessage(error: ErrorDocument): string {
     const apiError = getApiError(error);
-    if(apiError){
-        return (apiError && apiError.detail) ? apiError.detail : '';
-    }
-    throw error;
+    return (apiError && apiError.detail) ? apiError.detail : '';
 }
 
 export function getApiErrors(error: ErrorDocument): Record<string, ErrorObject> {
