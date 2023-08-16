@@ -1,5 +1,6 @@
 import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
+import RelatedPropertyPathModel from './related-property-path';
 import SearchResultModel from './search-result';
 
 export interface SearchFilter {
@@ -17,7 +18,7 @@ export default class IndexCardSearchModel extends Model {
     searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];
 
     @hasMany('related-property-path', { inverse: null })
-    relatedProperties!: SearchResultModel[];
+    relatedProperties!: RelatedPropertyPathModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

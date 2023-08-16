@@ -114,7 +114,7 @@ export default class SearchPage extends Component<SearchArgs> {
     }
 
     get tooltipTarget3Id() {
-        if (this.propertySearch) {
+        if (this.relatedProperties) {
             return this.firstFilterId;
         }
         return this.leftPanelHeaderId;
