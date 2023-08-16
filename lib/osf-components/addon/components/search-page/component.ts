@@ -25,7 +25,7 @@ export enum ResourceTypeFilterValue {
     Registrations = 'Registration,RegistrationComponent',
     Projects = 'Project,ProjectComponent',
     Preprints = 'Preprint',
-    Users = 'User',
+    Users = 'Agent',
     Files = 'File',
 }
 
