@@ -213,7 +213,7 @@ export default class SearchResultModel extends Model {
     }
 
     get resourceNature() {
-        return this.resourceMetadata.resourceNature?.[0]['@value'];
+        return this.resourceMetadata.resourceNature?.[0]?.displayLabel?.[0]?.['@value'];
     }
 
     get hasDataResource() {
