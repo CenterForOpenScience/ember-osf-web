@@ -148,6 +148,16 @@ export default class SearchResultModel extends Model {
         return null;
     }
 
+    get nodeFunders() {
+        if (this.resourceMetadata.isContainedBy?.[0]?.funder) {
+            return this.resourceMetadata.isContainedBy[0].funder.map( (item: any) => ({
+                name: item.name[0]['@value'],
+                identifier: item.identifier?.[0]['@value'],
+            }));
+        }
+        return null;
+    }
+
     get provider() {
         if (this.resourceMetadata.publisher) {
             return {
@@ -166,6 +176,16 @@ export default class SearchResultModel extends Model {
         if (this.resourceMetadata.rights) {
             return {
                 name: this.resourceMetadata.rights?.[0].name[0]['@value'],
+                identifier: this.resourceMetadata.rights?.[0]['@id'],
+            };
+        }
+        return null;
+    }
+
+    get nodeLicense() {
+        if (this.resourceMetadata.isContainedBy?.[0]?.rights) {
+            return {
+                name: this.resourceMetadata.isContainedBy[0].rights?.[0].name[0]['@value'],
                 identifier: this.resourceMetadata.rights?.[0]['@id'],
             };
         }
@@ -192,8 +212,18 @@ export default class SearchResultModel extends Model {
         return 'unknown';
     }
 
+    get orcids() {
+        if (this.resourceMetadata.identifier) {
+            const orcids = this.resourceMetadata.identifier.filter(
+                (item: any) => item['@value'].includes('http://orcid.org/'),
+            );
+            return orcids.map( (item: any) => item['@value']);
+        }
+        return null;
+    }
+
     get resourceNature() {
-        return this.resourceMetadata.resourceNature?.[0]['@value'];
+        return this.resourceMetadata.resourceNature?.[0]?.displayLabel?.[0]?.['@value'];
     }
 
     get hasDataResource() {

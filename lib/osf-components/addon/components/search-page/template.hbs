@@ -55,7 +55,7 @@ as |layout|>
                 local-class='search-input'
                 @type='search'
                 @placeholder={{t 'search.textbox-placeholder'}}
-                @value={{this.searchText}}
+                @value={{this.cardSearchText}}
                 @enter={{perform this.doDebounceSearch}}
             />
             <Button
@@ -234,6 +234,29 @@ as |layout|>
                 <p local-class='no-results'>{{t 'search.no-results'}}</p>
             {{/each}}
         {{/if}}
+        <div local-class='pagination-buttons'>
+            {{#if this.firstPageCursor}}
+                <Button
+                    {{on 'click' (fn this.switchPage this.firstPageCursor)}}
+                >
+                    {{t 'search.first'}}
+                </Button>
+            {{/if}}
+            {{#if this.prevPageCursor}}
+                <Button
+                    {{on 'click' (fn this.switchPage this.prevPageCursor)}}
+                >
+                    {{t 'search.prev'}}
+                </Button>
+            {{/if}}
+            {{#if this.nextPageCursor}}
+                <Button
+                    {{on 'click' (fn this.switchPage this.nextPageCursor)}}
+                >
+                    {{t 'search.next'}}
+                </Button>
+            {{/if}}
+        </div>
     </layout.main>
 </OsfLayout>
 {{#if this.showTooltip1}}

@@ -27,7 +27,7 @@ export enum ResourceTypeFilterValue {
     Registrations = 'Registration,RegistrationComponent',
     Projects = 'Project,ProjectComponent',
     Preprints = 'Preprint',
-    Users = 'User',
+    Users = 'Agent',
     Files = 'File',
 }
 
@@ -52,7 +52,6 @@ export interface OnSearchParams {
 
 interface SearchArgs {
     onSearch?: (obj: OnSearchParams) => void;
-    query?: string;
     cardSearchText: string;
     cardSearchFilters: Filter[];
     propertyCard: IndexCardModel;
@@ -63,6 +62,7 @@ interface SearchArgs {
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
     showResourceTypeFilter: boolean;
+    page: string;
 }
 
 const searchDebounceTime = 100;
@@ -73,17 +73,20 @@ export default class SearchPage extends Component<SearchArgs> {
     @service store!: Store;
     @service media!: Media;
 
-    @tracked searchText?: string;
+    @tracked cardSearchText?: string;
     @tracked searchResults?: SearchResultModel[];
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
-    @tracked page?: number = 1;
+    @tracked page?: string = '';
     @tracked totalResultCount?: number;
+    @tracked firstPageCursor?: string | null;
+    @tracked prevPageCursor?: string | null;
+    @tracked nextPageCursor?: string | null;
 
     @tracked filterQueryObject: Record<string, string> = {};
 
     constructor( owner: unknown, args: SearchArgs) {
         super(owner, args);
-        this.searchText = this.args.query;
+        this.cardSearchText = this.args.cardSearchText;
         this.sort = this.args.sort;
         this.resourceType = this.args.resourceType;
         taskFor(this.search).perform();
@@ -187,7 +190,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async search() {
         try {
-            const cardSearchText = this.searchText;
+            const cardSearchText = this.cardSearchText;
             const { page, sort, activeFilters, resourceType } = this;
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 if (booleanFilterProperties.includes(filter.propertyShortFormLabel)) {
@@ -207,20 +210,29 @@ export default class SearchPage extends Component<SearchArgs> {
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
                 cardSearchText,
-                page,
+                'page[cursor]': page,
                 sort,
                 cardSearchFilter: filterQueryObject,
             });
             await searchResult.relatedProperties;
             this.relatedProperties = searchResult.relatedProperties;
+            this.firstPageCursor = searchResult.firstPageCursor;
+            this.nextPageCursor = searchResult.nextPageCursor;
+            this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
             this.totalResultCount = searchResult.totalResultCount;
             if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType});
+                this.args.onSearch({cardSearchText, sort, resourceType, page});
             }
         } catch (e) {
             this.toast.error(e);
         }
+    }
+
+    @action
+    switchPage(pageCursor: string) {
+        this.page = pageCursor;
+        taskFor(this.search).perform();
     }
 
     @task({ restartable: true })
@@ -240,18 +252,21 @@ export default class SearchPage extends Component<SearchArgs> {
         } else {
             this.activeFilters.pushObject(filter);
         }
+        this.page = '';
         taskFor(this.search).perform();
     }
 
     @action
     updateSort(sortOption: SortOption) {
         this.sort = sortOption.value;
+        this.page = '';
         taskFor(this.search).perform();
     }
 
     @action
     updateResourceType(resourceTypeOption: ResourceTypeOption) {
         this.resourceType = resourceTypeOption.value;
+        this.page = '';
         taskFor(this.search).perform();
     }
 }
