@@ -49,7 +49,6 @@ export function registrationScenario(
 
     server.create('registration-provider', {
         id: defaultProvider,
-        brandedDiscoveryPage: false,
         shareSource: 'OSF Registries',
         name: 'OSF Registries',
     }, 'withAllSchemas');

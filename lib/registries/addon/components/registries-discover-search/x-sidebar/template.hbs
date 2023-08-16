@@ -1,0 +1,30 @@
+<div local-class='sidebar-container'>
+    <h2 local-class='Sidebar__FilterHeading'>
+        {{t 'registries.discover.sidebar.refine_search'}}
+    </h2>
+    <div local-class='Sidebar__ActiveFilters'>
+        {{#each this.filters as |filter|}}
+            <div local-class='Sidebar__ActiveFilter'>
+                <span local-class='Sidebar__ActiveFilterLabel'>
+                    {{filter.display}}
+                </span>
+                <Button
+                    @layout='small'
+                    local-class='Sidebar__RemoveFilter'
+                    data-test-active-filter={{filter.display}}
+                    aria-label={{t 'registries.discover.sidebar.remove_filter_label' filterName=filter.display}}
+                    {{on 'click' (fn this.removeFilter filter.filter)}}
+                >
+                    <FaIcon @icon='times' />
+                </Button>
+            </div>
+        {{/each}}
+    </div>
+    <div local-class='Sidebar__Facets'>
+        {{yield (hash
+            filters=this.filters
+            searchOptions=@searchOptions
+            onSearchOptionsUpdated=(action this._onSearchOptionsUpdated)
+        )}}
+    </div>
+</div>

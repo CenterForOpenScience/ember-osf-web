@@ -1,0 +1,97 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.ResultsHeader {
+    padding: 0 0 15px;
+
+    h2 {
+        margin: 0;
+    }
+}
+
+.SortDropDown__List {
+    background-color: $color-bg-gray-light;
+    left: auto;
+}
+
+.SortDropDown__Option {
+    text-align: left;
+    background-color: transparent;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    width: 100%;
+}
+
+.RegistriesSearchResult {
+    h4 {
+        font-size: 24px;
+        font-weight: 400;
+    }
+
+    svg {
+        color: var(--primary-color);
+    }
+}
+
+.search-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &.mobile {
+        flex-direction: column;
+
+        .search-options-container {
+            width: 100%;
+        }
+
+        .search-header-container {
+            width: 100%;
+        }
+    }
+
+    .search-options-container {
+        width: 30%;
+    }
+
+    .search-header-container {
+        width: 70%;
+        padding-left: 15px;
+
+        .no-results {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .Pagination {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 12px;
+        }
+
+        .loading-container,
+        .error-container {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+    }
+}
+
+.lead {
+    margin-bottom: 20px;
+    font-weight: 300;
+    line-height: 1.4;
+}
