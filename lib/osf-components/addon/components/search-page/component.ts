@@ -269,6 +269,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @action
     updateResourceType(resourceTypeOption: ResourceTypeOption) {
         this.resourceType = resourceTypeOption.value;
+        this.activeFilters = A<Filter>([]);
         this.page = '';
         taskFor(this.search).perform();
     }
