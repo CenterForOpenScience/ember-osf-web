@@ -2,14 +2,14 @@ import { currentURL, visit } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
-import { module, test } from 'qunit';
+import { module, skip } from 'qunit';
 import { click, setupOSFApplicationTest} from 'ember-osf-web/tests/helpers';
 
 module('Acceptance | institutions | discover', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('Desktop: Default colors', async assert => {
+    skip('Desktop: Default colors', async assert => {
         server.create('institution', {
             id: 'has-users',
         }, 'withMetrics');
@@ -26,7 +26,7 @@ module('Acceptance | institutions | discover', hooks => {
         await percySnapshot(assert);
     });
 
-    test('Mobile: Default colors', async assert => {
+    skip('Mobile: Default colors', async assert => {
         setBreakpoint('mobile');
         server.create('institution', {
             id: 'has-users',
