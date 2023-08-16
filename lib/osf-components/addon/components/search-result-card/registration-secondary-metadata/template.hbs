@@ -1,36 +1,36 @@
-{{#if @result.funder}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.funder'}}: </span>
-        <InlineList
-            @items={{@result.funders}}
-            @total={{@result.funders.count}}
-            @truncate={{5}}
-            as |list|
-        >
-            <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
-        </InlineList>
-    </div>
-{{/if}}
-{{#if @result.registrationTemplate}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.registration_template'}}: {{@result.registrationTemplate}}</span>
-    </div>
-{{/if}}
-{{#if @result.license}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.license'}}: <a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></span>
-    </div>
-{{/if}}
-{{#if @result.doi}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.doi'}}: </span>
-        <InlineList
-            @items={{@result.doi}}
-            @total={{@result.doi.count}}
-            @truncate={{5}}
-            as |list|
-        >
-            <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
-        </InlineList>
-    </div>
-{{/if}}
+<dl>
+    {{#if @result.funder}}
+        <dt>{{t 'osf-components.search-result-card.funder'}}</dt>
+        <dd>
+            <InlineList
+                @items={{@result.funders}}
+                @total={{@result.funders.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
+            </InlineList>
+        </dd>
+    {{/if}}
+    {{#if @result.registrationTemplate}}
+        <dt>{{t 'osf-components.search-result-card.registration_template'}}</dt>
+        <dd>{{@result.registrationTemplate}}</dd>
+    {{/if}}
+    {{#if @result.license}}
+        <dt>{{t 'osf-components.search-result-card.license'}}</dt>
+        <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
+    {{/if}}
+    {{#if @result.doi}}
+        <dt>{{t 'osf-components.search-result-card.doi'}}</dt>
+        <dd>
+            <InlineList
+                @items={{@result.doi}}
+                @total={{@result.doi.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
+            </InlineList>
+        </dd>
+    {{/if}}
+</dl>

@@ -1,46 +1,44 @@
-{{#if @result.description}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.description'}}: {{@result.description}}</span>
-    </div>
-{{/if}}
-{{#if @result.funders}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.funder'}}: </span>
-        <InlineList
-            @items={{@result.funders}}
-            @total={{@result.funders.count}}
-            @truncate={{5}}
-            as |list|
-        >
-            <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
-        </InlineList>
-    </div>
-{{/if}}
-{{#if @result.isPartOfCollection}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.collection'}}: <a href={{@result.isPartOfCollection.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOfCollection.title}} </a></span>
-    </div>
-{{/if}}
-{{#if @resource.language}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.language'}}: {{@resource.language}}</span>
-    </div>
-{{/if}}
-{{#if @result.doi}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.doi'}}: </span>
-        <InlineList
-            @items={{@result.doi}}
-            @total={{@result.doi.count}}
-            @truncate={{5}}
-            as |list|
-        >
-            <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
-        </InlineList>
-    </div>
-{{/if}}
-{{#if @result.license}}
-    <div>
-        <span>{{t 'osf-components.search-result-card.license'}}: <a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></span>
-    </div>
-{{/if}}
+<dl>
+    {{#if @result.description}}
+        <dt>{{t 'osf-components.search-result-card.description'}}</dt>
+        <dd>{{@result.description}}</dd>
+    {{/if}}
+    {{#if @result.funders}}
+        <dt>{{t 'osf-components.search-result-card.funder'}}</dt>
+        <dd>
+            <InlineList
+                @items={{@result.funders}}
+                @total={{@result.funders.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
+            </InlineList>
+        </dd>
+    {{/if}}
+    {{#if @result.isPartOfCollection}}
+        <dt>{{t 'osf-components.search-result-card.collection'}}</dt>
+        <dd><a href={{@result.isPartOfCollection.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOfCollection.title}} </a></dd>
+    {{/if}}
+    {{#if @resource.language}}
+        <dt>{{t 'osf-components.search-result-card.language'}}</dt>
+        <dd>{{@resource.language}}</dd>
+    {{/if}}
+    {{#if @result.doi}}
+        <dt>{{t 'osf-components.search-result-card.doi'}}</dt>
+        <dd>
+            <InlineList
+                @items={{@result.doi}}
+                @total={{@result.doi.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
+            </InlineList>
+        </dd>
+    {{/if}}
+    {{#if @result.license}}
+        <dt>{{t 'osf-components.search-result-card.license'}}</dt>
+        <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
+    {{/if}}
+</dl>
