@@ -13,6 +13,7 @@ import Media from 'ember-responsive';
 
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
+import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path';
 import uniqueId from 'ember-osf-web/utils/unique-id';
 
 import { booleanFilterProperties } from './filter-facet/component';
@@ -74,7 +75,7 @@ export default class SearchPage extends Component<SearchArgs> {
 
     @tracked searchText?: string;
     @tracked searchResults?: SearchResultModel[];
-    @tracked relatedProperties?: SearchResultModel[] = [];
+    @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
     @tracked page?: number = 1;
     @tracked totalResultCount?: number;
 

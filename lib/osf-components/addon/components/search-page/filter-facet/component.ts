@@ -1,5 +1,4 @@
 import Store from '@ember-data/store';
-import { getOwner } from '@ember/application';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -8,7 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
-import GetLocalizedPropertyHelper from 'ember-osf-web/helpers/get-localized-property';
+import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path';
 
 import SearchResultModel from 'ember-osf-web/models/search-result';
 
@@ -26,7 +25,7 @@ interface FakeIndexCard {
 interface FilterFacetArgs {
     cardSearchText: string;
     cardSearchFilter: Filter[];
-    property: SearchResultModel;
+    property: RelatedPropertyPathModel;
     toggleFilter: (filter: Filter) => void;
 }
 
@@ -59,23 +58,8 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked hasMoreValueOptions = false;
     @tracked nextPageCursor = '';
 
-    getLocalizedString = new GetLocalizedPropertyHelper(getOwner(this));
-
-    get propertyCard() {
-        return this.args.property.get('indexCard');
-    }
-
-    get propertyShortFormLabel() {
-        return this.getLocalizedString.compute([this.propertyCard.get('resourceMetadata'), 'shortFormLabel']);
-    }
-
-    get propertyVisibleLabel() {
-        return this.propertyCard.get('label');
-    }
-
     @action
     toggleFacet() {
-        // check boolean properties
         if (this.filterableValues.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
             taskFor(this.fetchFacetValues).perform();
         }
@@ -97,11 +81,11 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @waitFor
     async applySelectedProperty() {
         if (this.selectedProperty) {
-            const { toggleFilter } = this.args;
+            const { toggleFilter, property } = this.args;
             const card = this.selectedProperty.indexCard;
             const filter = {
-                propertyVisibleLabel: this.propertyVisibleLabel,
-                propertyShortFormLabel: this.propertyShortFormLabel,
+                propertyVisibleLabel: property.displayLabel,
+                propertyShortFormLabel: property.shortFormLabel,
                 label: card.get('label'),
                 value: card.get('resourceId'),
             };
@@ -130,31 +114,31 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @task
     @waitFor
     async fetchFacetValues() {
-        if (booleanFilterProperties.includes(this.propertyShortFormLabel)) {
+        const { cardSearchText, cardSearchFilter, property } = this.args;
+        const { page, sort, filterString } = this;
+        if (booleanFilterProperties.includes(property.shortFormLabel)) {
             this.filterableValues = [
                 {
                     resourceId: 'is-present',
                     indexCard: {
-                        label: this.intl.t('search.filter-facet.has-resource', { resource: this.propertyVisibleLabel }),
+                        label: this.intl.t('search.filter-facet.has-resource', { resource: property.displayLabel }),
                         resourceId: 'is-present',
                     },
                 },
                 {
                     resourceId: 'is-absent',
                     indexCard: {
-                        label: this.intl.t('search.filter-facet.no-resource', { resource: this.propertyVisibleLabel }),
+                        label: this.intl.t('search.filter-facet.no-resource', { resource: property.displayLabel }),
                         resourceId: 'is-present',
                     },
                 },
             ];
             return;
         }
-        const { cardSearchText, cardSearchFilter } = this.args;
-        const { page, sort, filterString } = this;
         const valueSearch = await this.store.queryRecord('index-value-search', {
             cardSearchText,
             cardSearchFilter,
-            valueSearchPropertyPath: this.propertyShortFormLabel,
+            valueSearchPropertyPath: property.shortFormLabel,
             valueSearchText: filterString || '',
             'page[cursor]': page,
             sort,

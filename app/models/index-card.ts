@@ -28,7 +28,7 @@ export default class IndexCardModel extends Model {
     }
 
     get label() {
-        const possibleLabelKeys = ['label', 'name', 'title'];
+        const possibleLabelKeys = ['displayLabel', 'name', 'title'];
         for (const key of possibleLabelKeys) {
             if (this.resourceMetadata[key]) {
                 const label = this.getLocalizedString.compute([this.resourceMetadata, key]);

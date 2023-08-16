@@ -16,7 +16,7 @@ export default class IndexCardSearchModel extends Model {
     @hasMany('search-result', { inverse: null })
     searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];
 
-    @hasMany('search-result', { inverse: null })
+    @hasMany('related-property-path', { inverse: null })
     relatedProperties!: SearchResultModel[];
 }
 

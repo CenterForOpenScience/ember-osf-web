@@ -5,18 +5,18 @@
         local-class='facet-wrapper'
         ...attributes
     >
-        {{#let (unique-id this.propertyVisibleLabel) as |facetElementId|}}
+        {{#let (unique-id @property.displayLabel) as |facetElementId|}}
             <Button
-                data-analytics-name='Filter facet toggle {{this.propertyVisibleLabel}}'
-                data-test-filter-facet-toggle={{this.propertyVisibleLabel}}
+                data-analytics-name='Filter facet toggle {{@property.displayLabel}}'
+                data-test-filter-facet-toggle={{@property.displayLabel}}
                 @layout='fake-link'
                 local-class='facet-expand-button'
                 aria-controls={{facetElementId}}
                 aria-expanded={{not this.collapsed}}
-                title={{this.propertyVisibleLabel}}
+                title={{@property.displayLabel}}
                 {{on 'click' this.toggleFacet}}
             >
-                <span>{{this.propertyVisibleLabel}}</span>
+                <span>{{@property.displayLabel}}</span>
                 <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
             </Button>
             {{#if (and this.fetchFacetValues.isRunning (not this.seeMoreModalShown))}}
@@ -39,8 +39,8 @@
                                 @layout='fake-link'
                                 title={{value.indexCard.label}}
                                 {{on 'click' (fn @toggleFilter (hash
-                                    propertyVisibleLabel=this.propertyVisibleLabel
-                                    propertyShortFormLabel=this.propertyShortFormLabel
+                                    propertyVisibleLabel=@property.displayLabel
+                                    propertyShortFormLabel=@property.shortFormLabel
                                     label=value.indexCard.label
                                     value=value.indexCard.resourceId)
                                 )}}
@@ -55,8 +55,8 @@
                     {{#if this.showSeeMoreButton}}
                         <li>
                             <Button
-                                data-analytics-name='See more filterable values {{this.propertyVisibleLabel}}'
-                                data-test-see-more-filterable-values={{this.propertyVisibleLabel}}
+                                data-analytics-name='See more filterable values {{@property.displayLabel}}'
+                                data-test-see-more-filterable-values={{@property.displayLabel}}
                                 @layout='fake-link'
                                 {{on 'click' this.openSeeMoreModal}}
                             >
@@ -73,7 +73,7 @@
                 as |dialog|
             >
                 <dialog.heading data-test-see-more-dialog-heading>
-                    {{this.propertyVisibleLabel}}
+                    {{@property.displayLabel}}
                 </dialog.heading>
                 <dialog.main local-class='see-more-dialog'>
                     {{t 'search.filter-facet.see-more-modal-text'}}
