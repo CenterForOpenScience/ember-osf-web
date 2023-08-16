@@ -612,7 +612,7 @@ node_navbar:
     settings: Settings
     comments: Comments
 status:
-    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
+    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/search?resourceType=Project%2CProjectComponent">popular public projects</a>.</p>'
     alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.'
     # remove_addon: 'Because the GitHub add-on for {extra.category} "{extra.title}" was authenticated by {extra.user}, authentication information has been deleted.'
     project_deleted: 'Project has been successfully deleted.'
