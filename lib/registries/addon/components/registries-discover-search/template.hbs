@@ -1,0 +1,15 @@
+<div local-class='Discover__Body'>
+    <div class='container'>
+        <div local-class='row'>
+            {{yield (hash
+                results=(component 'registries-discover-search/x-results' @results)
+                sidebar=(component 'registries-discover-search/x-sidebar'
+                    searchOptions=@searchOptions
+                    additionalFilters=@additionalFilters
+                    provider=@provider
+                    onSearchOptionsUpdated=(action @onSearchOptionsUpdated)
+                )
+            )}}
+        </div>
+    </div>
+</div>
