@@ -199,7 +199,8 @@ export default class SearchPage extends Component<SearchArgs> {
                     return acc;
                 }
                 // other filters should look like cardSearchFilter[propertyName]=IRI
-                acc[filter.propertyShortFormLabel] = filter.value;
+                const currentValue = acc[filter.propertyShortFormLabel];
+                acc[filter.propertyShortFormLabel] = currentValue ? currentValue.concat(filter.value) : [filter.value];
                 return acc;
             }, {} as { [key: string]: any });
             let resourceTypeFilter = this.resourceType as string;
