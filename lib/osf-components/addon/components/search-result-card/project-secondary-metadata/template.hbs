@@ -20,6 +20,10 @@
         <dt>{{t 'osf-components.search-result-card.collection'}}</dt>
         <dd><a href={{@result.isPartOfCollection.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOfCollection.title}} </a></dd>
     {{/if}}
+    {{#if @result.resourceNature}}
+        <dt>{{t 'osf-components.search-result-card.resource_nature'}}</dt>
+        <dd>{{@result.resourceNature}}</dd>
+    {{/if}}
     {{#if @resource.language}}
         <dt>{{t 'osf-components.search-result-card.language'}}</dt>
         <dd>{{@resource.language}}</dd>
