@@ -80,8 +80,8 @@ export default class SearchResultModel extends Model {
         } else if (this.resourceMetadata.creator) {
             return this.resourceMetadata.creator?.map((item: any) =>
                 ({ name: item.name[0]['@value'], absoluteUrl: item.identifier?.[0]?.['@value'] }));
-        } else if (this.resourceMetadata.isContainedBy?.[0]?.creator) {
-            return this.resourceMetadata.isContainedBy?.[0]?.creator?.map((item: any) =>
+        } else if (this.isContainedBy?.[0]?.creator) {
+            return this.isContainedBy[0].creator.map((item: any) =>
                 ({ name: item.name?.[0]?.['@value'], absoluteUrl: item.identifier?.[0]?.['@value'] }));
         }
     }
@@ -127,8 +127,8 @@ export default class SearchResultModel extends Model {
     get isPartOfTitleAndUrl() {
         if (this.isPartOf) {
             return {
-                title: this.resourceMetadata.isPartOf?.[0]?.title?.[0]?.['@value'],
-                absoluteUrl: this.resourceMetadata.isPartOf?.[0]?.['@id'],
+                title: this.isPartOf[0]?.title?.[0]?.['@value'],
+                absoluteUrl: this.isPartOf[0]?.['@id'],
             };
         }
         return null;
@@ -137,8 +137,8 @@ export default class SearchResultModel extends Model {
     get isContainedByTitleAndUrl() {
         if (this.isContainedBy) {
             return {
-                title: this.resourceMetadata.isContainedBy?.[0]?.title?.[0]?.['@value'],
-                absoluteUrl: this.resourceMetadata.isContainedBy?.[0]?.['@id'],
+                title: this.isContainedBy[0]?.title?.[0]?.['@value'],
+                absoluteUrl: this.isContainedBy[0]?.['@id'],
             };
         }
         return null;
