@@ -176,10 +176,10 @@ export default class SearchPage extends Component<SearchArgs> {
     // Sort
     sortOptions: SortOption[] = [
         { display: this.intl.t('search.sort.relevance'), value: '-relevance' },
-        { display: this.intl.t('search.sort.created-date-descending'), value: '-date_created' },
-        { display: this.intl.t('search.sort.created-date-ascending'), value: 'date_created' },
-        { display: this.intl.t('search.sort.modified-date-descending'), value: '-date_modified' },
-        { display: this.intl.t('search.sort.modified-date-ascending'), value: 'date_modified' },
+        { display: this.intl.t('search.sort.created-date-descending'), value: '-dateCreated' },
+        { display: this.intl.t('search.sort.created-date-ascending'), value: 'dateCreated' },
+        { display: this.intl.t('search.sort.modified-date-descending'), value: '-dateModified' },
+        { display: this.intl.t('search.sort.modified-date-ascending'), value: 'dateModified' },
     ];
 
     @tracked resourceType?: ResourceTypeFilterValue | null;
