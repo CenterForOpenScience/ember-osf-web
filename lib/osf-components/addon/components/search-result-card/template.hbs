@@ -43,13 +43,18 @@
                     @truncate={{5}}
                     as |list|
                 >
-                    {{list.item}}
+                    <a href={{list.item.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{list.item.name}} </a>
                 </InlineList>
             </div>
         {{/if}}
         {{#if @result.isPartOf}}
             <div>
-                <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isPartOf.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOf.title}} </a></span>
+                <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isPartOfTitleAndUrl.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOfTileAndUrl.title}} </a></span>
+            </div>
+        {{/if}}
+        {{#if @result.isContainedBy}}
+            <div>
+                <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isContainedByTitleAndUrl.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isContainedByTitleAndUrl.title}} </a></span>
             </div>
         {{/if}}
         <div local-class='date-fields'>
