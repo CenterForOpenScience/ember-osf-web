@@ -247,7 +247,7 @@ export default class SearchResultModel extends Model {
     }
 
     get registrationTemplate() {
-        return this.resourceMetadata['https://osf.io/vocab/2022/registration_type']?.[0]?.['@value'];
+        return this.resourceMetadata.conformsTo?.[0]?.title?.[0]?.['@value'];
     }
 }
 
