@@ -77,8 +77,12 @@ export default class SearchResultModel extends Model {
     get affiliatedEntities() {
         if (this.resourceType === 'user') {
             // return something
-        } else {
-            return this.resourceMetadata.creator?.map( (item:any) => item.name[0]['@value']);
+        } else if (this.resourceMetadata.creator) {
+            return this.resourceMetadata.creator?.map((item: any) =>
+                ({ name: item.name[0]['@value'], absoluteUrl: item.identifier?.[0]?.['@value'] }));
+        } else if (this.isContainedBy?.[0]?.creator) {
+            return this.isContainedBy[0].creator.map((item: any) =>
+                ({ name: item.name?.[0]?.['@value'], absoluteUrl: item.identifier?.[0]?.['@value'] }));
         }
     }
 
@@ -113,11 +117,28 @@ export default class SearchResultModel extends Model {
     }
 
     get isPartOf() {
-        const isPartOf = this.resourceMetadata.isPartOf;
-        if (isPartOf) {
+        return this.resourceMetadata.isPartOf;
+    }
+
+    get isContainedBy() {
+        return this.resourceMetadata.isContainedBy;
+    }
+
+    get isPartOfTitleAndUrl() {
+        if (this.isPartOf) {
             return {
-                title: this.resourceMetadata.isPartOf?.[0]?.title?.[0]?.['@value'],
-                absoluteUrl: this.resourceMetadata.isPartOf?.[0]?.['@id'],
+                title: this.isPartOf[0]?.title?.[0]?.['@value'],
+                absoluteUrl: this.isPartOf[0]?.['@id'],
+            };
+        }
+        return null;
+    }
+
+    get isContainedByTitleAndUrl() {
+        if (this.isContainedBy) {
+            return {
+                title: this.isContainedBy[0]?.title?.[0]?.['@value'],
+                absoluteUrl: this.isContainedBy[0]?.['@id'],
             };
         }
         return null;
