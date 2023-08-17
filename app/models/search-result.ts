@@ -79,7 +79,7 @@ export default class SearchResultModel extends Model {
             // return something
         } else if (this.resourceMetadata.creator) {
             return this.resourceMetadata.creator?.map((item: any) =>
-                ({ name: item.name[0]['@value'], absoluteUrl: item.identifier[0]['@value'] }));
+                ({ name: item.name[0]['@value'], absoluteUrl: item.identifier?.[0]?.['@value'] }));
         } else if (this.resourceMetadata.isContainedBy?.[0]?.creator) {
             return this.resourceMetadata.isContainedBy?.[0]?.creator?.map((item: any) =>
                 ({ name: item.name?.[0]?.['@value'], absoluteUrl: item.identifier?.[0]?.['@value'] }));
