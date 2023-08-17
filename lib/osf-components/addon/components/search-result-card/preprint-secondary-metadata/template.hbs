@@ -1,15 +1,21 @@
 <dl>
     {{!-- Description --}}
-    <dt>{{t 'osf-components.search-result-card.description'}}:</dt>
-    <dd>{{@result.description}}</dd>
+    {{#if @result.description}}
+        <dt>{{t 'osf-components.search-result-card.description'}}:</dt>
+        <dd>{{@result.description}}</dd>
+    {{/if}}
 
     {{!-- Preprint Provider --}}
-    <dt>{{t 'osf-components.search-result-card.preprint_provider'}}</dt>
-    <dd>{{@result.provider.name}}</dd>
+    {{#if @result.provider}}
+        <dt>{{t 'osf-components.search-result-card.preprint_provider'}}</dt>
+        <dd>{{@result.provider.name}}</dd>
+    {{/if}}
 
     {{!-- License --}}
-    <dt>{{t 'osf-components.search-result-card.license'}}</dt>
-    <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
+    {{#if @result.license}}
+        <dt>{{t 'osf-components.search-result-card.license'}}</dt>
+        <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
+    {{/if}}
 
     {{!-- DOI --}}
     {{#if @result.doi}}

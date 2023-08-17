@@ -1,5 +1,13 @@
 <dl>
-    {{#if @result.funder}}
+    {{#if @result.description}}
+        <dt>{{t 'osf-components.search-result-card.description'}}</dt>
+        <dd>{{@result.description}}</dd>
+    {{/if}}
+    {{#if @result.provider}}
+        <dt>{{t 'osf-components.search-result-card.preprint_provider'}}</dt>
+        <dd><a href={{@result.provider.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.provider.name}}</a></dd>
+    {{/if}}
+    {{#if @result.funders}}
         <dt>{{t 'osf-components.search-result-card.funder'}}</dt>
         <dd>
             <InlineList

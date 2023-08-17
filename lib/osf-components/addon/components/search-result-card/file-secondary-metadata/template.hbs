@@ -24,6 +24,19 @@
             </InlineList>
         </dd>
     {{/if}}
+    {{#if @result.doi}}
+        <dt>{{t 'osf-components.search-result-card.doi'}}</dt>
+        <dd>
+            <InlineList
+                @items={{@result.doi}}
+                @total={{@result.doi.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
+            </InlineList>
+        </dd>
+    {{/if}}
     {{#if @result.nodeLicense}}
         <dt>{{t 'osf-components.search-result-card.license'}}</dt>
         <dd><a href={{@result.nodeLicense.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.nodeLicense.name}}</a></dd>
