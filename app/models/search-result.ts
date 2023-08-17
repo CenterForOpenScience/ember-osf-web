@@ -196,8 +196,8 @@ export default class SearchResultModel extends Model {
     get license() {
         if (this.resourceMetadata.rights) {
             return {
-                name: this.resourceMetadata.rights?.[0].name[0]['@value'],
-                identifier: this.resourceMetadata.rights?.[0]['@id'],
+                name: this.resourceMetadata.rights?.[0]?.name?.[0]?.['@value'],
+                identifier: this.resourceMetadata.rights?.[0]?.['@id'],
             };
         }
         return null;
@@ -206,8 +206,8 @@ export default class SearchResultModel extends Model {
     get nodeLicense() {
         if (this.resourceMetadata.isContainedBy?.[0]?.rights) {
             return {
-                name: this.resourceMetadata.isContainedBy[0].rights?.[0].name[0]['@value'],
-                identifier: this.resourceMetadata.rights?.[0]['@id'],
+                name: this.resourceMetadata.isContainedBy[0].rights?.[0]?.name?.[0]?.['@value'],
+                identifier: this.resourceMetadata.rights?.[0]?.['@id'],
             };
         }
         return null;
