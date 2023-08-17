@@ -9,10 +9,12 @@ export interface SearchFilter {
     filterType?: string;
 }
 
+export const ShareMoreThanTenThousand = 'https://share.osf.io/vocab/2023/trove/ten-thousands-and-more';
+
 export default class IndexCardSearchModel extends Model {
     @attr('string') cardSearchText!: string;
     @attr('array') cardSearchFilters!: SearchFilter[];
-    @attr('number') totalResultCount!: number;
+    @attr('string') totalResultCount!: number | typeof ShareMoreThanTenThousand;
 
     @hasMany('search-result', { inverse: null })
     searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];
