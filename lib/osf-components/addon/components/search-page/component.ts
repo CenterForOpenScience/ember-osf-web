@@ -11,6 +11,7 @@ import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Media from 'ember-responsive';
 
+import { ShareMoreThanTenThousand } from 'ember-osf-web/models/index-card-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
 import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path';
@@ -77,7 +78,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked searchResults?: SearchResultModel[];
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
     @tracked page?: string = '';
-    @tracked totalResultCount?: number;
+    @tracked totalResultCount?: string | number;
     @tracked firstPageCursor?: string | null;
     @tracked prevPageCursor?: string | null;
     @tracked nextPageCursor?: string | null;
@@ -132,13 +133,11 @@ export default class SearchPage extends Component<SearchArgs> {
     }
 
     get showResultCountMiddle() {
-        const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
+        return this.totalResultCount && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
     }
 
     get showResultCountLeft() {
-        const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && this.showSidePanelToggle;
+        return this.totalResultCount && this.args.showResourceTypeFilter;
     }
 
     get selectedSortOption() {
@@ -223,7 +222,8 @@ export default class SearchPage extends Component<SearchArgs> {
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
-            this.totalResultCount = searchResult.totalResultCount;
+            this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
+                searchResult.totalResultCount;
             if (this.args.onSearch) {
                 this.args.onSearch({cardSearchText, sort, resourceType, page});
             }
