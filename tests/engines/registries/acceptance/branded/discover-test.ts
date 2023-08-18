@@ -78,12 +78,12 @@ module('Registries | Acceptance | branded.discover', hooks => {
 
         await visit(`/registries/${osfProvider.id}/discover`);
         assert.equal(currentRouteName(),
-            'registries.discover',
-            '/registries/osf/discover redirects to registries/discover');
+            'search',
+            '/registries/osf/discover redirects to search page');
 
         await visit(`/registries/${osfProvider.id}`);
         assert.equal(currentRouteName(),
-            'registries.discover',
-            '/registries/osf redirects to registries/discover');
+            'search',
+            '/registries/osf redirects to search page');
     });
 });
