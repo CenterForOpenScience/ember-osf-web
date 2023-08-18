@@ -1,0 +1,312 @@
+{{title this.model.title}}
+
+<div id='view-page'>
+    {{!HEADER ROW}}
+    <div class='p-t-xl p-b-md m-b-md dark-overlay-header-background header-row'>
+        {{!CONTAINER DIV}}
+        <div class='container'>
+            <div class='row'>
+                <div class='col-xs-12 preprint-title-container'>
+                    <h1 id='preprintTitle'>{{this.model.title}}</h1>
+                    {{#unless this.isWithdrawn}}
+                        <div class='p-b-md edit-preprint-button'>
+                            {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
+                                <a type='button'
+                                   class='btn btn-success edit-btn'
+                                   href={{concat this.theme.guidPathPrefix this.model.id '/edit'}}
+                                   onclick={{action 'click' 'link' 'Content - Edit Preprint' (concat this.model.links.html 'edit')}}
+                                >
+                                    {{t @editButtonLabel documentType=this.model.provider.documentType}}
+                                </a>
+                            {{/if}}
+                            <br>
+                        </div>
+                    {{/unless}}
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-xs-12 col-sm-12'>
+                    <h5 class='view-authors'>
+                        <div class='detail-header-label'>
+                            <strong>{{t 'content.header.authors_label'}}</strong>
+                        </div>
+                        <ul class='comma-list'>
+                            {{#if this.authors}}
+                                {{#each this.authors as |author| ~}}
+                                    {{#if author.bibliographic}}
+                                        {{#if author.unregisteredContributor}}
+                                            {{claim-user author=author preprintId=this.model.id isLoggedIn=(if this.currentUser.currentUserId true false) currentUser=this.currentUser.user.content}}
+                                        {{else if (user-errors author)}}
+                                            <li>{{disabled-user-name author}}</li>
+                                        {{else}}
+                                            <li><a href={{author.users.profileURL}} onclick={{action 'click' 'link' 'Content - Author' author.users.profileURL}}>{{author.users.fullName}}</a></li>
+                                        {{/if}}
+                                    {{/if}}
+                                {{~/each}}
+                            {{else}}
+                                <div class='ball-pulse ball-dark'>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            {{/if}}
+                        </ul>
+                    </h5>
+                </div>
+            </div>
+            {{author-assertions preprint=this.model}}
+        </div>
+        {{!END CONTAINER DIV}}
+    </div>
+    {{!END HEADER ROW}}
+    {{#if (or this.showStatusBanner this.isWithdrawn)}}
+        {{preprint-status-banner submission=this.model isWithdrawn=this.isWithdrawn}}
+    {{/if}}
+    {{!CONTAINER DIV}}
+    <div class='container'>
+        {{#if this.isWithdrawn}}
+            {{! TOMBSTONE PAGE}}
+            <div class='row p-md bottom-margin'>
+                <div class='col-md-5'>
+                    {{#if this.model.withdrawalJustification}}
+                        <div class='p-t-xs'>
+                            <h4 class='p-v-md f-w-md'><strong>{{t 'global.reason_for_withdrawal'}}</strong></h4>
+                            <p>
+                                {{this.model.withdrawalJustification}}
+                            </p>
+                        </div>
+                    {{/if}}
+
+                    <div class='p-t-xs'>
+                        <h4 class='p-v-md f-w-md'><strong>{{t 'global.abstract'}}</strong></h4>
+                        <p class='abstract {{if this.useShortenedDescription 'abstract-truncated'}}'>
+                            {{~if this.useShortenedDescription this.description this.model.description~}}
+                        </p>
+                        <button class='btn-link' hidden={{not this.hasShortenedDescription}} {{action 'expandAbstract'}} type='button'>
+                            {{~t (if this.expandedAbstract 'content.see_less' 'content.see_more')~}}
+                        </button>
+                    </div>
+
+                    <div class='p-t-xs'>
+                        <h4 class='p-v-md f-w-md'><strong>{{t 'content.preprint_doi' documentType=this.model.provider.documentType}}</strong></h4>
+                        {{#if this.model.preprintDoiUrl}}
+                            <p> {{extract-doi this.model.preprintDoiUrl}} </p>
+                        {{/if}}
+                    </div>
+
+                    {{#if this.model.license.name}}
+                        <div class='p-t-xs license-text'>
+                            <h4 class='p-v-md f-w-md'><strong>{{t 'global.license'}}</strong></h4>
+                            {{this.model.license.name}}
+                            <span class='pointer'>
+                                {{#if this.showLicenseText }}
+                                    {{fa-icon 'caret-down' click=(action 'toggleLicenseText')}}
+                                {{else}}
+                                    {{fa-icon 'caret-right' click=(action 'toggleLicenseText')}}
+                                {{/if}}
+                            </span>
+                            {{#if this.showLicenseText}}
+                                <pre>{{this.fullLicenseText}}</pre>
+                            {{/if}}
+                        </div>
+                    {{/if}}
+                    <div class='p-t-xs'>
+                        <h4 class='p-v-md f-w-md'><strong>{{t 'content.disciplines'}}</strong></h4>
+                        {{#each this.disciplineReduced as |subject|}}
+                            <span class='subject-preview'>{{subject.text}}</span>
+                        {{/each}}
+                    </div>
+
+                    <div class='tag-section p-t-xs'>
+                        <h4 class=' f-w-md p-v-md'><strong>{{t 'global.tags'}}</strong></h4>
+                        {{#if this.hasTag}}
+                            {{#each this.model.tags as |tag|}}
+                                <span class='badge'>{{fix-special-char tag}}</span>
+                            {{/each}}
+                        {{else}}
+                            {{t 'global.none'}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{! END TOMBSTONE PAGE}}
+        {{else}} 
+            {{!CONTENT ROW}}
+            <div class='row p-md'>
+                {{!LEFT COL DIV}}
+                <div id='mfr-col' class='col-md-{{if this.fullScreenMFR '12' '7'}}'>
+                    {{#if this.model.isPreprintOrphan}}
+                        <div class='alert alert-danger m-r-md' role='alert'>
+                            {{t 'content.orphan_preprint'}}
+                        </div>
+                    {{else}}
+                        {{#unless this.model.public}}
+                            <div class='alert alert-danger m-r-md' role='alert'>
+                                {{t 'content.private_preprint_warning' documentType=this.model.provider.documentType supportEmail='support@osf.io'}}
+                            </div>
+                        {{/unless}}
+                        {{preprint-file-renderer provider=this.model.provider preprint=this.model primaryFile=this.primaryFile}}
+                        <div>
+                            <span>{{t this.dateLabel}}: {{moment-format this.relevantDate 'MMMM DD, YYYY'}}</span>
+                            {{#if this.isWithdrawn}}
+                                | <span>{{t 'content.header.withdrawn_on'}}: {{moment-format this.model.dateWithdrawn 'MMMM DD, YYYY'}}</span>
+                            {{else}}
+                                | <span>{{t 'content.header.last_edited'}}: {{moment-format this.model.dateModified 'MMMM DD, YYYY'}}</span>
+                            {{/if}}
+                        </div>
+                        <button
+                            type='button'
+                            class='expand-mfr-carrot hidden-xs hidden-sm'
+                            {{action 'expandMFR'}}
+                            aria-label={{if this.fullScreenMFR (t 'global.collapse') (t 'global.expand')}}
+                        >
+                            <i class='fa fa-chevron-{{if this.fullScreenMFR 'left' 'right'}}'></i>
+                        </button>
+                    {{/if}}
+                </div>
+                {{!END LEFT COL DIV}}
+                {{#unless this.fullScreenMFR}}
+                    {{!RIGHT SIDE COL}}
+                    <div class='col-md-5'>
+                        {{!SHARE ROW}}
+                        <div class='share-row p-sm osf-box-lt clearfix'>
+                            <a class='btn btn-primary p-v-xs' href={{this.fileDownloadURL}} onclick={{action 'trackNonContributors' 'link' 'Content - Download' this.model.primaryFile.links.download}}>{{t 'content.share.download' documentType=this.model.provider.documentType}} </a>
+                            <div class=' p-v-xs pull-right'>
+                                {{t 'content.share.views'}}: {{this.apiMeta.metrics.views}} | {{t 'content.share.downloads'}}: {{this.apiMeta.metrics.downloads}}
+                                {{#bs-tooltip}}
+                                    {{t 'content.share.metrics_disclaimer'}}
+                                    <br>
+                                    {{moment-format this.metricsStartDate 'YYYY-MM-DD'}}
+                                {{/bs-tooltip}}
+                            </div>
+                        </div>
+                        <div class='flexbox'>
+                            <div class='plaudit-widget'>
+                                {{#if this.isPlauditReady}}
+                                    {{! plaudit-widget }}
+                                {{/if}}
+                            </div>
+                            <div class='social-icons'>
+                                {{sharing-icons
+                                    title=this.title
+                                    description=this.fullDescription
+                                    hyperlink=this.hyperlink
+                                    facebookAppId=this.facebookAppId
+                                    metricsExtra=this.metricsExtra
+                                }}
+                            </div>
+                        </div>
+
+                        {{#if (and this.isChronosProvider this.features.enableChronos)}}
+                            <div class='p-t-xs'>
+                                {{#chronos-widget preprint=this.model isContributor=this.userIsContrib isAdmin=this.isAdmin as | preprint submissions isAllowSubmissions isContributor | }}
+                                    {{chronos-submission-status-list submissions=submissions isContributor=isContributor}}
+                                    {{#if isAllowSubmissions }}
+                                        <div class='p-t-xs'>
+                                            {{chronos-submission-panel preprint=preprint publisherFilterKeyword='American Psychological Association'}}
+                                        </div>
+                                    {{/if}}
+                                {{/chronos-widget}}
+                            </div>
+                        {{/if}}
+                        <div class='p-t-xs'>
+                            <h4 class='p-v-md f-w-md'><strong>{{t 'global.abstract'}}</strong></h4>
+                            <p class='abstract {{if this.useShortenedDescription 'abstract-truncated'}}'>
+                                {{~if this.useShortenedDescription this.description this.model.description~}}
+                            </p>
+                            <button class='btn-link' hidden={{not this.hasShortenedDescription}} {{action 'expandAbstract'}} type='button'>
+                                {{~t (if this.expandedAbstract 'content.see_less' 'content.see_more')~}}
+                            </button>
+                        </div>
+
+                        {{#if this.node}}
+                            <div class='p-t-xs supplemental-material-section'>
+                                <h4 class='p-v-md f-w-md'><strong>{{t 'content.supplemental_materials.title'}}</strong></h4>
+                                <a href={{this.node.links.html}} target='_blank' rel='noopener noreferrer' onclick={{action 'click' 'link' 'Content - Visit Project' this.node.id}}>
+                                    {{this.supplementalMaterialDisplayLink}}
+                                    <i class='fa fa-external-link' aria-hidden='true'></i>
+                                </a>
+                            </div>
+                        {{/if}}
+
+                        <div class='p-t-xs doi-section'>
+                            <h4 class='p-v-md f-w-md'><strong>{{t 'content.preprint_doi' documentType=this.model.provider.documentType}}</strong></h4>
+                            {{#if this.model.preprintDoiUrl}}
+                                {{#if this.model.preprintDoiCreated}}
+                                    <a href={{this.model.preprintDoiUrl}} onclick={{action 'click' 'link' 'Content - Preprint DOI' this.model.preprintDoiUrl}}>{{extract-doi this.model.preprintDoiUrl}}</a>
+                                {{else}}
+                                    <p> {{extract-doi this.model.preprintDoiUrl}} </p>
+                                    <p> {{t 'content.preprint_pending_doi_minted'}} </p>
+                                {{/if}}
+                            {{else}}
+                                {{#if (not this.model.public)}}
+                                    {{t 'content.preprint_pending_doi' documentType=this.model.provider.documentType }}
+                                {{else if (and this.model.provider.reviewsWorkflow (not this.model.isPublished))}}
+                                    {{t 'content.preprint_pending_doi_moderation'}}
+                                {{/if}}
+                            {{/if}}
+                        </div>
+
+                        {{#if this.model.articleDoiUrl}}
+                            <div class='p-t-xs doi-section'>
+                                <h4 class='p-v-md f-w-md'><strong>{{t 'content.article_doi'}}</strong></h4>
+                                <a href={{this.model.articleDoiUrl}} onlick={{action 'click' 'link' 'Content - DOI' this.model.articleDoiUrl}}>{{extract-doi this.model.articleDoiUrl}}</a>
+                            </div>
+                        {{/if}}
+
+                        {{#if this.model.license.name}}
+                            <div class='p-t-xs license-text'>
+                                <h4 class='p-v-md f-w-md'><strong>{{t 'global.license'}}</strong></h4>
+                                {{this.model.license.name}}
+                                <span>
+                                    {{#if this.showLicenseText }}
+                                        {{fa-icon 'caret-down' click=(action 'toggleLicenseText')}}
+                                    {{else}}
+                                        {{fa-icon 'caret-right' click=(action 'toggleLicenseText')}}
+                                    {{/if}}
+                                </span>
+                                {{#if this.showLicenseText}}
+                                    <pre>{{this.fullLicenseText}}</pre>
+                                {{/if}}
+                            </div>
+                        {{/if}}
+
+                        <div class='p-t-xs'>
+                            <h4 class='p-v-md f-w-md'><strong>{{t 'content.disciplines'}}</strong></h4>
+                            {{#each this.disciplineReduced as |subject|}}
+                                <span class='subject-preview'>{{subject.text}}</span>
+                            {{/each}}
+                        </div>
+                        <div class='tag-section p-t-xs'>
+                            <h4 class='f-w-md p-v-md'><strong>{{t 'global.tags'}}</strong></h4>
+                            {{#if this.hasTag}}
+                                {{#each this.model.tags as |tag|}}
+                                    <span class='badge'>{{fix-special-char tag}}</span>
+                                {{/each}}
+                            {{else}}
+                                {{t 'global.none'}}
+                            {{/if}}
+                        </div>
+
+                        {{#if this.model.originalPublicationDate}}
+                            <div class='p-t-xs'>
+                                <h4 class='p-v-md f-w-md'><strong>{{t 'content.original_publication_date'}}</strong></h4>
+                                <p>
+                                    {{moment-format this.model.originalPublicationDate 'YYYY-MM-DD'}}
+                                </p>
+                            </div>
+                        {{/if}}
+
+                        <div class='p-t-xs m-b-lg'>
+                            <h4 class='p-v-md f-w-md'><strong>{{t 'content.citations'}}</strong></h4>
+                            {{citation-widget node=this.model}}
+                        </div>
+                    </div>
+                    {{!END RIGHT SIDE COL}}
+                {{/unless}}
+            </div>
+            {{!END CONTENT ROW}}
+        {{/if}}
+    </div>
+    {{!END DIV CONTAINER}}
+</div>
