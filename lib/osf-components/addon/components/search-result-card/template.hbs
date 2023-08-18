@@ -48,7 +48,7 @@
             </div>
         {{/if}}
         {{#if @result.isPartOf}}
-            <div local-class='parent-reference'>
+            <div>
                 <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isPartOf.absoluteUrl}} target='_blank' rel='noopener noreferrer'>{{@result.isPartOf.title}}</a></span>
             </div>
         {{/if}}
