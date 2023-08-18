@@ -79,10 +79,10 @@ export default class SearchResultModel extends Model {
             // return something
         } else if (this.resourceMetadata.creator) {
             return this.resourceMetadata.creator?.map((item: any) =>
-                ({ name: item.name[0]['@value'], absoluteUrl: item.identifier?.[0]?.['@value'] }));
+                ({ name: item.name[0]['@value'], absoluteUrl: item['@id'] }));
         } else if (this.isContainedBy?.[0]?.creator) {
             return this.isContainedBy[0].creator.map((item: any) =>
-                ({ name: item.name?.[0]?.['@value'], absoluteUrl: item.identifier?.[0]?.['@value'] }));
+                ({ name: item.name?.[0]?.['@value'], absoluteUrl: item['@id'] }));
         }
     }
 
@@ -182,7 +182,7 @@ export default class SearchResultModel extends Model {
     get provider() {
         if (this.resourceMetadata.publisher) {
             return {
-                name: this.resourceMetadata.publisher[0].name[0]['@value'],
+                name: this.resourceMetadata.publisher[0]?.name?.[0]['@value'],
                 identifier: this.resourceMetadata.publisher[0]['@id'],
             };
         }
