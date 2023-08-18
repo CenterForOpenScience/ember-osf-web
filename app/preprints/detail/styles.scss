@@ -1,0 +1,67 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.bottom-margin {
+    margin-bottom: 50px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.popover {
+    max-width: 100%;
+}
+
+.popover-button {
+    margin-left: 7px;
+    height: 34px;
+}
+
+.popover-content {
+    background: #000;
+    overflow: auto;
+
+    .form-group {
+        margin-bottom: 0;
+        width: 150px;
+    }
+}
+
+.flexbox {
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+}
+
+.social-icons {
+    padding: 15px;
+}
+
+.plaudit-widget {
+    flex: auto;
+    padding-right: 33px;
+}
+
+.preprint-title-container {
+    display: flex;
+    align-items: flex-start;
+
+    .preprintTitle {
+        flex-basis: 80%;
+    }
+
+    .edit-preprint-button {
+        margin-top: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .preprint-title-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .edit-preprint-button {
+        margin-top: 0;
+    }
+}
