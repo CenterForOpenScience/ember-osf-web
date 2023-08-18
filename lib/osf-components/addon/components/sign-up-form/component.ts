@@ -4,9 +4,9 @@ import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
-import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { dropTask, restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import zxcvbn from 'zxcvbn';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import UserRegistration from 'ember-osf-web/models/user-registration';
@@ -28,7 +28,6 @@ export default class SignUpForm extends Component {
     didValidate = false;
     resetRecaptcha!: () => void; // bound by validated-input/recaptcha
 
-    @service passwordStrength!: PasswordStrength;
     @service analytics!: Analytics;
     @service store!: Store;
 
@@ -82,7 +81,7 @@ export default class SignUpForm extends Component {
         await timeout(250);
 
         try {
-            return await this.passwordStrength.strength(value);
+            return zxcvbn(value);
         } catch (e) {
             captureException(e);
         }

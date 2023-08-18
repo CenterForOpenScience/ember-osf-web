@@ -1,11 +1,10 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
-import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import zxcvbn from 'zxcvbn';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -28,9 +27,6 @@ export default class PasswordStrengthBar extends Component {
     shouldShowMessages = true;
     minStrength = 2;
 
-    // Private properties
-    @service passwordStrength!: PasswordStrength;
-
     @alias('checkStrength.lastSuccessful.value') strength?: Strength;
 
     @restartableTask
@@ -42,7 +38,7 @@ export default class PasswordStrengthBar extends Component {
 
         await timeout(250);
 
-        const strength = await this.passwordStrength.strength(value);
+        const strength = zxcvbn(value);
         return strength;
     }
 

@@ -114,6 +114,7 @@
     "@types/sanitize-html": "^1.14.0",
     "@types/sinon": "^10.0.3",
     "@types/toastr": "^2.1.37",
+    "@types/zxcvbn": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "babel-eslint": "^8.0.0",
@@ -144,7 +145,6 @@
     "ember-cli-inline-content": "0.4.1",
     "ember-cli-meta-tags": "^7.0.0",
     "ember-cli-mirage": "^2.4.0",
-    "ember-cli-password-strength": "^2.0.0",
     "ember-cli-sanitize-html": "^2.0.3",
     "ember-cli-sass": "^10.0.0",
     "ember-cli-showdown": "^4.4.4",
@@ -196,10 +196,9 @@
     "ember-parachute": "^1.0.2",
     "ember-percy": "^1.5.0",
     "ember-power-select": "^4.1.7",
-    "ember-promise-helpers": "^1.0.4",
     "ember-qrcode-shim": "^0.4.0",
     "ember-qunit": "^5.1.5",
-    "ember-radio-button": "^2.0.0",
+    "ember-radio-button": "^2.0.1",
     "ember-resolver": "^8.0.3",
     "ember-responsive": "^3.0.0",
     "ember-simple-auth": "^4.2.2",
@@ -232,7 +231,7 @@
     "jsonapi-typescript": "^0.1.3",
     "katex": "^0.11.1",
     "lint-staged": "^8.1.5",
-    "liquid-fire": "^0.30.0",
+    "liquid-fire": "^0.35.1",
     "loader.js": "^4.7.0",
     "loaders.css": "^0.1.2",
     "mime-types": "^2.1.22",
@@ -252,7 +251,8 @@
     "tracked-built-ins": "^3.1.0",
     "typescript": "^4.2.3",
     "webpack": "^5.88.0",
-    "wicg-inert": "^3.1.1"
+    "wicg-inert": "^3.1.1",
+    "zxcvbn": "^4.4.2"
   },
   "engines": {
     "node": "12.* || 14.* || >= 16"
