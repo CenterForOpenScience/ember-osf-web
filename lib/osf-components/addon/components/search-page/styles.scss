@@ -5,27 +5,19 @@
     color: $color-text-white;
     display: flex;
     flex-direction: column;
-    align-items: end;
     padding: 0;
 
-    label {
-        margin-left: 0.5rem;
-        padding: 0;
-        text-align: left;
-        width: 100%;
-
-        > h1 {
-            font-weight: 500;
-            margin: 0.2rem;
-            padding: 0.75rem 0 0.5rem 0.5rem;
-        }
+    label > h1 {
+        font-weight: 500;
+        margin: 0.2rem;
+        padding: 0.75rem 0 0.5rem 0.5rem;
     }
 
     span {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        margin-left: 0.5rem;
+        margin-left: 0;
         padding: 0 0 0.5rem 0.5rem;
         width: 100%;
 
@@ -39,30 +31,6 @@
     }
 
     > button {
-        width: 100%;
-    }
-}
-
-.heading-wrapper-institutions-mobile {
-    align-items: center;
-    background: $color-bg-gray-blue-light;
-
-    label {
-        margin-bottom: 0;
-        padding-bottom: 0.5rem;
-
-        img {
-            margin: 0.5rem auto;
-            max-height: inherit;
-        }
-
-        p {
-            margin: 0 auto;
-        }
-    }
-
-    > button {
-        margin-top: 0.5rem;
         width: 100%;
     }
 }
@@ -211,15 +179,43 @@
         float: left;
     }
     
-    .help-button-wrappers {
-        float: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: -0.2rem;
+
+    h2 {
+        font-weight: 400;
+        height: 22px;
+        margin-top: 0.5rem;
+        margin-left: 0.2rem;
+    }
+
+    p {
+        white-space: normal;
+        margin: 25px 5px 20px;
     }
 
     .skip-button {
         color: $color-text-white;
+        overflow: visible;
     }
 }
 
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.help-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+
+    button:first-of-type {
+        margin-right: 20px;
+    }
+}
 
 .object-type-filter-link {
     font-size: 1.3em;
@@ -291,8 +287,8 @@
     padding: 0 12px;
     width: 300px;
 
-    h2 {
-        border-bottom: 1px solid #ddd;
+    > h2 {
+        border-bottom: 1px solid $alto;
         font-weight: 300;
         margin-bottom: 0;
         padding-bottom: 0.5rem;
@@ -314,36 +310,9 @@
     display: flex;
     justify-content: space-between;
     margin: 0.5rem 0.2rem;
-}
 
-.heading-wrapper-institutions {
-    // default for institution colors
-    background: $color-bg-gray-blue-light;
-    color: $color-text-black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 0;
-    padding-top: 1rem;
-
-    label {
-        width: 50vw;
-        min-width: 250px;
-        max-width: 835px;
-        padding-bottom: 0;
-
-        img {
-            display: block;
-            margin: 0 auto;
-            max-height: 65px;
-        }
-
-        p {
-            font-weight: 400;
-            margin: 0;
-            padding: 1rem 0;
-            text-align: center;
-        }
+    button {
+        margin-right: -5px;
     }
 }
 
