@@ -147,7 +147,7 @@
                         {{/unless}}
                         {{preprint-file-renderer provider=this.model.provider preprint=this.model primaryFile=this.primaryFile}}
                         <div>
-                            <span>{{t this.dateLabel}}: {{moment-format this.relevantDate 'MMMM DD, YYYY'}}</span>
+                            <span>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</span>
                             {{#if this.isWithdrawn}}
                                 | <span>{{t 'content.header.withdrawn_on'}}: {{moment-format this.model.dateWithdrawn 'MMMM DD, YYYY'}}</span>
                             {{else}}
@@ -188,11 +188,11 @@
                             </div>
                             <div class='social-icons'>
                                 {{sharing-icons
-                                    title=this.title
-                                    description=this.fullDescription
+                                    title=this.model.title
+                                    description=this.model.description
                                     hyperlink=this.hyperlink
                                     facebookAppId=this.facebookAppId
-                                    metricsExtra=this.metricsExtra
+                                    metricsExtra=this.model.id
                                 }}
                             </div>
                         </div>
@@ -279,7 +279,7 @@
                         </div>
                         <div class='tag-section p-t-xs'>
                             <h4 class='f-w-md p-v-md'><strong>{{t 'global.tags'}}</strong></h4>
-                            {{#if this.hasTag}}
+                            {{#if this.model.tags.length}}
                                 {{#each this.model.tags as |tag|}}
                                     <span class='badge'>{{fix-special-char tag}}</span>
                                 {{/each}}
