@@ -182,8 +182,8 @@ export default class SearchResultModel extends Model {
     get provider() {
         if (this.resourceMetadata.publisher) {
             return {
-                name: this.resourceMetadata.publisher[0].name[0]['@value'],
-                identifier: this.resourceMetadata.publisher[0]['@id'],
+                name: this.resourceMetadata.publisher?.[0]?.name?.[0]['@value'],
+                identifier: this.resourceMetadata.publisher?.[0]['@id'],
             };
         }
         return null;
