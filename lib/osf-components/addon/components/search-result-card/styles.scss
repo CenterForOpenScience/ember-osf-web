@@ -1,6 +1,12 @@
 .result-card-container {
     background-color: $color-bg-white;
     margin: 35px 35px 0;
+    width: 60vw;
+
+    dt,
+    dd {
+        margin-left: 15px;
+    }
 }
 
 .primary-metadata-container {

@@ -1,5 +1,5 @@
 <OsfLayout
-    @backgroundClass={{local-class 'search-page'}}
+    @backgroundClass='{{if this.showSidePanelToggle (local-class 'search-page-mobile') (local-class 'search-page')}}'
     ...attributes
 as |layout|>
     <layout.heading
@@ -58,33 +58,35 @@ as |layout|>
                 @value={{this.cardSearchText}}
                 @enter={{perform this.doDebounceSearch}}
             />
-            <Button
-                data-test-search-submit
-                data-analytics-name='Search button'
-                local-class='search-button'
-                aria-label={{t 'search.search-button-label'}}
-                @type='primary'
-                @layout='large'
-                {{on 'click' (perform this.doDebounceSearch)}}
-            >
-                <FaIcon @icon='search' />
-            </Button>
-            <Button
-                data-test-start-help
-                data-analytics-name='Search help button'
-                local-class='help-button'
-                aria-label={{t 'search.search-help-label'}}
-                @type='primary'
-                @layout='large'
-                {{on 'click' (queue
-                    layout.openSidenavGutter
-                    (fn (mut this.showTooltip3) false)
-                    (fn (mut this.showTooltip2) false)
-                    (fn (mut this.showTooltip1) true)
-                )}}
-            >
-                <FaIcon @icon='question' />
-            </Button>
+            <div local-class='search-button-wrapper'>
+                <Button
+                    data-test-search-submit
+                    data-analytics-name='Search button'
+                    local-class='search-button'
+                    aria-label={{t 'search.search-button-label'}}
+                    @type='primary'
+                    @layout='large'
+                    {{on 'click' (perform this.doDebounceSearch)}}
+                >
+                    <FaIcon @icon='search' />
+                </Button>
+                <Button
+                    data-test-start-help
+                    data-analytics-name='Search help button'
+                    local-class='help-button'
+                    aria-label={{t 'search.search-help-label'}}
+                    @type='primary'
+                    @layout='large'
+                    {{on 'click' (queue
+                        layout.openSidenavGutter
+                        (fn (mut this.showTooltip3) false)
+                        (fn (mut this.showTooltip2) false)
+                        (fn (mut this.showTooltip1) true)
+                    )}}
+                >
+                    <FaIcon @icon='question' />
+                </Button>
+            </div>
         </span>
         {{#if this.showSidePanelToggle}}
             <Button
@@ -114,7 +116,7 @@ as |layout|>
         <h2 id={{this.leftPanelHeaderId}}>{{t 'search.left-panel.header'}}</h2>
         {{#if this.showSidePanelToggle}}
             {{#if @showResourceTypeFilter}}
-                <div data-test-left-panel-object-type-dropdown id={{this.leftPanelObjectDropdownId}}>
+                <div data-test-left-panel-object-type-dropdown local-class='object-type-dropdown' id={{this.leftPanelObjectDropdownId}}>
                     <label>
                         <p>{{t 'search.resource-type.search-by'}}</p>
                         <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
@@ -124,7 +126,7 @@ as |layout|>
                     </label>
                 </div>
             {{/if}}
-            <div data-test-left-panel-sort-dropdown>
+            <div local-class='object-sort-dropdown' data-test-left-panel-sort-dropdown>
                 <label>
                     <p>{{t 'search.sort.sort-by'}}</p>
                     <PowerSelect @options={{this.sortOptions}} @selected={{this.selectedSortOption}}
@@ -177,7 +179,7 @@ as |layout|>
             {{/each}}
         {{/if}}
     </layout.left>
-    <layout.main local-class='search-main' data-analytics-scope='Search page main'>
+    <layout.main local-class={{if this.showSidePanelToggle 'search-main-mobile' 'search-main'}} data-analytics-scope='Search page main'>
         {{!-- paginator --}}
         {{#unless this.showSidePanelToggle}}
             <div data-test-topbar-wrapper local-class='topbar'>
