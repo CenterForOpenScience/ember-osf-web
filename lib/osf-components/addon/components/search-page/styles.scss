@@ -311,21 +311,23 @@ body {
     background-color: $color-bg-gray-blue-light;
     margin-bottom: 0;
     min-width: 300px;
-    padding: 0 12px;
+    padding: 2rem 12px;
     width: 340px;
 
-    > h2 {
+    .left-panel-header {
         border-bottom: 1px solid $alto;
         font-weight: 300;
         margin-bottom: 0;
-        padding-bottom: 0.5rem;
+        margin-top: 2rem;
+        padding: 0 0 1rem;
     }
 }
 
 .search-count {
-    font-size: 1.3em;
-    font-weight: bold;
+    font-size: 1.5em;
+    font-weight: 600;
     margin: 5px 0;
+    padding: 0 0.2rem 0.2rem;
 }
 
 .active-filter-list {

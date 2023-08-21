@@ -113,7 +113,7 @@ as |layout|>
                 {{t 'search.total-results' count=this.totalResultCount}}
             </p>
         {{/if}}
-        <h2 id={{this.leftPanelHeaderId}}>{{t 'search.left-panel.header'}}</h2>
+        <h2 local-class='left-panel-header' id={{this.leftPanelHeaderId}}>{{t 'search.left-panel.header'}}</h2>
         {{#if this.showSidePanelToggle}}
             {{#if @showResourceTypeFilter}}
                 <div data-test-left-panel-object-type-dropdown local-class='object-type-dropdown' id={{this.leftPanelObjectDropdownId}}>
