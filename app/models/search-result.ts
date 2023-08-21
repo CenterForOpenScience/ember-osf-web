@@ -2,6 +2,7 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import IntlService from 'ember-intl/services/intl';
+import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
 
 import IndexCardModel from './index-card';
 
@@ -155,8 +156,11 @@ export default class SearchResultModel extends Model {
         return null;
     }
 
-    get language() {
-        return this.resourceMetadata.language;
+    get languageFromCode() {
+        if (this.resourceMetadata.language) {
+            return languageFromLanguageCode(this.resourceMetadata.language[0]['@value']);
+        }
+        return null;
     }
 
     get funders() {
