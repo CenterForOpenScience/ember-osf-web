@@ -71,7 +71,7 @@ body {
 }
 
 .search-page > div:first-of-type {
-    max-width: 90vw;
+    max-width: 95vw;
     margin-left: 5rem;
 }
 
@@ -157,7 +157,9 @@ body {
     border-bottom: 1px solid $color-text-black;
     display: flex;
     margin: 0 auto;
-    width: 80%;
+    max-height: 55px;
+    margin-top: 1rem;
+    width: 60vw;
 
     .object-type-nav {
         display: flex;
@@ -298,10 +300,16 @@ body {
 }
 
 .no-results {
-    font-size: 1.2em;
-    margin: 10px 20px;
-}
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    p {
+        font-size: 1.2em;
+        margin: 10px 20px;
+        text-align: center;
+    }
+}
 
 .ember-power-select-options {
     max-height: 20em;
@@ -345,10 +353,17 @@ body {
     }
 }
 
+.no-properties {
+    padding: 1rem 0;
+}
+
 .pagination-buttons {
     display: flex;
     padding: 2rem;
     justify-content: flex-end;
+
+
+    height: fit-content;
 }
 
 @media (min-wdith: 650px) {

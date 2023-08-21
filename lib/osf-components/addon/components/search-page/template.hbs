@@ -175,7 +175,9 @@ as |layout|>
                     @toggleFilter={{this.toggleFilter}}
                 />
             {{else}}
-                {{t 'search.left-panel.no-filterable-properties'}}
+                <p local-class='no-properties'>
+                    {{t 'search.left-panel.no-filterable-properties'}}
+                </p>
             {{/each}}
         {{/if}}
     </layout.left>
@@ -234,7 +236,9 @@ as |layout|>
             {{#each this.searchResults as |item|}}
                 <SearchResultCard @result={{item}} />
             {{else}}
-                <p local-class='no-results'>{{t 'search.no-results'}}</p>
+                <div local-class='no-results'>
+                    <p>{{t 'search.no-results'}}</p>
+                </div>
             {{/each}}
         {{/if}}
         <div local-class='pagination-buttons'>
