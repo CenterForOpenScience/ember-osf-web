@@ -8,40 +8,7 @@
     {{!-- Preprint Provider --}}
     {{#if @result.provider}}
         <dt>{{t 'osf-components.search-result-card.preprint_provider'}}</dt>
-        <dd>{{@result.provider.name}}</dd>
-    {{/if}}
-
-    {{!-- License --}}
-    {{#if @result.license}}
-        <dt>{{t 'osf-components.search-result-card.license'}}</dt>
-        <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
-    {{/if}}
-
-    {{!-- DOI --}}
-    {{#if @result.doi}}
-        <dt>{{t 'osf-components.search-result-card.doi'}}</dt>
-        <dd>
-            <InlineList
-                @items={{@result.doi}}
-                @total={{@result.doi.count}}
-                @truncate={{5}}
-                as |list|
-            >
-                <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
-            </InlineList>
-        </dd>
-    {{/if}}
-
-    {{!-- Conflict of interest statement --}}
-    {{#if @result.resourceMetadata.statedConflictOfInterest}}
-        <dt>{{t 'osf-components.search-result-card.conflict_of_interest'}}</dt>
-        <dd>
-            {{#if @result.resourceMetadata.statedConflictOfInterest.[0].[@value]}}
-                {{@result.resourceMetadata.statedConflictOfInterest.[0].[@value]}}
-            {{else}}
-                {{t 'osf-components.search-result-card.no_conflict_of_interest'}}
-            {{/if}}
-        </dd>
+        <dd><a href={{@result.provider.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.provider.name}}</a></dd>
     {{/if}}
 
     {{!-- Associated Data --}}
@@ -77,6 +44,44 @@
                 as |list|
             >
                 <a href={{list.item.[@id]}} target='_blank' rel='noopener noreferrer'>{{list.item.[@id]}}</a>
+            </InlineList>
+        </dd>
+    {{/if}}
+
+    {{!-- Conflict of interest statement --}}
+    {{#if @result.resourceMetadata.statedConflictOfInterest}}
+        <dt>{{t 'osf-components.search-result-card.conflict_of_interest'}}</dt>
+        <dd>
+            {{#if @result.resourceMetadata.statedConflictOfInterest.[0].[@value]}}
+                {{@result.resourceMetadata.statedConflictOfInterest.[0].[@value]}}
+            {{else}}
+                {{t 'osf-components.search-result-card.no_conflict_of_interest'}}
+            {{/if}}
+        </dd>
+    {{/if}}
+
+    {{!-- License --}}
+    {{#if @result.license}}
+        <dt>{{t 'osf-components.search-result-card.license'}}</dt>
+        <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
+    {{/if}}
+
+    {{#if @result.absoluteUrl}}
+        <dt>{{t 'osf-components.search-result-card.url'}}</dt>
+        <dd><a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'>{{@result.absoluteUrl}}</a></dd>
+    {{/if}}
+
+    {{!-- DOI --}}
+    {{#if @result.doi}}
+        <dt>{{t 'osf-components.search-result-card.doi'}}</dt>
+        <dd>
+            <InlineList
+                @items={{@result.doi}}
+                @total={{@result.doi.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
             </InlineList>
         </dd>
     {{/if}}
