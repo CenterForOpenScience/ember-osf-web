@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 // import { A } from '@ember/array';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 // import DS from 'ember-data';
 // import loadAll from 'ember-osf/utils/load-relationship';
@@ -69,24 +69,20 @@ export default class PrePrintsDetailController extends Controller {
         return window.location.href;
     }
 
-    @computed('model')
     fileDownloadURL() {
-        return fileDownloadPath(this.model.primaryFile, this.model);
+        // return fileDownloadPath(this.model.primaryFile, this.model);
     }
 
-    @computed('model')
-    facebookAppId() {
+    facebookAppId(): string {
         return this.model.provider.facebookAppId ? this.model.provider.facebookAppId : config.FB_APP_ID;
     }
 
-    @computed('model.provider.reviewsWorkflow')
     dateLabel(): string {
         return this.model.provider.reviewsWorkflow === PRE_MODERATION ?
             DATE_LABEL.submitted :
             DATE_LABEL.created;
     }
 
-    @computed('model.provider.reviewsWorkflow')
     editButtonLabel(): string {
         const editPreprint = 'content.project_button.edit_preprint';
         const editResubmitPreprint = 'content.project_button.edit_resubmit_preprint';
@@ -95,13 +91,11 @@ export default class PrePrintsDetailController extends Controller {
             ? editResubmitPreprint : editPreprint;
     }
 
-    @computed('model.{currentUserPermissions,permissions}')
-    isAdmin(): boolean{
+    isAdmin(): boolean {
         // True if the current user has admin permissions for the node that contains the preprint
         return (this.model.currentUserPermissions || []).includes(this.model.permissions.ADMIN);
     }
 
-    @computed('model.contributors', 'isAdmin', 'currentUser.currentUserId')
     userIsContrib(): boolean {
         if (this.isAdmin()) {
             return true;
@@ -112,7 +106,6 @@ export default class PrePrintsDetailController extends Controller {
         return false;
     }
 
-    @computed('model.{public,provider.reviewsWorkflow,reviewsState}', 'userIsContrib', 'isPendingWithdrawal')
     showStatusBanner(): boolean {
         return (
             this.model.provider.reviewsWorkflow
@@ -122,7 +115,6 @@ export default class PrePrintsDetailController extends Controller {
         ) || this.isPendingWithdrawal;
     }
 
-    @computed('model.subjects')
     disciplineReduced(): [] {
         // Preprint disciplines are displayed in collapsed form on content page
         return this.model.subjects.reduce((acc: SubjectModel[], val: SubjectModel) => acc.concat(val), []).uniqBy('id');
