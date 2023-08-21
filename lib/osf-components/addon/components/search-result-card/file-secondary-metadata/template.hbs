@@ -7,10 +7,6 @@
         <dt>{{t 'osf-components.search-result-card.description'}}</dt>
         <dd>{{@result.description}}</dd>
     {{/if}}
-    {{#if @result.resourceNature}}
-        <dt>{{t 'osf-components.search-result-card.resource_nature'}}</dt>
-        <dd>{{@result.resourceNature}}</dd>
-    {{/if}}
     {{#if @result.nodeFunders}}
         <dt>{{t 'osf-components.search-result-card.funder'}}</dt>
         <dd>
@@ -24,6 +20,18 @@
             </InlineList>
         </dd>
     {{/if}}
+    {{#if @result.resourceNature}}
+        <dt>{{t 'osf-components.search-result-card.resource_type'}}</dt>
+        <dd>{{@result.resourceNature}}</dd>
+    {{/if}}
+    {{#if @result.nodeLicense}}
+        <dt>{{t 'osf-components.search-result-card.license'}}</dt>
+        <dd><a href={{@result.nodeLicense.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.nodeLicense.name}}</a></dd>
+    {{/if}}
+    {{#if @result.absoluteUrl}}
+        <dt>{{t 'osf-components.search-result-card.url'}}</dt>
+        <dd><a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'>{{@result.absoluteUrl}}</a></dd>
+    {{/if}}
     {{#if @result.doi}}
         <dt>{{t 'osf-components.search-result-card.doi'}}</dt>
         <dd>
@@ -36,9 +44,5 @@
                 <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
             </InlineList>
         </dd>
-    {{/if}}
-    {{#if @result.nodeLicense}}
-        <dt>{{t 'osf-components.search-result-card.license'}}</dt>
-        <dd><a href={{@result.nodeLicense.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.nodeLicense.name}}</a></dd>
     {{/if}}
 </dl>
