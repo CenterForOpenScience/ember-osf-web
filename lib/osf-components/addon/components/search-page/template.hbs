@@ -73,7 +73,7 @@ as |layout|>
                 <Button
                     data-test-start-help
                     data-analytics-name='Search help button'
-                    local-class='help-button'
+                    local-class='{{if this.showSidePanelToggle 'help-button-mobile' 'help-button'}}'
                     aria-label={{t 'search.search-help-label'}}
                     @type='primary'
                     @layout='large'

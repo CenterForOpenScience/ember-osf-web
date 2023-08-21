@@ -25,7 +25,7 @@ body {
         padding: 0 0 0.5rem 0.5rem;
         width: 100%;
 
-        .help-button {
+        .help-button-mobile {
             transform: scale(0.5);
             border-radius: 50%;
             margin-left: 0;
@@ -60,8 +60,9 @@ body {
 
 .search-main-mobile {
     > div {
-        width: 90vw;
         margin: 25px auto;
+        padding: 20px;
+        width: 90vw;
     }
 
     .pagination-buttons {
@@ -141,7 +142,7 @@ body {
     }
 
     .search-button-wrapper {
-        button {
+        button:not(.help-button-mobile) {
             border-radius: 5px;
         }
 
