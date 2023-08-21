@@ -24,9 +24,9 @@
         <dt>{{t 'osf-components.search-result-card.collection'}}</dt>
         <dd><a href={{@result.isPartOfCollection.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOfCollection.title}} </a></dd>
     {{/if}}
-    {{#if @resource.language}}
+    {{#if @result.languageFromCode}}
         <dt>{{t 'osf-components.search-result-card.language'}}</dt>
-        <dd>{{@resource.language}}</dd>
+        <dd>{{@result.languageFromCode}}</dd>
     {{/if}}
     {{#if @result.license}}
         <dt>{{t 'osf-components.search-result-card.license'}}</dt>
