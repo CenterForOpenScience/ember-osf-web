@@ -1,12 +1,12 @@
 <OsfLayout
-    @backgroundClass='search-page'
+    @backgroundClass={{local-class 'search-page'}}
     ...attributes
 as |layout|>
     <layout.heading
         data-test-heading-wrapper
         data-analytics-scope='Search page heading'
         {{with-branding (get-model @provider.brand)}}
-        local-class='heading-wrapper {{if @provider 'hero-overlay'}} {{if (and (not this.showSidePanelToggle) @institution) 'heading-wrapper-institutions' 'heading-wrapper-institutions-mobile'}}'
+        local-class='{{if this.showSidePanelToggle 'heading-wrapper-mobile' 'heading-wrapper'}} {{if @provider 'hero-overlay'}} {{if @institution 'heading-wrapper-institutions'}} {{if (and this.showSidePanelToggle @institution) 'heading-wrapper-institutions-mobile'}}'
     >
         {{#if @provider}}
             <div
@@ -18,10 +18,10 @@ as |layout|>
                 {{html-safe @provider.description}}
             </p>
         {{else if @institution}}
-            <div>
+            <div local-class='heading-wrapper-institutions'>
                 <label
                     for='search-input'
-                    local-class='heading-label'
+                    local-class='heading-label-institution'
                 >
                     {{#if this.showSidePanelToggle}}
                         <img
@@ -101,7 +101,7 @@ as |layout|>
     </layout.heading>
     <layout.left
         data-analytics-scope='Search page left panel'
-        local-class='left-panel'
+        local-class='{{if this.showSidePanelToggle 'left-panel-mobile' 'left-panel'}}'
     >
         {{#if this.showResultCountLeft}}
             <p
@@ -116,7 +116,7 @@ as |layout|>
             {{#if @showResourceTypeFilter}}
                 <div data-test-left-panel-object-type-dropdown id={{this.leftPanelObjectDropdownId}}>
                     <label>
-                        {{t 'search.resource-type.search-by'}}
+                        <p>{{t 'search.resource-type.search-by'}}</p>
                         <PowerSelect @options={{this.resourceTypeOptions}} @selected={{this.selectedResourceTypeOption}}
                             @onChange={{this.updateResourceType}} as |resourceType|>
                             {{resourceType.display}}
@@ -126,7 +126,7 @@ as |layout|>
             {{/if}}
             <div data-test-left-panel-sort-dropdown>
                 <label>
-                    {{t 'search.sort.sort-by'}}
+                    <p>{{t 'search.sort.sort-by'}}</p>
                     <PowerSelect @options={{this.sortOptions}} @selected={{this.selectedSortOption}}
                         @onChange={{this.updateSort}} as |sortOption|>
                         {{sortOption.display}}
@@ -177,7 +177,7 @@ as |layout|>
             {{/each}}
         {{/if}}
     </layout.left>
-    <layout.main data-analytics-scope='Search page main'>
+    <layout.main local-class='search-main' data-analytics-scope='Search page main'>
         {{!-- paginator --}}
         {{#unless this.showSidePanelToggle}}
             <div data-test-topbar-wrapper local-class='topbar'>
@@ -201,6 +201,19 @@ as |layout|>
                                     </LinkTo>
                                 </li>
                             {{/each}}
+                            <div
+                                data-test-topbar-sort-dropdown
+                                local-class='sort-dropdown'
+                            >
+                                <PowerSelect
+                                    @options={{this.sortOptions}}
+                                    @selected={{this.selectedSortOption}}
+                                    @onChange={{action this.updateSort}}
+                                    as |sortOption|
+                                >
+                                    <p>{{sortOption.display}}</p>
+                                </PowerSelect>
+                            </div>
                         </ul>
                     </nav>
                 {{else if this.showResultCountMiddle}}
@@ -211,19 +224,6 @@ as |layout|>
                         {{t 'search.total-results' count=this.totalResultCount}}
                     </p>
                 {{/if}}
-                <div
-                    data-test-topbar-sort-dropdown
-                    local-class='sort-dropdown'
-                >
-                    <PowerSelect
-                        @options={{this.sortOptions}}
-                        @selected={{this.selectedSortOption}}
-                        @onChange={{action this.updateSort}}
-                        as |sortOption|
-                    >
-                        {{sortOption.display}}
-                    </PowerSelect>
-                </div>
             </div>
         {{/unless}}
         {{#if this.search.isRunning}}

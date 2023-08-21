@@ -1,78 +1,55 @@
-.search-page {
-    background-color: $color-bg-gray;
-}
-
-.heading-wrapper {
-    text-align: center;
-    color: $color-text-white;
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors, selector-no-qualifying-type
+.heading-wrapper-mobile {
+    background-image: url('images/default-brand/bg-dark.jpg');
     background-color: $osf-dark-blue-navbar;
-}
-
-.provider-logo {
-    background: var(--hero-logo-img-url) top center no-repeat;
-    background-size: contain;
-    height: 70px;
-    width: 100%;
-    margin: 2em 0 1em;
-}
-
-.hero-overlay {
+    color: $color-text-white;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
-    min-width: 100%;
-    min-height: 100%;
-    position: relative;
-    background-color: transparent; // override .heading-wrapper background-color
-
-    &::after {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--hero-background-img-url);
-        background-size: cover;
-        z-index: -1;
-        content: '';
-    }
-}
-
-.heading-wrapper-institutions {
-    background-color: $color-shadow-gray-dark;
-    color: $color-text-gray-cool;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 0.5rem;
+    align-items: end;
+    padding: 0;
 
     label {
-        max-width: 835px;
-        min-width: 250px;
-        width: 50vw;
-        padding-bottom: 0;
+        margin-left: 0.5rem;
+        padding: 0;
+        text-align: left;
+        width: 100%;
 
-        img {
-            max-height: 65px;
+        > h1 {
+            font-weight: 500;
+            margin: 0.2rem;
+            padding: 0.75rem 0 0.5rem 0.5rem;
         }
+    }
 
-        p {
-            font-weight: 400;
-            text-align: center;
-            padding: 1rem 0;
-            margin: 0;
+    span {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        margin-left: 0.5rem;
+        padding: 0 0 0.5rem 0.5rem;
+        width: 100%;
+
+        button:nth-of-type(2) {
+            transform: scale(0.5);
+            border-radius: 50%;
+            margin-left: 0;
+            position: absolute;
+            right: 0.1rem;
         }
+    }
+
+    > button {
+        width: 100%;
     }
 }
 
 .heading-wrapper-institutions-mobile {
-    padding-bottom: 0.5rem;
+    align-items: center;
+    background: $color-bg-gray-blue-light;
 
     label {
-        padding-bottom: 0.5rem;
         margin-bottom: 0;
-        width: 95%;
+        padding-bottom: 0.5rem;
 
         img {
             margin: 0.5rem auto;
@@ -84,57 +61,134 @@
         }
     }
 
-    span {
-        padding: 0 1rem 1rem;
-    }
-
     > button {
-        width: 100%;
         margin-top: 0.5rem;
+        width: 100%;
     }
 }
 
-.heading-label {
+.search-main {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 35px;
+}
+
+.search-page {
+    background-color: $color-bg-gray-blue-light;
+}
+
+.heading-wrapper {
+    background-image: url('images/default-brand/bg-dark.jpg');
+    background-color: $osf-dark-blue-navbar;
+    color: $color-text-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 40px;
 }
 
+.provider-logo {
+    background: var(--hero-logo-img-url) top center no-repeat;
+    background-size: contain;
+    height: 70px;
+    margin: 2em 0 1em;
+    width: 100%;
+}
+
+.hero-overlay {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 100%;
+    min-width: 100%;
+    position: relative;
+
+    &::after {
+        background: var(--hero-background-img-url);
+        background-size: cover;
+        content: '';
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: -1;
+    }
+}
+
+.heading-label > h1 {
+    padding: 2rem;
+}
+
 .search-input-wrapper {
+    display: inline-flex;
     white-space: nowrap;
+
+    button {
+        border-radius: 0 2px 2px 0;
+    }
 }
 
 .search-input {
     color: $color-text-black;
-    padding: 9px 5px;
     font-size: 1.5em;
-    max-width: 700px;
     min-width: 250px;
+    max-width: 700px;
+    padding: 10px;
     width: 50vw;
 }
 
-.help-button,
-.search-button {
-    position: relative;
-    right: 3px;
-    bottom: 3px;
+.topbar {
+    border-bottom: 1px solid $color-text-black;
+    display: flex;
+    justify-content: space-around;
+    margin-left: 20px;
+
+    nav {
+        display: flex;
+        width: 100%;
+
+        ul {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            list-style: none;
+            margin-bottom: 0;
+            padding-left: 0;
+        }
+
+        li {
+            display: inline-flex;
+            white-space: nowrap;
+
+            &.active,
+            &:hover {
+                background-color: $color-bg-gray;
+            }
+        }
+    }
 }
 
-.topbar {
-    margin-left: 20px;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid $color-text-black;
+.help-button {
+    margin-left: 1.2rem;
 }
 
 .object-type-nav {
     ul {
-        padding-left: 0;
-        margin-bottom: 0;
         list-style: none;
+        margin-bottom: 0;
+        padding-left: 0;
     }
 
     li {
         display: inline-flex;
         margin-right: 10px;
+    }
+
+    a {
+        padding-bottom: 10px;
     }
 }
 
@@ -144,8 +198,7 @@
     width: 400px;
     max-width: 100%;
     z-index: 100;
-
-    // prevent target element styles from dictating popover text-styles
+    // prevent overriding popover styling
     white-space: wrap;
     text-align: initial;
 
@@ -169,21 +222,40 @@
 
 
 .object-type-filter-link {
-    padding: 10px 15px;
     font-size: 1.3em;
+    padding: 18px 15px;
 
     &:global(.active),
     &:hover {
-        text-decoration: none;
-        background-color: $color-bg-gray;
+        background-color: $color-bg-white;
+        border-bottom: 1px solid $color-text-black;
         color: $color-text-black;
-        border-bottom: 2px solid $color-text-black;
+        text-decoration: none;
     }
 }
 
 .sort-dropdown {
-    width: 170px;
-    margin-top: 10px;
+    background-color: $color-bg-gray-blue-light;
+
+    p {
+        margin: 0 0 0 2px;
+    }
+
+    div {
+        background-color: $color-bg-gray-blue-light;
+        border: 0 solid transparent;
+        color: $color-bg-blue-dark;
+        width: 170px;
+    }
+
+    > div {
+        display: flex;
+    }
+}
+
+.ember-power-select-status-icon {
+    right: 10px;
+    top: 12px;
 }
 
 .sidenav-toggle {
@@ -191,21 +263,46 @@
 }
 
 .no-results {
-    margin: 10px 20px;
     font-size: 1.2em;
+    margin: 10px 20px;
+}
+
+.left-panel-mobile {
+    padding: 1rem;
+    width: 75vw;
+
+    div:nth-of-type(2) {
+        margin-bottom: 1rem;
+    }
+
+    div[role='button'] {
+        width: 195px;
+    }
+}
+
+.ember-power-select-options {
+    max-height: 20em;
 }
 
 .left-panel {
-    padding-left: 12px;
-    width: 300px;
+    background-color: $color-bg-gray-blue-light;
+    margin-bottom: 0;
     min-width: 300px;
+    padding: 0 12px;
+    width: 300px;
+
+    h2 {
+        border-bottom: 1px solid #ddd;
+        font-weight: 300;
+        margin-bottom: 0;
+        padding-bottom: 0.5rem;
+    }
 }
 
 .search-count {
-    margin-top: 10px;
-    margin-bottom: 10px;
     font-size: 1.3em;
     font-weight: bold;
+    margin-top: 5px 0;
 }
 
 .active-filter-list {
@@ -216,6 +313,38 @@
 .active-filter-item {
     display: flex;
     justify-content: space-between;
+    margin: 0.5rem 0.2rem;
+}
+
+.heading-wrapper-institutions {
+    // default for institution colors
+    background: $color-bg-gray-blue-light;
+    color: $color-text-black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0;
+    padding-top: 1rem;
+
+    label {
+        width: 50vw;
+        min-width: 250px;
+        max-width: 835px;
+        padding-bottom: 0;
+
+        img {
+            display: block;
+            margin: 0 auto;
+            max-height: 65px;
+        }
+
+        p {
+            font-weight: 400;
+            margin: 0;
+            padding: 1rem 0;
+            text-align: center;
+        }
+    }
 }
 
 .pagination-buttons {

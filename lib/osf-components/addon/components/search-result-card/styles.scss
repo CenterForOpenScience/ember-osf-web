@@ -1,25 +1,44 @@
 .result-card-container {
-    margin: 10px;
-
-    dt:not(:first-child) {
-        margin-top: 10px;
-    }
+    background-color: $color-bg-white;
+    margin: 35px 35px 0;
 }
 
 .primary-metadata-container {
     display: flex;
     flex-direction: column;
+
+    h4,
+    div:not(:first-child) {
+        margin: 0 0 15px 15px;
+    }
 }
 
 .header {
     display: flex;
     justify-content: space-between;
+
+    button {
+        border: 1px solid transparent;
+        color: $color-text-blue-dark;
+        height: 30px;
+        margin: 5px;
+        padding: 0 10px;
+    }
 }
 
 .type-label {
-    width: fit-content;
-    padding: 5px;
     background-color: $color-gradient-primary;
+    margin: 15px;
+    padding: 0 5px;
+    width: fit-content;
+}
+
+.name-fields {
+    text-transform: capitalize;
+}
+
+.parent-reference {
+    text-transform: capitalize;
 }
 
 .date-fields {
