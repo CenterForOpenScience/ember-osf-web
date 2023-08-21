@@ -1858,7 +1858,8 @@ routes:
         email: Email
 osf-components:
     search-result-card:
-        resource_nature: Resource nature
+        url: URL
+        resource_type: Resource type
         title: Title
         collection: Collection
         context: Context

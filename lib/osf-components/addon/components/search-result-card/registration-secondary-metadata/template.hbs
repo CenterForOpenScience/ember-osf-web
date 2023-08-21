@@ -3,10 +3,6 @@
         <dt>{{t 'osf-components.search-result-card.description'}}</dt>
         <dd>{{@result.description}}</dd>
     {{/if}}
-    {{#if @result.provider}}
-        <dt>{{t 'osf-components.search-result-card.registration_provider'}}</dt>
-        <dd><a href={{@result.provider.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.provider.name}}</a></dd>
-    {{/if}}
     {{#if @result.funders}}
         <dt>{{t 'osf-components.search-result-card.funder'}}</dt>
         <dd>
@@ -20,6 +16,10 @@
             </InlineList>
         </dd>
     {{/if}}
+    {{#if @result.provider}}
+        <dt>{{t 'osf-components.search-result-card.registration_provider'}}</dt>
+        <dd><a href={{@result.provider.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.provider.name}}</a></dd>
+    {{/if}}
     {{#if @result.registrationTemplate}}
         <dt>{{t 'osf-components.search-result-card.registration_template'}}</dt>
         <dd>{{@result.registrationTemplate}}</dd>
@@ -27,6 +27,10 @@
     {{#if @result.license}}
         <dt>{{t 'osf-components.search-result-card.license'}}</dt>
         <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
+    {{/if}}
+    {{#if @result.absoluteUrl}}
+        <dt>{{t 'osf-components.search-result-card.url'}}</dt>
+        <dd><a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'>{{@result.absoluteUrl}}</a></dd>
     {{/if}}
     {{#if @result.doi}}
         <dt>{{t 'osf-components.search-result-card.doi'}}</dt>

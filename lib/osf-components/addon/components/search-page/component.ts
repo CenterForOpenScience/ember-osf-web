@@ -216,6 +216,7 @@ export default class SearchPage extends Component<SearchArgs> {
                 'page[cursor]': page,
                 sort,
                 cardSearchFilter: filterQueryObject,
+                'page[size]': 10,
             });
             await searchResult.relatedProperties;
             this.relatedProperties = searchResult.relatedProperties;
