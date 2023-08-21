@@ -31,13 +31,16 @@
     display: flex;
     justify-content: space-between;
 
-    .facet-link,
-    .facet-count {
+    .facet-link {
         margin: 0 5px;
         max-width: 90%;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+    }
+
+    .facet-count {
+        flex-shrink: 0;
     }
 }
 
