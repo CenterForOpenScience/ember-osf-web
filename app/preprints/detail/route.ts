@@ -58,13 +58,6 @@ export default class PreprintsDetail extends Route {
             });
             */
 
-            /*
-            const brandedProviders = this.theme.id === 'osf' ? await this.store
-                .findAll('preprint-provider', { reload: true })
-                .then(result => result
-                    .filter(item => item.id !== 'osf')) : [];
-            */
-
             return {
                 preprint,
                 contributors,
