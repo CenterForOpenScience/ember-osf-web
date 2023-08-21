@@ -4,7 +4,7 @@
         data-test-registration-link='{{@registration}}'
         @route={{if @registration 'registries.overview.resources'}}
         @models={{if @registration (array @registration)}}
-        @href={{if @absoluteUrl (concat @absoluteUrl 'resources')}}
+        @href={{if @absoluteUrl (concat @absoluteUrl '/resources')}}
     >
         <span
             data-test-badge-icon={{@resourceType}}

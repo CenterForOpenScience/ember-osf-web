@@ -32,6 +32,13 @@ export default class IndexCardModel extends Model {
         for (const key of possibleLabelKeys) {
             if (this.resourceMetadata[key]) {
                 const label = this.getLocalizedString.compute([this.resourceMetadata, key]);
+                // TODO: Get rid of this special casing once we have a decision on how BE should represents OSF provider
+                if (label === 'OSF') {
+                    return 'OSF Projects';
+                }
+                if (label === 'Open Science Framework') {
+                    return 'OSF Preprints';
+                }
                 return label;
             }
         }
