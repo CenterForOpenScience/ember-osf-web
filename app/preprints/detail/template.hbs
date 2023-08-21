@@ -197,18 +197,6 @@
                             </div>
                         </div>
 
-                        {{#if (and this.isChronosProvider this.features.enableChronos)}}
-                            <div class='p-t-xs'>
-                                {{#chronos-widget preprint=this.model isContributor=this.userIsContrib isAdmin=this.isAdmin as | preprint submissions isAllowSubmissions isContributor | }}
-                                    {{chronos-submission-status-list submissions=submissions isContributor=isContributor}}
-                                    {{#if isAllowSubmissions }}
-                                        <div class='p-t-xs'>
-                                            {{chronos-submission-panel preprint=preprint publisherFilterKeyword='American Psychological Association'}}
-                                        </div>
-                                    {{/if}}
-                                {{/chronos-widget}}
-                            </div>
-                        {{/if}}
                         <div class='p-t-xs'>
                             <h4 class='p-v-md f-w-md'><strong>{{t 'global.abstract'}}</strong></h4>
                             <p class='abstract {{if this.useShortenedDescription 'abstract-truncated'}}'>
@@ -223,7 +211,6 @@
                             <div class='p-t-xs supplemental-material-section'>
                                 <h4 class='p-v-md f-w-md'><strong>{{t 'content.supplemental_materials.title'}}</strong></h4>
                                 <a href={{this.node.links.html}} target='_blank' rel='noopener noreferrer' onclick={{action 'click' 'link' 'Content - Visit Project' this.node.id}}>
-                                    {{this.supplementalMaterialDisplayLink}}
                                     <i class='fa fa-external-link' aria-hidden='true'></i>
                                 </a>
                             </div>

@@ -77,11 +77,6 @@ export default class PrePrintsDetailController extends Controller {
         return this.model.provider.facebookAppId ? this.model.provider.facebookAppId : config.FB_APP_ID;
     }
 
-    @computed('node.links.html')
-    supplementalMaterialDisplayLink(): string {
-        return this.isChronosProvider.links.html.replace(/^https?:\/\//i, '');
-    }
-
     @computed('model.provider.reviewsWorkflow')
     dateLabel(): string {
         return this.model.provider.reviewsWorkflow === PRE_MODERATION ?
@@ -168,10 +163,6 @@ export default class PrePrintsDetailController extends Controller {
         return `mailto:?subject=${titleEncoded}&body=${hrefEncoded}`;
     }
 
-    isChronosProvider(): boolean {
-        const { chronosProviders } = config;
-        return Array.isArray(chronosProviders) && chronosProviders.includes(this.model.provider.id);
-    }
     /*
 
     actions: {
