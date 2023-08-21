@@ -10,6 +10,7 @@ import Theme from 'ember-osf-web/services/theme';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Features from 'ember-feature-flags';
 import ContributorModel from 'ember-osf-web/models/contributor';
+import SubjectModel from 'ember-osf-web/models/subject';
 
 
 // const { PromiseArray } = DS;
@@ -97,10 +98,10 @@ export default class PrePrintsDetailController extends Controller {
             ? editResubmitPreprint : editPreprint;
     }
 
-    @computed('model.currentUserPermissions')
+    @computed('model.{currentUserPermissions,permissions}')
     isAdmin(): boolean{
         // True if the current user has admin permissions for the node that contains the preprint
-        return (this.model.currentUserPermissions || []).includes(permissions.ADMIN);
+        return (this.model.currentUserPermissions || []).includes(this.model.permissions.ADMIN);
     }
 
     @computed('model.contributors', 'isAdmin', 'currentUser.currentUserId')
@@ -124,59 +125,54 @@ export default class PrePrintsDetailController extends Controller {
         ) || this.isPendingWithdrawal;
     }
 
-    /*
-    disciplineReduced: computed('model.subjects', function() {
+    @computed('model.subjects')
+    disciplineReduced(): [] {
         // Preprint disciplines are displayed in collapsed form on content page
-        return this.get('model.subjects').reduce((acc, val) => acc.concat(val), []).uniqBy('id');
-    }),
-    /* eslint-disable ember/named-functions-in-promises * /
-    authors: computed('model', function() {
-        // Cannot be called until node has loaded!
-        const model = this.get('model');
-        const contributors = A();
-        return PromiseArray.create({
-            promise: loadAll(model, 'contributors', contributors)
-                .then(() => contributors),
-        });
-    }),
-    /* eslint-enable ember/named-functions-in-promises * /
-    fullLicenseText: computed('model.{license.text,licenseRecord}', function() {
-        const text = this.get('model.license.text') || '';
-        // eslint-disable-line camelcase
-        const { year = '', copyright_holders = [] } = this.get('model.licenseRecord');
-        return text
-            .replace(/({{year}})/g, year)
-            .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
-    }),
+        return this.model.subjects.reduce((acc: SubjectModel[], val: SubjectModel) => acc.concat(val), []).uniqBy('id');
+    }
 
-    hasShortenedDescription: computed('model.description', function() {
-        const description = this.get('model.description');
+    authors(): ContributorModel[] {
+        return this.model.contributors;
+    }
 
-        return description && description.length > 350;
-    }),
+    fullLicenseText(): string {
+        return this.model.licenseRecord;
+    }
 
+    hasShortenedDescription(): String {
+        return this.model.description && this.model.description.length > 350;
+    }
+
+    /*
     useShortenedDescription: computed('expandedAbstract', 'hasShortenedDescription', function() {
         return this.get('hasShortenedDescription') && !this.get('expandedAbstract');
-    }),
+    })
+    */
 
-    description: computed('model.description', function() {
-        // Get a shortened version of the abstract, but doesn't cut in the middle of word by going
-        // to the last space.
-        return this.get('model.description')
+    /**
+     * description
+     *
+     * @description Get a shortened version of the abstract, but doesn't cut in the middle of word
+     *      by going to the last space.
+     * @returns string
+     */
+    description(): string {
+        return this.model.description
             .slice(0, 350)
             .replace(/\s+\S*$/, '');
-    }),
+    }
 
-    emailHref: computed('model', function() {
-        const titleEncoded = encodeURIComponent(this.get('model.title'));
+    emailHref(): string {
+        const titleEncoded = encodeURIComponent(this.model.title);
         const hrefEncoded = encodeURIComponent(window.location.href);
         return `mailto:?subject=${titleEncoded}&body=${hrefEncoded}`;
-    }),
+    }
 
-    isChronosProvider: computed('model.provider.id', function() {
+    isChronosProvider(): boolean {
         const { chronosProviders } = config;
-        return Array.isArray(chronosProviders) && chronosProviders.includes(this.get('model.provider.id'));
-    }),
+        return Array.isArray(chronosProviders) && chronosProviders.includes(this.model.provider.id);
+    }
+    /*
 
     actions: {
         toggleLicenseText() {
