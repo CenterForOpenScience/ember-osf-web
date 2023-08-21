@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 // import { A } from '@ember/array';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 // import DS from 'ember-data';
 // import loadAll from 'ember-osf/utils/load-relationship';
@@ -47,6 +47,8 @@ export default class PrePrintsDetailController extends Controller {
     @service theme!: Theme;
     @service currentUser!: CurrentUserService;
     @service features!: Features;
+
+    // metricsStartDate = config.OSF.metricsStartDate;
 
     queryParams_Altered = {
         chosenFile: 'file',
@@ -138,11 +140,9 @@ export default class PrePrintsDetailController extends Controller {
         return this.model.description && this.model.description.length > 350;
     }
 
-    /*
-    useShortenedDescription: computed('expandedAbstract', 'hasShortenedDescription', function() {
-        return this.get('hasShortenedDescription') && !this.get('expandedAbstract');
-    })
-    */
+    useShortenedDescription(): boolean {
+        return this.hasShortenedDescription() && !this.expandedAbstract;
+    }
 
     /**
      * description
@@ -163,61 +163,42 @@ export default class PrePrintsDetailController extends Controller {
         return `mailto:?subject=${titleEncoded}&body=${hrefEncoded}`;
     }
 
-    /*
 
-    actions: {
-        toggleLicenseText() {
-            const licenseState = this.toggleProperty('showLicenseText') ? 'Expand' : 'Contract';
-            this.get('metrics')
+    @action
+    toggleLicenseText(): void {
+        this.showLicenseText = !this.showLicenseText;
+        /*
+         this.get('metrics')
                 .trackEvent({
                     category: 'button',
                     action: 'click',
                     label: `Content - License ${licenseState}`,
                 });
-        },
-        expandMFR() {
-            // State of fullScreenMFR before the transition (what the user perceives as the action)
-            const beforeState = this.toggleProperty('fullScreenMFR') ? 'Expand' : 'Contract';
+                */
+    }
 
-            this.get('metrics')
-                .trackEvent({
-                    category: 'button',
-                    action: 'click',
-                    label: `Content - MFR ${beforeState}`,
-                });
-        },
-        expandAbstract() {
-            this.toggleProperty('expandedAbstract');
-        },
-        shareLink(href, category, action, label, extra) {
-            const metrics = this.get('metrics');
+    @action
+    expandMFR() {
+        // State of fullScreenMFR before the transition (what the user perceives as the action)
+        this.fullScreenMFR = !this.fullScreenMFR;
 
-            // TODO submit PR to ember-metrics for a trackSocial function for Google Analytics.
-            // For now, we'll use trackEvent.
-            metrics.trackEvent({
-                category,
-                action,
-                label,
-                extra,
+        /*
+        this.get('metrics')
+            .trackEvent({
+                category: 'button',
+                action: 'click',
+                label: `Content - MFR ${beforeState}`,
             });
+            */
+    }
 
-            if (label.includes('email')) { return; }
+    @action
+    expandAbstract() {
+        this.expandedAbstract = !this.expandedAbstract;
+    }
 
-            window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,width=600,height=400');
-            return false;
-        },
-        // Sends Event to GA.  Previously sent a second event to Keen to track non-contributor
-        // downloads, but that functionality has been removed.  Stub left in place in case we want
-        // to double-log later.
-        trackNonContributors(category, label, url) {
-            this.send('click', category, label, url);
-        },
-    },
-
-    _returnContributors(contributors) {
-        return contributors;
-    },
-
-    metricsStartDate = this.config.OSF.metricsStartDate;
-    */
+    @action
+    trackNonContributors(category: string, label: string, url: string): void {
+        this.send('click', category, label, url);
+    }
 }
