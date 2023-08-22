@@ -273,7 +273,7 @@ body {
 .sort-dropdown {
     background-color: $color-bg-gray-blue-light;
     display: flex;
-    flex-direction: column-reverse;
+    align-items: flex-end;
     padding-bottom: 10px;
     margin-left: 10px;
 
