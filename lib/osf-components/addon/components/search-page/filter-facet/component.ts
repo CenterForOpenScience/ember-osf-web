@@ -39,6 +39,8 @@ export const booleanFilterProperties = [
     'hasDataResource', // registrations and preprints
     'hasPreregisteredAnalysisPlan', // preprints
     'hasPreregisteredStudyDesign', // preprints
+    'isSupplementedBy', // preprints
+    'supplements', // projects
 ];
 
 export default class FilterFacet extends Component<FilterFacetArgs> {
@@ -119,6 +121,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
         // If the property is a boolean filter (e.g. hasDataResource), we don't want to fetch IRI values
         // SHARE API filters on these properties using:
         // `share.osf.io/api/v3/index-card-search?cardSearchFilter[hasDataResource][is-present]`
+        // or cardSearchFilter[hasDataResource][is-absent] (although this one is not used in the app)
         if (booleanFilterProperties.includes(property.shortFormLabel)) {
             this.filterableValues = [
                 {
@@ -126,13 +129,6 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
                     indexCard: {
                         label: this.intl.t('search.filter-facet.has-resource', { resource: property.displayLabel }),
                         resourceId: 'is-present',
-                    },
-                },
-                {
-                    resourceId: 'is-absent',
-                    indexCard: {
-                        label: this.intl.t('search.filter-facet.no-resource', { resource: property.displayLabel }),
-                        resourceId: 'is-absent',
                     },
                 },
             ];
