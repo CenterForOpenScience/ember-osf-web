@@ -206,20 +206,20 @@ as |layout|>
                                 </li>
                             {{/each}}
                         </ul>
-                        <div
-                            data-test-topbar-sort-dropdown
-                            local-class='sort-dropdown'
-                        >
-                            <PowerSelect
-                                @options={{this.sortOptions}}
-                                @selected={{this.selectedSortOption}}
-                                @onChange={{action this.updateSort}}
-                                as |sortOption|
-                            >
-                                <p>{{sortOption.display}}</p>
-                            </PowerSelect>
-                        </div>
                     </nav>
+                    <div
+                        data-test-topbar-sort-dropdown
+                        local-class='sort-dropdown'
+                    >
+                        <PowerSelect
+                            @options={{this.sortOptions}}
+                            @selected={{this.selectedSortOption}}
+                            @onChange={{action this.updateSort}}
+                            as |sortOption|
+                        >
+                            <p>{{sortOption.display}}</p>
+                        </PowerSelect>
+                    </div>
                 {{else if this.showResultCountMiddle}}
                     <p
                         data-test-middle-search-count

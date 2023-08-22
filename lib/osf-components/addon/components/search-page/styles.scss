@@ -126,9 +126,7 @@ body {
 }
 
 .search-input-wrapper {
-    display: inline-flex;
-    justify-content: flex-start;
-    align-items: center;
+    display: flex;
     white-space: nowrap;
     width: 70vw;
 
@@ -386,10 +384,9 @@ body {
         gap: 1rem;
     }
 
-    .object-type-nav {
+    .topbar {
         display: flex;
         flex-direction: column;
-        height: fit-content;
     }
 
     .sort-dropdown {
