@@ -27,8 +27,8 @@ module('Integration | Component | new-project-navigation-modal', hooks => {
         // Handle any actions with this.set('myAction', function(val) { ... });
         await render(hbs`<NewProjectNavigationModal
             @openModal={{true}}
-            @node={{theNode}}
-            @closeModal={{action closeModal true}}
+            @node={{this.theNode}}
+            @closeModal={{action this.closeModal true}}
             @title="New project created successfully!"
         />`);
 

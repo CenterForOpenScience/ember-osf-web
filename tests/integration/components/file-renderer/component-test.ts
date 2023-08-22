@@ -13,7 +13,7 @@ module('Integration | Component | file-renderer', hooks => {
         const download = this.set('download', 'http://cos.io/');
 
         await render(hbs`
-            {{file-renderer download=download}}
+            {{file-renderer download=this.download}}
         `);
 
         const iframe = this.element.querySelector('iframe') as HTMLIFrameElement;
@@ -38,7 +38,7 @@ module('Integration | Component | file-renderer', hooks => {
         });
 
         await render(hbs`
-            {{file-renderer download=download height=height width=width}}
+            {{file-renderer download=this.download height=this.height width=this.width}}
         `);
 
         const iframe = this.element.querySelector('iframe') as HTMLIFrameElement;

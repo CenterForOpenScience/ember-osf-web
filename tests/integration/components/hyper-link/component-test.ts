@@ -29,7 +29,7 @@ module('Integration | Component | hyper-link', hooks => {
     test('it does not render when hidden=true', async function(this: TestContext, assert) {
         this.set('isHidden', true);
 
-        await render(hbs`{{osf-navbar/x-links/hyper-link '/' hidden=isHidden}}`);
+        await render(hbs`{{osf-navbar/x-links/hyper-link '/' hidden=this.isHidden}}`);
 
         assert.dom('a').doesNotExist();
 

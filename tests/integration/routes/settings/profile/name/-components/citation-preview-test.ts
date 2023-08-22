@@ -32,7 +32,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle, Peggy H. G., DDS.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -49,7 +49,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle, Peggy H. G., DDS.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -66,7 +66,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle, Peggy H., DDS.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -83,7 +83,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle, Peggy, DDS.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -100,7 +100,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle, Peggy.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -117,7 +117,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle, Peggy H. G.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -134,7 +134,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle, Peggy H.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -151,7 +151,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle, Peggy Sue H.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -168,7 +168,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'von Helsing, Peggy Sue H.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 
@@ -185,7 +185,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
             mla: 'Doyle-vonHelsing, Peggy Sue H., DDS.',
         };
         this.set('user', user);
-        await render(hbs`{{settings/profile/name/-components/citation-preview user=user}}`);
+        await render(hbs`{{settings/profile/name/-components/citation-preview user=this.user}}`);
         citationAssertions(this, assert, expected);
     });
 });

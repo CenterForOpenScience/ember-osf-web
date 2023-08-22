@@ -51,7 +51,7 @@ module('Integration | Component | inline-list', hooks => {
         for (const [input, expected] of testCases) {
             this.set('list', input);
             await render(hbs`
-                {{#inline-list items=list as | l |}}
+                {{#inline-list items=this.list as | l |}}
                     {{~l.item~}}
                 {{/inline-list}}
             `);
@@ -85,7 +85,7 @@ module('Integration | Component | inline-list', hooks => {
         for (const [input, expected] of testCases) {
             this.set('list', input);
             await render(hbs`
-                {{#inline-list items=list truncate=3 as | l |}}
+                {{#inline-list items=this.list truncate=3 as | l |}}
                     {{#if l.remainingCount~}}
                         <span>{{l.remainingCount}} more</span>
                     {{else}}
