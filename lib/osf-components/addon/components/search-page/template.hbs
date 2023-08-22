@@ -92,6 +92,7 @@ as |layout|>
                 data-analytics-name='Toggle side panel'
                 aria-label={{t 'search.toggle-sidenav'}}
                 local-class='sidenav-toggle'
+                id={{this.sidePanelToggleId}}
                 {{on 'click' layout.toggleSidenav}}
             >
                 <FaIcon @icon='bars' />
@@ -273,7 +274,7 @@ as |layout|>
             <h2 local-class='search-help-header' data-test-help-heading-1>
                 {{t 'search.search-help.header-1'}}
             </h2>
-            <p data-test-help-body-1>{{t 'search.search-help.body-1'}}</p>
+            <p data-test-help-body-1>{{t 'search.search-help.body-1' htmlSafe=true}}</p>
             <span local-class='pagination'>
                 <p local-class='enumeration' data-test-help-enumeration-1>{{t 'search.search-help.index-1'}}</p>
                 <span local-class='help-button-wrappers'>

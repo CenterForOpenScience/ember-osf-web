@@ -29,7 +29,7 @@ module('Integration | Component | Search help', hooks => {
         assert.dom('[data-test-help-heading-1]').hasText('Improved OSF Search');
         assert.dom('[data-test-help-body-1]').exists();
         assert.dom('[data-test-help-body-1]').hasText(`Enter any term in the search box 
-            and filter by specific object types.`);
+            and filter by specific object types. More information is available on our help guides.`);
         assert.dom('[data-test-help-enumeration-1]').exists();
         assert.dom('[data-test-help-enumeration-1]').hasText('1 of 3');
 

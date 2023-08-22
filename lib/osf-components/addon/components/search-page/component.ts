@@ -97,6 +97,7 @@ export default class SearchPage extends Component<SearchArgs> {
     showTooltip2?: boolean;
     showTooltip3?: boolean;
 
+    sidePanelToggleId = uniqueId(['side-panel-toggle']);
     leftPanelObjectDropdownId = uniqueId(['left-panel-object-dropdown']);
     firstTopbarObjectTypeLinkId = uniqueId(['first-topbar-object-type-link']);
     searchInputWrapperId = uniqueId(['search-input-wrapper']);
@@ -104,20 +105,26 @@ export default class SearchPage extends Component<SearchArgs> {
     firstFilterId = uniqueId(['first-filter']);
 
     get tooltipTarget1Id() {
+        if (this.showSidePanelToggle) {
+            return this.sidePanelToggleId;
+        }
         if (this.args.showResourceTypeFilter) {
-            if (this.showSidePanelToggle) {
-                return this.leftPanelObjectDropdownId;
-            }
             return this.firstTopbarObjectTypeLinkId;
         }
         return this.searchInputWrapperId;
     }
 
     get tooltipTarget2Id() {
+        if (this.showSidePanelToggle) {
+            return this.sidePanelToggleId;
+        }
         return this.leftPanelHeaderId;
     }
 
     get tooltipTarget3Id() {
+        if (this.showSidePanelToggle) {
+            return this.sidePanelToggleId;
+        }
         if (this.relatedProperties) {
             return this.firstFilterId;
         }
