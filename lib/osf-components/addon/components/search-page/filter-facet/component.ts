@@ -39,6 +39,8 @@ export const booleanFilterProperties = [
     'hasDataResource', // registrations and preprints
     'hasPreregisteredAnalysisPlan', // preprints
     'hasPreregisteredStudyDesign', // preprints
+    'isSupplementedBy', // preprints
+    'supplements', // projects
 ];
 
 export default class FilterFacet extends Component<FilterFacetArgs> {
