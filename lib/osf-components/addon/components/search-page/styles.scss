@@ -142,7 +142,7 @@ body {
     }
 
     .search-button-wrapper {
-        button:not(.help-button-mobile) {
+        button:not(.search-button, .help-button-mobile) {
             border-radius: 5px;
         }
 
@@ -397,7 +397,7 @@ body {
         margin: 0.5rem 0;
 
         > div {
-            background-color: #fff;
+            background-color: $color-bg-white;
             margin-top: 0.4rem;
         }
     }
