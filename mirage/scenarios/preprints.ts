@@ -25,8 +25,9 @@ function buildOSF(
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
 
-    const preprints = server.createList('preprint', 4, {
+    const preprints = server.createList('preprint', 1, {
         provider: osf,
+        id: 'taco',
     });
 
     const subjects = server.createList('subject', 7);

@@ -30,8 +30,10 @@ Router.map(function() {
         this.route('index', { path: '/' });
         this.route('index', { path: '/:provider_id' });
         this.route('discover', { path: '/:provider_id/discover' });
-        this.route('detail', { path: '--preprint/:guid' });
+        // this.route('detail', { path: '--preprint/:guid' });
     });
+
+    this.route('guid-preprint', { path: '--preprint/:guid' });
 
     this.route('register');
     this.route('settings', function() {
@@ -78,7 +80,6 @@ Router.map(function() {
         });
     });
 
-    this.route('guid-preprint', { path: '--preprint/:guid' });
 
     this.route('guid-registration', { path: '--registration/:guid' }, function() {
         this.mount('analytics-page', { as: 'analytics' });
