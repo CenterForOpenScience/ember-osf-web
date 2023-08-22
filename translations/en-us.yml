@@ -219,7 +219,7 @@ search:
         header-1: 'Improved OSF Search'
         header-2: 'OSF Smart Facets'
         header-3: 'Add Metadata'
-        body-1: 'Enter any term in the search box and filter by specific object types.'
+        body-1: 'Enter any term in the search box and filter by specific object types. More information is available on our <a href="https://help.osf.io/article/588-getting-started-with-osf-search" target="_blank" rel="noopener noreferrer">help guides</a>.'
         body-2: 'Narrow the source, discipline, and more. For example, find content supported by a specific funder or view only datasets.'
         body-3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable!'
         index-1: '1 of 3'

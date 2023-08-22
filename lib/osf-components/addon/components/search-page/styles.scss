@@ -149,6 +149,11 @@
     white-space: wrap;
     text-align: initial;
 
+    a {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
     .enumeration {
         float: left;
     }
