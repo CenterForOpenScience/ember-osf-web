@@ -1,19 +1,13 @@
 import Controller from '@ember/controller';
-// import { A } from '@ember/array';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-// import DS from 'ember-data';
-// import loadAll from 'ember-osf/utils/load-relationship';
 import config from 'ember-get-config';
-// import permissions from 'ember-osf/const/permissions';
 import Theme from 'ember-osf-web/services/theme';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Features from 'ember-feature-flags';
 import ContributorModel from 'ember-osf-web/models/contributor';
 import SubjectModel from 'ember-osf-web/models/subject';
 
-
-// const { PromiseArray } = DS;
 
 /**
  * Takes an object with query parameter name as the key and value,

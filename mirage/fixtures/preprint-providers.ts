@@ -64,19 +64,19 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         id: 'agrixiv',
         name: 'AgriXiv',
         preprintWord: 'preprint',
-        assets: randomAssets(),
+        assets: randomAssets(8),
     },
     {
         id: 'biohackrxiv',
         name: 'BioHackrXiv',
         preprintWord: 'preprint',
-        assets: randomAssets(),
+        assets: randomAssets(9),
     },
     {
         id: 'nutrixiv',
         name: 'NutriXiv',
         preprintWord: 'preprint',
-        assets: randomAssets(),
+        assets: randomAssets(10),
     },
 ];
 

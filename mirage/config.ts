@@ -303,6 +303,11 @@ export default function(this: Server) {
         path: '/providers/preprints/:parentID/subjects/highlighted/',
         relatedModelName: 'subject',
     });
+    osfNestedResource(this, 'preprint-provider', 'preprints', {
+        // only: ['index'],
+        path: '/providers/preprints/:parentID/preprints/',
+        relatedModelName: 'preprint',
+    });
 
 
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
