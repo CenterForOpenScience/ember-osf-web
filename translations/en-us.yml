@@ -230,7 +230,7 @@ search:
             next: 'Next'
             done: 'Done'
     search-header: 'Search OSF'
-    textbox-placeholder: 'Search placeholder'
+    textbox-placeholder: 'Enter search term(s) here'
     search-button-label: 'Search'
     search-help-label: 'Help tutorial'
     total-results: '{count} results'
