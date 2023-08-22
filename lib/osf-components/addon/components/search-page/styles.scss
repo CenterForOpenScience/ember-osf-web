@@ -361,13 +361,44 @@ body {
     display: flex;
     padding: 2rem;
     justify-content: flex-end;
-
-
     height: fit-content;
 }
 
-@media (min-wdith: 650px) {
+// for tablet displays
+@media screen and (min-width: 650px) {
     .left-panel-mobile {
         width: 60vw;
+    }
+}
+
+// for sizing between mobile and desktop
+@media screen and (min-width: 899px) and (max-width: 1250px) {
+    .search-page > div:first-of-type {
+        margin: 0 auto;
+    }
+
+    .heading-wrapper > label {
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .search-main {
+        gap: 1rem;
+    }
+
+    .object-type-nav {
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+    }
+
+    .sort-dropdown {
+        align-self: flex-end;
+        margin: 0.5rem 0;
+
+        > div {
+            background-color: #fff;
+            margin-top: 0.4rem;
+        }
     }
 }
