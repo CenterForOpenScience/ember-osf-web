@@ -212,7 +212,7 @@ export default class SearchResultModel extends Model {
             return {
                 name: this.resourceMetadata.isContainedBy[0].rights?.[0]?.name?.[0]?.['@value'],
                 identifier: this.resourceMetadata.rights?.[0]?.['@id'] ||
-                    this.resourceMetadata.isContainedBy?.[0]?.rights?.[0]?.['@id'],
+                    this.resourceMetadata.isContainedBy[0].rights[0]?.['@id'],
             };
         }
         return null;
