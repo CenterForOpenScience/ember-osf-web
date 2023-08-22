@@ -92,6 +92,7 @@ as |layout|>
                 data-analytics-name='Toggle side panel'
                 aria-label={{t 'search.toggle-sidenav'}}
                 local-class='sidenav-toggle'
+                id={{this.sidePanelToggleId}}
                 {{on 'click' layout.toggleSidenav}}
             >
                 <FaIcon @icon='bars' />
