@@ -55,15 +55,10 @@
                 <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isPartOfTitleAndUrl.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOfTitleAndUrl.title}} </a></span>
             </div>
         {{/if}}
-        {{#if @result.isContainedBy}}
-            <div>
-                <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isContainedByTitleAndUrl.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isContainedByTitleAndUrl.title}} </a></span>
-            </div>
-        {{/if}}
         <div local-class='date-fields'>
             {{#each @result.dateFields as |field|}}
                 {{#if field.date}}
-                    <span>{{field.label}}: {{field.date}}</span>   
+                    <span>{{field.label}}: {{field.date}}</span>
                 {{/if}}
             {{/each}}
         </div>
