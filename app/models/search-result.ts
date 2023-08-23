@@ -275,6 +275,10 @@ export default class SearchResultModel extends Model {
     get registrationTemplate() {
         return this.resourceMetadata.conformsTo?.[0]?.title?.[0]?.['@value'];
     }
+
+    get isWithdrawn() {
+        return this.resourceMetadata.dateWithdrawn || this.resourceMetadata['https://osf.io/vocab/2022/withdrawal'];
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
