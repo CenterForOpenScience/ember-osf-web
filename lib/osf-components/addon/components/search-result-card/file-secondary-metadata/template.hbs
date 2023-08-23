@@ -5,7 +5,7 @@
     {{/if}}
     {{#if @result.description}}
         <dt>{{t 'osf-components.search-result-card.description'}}</dt>
-        <dd>{{@result.description}}</dd>
+        <dd local-class='description'>{{@result.description}}</dd>
     {{/if}}
     {{#if @result.nodeFunders}}
         <dt>{{t 'osf-components.search-result-card.funder'}}</dt>
