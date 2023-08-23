@@ -1,6 +1,13 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors, selector-no-qualifying-type
+
 body {
     background-color: $color-bg-gray-blue-light;
+}
+
+.search-page-mobile {
+    > div:first-of-type {
+        margin-left: 0;
+    }
 }
 
 .heading-wrapper-mobile {
@@ -15,6 +22,7 @@ body {
         font-weight: 500;
         margin: 0.2rem;
         padding: 0.75rem 0 0.5rem 0.5rem;
+        white-space: nowrap;
     }
 
     span {
@@ -33,10 +41,6 @@ body {
             right: 0.1rem;
         }
     }
-
-    .sidenav-toggle {
-        width: 100%;
-    }
 }
 
 .left-panel-mobile {
@@ -53,7 +57,7 @@ body {
         margin-bottom: 1rem;
 
         label > div {
-            width: 193px;
+            width: 195px;
         }
     }
 }
@@ -81,7 +85,6 @@ body {
     color: $color-text-white;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     padding: 35px;
 
     label {
@@ -91,6 +94,7 @@ body {
 
     .heading-label > h1 {
         margin: 0;
+        white-space: nowrap;
     }
 }
 
@@ -140,7 +144,7 @@ body {
     }
 
     .search-button-wrapper {
-        button:not(.search-button, .help-button-mobile) {
+        .help-button {
             border-radius: 5px;
         }
 
@@ -370,12 +374,13 @@ body {
 }
 
 // for sizing between mobile and desktop
-@media screen and (min-width: 899px) and (max-width: 1250px) {
+@media screen and (min-width: 899px) and (max-width: 1275px) {
     .search-page > div:first-of-type {
         margin: 0 auto;
     }
 
     .heading-wrapper > label {
+        white-space: nowrap;
         padding-left: 0;
         margin: 0;
     }
