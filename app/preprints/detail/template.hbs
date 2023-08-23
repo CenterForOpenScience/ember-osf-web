@@ -1,6 +1,4 @@
-{{page-title this.model.preprint.title replace=true}}
-{{ this.theme.provider.id}}
-{{ this.theme.provider.brand.primaryColor}}
+{{page-title this.model.preprint.title replace=false}}
 
 
 <div id='view-page'>
@@ -10,14 +8,14 @@
         <div class='container'>
             <div class='row'>
                 <div class='col-xs-12 preprint-title-container'>
-                    <h1 id='preprintTitle'>{{this.model.title}}</h1>
+                    <h1 id='preprintTitle'>{{this.model.preprint.title}}</h1>
                     {{#unless this.isWithdrawn}}
                         <div class='p-b-md edit-preprint-button'>
                             {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
                                 <a type='button'
                                    class='btn btn-success edit-btn'
                                    href={{concat this.theme.guidPathPrefix this.model.id '/edit'}}
-                                   onclick={{action 'click' 'link' 'Content - Edit Preprint' (concat this.model.links.html 'edit')}}
+                                   onclick={{action 'click' 'link' 'Content - Edit Preprint' (concat this.model.preprint?.links?.html 'edit')}}
                                 >
                                     {{t @editButtonLabel documentType=this.model.provider.documentType}}
                                 </a>
@@ -31,7 +29,7 @@
                 <div class='col-xs-12 col-sm-12'>
                     <h5 class='view-authors'>
                         <div class='detail-header-label'>
-                            <strong>{{t 'content.header.authors_label'}}</strong>
+                            <strong>{{t 'preprints.detail.header.authors_label'}}</strong>
                         </div>
                         <ul class='comma-list'>
                             {{#if this.authors}}
@@ -57,7 +55,7 @@
                     </h5>
                 </div>
             </div>
-            {{author-assertions preprint=this.model}}
+            {{!author-assertions preprint=this.model.preprint}}
         </div>
         {{!END CONTAINER DIV}}
     </div>
@@ -152,9 +150,9 @@
                         <div>
                             <span>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</span>
                             {{#if this.isWithdrawn}}
-                                | <span>{{t 'content.header.withdrawn_on'}}: {{moment-format this.model.dateWithdrawn 'MMMM DD, YYYY'}}</span>
+                                | <span>{{t 'preprint.detail.header.withdrawn_on'}}: {{moment-format this.model.dateWithdrawn 'MMMM DD, YYYY'}}</span>
                             {{else}}
-                                | <span>{{t 'content.header.last_edited'}}: {{moment-format this.model.dateModified 'MMMM DD, YYYY'}}</span>
+                                | <span>{{t 'preprint.detail.header.last_edited'}}: {{moment-format this.model.dateModified 'MMMM DD, YYYY'}}</span>
                             {{/if}}
                         </div>
                         <button
