@@ -75,7 +75,6 @@ export default class PreprintsDetail extends Route {
 
 /*
 export default Route.extend({
-    currentUser: service(),
     features: service(),
     model(params) {
         const opts = {
@@ -87,15 +86,6 @@ export default Route.extend({
                 withCredentials: true,
             },
         };
-
-        this.get('currentUser').authenticatedAJAX(opts).then((res) => {
-            if (Array.isArray(res.meta.active_flags)) {
-                this.get('features').setup(res.meta.active_flags.reduce(function(acc, flag) {
-                    acc[flag] = true;
-                    return acc;
-                }, {}));
-            }
-        });
 
         return this.store.findRecord(
             'preprint', params.preprint_id,

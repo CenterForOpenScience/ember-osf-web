@@ -115,7 +115,7 @@ export default class PrePrintsDetailController extends Controller {
     }
 
     authors(): ContributorModel[] {
-        return this.model.contributors;
+        return this.model.preprint.contributors;
     }
 
     fullLicenseText(): string {

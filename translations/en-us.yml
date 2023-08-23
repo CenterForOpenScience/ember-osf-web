@@ -1112,6 +1112,11 @@ preprints:
     discover:
         title: 'Search'
     title: 'Preprints'
+    detail:
+        header: 
+            last_edited: 'Last edited'
+            authors_label: 'Authors'
+            withdrawn_on: 'Withdrawn'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'
@@ -1123,6 +1128,7 @@ preprints:
         or: 'or'
         submit_label: 'Submit a preprint'
         example: 'See an example'
+        authors_label: 
     subjects:
         heading:
             provider: 'Browse by provider'
