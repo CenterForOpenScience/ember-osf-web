@@ -22,6 +22,9 @@
         </div>
         <h4 local-class='display-name'>
             <a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
+            {{#if @result.isWithdrawn}}
+                <span local-class='withdrawn-label'>{{t 'osf-components.search-result-card.withdrawn'}}</span>
+            {{/if}}
             {{#if @result.orcids}}
                 {{#each @result.orcids as |item|}}
                     <a href={{item}}
