@@ -217,11 +217,11 @@ search:
         no-title: 'No title found'
     search-help:
         header-1: 'Improved OSF Search'
-        header-2: 'OSF Smart Facets'
+        header-2: 'Refine Your Search'
         header-3: 'Add Metadata'
         body-1: 'Enter any term in the search box and filter by specific object types. More information is available on our <a href="https://help.osf.io/article/588-getting-started-with-osf-search" target="_blank" rel="noopener noreferrer">help guides</a>.'
         body-2: 'Narrow the source, discipline, and more. For example, find content supported by a specific funder or view only datasets.'
-        body-3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable!'
+        body-3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable! Learn more in our <a href="https://help.osf.io/article/572-metadata-to-increase-discoverability" target="_blank" rel="noopener noreferrer">help guides</a>.'
         index-1: '1 of 3'
         index-2: '2 of 3'
         index-3: '3 of 3'
