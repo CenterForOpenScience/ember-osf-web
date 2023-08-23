@@ -43,12 +43,15 @@ export default class PreprintsDetail extends Route {
 
             const preprint = await this.store.findRecord('preprint', guid);
 
+            const provider = await preprint?.get('provider');
 
-            // const preprint = await this.store.findRecord('preprint', guid, {include: 'brand'});
+            this.theme.set('providerType', 'preprint');
+            this.theme.set('id', provider.id);
 
-            const contributors = await preprint?.queryHasMany('contributors');
 
-            const license = await preprint?.queryHasMany('license');
+            // const contributors = await preprint?.queryHasMany('contributors');
+
+            // const license = await preprint?.queryHasMany('license');
 
             /*
             const blank = await preprint?.queryHasMany('blank', {
@@ -60,8 +63,6 @@ export default class PreprintsDetail extends Route {
 
             return {
                 preprint,
-                contributors,
-                license,
             };
 
         } catch (error) {

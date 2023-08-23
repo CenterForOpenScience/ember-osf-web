@@ -31,9 +31,9 @@ Router.map(function() {
         this.route('index', { path: '/:provider_id' });
         this.route('discover', { path: '/:provider_id/discover' });
         // this.route('detail', { path: '--preprint/:guid' });
+        this.route('detail', { path: '../:guid' });
     });
 
-    this.route('guid-preprint', { path: '--preprint/:guid' });
 
     this.route('register');
     this.route('settings', function() {

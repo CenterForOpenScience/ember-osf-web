@@ -3,10 +3,14 @@ import faker from 'faker';
 
 import PreprintModel from 'ember-osf-web/models/preprint';
 
-import { guid} from './utils';
+import { guid, guidAfterCreate} from './utils';
 
 export default Factory.extend<PreprintModel>({
     id: guid('preprint'),
+    afterCreate(newPreprint, server) {
+        guidAfterCreate(newPreprint, server);
+    },
+
     title: faker.lorem.sentence(),
 });
 

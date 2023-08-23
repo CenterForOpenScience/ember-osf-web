@@ -304,6 +304,7 @@ export default function(this: Server) {
         path: '/providers/preprints/:parentID/preprints/',
         relatedModelName: 'preprint',
     });
+    osfResource(this, 'preprint');
 
 
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
