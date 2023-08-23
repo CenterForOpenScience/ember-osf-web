@@ -40,11 +40,6 @@
     text-transform: uppercase;
 }
 
-.display-name {
-    display: inline-flex;
-    align-items: center;
-}
-
 .date-fields {
     span {
         &:not(:last-child)::after {
@@ -66,4 +61,6 @@
     font-size: 75%;
     font-weight: bold;
     margin-left: 3px;
+    position: relative;
+    bottom: 2px;
 }
