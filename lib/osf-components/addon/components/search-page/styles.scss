@@ -39,6 +39,7 @@ body {
             margin-left: 0;
             position: absolute;
             right: 0.1rem;
+            margin-right: -5px;
         }
     }
 }
@@ -225,6 +226,7 @@ body {
 
     .enumeration {
         float: left;
+        white-space: nowrap;
     }
 
     h2 {
@@ -236,7 +238,7 @@ body {
 
     p {
         white-space: normal;
-        margin: 25px 5px 20px;
+        margin: 25px 5px 0;
     }
 
     .skip-button {
@@ -248,13 +250,15 @@ body {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
+        margin-bottom: 0.5rem;
     }
 
     .help-button-wrapper {
         display: flex;
         justify-content: flex-end;
+        padding: 0;
 
-        button:first-of-type {
+        .skip-button {
             margin-right: 20px;
         }
     }
@@ -275,8 +279,7 @@ body {
 
 .sort-dropdown {
     background-color: $color-bg-gray-blue-light;
-    display: flex;
-    align-items: flex-end;
+    align-self: flex-end;
     padding-bottom: 10px;
     margin-left: 10px;
 
