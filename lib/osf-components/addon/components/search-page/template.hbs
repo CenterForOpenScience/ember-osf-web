@@ -182,7 +182,6 @@ as |layout|>
         {{/if}}
     </layout.left>
     <layout.main local-class={{if this.showSidePanelToggle 'search-main-mobile' 'search-main'}} data-analytics-scope='Search page main'>
-        {{!-- paginator --}}
         {{#unless this.showSidePanelToggle}}
             <div data-test-topbar-wrapper local-class='topbar'>
                 {{#if @showResourceTypeFilter}}

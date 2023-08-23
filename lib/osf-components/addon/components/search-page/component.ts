@@ -245,6 +245,7 @@ export default class SearchPage extends Component<SearchArgs> {
     switchPage(pageCursor: string) {
         this.page = pageCursor;
         taskFor(this.search).perform();
+        document.querySelector('[data-test-topbar-wrapper]')?.scrollIntoView({ behavior: 'smooth' });
     }
 
     @task({ restartable: true })
