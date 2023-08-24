@@ -24,19 +24,18 @@
         {{/let}}
     </dialog.main>
     <dialog.footer>
-        <BsButton
+        <Button
             data-test-submit-continue-button
             @type='primary'
-            @onClick={{queue (perform @onSubmit 'admin_reject' this.reason) @onClose}}
+            {{on 'click' (queue (perform @onSubmit 'admin_reject' this.reason) @onClose)}}
         >
             {{t 'registries.edit_revision.continue_edit_modal.submit'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-cancel-continue-edit-button
-            @type='default'
-            @onClick={{@onClose}}
+            {{on 'click' @onClose}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
+        </Button>
     </dialog.footer>
 </OsfDialog>

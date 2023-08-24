@@ -26,7 +26,7 @@ function assertionsEnabledNotConfirmed(assert: Assert, testState: string) {
         .exists(`${testState} - Verification field exists`);
     assert.dom('[data-test-verify-button]')
         .exists(`${testState} - Verify button is shown`);
-    assert.dom('[data-test-verification-code-field] .help-block')
+    assert.dom('[data-test-verification-code-field] [data-test-help-block]')
         .doesNotExist(`${testState} - No error from security panel`);
 }
 
@@ -52,7 +52,7 @@ module('Acceptance | settings', hooks => {
         await click('[data-test-confirm-deactivation-submit]');
         assertionsEnabledNotConfirmed(assert, 'After deactivation');
         await click('[data-test-verify-button]');
-        assert.dom('[data-test-verification-code-field] .help-block')
+        assert.dom('[data-test-verification-code-field] [data-test-help-block]')
             .containsText('Verification code is invalid.', 'End test');
     });
 });

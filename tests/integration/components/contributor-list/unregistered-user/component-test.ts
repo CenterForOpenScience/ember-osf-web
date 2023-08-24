@@ -1,16 +1,16 @@
 import { fillIn, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import CurrentUser from 'ember-osf-web/services/current-user';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 interface ThisTestContext extends TestContext {
     contrib: { email: string, unregisteredContributor: string, users: { fullName: string } };
-    currentUser: CurrentUser;
+    currentUser: CurrentUserStub;
 }
 
 module('Integration | Component | contributor-list/unregistered-user', hooks => {
@@ -23,6 +23,7 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
             'withContributors');
         const contrib = server.create('contributor', { node }, 'unregistered');
         this.store = this.owner.lookup('service:store');
+        this.owner.register('service:current-user', CurrentUserStub);
         this.setProperties({ contrib, node });
     });
 
@@ -30,7 +31,7 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
         const mirageUser = server.create('user');
         const email = server.create('user-email', { primary: true, user: mirageUser });
         const user = await this.store.findRecord('user', mirageUser.id);
-        this.owner.lookup('service:current-user').setProperties({ user, currentUserId: user.id });
+        this.owner.lookup('service:current-user').setProperties({ testUser: user, currentUserId: user.id });
 
         await render(hbs`<ContributorList::UnregisteredContributor
             @contributor={{this.contrib}} @nodeId={{this.node.id}}/>`);
@@ -49,7 +50,7 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
     });
 
     test('logged out scenario', async function(this: ThisTestContext, assert) {
-        this.owner.lookup('service:current-user').setProperties({ user: null, currentUserId: null });
+        this.owner.lookup('service:current-user').setProperties({ testUser: null, currentUserId: null });
         await render(hbs`<ContributorList::UnregisteredContributor
             @contributor={{this.contrib}} @nodeId={{this.node.id}}/>`);
         assert.dom(this.element).hasText(this.contrib.unregisteredContributor, 'Has unregistered contrib name');

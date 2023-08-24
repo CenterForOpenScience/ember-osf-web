@@ -3,7 +3,7 @@
         <img local-class='provider-logo' src={{this.logoAsset}} alt={{@provider.name}}>
     </a>
 {{else}}
-    {{#link-to 'provider.discover' @provider.id}}
+    <LinkTo @route='provider.discover' @models={{array @provider.id}}>
         <img local-class='provider-logo' src={{this.logoAsset}} alt={{@provider.name}}>
-    {{/link-to}}
+    </LinkTo>
 {{/if}}

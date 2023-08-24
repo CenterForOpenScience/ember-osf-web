@@ -37,6 +37,7 @@ import { createNewSchemaResponse } from './views/schema-response';
 import { createSchemaResponseAction } from './views/schema-response-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
+import { cardSearch, valueSearch } from './views/search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import {
@@ -53,11 +54,16 @@ const { OSF: { apiUrl, shareBaseUrl } } = config;
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
     this.passthrough('https://api.crossref.org/*');
+
     // SHARE search
     this.urlPrefix = shareBaseUrl;
     this.namespace = '/api/v2/';
-
     this.post('/search/creativeworks/_search', shareSearch);
+
+    this.namespace = '/api/v3/';
+    this.get('/index-card-search', cardSearch);
+    this.get('/index-value-search', valueSearch);
+    // this.get('/index-card/:id', Detail);
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
@@ -116,6 +122,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'forks', { only: ['index'] });
     this.post('/nodes/:id/forks', createFork);
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
+    osfNestedResource(this, 'node', 'linkedByNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     this.post('/nodes/:id/registrations', createRegistration);

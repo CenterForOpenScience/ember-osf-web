@@ -19,19 +19,6 @@ interface Args {
 
 
 export default class Upload extends Component<Args> {
-    dropzoneOptions = {
-        createImageThumbnails: false,
-        method: 'PUT',
-        withCredentials: true,
-        preventMultipleFiles: false,
-        acceptDirectories: false,
-        autoProcessQueue: true,
-        autoQueue: true,
-        parallelUploads: this.args.manager.currentFolder.parallelUploadsLimit,
-        maxFilesize: 10000000,
-        timeout: null,
-    };
-
     @service intl!: Intl;
     @service toast!: Toast;
     @tracked uploading: any[] = [];
@@ -55,6 +42,25 @@ export default class Upload extends Component<Args> {
     get shouldShowFailureModal() {
         return this.failedFilesNumber > 0 &&
             this.uploading.length === 0;
+    }
+
+    get dropzoneOptions() {
+        let uploadLimit = 4;
+        if (this.args.manager.currentFolder?.parallelUploadsLimit) {
+            uploadLimit = this.args.manager.currentFolder.parallelUploadsLimit;
+        }
+        return {
+            createImageThumbnails: false,
+            method: 'PUT',
+            withCredentials: true,
+            preventMultipleFiles: false,
+            acceptDirectories: false,
+            autoProcessQueue: true,
+            autoQueue: true,
+            parallelUploads: uploadLimit,
+            maxFilesize: 10000000,
+            timeout: null,
+        };
     }
 
     get shouldShowSuccessModal() {

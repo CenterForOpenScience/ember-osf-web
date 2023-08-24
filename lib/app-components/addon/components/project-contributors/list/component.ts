@@ -7,6 +7,7 @@ import { dropTask, enqueueTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
@@ -21,6 +22,7 @@ import template from './template';
 
 @layout(template, styles)
 export default class List extends Component {
+    @service media!: Media;
     // Required parameters
     node!: Node;
 
@@ -184,5 +186,9 @@ export default class List extends Component {
         this.page = 1;
         this.set('contributors', []);
         taskFor(this.loadContributors).perform();
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

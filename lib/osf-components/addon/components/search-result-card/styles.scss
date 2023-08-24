@@ -1,0 +1,66 @@
+.result-card-container {
+    background-color: $color-bg-white;
+    margin: 35px 35px 0;
+    width: 60vw;
+
+    dt,
+    dd {
+        margin-left: 15px;
+    }
+}
+
+.primary-metadata-container {
+    display: flex;
+    flex-direction: column;
+
+    h4,
+    div:not(:first-child) {
+        margin: 0 0 15px 15px;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+        border: 1px solid transparent;
+        color: $color-text-blue-dark;
+        height: 30px;
+        margin: 5px;
+        padding: 0 10px;
+    }
+}
+
+.type-label {
+    background-color: $color-gradient-primary;
+    margin: 15px;
+    padding: 0 5px;
+    width: fit-content;
+    text-transform: uppercase;
+}
+
+.date-fields {
+    span {
+        &:not(:last-child)::after {
+            content: ' | ';
+        }
+    }
+}
+
+.orcid-logo {
+    color: #a6ce39;
+    margin-left: 3px;
+}
+
+.withdrawn-label {
+    background-color: $color-bg-gray-darker;
+    color: $color-text-white;
+    border-radius: 0.25em;
+    padding: 0.2em 0.6em 0.3em;
+    font-size: 75%;
+    font-weight: bold;
+    margin-left: 3px;
+    position: relative;
+    bottom: 2px;
+}

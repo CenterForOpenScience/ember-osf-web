@@ -1,9 +1,9 @@
-<BsPopover
-    @triggerElement={{@triggerElement}}
-    @triggerEvents={{''}}
-    @visible={{this.shouldShow}}
-    @onHide={{this.onAccept}}
-    local-class='NewFeatureModal'
+<EmberPopover
+    @targetId={{@triggerElement}}
+    @isShown={{this.shouldShow}}
+    @event='none'
+    @side={{@side}}
+    @tooltipClass='new-feature-modal'
     as |popover|
 >
     <h3 data-test-popover-header>
@@ -17,7 +17,6 @@
     <footer
         data-test-popover-footer
         local-class='FlexFooter'
-        {{on-click-outside popover.close}}
     >
         {{yield to='footer'}}
         <label data-test-not-again-checkbox>
@@ -27,9 +26,9 @@
         <Button
             data-test-got-it-button
             @type='primary'
-            {{on 'click' popover.close}}
+            {{on 'click' (queue this.onAccept (action 'hide' target=popover))}}
         >
             {{t 'osf-components.new-feature-popover.acknowledge'}}
         </Button>
     </footer>
-</BsPopover>
+</EmberPopover>

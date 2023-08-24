@@ -1,80 +1,120 @@
 <div local-class='branded-nav-wrapper'>
     <nav
-        local-class='branded-nav'
+        local-class='branded-nav
+        {{if (eq this.theme.providerType 'preprint') 'preprint-branded-navbar'}}
+        {{if (sufficient-contrast this.brandPrimaryColor '#fff') 'light-text' 'dark-text'}}
+        {{if this.useWhiteBackground 'white-background-branded-navbar'}}'
         class='navbar navbar-inverse navbar-fixed-top'
         id='navbarScope'
     >
         <div local-class='nav-wrapper'>
             <div class='navbar-header'>
-                {{#link-to @brandRoute provider=this.theme.provider class='navbar-brand'}}
+                <LinkTo 
+                    @route={{@brandRoute}}
+                    @provider={{this.theme.provider}}
+                    class='navbar-brand'
+                >
                     <span local-class='navbar-image' class='navbar-image'></span>
                     <span class='navbar-title'>{{this.brandTitle}}</span>
-                {{/link-to}}
+                </LinkTo>
 
                 {{! Navigation toggle - XS screen }}
-                <button
-                    type='button'
-                    class='navbar-toggle collapsed'
-                    aria-label={{t 'navbar.toggle_secondary'}}
-                    {{on 'click' this.toggleSecondaryNavigation}}
-                >
-                    <span class='icon-bar'></span>
-                    <span class='icon-bar'></span>
-                    <span class='icon-bar'></span>
-                </button>
+                {{#if this.isMobileOrTablet}}
+                    <Button
+                        aria-label={{t 'navbar.toggle_secondary'}}
+                        local-class='navbar-toggle'
+                        {{on 'click' this.toggleSecondaryNavigation}}
+                    >
+                        <FaIcon @icon='bars' />
+                    </Button>
+                {{/if}}
             </div>
 
             {{! Secondary nav links }}
-            <BsCollapse
-                class='navbar-collapse navbar-right'
-                local-class='secondary-navigation'
-                @collapsed={{not this.showNavLinks}}
-            >
-                <ul class='nav navbar-nav' local-class='links'>
-                    {{#if @displayModerationButton}}
+            {{#if this.shouldShowNavLinks}}
+                <div
+                    class='navbar-collapse navbar-right'
+                    local-class='secondary-navigation'
+                >
+                    <ul class='nav navbar-nav' local-class='links'>
+                        {{#if (eq this.theme.providerType 'collection')}}
+                            {{#if @displayModerationButton}}
+                                <li>
+                                    <OsfLink
+                                        data-analytics-name='Collection moderation'
+                                        data-test-branded-navbar-moderation
+                                        @route='collections.provider.moderation'
+                                        @models={{array this.providerId}}
+                                    >
+                                        {{t 'app_components.branded_navbar.moderation'}}
+                                    </OsfLink>
+                                </li>
+                            {{/if}}
+                            <li>
+                                <a
+                                    href={{this.myProjectsUrl}}
+                                    onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=this.analytics}}
+                                >
+                                    {{t 'app_components.branded_navbar.my_osf_projects'}}
+                                </a>
+                            </li>
+                            <li>
+                                <LinkTo
+                                    @route='provider.submit'
+                                    onclick={{action
+                                        'click'
+                                        'link'
+                                        (concat 'Navbar - ' (t @addLinkKey) ' - ' this.theme.id)
+                                        target=this.analytics
+                                    }}
+                                >
+                                    <span role='button'>{{t @addLinkKey}}</span>
+                                </LinkTo>
+                            </li>
+                            <li>
+                                <LinkTo
+                                    @route='provider.discover'
+                                    onclick={{action 'click' 'link' 'Navbar - Search' target=this.analytics}}
+                                >
+                                    <span role='button'>{{t 'navbar.search'}}</span>
+                                </LinkTo>
+                            </li>
+                        {{else if (eq this.theme.providerType 'preprint')}}
+                            <li>
+                                <OsfLink
+                                    @href={{concat this.myProjectsUrl '#preprints'}}
+                                >
+                                    <span role='button'>{{t 'navbar.my_preprints'}}</span>
+                                </OsfLink>
+                            </li>
+                            {{#if this.currentUser.user.canViewReviews}}
+                                <li>
+                                    <OsfLink
+                                        {{!-- TODO Preprint emberization: make this an in-app transition --}}
+                                        @href={{this.reviewUrl}}
+                                    >
+                                        <span role='button'>{{t 'navbar.reviews'}}</span>
+                                    </OsfLink>
+                                </li>
+                            {{/if}}
+                            <li>
+                                <OsfLink
+                                    {{!-- TODO Preprint emberization: make this an in-app transition --}}
+                                    @href={{this.submitPreprintUrl}}
+                                >
+                                    <span role='button'>{{t 'navbar.add_a_preprint' preprintWord=this.provider.preprintWord}}</span>
+                                </OsfLink>
+                            </li>
+                        {{/if}}
                         <li>
-                            <OsfLink
-                                data-analytics-name='Collection moderation'
-                                data-test-branded-navbar-moderation
-                                @route='collections.provider.moderation'
-                                @models={{array this.providerId}}
+                            <a
+                                href='https://cos.io/donate'
+                                onclick={{action 'click' 'link' 'Navbar - Donate' target=this.analytics}}
                             >
-                                {{t 'app_components.branded_navbar.moderation'}}
-                            </OsfLink>
+                                {{t 'navbar.donate'}}
+                            </a>
                         </li>
-                    {{/if}}
-                    <li>
-                        <a
-                            href={{this.myProjectsUrl}}
-                            onclick={{action 'click' 'link' 'Navbar - navbar.my_projects' target=this.analytics}}
-                        >
-                            {{t 'app_components.branded_navbar.my_osf_projects'}}
-                        </a>
-                    </li>
-                    <li>
-                        {{#link-to
-                            'provider.submit'
-                            click=(action 'click' 'link' (concat 'Navbar - ' (t @addLinkKey) ' - ' this.theme.id) target=this.analytics)
-                        }}
-                            <span role='button'>{{t @addLinkKey}}</span>
-                        {{/link-to}}
-                    </li>
-                    <li>
-                        {{#link-to
-                            'provider.discover'
-                            click=(action 'click' 'link' 'Navbar - Search' target=this.analytics)
-                        }}
-                            <span role='button'>{{t 'navbar.search'}}</span>
-                        {{/link-to}}
-                    </li>
-                    <li>
-                        <a
-                            href='https://cos.io/donate'
-                            onclick={{action 'click' 'link' 'Navbar - Donate' target=this.analytics}}
-                        >
-                            {{t 'navbar.donate'}}
-                        </a>
-                    </li>
+                    </ul>
                     <OsfNavbar::AuthDropdown
                         @signupUrl={{@signupUrl}}
                         @loginAction={{@loginAction}}
@@ -83,8 +123,8 @@
                         @externalLink={{true}}
                         @campaign={{this.campaign}}
                     />
-                </ul>
-            </BsCollapse>
+                </div>
+            {{/if}}
         </div>
     </nav>
 </div>

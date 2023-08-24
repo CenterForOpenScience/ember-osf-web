@@ -1,29 +1,28 @@
-{{#if this.showDiscard}}
-    <button
-        data-test-submit-section-discard
-        data-analytics-name='Discard'
-        type='button'
-        class='btn btn-default'
-        {{on 'click' this.discard}}
-    >
-        {{#if @discardButtonLabel}}
-            {{@discardButtonLabel}}
-        {{else}}
-            {{t (concat 'app_components.submit_section.discard')}}
-        {{/if}}
-    </button>
-{{/if}}
-<button
-    data-test-submit-section-continue
-    data-analytics-name='Continue'
-    type='button'
-    class='btn btn-primary'
-    disabled={{this.continueDisabled}}
-    {{on 'click' this.continue}}
->
-    {{#if @continueButtonLabel}}
-        {{@continueButtonLabel}}
-    {{else}}
-        {{t (concat 'app_components.submit_section.save')}}
+<div local-class='buttons'>
+    {{#if this.showDiscard}}
+        <Button
+            data-test-submit-section-discard
+            data-analytics-name='Discard'
+            {{on 'click' this.discard}}
+        >
+            {{#if @discardButtonLabel}}
+                {{@discardButtonLabel}}
+            {{else}}
+                {{t (concat 'app_components.submit_section.discard')}}
+            {{/if}}
+        </Button>
     {{/if}}
-</button>
+    <Button
+        data-test-submit-section-continue
+        data-analytics-name='Continue'
+        @type='primary'
+        disabled={{this.continueDisabled}}
+        {{on 'click' this.continue}}
+    >
+        {{#if @continueButtonLabel}}
+            {{@continueButtonLabel}}
+        {{else}}
+            {{t (concat 'app_components.submit_section.save')}}
+        {{/if}}
+    </Button>
+</div>

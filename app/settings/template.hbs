@@ -1,118 +1,86 @@
-<div data-analytics-scope='Settings' class='container'>
-    <div class='row'>
-        <div class='col-xs-12'>
-            <h2 class='page-header'>
-                {{t 'general.settings'}}
-                <BsButton
-                   local-class='NavToggle'
-                   aria-label={{t 'settings.toggleNav'}}
-                   class='hidden-md hidden-lg'
-                   @type='link'
-                   @onClick={{action (mut this.navCollapsed) (not this.navCollapsed)}}
+<div data-analytics-scope='Settings' local-class='settings-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='setting-container'>
+        <h2 local-class='page-header local-page-header'>
+            {{t 'general.settings'}}
+            {{#if this.isMobile}}
+                <Button
+                    data-test-toggle-nav
+                    local-class='navigation-toggle'
+                    aria-label={{t 'settings.toggleNav'}}
+                    @layout='fake-link'
+                    {{on 'click' (action (mut this.navCollapsed) (not this.navCollapsed))}}
                 >
                     <FaIcon @icon='bars' />
-                </BsButton>
-            </h2>
-        </div>
+                </Button>
+            {{/if}}
+        </h2>
     </div>
-    <div class='row'>
-        <div class='col-md-3'>
-            <BsCollapse @collapsed={{this.navCollapsed}} local-class='SideNav'>
-                <div class='panel panel-default'>
-                    <BsNav @type='pills' @stacked={{true}} as |nav|>
-                        <nav.item>
-                            <nav.link-to
-                                data-analytics-name='Settings'
-                                @params={{array 'settings.profile'}}
-                            >
-                                {{t 'settings.profile.title'}}
-                            </nav.link-to>
-                            <BsNav
-                                data-analytics-scope='Profile Nav'
-                                local-class='ProfileNav'
-                                @stacked={{true}}
-                                @type='pills'
-                                as |profileNav|
-                            >
-                                <profileNav.item>
-                                    <profileNav.link-to
-                                        data-analytics-name='Name'
-                                        @params={{array 'settings.profile.name'}}
-                                    >
-                                        {{t 'settings.profile.name.title'}}
-                                    </profileNav.link-to>
-                                </profileNav.item>
-                                <profileNav.item>
-                                    <profileNav.link-to
-                                        data-analytics-name='Social'
-                                        @params={{array 'settings.profile.social'}}
-                                    >
-                                        {{t 'settings.profile.social.title'}}
-                                    </profileNav.link-to>
-                                </profileNav.item>
-                                <profileNav.item>
-                                    <profileNav.link-to
-                                        data-analytics-name='Education'
-                                        @params={{array 'settings.profile.education'}}
-                                    >
-                                        {{t 'settings.profile.education.title'}}
-                                    </profileNav.link-to>
-                                </profileNav.item>
-                                <profileNav.item>
-                                    <profileNav.link-to
-                                        data-analytics-name='Employment'
-                                        @params={{array 'settings.profile.employment'}}
-                                    >
-                                        {{t 'settings.profile.employment.title'}}
-                                    </profileNav.link-to>
-                                </profileNav.item>
-                            </BsNav>
-                        </nav.item>
-                        <nav.item>
-                            <nav.link-to
-                                data-analytics-name='Account'
-                                @params={{array 'settings.account'}}
-                            >
-                                {{t 'settings.account.title'}}
-                            </nav.link-to>
-                        </nav.item>
-                        <nav.item>
-                            <OsfLink
-                                data-analytics-name='Configure add-on accounts'
-                                @href='/settings/addons'
-                            >
-                                {{t 'settings.addons.title'}}
-                            </OsfLink>
-                        </nav.item>
-                        <nav.item>
-                            <OsfLink
-                                data-analytics-name='Notifications'
-                                @href='/settings/notifications'
-                            >
-                                {{t 'settings.notifications.title'}}
-                            </OsfLink>
-                        </nav.item>
-                        <nav.item>
-                            <nav.link-to
-                                data-analytics-name='Developer apps'
-                                @params={{array 'settings.developer-apps'}}
-                            >
-                                {{t 'settings.developer-apps.title'}}
-                            </nav.link-to>
-                        </nav.item>
-                        <nav.item>
-                            <nav.link-to
-                                data-analytics-name='Personal access tokens'
-                                @params={{array 'settings.tokens'}}
-                            >
-                                {{t 'settings.tokens.title'}}
-                            </nav.link-to>
-                        </nav.item>
-                    </BsNav>
+    <div local-class='setting-container'>
+        <div local-class='navigation-container'>
+            {{#if this.shouldShowNavLinks}}
+                <div local-class='panel panel-default'>
+                    <nav local-class='stacked-nav'>
+                        <ul>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Settings'
+                                    data-test-settings-link
+                                    @href='/settings'
+                                >
+                                    {{t 'settings.profile.title'}}
+                                </OsfLink>
+                            </li>
+                            <li local-class={{if (eq this.router.currentRouteName 'settings.account') 'active'}}>
+                                <OsfLink
+                                    data-analytics-name='Account'
+                                    data-test-account-link
+                                    @route='settings.account'
+                                >
+                                    {{t 'settings.account.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Configure add-on accounts'
+                                    data-test-addons-link
+                                    @href='/settings/addons'
+                                >
+                                    {{t 'settings.addons.title'}}
+                                </OsfLink>
+                            </li>
+                            <li>
+                                <OsfLink
+                                    data-analytics-name='Notifications'
+                                    data-test-notifications-link
+                                    @href='/settings/notifications'
+                                >
+                                    {{t 'settings.notifications.title'}}
+                                </OsfLink>
+                            </li>
+                            <li local-class={{if (eq this.router.currentRouteName 'settings.developer-apps.index') 'active'}}>
+                                <OsfLink
+                                    data-analytics-name='Developer apps'
+                                    data-test-apps-link
+                                    @route='settings.developer-apps'
+                                >
+                                    {{t 'settings.developer-apps.title'}}
+                                </OsfLink>
+                            </li>
+                            <li local-class={{if (eq this.router.currentRouteName 'settings.tokens.index') 'active'}}>
+                                <OsfLink
+                                    data-analytics-name='Personal access tokens'
+                                    data-test-tokens-link
+                                    @route='settings.tokens'
+                                >
+                                    {{t 'settings.tokens.title'}}
+                                </OsfLink>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
-            </BsCollapse>
+            {{/if}}
         </div>
-        <div class='col-md-9'>
+        <div local-class='profile-container'>
             {{#if this.currentUser.user}}
                 {{outlet}}
             {{/if}}

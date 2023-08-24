@@ -1,8 +1,8 @@
-<div class='container'>
-    <Meetings::Detail::-Components::MeetingDetailHeader @meeting={{this.model.taskInstance.value}} />
-    <div class='row m-v-lg' local-class='meeting-submission-list'>
-        <div class='col-md-12'>
-            <Meetings::Detail::-Components::MeetingSubmissionsList @model={{this.model}} />
-        </div>
+<div local-class='meeting-detail-container'>
+    <div local-class='meeting-detail'>
+        <Meetings::Detail::-Components::MeetingDetailHeader @meeting={{this.model.taskInstance.value}} />
+    </div>
+    <div local-class='meeting-submission-list-container'>
+        <Meetings::Detail::-Components::MeetingSubmissionsList @model={{this.model}} />
     </div>
 </div>

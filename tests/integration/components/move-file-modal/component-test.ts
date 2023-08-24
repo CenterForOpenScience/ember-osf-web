@@ -12,12 +12,13 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
 import { click } from 'ember-osf-web/tests/helpers';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 interface MoveTestContext extends TestContext {
     manager: any;
     filesToMove: OsfStorageFile[];
     close: () => void;
-    currentUser: any;
+    currentUser: CurrentUserStub;
 }
 
 module('Integration | Component | move-file-modal', hooks => {
@@ -26,6 +27,7 @@ module('Integration | Component | move-file-modal', hooks => {
 
     hooks.beforeEach(function(this: MoveTestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.register('service:current-user', CurrentUserStub);
         this.currentUser = this.owner.lookup('service:current-user');
     });
 

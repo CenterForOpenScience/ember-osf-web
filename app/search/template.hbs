@@ -1,0 +1,12 @@
+{{page-title (t 'search.page-title')}}
+
+<SearchPage
+    @route='search'
+    @cardSearchText={{this.q}}
+    @queryParams={{this.queryParams}}
+    @onSearch={{action this.onSearch}}
+    @showResourceTypeFilter={{true}}
+    @sort={{this.sort}}
+    @resourceType={{this.resourceType}}
+    @page={{this.page}}
+/>

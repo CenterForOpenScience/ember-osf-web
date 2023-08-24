@@ -13,9 +13,13 @@ interface Args {
 export default class NewFeaturePopover extends Component<Args> {
     @service cookies!: Cookies;
     @tracked notAgain = false;
+    @tracked shouldShow = true;
 
-    get shouldShow() {
-        return !this.cookies.exists(this.args.featureCookie);
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
+        if (this.cookies.exists(this.args.featureCookie)){
+            this.shouldShow = false;
+        }
     }
 
     @action

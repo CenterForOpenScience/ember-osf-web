@@ -1,20 +1,37 @@
-.DashboardItem {
+.dashboard-item {
     background-color: $color-bg-white;
     box-shadow: 1px 1px 1px $color-shadow-gray-light;
     color: $color-text-gray;
-    padding: 6px;
+    padding: 10px 6px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    align-items: flex-start;
+
+    &.mobile {
+        flex-direction: column;
+
+        .column-25,
+        .column-50 {
+            width: 100%;
+        }
+    }
 
     &:hover {
         background-color: $color-bg-blue-dark;
         color: $color-text-white;
         cursor: pointer;
     }
-}
 
-.DashboardItem__col {
-    padding-left: 5px;
-}
+    .column-50 {
+        width: 50%;
+        padding-left: 5px;
+    }
 
-.DashboardItem__ancestry {
-    font-style: italic;
+    .column-25 {
+        width: 25%;
+        padding-left: 5px;
+    }
 }

@@ -28,7 +28,7 @@
             </tbody>
         </table>
     {{else}}
-        <ul class='list-group m-md'>
+        <ul local-class='list-group m-md'>
             {{yield (hash header=(component 'paginated-list/x-header'))}}
             {{#if this.loading}}
                 {{#each (range 0 this.placeholderCount)}}
@@ -50,7 +50,7 @@
         </ul>
     {{/if}}
     {{#if this.paginatorShown}}
-        <div class='text-center'>
+        <div local-class='text-center'>
             {{simple-paginator
                 maxPage=this.maxPage
                 nextPage=(action @next)

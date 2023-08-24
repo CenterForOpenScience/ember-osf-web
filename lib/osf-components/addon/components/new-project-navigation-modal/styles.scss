@@ -1,0 +1,45 @@
+.main {
+    width: 450px;
+}
+
+.footer-button {
+    margin-right: 20px;
+}
+
+.text-success {
+    color: #3c763d;
+}
+
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: $color-text-black;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.2;
+}
+
+.btn-success.btn-success {
+    color: $color-text-white;
+    background-color: #357935;
+    border-color: #2d672d;
+}
+
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: $tall-line-height;
+    border-radius: 2px;
+    user-select: none;
+}

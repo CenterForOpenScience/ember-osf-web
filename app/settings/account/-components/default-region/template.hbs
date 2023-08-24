@@ -29,7 +29,7 @@
             <p data-test-why-default-region>
                 {{t 'settings.account.defaultRegion.why'}}
             </p>
-            <BsButton
+            <Button
                 data-test-update-region-button
                 data-analytics-name='Submit'
                 type='submit'
@@ -37,7 +37,7 @@
                 {{on 'click' (perform this.updateRegion)}}
             >
                 {{t 'settings.account.defaultRegion.updateButton'}}
-            </BsButton>
+            </Button>
         </FormControls>
     </panel.body>
 </Panel>

@@ -15,13 +15,6 @@
         text=(t 'navbar.my_registrations')
         onClicked=this.onLinkClicked
     )
-    search=(component 'osf-navbar/x-links/hyper-link'
-        this.searchURL
-        analyticsLabel='Search'
-        tagName='li'
-        text=(t 'navbar.search')
-        onClicked=this.onLinkClicked
-    )
     support=(component 'osf-navbar/x-links/hyper-link'
         this.supportURL
         analyticsLabel='Support'
@@ -42,7 +35,16 @@
         {{yield links}}
     {{else}}
         <links.myprojects data-test-nav-my-projects-link />
-        <links.search data-test-nav-search-link />
+        <li data-test-nav-search-link>
+            <OsfLink
+                @route='search'
+                data-analytics-name='Search'
+                data-test-nav-search-link
+                {{on 'click' this.onLinkClicked}}
+            >
+                {{t 'navbar.search'}}
+            </OsfLink>
+        </li>
         <links.support data-test-nav-support-link />
         <links.donate data-test-nav-donate-link />
     {{/if}}

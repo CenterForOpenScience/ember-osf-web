@@ -1,10 +1,10 @@
-<div class='col-sm-9 col-xs-12' local-class='ResultsHeader'>
-    <div class='col-sm-6'>
+<div local-class='results-container'>
+    <div local-class='header'>
         <h2 data-test-results-count>
             {{t 'registries.discover.registration_count' count=@totalResults}}
         </h2>
     </div>
-    <div class='col-sm-6 text-right'>
+    <div local-class='dropdown-container'>
         <ResponsiveDropdown as |dd|>
             <dd.trigger
                 data-test-sort-dropdown
@@ -12,21 +12,19 @@
                 local-class='DropdownTrigger'
             >
                 {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
-                <span role='button' aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
+                <span role='button' aria-label='{{t 'registries.discover.sort_by'}}'><FaIcon @icon='caret-down' /></span>
             </dd.trigger>
             <dd.content local-class='DropdownContent'>
                 {{#each @sortOptions as |option index|}}
                     <div>
-                        <button
+                        <Button
                             data-test-sort-option-id='{{index}}'
-                            class='btn'
-                            type='button'
                             local-class='SortDropDown__Option'
                             {{on 'click' (fn @setOrder option)}}
                             {{on 'click' dd.close}}
                         >
                             {{t option.display}}
-                        </button>
+                        </Button>
                     </div>
                 {{/each}}
             </dd.content>

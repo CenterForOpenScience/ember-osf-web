@@ -1,26 +1,50 @@
 {{#if this.isButton}}
-    <BsButton
-        data-test-collapsed={{this.isCollapsed}}
-        local-class='Link
-            {{if this.isCollapsed 'Collapsed'}}
-            {{if this.isCurrentPage 'CurrentPage'}}
-            {{if this.isDrawer 'Drawer'}}'
-        @onClick={{@onClick}}
-        @type='link'
-        ...attributes
-    >
-        {{yield (hash
-            label=(component 'osf-layout/registries-side-nav/label'
-                label=@label
-                count=@count
-                isCollapsed=this.isCollapsed
-            )
-            icon=(component 'osf-layout/registries-side-nav/icon'
-                fixedWidth=true
-                icon=@icon
-            )
-        )}}
-    </BsButton>
+    {{#if @onClick}}
+        <Button
+            data-test-collapsed={{this.isCollapsed}}
+            local-class='Link
+                {{if this.isCollapsed 'Collapsed'}}
+                {{if this.isCurrentPage 'CurrentPage'}}
+                {{if this.isDrawer 'Drawer'}}'
+            {{on 'click' @onClick}}
+            @layout='fake-link'
+            ...attributes
+        >
+            {{yield (hash
+                label=(component 'osf-layout/registries-side-nav/label'
+                    label=@label
+                    count=@count
+                    isCollapsed=this.isCollapsed
+                )
+                icon=(component 'osf-layout/registries-side-nav/icon'
+                    fixedWidth=true
+                    icon=@icon
+                )
+            )}}
+        </Button>
+    {{else}}
+        <Button
+            data-test-collapsed={{this.isCollapsed}}
+            local-class='Link
+                {{if this.isCollapsed 'Collapsed'}}
+                {{if this.isCurrentPage 'CurrentPage'}}
+                {{if this.isDrawer 'Drawer'}}'
+            @layout='fake-link'
+            ...attributes
+        >
+            {{yield (hash
+                label=(component 'osf-layout/registries-side-nav/label'
+                    label=@label
+                    count=@count
+                    isCollapsed=this.isCollapsed
+                )
+                icon=(component 'osf-layout/registries-side-nav/icon'
+                    fixedWidth=true
+                    icon=@icon
+                )
+            )}}
+        </Button>
+    {{/if}}
 {{else}}
     <OsfLink
         data-test-collapsed={{this.isCollapsed}}

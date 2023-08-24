@@ -3,6 +3,7 @@ import Component from '@glimmer/component';
 import { TaskInstance } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import moment, { Duration } from 'moment';
+import Media from 'ember-responsive';
 
 import { Timespan } from 'analytics-page/application/route';
 
@@ -76,6 +77,7 @@ interface AnalyticsChartArgs {
 }
 
 export default class AnalyticsChart extends Component<AnalyticsChartArgs> {
+    @service media!: Media;
     @service intl!: Intl;
 
     get shouldUseFakeData(): boolean {
@@ -377,5 +379,9 @@ export default class AnalyticsChart extends Component<AnalyticsChartArgs> {
             return intlKey ? this.intl.t(intlKey) : subPath;
         }
         return this.intl.t('general.home');
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

@@ -1,3 +1,6 @@
-<button type='button' local-class='Button {{this.classList}}' ...attributes>
+<button type='button' local-class='Button {{this.classList}}
+    {{if (sufficient-contrast this.primaryColor '#ffffff') '' 'DarkText'}}'
+    ...attributes
+>
     {{yield}}
 </button>

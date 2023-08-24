@@ -26,36 +26,40 @@
                 </div>
 
                 {{! App list dropdown }}
-                <BsDropdown
+                <ResponsiveDropdown
                     data-analytics-scope='Primary dropdown'
                     class='primary-nav'
-                    @onShow={{action this.onClickPrimaryDropdown}}
+                    @onOpen={{action this.onClickPrimaryDropdown}}
                     as |dd|
                 >
-                    <dd.toggle
+                    <dd.trigger
                         data-test-service-dropdown
                         aria-label={{t 'navbar.other_views'}}
                         class={{concat 'btn-link ' (local-class 'PrimaryNav__toggle')}}
                     >
                         <FaIcon @icon='caret-down' @size='2x' />
-                    </dd.toggle>
-                    <dd.menu class='service-dropdown' as |ddm|>
-                        {{#each this.services as |service|}}
-                            <ddm.item role='menuitem'>
-                                <OsfLink
-                                    data-analytics-name={{service.name}}
-                                    @route={{service.route}}
-                                    @href={{service.href}}
-                                >
-                                    {{t 'general.OSF'}}<b>{{service.name}}</b>
-                                </OsfLink>
-                            </ddm.item>
-                        {{/each}}
-                    </dd.menu>
-                </BsDropdown>
+                    </dd.trigger>
+                    <dd.content local-class='service-dropdown'>
+                        <ul role='menu' tabindex='-1'>
+                            {{#each this.services as |service|}}
+                                <li role='menuitem'>
+                                    <OsfLink
+                                        data-analytics-name={{service.name}}
+                                        @route={{service.route}}
+                                        @href={{service.href}}
+                                        local-class='service-links'
+                                        @onClick={{action dd.close}}
+                                    >
+                                        {{t 'general.OSF'}}<b>{{service.name}}</b>
+                                    </OsfLink>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </dd.content>
+                </ResponsiveDropdown>
 
                 {{! Navigation toggle - XS screen }}
-                <BsButton
+                <Button
                     data-analytics-name='Toggle secondary nav xs'
                     aria-label={{t 'navbar.toggle_secondary'}}
                     local-class='NavbarToggleXS'
@@ -65,31 +69,31 @@
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
-                </BsButton>
+                </Button>
             </div>
 
             {{! Secondary nav links }}
-            <BsCollapse
-                class='navbar-collapse navbar-right'
-                local-class='secondary-navigation'
-                @collapsed={{not this.showNavLinks}}
-            >
-                <ul class='nav navbar-nav' local-class='links'>
-                    {{#let (hash
-                        links=(component 'osf-navbar/x-links'
-                            onLinkClicked=(action 'onLinkClicked')
-                        )
-                    ) as |ctx|}}
-                        {{#if (has-block)}}
-                            {{yield ctx}}
-                        {{else}}
-                            {{ctx.links}}
-                        {{/if}}
-                    {{/let}}
-
+            {{#if this.shouldShowNavLinks}}
+                <div
+                    class='navbar-collapse navbar-right'
+                    local-class='secondary-navigation'
+                >
+                    <ul class='nav navbar-nav' local-class='links'>
+                        {{#let (hash
+                            links=(component 'osf-navbar/x-links'
+                                onLinkClicked=(action 'onLinkClicked')
+                            )
+                        ) as |ctx|}}
+                            {{#if (has-block)}}
+                                {{yield ctx}}
+                            {{else}}
+                                {{ctx.links}}
+                            {{/if}}
+                        {{/let}}
+                    </ul>
                     <OsfNavbar::AuthDropdown @onLinkClicked={{this.onLinkClicked}} @campaign={{@campaign}} />
-                </ul>
-            </BsCollapse>
+                </div>
+            {{/if}}
         </div>
     </nav>
 </div>

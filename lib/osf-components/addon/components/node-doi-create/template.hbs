@@ -6,13 +6,13 @@
     </div>
 </div>
 <div local-class='CreateButton'>
-    <BsButton
+    <Button
         data-analytics-name='Create DOI'
         data-test-create-doi
         disabled={{@manager.requestDoi.isRunning}}
         @type='primary'
-        @onClick={{action @manager.requestDoi}}
+        {{on 'click' (action @manager.requestDoi)}}
     >
         {{t 'registries.registration_metadata.create_doi'}}
-    </BsButton>
+    </Button>
 </div>

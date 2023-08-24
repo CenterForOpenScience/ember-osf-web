@@ -25,13 +25,18 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         this.set('draftManager', { provider, draftRegistration, validateAllVisitedPages: () => { /* noop */ } });
         this.set('model', registrationModel);
         this.set('isOpen', false);
+        this.set('back', () => true);
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
                 @registration={{this.model}}
                 @draftManager={{this.draftManager}}
                 as |manager|
             >
-                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
+                <Registries::FinalizeRegistrationModal
+                    @isOpen={{this.isOpen}}
+                    @manager={{manager}}
+                    @onBack={{this.back}}
+                />
             </Registries::FinalizeRegistrationModal::Manager>
         `);
         // Open the dialog
@@ -66,13 +71,19 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         this.set('draftManager', { provider, draftRegistration });
         this.set('model', registrationModel);
         this.set('isOpen', false);
+        this.set('back', () => true);
+
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
                 @registration={{this.model}}
                 @draftManager={{this.draftManager}}
                 as |manager|
             >
-                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
+                <Registries::FinalizeRegistrationModal
+                @isOpen={{this.isOpen}}
+                @manager={{manager}}
+                @onBack={{this.back}}
+            />
             </Registries::FinalizeRegistrationModal::Manager>
         `);
         // Open the dialog
@@ -128,13 +139,19 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         });
         this.set('model', registrationModel);
         this.set('isOpen', true);
+        this.set('back', () => true);
+
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
                 @registration={{this.model}}
                 @draftManager={{this.draftManager}}
                 as |manager|
             >
-                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
+                <Registries::FinalizeRegistrationModal
+                    @isOpen={{this.isOpen}}
+                    @manager={{manager}}
+                    @onBack={{this.back}}
+                />
             </Registries::FinalizeRegistrationModal::Manager>
         `);
         // Click immediate radio button
@@ -174,13 +191,18 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         );
         this.set('model', registrationModel);
         this.set('isOpen', true);
+        this.set('back', () => true);
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
                 @registration={{this.model}}
                 @draftManager={{this.draftManager}}
                 as |manager|
             >
-                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
+                <Registries::FinalizeRegistrationModal
+                    @isOpen={{this.isOpen}}
+                    @manager={{manager}}
+                    @onBack={{this.back}}
+                />
             </Registries::FinalizeRegistrationModal::Manager>
         `);
         // Click immediate radio button

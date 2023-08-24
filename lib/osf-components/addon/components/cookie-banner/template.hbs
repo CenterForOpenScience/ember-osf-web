@@ -4,9 +4,9 @@
             {{t 'cookieBanner.cookieWarning' htmlSafe=true}}
         </div>
         <div local-class='Accept'>
-            <BsButton @onClick={{action this.accept}}>
+            <Button {{on 'click' (action this.accept)}}>
                 {{t 'cookieBanner.accept'}}
-            </BsButton>
+            </Button>
         </div>
     </div>
 {{/if}}

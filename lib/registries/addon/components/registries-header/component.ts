@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import Media from 'ember-responsive';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import ProviderModel from 'ember-osf-web/models/provider';
@@ -12,6 +13,7 @@ import template from './template';
 export default class RegistriesHeader extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
+    @service media!: Media;
     @requiredAction onSearch!: (value: string) => void;
 
     providerModel?: ProviderModel;

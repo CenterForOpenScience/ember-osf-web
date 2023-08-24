@@ -27,6 +27,7 @@ export interface NodeTraits {
     withManyAffiliatedInstitutions: Trait;
     withFiles: Trait;
     withStorage: Trait;
+    withLinkedByNodes: Trait;
 }
 
 export default Factory.extend<MirageNode & NodeTraits>({
@@ -168,6 +169,13 @@ export default Factory.extend<MirageNode & NodeTraits>({
         afterCreate(node, server) {
             const storage = server.create('node-storage', { id: node.id });
             node.update({ storage });
+        },
+    }),
+
+    withLinkedByNodes: trait<MirageNode>({
+        afterCreate(node, server) {
+            const linkedByNodes = server.createList('node', 3, {linkedNodes: [node]});
+            node.update({ linkedByNodes });
         },
     }),
 

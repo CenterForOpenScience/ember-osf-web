@@ -5,7 +5,7 @@
     border-color: darken($brand-success, 5%);
 
     &:hover {
-        background-color: darken($brand-success, 10%);
+        background-color: darken($brand-success, 10%) !important;
         border-color: darken($brand-success, 15%);
     }
 

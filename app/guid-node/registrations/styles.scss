@@ -1,26 +1,116 @@
-.RegistrationsContainer {
-    margin-top: 15px;
-    margin-bottom: 15px;
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.registration-container {
+    margin: 30px;
     padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .registration-tab-container {
+        width: 100%;
+
+        .tabs {
+            .registration-pane {
+                padding-top: 20px;
+                min-height: 150px;
+            }
+
+            /* stylelint-disable selector-no-qualifying-type */
+            ul.tab-list {
+                margin-bottom: 10px;
+                border-bottom: 1px solid #ddd;
+                box-sizing: border-box;
+                color: rgb(51, 51, 51);
+                display: block;
+                line-height: 20px;
+                list-style-image: none;
+                list-style-position: outside;
+                list-style-type: none;
+                height: 41px;
+                padding: 0;
+            }
+
+            /* stylelint-enable selector-no-qualifying-type */
+            .tab-list {
+                li {
+                    display: block;
+                    position: relative;
+                    margin-bottom: -1px;
+                    float: left;
+                    height: 41px;
+                    padding: 10px 15px;
+                }
+
+                li:global(.ember-tabs__tab--selected) {
+                    background-color: #f8f8f8;
+                    border-bottom: 2px solid #204762;
+                }
+
+                li:hover {
+                    border-color: transparent;
+                    text-decoration: none;
+                    background-color: #f8f8f8;
+                    color: var(--primary-color);
+                }
+            }
+        }
+    }
+
+    .registration-button-container {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+        margin-bottom: 10px;
+    }
+
+    .register-project-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    &.mobile {
+        margin: 0;
+        padding: 0;
+
+        .registration-button-container {
+            margin-top: 10px;
+            padding-right: 10px;
+        }
+
+        .registration-tab-container {
+            width: 100%;
+
+            .tabs {
+                .registration-pane {
+                    padding-top: 20px;
+                    min-height: 150px;
+                }
+            }
+        }
+    }
 }
 
-.RegistrationsPane {
-    padding-top: 20px;
-    min-height: 150px;
-}
-
-h4:global(.NewRegistrationModal__header) {
+h4:global(.new-registration-modal-header) {
     font-size: 24px;
     font-weight: normal;
 }
 
-:global(.NewRegistrationModal__info) {
+:global(.new-registration-modal-info) {
     strong {
         font-weight: 600;
     }
 }
 
-:global(.NewRegistrationModal__schema-list) {
+:global(.new-registration-modal-schema-list) {
     ul {
         list-style: none;
     }
@@ -43,70 +133,7 @@ h4:global(.NewRegistrationModal__header) {
     }
 }
 
-:global(.PreRegChallengeModal__title) {
-    text-align: center;
-}
-
-:global(.PreRegChallengeModal__notice) {
-    text-align: center;
-}
-
-:global(.PreRegChallengeModal__eligibility) {
-    font-weight: 600;
-}
-
-:global(.PreRegChallengeModal__info) {
-    strong {
-        font-weight: 600;
-    }
-}
-
-:global(.PreRegChallengeModal__list) {
-    strong {
-        font-weight: 600;
-    }
-}
-
-:global(.PreRegChallengeModal__consent) {
-    font-weight: normal;
-}
-
-.Tabs {
-    /* stylelint-disable selector-no-qualifying-type */
-    ul.TabList {
-        margin-bottom: 10px;
-        border-bottom: 1px solid #ddd;
-        box-sizing: border-box;
-        color: rgb(51, 51, 51);
-        display: block;
-        line-height: 20px;
-        list-style-image: none;
-        list-style-position: outside;
-        list-style-type: none;
-        height: 41px;
-        padding: 0;
-    }
-    /* stylelint-enable selector-no-qualifying-type */
-    .TabList {
-        li {
-            display: block;
-            position: relative;
-            margin-bottom: -1px;
-            float: left;
-            height: 41px;
-            padding: 10px 15px;
-        }
-
-        li:global(.ember-tabs__tab--selected) {
-            background-color: #f8f8f8;
-            border-bottom: 2px solid #204762;
-        }
-
-        li:hover {
-            border-color: transparent;
-            text-decoration: none;
-            background-color: #f8f8f8;
-            color: var(--primary-color);
-        }
-    }
+.no-registrations-mobile {
+    margin-left: 10px;
+    margin-right: 10px;
 }

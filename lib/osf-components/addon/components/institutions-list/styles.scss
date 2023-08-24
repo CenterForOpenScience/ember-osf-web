@@ -29,3 +29,12 @@
         background-color: $color-bg-white;
     }
 }
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.img-responsive {
+    display: block;
+    max-width: 100%;
+}

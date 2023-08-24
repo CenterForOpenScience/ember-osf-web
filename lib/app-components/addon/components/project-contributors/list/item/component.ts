@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Media from 'ember-responsive';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Contributor, { permissions } from 'ember-osf-web/models/contributor';
@@ -14,6 +15,7 @@ export type HighlightableContributor = Contributor & { highlightClass: '' | 'suc
 @layout(template, styles)
 @tagName('')
 export default class Item extends Component {
+    @service media!: Media;
     @service currentUser!: CurrentUser;
 
     permissions = permissions;
@@ -44,5 +46,9 @@ export default class Item extends Component {
     @computed('isAdmin', 'isSelf', 'contributor.node.isRegistration')
     get canRemove(): boolean {
         return this.isAdmin && !this.isSelf && !this.contributor.node.get('isRegistration');
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

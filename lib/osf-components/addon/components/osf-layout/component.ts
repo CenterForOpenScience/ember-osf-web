@@ -48,6 +48,11 @@ export default class OsfLayout extends Component {
     }
 
     @action
+    openSidenavGutter() {
+        this.set('sidenavGutterClosed', false);
+    }
+
+    @action
     toggleMetadata() {
         this.toggleProperty('metadataGutterClosed');
     }

@@ -33,3 +33,7 @@
 .DropdownList {
     composes: DropdownList from '../styles.scss';
 }
+
+.m-r-xs {
+    margin-right: 5px;
+}

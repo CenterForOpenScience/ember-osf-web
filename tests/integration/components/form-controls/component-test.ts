@@ -76,27 +76,29 @@ module('Integration | Component | form-controls', hooks => {
                         @value={{this.descriptionValue}}
                     />
                 </FormControls>
-                <BsButton
+                <Button
                     data-test-submit-button
                     data-analytics-name='submit'
-                    @buttonType='submit'
+                    type='submit'
                 >
+                    {{!-- template-lint-disable no-bare-strings --}}
                     Submit
-                </BsButton>
+                    {{!-- template-lint-enable no-bare-strings --}}
+                </Button>
             </form>
         `);
         assert.dom('[data-test-form]').exists();
         await click('[data-test-submit-button]');
         // Check that input has a validation message
-        assert.dom('[data-test-title-input] .help-block').exists({ count: 1 });
-        assert.dom('[data-test-description-input] .help-block').exists({ count: 1 });
+        assert.dom('[data-test-title-input] [data-test-help-block]').exists({ count: 1 });
+        assert.dom('[data-test-description-input] [data-test-help-block]').exists({ count: 1 });
 
         // Change the value to fit validation standards (does exist)
         this.set('titleValue', 'test title');
         this.set('descriptionValue', 'test description');
 
         // Check that the input no longer has a validation message
-        assert.dom('[data-test-title-input] .help-block').doesNotExist();
-        assert.dom('[data-test-description-input] .help-block').doesNotExist();
+        assert.dom('[data-test-title-input] [data-test-help-block]').doesNotExist();
+        assert.dom('[data-test-description-input] [data-test-help-block]').doesNotExist();
     });
 });

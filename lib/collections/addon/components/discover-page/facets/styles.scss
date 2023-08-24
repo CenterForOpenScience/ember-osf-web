@@ -4,6 +4,9 @@
     font-family: 'Open Sans' , 'Helvetica Neue' , sans-serif;
     border: 0;
     box-shadow: none;
+    margin-bottom: 20px;
+    background-color: $color-bg-white;
+    border-radius: 0;
 }
 
 .facet-heading {
@@ -13,8 +16,14 @@
     align-items: center;
     border-radius: 2px;
     font-size: 18px;
+    padding: 10px 15px;
 }
 
 .facet-body {
     background-color: #fbfbfb;
+    padding: 15px;
+}
+
+.p-t-md {
+    padding-top: 15px;
 }

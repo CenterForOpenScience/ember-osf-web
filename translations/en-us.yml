@@ -37,6 +37,7 @@ general:
     cancel: Cancel
     add: Add
     ok: OK
+    apply: Apply
     revisions: Revisions
     md5: MD5
     date: Date
@@ -100,6 +101,8 @@ general:
         preprints: Preprints
         registries: Registries
     other: Other
+    structured_data:
+        json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
@@ -201,6 +204,76 @@ dashboard:
         title: 'Browse the latest research'
         description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
         button: 'View preprints'
+    products:
+        collections: 'OSF Collections'
+        registries: 'OSF Registries'
+        preprints: 'OSF Preprints'
+        institutions: 'OSF Institutions'
+
+search:
+    page-title: 'Search'
+    index-card:
+        no-label: 'No label found'
+        no-title: 'No title found'
+    search-help:
+        header-1: 'Improved OSF Search'
+        header-2: 'Refine Your Search'
+        header-3: 'Add Metadata'
+        body-1: 'Enter any term in the search box and filter by specific object types. More information is available on our <a href="https://help.osf.io/article/588-getting-started-with-osf-search" target="_blank" rel="noopener noreferrer">help guides</a>.'
+        body-2: 'Narrow the source, discipline, and more. For example, find content supported by a specific funder or view only datasets.'
+        body-3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable! Learn more in our <a href="https://help.osf.io/article/572-metadata-to-increase-discoverability" target="_blank" rel="noopener noreferrer">help guides</a>.'
+        index-1: '1 of 3'
+        index-2: '2 of 3'
+        index-3: '3 of 3'
+        footer:
+            skip: 'Skip'
+            next: 'Next'
+            done: 'Done'
+    search-header: 'Search OSF'
+    textbox-placeholder: 'Enter search term(s) here'
+    search-button-label: 'Search'
+    search-help-label: 'Help tutorial'
+    total-results: '{count} results'
+    no-results: 'No results found'
+    resource-type:
+        search-by: 'Search by resource type'
+        all: 'All'
+        projects: 'Projects'
+        registrations: 'Registrations'
+        preprints: 'Preprints'
+        files: 'Files'
+        users: 'Users'
+    first: First
+    prev: Prev
+    next: Next
+    sort:
+        sort-by: 'Sort by'
+        relevance: 'Relevance'
+        created-date-descending: 'Date created, newest'
+        created-date-ascending: 'Date created, oldest'
+        modified-date-descending: 'Date modified, newest'
+        modified-date-ascending: 'Date modified, oldest'
+    toggle-sidenav: 'Toggle search sidebar'
+    left-panel:
+        header: Refine
+        no-filterable-properties: 'No properties'
+    active-filters:
+        remove-filter: 'Remove filter {property} {label}'
+    filter-facet:
+        facet-load-failed: 'Failed to load facet values'
+        see-more: 'See more'
+        see-more-modal-text: 'Please select a filter to apply to your search.'
+        see-more-modal-placeholder: 'Search for a filter to apply'
+        load-more: 'Load more'
+        has-resource: 'Has {resource}'
+        no-resource: 'No {resource}'
+
+    institutions:
+        institution-logo: 'Logo for '
+helpers:
+    get-localized-property:
+        not-provided: 'Not provided'
+
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
@@ -253,7 +326,7 @@ move_to_project:
     go_to_project: 'Go to project'
 navbar:
     add: Add
-    # add_a_preprint: 'Add a {preprintWords.preprint}'
+    add_a_preprint: 'Add a {preprintWord}'
     add_registration: 'Add New'
     moderation: 'Moderation'
     browse: Browse
@@ -261,6 +334,7 @@ navbar:
     donate: Donate
     go_home: 'Go home'
     my_projects: 'My Projects'
+    my_preprints: 'My Preprints'
     my_registrations: 'My Registrations'
     reviews: 'My Reviewing'
     search: Search
@@ -538,7 +612,7 @@ node_navbar:
     settings: Settings
     comments: Comments
 status:
-    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
+    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/search?resourceType=Project%2CProjectComponent">popular public projects</a>.</p>'
     alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.'
     # remove_addon: 'Because the GitHub add-on for {extra.category} "{extra.title}" was authenticated by {extra.user}, authentication information has been deleted.'
     project_deleted: 'Project has been successfully deleted.'
@@ -634,14 +708,6 @@ node:
             title: Register
             info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>Continue your registration by selecting a registration form:'
             create: 'Create draft'
-        prereg_modal:
-            title: 'Preregistration Challenge'
-            notice: Notice
-            eligibility: 'Articles must be published by an <a href="{approvedJournalLink}">approved</a> journal by December 31, 2018, to be eligible for a prize.'
-            info: 'Below are some important items for those who choose to enter the Preregistration Challenge. If you do not agree to the terms you may still continue, use the form, and register your research study without entering the Challenge. <strong>Only Preregistrations that enter the challenge and undergo review are eligible for a $1,000 prize.</strong> We welcome questions and comments (learn more <a href="{learnMoreLink}">here</a> or email us at <a href="mailto:prereg@cos.io">prereg@cos.io</a>).'
-            list: '<li>After submitting your research plan for review, it is not yet registered. Your research plan will become a static, time stamped preregistration after it passes review. <strong>Please do not begin your study until it is registered.</strong> You will hear back from the review team within 2 business days.</li><li>The published article must also be reviewed before receiving the prize.</li><li>Prizes will be awarded at predetermined dates to eligible entrants. If more eligible entrants exist than available prizes, entrants will be ranked based on the date of registration.</li><li>Articles must be published in an <a href="{eligibleJournalLink}">eligible journal</a>.</li><li>Residents of countries on the U.S. State Department''s <a href="{embargoedCountriesLink}">list of embargoed countries</a> may not participate in the Preregistration Challenge.</li><li>Entering the Preregistration Challenge requires that you agree to <a href="{termsLink}">all of its terms</a>.</li>'
-            consent: 'I have read these terms. I understand that articles must be published by December 31, 2018, in order to be eligible for a prize.'
-            continue: Continue
         page_title: '{nodeTitle} Registrations'
         no_registrations: 'There have been no completed registrations of this project.'
         only_admins_can_initiate: 'Only project administrators can initiate registrations.'
@@ -736,6 +802,8 @@ app_components:
     brand_color_inputs:
         primary_label: 'Brand Primary Color'
         primary_set: 'Set Primary Color'
+        secondary_label: 'Brand Secondary Color'
+        secondary_set: 'Set Secondary Color'
     error_page:
         email_message: 'If this should not have occurred and the issue persists, please report it to'
         go_to: 'Go to {brand}'
@@ -1044,6 +1112,11 @@ collections:
             accept: accepted
             reject: rejected
             remove: 'removed'
+preprints:
+    osf-title: 'OSF Preprints'
+    provider-title: '{name} {pluralizedPreprintWord}'
+    discover:
+        title: 'Search'
 registries:
     header:
         osf_registrations: 'OSF Registrations'
@@ -1784,6 +1857,42 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    search-result-card:
+        language: Language
+        url: URL
+        resource_type: Resource type
+        title: Title
+        collection: Collection
+        context: Context
+        funder: Funder
+        registration_template: Registration template
+        doi: DOI
+        description: Description
+        license: License
+        from: From
+        date_created: Date created
+        date_registered: Date registered
+        date_modified: Date modified
+        last_edited: Last edited
+        member_since: Member since
+        preprint_provider: Preprint provider
+        registration_provider: Registration provider
+        conflict_of_interest: Conflict of Interest response
+        no_conflict_of_interest: 'Author asserted no Conflict of Interest'
+        associated_data: Associated data
+        associated_analysis_plan: Associated preregistration
+        associated_study_design: Associated study design
+        project: Project
+        registration: Registration
+        preprint: Preprint
+        file: File
+        user: User
+        project_component: Project component
+        registration_component: Registration component
+        link_to_orcid_id: Link to orcid id
+        withdrawn: Withdrawn
+        unknown: Unknown
+        remaining_count: '{count} more'
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
         add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
@@ -2495,8 +2604,11 @@ settings:
         scopes: Scopes
         scopesDescription: 'Scopes limit access for personal access tokens.'
         created: 'Token created.'
+        create-error: 'There was an error creating your token.'
         saved: 'Token saved.'
+        save-error: 'There was an error saving your token.'
         deleted: 'Token deleted.'
+        delete-error: 'There was an error deleting your token.'
         confirmDelete:
             title: 'Delete token <strong>{tokenName}</strong>?'
             body: 'Are you sure you want to delete this personal access token? This cannot be reversed.'
@@ -2528,12 +2640,15 @@ ipsum:
     title: 'tempor nec feugiat nisl pretium'
     sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id velit ut tortor pretium. Nisi porta lorem mollis aliquam ut porttitor leo a. Cras fermentum odio eu feugiat. Eget mi proin sed libero enim. Quam adipiscing vitae proin sagittis. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. At varius vel pharetra vel turpis nunc eget. Purus ut faucibus pulvinar elementum integer enim neque volutpat. Turpis nunc eget lorem dolor. Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Arcu felis bibendum ut tristique et egestas quis. Nisl tincidunt eget nullam non nisi est sit amet. Fringilla urna porttitor rhoncus dolor purus non enim.'
-dev_tools:
+dev-tools:
     title: 'Dev tools'
-    zoom_to_route:
+    zoom-to-route:
         title: 'Zoom to route'
         zoom: Zoom!
         placeholder: 'Choose a route'
     options:
-        toast_events: 'Display toast for tracked events'
-        show_url_bar: 'Show URL bar -- navigate by URL without reloading'
+        title: 'Options'
+        toast-events: 'Display toast for tracked events'
+        show-url-bar: 'Show URL bar -- navigate by URL without reloading'
+    features:
+        title: 'Features'

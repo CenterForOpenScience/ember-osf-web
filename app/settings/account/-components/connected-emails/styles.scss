@@ -73,3 +73,18 @@
 .add-email-button {
     margin-left: 8px;
 }
+
+.clearfix::before,
+.clearfix::after {
+    display: table;
+    content: ' ';
+}
+  
+.clearfix::after {
+    clear: both;
+}
+
+.modal-title {
+    margin: 0;
+    line-height: $tall-line-height;
+}

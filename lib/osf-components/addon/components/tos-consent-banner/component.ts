@@ -67,6 +67,6 @@ export default class TosConsentBanner extends Component {
         this.analytics.click('button', 'ToS Consent Banner - dismiss');
         this.set('didValidate', false);
         this.currentUser.set('showTosConsentBanner', false);
-        return false;
+        return true;
     }
 }

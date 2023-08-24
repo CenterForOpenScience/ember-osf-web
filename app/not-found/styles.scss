@@ -1,0 +1,17 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+
+    .not-found {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: calc(100% - 60px);
+    }
+}

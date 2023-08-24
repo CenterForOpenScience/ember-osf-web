@@ -1,31 +1,33 @@
+{{!-- template-lint-disable no-bare-strings --}}
 <DocsDemo as |demo|>
-        <BsButton 
-            @class='center-block m-b-lg' 
-            @onClick={{action @openModal}}
-        >
-            Create project
-        </BsButton>
-        {{#if this.newNode}}
-            The new node title is "{{this.newNode.title}}".
-        {{else}}
-            There is no node.
+    <Button 
+        @class='center-block m-b-lg' 
+        {{on 'click' (action @openModal)}}
+    >
+        Create project
+    </Button>
+    {{#if this.newNode}}
+        The new node title is "{{this.newNode.title}}".
+    {{else}}
+        There is no node.
+    {{/if}}
+    {{#if this.shouldReload}}
+        Reload requested.
+    {{else}}
+        No reload requested.
+    {{/if}}
+    <demo.example @name='new-project-modal.demo.hbs'>
+        {{#if this.shouldShowModal}}
+            <NewProjectModal
+                @afterProjectCreated={{action @projectCreated}}
+                @closeModal={{action @closeModal reload=false}}
+            />
         {{/if}}
-        {{#if this.shouldReload}}
-            Reload requested.
-        {{else}}
-            No reload requested.
-        {{/if}}
-        <demo.example @name='new-project-modal.demo.hbs'>
-            {{#if this.shouldShowModal}}
-                <NewProjectModal
-                    @afterProjectCreated={{action @projectCreated}}
-                    @closeModal={{action @closeModal reload=false}}
-                />
-            {{/if}}
-        </demo.example>
+    </demo.example>
     <demo.snippet @name='new-project-modal.demo.hbs' />
     <demo.snippet
         @name='new-project-modal.controller.ts'
         @label='controller.ts'
     />
 </DocsDemo>
+{{!-- template-lint-enable no-bare-strings --}}

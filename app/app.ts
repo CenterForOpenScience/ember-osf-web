@@ -56,6 +56,7 @@ const App = Application.extend({
                     'osf-router',
                 ],
                 externalRoutes: {
+                    search: 'search',
                     'guid-registration': 'guid-registration',
                     'guid-registration.analytics': 'guid-registration.analytics',
                     'guid-registration.forks': 'guid-registration.forks',

@@ -53,10 +53,15 @@ export interface LinkMetaTagAttrs {
     href: string;
 }
 
-export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs;
+export interface ScriptTagAttrs {
+    type: string;
+}
+
+export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs | ScriptTagAttrs;
 
 export interface HeadTagDef {
     type: string;
+    content?: string;
     attrs: MetaTagAttrs;
 }
 

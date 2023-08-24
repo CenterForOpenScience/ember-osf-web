@@ -1,12 +1,23 @@
-.NewFeatureModal {
+:global(.new-feature-modal) {
     background-color: $color-bg-blue-darker !important;
     color: $color-text-white;
     border-radius: 0 !important;
 
-    :global(.arrow::after) {
+    :global(.ember-popover-inner) {
+        background-color: $color-bg-blue-darker;
+        color: $color-text-white;
+    }
+
+    h3 {
+        color: $color-text-white;
+    }
+
+    :global(.ember-popover-arrow) {
         border-right-color: $color-bg-blue-darker !important;
     }
 }
+
+
 
 .FlexFooter {
     display: flex;
@@ -14,4 +25,5 @@
     align-items: center;
     flex-direction: row;
     gap: 10px;
+    margin-top: 20px;
 }

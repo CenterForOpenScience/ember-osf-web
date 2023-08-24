@@ -1,21 +1,20 @@
-<BsAlert
+<Alert
     data-analytics-scope='View-only link banner'
-    local-class='Alert'
+    local-class='alert'
     @visible={{this.shouldDisplay}}
     @type='info'
 >
-    <div local-class='Banner'>
-        <p>
+    <div local-class='banner'>
+        <p local-class='banner-warning'>
             {{t 'banners.view_only.warning'}}
         </p>
 
-        <BsButton
+        <Button
             data-test-view-normally
             data-analytics-name='Stop view-only link'
-            @type='default'
             {{on 'click' this.stopViewOnly}}
         >
             {{t 'banners.view_only.view_normally'}}
-        </BsButton>
+        </Button>
     </div>
-</BsAlert>
+</Alert>

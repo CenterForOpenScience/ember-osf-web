@@ -4,104 +4,108 @@
 >
     <panel.heading @title={{t 'settings.account.deactivation.title'}} />
     <panel.body data-analytics-scope='Deactivation panel'>
-        <BsAlert
-            @type='warning'
-            @dismissible={{false}}
-        >
-            <strong>{{t 'settings.account.deactivation.warning'}}</strong>
-            {{t 'settings.account.deactivation.warningText'}}
-        </BsAlert>
+        <div local-class='warning-alert'>
+            <Alert
+                @type='warning'
+                @dismissible={{false}}
+                @visible={{true}}
+            >
+                <strong>{{t 'settings.account.deactivation.warning'}}</strong>
+                {{t 'settings.account.deactivation.warningText'}}
+            </Alert>
+        </div>
         <p>
             {{t 'settings.account.deactivation.body' htmlSafe=true}}
         </p>
         {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
-            <BsButton disabled={{true}}>
+            <Button disabled={{true}}>
                 {{t 'general.loading'}}
-            </BsButton>
+            </Button>
         {{else}}
             {{#if this.user.settings.deactivationRequested}}
                 <p>
                     <strong>{{t 'settings.account.deactivation.pending'}}</strong>
                 </p>
-                <BsButton
+                <Button
                     data-analytics-name='Undo deactivation request'
-                    @onClick={{action (mut this.showUndoDialog) true}}
+                    {{on 'click' (action (mut this.showUndoDialog) true)}}
                 >
                     {{t 'settings.account.deactivation.undoRequestButton'}}
-                </BsButton>
+                </Button>
             {{else}}
-                <BsButton
+                <Button
                     data-analytics-name='Deactivation request'
-                    @onClick={{action (mut this.showRequestDialog) true}}
+                    {{on 'click' (action (mut this.showRequestDialog) true)}}
                 >
                     {{t 'settings.account.deactivation.requestButton'}}
-                </BsButton>
+                </Button>
             {{/if}}
         {{/if}}
     </panel.body>
 </Panel>
 
-<BsModal
+<OsfDialog
     data-test-confirm-deactivate-modal
-    @open={{this.showRequestDialog}}
-    @onHidden={{action this.closeDialogs}}
-    as |modal|
+    @isOpen={{this.showRequestDialog}}
+    @onClose={{action this.closeDialogs}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h4 data-test-confirm-deactivate-heading>
             {{t 'settings.account.deactivation.confirmationTitle'}}
         </h4>
-    </modal.header>
-    <modal.body>
+    </dialog.heading>
+    <dialog.main>
         {{t 'settings.account.deactivation.confirmationBody'}}
-    </modal.body>
-    <modal.footer data-analytics-scope='Deactivation confirmation'>
-        <BsButton
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Deactivation confirmation'>
+        <Button
             data-test-deactivation-cancel
             data-analytics-name='Cancel'
-            @onClick={{action this.closeDialogs}}
+            {{on 'click' (action this.closeDialogs)}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-confirm-deactivation-submit
             data-analytics-name='Confirm request'
-            @onClick={{action this.confirmRequestDeactivation}}
-            @type='danger'
+            {{on 'click' (action this.confirmRequestDeactivation)}}
+            @type='destroy'
         >
             {{t 'settings.account.deactivation.confirmationButton'}}
-        </BsButton>
-    </modal.footer>
-</BsModal>
+        </Button>
+    </dialog.footer>
+</OsfDialog>
 
-<BsModal
+<OsfDialog
     data-test-confirm-undo-modal
-    @open={{this.showUndoDialog}}
-    as |modal|
+    @isOpen={{this.showUndoDialog}}
+    @onClose={{action this.closeDialogs}}
+    as |dialog|
 >
-    <modal.header>
+    <dialog.heading>
         <h4 data-test-confirm-undo-heading>
             {{t 'settings.account.deactivation.undoRequestConfirmationTitle'}}
         </h4>
-    </modal.header>
-    <modal.body data-test-confirm-undo-warning>
+    </dialog.heading>
+    <dialog.main data-test-confirm-undo-warning>
         {{t 'settings.account.deactivation.undoRequestConfirmationBody'}}
-    </modal.body>
-    <modal.footer data-analytics-scope='Undo deactivation confirmation'>
-        <BsButton
+    </dialog.main>
+    <dialog.footer data-analytics-scope='Undo deactivation confirmation'>
+        <Button
             data-test-undo-warning-cancel
             data-analytics-name='Cancel'
-            @onClick={{action this.closeDialogs}}
+            {{on 'click' (action this.closeDialogs)}}
         >
             {{t 'general.cancel'}}
-        </BsButton>
-        <BsButton
+        </Button>
+        <Button
             data-test-undo-warning-confirm
             data-analytics-name='confirm Undo'
-            @onClick={{action this.confirmUndoDeactivation}}
-            @type='success'
+            {{on 'click' (action this.confirmUndoDeactivation)}}
+            @type='primary'
         >
             {{t 'settings.account.deactivation.undoRequestConfirmationButton'}}
-        </BsButton>
-    </modal.footer>
-</BsModal>
+        </Button>
+    </dialog.footer>
+</OsfDialog>

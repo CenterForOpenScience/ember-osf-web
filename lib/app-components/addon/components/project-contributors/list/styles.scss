@@ -1,3 +1,44 @@
+.popover-format {
+    text-align: left;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    width: 100%;
+
+    .icon-spacer-container {
+        width: 80px;
+    }
+
+    .name-container {
+        margin-left: 5px;
+        flex: 1;
+    }
+
+    .permission-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 150px;
+    }
+
+    .citation-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100px;
+    }
+
+    .remove-spacer-container {
+        width: 100px;
+    }
+}
+
 .has-more-container {
     text-align: center;
 }

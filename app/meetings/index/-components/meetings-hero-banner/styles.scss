@@ -1,55 +1,98 @@
-.osf-meeting-header-img {
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.meeting-container {
     background: #67a3bf;
     background: linear-gradient(35deg, #67a3bf 0%, #166596 18%, #000 100%);
     color: #fff;
     padding-top: 40px;
-    position: relative;
-}
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-.network-img {
-    background: url('/assets/images/meetings/network-web.png') repeat;
-    background-size: contain;
-    height: 1000px;
-    margin-bottom: -1000px;
-    opacity: 0.35;
-}
+    .meeting-information-container,
+    .meeting-header-container {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 25px;
+        position: relative;
+        z-index: 2;
 
-.user-icon {
-    font-size: 85px;
-    padding-top: 25px;
-}
+        h2 {
+            font-size: 24px;
+            text-align: center;
+        }
 
-.cloud-icon {
-    font-size: 100px;
-    padding-top: 25px;
-}
+        .meeting-logo {
+            width: 90%;
+        }
 
-.icon-circle {
-    border-radius: 85px;
-    box-shadow: 0 0 10px #e0e7ec;
-    width: 140px;
-    height: 140px;
-    margin-left: auto;
-    margin-right: auto;
-}
+        .meeting-action-container {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
 
-.osf-meeting-header {
-    h1 {
-        font-size: 3.5em;
-        margin-bottom: -15px;
+            .font-weight {
+                font-weight: 600;
+            }
 
-        img {
-            width: 80%;
+            .icon-circle {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                border-radius: 85px;
+                box-shadow: 0 0 10px #e0e7ec;
+                width: 140px;
+                height: 140px;
+
+                .user-icon {
+                    font-size: 85px;
+                }
+            }
+
+            .button-container {
+                padding-top: 15px;
+                padding-bottom: 15px;
+            }
+
+            .register-box {
+                padding: 15px;
+                margin: 25px;
+                
+                a {
+                    color: $color-link-dark;
+                }
+            }
         }
     }
 
-    h2 {
-        font-size: 24px;
+    .meeting-information-container {
+        flex-direction: row;
+        align-items: flex-start;
+
+        &.mobile {
+            flex-direction: column;
+
+            .meeting-action-container {
+                width: 100%;
+            }
+        }
     }
 
-    .register-box {
-        a {
-            color: $color-link-dark;
-        }
+    .network-img {
+        background: url('/assets/images/meetings/network-web.png') repeat;
+        background-size: contain;
+        width: 100%;
+        height: 1000px;
+        margin-bottom: -1000px;
+        opacity: 0.35;
     }
 }

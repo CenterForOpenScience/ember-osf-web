@@ -36,11 +36,6 @@ module.exports = function(defaults) {
                 ),
             ],
         },
-        'ember-bootstrap': {
-            bootstrapVersion: 3,
-            importBootstrapFont: true,
-            importBootstrapCSS: false,
-        },
         'ember-composable-helpers': {
             only: ['compose', 'contains', 'flatten', 'includes', 'range', 'queue', 'map-by', 'without', 'find-by'],
         },
@@ -110,6 +105,22 @@ module.exports = function(defaults) {
                 `,
                 postProcess,
                 /* eslint-enable max-len */
+            },
+            gtm: {
+                enabled: IS_PROD,
+                content: `<script>
+                    var configJson = document.head.querySelector("meta[name$='/config/environment']").content;
+                    var configObject = JSON.parse(unescape(configJson));
+                    if (configObject.googleTagManagerId) {
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+
+                        gtag('config', configObject.googleTagManagerId);
+                    }
+                </script>
+            `,
+                postProcess,
             },
         },
         'ember-cli-babel': {

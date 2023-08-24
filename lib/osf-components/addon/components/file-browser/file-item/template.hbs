@@ -24,12 +24,11 @@
             {{#if @item.isCheckedOut}}
                 <span data-test-file-list-checkout local-class='CheckoutSpan'>
                     <FaIcon local-class='CheckoutIcon' @icon='lock' />
-                    <BsTooltip
-                        @placement='right'
-                        @triggerEvents='hover'
+                    <EmberTooltip
+                        @side='right'
                     >
                         {{t 'osf-components.file-browser.checked_out_file'}}
-                    </BsTooltip>
+                    </EmberTooltip>
                 </span>
             {{/if}}
             <OsfLink

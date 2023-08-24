@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { timeout } from 'ember-concurrency';
 import { TestContext } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment';
@@ -33,6 +34,7 @@ module('Integration | Component | draft-registration-card', hooks => {
         this.set('draftRegistration', draftRegistration);
 
         await render(hbs`<DraftRegistrationCard @draftRegistration={{this.draftRegistration}} />`);
+        await timeout(500);
 
         const initiated = `${this.intl.t('osf-components.draft-registration-card.initiated_by')} `
             + `${user.fullName}`;

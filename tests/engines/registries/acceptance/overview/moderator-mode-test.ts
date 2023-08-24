@@ -14,6 +14,7 @@ import { percySnapshot } from 'ember-percy';
 import moment from 'moment';
 import { module, test } from 'qunit';
 import fillIn from '@ember/test-helpers/dom/fill-in';
+import { timeout } from 'ember-concurrency';
 
 interface ModeratorModeTestContext extends TestContext {
     provider: ModelInstance<RegistrationProviderModel>;
@@ -73,6 +74,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-moderation-dropdown-decision-checkbox="accept_submission"]');
         await click('[data-test-moderation-dropdown-submit]');
         await click('[data-test-state-button]');
+        await timeout(1000);
         assert.dom('[data-test-state-description-short]').exists('Short description for accepted status exists');
         assert.dom('[data-test-state-description-short]').hasText(
             t('registries.overview.accepted.short_description'),
@@ -149,6 +151,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
         await settled();
         await click('[data-test-moderation-dropdown-submit]');
+        await timeout(2000);
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
 
@@ -191,6 +194,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await percySnapshot(assert);
         await click('[data-test-moderation-dropdown-decision-checkbox="accept_withdrawal"]');
         await click('[data-test-moderation-dropdown-submit]');
+        await timeout(2000);
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
 
@@ -212,6 +216,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await settled();
         await click('[data-test-moderation-dropdown-submit]');
         await click('[data-test-state-button]');
+        await timeout(1000);
         assert.dom('[data-test-state-description-short]').exists('Short description for accepted status exists');
         assert.dom('[data-test-state-description-short]').hasText(
             t('registries.overview.accepted.short_description'),
@@ -263,6 +268,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
         await settled();
         await click('[data-test-moderation-dropdown-submit]');
+        await timeout(2000);
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
 
@@ -310,6 +316,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
         await settled();
         await click('[data-test-moderation-dropdown-submit]');
+        await timeout(2000);
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
 
@@ -356,6 +363,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
         await settled();
         await click('[data-test-moderation-dropdown-submit]');
+        await timeout(2000);
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
 

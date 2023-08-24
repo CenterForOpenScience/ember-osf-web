@@ -1,26 +1,27 @@
-<span class='input-group-btn'>
-    <CopyButton
-        @clipboardText={{this.text}}
-        @success={{action this._success}}
-        @error={{action this._error}}
-        @disabled={{this.disabled}}
-        @class='btn btn-default btn-sm'
-        local-class='CopyButton'
-        aria-label={{t 'osf-components.copyable-text.copyToClipboard'}}
-    >
-        <FaIcon @icon='copy' />
-        <BsTooltip
-            @triggerEvents=''
-            @visible={{this.showTooltip}}
+<div local-class='table'>
+    <span local-class='input-group-btn'>
+        <CopyButton
+            @clipboardText={{this.text}}
+            @success={{action this._success}}
+            @error={{action this._error}}
+            @disabled={{this.disabled}}
+            local-class='CopyButton'
+            aria-label={{t 'osf-components.copyable-text.copyToClipboard'}}
         >
-            {{t 'osf-components.copyable-text.copied'}}
-        </BsTooltip>
-    </CopyButton>
-</span>
-<input
-    readonly='true'
-    type='text'
-    class='form-control'
-    local-class='CopyableInput'
-    value={{this.text}}
+            <FaIcon @icon='copy' />
+        </CopyButton>
+    </span>
+    <input
+        readonly='true'
+        type='text'
+        class='form-control'
+        local-class='CopyableInput'
+        value={{this.text}}
+    >
+</div>
+<EmberTooltip
+    @event='none'
+    @isShown={{this.showTooltip}}
 >
+    {{t 'osf-components.copyable-text.copied'}}
+</EmberTooltip>

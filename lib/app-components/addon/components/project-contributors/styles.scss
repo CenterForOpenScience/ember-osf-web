@@ -1,7 +1,46 @@
-.col-division-right {
-    border-right: 1px solid #ccc;
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+.popover-format {
+    text-align: left;
 }
 
-.inline {
-    display: inline;
+.contributor-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+
+    &.mobile {
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .instruction-container {
+        width: 50%;
+
+        &.mobile {
+            width: 100%;
+        }
+
+        .instructions {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            .icon-container {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .search-container {
+        width: 50%;
+
+        &.mobile {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
 }

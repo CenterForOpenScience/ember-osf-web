@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CarouselItem from 'osf-components/components/carousel/x-item/component';
@@ -14,19 +14,15 @@ export default class Carousel extends Component {
     // Private properties
     carouselItems: CarouselItem[] = [];
 
-    @computed('carouselItems.{length,@each.isActive}')
-    get activeSlide() {
-        return this.carouselItems.findBy('isActive');
-    }
-
     @action
     register(item: CarouselItem) {
         this.carouselItems.pushObject(item);
+        this.carouselItems[0].set('isActive', true);
     }
 
     @action
     changeSlide(direction: string) {
-        const activeSlide = this.carouselItems.findBy('isActive');
+        const activeSlide = this.carouselItems.findBy('active');
         const activeIndex = activeSlide!.index;
         let newIndex = direction === 'previous' ? activeIndex - 1 : activeIndex + 1;
 
@@ -42,7 +38,7 @@ export default class Carousel extends Component {
 
     @action
     navClick(item: CarouselItem) {
-        const activeSlide = this.carouselItems.findBy('isActive');
+        const activeSlide = this.carouselItems.findBy('active');
         const activeIndex = activeSlide!.index;
         const newIndex = item.index;
 

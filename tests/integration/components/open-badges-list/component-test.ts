@@ -5,6 +5,11 @@ import { TestContext } from 'ember-test-helpers';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { setBreakpoint } from 'ember-responsive/test-support';
+import {
+    assertTooltipNotRendered,
+    assertTooltipRendered,
+    assertTooltipVisible,
+} from 'ember-tooltips/test-support';
 import { module, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
@@ -32,6 +37,7 @@ module('Integration | Component | open-badges-list', hooks => {
             @hasPapers={{true}}
             @hasSupplements={{true}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-list-title]')
             .hasText(t('osf-components.open-badges-list.title'), 'Title shows in desktop');
@@ -47,6 +53,7 @@ module('Integration | Component | open-badges-list', hooks => {
             @hasPapers={{false}}
             @hasSupplements={{false}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-list-title]')
             .doesNotExist('Title does not show in mobile');
@@ -60,6 +67,7 @@ module('Integration | Component | open-badges-list', hooks => {
             @hasAnalyticCode={{true}}
             @hasMaterials={{true}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-image="data"]').hasAttribute(
             'src',
@@ -72,13 +80,15 @@ module('Integration | Component | open-badges-list', hooks => {
             'Materials badge has correct image',
         );
         await triggerEvent('[data-test-badge-icon="data"]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
+        assertTooltipRendered(assert);
+        assertTooltipVisible(assert);
+        assert.dom('[data-test-badge-tooltip="data"]').hasText(
             t('osf-components.open-badges-list.open-data'),
             'Correct tooltip in mobile view for data',
         );
         await triggerEvent('[data-test-badge-icon="data"]', 'mouseleave');
         await triggerEvent('[data-test-badge-icon="materials"]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
+        assert.dom('[data-test-badge-tooltip="materials"]').hasText(
             t('osf-components.open-badges-list.open-materials'),
             'Correct tooltip in mobile view for materials',
         );
@@ -106,6 +116,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             @resourceType='data'
             @isMobile={{false}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-image="data"]').hasAttribute(
             'src',
@@ -122,9 +133,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             'Has a link to the registration resources page',
         );
         await triggerEvent('[data-test-badge-icon="data"]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').doesNotExist(
-            'No tooltip in desktop view for data',
-        );
+        assertTooltipNotRendered(assert);
     });
 
     test('it renders materials in the false state mobile view', async function(assert) {
@@ -133,6 +142,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             @resourceType='materials'
             @isMobile={{true}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-image="materials"]').hasAttribute(
             'src',
@@ -149,7 +159,9 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             'Has a link to the registration resources page',
         );
         await triggerEvent('[data-test-badge-icon="materials"]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
+        assertTooltipRendered(assert);
+        assertTooltipVisible(assert);
+        assert.dom('[data-test-badge-tooltip]').hasText(
             t('osf-components.open-badges-list.open-materials'),
             'Correct tooltip in mobile view for materials',
         );
@@ -161,6 +173,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             @resourceType='materials'
             @isMobile={{true}}
             @registration='guid1'
+            @verticalLayout={{true}}
         />`);
         assert.dom('[data-test-badge-image="materials"]').hasAttribute(
             'src',
@@ -173,7 +186,9 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
             'Has a link to the registration resources page',
         );
         await triggerEvent('[data-test-badge-icon="materials"]', 'mouseenter');
-        assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
+        assertTooltipRendered(assert);
+        assertTooltipVisible(assert);
+        assert.dom('[data-test-badge-tooltip]').hasText(
             t('osf-components.open-badges-list.open-materials'),
             'Correct tooltip in mobile view for materials',
         );

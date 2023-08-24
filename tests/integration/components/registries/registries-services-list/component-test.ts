@@ -4,14 +4,14 @@ import { module, test } from 'qunit';
 import { percySnapshot } from 'ember-percy';
 
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
-import { TestContext } from 'ember-intl/test-support';
+import { EnginesIntlTestContext } from 'ember-engines/test-support';
 
 module('Integration | Component | registries | registries-services-list', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
-    test('the registries services list page structure', async function(this: TestContext, assert) {
+    test('the registries services list page structure', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
-        await render(hbs`<RegistriesServicesList />`);
+        await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
 
         // Then the header text is validated
         assert.dom('[data-test-registries-list-header]').hasText('Registry Services', 'The header text is correct.');
@@ -41,9 +41,9 @@ module('Integration | Component | registries | registries-services-list', hooks 
     });
 
 
-    test('the registries services list DARPA ASIST', async function(this: TestContext, assert) {
+    test('the registries services list DARPA ASIST', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
-        await render(hbs`<RegistriesServicesList />`);
+        await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
 
         // Given I find the node
         const node = document.querySelector('[data-test-asist-registry]');
@@ -81,9 +81,9 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'The image alt tag is correct.');
     });
 
-    test('the registries services list Character Lab Registry', async function(this: TestContext, assert) {
+    test('the registries services list Character Lab Registry', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
-        await render(hbs`<RegistriesServicesList />`);
+        await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
 
         // Given I find the node
         const node = document.querySelector('[data-test-characterlab-registry]');
@@ -123,9 +123,9 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'The image alt tag is correct.');
     });
 
-    test('the registries services list Stiftelsen Dam Registry', async function(this: TestContext, assert) {
+    test('the registries services list Stiftelsen Dam Registry', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
-        await render(hbs`<RegistriesServicesList />`);
+        await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
 
         // Given I find the node
         const node = document.querySelector('[data-test-dam-registry]');
@@ -165,9 +165,9 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'The image alt tag is correct.');
     });
 
-    test('the registries services list EGAP Registry', async function(this: TestContext, assert) {
+    test('the registries services list EGAP Registry', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
-        await render(hbs`<RegistriesServicesList />`);
+        await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
 
         // Given I find the node
         const node = document.querySelector('[data-test-egap-registry]');
@@ -207,9 +207,9 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'The image alt tag is correct.');
     });
 
-    test('the registries services list Metascience Registry', async function(this: TestContext, assert) {
+    test('the registries services list Metascience Registry', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
-        await render(hbs`<RegistriesServicesList />`);
+        await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
 
         // Given I find the node
         const node = document.querySelector('[data-test-metascience-registry]');
@@ -249,51 +249,55 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'The image alt tag is correct.');
     });
 
-    test('the registries services list Real World Evidence Registry', async function(this: TestContext, assert) {
+    test('the registries services list Real World Evidence Registry',
+        async function(
+            this: EnginesIntlTestContext,
+            assert,
+        ) {
+            // Given the component is rendered
+            await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
+
+            // Given I find the node
+            const node = document.querySelector('[data-test-rwe-registry]');
+
+            // Then I validate the link
+            assert.dom(node)
+                .hasAttribute('href',
+                    'https://osf.io/registries/rwe',
+                    'The a href link is correct.');
+
+            // And I validate the link aria-label
+            assert.dom(node)
+                .hasAttribute('aria-label',
+                    'Real World Evidence Registry',
+                    'The a aria-label is correct.');
+
+            // And I validate the data analytics name
+            assert.dom(node)
+                .hasAttribute('data-analytics-name',
+                    'RWE - Registry',
+                    'The a aria-label is correct.');
+
+            // Given I find the image node
+            const imageNode = document.querySelector('[data-test-rwe-registry-logo]');
+
+            // Then I validate the image source
+            assert.dom(imageNode)
+                .hasAttribute('src',
+                    // eslint-disable-next-line max-len
+                    '/engines-dist/registries/assets/img/provider_logos/RWE_logo-89ce7d56f5a5f89205b69c42000ff082.png',
+                    'The image src is correct.');
+
+            // And I validate the image alt tag
+            assert.dom(imageNode)
+                .hasAttribute('alt',
+                    'Real World Evidence Registrylogo',
+                    'The image alt tag is correct.');
+        });
+
+    test('the registries services list YOUth Study Registry', async function(this: EnginesIntlTestContext, assert) {
         // Given the component is rendered
-        await render(hbs`<RegistriesServicesList />`);
-
-        // Given I find the node
-        const node = document.querySelector('[data-test-rwe-registry]');
-
-        // Then I validate the link
-        assert.dom(node)
-            .hasAttribute('href',
-                'https://osf.io/registries/rwe',
-                'The a href link is correct.');
-
-        // And I validate the link aria-label
-        assert.dom(node)
-            .hasAttribute('aria-label',
-                'Real World Evidence Registry',
-                'The a aria-label is correct.');
-
-        // And I validate the data analytics name
-        assert.dom(node)
-            .hasAttribute('data-analytics-name',
-                'RWE - Registry',
-                'The a aria-label is correct.');
-
-        // Given I find the image node
-        const imageNode = document.querySelector('[data-test-rwe-registry-logo]');
-
-        // Then I validate the image source
-        assert.dom(imageNode)
-            .hasAttribute('src',
-                // eslint-disable-next-line max-len
-                '/engines-dist/registries/assets/img/provider_logos/RWE_logo-89ce7d56f5a5f89205b69c42000ff082.png',
-                'The image src is correct.');
-
-        // And I validate the image alt tag
-        assert.dom(imageNode)
-            .hasAttribute('alt',
-                'Real World Evidence Registrylogo',
-                'The image alt tag is correct.');
-    });
-
-    test('the registries services list YOUth Study Registry', async function(this: TestContext, assert) {
-        // Given the component is rendered
-        await render(hbs`<RegistriesServicesList />`);
+        await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
 
         // Given I find the node
         const node = document.querySelector('[data-test-youth-registry]');

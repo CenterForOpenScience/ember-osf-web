@@ -2,18 +2,15 @@ import { attribute } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
-import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
 import template from './template';
-
-const { OSF: { url: baseUrl } } = config;
 
 interface Taggable extends OsfModel {
     tags: string[];
@@ -21,6 +18,8 @@ interface Taggable extends OsfModel {
 
 @layout(template, styles)
 export default class TagsWidget extends Component.extend({ styles }) {
+    @service router!: RouterService;
+
     // required arguments
     taggable!: Taggable;
 
@@ -64,7 +63,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
 
     @action
     _clickTag(tag: string): void {
-        window.location.assign(`${pathJoin(baseUrl, 'search')}?q=(tags:"${encodeURIComponent(tag)}")`);
+        this.router.transitionTo('search', { queryParams: { q: `${encodeURIComponent(tag)}` } });
     }
 
     _onChange() {

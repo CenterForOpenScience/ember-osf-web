@@ -1,8 +1,4 @@
-.OsfFooter {
-    flex-shrink: 0;
-}
-
-.Footer {
+.footer {
     margin-top: 0;
 
     > div {
@@ -17,5 +13,13 @@
 
     a {
         color: $color-link-dark;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+
     }
 }

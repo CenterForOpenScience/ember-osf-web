@@ -8,6 +8,7 @@ import {
 import { dashboardScenario } from './dashboard';
 import { forksScenario } from './forks';
 import { meetingsScenario } from './meetings';
+import { preprintsScenario } from './preprints';
 import { manyProjectRegistrationsScenario, registrationScenario } from './registrations';
 import { settingsScenario } from './settings';
 
@@ -55,5 +56,8 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('manyProjectRegistrations')) {
         manyProjectRegistrationsScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('preprints')) {
+        preprintsScenario(server, currentUser);
     }
 }

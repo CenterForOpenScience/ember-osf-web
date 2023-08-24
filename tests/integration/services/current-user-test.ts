@@ -3,13 +3,13 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { TestContext } from 'ember-intl/test-support';
 import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
-import CurrentUserService from 'ember-osf-web/services/current-user';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 const { OSF: { apiUrl, apiVersion } } = config;
 
-type ExtendedTestContext = TestContext & { currentUser: CurrentUserService };
+type ExtendedTestContext = TestContext & { currentUser: CurrentUserStub };
 
 module('Integration | Service | current-user', hooks => {
     setupTest(hooks);
@@ -17,6 +17,7 @@ module('Integration | Service | current-user', hooks => {
 
     hooks.beforeEach(function(this: ExtendedTestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.register('service:current-user', CurrentUserStub);
         this.currentUser = this.owner.lookup('service:current-user');
     });
 

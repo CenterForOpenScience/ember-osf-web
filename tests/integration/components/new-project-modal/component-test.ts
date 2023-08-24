@@ -20,8 +20,8 @@ module('Integration | Component | new-project-modal', hooks => {
     });
 
     test('it renders', async assert => {
-        await render(hbs`<NewProjectModal />`);
-        assert.dom('.modal').exists();
-        assert.dom('.modal-title').hasText('Create new project');
+        await render(hbs`<NewProjectModal @openModal={{true}} />`);
+        assert.dom('[data-test-create-project-header]').exists();
+        assert.dom('[data-test-create-project-header]').hasText('Create new project');
     });
 });

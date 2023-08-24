@@ -7,3 +7,16 @@
 .NodeNavbar__navbar-buffer {
     padding-top: 42px;
 }
+@media (max-width: 992px) {
+    .nav-list {
+        margin: 7.5px 0 0 -15px;
+        background-color: $color-light;
+        box-shadow: 0 0 9px -1px #838383;
+        border-radius: 0;
+        min-height: 40px !important;
+    }
+}
+
+.nav-list.nav-list li:hover {
+    background-color: $color-light;
+}

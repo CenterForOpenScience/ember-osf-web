@@ -20,9 +20,14 @@ Router.map(function() {
     this.route('home', { path: '/' });
     this.route('dashboard');
     this.route('goodbye');
+    this.route('search');
     this.route('institutions', function() {
+        // this.route('discover', { path: '/:institution_id' });
         this.route('dashboard', { path: '/:institution_id/dashboard' });
     });
+    // this.route('preprints', function() {
+    //     this.route('discover', { path: '/:provider_id/discover' });
+    // });
     this.route('register');
     this.route('settings', function() {
         this.route('profile', function() {
@@ -41,7 +46,6 @@ Router.map(function() {
             this.route('create');
         });
     });
-    this.route('support');
     this.route('meetings', function() {
         this.route('detail', { path: '/:meeting_id' });
     });

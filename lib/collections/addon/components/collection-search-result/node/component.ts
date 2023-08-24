@@ -8,9 +8,10 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
+import styles from './styles';
 import template from './template';
 
-@layout(template)
+@layout(template, styles)
 @tagName('')
 export default class SearchResultNode extends Component.extend({
     didRender(...args: any[]) {

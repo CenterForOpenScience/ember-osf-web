@@ -20,19 +20,19 @@
         {{/if}}
 
         {{#if @singleSubjectManager.numChildren}}
-            <BsButton
+            <Button
                 data-test-expand-children={{@singleSubjectManager.subject.id}}
                 local-class='ExpandButton'
                 role='button'
                 aria-label='{{t (if this.shouldShowChildren 'osf-components.subjects.browse.hide_child_subjects' 'osf-components.subjects.browse.show_child_subjects')}}'
-                @type='link'
-                @onClick={{action this.toggleChildren}}
+                @layout='fake-link'
+                {{on 'click' (action this.toggleChildren)}}
             >
                 <FaIcon
                     @icon='chevron-{{if this.shouldShowChildren 'up' 'down'}}'
                     @fixedWidth={{true}}
                 />
-            </BsButton>
+            </Button>
         {{/if}}
     </label>
 

@@ -6,14 +6,14 @@
     >
         {{yield}}
     </h2>
-    <BsButton
+    <Button
         data-test-close-dialog
         data-analytics-name='Close dialog'
-        @type='link'
-        @onClick={{action @closeDialog}}
+        @layout='fake-link'
+        {{on 'click' (action @closeDialog)}}
         local-class='CloseButton'
         aria-label={{t 'general.close'}}
     >
         <FaIcon @icon='times' />
-    </BsButton>
+    </Button>
 </div>

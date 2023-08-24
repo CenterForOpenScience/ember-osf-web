@@ -57,14 +57,14 @@
             </dl>
         </dialog.main>
         <dialog.footer>
-            <BsButton
+            <Button
                 data-test-copy-to-clipboard
                 data-analytics-name='Copy error messages to clipboard'
                 @type='primary'
                 {{on 'click' (fn this.copyToClipboard id)}}
             >
                 {{t 'registries.moderation.settings.copyToClipboard'}}
-            </BsButton>
+            </Button>
         </dialog.footer>
     </OsfDialog>
 {{/let}}

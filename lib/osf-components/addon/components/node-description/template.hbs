@@ -17,14 +17,14 @@
 </div>
 
 {{#if this.shouldTruncate}}
-    <BsButton
+    <Button
         data-test-node-description-button
         data-analytics-name='Show full description'
         aria-label={{t (if this.truncateDescription 'registries.registration_metadata.show_more' 'registries.registration_metadata.show_less')}}
-        @type='link'
-        @onClick={{action this.toggleFullDescription}}
+        @layout='fake-link'
+        {{on 'click' (action this.toggleFullDescription)}}
     >
         {{t (if this.truncateDescription 'registries.registration_metadata.show_more' 'registries.registration_metadata.show_less')}}
         <FaIcon @icon='{{if this.truncateDescription 'caret-down' 'caret-up'}}'/>
-    </BsButton>
+    </Button>
 {{/if}}

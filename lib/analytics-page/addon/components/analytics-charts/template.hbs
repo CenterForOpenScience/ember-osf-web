@@ -1,6 +1,6 @@
-<div class='row'>
+<div local-class='chart-container'>
     {{#each this.chartSpecs as |chartSpec|}}
-        <div class='col-sm-6 col-xs-12'>
+        <div local-class='chart {{if this.isMobile 'mobile'}}'>
             {{analytics-charts/x-chart-wrapper
                 chartSpec=chartSpec
                 chartEnabled=@chartsEnabled

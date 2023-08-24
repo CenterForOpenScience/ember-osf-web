@@ -49,14 +49,13 @@
             />
         {{/each}}
     </this.form.custom>
-    <button
-        type='button'
+    <Button
+        @layout='fake-link'
         local-class='button-link'
-        class='btn btn-link'
         {{on 'click' (fn (mut this.showText) (not this.showText))}}
     >
         {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
-    </button>
+    </Button>
     {{#if this.showText}}
         <LicenseText @node={{this.node}} />
     {{/if}}

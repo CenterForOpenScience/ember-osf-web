@@ -1,8 +1,10 @@
 {{#if this.maintenance}}
-    <BsAlert
+    <Alert
         data-analytics-scope='Maintenance banner'
         @type={{this.alertType}}
         @onDismiss={{action this.dismiss}}
+        @visible={{true}}
+        @dismissible={{true}}
     >
         <strong>{{t 'maintenance.title'}}</strong>
         {{#if this.maintenance.message.length}}
@@ -11,5 +13,5 @@
             {{t 'maintenance.line1' start=this.start end=this.end utc=this.utc htmlSafe=true}}
             {{t 'maintenance.line2'}}
         {{/if}}
-    </BsAlert>
+    </Alert>
 {{/if}}

@@ -5,6 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, TestContext } from 'ember-intl/test-support';
 import { PermissionGroup } from 'ember-osf-web/models/moderator';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import { setupRenderingTest } from 'ember-qunit';
@@ -25,6 +26,7 @@ module('Integration | Component | moderators', hooks => {
         this.intl = this.owner.lookup('service:intl');
         this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
+        this.owner.register('service:current-user', CurrentUserStub);
         this.provider = server.create('registration-provider', { id: 'egap', name: 'EGAP' });
         const providerModel = await this.store.findRecord('registration-provider', 'egap');
         this.set('providerModel', providerModel);
@@ -58,7 +60,7 @@ module('Integration | Component | moderators', hooks => {
         const currentUser = server.create('user', { id: 'sprout' });
         const currentUserModel = await this.store.findRecord('user', 'sprout');
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
         const moderator = server.create('moderator', {
             permissionGroup: PermissionGroup.Moderator,
@@ -89,7 +91,7 @@ module('Integration | Component | moderators', hooks => {
         assert.dom(`[data-test-moderator-row="${currentUser.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         assert.dom(`[data-test-moderator-row="${moderator.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         await click(`[data-test-delete-moderator-button="${moderator.id}"]>[data-test-delete-button]`);
-        assert.dom('.modal-body').hasText(
+        assert.dom('[data-test-delete-modal-body]').hasText(
             this.intl.t('osf-components.moderators.remove.modal.body', { moderator: moderator.fullName }),
         );
         await click('[data-test-confirm-delete]');
@@ -104,7 +106,7 @@ module('Integration | Component | moderators', hooks => {
         const currentUser = server.create('user', { id: 'sprout' });
         const currentUserModel = await this.store.findRecord('user', 'sprout');
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
         const admin = server.create('moderator', {
             permissionGroup: PermissionGroup.Admin,
@@ -135,7 +137,7 @@ module('Integration | Component | moderators', hooks => {
         ).hasText('Moderator');
         assert.dom(`[data-test-moderator-row="${admin.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         await click(`[data-test-delete-moderator-button="${moderator.id}"]>[data-test-delete-button]`);
-        assert.dom('.modal-body').hasText(
+        assert.dom('[data-test-delete-modal-body]').hasText(
             this.intl.t('osf-components.moderators.remove.modal.body', { moderator: 'yourself' }),
         );
         await click('[data-test-confirm-delete]');
@@ -150,7 +152,7 @@ module('Integration | Component | moderators', hooks => {
         const currentUser = server.create('user', { id: 'sprout' });
         const currentUserModel = await this.store.findRecord('user', 'sprout');
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
         server.create('moderator', {
             id: currentUserModel.id,
@@ -192,7 +194,7 @@ module('Integration | Component | moderators', hooks => {
         const currentUser = server.create('user', { id: 'sprout' });
         const currentUserModel = await this.store.findRecord('user', 'sprout');
         this.owner.lookup('service:current-user').setProperties({
-            user: currentUserModel, currentUserId: currentUserModel.id,
+            testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
         server.create('moderator', {
             id: currentUserModel.id,

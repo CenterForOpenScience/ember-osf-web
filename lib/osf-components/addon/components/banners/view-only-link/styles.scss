@@ -1,8 +1,12 @@
-.Alert.Alert {
+.alert.alert {
     margin-bottom: 0;
 }
 
-.Banner {
+.banner-warning.banner-warning {
+    margin-bottom: 10px;
+}
+
+.banner {
     display: flex;
     align-items: center;
     flex-direction: column;

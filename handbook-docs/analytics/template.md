@@ -9,12 +9,12 @@ Tracking clicks is as easy as adding a few `data-` attributes.
 ### `data-analytics-name`
 If an element is named with a `data-analytics-name` attribute, click events on that element will be tracked:
 ```hbs
-<OsfButton
+<Button
     data-analytics-name='Create new project'
-    onClick={{action ... }}
+    {{on 'click' (action ... )}}
 >
     Create new project
-</OsfButton>
+</Button>
 ```
 
 ### `data-analytics-scope`
@@ -39,13 +39,13 @@ and buttons (`<button>` or `role='button'`) the category will be inferred as `li
 If you want to categorize events another way (e.g. `file` for all events that act on file objects), you can add
 `data-analytics-category='mycategory'` to the same element with `data-analytics-name`:
 ```hbs
-<OsfButton
+<Button
     data-analytics-name='Delete file'
     data-analytics-category='file'
     @onClick={{action this.deleteFile file}}
 >
     Delete file
-</OsfButton>
+</Button>
 ```
 
 ### `data-analytics-extra`

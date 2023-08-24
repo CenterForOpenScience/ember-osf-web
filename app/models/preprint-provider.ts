@@ -1,17 +1,20 @@
-import { attr, hasMany, AsyncHasMany } from '@ember-data/model';
+import { attr, hasMany, AsyncHasMany, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
+import BrandModel from 'ember-osf-web/models/brand';
 
 import { RelatedLinkMeta } from 'osf-api';
 
 import PreprintModel from './preprint';
-import ProviderModel from './provider';
+import ProviderModel, { ReviewPermissions } from './provider';
 
 export type PreprintWord = 'default' | 'work' | 'paper' | 'preprint' | 'thesis';
 export type PreprintWordGrammar = 'plural' | 'pluralCapitalized' | 'singular' | 'singularCapitalized';
 
+const { defaultProvider } = config;
 export default class PreprintProviderModel extends ProviderModel {
     @service intl!: Intl;
 
@@ -21,10 +24,13 @@ export default class PreprintProviderModel extends ProviderModel {
     @attr('string') preprintWord!: PreprintWord;
 
     // Reviews settings
-    @attr('array') permissions!: string[];
+    @attr('array') permissions!: ReviewPermissions[];
     @attr('boolean', { allowNull: true }) reviewsCommentsPrivate!: boolean | null;
 
     // Relationships
+    @belongsTo('brand')
+    brand!: AsyncBelongsTo<BrandModel> & BrandModel;
+
     @hasMany('preprint', { inverse: 'provider' })
     preprints!: AsyncHasMany<PreprintModel>;
 
@@ -44,6 +50,25 @@ export default class PreprintProviderModel extends ProviderModel {
             singular: this.intl.t(`${documentType}.singular`),
             singularCapitalized: this.intl.t(`${documentType}.singularCapitalized`),
         };
+    }
+
+    @computed('id')
+    get preprintWordInTitle() {
+        return this.id !== 'thesiscommons';
+    }
+
+    // Is either OSF Preprints if provider is the default provider,
+    // name+preprintWord.pluralCapitalized(e.g.AfricArXiv Preprints or MarXiv Papers), or "Thesis Commons"
+    @computed('documentType.pluralCapitalized', 'id', 'name', 'preprintWordInTitle')
+    get providerTitle() {
+        if (this.id !== defaultProvider) {
+            if (this.preprintWordInTitle) {
+                return this.intl.t('preprints.provider-title',
+                    { name: this.name, pluralizedPreprintWord: this.documentType.pluralCapitalized });
+            }
+            return this.name;
+        }
+        return this.intl.t('preprints.osf-title');
     }
 }
 

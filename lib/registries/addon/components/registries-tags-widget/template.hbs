@@ -21,15 +21,15 @@
         {{tag}}
     </span>
     {{#unless this.readOnly}}
-        <BsButton
+        <Button
             local-class='RemoveButton'
             aria-label={{t 'osf-components.tags-widget.remove_tag'}}
             data-analytics-name='Remove Tag'
             data-analytics-extra={{tag}}
-            @type='link'
-            @onClick={{action this.removeTag tag}}
+            @layout='fake-link'
+            {{on 'click' (action this.removeTag tag)}}
         >
             <FaIcon @icon='times' @fixedWidth={{true}} />
-        </BsButton>
+        </Button>
     {{/unless}}
 </TagInput>

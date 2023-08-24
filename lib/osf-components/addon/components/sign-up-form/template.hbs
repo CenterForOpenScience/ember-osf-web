@@ -1,6 +1,6 @@
 <form
     data-analytics-scope='Sign up form'
-    local-class='SignUpForm'
+    local-class='sign-up-form'
     {{action 'submit' on='submit'}}
 >
     {{validated-input/text
@@ -41,14 +41,11 @@
         placeholder=(t 'osf-components.sign-up-form.password')
         ariaLabel=(t 'osf-components.sign-up-form.password')
     }}
-    <div class='row' hidden={{not this.progress}}>
-        <div class='col-xs-12'>
-            <div class='progress' local-class='CreatePassword'>
-                <div
-                    class='progress-bar progress-bar-sm progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
-                    role='progressbar'>
-                </div>
-            </div>
+    <div local-class='progress' hidden={{not this.progress}}>
+        <div
+            local-class='progress-bar progress-bar-sm'
+            class='progress-bar-{{this.progress}} progress-bar-{{this.progressStyle}}'
+            role='progressbar'>
         </div>
     </div>
     <ValidatedInput::Checkbox
@@ -62,11 +59,11 @@
         <SignUpPolicy />
     </ValidatedInput::Checkbox>
     {{#if this.hasSubmitted}}
-        <div class='osf-box-lt' local-class='help-block'>
-            <p class='ext-success p-xs'>{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
+        <div data-test-help-block class='osf-box-lt' local-class='help-block'>
+            <p local-class='p-xs'>{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}
-        <div class='col-md-12' local-class='RecaptchaParent'>
+        <div local-class='recaptcha-parent'>
             <ValidatedInput::Recaptcha
                 data-test-recaptcha
                 @model={{this.userRegistration}}
@@ -76,15 +73,15 @@
             />
         </div>
         <div>
-            <BsButton
+            <Button
                 data-test-sign-up-button
                 data-analytics-name='Submit sign up'
                 type='submit'
-                @type='success'
-                @onClick={{action this.submit}}
+                @type='create'
+                {{on 'click' (action this.submit)}}
             >
                 {{t 'osf-components.sign-up-form.sign_up_button_label'}}
-            </BsButton>
+            </Button>
         </div>
     {{/if}}
 </form>

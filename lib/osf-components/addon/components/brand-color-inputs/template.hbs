@@ -1,3 +1,11 @@
-<label>{{t 'app_components.brand_color_inputs.primary_label'}}</label>
-<Input @value={{this.primaryColor}} />
+<label>
+    {{t 'app_components.brand_color_inputs.primary_label'}}
+    <Input @value={{this.primaryColor}} />
+</label>
 <Button {{on 'click' this.setPrimaryColor}}>{{t 'app_components.brand_color_inputs.primary_set'}}</Button>
+<br>
+<label>
+    {{t 'app_components.brand_color_inputs.secondary_label'}}
+    <Input @value={{this.secondaryColor}} />
+</label>
+<Button {{on 'click' this.setSecondaryColor}}>{{t 'app_components.brand_color_inputs.secondary_set'}}</Button>

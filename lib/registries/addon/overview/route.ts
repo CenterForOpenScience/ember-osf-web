@@ -18,6 +18,8 @@ import Ready from 'ember-osf-web/services/ready';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
+import captureException from 'ember-osf-web/utils/capture-exception';
+import Intl from 'ember-intl/services/intl';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
@@ -25,6 +27,7 @@ export default class Overview extends GuidRoute {
     @service router!: RouterService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
+    @service intl!: Intl;
 
     headTags?: HeadTagDef[];
 
@@ -32,7 +35,6 @@ export default class Overview extends GuidRoute {
     @waitFor
     async setHeadTags(model: GuidRouteModel<Registration>) {
         const blocker = this.ready.getBlocker();
-
         const registration = await model.taskInstance;
 
         if (registration) {
@@ -56,6 +58,7 @@ export default class Overview extends GuidRoute {
                 registration.provider,
             ]);
 
+            const id = registration.id;
             const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
@@ -76,9 +79,29 @@ export default class Overview extends GuidRoute {
                 ),
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
-            const headTags = [...this.metaTags.getHeadTags(metaTagsData)];
+
+            const allTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
+
+            // Google Structured Data
+            try {
+                const jsonLD = await this.returnStructuredData(id);
+                const scriptTag = {
+                    type: 'script',
+                    content: JSON.stringify(jsonLD),
+                    attrs: {
+                        type: 'application/ld+json',
+                    },
+                };
+                if (jsonLD) {
+                    allTags.push(scriptTag);
+                }
+            } catch (e) {
+                const errorMessage = this.intl.t('general.structured_data.json_ld_retrieval_error');
+                captureException(e, { errorMessage });
+            }
+
             if (provider && provider.assets && provider.assets.favicon) {
-                headTags.push({
+                allTags.push({
                     type: 'link',
                     attrs: {
                         rel: 'icon',
@@ -86,11 +109,18 @@ export default class Overview extends GuidRoute {
                     },
                 });
             }
-            this.set('headTags', headTags);
+            this.set('headTags', allTags);
             this.metaTags.updateHeadTags();
         }
-
         blocker.done();
+    }
+
+    returnStructuredData(guid: string): Promise<object | undefined> {
+        const path = `${config.OSF.url}/${guid}/metadata/?format=google-dataset-json-ld`;
+        return this.currentUser.authenticatedAJAX({
+            method: 'GET',
+            url: path,
+        });
     }
 
     modelName(): 'registration' {

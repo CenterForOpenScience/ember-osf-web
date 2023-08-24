@@ -409,36 +409,4 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-modal-body]').isNotVisible();
     });
-
-    test('logged in admin, prereg challenge modal', async assert => {
-        server.create('user', 'loggedIn');
-        const node = server.create('node', { id: 'decaf' }, 'currentUserAdmin');
-
-        server.loadFixtures('schema-blocks');
-        server.loadFixtures('registration-schemas');
-        server.create('registration-provider', {
-            id: defaultProvider,
-            shareSource: 'OSF Registries',
-            name: 'OSF Registries',
-        }, 'withAllSchemas');
-
-        const url = `/${node.id}/registrations`;
-
-        await visit(url);
-
-        assert.equal(currentURL(), url, `We are on ${url}`);
-
-        // Test prereg challenge modal twice to make sure state is reset
-        for (let i = 0; i < 2; i++) {
-            await click('[data-test-new-registration-button]');
-            await untrackedClick('[data-test-new-registration-modal-schema="Prereg Challenge"] input');
-            await click('[data-test-new-registration-modal-create-draft-button]');
-            assert.dom('[data-test-prereg-challenge-modal-body]').isVisible();
-            assert.dom('[data-test-prereg-challenge-modal-continue-button]').isDisabled();
-            await untrackedClick('[data-test-prereg-challenge-modal-consent-checkbox]');
-            assert.dom('[data-test-prereg-challenge-modal-continue-button]').isNotDisabled();
-            await click('[data-test-prereg-challenge-modal-cancel-button]');
-            assert.dom('[data-test-prereg-challenge-modal-body]').isNotVisible();
-        }
-    });
 });

@@ -6,7 +6,7 @@
     @showResubmitModal={{this.showResubmitModal}}
     @collectionIsModerated={{this.collectionIsModerated}}
 />
-<div class='submit-header' local-class='header'>
+<div local-class='header submit-header'>
     <h1>{{t (concat this.intlKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
 <div local-class='body'>
@@ -26,7 +26,7 @@
         >
             <section.active>
                 <CollectionItemPicker
-                    @class='col-xs-12'
+                    local-class='item-picker-container'
                     @collection={{this.collection}}
                     @projectSelected={{action this.projectSelected}}
                     @validationChanged={{action (mut this.isProjectSelectorValid)}}
@@ -61,7 +61,7 @@
                         @continue={{action this.nextSection}}
                     />
                 {{else}}
-                    <div class='text-center'>
+                    <div local-class='text-center'>
                         <FaIcon
                             @icon='spinner'
                             @pulse={{true}}
@@ -172,10 +172,9 @@
 
         <section
             data-test-collections-submit-section='buttons'
-            class='row'
-            local-class='last-buttons'
+            local-class='last-buttons row'
         >
-            <div class='col-xs-12'>
+            <div local-class='button-container'>
                 {{#if (and this.edit this.isAccepted)}}
                     <DeleteButton
                         data-test-collections-remove-button
@@ -197,36 +196,32 @@
                         </div>
                     </DeleteButton>
                 {{/if}}
-                <div class='text-right'>
-                    <button
+                <div local-class='text-right'>
+                    <Button
                         data-test-collections-submit-cancel-button
-                        type='button'
-                        class='btn btn-default'
                         {{action this.cancel}}
                     >
                         {{t (concat this.intlKeyPrefix 'cancel')}}
-                    </button>
+                    </Button>
                     {{#if this.edit}}
-                        <button
+                        <Button
                             data-test-collections-submit-update-button
                             data-analytics-name='Update'
-                            type='button'
-                            class='btn btn-success'
+                            @type='create'
                             {{action (perform this.save)}}
                         >
                             {{t (concat this.intlKeyPrefix 'update' '_button')}}
-                        </button>
+                        </Button>
                     {{else}}
-                        <button
+                        <Button
                             data-test-collections-submit-submit-button
                             data-analytics-name='Submit'
-                            type='button'
-                            class='btn btn-success'
+                            @type='create'
                             disabled={{not (eq this.activeSection this.sections.submit)}}
                             {{on 'click' this.setShowSubmitModal}}
                         >
                             {{t (concat this.intlKeyPrefix 'add' '_button')}}
-                        </button>
+                        </Button>
                     {{/if}}
                 </div>
             </div>

@@ -8,6 +8,7 @@ import Session from 'ember-simple-auth/services/session';
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 
+import Media from 'ember-responsive';
 import styles from './styles';
 import template from './template';
 
@@ -21,6 +22,7 @@ const {
 
 @layout(template, styles)
 export default class JoinOsfBanner extends Component {
+    @service media!: Media;
     @service analytics!: Analytics;
     @service session!: Session;
 

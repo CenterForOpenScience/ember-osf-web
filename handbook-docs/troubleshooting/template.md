@@ -56,5 +56,5 @@ Then, either in `beforeEach` or in the particular problematic test:
 `this.owner.register('service:router', OsfLinkRouterStub);`
 
 ## Buttons in modals aren't tracking analytics events
-Check out the {{#link-to 'docs.analytics'}}analytics documentation{{/link-to}} scopes section
+Check out the <LinkTo @route='docs.analytics'>analytics documentation</LinkTo> scopes section
 for the answer to this.

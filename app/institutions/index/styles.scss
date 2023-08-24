@@ -1,108 +1,225 @@
-@media screen and (max-width: 500px) {
-    .Institutions__logo {
-        display: none;
-    }
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-    .Institutions__table__title {
-        width: 100%;
-    }
-}
-
-.Institutions__header-logo {
-    background: url('/assets/images/institutions/osf_institutions_white.png') top center no-repeat;
-    height: 100px;
-    background-size: contain;
-}
-
-.Institutions__logo {
-    height: 100px;
-    background-size: contain;
-}
-
-.Institutions__block {
-    background: $color-bg-blue-darker;
-    background-position-y: -50px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid $color-border-gray;
-    color: $color-text-white;
-}
-
-.Institutions__block__link {
-    color: $color-link-blue;
-}
-
-.Institutions__block__link:hover {
-    color: $color-link-blue;
-}
-
-.Institutions__header {
-    padding-top: 50px;
-}
-
-.Institutions__footer {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    margin-bottom: -25px;
-
-    a {
-        color: $color-link-blue;
-    }
-}
-
-.Institutions__page {
+.institution-container {
     width: 100%;
-}
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 
-.Institutions__browser {
-    min-height: 700px;
-    background: $color-bg-blue-light url('/assets/images/institutions/bg6.jpg') top center repeat-y;
-    background-size: cover;
-}
+    .header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
 
-.Institutions__browser_title {
-    vertical-align: bottom;
-    margin-bottom: 2px;
-}
+        background: $color-bg-blue-darker;
+        background-position-y: -50px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid $color-border-gray;
+        color: $color-text-white;
 
-.Institutions__table {
-    background: $color-bg-white-transparent;
-    padding: 10px 15px;
-    border-radius: 2px;
-    margin-top: 20px;
-    margin-bottom: 50px;
-}
+        padding-top: 50px;
 
-.Institutions__table__item {
-    display: block;
-    background-color: $color-bg-white;
-    box-shadow: 1px 1px 1px $color-border-gray;
-    padding: 6px;
-    color: $color-text-gray;
-    font-size: 25px;
-    text-align: center;
-    cursor: pointer;
-}
+        .information {
+            width: 90%;
+            text-align: center;
 
-.Institutions__table__title {
-    padding-top: 30px;
-    padding-bottom: 30px;
-}
+            .link {
+                color: $color-link-blue;
+            }
 
+            .link:hover {
+                color: $color-link-blue;
+            }
+        }
 
-.Institutions__pagination {
-    font-size: 20px;
-}
+        .logo {
+            background: url('/assets/images/institutions/osf_institutions_white.png') top center no-repeat;
+            height: 100px;
+            background-size: contain;
+            width: 90%;
+        }
+    }
 
-.Institutions__sorting {
-    span {
-        display: inline-block;
+    .browser-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        min-height: 700px;
+        background: $color-bg-blue-light url('/assets/images/institutions/bg6.jpg') top center repeat-y;
+        background-size: cover;
+        padding-top: 25px;
+
+        .table {
+            background: $color-bg-white-transparent;
+            margin-bottom: 50px;
+            width: 60%;
+            min-width: 500px;
+            overflow: hidden;
+
+            .sort-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                width: 100%;
+                padding: 10px;
+
+                .sort-direction {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    width: 30%;
+                    height: 35px;
+
+                    .button-margin {
+                        margin-top: -6px;
+                    }
+                }
+
+                .sort-input {
+                    width: 70%;
+                }
+            }
+        
+            .institution-container {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+
+                .institution {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    background-color: $color-bg-white;
+                    box-shadow: 1px 1px 1px $color-border-gray;
+                    padding: 6px;
+                    color: $color-text-gray;
+                    font-size: 25px;
+                    text-align: center;
+                    cursor: pointer;
+                    margin-top: 10px;
+
+                    .logo-container {
+                        width: 30%;
+                        height: 100px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+
+                        .logo {
+                            height: 100px;
+                        }
+                    }
+
+                    .title {
+                        width: 70%;
+                        height: 100px;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+            }
+        
+            .more {
+                cursor: pointer;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .pagination {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+
+    .footer-container {
+        padding-top: 40px;
+        padding-bottom: 20px;
+        background: $color-bg-blue-darker;
+        color: $color-text-white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+
+        a {
+            color: $color-link-blue;
+        }
+    }
+
+    &.mobile {
+        .header {
+            .logo {
+                height: 50px;
+            }
+        }
+
+        .footer-container {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .browser-container {
+            .table {
+                width: calc(100% - 20px);
+                min-width: 0;
+
+                .sort-container {
+                    flex-direction: column-reverse;
+
+                    .sort-direction,
+                    .sort-input {
+                        width: 100%;
+                    }
+                }
+
+                .institution-container {
+                    .institution {
+                        .title {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
-.Institutions__more {
-    text-align: center;
-    cursor: pointer;
-    padding-left: 50%;
-    padding-right: 50%;
+.lead {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.4;
 }
 
+@media (min-width: 768px) {
+    .lead {
+        font-size: 21px;
+    }
+}
+
+.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}

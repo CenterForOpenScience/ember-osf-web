@@ -1,32 +1,38 @@
-<div class='row hidden-xs'>
-    <div class='col-sm-3 col-sm-offset-2'>
-        <strong>{{t 'app_components.project_contributors.list.name'}}</strong>
-    </div>
-    <div class='col-sm-3'>
-        <strong>{{t 'app_components.project_contributors.list.permissions'}}</strong>
-        <FaIcon @icon='question-circle'>
-            <BsPopover
-                @placement='bottom'
-                @triggerEvents='hover'
-                @title={{t 'app_components.project_contributors.list.permissions_popover_title'}}
+{{#unless this.isMobile}}
+    <div local-class='header-container'>
+        <div local-class='icon-spacer-container'></div>
+        <div local-class='name-container'>
+            <strong>{{t 'app_components.project_contributors.list.name'}}</strong>
+        </div>
+        <div local-class='permission-container'>
+            <strong>{{t 'app_components.project_contributors.list.permissions'}}</strong>
+            <FaIcon @icon='question-circle' />
+            <EmberPopover
+                @side='bottom'
+                @popperContainer='body'
             >
-                {{t 'app_components.project_contributors.list.permissions_popover' htmlSafe=true}}
-            </BsPopover>
-        </FaIcon>
-    </div>
-    <div class='col-sm-2 bib-padding'>
-        <strong>{{t 'app_components.project_contributors.list.citation'}}</strong>
-        <FaIcon @icon='question-circle'>
-            <BsPopover
-                @placement='bottom'
-                @triggerEvents='hover'
-                @title={{t 'app_components.project_contributors.list.citation_popover_title'}}
+                <div local-class='popover-format'>
+                    <h3>{{t 'app_components.project_contributors.list.permissions_popover_title'}}</h3>
+                    {{t 'app_components.project_contributors.list.permissions_popover' htmlSafe=true}}
+                </div>
+            </EmberPopover>
+        </div>
+        <div local-class='citation-container'>
+            <strong>{{t 'app_components.project_contributors.list.citation'}}</strong>
+            <FaIcon @icon='question-circle' />
+            <EmberPopover
+                @side='bottom'
+                @popperContainer='body'
             >
-                {{t 'app_components.project_contributors.list.citation_popover'}}
-            </BsPopover>
-        </FaIcon>
+                <div local-class='popover-format'>
+                    <h3>{{t 'app_components.project_contributors.list.citation_popover_title'}}</h3>
+                    {{t 'app_components.project_contributors.list.citation_popover'}}
+                </div>
+            </EmberPopover>
+        </div>
+        <div local-class='remove-spacer-container'></div>
     </div>
-</div>
+{{/unless}}
 <SortableGroup
     @onChange={{action (perform this.reorderContributors)}}
     @model={{this.contributors}}
@@ -53,11 +59,11 @@
     <LoadingIndicator @dark={{true}} />
 {{else if this.hasMore}}
     <div local-class='has-more-container'>
-        <BsButton
-            @type='link'
-            @onClick={{action this.loadMoreContributors}}
+        <Button
+            @layout='fake-link'
+            {{on 'click' (action this.loadMoreContributors)}}
         >
             {{t 'app_components.project_contributors.list.load_more_contributors'}}
-        </BsButton>
+        </Button>
     </div>
 {{/if}}

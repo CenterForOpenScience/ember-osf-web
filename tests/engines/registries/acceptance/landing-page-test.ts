@@ -28,10 +28,4 @@ module('Registries | Acceptance | landing page', hooks => {
         assert.dom('[data-test-search-box]').exists();
         await percySnapshot(assert);
     });
-
-    test('visiting /registries/discover', async assert => {
-        await visit('/registries/discover/');
-        assert.dom('[data-test-results]').exists();
-        await percySnapshot(assert);
-    });
 });

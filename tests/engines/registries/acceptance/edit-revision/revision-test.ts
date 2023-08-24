@@ -23,6 +23,7 @@ import RegistrationProviderModel from 'ember-osf-web/models/registration-provide
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
+import { timeout } from 'ember-concurrency';
 
 const currentUserStub = Service.extend();
 const storeStub = Service.extend();
@@ -427,22 +428,22 @@ module('Registries | Acceptance | registries revision', hooks => {
         // Fail justification save
         await visit(`/registries/revisions/${revision.id}/`);
         triggerKeyEvent('textarea[name="revisionJustification"]', 'keyup', 32);
-        await timer.tickAsync(3001); // skip debounce
+        await timer.tickAsync(4001); // skip debounce
         assert.dom('#toast-container', document as any).containsText(
             t('registries.drafts.draft.metadata.failed_auto_save'),
             'Error toast on failed metadata save',
         );
-        await timer.tickAsync(5000); // skip until toast gone
+        await timer.tickAsync(4000); // skip until toast gone
 
         // Fail form save
         await click('[data-test-goto-next-page]');
         triggerKeyEvent('[data-test-text-input] input', 'keyup', 32);
-        await timer.tickAsync(3001); // skip debounce
+        await timer.tickAsync(4001); // skip debounce
         assert.dom('#toast-container', document as any).containsText(
             t('registries.drafts.draft.form.failed_auto_save'),
             'Error toast on failed page save',
         );
-        await timer.tickAsync(5000); // skip until toast gone
+        await timer.tickAsync(4000); // skip until toast gone
 
         // Fail delete
         await click('[data-test-delete-button]');
@@ -473,6 +474,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         await click('[data-test-add-new-button]');
         sinon.assert.calledOnce(confirm);
         window.dispatchEvent(new Event('beforeunload'));
+        await timeout(1000);
         sinon.assert.calledOnce(beforeunload);
         assert.ok('it warns users when navigating/closing window');
     });

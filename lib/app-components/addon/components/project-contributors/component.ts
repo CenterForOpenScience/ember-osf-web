@@ -1,6 +1,8 @@
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Media from 'ember-responsive';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
@@ -10,6 +12,7 @@ import template from './template';
 
 @layout(template, styles)
 export default class ProjectContributors extends Component {
+    @service media!: Media;
     node!: Node;
     contributors!: ArrayProxy<Contributor>;
     reloadContributorsList?: () => void; // bound by project-contributors/list
@@ -26,5 +29,9 @@ export default class ProjectContributors extends Component {
         if (this.onAddContributor) {
             this.onAddContributor();
         }
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

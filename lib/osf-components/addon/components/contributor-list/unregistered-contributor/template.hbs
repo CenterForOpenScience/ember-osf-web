@@ -12,15 +12,16 @@
     {{on 'click' this.showDialog}}
     {{on 'keypress' this.onKeyPress}}
 >
-    <BsPopover
+    {{!-- template-lint-disable no-heading-inside-button --}}
+    <EmberPopover
         data-test-claim-user-tooltip-message
         local-class='spanPopover'
-        @placement='top'
-        @triggerEvents='hover focus'
-        @title={{t 'contributor_list.unregistered_contributor.popover_title'}}
+        @side='top'
     >
+        <h3>{{t 'contributor_list.unregistered_contributor.popover_title'}}</h3>
         {{t 'contributor_list.unregistered_contributor.tooltip_message'}}
-    </BsPopover>
+    </EmberPopover>
+    {{!-- template-lint-enable no-heading-inside-button --}}
     {{~@contributor.unregisteredContributor~}}
 </span>
 
