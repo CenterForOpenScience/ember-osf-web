@@ -86,7 +86,7 @@
             </div>
         {{/if}}
     </div>
-    <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
+    <CpPanel local-class='cp-panel' @open={{this.isOpenSecondaryMetadata}} as |panel|>
         <panel.body>
             <hr>
             {{component this.secondaryMetadataComponent result=@result}}
