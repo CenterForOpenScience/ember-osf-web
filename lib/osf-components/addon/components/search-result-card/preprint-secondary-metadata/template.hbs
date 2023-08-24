@@ -81,7 +81,11 @@
                 @truncate={{5}}
                 as |list|
             >
-                <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
+                {{#if list.item}}
+                    <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
+                {{else if list.remainingCount}}
+                    {{t 'osf-components.search-result-card.remaining_count' count=list.remainingCount}}
+                {{/if}}
             </InlineList>
         </dd>
     {{/if}}
