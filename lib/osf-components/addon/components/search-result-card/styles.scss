@@ -3,11 +3,6 @@
     margin: 35px 35px 0;
     padding: 10px;
     width: 60vw;
-
-    dt,
-    dd {
-        margin-left: 15px;
-    }
 }
 
 .primary-metadata-container {
@@ -80,13 +75,13 @@
 .cp-panel {
     padding: 0 10px;
 
-    div > dl {
+    dl {
         border-top: 2px solid $color-border-gray;
         padding-top: 10px;
     }
 
-    dl > dt,
-    dl > dd {
-        margin: 15px 0 0 10px;
+    dt,
+    dd {
+        margin: 15px 0 0 5px;
     }
 }
