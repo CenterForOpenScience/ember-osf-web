@@ -49,7 +49,7 @@ export default class PreprintsDetail extends Route {
             this.theme.set('id', provider.id);
 
 
-            // const contributors = await preprint?.queryHasMany('contributors');
+            const contributors = await preprint?.queryHasMany('contributors');
 
             // const license = await preprint?.queryHasMany('license');
 
@@ -63,6 +63,7 @@ export default class PreprintsDetail extends Route {
 
             return {
                 preprint,
+                contributors,
             };
 
         } catch (error) {

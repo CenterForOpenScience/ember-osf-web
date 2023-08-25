@@ -9,6 +9,18 @@ export default Factory.extend<PreprintModel>({
     id: guid('preprint'),
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
+
+        const contributorUser = server.create('user');
+
+        const contributor = server.create('contributor', {
+            preprint: newPreprint,
+            users: contributorUser,
+            index: 0,
+        });
+
+        newPreprint.update({
+            contributors: [contributor],
+        });
     },
 
     title: faker.lorem.sentence(),

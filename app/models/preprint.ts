@@ -25,7 +25,7 @@ export default class PreprintModel extends OsfModel {
     @attr('date') dateLastTransitioned!: Date;
     @attr('date') preprintDoiCreated!: Date;
 
-    @belongsTo('node', { inverse: 'preprints' })
+    @belongsTo('node', { inverse: 'preprint' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('license', { inverse: null })
@@ -40,8 +40,8 @@ export default class PreprintModel extends OsfModel {
     @hasMany('review-action', { inverse: 'target' })
     reviewActions!: AsyncHasMany<ReviewActionModel>;
 
-    @hasMany('contributor')
-    contributors!: AsyncHasMany<ContributorModel>;
+    @hasMany('contributors', { inverse: 'preprint'})
+    contributors!: AsyncHasMany<ContributorModel> & ContributorModel;
 
     @hasMany('subject', { inverse: null, async: false })
     subjects!: SyncHasMany<SubjectModel>;
