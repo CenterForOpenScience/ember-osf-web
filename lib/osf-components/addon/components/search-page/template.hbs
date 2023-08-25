@@ -241,25 +241,38 @@ as |layout|>
             {{/each}}
         {{/if}}
         <div local-class='pagination-buttons'>
-            {{#if this.firstPageCursor}}
-                <Button
-                    {{on 'click' (fn this.switchPage this.firstPageCursor)}}
-                >
-                    {{t 'search.first'}}
-                </Button>
-            {{/if}}
             {{#if this.prevPageCursor}}
                 <Button
                     {{on 'click' (fn this.switchPage this.prevPageCursor)}}
                 >
-                    {{t 'search.prev'}}
+                    <p>
+                        {{t 'search.previous-pagination-button'}}
+                    </p>
                 </Button>
+            {{/if}}
+            {{#if this.firstPageCursor}}
+                <Button
+                    {{on 'click' (fn this.switchPage this.firstPageCursor)}}
+                >
+                    <p>
+                        {{t 'search.first-pagination-button'}}
+                    </p>
+                </Button>
+            {{/if}}
+            {{#if this.nextPageCursor}}
+                <div>
+                    <p>
+                        {{t 'search.more-pagination-button'}}
+                    </p>
+                </div>
             {{/if}}
             {{#if this.nextPageCursor}}
                 <Button
                     {{on 'click' (fn this.switchPage this.nextPageCursor)}}
                 >
-                    {{t 'search.next'}}
+                    <p>
+                        {{t 'search.next-pagination-button'}}
+                    </p>
                 </Button>
             {{/if}}
         </div>

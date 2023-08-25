@@ -246,6 +246,10 @@ search:
     first: First
     prev: Prev
     next: Next
+    previous-pagination-button: '<<'
+    first-pagination-button: '1'
+    more-pagination-button: '...'
+    next-pagination-button: '>>'
     sort:
         sort-by: 'Sort by'
         relevance: 'Relevance'
