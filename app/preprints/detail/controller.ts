@@ -114,8 +114,8 @@ export default class PrePrintsDetailController extends Controller {
         return this.model.subjects.reduce((acc: SubjectModel[], val: SubjectModel) => acc.concat(val), []).uniqBy('id');
     }
 
-    authors(): ContributorModel[] {
-        return this.model.preprint.contributors;
+    get authors(): ContributorModel[] {
+        return this.model.contributors;
     }
 
     fullLicenseText(): string {

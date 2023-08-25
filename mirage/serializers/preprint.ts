@@ -22,6 +22,13 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                     },
                 },
             },
+            contributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/contributors`,
+                    },
+                },
+            },
             /*
             subjects: {
                 links: {

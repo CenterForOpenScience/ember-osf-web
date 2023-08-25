@@ -308,7 +308,17 @@ export default function(this: Server) {
         path: '/providers/preprints/:parentID/preprints/',
         relatedModelName: 'preprint',
     });
+
+    /**
+     * Preprint Details
+     */
+
     osfResource(this, 'preprint');
+    osfNestedResource(this, 'preprint', 'contributors', {
+        path: '/preprints/:parentID/contributors/',
+        defaultSortKey: 'index',
+        relatedModelName: 'contributor',
+    });
 
 
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
