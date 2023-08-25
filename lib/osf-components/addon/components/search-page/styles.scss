@@ -184,7 +184,8 @@
         li {
             display: inline-flex;
             white-space: nowrap;
-            margin-right: 10px;
+            width: calc(100%/6);
+            justify-content: center;
 
             &.active,
             &:hover {
@@ -193,7 +194,9 @@
         }
 
         a {
-            padding-bottom: 10px;
+            padding: 18px 0 10px;
+            width: 100%;
+            text-align: center;
         }
     }
 
@@ -331,9 +334,8 @@
     .left-panel-header {
         border-bottom: 1px solid $alto;
         font-weight: 300;
-        margin-bottom: 0;
-        margin-top: 2rem;
-        padding: 0 0 1rem;
+        margin: 1rem 0;
+        padding: 0 0 1.5rem;
     }
 }
 
