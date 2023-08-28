@@ -18,7 +18,7 @@
         margin: 0 0 15px 15px;
     }
 
-    div:last-child {
+    > div:last-child {
         margin-bottom: 0;
         padding-bottom: 5px;
     }
@@ -45,16 +45,6 @@
     text-transform: uppercase;
 }
 
-.date-fields {
-    padding-bottom: 5px;
-
-    span {
-        &:not(:last-child)::after {
-            content: ' | ';
-        }
-    }
-}
-
 .orcid-logo {
     color: $orcid-logo-color;
     margin-left: 3px;
@@ -70,6 +60,16 @@
     margin-left: 3px;
     position: relative;
     bottom: 2px;
+}
+
+.date-fields {
+    padding-bottom: 5px;
+
+    span {
+        &:not(:last-child)::after {
+            content: ' | ';
+        }
+    }
 }
 
 .cp-panel {
