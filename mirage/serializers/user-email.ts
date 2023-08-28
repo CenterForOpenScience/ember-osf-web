@@ -1,5 +1,5 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import UserEmail from 'ember-osf-web/models/user-email';
 

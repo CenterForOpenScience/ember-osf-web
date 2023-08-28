@@ -2,7 +2,7 @@ import { capitalize } from '@ember/string';
 import { click as untrackedClick, fillIn, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';

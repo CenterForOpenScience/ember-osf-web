@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 const {
     OSF: {

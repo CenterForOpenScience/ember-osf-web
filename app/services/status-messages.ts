@@ -1,6 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 const {
     OSF: {

@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import pathJoin from 'ember-osf-web/utils/path-join';
 

@@ -2,7 +2,7 @@ import Application from '@ember/application';
 import ApplicationInstance from '@ember/application/instance';
 import { run } from '@ember/runloop';
 import Service from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Resolver from 'ember-resolver';
 
 import { initialize } from 'ember-osf-web/instance-initializers/prerender';

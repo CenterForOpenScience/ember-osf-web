@@ -1,6 +1,6 @@
 import { visit } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';

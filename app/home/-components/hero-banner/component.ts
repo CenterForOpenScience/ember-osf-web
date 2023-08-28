@@ -5,7 +5,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 

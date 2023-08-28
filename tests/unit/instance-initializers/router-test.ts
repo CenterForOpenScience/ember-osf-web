@@ -3,7 +3,7 @@ import ApplicationInstance from '@ember/application/instance';
 import { run } from '@ember/runloop';
 import Resolver from 'ember-resolver';
 import { TestContext } from 'ember-test-helpers';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 

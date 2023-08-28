@@ -58,7 +58,6 @@
     "@ember/render-modifiers": "^2.0.5",
     "ember-cli-clipboard": "0.9.0",
     "ember-element-helper": "^0.6.1",
-    "ember-get-config": "^2.0.0",
     "ember-validators": "^4.1.1",
     "watch-detector": "^1.0.2"
   },
@@ -183,7 +182,6 @@
     "ember-fetch": "^8.1.1",
     "ember-flatpickr": "^2.15.0",
     "ember-g-recaptcha": "^1.0.0",
-    "ember-get-config": "^2.1.1",
     "ember-in-viewport": "^4.1.0",
     "ember-intl": "^5.6.2",
     "ember-load-initializers": "^2.1.2",
