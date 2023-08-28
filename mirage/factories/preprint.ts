@@ -10,7 +10,10 @@ export default Factory.extend<PreprintModel>({
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 
-        const contributorUser = server.create('user');
+        const contributorUser = server.create('user', {
+            givenName: 'Emmit',
+            familyName: 'Stud',
+        });
 
         const contributor = server.create('contributor', {
             preprint: newPreprint,
