@@ -1,4 +1,5 @@
 /* eslint-env node */
+// Note: environment.d.ts is now in app/config
 
 function isTruthy(val) {
     return ['true', '1'].includes(val.toString().toLowerCase());
