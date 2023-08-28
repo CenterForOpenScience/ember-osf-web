@@ -375,26 +375,7 @@
 
     button {
         color: $color-bg-blue-dark;
-        height: 44px;
-        width: 44px;
-        margin-bottom: 0;
-        margin-left: 10px;
-        text-align: center;
-
-        p {
-            margin-bottom: 0;
-        }
-    }
-
-    > div {
-        background-color: $color-bg-white;
-        color: $color-bg-blue-dark;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 44px;
-        width: 44px;
-        text-align: center;
+        margin-left: 5px;
     }
 }
 
