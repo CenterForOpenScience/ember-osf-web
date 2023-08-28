@@ -46,14 +46,8 @@
     text-transform: uppercase;
 }
 
-.date-fields {
-    padding-bottom: 5px;
-
-    span {
-        &:not(:last-child)::after {
-            content: ' | ';
-        }
-    }
+.result-card-title-user {
+    padding-top: 1rem;
 }
 
 .orcid-logo {
@@ -71,6 +65,16 @@
     margin-left: 3px;
     position: relative;
     bottom: 2px;
+}
+
+.date-fields {
+    padding-bottom: 5px;
+
+    span {
+        &:not(:last-child)::after {
+            content: ' | ';
+        }
+    }
 }
 
 .cp-panel {
