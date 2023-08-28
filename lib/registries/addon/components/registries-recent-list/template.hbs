@@ -4,9 +4,12 @@
             {{t 'registries.index.recent.title'}}
         </div>
         <div local-class='see-more'>
-            <LinkTo @route='discover'>
+            <LinkToExternal
+                @route='search'
+                @query={{hash resourceType='Registration,RegistrationComponent'}}
+            >
                 {{t 'registries.index.recent.more'}}
-            </LinkTo>
+            </LinkToExternal>
         </div>
     </div>
 

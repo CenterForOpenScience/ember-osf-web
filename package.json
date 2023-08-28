@@ -267,6 +267,7 @@
       "lib/analytics-page",
       "lib/assets-prefix-middleware",
       "lib/collections",
+      "lib/app-components",
       "lib/osf-components",
       "lib/registries"
     ]

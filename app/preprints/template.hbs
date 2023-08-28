@@ -1,0 +1,9 @@
+{{page-title this.theme.provider.providerTitle replace=true}}
+<div {{with-branding (get-model this.theme.provider.brand)}}>
+    <BrandedNavbar
+        @translateKey='collections.general.brand'
+        @brandRoute='preprints.discover'
+        @addLinkKey='collections.navbar.add'
+    />
+    {{outlet}}
+</div>

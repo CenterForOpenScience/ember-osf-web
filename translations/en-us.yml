@@ -37,6 +37,7 @@ general:
     cancel: Cancel
     add: Add
     ok: OK
+    apply: Apply
     revisions: Revisions
     md5: MD5
     date: Date
@@ -208,6 +209,71 @@ dashboard:
         registries: 'OSF Registries'
         preprints: 'OSF Preprints'
         institutions: 'OSF Institutions'
+
+search:
+    page-title: 'Search'
+    index-card:
+        no-label: 'No label found'
+        no-title: 'No title found'
+    search-help:
+        header-1: 'Improved OSF Search'
+        header-2: 'Refine Your Search'
+        header-3: 'Add Metadata'
+        body-1: 'Enter any term in the search box and filter by specific object types. More information is available on our <a href="https://help.osf.io/article/588-getting-started-with-osf-search" target="_blank" rel="noopener noreferrer">help guides</a>.'
+        body-2: 'Narrow the source, discipline, and more. For example, find content supported by a specific funder or view only datasets.'
+        body-3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable! Learn more in our <a href="https://help.osf.io/article/572-metadata-to-increase-discoverability" target="_blank" rel="noopener noreferrer">help guides</a>.'
+        index-1: '1 of 3'
+        index-2: '2 of 3'
+        index-3: '3 of 3'
+        footer:
+            skip: 'Skip'
+            next: 'Next'
+            done: 'Done'
+    search-header: 'Search OSF'
+    textbox-placeholder: 'Enter search term(s) here'
+    search-button-label: 'Search'
+    search-help-label: 'Help tutorial'
+    total-results: '{count} results'
+    no-results: 'No results found'
+    resource-type:
+        search-by: 'Search by resource type'
+        all: 'All'
+        projects: 'Projects'
+        registrations: 'Registrations'
+        preprints: 'Preprints'
+        files: 'Files'
+        users: 'Users'
+    first: First
+    prev: Prev
+    next: Next
+    sort:
+        sort-by: 'Sort by'
+        relevance: 'Relevance'
+        created-date-descending: 'Date created, newest'
+        created-date-ascending: 'Date created, oldest'
+        modified-date-descending: 'Date modified, newest'
+        modified-date-ascending: 'Date modified, oldest'
+    toggle-sidenav: 'Toggle search sidebar'
+    left-panel:
+        header: Refine
+        no-filterable-properties: 'No properties'
+    active-filters:
+        remove-filter: 'Remove filter {property} {label}'
+    filter-facet:
+        facet-load-failed: 'Failed to load facet values'
+        see-more: 'See more'
+        see-more-modal-text: 'Please select a filter to apply to your search.'
+        see-more-modal-placeholder: 'Search for a filter to apply'
+        load-more: 'Load more'
+        has-resource: 'Has {resource}'
+        no-resource: 'No {resource}'
+
+    institutions:
+        institution-logo: 'Logo for '
+helpers:
+    get-localized-property:
+        not-provided: 'Not provided'
+
 new_project:
     header: 'Create new project'
     title_placeholder: 'Enter project title'
@@ -260,7 +326,7 @@ move_to_project:
     go_to_project: 'Go to project'
 navbar:
     add: Add
-    # add_a_preprint: 'Add a {preprintWords.preprint}'
+    add_a_preprint: 'Add a {preprintWord}'
     add_registration: 'Add New'
     moderation: 'Moderation'
     browse: Browse
@@ -268,6 +334,7 @@ navbar:
     donate: Donate
     go_home: 'Go home'
     my_projects: 'My Projects'
+    my_preprints: 'My Preprints'
     my_registrations: 'My Registrations'
     reviews: 'My Reviewing'
     search: Search
@@ -545,7 +612,7 @@ node_navbar:
     settings: Settings
     comments: Comments
 status:
-    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
+    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/search?resourceType=Project%2CProjectComponent">popular public projects</a>.</p>'
     alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.'
     # remove_addon: 'Because the GitHub add-on for {extra.category} "{extra.title}" was authenticated by {extra.user}, authentication information has been deleted.'
     project_deleted: 'Project has been successfully deleted.'
@@ -735,6 +802,8 @@ app_components:
     brand_color_inputs:
         primary_label: 'Brand Primary Color'
         primary_set: 'Set Primary Color'
+        secondary_label: 'Brand Secondary Color'
+        secondary_set: 'Set Secondary Color'
     error_page:
         email_message: 'If this should not have occurred and the issue persists, please report it to'
         go_to: 'Go to {brand}'
@@ -1043,6 +1112,11 @@ collections:
             accept: accepted
             reject: rejected
             remove: 'removed'
+preprints:
+    osf-title: 'OSF Preprints'
+    provider-title: '{name} {pluralizedPreprintWord}'
+    discover:
+        title: 'Search'
 registries:
     header:
         osf_registrations: 'OSF Registrations'
@@ -1783,6 +1857,42 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    search-result-card:
+        language: Language
+        url: URL
+        resource_type: Resource type
+        title: Title
+        collection: Collection
+        context: Context
+        funder: Funder
+        registration_template: Registration template
+        doi: DOI
+        description: Description
+        license: License
+        from: From
+        date_created: Date created
+        date_registered: Date registered
+        date_modified: Date modified
+        last_edited: Last edited
+        member_since: Member since
+        preprint_provider: Preprint provider
+        registration_provider: Registration provider
+        conflict_of_interest: Conflict of Interest response
+        no_conflict_of_interest: 'Author asserted no Conflict of Interest'
+        associated_data: Associated data
+        associated_analysis_plan: Associated preregistration
+        associated_study_design: Associated study design
+        project: Project
+        registration: Registration
+        preprint: Preprint
+        file: File
+        user: User
+        project_component: Project component
+        registration_component: Registration component
+        link_to_orcid_id: Link to orcid id
+        withdrawn: Withdrawn
+        unknown: Unknown
+        remaining_count: '{count} more'
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
         add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
