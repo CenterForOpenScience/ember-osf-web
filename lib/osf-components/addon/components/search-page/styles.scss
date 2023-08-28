@@ -185,8 +185,7 @@
         li {
             display: inline-flex;
             white-space: nowrap;
-            width: calc(100%/6);
-            justify-content: center;
+            margin-right: 10px;
 
             &.active,
             &:hover {
@@ -195,9 +194,7 @@
         }
 
         a {
-            padding: 18px 0 10px;
-            width: 100%;
-            text-align: center;
+            padding-bottom: 10px;
         }
     }
 
