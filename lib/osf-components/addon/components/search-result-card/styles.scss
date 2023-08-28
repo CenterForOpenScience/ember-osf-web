@@ -18,7 +18,7 @@
         margin: 0 0 15px 15px;
     }
 
-    div:last-child {
+    > div:last-child {
         margin-bottom: 0;
         padding-bottom: 5px;
     }
@@ -45,9 +45,6 @@
     text-transform: uppercase;
 }
 
-.result-card-title-user {
-    padding-top: 1rem;
-}
 
 .orcid-logo {
     color: $orcid-logo-color;
