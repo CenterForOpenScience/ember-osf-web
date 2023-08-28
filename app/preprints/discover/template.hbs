@@ -1,0 +1,14 @@
+{{page-title (t 'preprints.discover.title')}}
+<div data-analytics-scope='{{concat this.model.providerTitle ' Discover'}}'>
+    <SearchPage
+        @route='search'
+        @query={{this.q}}
+        @defaultQueryOptions={{this.defaultQueryOptions}}
+        @resourceType={{'Preprint'}}
+        @showResourceTypeFilter={{false}}
+        @provider={{this.model}}
+        @queryParams={{this.queryParams}}
+        @onSearch={{action this.onSearch}}
+        @sort={{this.sort}}
+    />
+</div>

@@ -2,6 +2,7 @@
     heading=(element 'div')
     sidenavGutterClosed=this.sidenavGutterClosed
     toggleSidenav=(action this.toggleSidenav)
+    openSidenavGutter=(action this.openSidenavGutter)
     metadataGutterClosed=this.metadataGutterClosed
     toggleMetadata=(action this.toggleMetadata)
 )}}
@@ -18,6 +19,7 @@
         @leftClosed={{this.sidenavGutterClosed}}
         @rightMode={{this.metadataGutterMode}}
         @rightClosed={{this.metadataGutterClosed}}
+        ...attributes
         as |gutters|
     >
         {{yield (hash
