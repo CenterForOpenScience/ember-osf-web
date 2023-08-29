@@ -37,6 +37,7 @@ import { createNewSchemaResponse } from './views/schema-response';
 import { createSchemaResponseAction } from './views/schema-response-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
+import { cardSearch, valueSearch } from './views/search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import {
@@ -48,16 +49,23 @@ import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl } } = config;
+const { OSF: { apiUrl, shareBaseUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
     this.passthrough('https://api.crossref.org/*');
-    // SHARE search
+
+    // SHARE-powered registration discover endpoint
     this.urlPrefix = 'https://share.osf.io';
     this.namespace = '/api/v2/';
-
     this.post('/search/creativeworks/_search', shareSearch);
+
+    // SHARE-powered search endpoints
+    this.urlPrefix = shareBaseUrl;
+    this.namespace = '/api/v3/';
+    this.get('/index-card-search', cardSearch);
+    this.get('/index-value-search', valueSearch);
+    // this.get('/index-card/:id', Detail);
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
