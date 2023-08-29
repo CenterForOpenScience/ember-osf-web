@@ -77,7 +77,7 @@
             </div>
         {{/if}}
         {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
-            <div>
+            <div local-class='open-badges-list'>
                 <OpenBadgesList
                     @hasData={{@result.hasDataResource}}
                     @hasMaterials={{@result.hasMaterialsResource}}
