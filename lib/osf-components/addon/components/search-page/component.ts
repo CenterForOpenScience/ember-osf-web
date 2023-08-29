@@ -252,6 +252,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async doDebounceSearch() {
         await timeout(searchDebounceTime);
+        this.page = '';
         taskFor(this.search).perform();
     }
 
