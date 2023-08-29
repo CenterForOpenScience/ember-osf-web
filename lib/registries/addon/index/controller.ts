@@ -34,8 +34,11 @@ export default class Index extends Controller {
 
     @action
     onSearch(query: string) {
-        this.router.transitionTo('registries.discover', {
-            queryParams: { q: query },
+        this.router.transitionTo('search', {
+            queryParams: {
+                q: query,
+                resourceType: 'Registration,RegistrationComponent',
+            },
         });
     }
 }

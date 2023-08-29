@@ -47,6 +47,12 @@
     }
 }
 
+// This should only be used in preprint branding as we move away from using custom CSS
+// Please don't rely on this class for new brands
+.DarkText {
+    color: $color-text-black;
+}
+
 .SecondaryButton {
     background-color: $color-bg-white;
     border: 1px solid $color-border-gray-light;

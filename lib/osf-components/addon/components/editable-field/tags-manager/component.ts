@@ -2,17 +2,16 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import config from 'ember-osf-web/config/environment';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import pathJoin from 'ember-osf-web/utils/path-join';
 
 import template from './template';
 
@@ -25,15 +24,10 @@ export interface TagsManager {
     registration: Registration;
 }
 
-const {
-    OSF: {
-        url: baseUrl,
-    },
-} = config;
-
 @tagName('')
 @layout(template)
 export default class TagsManagerComponent extends Component {
+    @service router!: RouterService;
     // required
     registration!: Registration;
 
@@ -95,7 +89,7 @@ export default class TagsManagerComponent extends Component {
 
     @action
     clickTag(tag: string): void {
-        window.location.assign(`${pathJoin(baseUrl, 'search')}?q=(tags:"${encodeURIComponent(tag)}")`);
+        this.router.transitionTo('search', { queryParams: { q: `${encodeURIComponent(tag)}` } });
     }
 
     @action

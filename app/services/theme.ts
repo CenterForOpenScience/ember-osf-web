@@ -2,6 +2,7 @@ import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { computed } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import config from 'ember-osf-web/config/environment';
 import Provider from 'ember-osf-web/models/provider';
 
@@ -36,13 +37,13 @@ const settings: { [P in ProviderType]: Setting } = {
 export default class Theme extends Service {
     @service store!: Store;
 
-    id = defaultProvider;
-    defaultProvider = defaultProvider;
+    @tracked id = defaultProvider;
+    @tracked defaultProvider = defaultProvider;
 
-    providerType?: ProviderType;
+    @tracked providerType?: ProviderType;
 
     // If we're using a provider domain
-    isDomain = window.isProviderDomain;
+    @tracked isDomain = window.isProviderDomain;
 
     // If we're using a branded provider
     @computed('id')

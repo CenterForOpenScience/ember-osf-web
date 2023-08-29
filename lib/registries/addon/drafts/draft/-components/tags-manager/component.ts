@@ -1,25 +1,22 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, set } from '@ember/object';
+import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 import { BufferedChangeset } from 'ember-changeset/types';
-import config from 'ember-osf-web/config/environment';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
-import pathJoin from 'ember-osf-web/utils/path-join';
 import { TagsManager } from 'osf-components/components/editable-field/tags-manager/component';
 
 import template from './template';
-
-const {
-    OSF: { url: baseUrl },
-} = config;
 
 export type MetadataTagsManager = Pick<TagsManager, 'addTag' | 'removeTag' | 'clickTag' | 'tags'>;
 
 @tagName('')
 @layout(template)
 export default class MetadataTagsManagerComponent extends Component {
+    @service router!: RouterService;
     // required
     changeset!: BufferedChangeset;
     valuePath!: string;
@@ -58,6 +55,6 @@ export default class MetadataTagsManagerComponent extends Component {
 
     @action
     clickTag(tag: string): void {
-        window.location.assign(`${pathJoin(baseUrl, 'search')}?q=(tags:"${encodeURIComponent(tag)}")`);
+        this.router.transitionTo('search', { queryParams: { q: `${encodeURIComponent(tag)}` } });
     }
 }
