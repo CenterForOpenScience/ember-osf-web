@@ -26,6 +26,15 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                 links: {
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/contributors`,
+                        meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                    },
+                },
+            },
+            bibliographicContributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/bibliographic_contributors/`,
+                        meta: this.buildRelatedLinkMeta(model, 'bibliographicContributors'),
                     },
                 },
             },

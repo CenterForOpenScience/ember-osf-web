@@ -41,7 +41,7 @@ export default class PreprintsDetail extends Route {
         try {
             const guid = params.guid;
 
-            const preprint = await this.store.findRecord('preprint', guid);
+            const preprint = await this.store.findRecord('preprint', guid, {include: 'bibliographicContributors'});
 
             const provider = await preprint?.get('provider');
 
@@ -63,6 +63,7 @@ export default class PreprintsDetail extends Route {
 
             return {
                 preprint,
+                brand: provider.brand.content,
                 contributors,
             };
 

@@ -315,6 +315,11 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'contributor',
     });
+    osfNestedResource(this, 'preprint', 'bibliographicContributors', {
+        path: '/preprints/:parentID/bibliographic_contributors/',
+        defaultSortKey: 'index',
+        relatedModelName: 'contributor',
+    });
 
 
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });

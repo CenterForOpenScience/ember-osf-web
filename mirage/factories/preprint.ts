@@ -21,8 +21,15 @@ export default Factory.extend<PreprintModel>({
             index: 0,
         });
 
+        const secondContributor = server.create('contributor');
+
+        const unregisteredContributor = server.create('contributor', 'unregistered');
+
+        const allContributors = [contributor, unregisteredContributor, secondContributor];
+
         newPreprint.update({
-            contributors: [contributor],
+            contributors: allContributors,
+            bibliographicContributors: allContributors,
         });
     },
 
