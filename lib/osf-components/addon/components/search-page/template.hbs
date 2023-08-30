@@ -216,7 +216,7 @@ as |layout|>
                             @onChange={{action this.updateSort}}
                             as |sortOption|
                         >
-                            <p>{{sortOption.display}}</p>
+                            <p local-class='sort-dropdown-option'>{{sortOption.display}}</p>
                         </PowerSelect>
                     </div>
                 {{else if this.showResultCountMiddle}}

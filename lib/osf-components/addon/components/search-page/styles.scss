@@ -283,11 +283,10 @@
 .sort-dropdown {
     background-color: $color-bg-gray-blue-light;
     align-self: flex-end;
-    padding-bottom: 10px;
-    margin-left: 10px;
+    white-space: nowrap;
 
     p {
-        margin: 0 0 0 2px;
+        margin: 0;
     }
 
     div {
@@ -300,6 +299,11 @@
     > div {
         display: flex;
     }
+}
+
+.sort-dropdown-option {
+    margin-bottom: 0;
+    padding: 10px 0;
 }
 
 .sidenav-toggle {
@@ -407,6 +411,7 @@
     .sort-dropdown {
         align-self: flex-end;
         margin: 0.5rem 0;
+        white-space: nowrap;
 
         > div {
             background-color: $color-bg-white;
