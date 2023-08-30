@@ -236,7 +236,7 @@ search:
     total-results: '{count} results'
     no-results: 'No results found'
     resource-type:
-        search-by: 'Search by resource type'
+        search-by: 'Search by object type'
         all: 'All'
         projects: 'Projects'
         registrations: 'Registrations'
