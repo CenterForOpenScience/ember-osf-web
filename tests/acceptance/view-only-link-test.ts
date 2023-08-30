@@ -1,6 +1,6 @@
 import { Request } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { module, test } from 'qunit';
 
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';

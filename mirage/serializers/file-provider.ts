@@ -1,6 +1,6 @@
 import { underscore } from '@ember/string';
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { pluralize } from 'ember-inflector';
 import { MirageFileProvider } from '../factories/file-provider';
 

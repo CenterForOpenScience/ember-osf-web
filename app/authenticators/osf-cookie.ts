@@ -3,7 +3,7 @@ import { warn } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Base from 'ember-simple-auth/authenticators/base';
 import Session from 'ember-simple-auth/services/session';
 

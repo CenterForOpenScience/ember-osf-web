@@ -1,7 +1,6 @@
 self.deprecationWorkflow = self.deprecationWorkflow || {};
 self.deprecationWorkflow.config = {
     workflow: [
-        { handler: 'silence', matchId: 'this-property-fallback' },
         { handler: 'silence', matchId: 'routing.transition-methods' },
         { handler: 'silence', matchId: 'ember-utils.try-invoke' },
         { handler: 'silence', matchId: 'ember-simple-auth.initializer.setup-session-restoration' },

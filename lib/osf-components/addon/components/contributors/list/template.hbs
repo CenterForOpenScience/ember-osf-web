@@ -5,22 +5,21 @@
     )
     @widgetMode
 ) as |Card|}}
-    <SortableGroup
-        @model={{@contributorsManager.contributors}}
-        @onChange={{@contributorsManager.reorderContributor}}
+    <ol
+        {{sortable-group onChange=@contributorsManager.reorderContributor}}
         local-class='ContributorList'
-        as |group|
     >
-        {{#each group.model as |contributor|}}
-            {{#group.item
-                model=contributor
-                isDraggingDisabled=(eq this.widgetMode 'readonly')
-                onDragStart=(action (mut @contributorsManager.isDragging) true)
-                onDragStop=(action (mut @contributorsManager.isDragging) false)
-                as |item|
-            }}
-                <Card @contributor={{contributor}} @item={{item}} />
-            {{/group.item}}
+        {{#each @contributorsManager.contributors as |contributor|}}
+            <li 
+                {{sortable-item
+                    model=contributor
+                    disabled=(eq this.widgetMode 'readonly')
+                    onDragStart=(action (mut @contributorsManager.isDragging) true)
+                    onDragStop=(action (mut @contributorsManager.isDragging) false)
+                }}
+            >
+                <Card @contributor={{contributor}} @item={{contributor}} />
+            </li>
         {{/each}}
         {{#if @contributorsManager.shouldShowLoadMore}}
             <div local-class='InfinityLoader' {{in-viewport onEnter=@contributorsManager.fetchContributors}}>
@@ -30,5 +29,5 @@
         {{#if @contributorsManager.isLoading}}
             <LoadingIndicator @dark={{true}} />
         {{/if}}
-    </SortableGroup>
+    </ol>
 {{/let}}

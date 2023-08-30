@@ -1,7 +1,7 @@
 import { alias } from '@ember/object/computed';
 import Model, { attr } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 const { support: { supportEmail } } = config;
 

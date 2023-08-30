@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import template from './template';

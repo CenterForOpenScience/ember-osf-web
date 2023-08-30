@@ -1,6 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Intl from 'ember-intl/services/intl';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import toArray from 'ember-osf-web/utils/to-array';

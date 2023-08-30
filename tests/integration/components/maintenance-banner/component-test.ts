@@ -1,7 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 

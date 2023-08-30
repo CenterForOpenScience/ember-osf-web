@@ -1,5 +1,5 @@
 import Application from '@ember/application';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import loadInitializers from 'ember-load-initializers';
 import Resolver from './resolver';
 

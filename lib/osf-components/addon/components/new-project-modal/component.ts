@@ -8,7 +8,7 @@ import { waitFor } from '@ember/test-waiters';
 import { dropTask, restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import Intl from 'ember-intl/services/intl';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';

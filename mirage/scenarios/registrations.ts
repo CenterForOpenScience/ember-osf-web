@@ -1,5 +1,5 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import { Permission } from 'ember-osf-web/models/osf-model';

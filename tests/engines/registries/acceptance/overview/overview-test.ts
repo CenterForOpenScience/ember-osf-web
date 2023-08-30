@@ -2,7 +2,7 @@ import { capitalize } from '@ember/string';
 import { click as untrackedClick, fillIn, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
@@ -548,13 +548,13 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .isVisible('Moderator can see the field 2 display component');
         assert.dom('[data-test-registration-provider-metadata-field-value="Field 2"]')
             .containsText('Value b', 'Moderator field two has the correct value');
-        assert.dom('[data-test-provider-metadata-edit-input="Field 1"]')
+        assert.dom('[data-test-provider-metadata-edit-div="Field 1"] > input')
             .isNotVisible('Moderator cannot yet see edit dialog box');
         await click('[data-test-edit-button="metadata"]');
-        assert.dom('[data-test-provider-metadata-edit-input="Field 1"]')
+        assert.dom('[data-test-provider-metadata-edit-div="Field 1"] > input')
             .isVisible('Moderator can see edit dialog box');
-        await fillIn('[data-test-provider-metadata-edit-input="Field 1"]', 'Value 1');
-        await fillIn('[data-test-provider-metadata-edit-input="Field 2"]', 'Value 2');
+        await fillIn('[data-test-provider-metadata-edit-div="Field 1"] > input', 'Value 1');
+        await fillIn('[data-test-provider-metadata-edit-div="Field 2"] > input', 'Value 2');
         await click('[data-test-save-edits]');
         assert.dom('[data-test-registration-provider-metadata-field-value="Field 1"]')
             .containsText('Value 1', 'Moderator successfully changed field 1');
@@ -562,10 +562,10 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .containsText('Value 2', 'Moderator successfully changed field 2');
         await timeout(1000);
         await click('[data-test-edit-button="metadata"]');
-        assert.dom('[data-test-provider-metadata-edit-input="Field 1"]')
+        assert.dom('[data-test-provider-metadata-edit-div="Field 1"] > input')
             .isVisible('Moderator can see edit dialog box');
-        await fillIn('[data-test-provider-metadata-edit-input="Field 1"]', 'Bad valu 1');
-        await fillIn('[data-test-provider-metadata-edit-input="Field 2"]', 'Bad valu 2');
+        await fillIn('[data-test-provider-metadata-edit-div="Field 1"] > input', 'Bad valu 1');
+        await fillIn('[data-test-provider-metadata-edit-div="Field 2"] > input', 'Bad valu 2');
         await click('[data-test-discard-edits]');
         assert.dom('[data-test-registration-provider-metadata-field-value="Field 1"]')
             .containsText('Value 1', 'Moderator successfully discarded field 1');
