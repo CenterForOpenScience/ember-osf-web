@@ -14,7 +14,7 @@ export default class InstitutionDiscoverController extends Controller {
     @tracked sort?: string =  '-relevance';
     @tracked resourceType?: ResourceTypeFilterValue | null = null;
 
-    queryParams = ['cardSearchText', 'page', 'sort', 'resourceType'];
+    queryParams = ['cardSearchText', 'sort', 'resourceType'];
 
     get defaultQueryOptions() {
         return {
