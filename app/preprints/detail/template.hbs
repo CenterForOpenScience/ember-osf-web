@@ -1,62 +1,36 @@
 {{page-title this.model.preprint.title replace=false}}
 
 
-<div id='view-page'>
+<div local-class='preprints-details-page-container' {{with-branding this.model.brand}}>
     {{!HEADER ROW}}
-    <div class='p-t-xl p-b-md m-b-md dark-overlay-header-background header-row'>
+    <div local-class='header-container'>
         {{!CONTAINER DIV}}
-        <div class='container'>
-            <div class='row'>
-                <div class='col-xs-12 preprint-title-container'>
-                    <h1 id='preprintTitle'>{{this.model.preprint.title}}</h1>
-                    {{#unless this.isWithdrawn}}
-                        <div class='p-b-md edit-preprint-button'>
-                            {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
-                                <a type='button'
-                                   class='btn btn-success edit-btn'
-                                   href={{concat this.theme.guidPathPrefix this.model.id '/edit'}}
-                                   onclick={{action 'click' 'link' 'Content - Edit Preprint' (concat this.model.preprint?.links?.html 'edit')}}
-                                >
-                                    {{t @editButtonLabel documentType=this.model.provider.documentType}}
-                                </a>
-                            {{/if}}
-                            <br>
-                        </div>
-                    {{/unless}}
+        <div local-class='preprint-title-container'>
+            <h1>{{this.model.preprint.title}}</h1>
+            {{#unless this.isWithdrawn}}
+                <div class='p-b-md edit-preprint-button'>
+                    {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
+                        <a type='button'
+                            class='btn btn-success edit-btn'
+                            href={{concat this.theme.guidPathPrefix this.model.id '/edit'}}
+                            onclick={{action 'click' 'link' 'Content - Edit Preprint' (concat this.model.preprint?.links?.html 'edit')}}
+                        >
+                            {{t @editButtonLabel documentType=this.model.provider.documentType}}
+                        </a>
+                    {{/if}}
+                    <br>
                 </div>
-            </div>
-            <div class='row'>
-                <div class='col-xs-12 col-sm-12'>
-                    <h5 class='view-authors'>
-                        <div class='detail-header-label'>
-                            <strong>{{t 'preprints.detail.header.authors_label'}}</strong>
-                        </div>
-                        <ul class='comma-list'>
-                            {{#if this.authors}}
-                                {{#each this.authors as |author| ~}}
-                                    {{#if author.bibliographic}}
-                                        {{#if author.unregisteredContributor}}
-                                            {{claim-user author=author preprintId=this.model.id isLoggedIn=(if this.currentUser.currentUserId true false) currentUser=this.currentUser.user.content}}
-                                        {{else if (user-errors author)}}
-                                            <li>{{disabled-user-name author}}</li>
-                                        {{else}}
-                                            <li><a href={{author.users.profileURL}} onclick={{action 'click' 'link' 'Content - Author' author.users.profileURL}}>{{author.users.fullName}}</a></li>
-                                        {{/if}}
-                                    {{/if}}
-                                {{~/each}}
-                            {{else}}
-                                <div class='ball-pulse ball-dark'>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            {{/if}}
-                        </ul>
-                    </h5>
-                </div>
-            </div>
-            {{!author-assertions preprint=this.model.preprint}}
+            {{/unless}}
         </div>
+        <div local-class='preprint-author-container'>
+            <h5 local-class='view-authors'>
+                <div local-class='detail-header-label'>
+                    <strong>{{t 'preprints.detail.header.authors_label'}}</strong>
+                </div>
+                <ContributorList @model={{this.model.preprint}} @shouldTruncate={{false}} />
+            </h5>
+        </div>
+        {{!author-assertions preprint=this.model.preprint}}
         {{!END CONTAINER DIV}}
     </div>
     {{!END HEADER ROW}}

@@ -43,6 +43,9 @@ export default class PreprintModel extends OsfModel {
     @hasMany('contributors', { inverse: 'preprint'})
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel;
 
+    @hasMany('contributor', { inverse: null })
+    bibliographicContributors!: AsyncHasMany<ContributorModel>;
+
     @hasMany('subject', { inverse: null, async: false })
     subjects!: SyncHasMany<SubjectModel>;
 
