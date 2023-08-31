@@ -17,7 +17,7 @@ export default class PreprintDiscoverController extends Controller {
     @tracked cardSearchText?: string = '';
     @tracked sort?: string =  '-relevance';
 
-    queryParams = ['cardSearchText', 'page', 'sort'];
+    queryParams = ['cardSearchText', 'sort'];
 
     get defaultQueryOptions() {
         return {
