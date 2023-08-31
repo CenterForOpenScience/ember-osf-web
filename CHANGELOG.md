@@ -1940,6 +1940,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[23.10.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.2
+[23.10.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.1
 [23.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.0
 [23.09.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.09.0
 [23.08.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.08.0
