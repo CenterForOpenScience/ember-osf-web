@@ -10,7 +10,7 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'ember-engines.deprecation-router-service-from-host'},
         { handler: 'silence', matchId: 'ember-test-waiters-legacy-module-name'},
         { handler: 'silence', matchId: 'argument-less-helper-paren-less-invocation'},
-        { handler: 'silence', matchId: 'deprecated-run-loop-and-computed-dot-access'},
+        // { handler: 'silence', matchId: 'deprecated-run-loop-and-computed-dot-access'},
         { handler: 'silence', matchId: 'ember.built-in-components.import'},
         { handler: 'silence', matchId: 'ember.built-in-components.legacy-arguments'},
         { handler: 'silence', matchId: 'ember.built-in-components.legacy-attribute-arguments'},
