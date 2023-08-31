@@ -18,7 +18,6 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'ember-global'},
         { handler: 'silence', matchId: 'ember.link-to.disabled-when'},
         { handler: 'silence', matchId: 'route-disconnect-outlet'},
-        { handler: 'silence', matchId: 'route-render-template'},
         { handler: 'silence', matchId: 'template-compiler.registerPlugin'},
         { handler: 'silence', matchId: 'setting-on-hash'},
     ],
