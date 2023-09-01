@@ -16,7 +16,7 @@ export default class BrandedRegistriesDiscoverRoute extends Route {
             if (provider.id === 'osf') {
                 this.router.transitionTo('search', {
                     queryParams: {
-                        resourceType: 'osf:Registration',
+                        resourceType: 'Registration,RegistrationComponent',
                     },
                 });
             } else {
