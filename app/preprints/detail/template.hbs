@@ -1,7 +1,9 @@
 {{page-title this.model.preprint.title replace=false}}
 
 
-<div local-class='preprints-details-page-container' {{with-branding this.model.brand}}>
+<div local-class='preprints-details-page-container' {{with-branding this.model.brand}}
+data-analytics-scope='preprints detail page'
+>
     {{!HEADER ROW}}
     <div local-class='header-container'>
         {{!CONTAINER DIV}}
@@ -10,13 +12,14 @@
             {{#unless this.isWithdrawn}}
                 <div class='p-b-md edit-preprint-button'>
                     {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
-                        <a type='button'
-                            class='btn btn-success edit-btn'
-                            href={{concat this.theme.guidPathPrefix this.model.id '/edit'}}
-                            onclick={{action 'click' 'link' 'Content - Edit Preprint' (concat this.model.preprint?.links?.html 'edit')}}
+                        <OsfLink
+                            data-test-edit-preprint-button
+                            data-analytics-name='Edit preprint button'
+                            local-class='btn btn-primary'
+                            @href='/edit'
                         >
-                            {{t @editButtonLabel documentType=this.model.provider.documentType}}
-                        </a>
+                            {{ this.editButtonLabel }}
+                        </OsfLink>
                     {{/if}}
                     <br>
                 </div>

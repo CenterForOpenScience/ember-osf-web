@@ -1,5 +1,6 @@
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import { placekitten } from 'ember-osf-web/mirage/utils';
+import { ReviewsWorkFlow } from 'ember-osf-web/models/provider';
 
 import { randomGravatar } from '../utils';
 
@@ -17,6 +18,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         preprintWord: 'preprint',
         assets: randomAssets(1),
         footerLinks: 'fake footer links',
+        reviewsWorkflow: ReviewsWorkFlow.PRE_MODERATION,
     },
     {
         id: 'thesiscommons',

@@ -1126,6 +1126,9 @@ preprints:
             last_edited: 'Last edited'
             authors_label: 'Authors'
             withdrawn_on: 'Withdrawn'
+        project_button: 
+            edit_preprint: 'Edit {documentType}'
+            edit_resubmit_preprint: 'Edit and resubmit'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'
