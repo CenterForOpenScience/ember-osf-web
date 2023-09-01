@@ -6,6 +6,8 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
+import { setupIntl } from 'ember-intl/test-support';
+
 
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
@@ -27,6 +29,7 @@ const noop = () => { /* noop */ };
 module('Integration | Component | institutions-list', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(async function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');
