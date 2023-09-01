@@ -3543,7 +3543,7 @@
     mkdirp "^1.0.4"
     silent-error "^1.1.1"
 
-"@ember/render-modifiers@^2.0.0", "@ember/render-modifiers@^2.0.5", "@ember/render-modifiers@^2.1.0":
+"@ember/render-modifiers@^2.0.0", "@ember/render-modifiers@^2.0.3", "@ember/render-modifiers@^2.0.5", "@ember/render-modifiers@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@ember/render-modifiers/-/render-modifiers-2.1.0.tgz#f4fff95a8b5cfbe947ec46644732d511711c5bf9"
   integrity sha512-LruhfoDv2itpk0fA0IC76Sxjcnq/7BC6txpQo40hOko8Dn6OxwQfxkPIbZGV0Cz7df+iX+VJrcYzNIvlc3w2EQ==
@@ -4024,6 +4024,14 @@
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@glimmer/tracking/-/tracking-1.0.4.tgz#f1bc1412fe5e2236d0f8d502994a8f88af1bbb21"
   integrity sha512-F+oT8I55ba2puSGIzInmVrv/8QA2PcK1VD+GWgFMhF6WC97D+uZX7BFg+a3s/2N4FVBq5KHE+QxZzgazM151Yw==
+  dependencies:
+    "@glimmer/env" "^0.1.7"
+    "@glimmer/validator" "^0.44.0"
+
+"@glimmer/tracking@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@glimmer/tracking/-/tracking-1.1.2.tgz#74e71be07b0a7066518d24044d2665d0cf8281eb"
+  integrity sha512-cyV32zsHh+CnftuRX84ALZpd2rpbDrhLhJnTXn9W//QpqdRZ5rdMsxSY9fOsj0CKEc706tmEU299oNnDc0d7tA==
   dependencies:
     "@glimmer/env" "^0.1.7"
     "@glimmer/validator" "^0.44.0"
@@ -11560,7 +11568,7 @@ ember-destroyable-polyfill@^2.0.2, ember-destroyable-polyfill@^2.0.3:
     ember-cli-version-checker "^5.1.1"
     ember-compatibility-helpers "^1.2.1"
 
-ember-diff-attrs@^0.2.1, ember-diff-attrs@^0.2.2:
+ember-diff-attrs@^0.2.1:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/ember-diff-attrs/-/ember-diff-attrs-0.2.3.tgz#f208f1f83383b5782fb8df32824cdbefe855f1be"
   integrity sha512-uSuQN8NftbhflyMyOI1xqaYS/7AQfs9TKEoy50G+w9sSc4bh38TXcsrlkn9DRopfaNDG8el6ERDJgmsYsgtrvQ==
@@ -11675,17 +11683,21 @@ ember-fetch@^8.1.1:
     node-fetch "^2.6.1"
     whatwg-fetch "^3.6.2"
 
-ember-flatpickr@^2.15.0:
-  version "2.16.4"
-  resolved "https://registry.yarnpkg.com/ember-flatpickr/-/ember-flatpickr-2.16.4.tgz#e1ce09887cd7f42fdfbcfbb3279247d10649a4bc"
-  integrity sha512-Ra4TuVomfDHLuq/WDx0YuZcsWn6qhOk91SaP6pvQ8lSkwz4lte6FPc2ZqOfPRnXMLga+awP+T6kv/kELjXAcOA==
+ember-flatpickr@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ember-flatpickr/-/ember-flatpickr-4.0.0.tgz#602516b349598a9c8b00cb2d1edc2298a53b5408"
+  integrity sha512-NWCGFZENEcJ5GgtkuAtlAad3uyik4E0wD+/k40tNrlNd+XcGdMVQ4t90ku3GwfTrH9gNR5iq5LajL0dzA5Uhrw==
   dependencies:
-    ember-cli-babel "^7.21.0"
-    ember-cli-htmlbars "^5.2.0"
-    ember-cli-node-assets "^0.2.2"
-    ember-diff-attrs "^0.2.2"
-    fastboot-transform "^0.1.3"
-    flatpickr "4.6.3"
+    "@ember/render-modifiers" "^2.0.3"
+    "@glimmer/component" "^1.1.2"
+    "@glimmer/tracking" "^1.1.2"
+    broccoli-funnel "^3.0.3"
+    broccoli-merge-trees "^4.2.0"
+    broccoli-stew "^3.0.0"
+    ember-cli-babel "^7.26.11"
+    ember-cli-htmlbars "^6.2.0"
+    ember-cli-typescript "^5.0.0"
+    flatpickr "^4.6.9"
 
 ember-g-recaptcha@^1.0.0:
   version "1.3.0"
@@ -13261,7 +13273,7 @@ fastboot-transform@0.1.1:
   dependencies:
     broccoli-stew "^1.5.0"
 
-fastboot-transform@0.1.3, fastboot-transform@^0.1.2, fastboot-transform@^0.1.3:
+fastboot-transform@0.1.3, fastboot-transform@^0.1.2:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/fastboot-transform/-/fastboot-transform-0.1.3.tgz#7dea0b117594afd8772baa6c9b0919644e7f7dcd"
   integrity sha512-6otygPIJw1ARp1jJb+6KVO56iKBjhO+5x59RSC9qiZTbZRrv+HZAuP00KD3s+nWMvcFDemtdkugki9DNFTTwCQ==
@@ -13603,10 +13615,10 @@ flat@^5.0.2:
   resolved "https://registry.yarnpkg.com/flat/-/flat-5.0.2.tgz#8ca6fe332069ffa9d324c327198c598259ceb241"
   integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
 
-flatpickr@4.6.3:
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.6.3.tgz#15a8b76b6e34e3a072861250503a5995b9d3bc60"
-  integrity sha512-007VucCkqNOMMb9ggRLNuJowwaJcyOh4sKAFcdGfahfGc7JQbf94zSzjdBq/wVyHWUEs5o3+idhFZ0wbZMRmVQ==
+flatpickr@^4.6.9:
+  version "4.6.13"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.6.13.tgz#8a029548187fd6e0d670908471e43abe9ad18d94"
+  integrity sha512-97PMG/aywoYpB4IvbvUJi0RQi8vearvU0oov1WW3k0WZPBMrTQVqekSX5CjSG/M4Q3i6A/0FKXC7RyAoAUUSPw==
 
 flatted@^3.1.0:
   version "3.1.1"
