@@ -3,10 +3,10 @@ import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
+import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
-import QueryParams from 'ember-parachute';
 
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -14,21 +14,7 @@ import param from 'ember-osf-web/utils/param';
 
 const { OSF: { casUrl, url: baseUrl } } = config;
 
-interface RegisterQueryParams {
-    next: string;
-    campaign: string;
-}
-
-export const registerQueryParams = new QueryParams<RegisterQueryParams>({
-    next: {
-        defaultValue: '',
-    },
-    campaign: {
-        defaultValue: '',
-    },
-});
-
-export default class Register extends Controller.extend(registerQueryParams.Mixin) {
+export default class Register extends Controller.extend() {
     @service analytics!: Analytics;
     @service store!: Store;
 
@@ -40,7 +26,11 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
     isOsfPreprints = false;
     isOsfRegistries = false;
 
-    @computed('next')
+    @tracked next?: string = '';
+    @tracked campaign?: string = '';
+
+    queryParams = ['next', 'campaign'];
+
     get orcidUrl() {
         return `${casUrl}/login?${param({
             redirectOrcid: 'true',
@@ -48,7 +38,6 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
         })}`;
     }
 
-    @computed('next')
     get institutionUrl() {
         return `${casUrl}/login?${param({
             campaign: 'institution',
@@ -77,10 +66,10 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
         }
     }
 
-    setup({ queryParams }: { queryParams: RegisterQueryParams }) {
-        if (queryParams.campaign) {
-            this.set('signUpCampaign', queryParams.campaign);
-            const matches = queryParams.campaign.match(/^(.*)-(.*)$/);
+    setup() {
+        if (this.campaign) {
+            this.set('signUpCampaign', this.campaign);
+            const matches = this.campaign.match(/^(.*)-(.*)$/);
             if (matches) {
                 const [, provider, type] = matches;
                 if (provider === 'osf') {
