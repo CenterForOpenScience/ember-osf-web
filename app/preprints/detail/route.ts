@@ -2,7 +2,6 @@ import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import captureException from 'ember-osf-web/utils/capture-exception';
 
@@ -35,7 +34,6 @@ export default class PreprintsDetail extends Route {
     @service store!: Store;
     @service theme!: Theme;
     @service router!: RouterService;
-    @service currentUser!: CurrentUserService;
 
     async model(params: { guid : string }) {
         try {
@@ -65,6 +63,7 @@ export default class PreprintsDetail extends Route {
                 preprint,
                 brand: provider.brand.content,
                 contributors,
+                provider,
             };
 
         } catch (error) {

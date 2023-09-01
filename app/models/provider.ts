@@ -20,6 +20,18 @@ export interface Assets {
     wide_white: string;
 }
 
+export enum ReviewsWorkFlow{
+    PRE_MODERATION = 'pre-moderation',
+    POST_MODERATION = 'post-moderation'
+}
+
+export enum ReviewsState {
+    APPROVED = 'approved',
+    INITIAL = 'initial',
+    PENDING = 'pending',
+    REJECTED = 'rejected',
+}
+
 export enum ReviewPermissions {
     SetUpModeration = 'set_up_moderation',
     ViewSubmissions = 'view_submissions',

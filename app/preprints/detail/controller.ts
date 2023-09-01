@@ -7,6 +7,9 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import Features from 'ember-feature-flags';
 import ContributorModel from 'ember-osf-web/models/contributor';
 import SubjectModel from 'ember-osf-web/models/subject';
+import Intl from 'ember-intl/services/intl';
+import { Permission } from 'ember-osf-web/models/osf-model';
+import { ReviewsState, ReviewsWorkFlow } from 'ember-osf-web/models/provider';
 
 
 /**
@@ -25,9 +28,6 @@ const DATE_LABEL = {
     created: 'content.date_label.created_on',
     submitted: 'content.date_label.submitted_on',
 };
-const PRE_MODERATION = 'pre-moderation';
-const REJECTED = 'rejected';
-const INITIAL = 'initial';
 
 /**
  * @module ember-preprints
@@ -41,6 +41,7 @@ export default class PrePrintsDetailController extends Controller {
     @service theme!: Theme;
     @service currentUser!: CurrentUserService;
     @service features!: Features;
+    @service intl!: Intl;
 
     // metricsStartDate = config.OSF.metricsStartDate;
 
@@ -72,25 +73,29 @@ export default class PrePrintsDetailController extends Controller {
     }
 
     dateLabel(): string {
-        return this.model.provider.reviewsWorkflow === PRE_MODERATION ?
+        return this.model.provider.reviewsWorkflow === ReviewsWorkFlow.PRE_MODERATION ?
             DATE_LABEL.submitted :
             DATE_LABEL.created;
     }
 
-    editButtonLabel(): string {
-        const editPreprint = 'content.project_button.edit_preprint';
-        const editResubmitPreprint = 'content.project_button.edit_resubmit_preprint';
-        return this.model.provider.reviewsWorkflow === PRE_MODERATION
-            && this.model.provider.reviewsWorkflow.reviewsState === REJECTED && this.isAdmin()
+    get editButtonLabel(): string {
+        const editPreprint = 'preprints.detail.project_button.edit_preprint';
+        const editResubmitPreprint = 'preprints.detail.project_button.edit_resubmit_preprint';
+        // eslint-disable-next-line max-len
+        const translation = this.model.provider.reviewsWorkflow === ReviewsWorkFlow.PRE_MODERATION
+            && this.model.preprint.reviewsState === ReviewsState.REJECTED && this.isAdmin()
             ? editResubmitPreprint : editPreprint;
+        return this.intl.t(translation, {
+            documentType: this.model.provider.documentType.singular,
+        });
     }
 
     isAdmin(): boolean {
         // True if the current user has admin permissions for the node that contains the preprint
-        return (this.model.currentUserPermissions || []).includes(this.model.permissions.ADMIN);
+        return (this.model.preprint.currentUserPermissions).includes(Permission.Admin);
     }
 
-    userIsContrib(): boolean {
+    get userIsContrib(): boolean {
         if (this.isAdmin()) {
             return true;
         } else if (this.model.contributors.length) {
@@ -104,8 +109,8 @@ export default class PrePrintsDetailController extends Controller {
         return (
             this.model.provider.reviewsWorkflow
             && this.model.public
-            && this.userIsContrib()
-            && this.model.reviewsState !== INITIAL
+            && this.userIsContrib
+            && this.model.reviewsState !== ReviewsState.INITIAL
         ) || this.isPendingWithdrawal;
     }
 

@@ -24,6 +24,7 @@ export default class PreprintModel extends OsfModel {
     @attr('string') reviewsState!: string;
     @attr('date') dateLastTransitioned!: Date;
     @attr('date') preprintDoiCreated!: Date;
+    @attr('array') currentUserPermissions!: string[];
 
     @belongsTo('node', { inverse: 'preprint' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;

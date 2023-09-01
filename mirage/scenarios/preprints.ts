@@ -1,6 +1,8 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 import User from 'ember-osf-web/models/user';
 
 export function preprintsScenario(
@@ -25,9 +27,36 @@ function buildOSF(
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
 
-    const preprints = server.createList('preprint', 1, {
+    const rejectedAdminPreprint = server.create('preprint', {
         provider: osf,
-        id: 'taco',
+        id: 'osf-rejected-admin',
+        title: 'Preprint RWF: Pre-moderation, Admin and Rejected',
+        currentUserPermissions: [Permission.Admin],
+        reviewsState: ReviewsState.REJECTED,
+    });
+
+    const approvedAdminPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-approved-admin',
+        title: 'Preprint RWF: Pre-moderation, Admin and Approved',
+        currentUserPermissions: [Permission.Admin],
+        reviewsState: ReviewsState.APPROVED,
+    });
+
+    const rejectedPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-rejected',
+        title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.REJECTED,
+    });
+
+    const approvedPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-approved',
+        title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.APPROVED,
     });
 
     const subjects = server.createList('subject', 7);
@@ -40,7 +69,7 @@ function buildOSF(
         footer_links: '',
         brand,
         moderators: [currentUserModerator],
-        preprints,
+        preprints: [rejectedAdminPreprint, approvedAdminPreprint, approvedPreprint, rejectedPreprint],
         description: 'This is the description for osf',
     });
 }
