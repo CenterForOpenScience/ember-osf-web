@@ -66,10 +66,10 @@ export default class Register extends Controller.extend() {
         }
     }
 
-    setup({ queryParams }: { queryParams: { next?: string, campaign?: string } }) {
-        if (queryParams.campaign) {
-            this.set('signUpCampaign', queryParams.campaign);
-            const matches = queryParams.campaign.match(/^(.*)-(.*)$/);
+    setup() {
+        if (this.campaign) {
+            this.set('signUpCampaign', this.campaign);
+            const matches = this.campaign.match(/^(.*)-(.*)$/);
             if (matches) {
                 const [, provider, type] = matches;
                 if (provider === 'osf') {

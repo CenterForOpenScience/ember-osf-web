@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Session from 'ember-simple-auth/services/session';
 
+import RegisterController from './controller';
 
 export default class Register extends Route {
     @service session!: Session;
@@ -17,5 +18,10 @@ export default class Register extends Route {
 
     model() {
         return this.store.createRecord('user-registration');
+    }
+
+    setupController(controller: RegisterController, model: any, transition: Transition) {
+        super.setupController(controller, model, transition);
+        controller.setup();
     }
 }
