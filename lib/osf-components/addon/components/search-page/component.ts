@@ -234,7 +234,7 @@ export default class SearchPage extends Component<SearchArgs> {
             this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
                 searchResult.totalResultCount;
             if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType, page});
+                this.args.onSearch({cardSearchText, sort, resourceType});
             }
         } catch (e) {
             this.toast.error(e);
@@ -252,6 +252,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async doDebounceSearch() {
         await timeout(searchDebounceTime);
+        this.page = '';
         taskFor(this.search).perform();
     }
 
