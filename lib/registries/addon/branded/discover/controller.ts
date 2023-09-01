@@ -17,9 +17,8 @@ export default class BrandedDiscover extends Controller.extend() {
 
     @tracked cardSearchText? = '';
     @tracked sort? = '-relevance';
-    @tracked page? = '';
 
-    queryParams = ['cardSearchText', 'page', 'sort'];
+    queryParams = ['cardSearchText', 'sort'];
 
     get defaultQueryOptions() {
         return {
@@ -30,7 +29,6 @@ export default class BrandedDiscover extends Controller.extend() {
     @action
     onSearch(onSearchParams: OnSearchParams) {
         this.cardSearchText = onSearchParams.cardSearchText;
-        this.page = onSearchParams.page;
         this.sort = onSearchParams.sort;
     }
 }

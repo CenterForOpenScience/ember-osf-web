@@ -46,7 +46,6 @@ export interface Filter {
 
 export interface OnSearchParams {
     cardSearchText?: string;
-    page?: string;
     sort?: string;
     resourceType?: ResourceTypeFilterValue | null;
 }
