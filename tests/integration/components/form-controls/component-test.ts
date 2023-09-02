@@ -4,6 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import { setupIntl } from 'ember-intl/test-support';
 
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
@@ -12,6 +13,7 @@ import { nodeValidation } from './validation';
 module('Integration | Component | form-controls', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     test('it renders', async function(assert) {
         assert.ok(true);

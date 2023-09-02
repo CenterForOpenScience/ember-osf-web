@@ -1,7 +1,7 @@
 import { render, triggerKeyEvent } from '@ember/test-helpers';
 import fillIn from '@ember/test-helpers/dom/fill-in';
 import { hbs } from 'ember-cli-htmlbars';
-import { t, TestContext } from 'ember-intl/test-support';
+import { setupIntl, t, TestContext } from 'ember-intl/test-support';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -32,6 +32,8 @@ interface FileRenameModalTestContext extends TestContext {
 
 module('Integration | Component | file-browser :: file-rename-modal', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
+
     hooks.beforeEach(function(this: FileRenameModalTestContext) {
         this.item = {
             id: 'fakeId',
