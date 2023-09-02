@@ -114,6 +114,7 @@ module('Integration | Component | node-navbar', () => {
 
     module('renders the correct links', hooks => {
         setupRenderingTest(hooks);
+        setupIntl(hooks);
 
         const testCases: NavTestCase[] = [
             {
