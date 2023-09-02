@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -8,6 +9,7 @@ import { module, test } from 'qunit';
 module('Integration | Component | dashboard-item', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
