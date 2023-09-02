@@ -9,6 +9,7 @@ import sinon from 'sinon';
 
 import { click } from 'ember-osf-web/tests/helpers';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
+import { setupIntl } from 'ember-intl/test-support';
 
 interface ThisTestContext extends TestContext {
     currentUser: CurrentUserStub;
@@ -23,6 +24,8 @@ const sessionStub = Service.extend({
 module('Integration | Component | tos-consent-banner', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
+
     const sandbox = sinon.createSandbox();
 
     hooks.beforeEach(function(this: ThisTestContext) {
