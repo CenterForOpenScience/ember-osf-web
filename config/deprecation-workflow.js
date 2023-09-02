@@ -9,7 +9,7 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'ember-cli-mirage-config-routes-only-export' },
         { handler: 'silence', matchId: 'ember-engines.deprecation-router-service-from-host'},
         { handler: 'silence', matchId: 'ember-test-waiters-legacy-module-name'},
-        { handler: 'silence', matchId: 'ember.built-in-components.import'},
+        { handler: 'silence', matchId: 'deprecated-run-loop-and-computed-dot-access'},
         { handler: 'silence', matchId: 'ember.built-in-components.legacy-arguments'},
         { handler: 'silence', matchId: 'ember.built-in-components.legacy-attribute-arguments'},
         { handler: 'silence', matchId: 'ember.built-in-components.reopen'},
