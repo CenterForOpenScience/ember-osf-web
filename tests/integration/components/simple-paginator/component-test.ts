@@ -1,5 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 
@@ -7,6 +8,7 @@ import { module, test } from 'qunit';
 
 module('Integration | Component | simple-paginator', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.set('stubAction', () => []);

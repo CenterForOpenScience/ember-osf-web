@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import config from 'ember-osf-web/config/environment';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -12,6 +13,7 @@ const {
 module('Integration | Component | maintenance-banner', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     test('it renders no maintenance', async function(assert) {
         server.get('/v2/status', () => ({

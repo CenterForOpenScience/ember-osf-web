@@ -1,6 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 
 import { module, test } from 'qunit';
@@ -12,6 +13,7 @@ interface TestResult {
 module('Integration | routes | settings | profile | name | -components | citation-preview', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     const citationAssertions = (context: any, assert: any, expected: TestResult) => {
         assert.dom('[data-test-citation-container]', context.element).exists();

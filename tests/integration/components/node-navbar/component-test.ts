@@ -1,5 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import faker from 'faker';
 import { module, test } from 'qunit';
@@ -65,6 +66,7 @@ class FakeNode {
 module('Integration | Component | node-navbar', () => {
     module('basic rendering', hooks => {
         setupRenderingTest(hooks);
+        setupIntl(hooks);
 
         test('it renders', async function(assert) {
             this.owner.unregister('service:router');

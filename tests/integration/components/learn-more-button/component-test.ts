@@ -1,11 +1,13 @@
 import { render } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('Integration | Component | learn-more-button', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('it renders', async function(assert) {
         await render(hbs`<Home::-Components::SupportSection::LearnMoreButton />`);
