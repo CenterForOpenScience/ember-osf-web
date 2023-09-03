@@ -12,27 +12,27 @@
             <span local-class='Prefix'>{{@prefix}}</span>
             <Input
                 aria-label={{this.ariaLabel}}
-                @id={{or @uniqueID inputElementId}}
+                id={{or @uniqueID inputElementId}}
+                placeholder={{this._placeholder}}
+                name={{@valuePath}}
+                disabled={{this.disabled}}
+                local-class='PrefixedInput'
                 @type={{if this.password 'password' 'text'}}
                 @value={{this.value}}
-                @placeholder={{this._placeholder}}
-                @name={{@valuePath}}
-                @keyUp={{@onKeyUp}}
-                @disabled={{this.disabled}}
-                local-class='PrefixedInput'
+                {{on 'keyup' @onKeyUp}}
             />
         </div>
     {{else}}
         <Input
             aria-label={{this.ariaLabel}}
-            @id={{or @uniqueID inputElementId}}
+            id={{or @uniqueID inputElementId}}
+            placeholder={{this._placeholder}}
+            name={{@valuePath}}
+            disabled={{this.disabled}}
+            class='form-control'
             @type={{if this.password 'password' 'text'}}
             @value={{this.value}}
-            @placeholder={{this._placeholder}}
-            @name={{@valuePath}}
-            @keyUp={{@onKeyUp}}
-            @disabled={{this.disabled}}
-            class='form-control'
+            {{on 'keyup' @onKeyUp}}
         />
     {{/if}}
 {{/validated-input/x-input-wrapper}}

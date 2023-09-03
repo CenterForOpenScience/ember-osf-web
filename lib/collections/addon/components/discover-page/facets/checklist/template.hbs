@@ -6,7 +6,7 @@
                     <Input
                         @type='checkbox'
                         @checked={{item.checked}}
-                        @change={{action this.updateFilters item.key}}
+                        {{on 'change' (fn this.updateFilters item.key)}}
                     />
                     {{item.key}}
                 </label>

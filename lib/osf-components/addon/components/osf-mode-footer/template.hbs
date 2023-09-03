@@ -17,7 +17,7 @@
                     <Input
                         @type='text'
                         @value={{this.url}}
-                        @enter={{action this.transitionToUrl}}
+                        {{on 'enter' this.transitionToUrl}}
                     />
                 {{/if}}
             </div>
@@ -78,8 +78,8 @@
                             <label>
                                 <Input
                                     @type='checkbox'
-                                    @click={{action this.toggleFeature feature}}
                                     @checked={{is-feature-enabled this.features feature}}
+                                    {{on 'click' (fn this.toggleFeature feature)}}
                                 />
                                 {{feature}}
                             </label>

@@ -43,19 +43,19 @@
         {{!SEARCH BAR}}
         <Input
             local-class='input'
+            class='form-control'
             aria-label={{t
                 (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
                 documentType=this.themeProvider.documentType
             }}
-            @id='searchBox'
-            @value={{this.q}}
-            @class='form-control'
-            @enter={{action this.searchAction}}
-            @key-up={{action this.searchAction}}
-            @placeholder={{t
+            placeholder={{t
                 (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
                 documentType=this.themeProvider.documentType
             }}
+            id='searchBox'
+            @value={{this.q}}
+            {{on 'enter' this.searchAction}}
+            {{on 'keyup' this.searchAction}}
         />
         <div local-class='input-group-btn'>
             {{!HELP BUTTON}}

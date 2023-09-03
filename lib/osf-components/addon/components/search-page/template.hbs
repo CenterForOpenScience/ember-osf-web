@@ -53,10 +53,10 @@ as |layout|>
                 data-test-search-input
                 data-analytics-name='Search input'
                 local-class='search-input'
+                placeholder={{t 'search.textbox-placeholder'}}
                 @type='search'
-                @placeholder={{t 'search.textbox-placeholder'}}
                 @value={{this.cardSearchText}}
-                @enter={{perform this.doDebounceSearch}}
+                {{on 'enter' (perform this.doDebounceSearch)}}
             />
             <div local-class='search-button-wrapper'>
                 <Button

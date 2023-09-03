@@ -67,7 +67,8 @@
                 @type='checkbox'
                 @disabled={{not this.canChangeBibliographic}}
                 @checked={{@contributor.bibliographic}}
-                @change={{action @toggleBibliographic @contributor}} />
+                {{on 'change' (fn @toggleBibliographic @contributor)}}
+            />
 
             {{#if this.isMobile}}
                 <FaIcon @icon='question-circle' />

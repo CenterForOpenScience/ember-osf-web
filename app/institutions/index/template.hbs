@@ -49,10 +49,10 @@
                     <Input
                         data-test-institutions-filter='filter'
                         aria-label={{t 'institutions.search_placeholder'}}
+                        placeholder={{t 'institutions.search_placeholder'}}
+                        class='form-control'
                         @value={{this.textValue}}
                         @type='text'
-                        @class='form-control'
-                        @placeholder={{t 'institutions.search_placeholder'}}
                         @keyPress={{perform this.trackFilter}}
                     />
                 </div>

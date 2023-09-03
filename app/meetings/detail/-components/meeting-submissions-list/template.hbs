@@ -1,10 +1,10 @@
 <div data-test-submissions-list-search local-class='search-container'>
     <Input
         local-class='search {{if this.isMobile 'mobile'}}'
-        @type='text'
-        @placeholder={{t 'meetings.index.meetings-list.search'}}
-        @key-up={{perform this.searchSubmissions}}
+        placeholder={{t 'meetings.index.meetings-list.search'}}
         aria-label={{t 'meetings.index.meetings-list.search'}}
+        @type='text'
+        {{on 'keyup' (perform this.searchSubmissions)}}
     />
 </div>
 

@@ -8,8 +8,8 @@
                         data-test-source-filter-id={{provider.filter.value}}
                         disabled={{this.shouldLinkToAggregateDiscover}}
                         @type='checkbox'
-                        @change={{action 'providerChecked' provider.filter provider.checked}}
                         @checked={{provider.checked}}
+                        {{on 'change' (fn this.providerChecked provider.filter provider.checked)}}
                     />
                     {{provider.filter.display}}
                 </label>
