@@ -2,7 +2,7 @@ import { render } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { TestContext } from 'ember-intl/test-support';
+import { setupIntl, TestContext } from 'ember-intl/test-support';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
@@ -16,6 +16,7 @@ interface ThisTestContext extends TestContext {
 module('Registries | Integration | Component | registration-list-card', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.owner.unregister('service:router');

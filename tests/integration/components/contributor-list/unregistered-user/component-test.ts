@@ -4,6 +4,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
+import { setupIntl } from 'ember-intl/test-support';
 
 import { click } from 'ember-osf-web/tests/helpers';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
@@ -16,6 +17,7 @@ interface ThisTestContext extends TestContext {
 module('Integration | Component | contributor-list/unregistered-user', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
         const node = server.create('registration',

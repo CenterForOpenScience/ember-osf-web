@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
 
+import { setupIntl } from 'ember-intl/test-support';
 import { OsfLinkRouterStub } from '../../../helpers/osf-link-router-stub';
 
 const sessionStub = Service.extend({
@@ -21,6 +22,7 @@ const routingStub = Service.extend({
 
 module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:session', sessionStub);

@@ -2,6 +2,7 @@ import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { buildValidations, validator } from 'ember-cp-validations';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -25,6 +26,7 @@ function createModel(testContext: any, attrs: {}) {
 
 module('Integration | Component | validated-input', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('it renders', async function(assert) {
         this.set('model', createModel(this, {}));

@@ -5,6 +5,7 @@ import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
 import { TestContext } from 'ember-test-helpers';
+import { setupIntl } from 'ember-intl/test-support';
 
 interface DialogTestContext extends TestContext {
     isOpen: boolean;
@@ -12,6 +13,7 @@ interface DialogTestContext extends TestContext {
 
 module('Integration | Component | osf-dialog', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('it renders blocks the right way', async function(assert) {
         await render(hbs`<OsfDialog @renderInPlace={{true}} as |dialog|>

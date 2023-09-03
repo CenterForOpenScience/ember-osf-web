@@ -1,5 +1,6 @@
 import { render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import config from 'ember-osf-web/config/environment';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -8,6 +9,7 @@ const { OSF: { renderUrl } } = config;
 
 module('Integration | Component | file-renderer', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('file rendering defaults', async function(assert) {
         const download = this.set('download', 'http://cos.io/');

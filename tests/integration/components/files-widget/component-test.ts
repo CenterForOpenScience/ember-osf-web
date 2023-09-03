@@ -11,6 +11,7 @@ import { module, test } from 'qunit';
 import File from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
+import { setupIntl } from 'ember-intl/test-support';
 
 interface ThisTestContext extends TestContext {
     currentUser: CurrentUserStub;
@@ -38,6 +39,7 @@ function convertDate(item: ModelInstance<File>): string {
 module('Integration | Component | files-widget', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');

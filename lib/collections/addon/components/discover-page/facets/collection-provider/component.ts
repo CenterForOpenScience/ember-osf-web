@@ -1,6 +1,6 @@
 import Store from '@ember-data/store';
 import { computed, setProperties } from '@ember/object';
-import { run } from '@ember/runloop';
+import { schedule } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import config from 'collections/config/environment';
@@ -46,7 +46,7 @@ export default class SearchFacetProvider extends Base {
             this.set('allProviders', [provider]);
 
             this.context.lockedActiveFilter.pushObject(provider);
-            run.schedule('actions', () => this.context.activeFilter.pushObject(provider));
+            schedule('actions', () => this.context.activeFilter.pushObject(provider));
         } else {
             const providers = await this.store.findAll('collection-provider');
 

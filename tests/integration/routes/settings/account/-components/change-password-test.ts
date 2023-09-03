@@ -5,9 +5,11 @@ import { setupRenderingTest } from 'ember-qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
 import { module, test } from 'qunit';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | routes | settings | account | -components | change-password', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('it renders', async function(assert) {
         await render(hbs`{{settings/account/-components/change-password}}`);

@@ -3,6 +3,8 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import { setupIntl } from 'ember-intl/test-support';
+
 
 interface Expected {
     active: number;
@@ -38,6 +40,7 @@ function checkActive(assert: Assert, element: Element, expected: Expected) {
 module('Integration | Component | carousel', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(async () => {
         await render(hbs`<Carousel as |container|>

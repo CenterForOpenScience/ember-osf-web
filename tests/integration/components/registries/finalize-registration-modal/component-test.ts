@@ -3,7 +3,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 // @ts-ignore: add ember-flatpickr types
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
-import { t } from 'ember-intl/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment-timezone';
 import { module, test } from 'qunit';
@@ -13,6 +13,7 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 module('Integration | Component | finalize-registration-modal', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     test('make registration public immediately', async function(assert) {
         this.store = this.owner.lookup('service:store');
