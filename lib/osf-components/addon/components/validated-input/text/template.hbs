@@ -19,7 +19,7 @@
                 local-class='PrefixedInput'
                 @type={{if this.password 'password' 'text'}}
                 @value={{this.value}}
-                {{on 'keyup' @onKeyUp}}
+                {{on 'keyup' (if @onKeyUp @onKeyup this.noop)}}
             />
         </div>
     {{else}}
@@ -32,7 +32,7 @@
             class='form-control'
             @type={{if this.password 'password' 'text'}}
             @value={{this.value}}
-            {{on 'keyup' @onKeyUp}}
+            {{on 'keyup' (if @onKeyUp @onKeyup this.noop)}}
         />
     {{/if}}
 {{/validated-input/x-input-wrapper}}

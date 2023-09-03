@@ -7,14 +7,14 @@
     validationStatus=this.validationStatus
     as |inputElementId|
 }}
-    {{textarea
-        (html-attributes aria-label=this.ariaLabel)
-        id=(or @uniqueID inputElementId)
-        value=this.value
-        placeholder=this._placeholder
+    <Textarea
+        aria-label={{this.ariaLabel}}
+        id={{or @uniqueID inputElementId}}
         class='form-control'
-        name=this.valuePath
-        disabled=this.disabled
-        keyUp=@onKeyUp
-    }}
+        placeholder={{this._placeholder}}
+        name={{this.valuePath}}
+        disabled={{this.disabled}}
+        @value={{this.value}}
+        {{on 'keyup' @onKeyUp}}
+    />
 {{/validated-input/x-input-wrapper}}
