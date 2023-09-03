@@ -64,8 +64,8 @@
         >
             <Input
                 aria-label={{t 'app_components.project_contributors.list.item.in_citation_label'}}
+                disabled={{not this.canChangeBibliographic}}
                 @type='checkbox'
-                @disabled={{not this.canChangeBibliographic}}
                 @checked={{@contributor.bibliographic}}
                 {{on 'change' (fn @toggleBibliographic @contributor)}}
             />
