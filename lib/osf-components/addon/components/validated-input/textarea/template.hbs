@@ -15,6 +15,6 @@
         name={{this.valuePath}}
         disabled={{this.disabled}}
         @value={{this.value}}
-        {{on 'keyup' @onKeyUp}}
+        {{on 'keyup' (if @onKeyUp @onKeyUp this.noop)}}
     />
 {{/validated-input/x-input-wrapper}}
