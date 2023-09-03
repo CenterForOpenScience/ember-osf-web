@@ -56,7 +56,7 @@ as |layout|>
                 placeholder={{t 'search.textbox-placeholder'}}
                 @type='search'
                 @value={{this.cardSearchText}}
-                {{on 'enter' (perform this.doDebounceSearch)}}
+                @enter={{perform this.doDebounceSearch}}
             />
             <div local-class='search-button-wrapper'>
                 <Button

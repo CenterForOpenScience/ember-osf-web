@@ -15,12 +15,12 @@
                     <Input
                         data-test-new-project-title
                         placeholder={{t 'new_project.title_placeholder'}}
-                        autofocus='autofocus'
+                        autofocus={{true}}
                         class='form-control'
                         required={{true}}
                         @value={{this.nodeTitle}}
                         @type='text'
-                        {{on 'change' this.create}}
+                        @enter={{this.create}}
                     />
                 </label>
             </div>

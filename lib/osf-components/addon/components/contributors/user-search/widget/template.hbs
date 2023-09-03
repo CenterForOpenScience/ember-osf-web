@@ -6,7 +6,7 @@
             placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
             @type='text'
             @value={{this.query}}
-            {{on 'enter' (perform this.fetchUsers false)}}
+            @enter={{perform this.fetchUsers false}}
         />
         <Button
             data-test-user-search-button

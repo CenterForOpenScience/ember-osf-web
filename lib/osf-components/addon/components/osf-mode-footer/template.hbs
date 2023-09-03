@@ -17,7 +17,7 @@
                     <Input
                         @type='text'
                         @value={{this.url}}
-                        {{on 'enter' this.transitionToUrl}}
+                        @enter={{this.transitionToUrl}}
                     />
                 {{/if}}
             </div>

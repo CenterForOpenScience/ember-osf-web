@@ -54,7 +54,7 @@
             }}
             id='searchBox'
             @value={{this.q}}
-            {{on 'enter' this.searchAction}}
+            @enter={{this.searchAction}}
             {{on 'keyup' this.searchAction}}
         />
         <div local-class='input-group-btn'>

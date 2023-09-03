@@ -16,7 +16,7 @@
             name='search'
             @type='text'
             @value={{mut this.value}}
-            {{on 'enter' (fn this._onSearch this.value)}}
+            @enter={{fn this._onSearch this.value}}
         />
     </span>
 </div>
