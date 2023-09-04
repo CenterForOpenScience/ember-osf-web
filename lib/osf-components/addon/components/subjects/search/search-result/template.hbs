@@ -2,10 +2,10 @@
     {{#let (unique-id 'search-result') as |inputId|}}
         <Input
             data-test-subject-search-result-checkbox='{{this.subject.text}}'
-            @id={{inputId}}
+            id={{inputId}}
             @type='checkbox'
-            @change={{@singleSubjectManager.toggleSelected}}
             @checked={{@singleSubjectManager.isSelected}}
+            {{on 'change' @singleSubjectManager.toggleSelected}}
         />
 
         <span local-class='Ancestry'>

@@ -13,7 +13,7 @@
                                 data-test-registration-type-filter-id={{index}}
                                 @type='checkbox'
                                 @checked={{type.checked}}
-                                @change={{action 'typeChecked' type.filter type.checked}}
+                                {{on 'change' (fn this.typeChecked type.filter type.checked)}}
                             />
                             {{type.name}}
                         </label>

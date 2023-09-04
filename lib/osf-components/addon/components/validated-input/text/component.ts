@@ -1,4 +1,5 @@
 import Model from '@ember-data/model';
+import { action } from '@ember/object';
 import { AttributesFor } from 'ember-data';
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -12,4 +13,9 @@ export default class ValidatedText<M extends Model> extends BaseValidatedCompone
     // Additional arguments
     password = false;
     onKeyUp?: () => void; // Action
+
+    @action
+    noop() {
+        return;
+    }
 }

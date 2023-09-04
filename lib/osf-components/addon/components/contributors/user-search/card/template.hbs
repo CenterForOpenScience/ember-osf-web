@@ -42,7 +42,7 @@
                 <Input
                     @type='checkbox'
                     @checked={{readonly this.isBibliographic}}
-                    @disabled={{this.isAdded}}
+                    disabled={{this.isAdded}}
                     data-test-user-citation-checkbox={{@user.id}}
                     data-analytics-name='Toogle isBibliographic'
                     {{on 'click' this.toggleIsBibliographic}}

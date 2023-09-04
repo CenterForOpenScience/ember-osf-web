@@ -9,11 +9,11 @@
 }}
     <label>
         <Input
-            @id={{inputElementId}}
+            id={{inputElementId}}
+            name={{this.valuePath}}
+            disabled={{this.disabled}}
             @type='checkbox'
             @checked={{this.value}}
-            @name={{this.valuePath}}
-            @disabled={{this.disabled}}
         />
         {{yield}}
     </label>

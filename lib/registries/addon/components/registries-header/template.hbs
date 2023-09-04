@@ -31,9 +31,9 @@
                 data-test-search-box={{true}}
                 aria-label={{t 'registries.header.search_label'}}
                 id='search'
+                placeholder={{t 'registries.header.search_placeholder'}}
+                class='form-control'
                 @value={{this.value}}
-                @class='form-control'
-                @placeholder={{t 'registries.header.search_placeholder'}}
             />
             {{#if this.showHelp}}
                 <Button
