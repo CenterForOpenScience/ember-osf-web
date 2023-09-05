@@ -158,7 +158,7 @@
     "ember-code-snippet": "^2.4.0",
     "ember-collapsible-panel": "^6.0.1",
     "ember-component-attributes": "^0.1.1",
-    "ember-composable-helpers": "^4.4.1",
+    "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^2.0.3",
     "ember-concurrency-async": "^1.0.0",
     "ember-concurrency-ts": "^0.2.2",
