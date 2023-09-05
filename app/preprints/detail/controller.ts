@@ -99,7 +99,10 @@ export default class PrePrintsDetailController extends Controller {
         if (this.isAdmin()) {
             return true;
         } else if (this.model.contributors.length) {
-            const authorIds = this.model.contributors.forEach((author: ContributorModel) => author.id);
+            const authorIds = [] as string[];
+            this.model.contributors.forEach((author: ContributorModel) => {
+                authorIds.push(author.id);
+            });
             return this.currentUser.currentUserId ? authorIds.includes(this.currentUser.currentUserId) : false;
         }
         return false;

@@ -15,6 +15,10 @@ export default Factory.extend<PreprintModel>({
 
     reviewsState: ReviewsState.REJECTED,
 
+    public: true,
+
+    isPreprintOrphan: false,
+
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 

@@ -67,6 +67,25 @@
             }
         }
     }
+
+    .data-container {
+        padding: 30px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .data-container-left,
+        .data-container-right {
+            padding: 0 15px;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+    }
 }
 
 .bottom-margin {

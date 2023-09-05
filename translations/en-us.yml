@@ -1129,6 +1129,8 @@ preprints:
         project_button: 
             edit_preprint: 'Edit {documentType}'
             edit_resubmit_preprint: 'Edit and resubmit'
+        orphan_preprint: 'The user has removed this file.'
+        private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'
