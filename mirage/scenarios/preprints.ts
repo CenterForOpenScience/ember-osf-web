@@ -59,6 +59,24 @@ function buildOSF(
         reviewsState: ReviewsState.APPROVED,
     });
 
+    const orphanedPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-orphan',
+        title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.APPROVED,
+        isPreprintOrphan: true,
+    });
+
+    const privatePreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-private',
+        title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.APPROVED,
+        public: false,
+    });
+
     const subjects = server.createList('subject', 7);
 
     osf.update({
@@ -69,7 +87,14 @@ function buildOSF(
         footer_links: '',
         brand,
         moderators: [currentUserModerator],
-        preprints: [rejectedAdminPreprint, approvedAdminPreprint, approvedPreprint, rejectedPreprint],
+        preprints: [
+            rejectedAdminPreprint,
+            approvedAdminPreprint,
+            approvedPreprint,
+            rejectedPreprint,
+            orphanedPreprint,
+            privatePreprint,
+        ],
         description: 'This is the description for osf',
     });
 }

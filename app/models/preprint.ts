@@ -18,6 +18,7 @@ export default class PreprintModel extends OsfModel {
     @attr('date') originalPublicationDate!: Date | null;
     @attr('date') dateModified!: Date;
     @attr('fixstring') doi!: string | null;
+    @attr('boolean') public!: boolean;
     @attr('boolean') isPublished!: boolean;
     @attr('boolean') isPreprintOrphan!: boolean;
     @attr('object') licenseRecord!: any;
