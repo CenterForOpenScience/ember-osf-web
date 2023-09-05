@@ -13,7 +13,6 @@
     "ember-auto-import": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
-    "ember-cli-sanitize-html": "*",
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
