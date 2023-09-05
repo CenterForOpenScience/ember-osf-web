@@ -194,7 +194,7 @@
     "ember-page-title": "^6.2.2",
     "ember-parachute": "^1.0.2",
     "ember-percy": "^1.5.0",
-    "ember-power-select": "^4.1.7",
+    "ember-power-select": "6.0.1",
     "ember-qrcode-shim": "^0.4.0",
     "ember-qunit": "^5.1.5",
     "ember-radio-button": "3.0.0-beta.1",
@@ -236,7 +236,6 @@
     "mime-types": "^2.1.22",
     "mocha": "^6.1.4",
     "moment-timezone": "^0.5.43",
-    "node-sass": "^4.14.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1",
     "qunit": "^2.17.2",
@@ -257,7 +256,7 @@
     "node": "12.* || 14.* || >= 16"
   },
   "volta": {
-    "node": "14.15.0",
+    "node": "16.20.2",
     "yarn": "1.21.1"
   },
   "ember": {
