@@ -4,7 +4,7 @@
         placeholder={{t 'meetings.index.meetings-list.search'}}
         aria-label={{t 'meetings.index.meetings-list.search'}}
         @type='text'
-        {{on 'keyup' (perform this.searchSubmissions)}}
+        {{on 'keyup' (perform this.searchSubmissions value='target.value')}}
     />
 </div>
 
