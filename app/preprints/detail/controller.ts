@@ -72,7 +72,7 @@ export default class PrePrintsDetailController extends Controller {
         return this.model.provider.facebookAppId ? this.model.provider.facebookAppId : config.FB_APP_ID;
     }
 
-    dateLabel(): string {
+    get dateLabel(): string {
         return this.model.provider.reviewsWorkflow === ReviewsWorkFlow.PRE_MODERATION ?
             DATE_LABEL.submitted :
             DATE_LABEL.created;

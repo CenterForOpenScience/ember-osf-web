@@ -42,6 +42,9 @@ export default class PreprintModel extends OsfModel {
     @hasMany('review-action', { inverse: 'target' })
     reviewActions!: AsyncHasMany<ReviewActionModel>;
 
+    @hasMany('files', { inverse: null})
+    files!: AsyncHasMany<FileModel> & FileModel;
+
     @hasMany('contributors', { inverse: 'preprint'})
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel;
 

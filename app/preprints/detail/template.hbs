@@ -46,9 +46,11 @@ data-analytics-scope='preprints detail page'
                     {{t 'preprints.detail.orphan_preprint'}}
                 </Alert>
             {{else}}
-                {{#if this.model.public}}
+                {{#if this.model.preprint.public}}
+                    {{this.model.primaryFile.links.download}}
+                    {{this.model.primaryFile.links.self}}
                     <FileRenderer
-                        @download={{this.model.links.download}}
+                        @download={{this.model.primaryFile.links.self}}
                         @version={{this.viewedVersion}}
                     />
 
@@ -67,7 +69,6 @@ data-analytics-scope='preprints detail page'
                         {{action 'expandMFR'}}
                         aria-label={{if this.fullScreenMFR (t 'global.collapse') (t 'global.expand')}}
                     >
-                        <i class='fa fa-chevron-{{if this.fullScreenMFR 'left' 'right'}}'></i>
                     </button>
                 {{else}}
                     <Alert

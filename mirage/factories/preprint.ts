@@ -22,6 +22,8 @@ export default Factory.extend<PreprintModel>({
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 
+        const file = server.create('file', {id: 'afile', target: newPreprint});
+
         const contributorUser = server.create('user', {
             givenName: 'Emmit',
             familyName: 'Stud',
@@ -42,6 +44,8 @@ export default Factory.extend<PreprintModel>({
         newPreprint.update({
             contributors: allContributors,
             bibliographicContributors: allContributors,
+            files: [file],
+            primaryFile: file,
         });
     },
 
