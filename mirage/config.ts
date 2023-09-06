@@ -324,6 +324,16 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'contributor',
     });
+    osfNestedResource(this, 'preprint', 'files', {
+        path: '/preprints/:parentID/files/',
+        defaultSortKey: 'index',
+        relatedModelName: 'file',
+    });
+    osfNestedResource(this, 'preprint', 'primaryFile', {
+        path: '/wb/files/:fileID/',
+        defaultSortKey: 'index',
+        relatedModelName: 'file',
+    });
 
 
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });

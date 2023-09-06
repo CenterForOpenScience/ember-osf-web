@@ -38,6 +38,22 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                     },
                 },
             },
+            files: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/files/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                    },
+                },
+            },
+            primaryFile: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/files/${model.primaryFile.id}/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                    },
+                },
+            },
             /*
             subjects: {
                 links: {

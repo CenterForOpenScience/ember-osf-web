@@ -5,6 +5,7 @@ import { Link } from 'jsonapi-typescript';
 import { FileReference } from 'ember-osf-web/packages/registration-schema';
 import getHref from 'ember-osf-web/utils/get-href';
 
+import PreprintModel from 'ember-osf-web/models/preprint';
 import AbstractNodeModel from './abstract-node';
 import BaseFileItem, { BaseFileLinks } from './base-file-item';
 import CommentModel from './comment';
@@ -57,7 +58,8 @@ export default class FileModel extends BaseFileItem {
     comments!: AsyncHasMany<CommentModel>;
 
     @belongsTo('abstract-node', { polymorphic: true })
-    target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
+    // eslint-disable-next-line max-len
+    target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<PreprintModel> & PreprintModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
 
     // BaseFileItem override
     isFileModel = true;
