@@ -23,6 +23,7 @@ export default class PreprintModel extends OsfModel {
     @attr('boolean') isPreprintOrphan!: boolean;
     @attr('object') licenseRecord!: any;
     @attr('string') reviewsState!: string;
+    @attr('string') description!: string;
     @attr('date') dateLastTransitioned!: Date;
     @attr('date') preprintDoiCreated!: Date;
     @attr('array') currentUserPermissions!: string[];

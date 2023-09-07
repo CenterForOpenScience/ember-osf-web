@@ -120,6 +120,19 @@
                 }
             }
         }
+
+        .data-container-right {
+            .abstract-truncated::after {
+                content: ' \2026';
+            }
+        
+            h4 {
+                padding-bottom: 15px;
+                padding-top: 15px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
     }
 }
 

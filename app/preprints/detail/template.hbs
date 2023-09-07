@@ -86,7 +86,53 @@ data-analytics-scope='preprints detail page'
         </div>
         {{#unless this.fullScreenMFR }}
             <div local-class='data-container-right'>
-                {{! Right}}
+                <div>
+                    {{!Download}}
+                </div>
+                <div>
+                    {{!Plaudit }}
+                </div>
+                <div>
+                    <h4><strong>{{t 'preprints.detail.abstract'}}</strong></h4>
+                    <p local-class='{{unless this.expandedAbstract 'abstract-truncated'}}'>
+                        {{this.description}}
+                    </p>
+                    {{#if this.hasShortenedDescription}}
+                        <Button
+                            data-test-toggle-abstract
+                            data-analytics-name='Expand Abstract'
+                            {{on 'click' (action this.expandAbstract)}}
+                            aria-label={{if this.expandedAbstract 'preprints.detail.see_less' 'preprints.detail.see_more'}}
+                            @type='default'
+                        >
+                            {{~t (if this.expandedAbstract 'preprints.detail.see_less' 'preprints.detail.see_more')~}}
+                        </Button>
+                    {{/if}}
+                </div>
+                <div>
+                    {{!Supplement Materials}}
+                </div>
+                <div>
+                    {{!Preprint DOI}}
+                </div>
+                <div>
+                    {{!Peer Review}}
+                </div>
+                <div>
+                    {{!License}}
+                </div>
+                <div>
+                    {{!Disciplines}}
+                </div>
+                <div>
+                    {{!Tags}}
+                </div>
+                <div>
+                    {{!Original Publication Date}}
+                </div>
+                <div>
+                    {{!Citations}}
+                </div>
             </div>
         {{/unless}}
         {{! removed - 1 }}

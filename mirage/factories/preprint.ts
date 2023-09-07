@@ -19,6 +19,8 @@ export default Factory.extend<PreprintModel>({
 
     isPreprintOrphan: false,
 
+    description: faker.lorem.sentence(),
+
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 

@@ -58,7 +58,7 @@ export default class PrePrintsDetailController extends Controller {
     isPendingWithdrawal = false;
     isWithdrawn = null;
     isPlauditReady = false;
-    expandedAbstract =  navigator.userAgent.includes('Prerender');
+    @tracked expandedAbstract =  navigator.userAgent.includes('Prerender');
 
 
     get hyperlink(): string {
@@ -131,12 +131,12 @@ export default class PrePrintsDetailController extends Controller {
         return this.model.licenseRecord;
     }
 
-    hasShortenedDescription(): String {
-        return this.model.description && this.model.description.length > 350;
+    get hasShortenedDescription(): String {
+        return this.model.preprint.description && this.model.preprint.description.length > 350;
     }
 
-    useShortenedDescription(): boolean {
-        return this.hasShortenedDescription() && !this.expandedAbstract;
+    get useShortenedDescription(): boolean {
+        return this.hasShortenedDescription && !this.expandedAbstract;
     }
 
     /**
@@ -146,10 +146,14 @@ export default class PrePrintsDetailController extends Controller {
      *      by going to the last space.
      * @returns string
      */
-    description(): string {
-        return this.model.description
-            .slice(0, 350)
-            .replace(/\s+\S*$/, '');
+    get description(): string {
+        if (this.useShortenedDescription) {
+            return this.model.preprint.description
+                .slice(0, 350)
+                .replace(/\s+\S*$/, '');
+        } else {
+            return this.model.preprint.description;
+        }
     }
 
     emailHref(): string {

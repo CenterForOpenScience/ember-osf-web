@@ -4,6 +4,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import User from 'ember-osf-web/models/user';
+import faker from 'faker';
 
 export function preprintsScenario(
     server: Server,
@@ -57,6 +58,7 @@ function buildOSF(
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
         currentUserPermissions: [],
         reviewsState: ReviewsState.APPROVED,
+        description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
     });
 
     const orphanedPreprint = server.create('preprint', {
