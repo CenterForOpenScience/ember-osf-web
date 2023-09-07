@@ -10,6 +10,7 @@ import SubjectModel from 'ember-osf-web/models/subject';
 import Intl from 'ember-intl/services/intl';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState, ReviewsWorkFlow } from 'ember-osf-web/models/provider';
+import { tracked } from '@glimmer/tracking';
 
 
 /**
@@ -25,8 +26,8 @@ import { ReviewsState, ReviewsWorkFlow } from 'ember-osf-web/models/provider';
  */
 
 const DATE_LABEL = {
-    created: 'content.date_label.created_on',
-    submitted: 'content.date_label.submitted_on',
+    created: 'preprints.detail.date_label.created_on',
+    submitted: 'preprints.detail.date_label.submitted_on',
 };
 
 /**
@@ -49,7 +50,7 @@ export default class PrePrintsDetailController extends Controller {
         chosenFile: 'file',
     };
 
-    fullScreenMFR = false;
+    @tracked fullScreenMFR = false;
     expandedAuthors = true;
     showLicenseText = false;
     primaryFile = null;
@@ -173,17 +174,7 @@ export default class PrePrintsDetailController extends Controller {
 
     @action
     expandMFR() {
-        // State of fullScreenMFR before the transition (what the user perceives as the action)
         this.fullScreenMFR = !this.fullScreenMFR;
-
-        /*
-        this.get('metrics')
-            .trackEvent({
-                category: 'button',
-                action: 'click',
-                label: `Content - MFR ${beforeState}`,
-            });
-            */
     }
 
     @action

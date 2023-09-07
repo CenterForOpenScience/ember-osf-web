@@ -18,6 +18,7 @@ export interface KeenConfig {
 }
 
 declare const config: {
+    WATER_BUTLER_ENABLED: any;
     environment: any;
     lintOnBuild: boolean;
     testsEnabled: boolean;
