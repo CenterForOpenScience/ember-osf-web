@@ -23,7 +23,7 @@ export default class BrandedDiscover extends Controller.extend() {
 
     get defaultQueryOptions() {
         return {
-            publisher: pathJoin(config.OSF.url, 'registrations', this.model.id),
+            publisher: pathJoin(config.OSF.url, 'registries', this.model.id),
         };
     }
 
