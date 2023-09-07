@@ -22,7 +22,30 @@ export default Factory.extend<PreprintModel>({
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 
-        const file = server.create('file', {id: 'afile', target: newPreprint});
+        const file = server.create('file', {
+            id: 'afile',
+            target: newPreprint,
+            links: {
+                info: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                move: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                delete: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                html: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                upload: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                download: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+            },
+        });
+
+        /*
+        fileReference: () => ({
+            file_id: this.id as string,
+            file_name: this.name as string,
+            file_urls: {
+            },
+            file_hashes: {
+                sha256: this.extra.hashes.sha256,
+            },
+        }),
+        */
 
         const contributorUser = server.create('user', {
             givenName: 'Emmit',

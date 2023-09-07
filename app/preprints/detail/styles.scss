@@ -80,10 +80,45 @@
         .data-container-right {
             padding: 0 15px;
             width: 50%;
+            height: 700px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
+        }
+
+        .data-container-left {
+            &.expanded {
+                width: 100%;
+            }
+
+            &.collapsed {
+                width: 50%;
+            }
+
+        }
+
+        .data-container-left {
+            .file-description-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+                width: 100%;
+                padding-top: 15px;
+
+                .file-description {
+                    width: 75%;
+                }
+
+                .toggle-button {
+                    width: 25%;
+                    min-width: 100px;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: flex-start;
+                }
+            }
         }
     }
 }

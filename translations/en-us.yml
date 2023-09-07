@@ -1122,6 +1122,11 @@ preprints:
             edit_resubmit_preprint: 'Edit and resubmit'
         orphan_preprint: 'The user has removed this file.'
         private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
+        date_label: 
+            created_on: 'Created'
+            submitted_on: 'Submitted'
+        collapse: 'Collapse'
+        expand: 'Expand'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'

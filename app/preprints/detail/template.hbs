@@ -36,7 +36,7 @@ data-analytics-scope='preprints detail page'
     {{! removed }}
     <div local-class='data-container'>
         {{! removed }}
-        <div local-class='data-container-left'>
+        <div local-class='data-container-left {{if this.fullScreenMFR 'expanded' 'collapsed'}}'>
             {{#if this.model.preprint.isPreprintOrphan}}
                 <Alert
                     @type='warning'
@@ -47,29 +47,32 @@ data-analytics-scope='preprints detail page'
                 </Alert>
             {{else}}
                 {{#if this.model.preprint.public}}
-                    {{this.model.primaryFile.links.download}}
-                    {{this.model.primaryFile.links.self}}
                     <FileRenderer
-                        @download={{this.model.primaryFile.links.self}}
+                        @download={{this.model.primaryFile.links.download}}
                         @version={{this.viewedVersion}}
                     />
-
-                    {{! preprint-file-renderer provider=this.model.provider preprint=this.model primaryFile=this.primaryFile}}
-                    <div>
-                        <span>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</span>
-                        {{#if this.isWithdrawn}}
-                            | <span>{{t 'preprint.detail.header.withdrawn_on'}}: {{moment-format this.model.dateWithdrawn 'MMMM DD, YYYY'}}</span>
-                        {{else}}
-                            | <span>{{t 'preprint.detail.header.last_edited'}}: {{moment-format this.model.dateModified 'MMMM DD, YYYY'}}</span>
-                        {{/if}}
+                    <div local-class='file-description-container'>
+                        <div local-class='file-description'>
+                            <span>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</span>
+                            {{#if this.isWithdrawn}}
+                                | <span>{{t 'preprints.detail.header.withdrawn_on'}}: {{moment-format this.model.dateWithdrawn 'MMMM DD, YYYY'}}</span>
+                            {{else}}
+                                | <span>{{t 'preprints.detail.header.last_edited'}}: {{moment-format this.model.dateModified 'MMMM DD, YYYY'}}</span>
+                            {{/if}}
+                        </div>
+                        <div local-class='toggle-button'>
+                            <Button
+                                data-test-toggle-document
+                                data-analytics-name='Expand Document'
+                                {{on 'click' (action this.expandMFR)}}
+                                aria-label={{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
+                                @type='default'
+                            >
+                                {{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
+                                <FaIcon @icon='chevron-{{if this.fullScreenMFR 'left' 'right'}}' /> 
+                            </Button>
+                        </div>
                     </div>
-                    <button
-                        type='button'
-                        class='expand-mfr-carrot hidden-xs hidden-sm'
-                        {{action 'expandMFR'}}
-                        aria-label={{if this.fullScreenMFR (t 'global.collapse') (t 'global.expand')}}
-                    >
-                    </button>
                 {{else}}
                     <Alert
                         @type='warning'
@@ -81,9 +84,11 @@ data-analytics-scope='preprints detail page'
                 {{/if}}
             {{/if}}
         </div>
-        <div local-class='data-container-right'>
-            {{! Right}}
-        </div>
+        {{#unless this.fullScreenMFR }}
+            <div local-class='data-container-right'>
+                {{! Right}}
+            </div>
+        {{/unless}}
         {{! removed - 1 }}
         {{! removed - 2 }}
     </div>
