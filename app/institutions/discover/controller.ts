@@ -18,7 +18,7 @@ export default class InstitutionDiscoverController extends Controller {
 
     get defaultQueryOptions() {
         return {
-            publisher: pathJoin(config.OSF.url, 'institutions', this.model.id),
+            affiliation: pathJoin(config.OSF.url, 'institutions', this.model.id),
         };
     }
 
