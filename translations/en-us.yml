@@ -1136,6 +1136,9 @@ preprints:
             submitted_on: 'Submitted'
         collapse: 'Collapse'
         expand: 'Expand'
+        abstract: 'Abstract'
+        see_more: 'See more'
+        see_less: 'See less'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'
