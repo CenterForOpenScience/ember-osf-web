@@ -123,7 +123,7 @@ data-analytics-scope='preprints detail page'
                             data-analytics-name='peer review publication doi'
                             @href={{this.model.preprint.articleDoiUrl}} 
                         >
-                            {{extract-doi this.model.preprint.articleDoiUrl}}
+                            {{this.doi}}
                         </OsfLink>
                     </div>
                 {{/if}}

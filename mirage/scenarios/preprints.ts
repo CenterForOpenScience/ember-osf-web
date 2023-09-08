@@ -14,14 +14,6 @@ export function preprintsScenario(
     buildThesisCommons(server, currentUser);
 }
 
-function buildLicenseText(): string {
-    let text = faker.lorem.sentence(100);
-    [250, 100, 250, 300].map((length: number) => {
-        text = `${text}\n\n${faker.lorem.sentence(length)}`;
-    });
-    return text;
-}
-
 function buildOSF(
     server: Server,
     currentUser: ModelInstance<User>,
@@ -35,14 +27,6 @@ function buildOSF(
     });
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
-
-    const license = server.create('license', {
-        id: 'asdksusslsh',
-        name: 'Mozilla Public License 2.0',
-        text: buildLicenseText(),
-        url: 'https://creativecommons.org/licenses/by/4.0/legalcode',
-        requiredFields: [],
-    });
 
     const rejectedAdminPreprint = server.create('preprint', {
         provider: osf,
@@ -58,7 +42,7 @@ function buildOSF(
         title: 'Preprint RWF: Pre-moderation, Admin and Approved',
         currentUserPermissions: [Permission.Admin],
         reviewsState: ReviewsState.APPROVED,
-        license,
+        doi: '10.30822/artk.v1i1.79',
     });
 
     const rejectedPreprint = server.create('preprint', {
@@ -76,7 +60,6 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.APPROVED,
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
-        license,
     });
 
     const orphanedPreprint = server.create('preprint', {
