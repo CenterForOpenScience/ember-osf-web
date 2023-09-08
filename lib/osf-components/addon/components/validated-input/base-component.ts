@@ -108,25 +108,25 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
     }
 
     get errors() {
-        if (this.changeset?.error?.[String(this.valuePath)]) {
-            return this.changeset.error[String(this.valuePath)].validation;
-        } else if (this.model?.validations?.attrs?.[this.valuePath].errors) {
-            return this.model.validations.attrs[this.valuePath].errors;
+        if (this.changeset?.error?.[this.valuePath as string]) {
+            return this.changeset.error[this.valuePath as string].validation;
+        } else if (this.model?.validations?.attrs?.[this.valuePath as string].errors) {
+            return this.model.validations.attrs[this.valuePath as string].errors;
         }
     }
 
     init() {
         super.init();
         if (this.changeset) {
-            defineProperty(this, 'validation', oneWay(`changeset.data.validations.attrs.${String(this.valuePath)}`));
-            defineProperty(this, 'value', alias(`changeset.${String(this.valuePath)}`));
+            defineProperty(this, 'validation', oneWay(`changeset.data.validations.attrs.${this.valuePath as string}`));
+            defineProperty(this, 'value', alias(`changeset.${this.valuePath as string}`));
         } else if (this.model) {
-            defineProperty(this, 'validation', oneWay(`model.validations.attrs.${String(this.valuePath)}`));
-            defineProperty(this, 'errors', oneWay(`model.validations.attrs.${String(this.valuePath)}.errors`));
-            defineProperty(this, 'value', alias(`model.${String(this.valuePath)}`));
+            defineProperty(this, 'validation', oneWay(`model.validations.attrs.${this.valuePath as string}`));
+            defineProperty(this, 'errors', oneWay(`model.validations.attrs.${this.valuePath as string}.errors`));
+            defineProperty(this, 'value', alias(`model.${this.valuePath as string}`));
             defineProperty(this, 'isValidating',
-                oneWay(`model.validations.attrs.${String(this.valuePath)}.isValidating`));
-            defineProperty(this, 'isInvalid', oneWay(`model.validations.attrs.${String(this.valuePath)}.isInvalid`));
+                oneWay(`model.validations.attrs.${this.valuePath as string}.isValidating`));
+            defineProperty(this, 'isInvalid', oneWay(`model.validations.attrs.${this.valuePath as string}.isInvalid`));
         }
     }
 }
