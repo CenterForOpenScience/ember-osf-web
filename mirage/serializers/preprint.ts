@@ -9,6 +9,7 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
     buildNormalLinks(model: ModelInstance) {
         return {
             self: `${apiUrl}/v2/${model.id}/`,
+            doi: model.doi ?  `https://doi.org/${model.doi}` : null,
         };
     }
 

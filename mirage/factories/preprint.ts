@@ -7,6 +7,15 @@ import { ReviewsState } from 'ember-osf-web/models/provider';
 
 import { guid, guidAfterCreate} from './utils';
 
+function buildLicenseText(): string {
+    let text = faker.lorem.sentence(100);
+    [250, 100, 250, 300].map((length: number) => {
+        text = `${text}\n\n${faker.lorem.sentence(length)}`;
+    });
+    return text;
+}
+
+
 export default Factory.extend<PreprintModel>({
     id: guid('preprint'),
     title: faker.lorem.sentence(),
@@ -21,8 +30,6 @@ export default Factory.extend<PreprintModel>({
 
     description: faker.lorem.sentence(),
 
-    license: null,
-
     licenseRecord: {
         copyright_holders: [
             'Futa',
@@ -32,6 +39,7 @@ export default Factory.extend<PreprintModel>({
         year: '2023',
     },
 
+    doi: null,
 
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
@@ -72,6 +80,14 @@ export default Factory.extend<PreprintModel>({
             index: 0,
         });
 
+        const license = server.create('license', {
+            id: 'asdksusslsh',
+            name: 'Mozilla Public License 2.0',
+            text: buildLicenseText(),
+            url: 'https://creativecommons.org/licenses/by/4.0/legalcode',
+            requiredFields: [],
+        });
+
         const secondContributor = server.create('contributor');
 
         const unregisteredContributor = server.create('contributor', 'unregistered');
@@ -83,6 +99,7 @@ export default Factory.extend<PreprintModel>({
             bibliographicContributors: allContributors,
             files: [file],
             primaryFile: file,
+            license,
         });
     },
 

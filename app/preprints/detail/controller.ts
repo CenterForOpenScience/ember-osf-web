@@ -11,6 +11,7 @@ import Intl from 'ember-intl/services/intl';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState, ReviewsWorkFlow } from 'ember-osf-web/models/provider';
 import { tracked } from '@glimmer/tracking';
+import { extractDoi } from 'ember-osf-web/utils/doi';
 
 
 /**
@@ -125,6 +126,10 @@ export default class PrePrintsDetailController extends Controller {
 
     get authors(): ContributorModel[] {
         return this.model.contributors;
+    }
+
+    get doi(): string {
+        return extractDoi(this.model.preprint.articleDoiUrl) || '';
     }
 
     @action
