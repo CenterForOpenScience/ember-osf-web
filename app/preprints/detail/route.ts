@@ -52,6 +52,8 @@ export default class PreprintsDetail extends Route {
 
             const contributors = await preprint?.queryHasMany('contributors');
 
+            const license = await preprint?.get('license');
+
             // const license = await preprint?.queryHasMany('license');
 
             /*
@@ -68,6 +70,7 @@ export default class PreprintsDetail extends Route {
                 contributors,
                 provider,
                 primaryFile,
+                license,
             };
 
         } catch (error) {

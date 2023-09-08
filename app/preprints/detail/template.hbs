@@ -93,7 +93,7 @@ data-analytics-scope='preprints detail page'
                     {{!Plaudit }}
                 </div>
                 <div>
-                    <h4><strong>{{t 'preprints.detail.abstract'}}</strong></h4>
+                    <h4>{{t 'preprints.detail.abstract'}}</h4>
                     <p local-class='{{unless this.expandedAbstract 'abstract-truncated'}}'>
                         {{this.description}}
                     </p>
@@ -115,12 +115,32 @@ data-analytics-scope='preprints detail page'
                 <div>
                     {{!Preprint DOI}}
                 </div>
-                <div>
-                    {{!Peer Review}}
-                </div>
-                <div>
-                    {{!License}}
-                </div>
+                {{#if this.model.preprint.articleDoiUrl}}
+                    <div>
+                        <h4>{{t 'preprints.detail.article_doi'}}</h4>
+                        <OsfLink
+                            data-test-article-doi
+                            data-analytics-name='peer review publication doi'
+                            @href={{this.model.preprint.articleDoiUrl}} 
+                        >
+                            {{extract-doi this.model.preprint.articleDoiUrl}}
+                        </OsfLink>
+                    </div>
+                {{/if}}
+                {{#if this.model.preprint.license.name}}
+                    <div local-class='license-text'>
+                        <h4>{{t 'preprints.detail.license'}}</h4>
+                        {{this.model.preprint.license.name}}
+                        <span>
+                            <FaIcon @icon='chevron-{{if this.showLicenseText 'left' 'right'}}'
+                            {{on 'click' (action 'toggleLicenseText') }}
+                            /> 
+                        </span>
+                        {{#if this.showLicenseText}}
+                            <pre>{{this.fullLicenseText}}</pre>
+                        {{/if}}
+                    </div>
+                {{/if}}
                 <div>
                     {{!Disciplines}}
                 </div>

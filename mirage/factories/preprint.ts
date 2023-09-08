@@ -21,6 +21,18 @@ export default Factory.extend<PreprintModel>({
 
     description: faker.lorem.sentence(),
 
+    license: null,
+
+    licenseRecord: {
+        copyright_holders: [
+            'Futa',
+            'Yuhuai',
+            'Brian G.',
+        ],
+        year: '2023',
+    },
+
+
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 

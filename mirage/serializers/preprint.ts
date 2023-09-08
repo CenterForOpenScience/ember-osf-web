@@ -54,6 +54,14 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                     },
                 },
             },
+            license: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/preprints/${model.id}/licenses/`,
+                        meta: {},
+                    },
+                },
+            },
             /*
             subjects: {
                 links: {
@@ -70,14 +78,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                         meta: {
                             has_highlighted_subjects,
                         },
-                    },
-                },
-            },
-            licensesAcceptable: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/providers/preprints/${model.id}/licenses/`,
-                        meta: {},
                     },
                 },
             },
@@ -100,6 +100,22 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
             // TODO: subscriptions when we move ember-osf-reviews¥
         */
         };
+
+        if (model.license !== null) {
+            const { id } = model.license;
+            relationships.license = {
+                data: {
+                    id: id as string,
+                    type: 'licenses',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/licenses/${id}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
 
         /*
         if (model.brand) {
