@@ -26,6 +26,8 @@ export default Factory.extend<Institution & InstitutionTraits>({
     lastUpdated() {
         return faker.date.recent();
     },
+    iri: faker.internet.url,
+    rorIri: faker.internet.url,
     withMetrics: trait<Institution>({
         afterCreate(institution, server) {
             const userMetrics = server.createList('institution-user', 15);

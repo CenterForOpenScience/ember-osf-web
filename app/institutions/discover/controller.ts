@@ -3,8 +3,7 @@ import { inject as service } from '@ember/service';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import pathJoin from 'ember-osf-web/utils/path-join';
-import config from 'ember-get-config';
+
 import { OnSearchParams, ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
 
 export default class InstitutionDiscoverController extends Controller {
@@ -17,8 +16,11 @@ export default class InstitutionDiscoverController extends Controller {
     queryParams = ['cardSearchText', 'sort', 'resourceType'];
 
     get defaultQueryOptions() {
+        const identifiers = [this.model.rorIri, this.model.iri, this.model.links.self].filter(Boolean).join(',');
         return {
-            affiliation: pathJoin(config.OSF.url, 'institutions', this.model.id),
+            affiliation: identifiers,
+            'creator,affiliation': identifiers,
+            'isContainedby,affiliation': identifiers,
         };
     }
 
