@@ -49,20 +49,11 @@ export default class PreprintsDetail extends Route {
             this.theme.set('providerType', 'preprint');
             this.theme.set('id', provider.id);
 
-
             const contributors = await preprint?.queryHasMany('contributors');
 
             const license = await preprint?.get('license');
 
-            // const license = await preprint?.queryHasMany('license');
-
-            /*
-            const blank = await preprint?.queryHasMany('blank', {
-                page: {
-                    size: 20,
-                },
-            });
-            */
+            const subjects = await preprint?.queryHasMany('subjects');
 
             return {
                 preprint,
@@ -71,6 +62,7 @@ export default class PreprintsDetail extends Route {
                 provider,
                 primaryFile,
                 license,
+                subjects,
             };
 
         } catch (error) {

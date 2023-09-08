@@ -55,9 +55,9 @@ data-analytics-scope='preprints detail page'
                         <div local-class='file-description'>
                             <span>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</span>
                             {{#if this.isWithdrawn}}
-                                | <span>{{t 'preprints.detail.header.withdrawn_on'}}: {{moment-format this.model.dateWithdrawn 'MMMM DD, YYYY'}}</span>
+                                | <span>{{t 'preprints.detail.header.withdrawn_on'}}: {{moment-format this.model.preprint.dateWithdrawn 'MMMM DD, YYYY'}}</span>
                             {{else}}
-                                | <span>{{t 'preprints.detail.header.last_edited'}}: {{moment-format this.model.dateModified 'MMMM DD, YYYY'}}</span>
+                                | <span>{{t 'preprints.detail.header.last_edited'}}: {{moment-format this.model.preprint.dateModified 'MMMM DD, YYYY'}}</span>
                             {{/if}}
                         </div>
                         <div local-class='toggle-button'>
@@ -137,19 +137,27 @@ data-analytics-scope='preprints detail page'
                             /> 
                         </span>
                         {{#if this.showLicenseText}}
-                            <pre>{{this.fullLicenseText}}</pre>
+                            <pre>{{this.model.preprint.licenseText}}</pre>
                         {{/if}}
                     </div>
                 {{/if}}
                 <div>
-                    {{!Disciplines}}
+                    <h4>{{t 'preprints.detail.disciplines'}}</h4>
+                    {{#each this.disciplineReduced as |subject|}}
+                        <span local-class='subject-preview'>{{subject.text}}</span>
+                    {{/each}}
                 </div>
                 <div>
                     {{!Tags}}
                 </div>
-                <div>
-                    {{!Original Publication Date}}
-                </div>
+                {{#if this.model.preprint.originalPublicationDate}}
+                    <div>
+                        <h4>{{t 'preprints.detail.original_publication_date'}}</h4>
+                        <p>
+                            {{moment-format this.model.preprint.originalPublicationDate 'YYYY-MM-DD'}}
+                        </p>
+                    </div>
+                {{/if}}
                 <div>
                     {{!Citations}}
                 </div>

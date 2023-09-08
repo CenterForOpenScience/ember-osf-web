@@ -39,6 +39,8 @@ export default Factory.extend<PreprintModel>({
         year: '2023',
     },
 
+    dateWithdrawn: null,
+
     doi: null,
 
     afterCreate(newPreprint, server) {
@@ -69,6 +71,20 @@ export default Factory.extend<PreprintModel>({
         }),
         */
 
+        const license = server.create('license', {
+            id: 'asdksusslsh',
+            name: 'Mozilla Public License 2.0',
+            text: buildLicenseText(),
+            url: 'https://creativecommons.org/licenses/by/4.0/legalcode',
+            requiredFields: [],
+        });
+
+        const subjects = [
+            server.create('subject', 'withChildren'),
+            server.create('subject'),
+            server.create('subject', 'withChildren'),
+        ];
+
         const contributorUser = server.create('user', {
             givenName: 'Emmit',
             familyName: 'Stud',
@@ -78,14 +94,6 @@ export default Factory.extend<PreprintModel>({
             preprint: newPreprint,
             users: contributorUser,
             index: 0,
-        });
-
-        const license = server.create('license', {
-            id: 'asdksusslsh',
-            name: 'Mozilla Public License 2.0',
-            text: buildLicenseText(),
-            url: 'https://creativecommons.org/licenses/by/4.0/legalcode',
-            requiredFields: [],
         });
 
         const secondContributor = server.create('contributor');
@@ -100,6 +108,10 @@ export default Factory.extend<PreprintModel>({
             files: [file],
             primaryFile: file,
             license,
+            subjects,
+            date_created: new Date('2018-05-05T14:49:27.746938Z'),
+            date_modified: new Date('2018-07-02T11:51:07.837747Z'),
+            date_published: new Date('2018-05-05T14:54:01.681202Z'),
         });
     },
 
