@@ -63,15 +63,15 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                     },
                 },
             },
-            /*
             subjects: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/providers/preprints/${model.id}/subjects/`,
+                        href: `${apiUrl}/v2/preprints/${model.id}/subjects/`,
                         meta: this.buildRelatedLinkMeta(model, 'subjects'),
                     },
                 },
             },
+            /*
             highlightedSubjects: {
                 links: {
                     related: {

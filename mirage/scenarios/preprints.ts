@@ -43,6 +43,7 @@ function buildOSF(
         currentUserPermissions: [Permission.Admin],
         reviewsState: ReviewsState.APPROVED,
         doi: '10.30822/artk.v1i1.79',
+        originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
     });
 
     const rejectedPreprint = server.create('preprint', {
@@ -60,6 +61,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.APPROVED,
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
+        originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
     });
 
     const orphanedPreprint = server.create('preprint', {

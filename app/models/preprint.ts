@@ -15,6 +15,7 @@ export default class PreprintModel extends OsfModel {
     @attr('fixstring') title!: string;
     @attr('date') dateCreated!: Date;
     @attr('date') datePublished!: Date;
+    @attr('date') dateWithdrawn!: Date;
     @attr('date') originalPublicationDate!: Date | null;
     @attr('date') dateModified!: Date;
     @attr('fixstring') doi!: string | null;
@@ -52,7 +53,7 @@ export default class PreprintModel extends OsfModel {
     @hasMany('contributor', { inverse: null })
     bibliographicContributors!: AsyncHasMany<ContributorModel>;
 
-    @hasMany('subject', { inverse: null, async: false })
+    @hasMany('subject', { inverse: null})
     subjects!: SyncHasMany<SubjectModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;

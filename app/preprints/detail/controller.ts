@@ -119,7 +119,7 @@ export default class PrePrintsDetailController extends Controller {
         ) || this.isPendingWithdrawal;
     }
 
-    disciplineReduced(): [] {
+    get disciplineReduced(): [] {
         // Preprint disciplines are displayed in collapsed form on content page
         return this.model.subjects.reduce((acc: SubjectModel[], val: SubjectModel) => acc.concat(val), []).uniqBy('id');
     }
@@ -135,14 +135,6 @@ export default class PrePrintsDetailController extends Controller {
     @action
     toggleLicenseText(): void {
         this.showLicenseText = !this.showLicenseText;
-    }
-
-    get fullLicenseText(): string {
-        const text = this.model.license.text || '';
-        const { year = '', copyright_holders = [] } = this.model.preprint.licenseRecord;
-        return text
-            .replace(/({{year}})/g, year)
-            .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
     }
 
     get hasShortenedDescription(): String {

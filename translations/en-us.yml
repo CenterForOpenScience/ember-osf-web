@@ -1132,6 +1132,8 @@ preprints:
         see_less: 'See less'
         article_doi: 'Peer-reviewed Publication DOI'
         license: 'License'
+        disciplines: 'Disciplines'
+        original_publication_date: 'Original publication date'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'
