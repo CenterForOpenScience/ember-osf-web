@@ -1130,6 +1130,8 @@ preprints:
         abstract: 'Abstract'
         see_more: 'See more'
         see_less: 'See less'
+        article_doi: 'Peer-reviewed Publication DOI'
+        license: 'License'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'

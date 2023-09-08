@@ -52,7 +52,7 @@ export default class PrePrintsDetailController extends Controller {
 
     @tracked fullScreenMFR = false;
     expandedAuthors = true;
-    showLicenseText = false;
+    @tracked showLicenseText = false;
     primaryFile = null;
     showModalClaimUser = false;
     isPendingWithdrawal = false;
@@ -127,8 +127,17 @@ export default class PrePrintsDetailController extends Controller {
         return this.model.contributors;
     }
 
-    fullLicenseText(): string {
-        return this.model.licenseRecord;
+    @action
+    toggleLicenseText(): void {
+        this.showLicenseText = !this.showLicenseText;
+    }
+
+    get fullLicenseText(): string {
+        const text = this.model.license.text || '';
+        const { year = '', copyright_holders = [] } = this.model.preprint.licenseRecord;
+        return text
+            .replace(/({{year}})/g, year)
+            .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
     }
 
     get hasShortenedDescription(): String {
@@ -162,19 +171,6 @@ export default class PrePrintsDetailController extends Controller {
         return `mailto:?subject=${titleEncoded}&body=${hrefEncoded}`;
     }
 
-
-    @action
-    toggleLicenseText(): void {
-        this.showLicenseText = !this.showLicenseText;
-        /*
-         this.get('metrics')
-                .trackEvent({
-                    category: 'button',
-                    action: 'click',
-                    label: `Content - License ${licenseState}`,
-                });
-                */
-    }
 
     @action
     expandMFR() {

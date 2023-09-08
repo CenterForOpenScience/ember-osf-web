@@ -131,6 +131,31 @@
                 padding-top: 15px;
                 margin-top: 10px;
                 margin-bottom: 10px;
+                font-weight: bold;
+            }
+
+            .license-text {
+                pre {
+                    white-space: pre-wrap;
+                    font-size: 75%;
+                    width: 100%;
+                    text-align: justify;
+                    max-height: 300px;
+                    word-break: normal;
+                    overflow: auto;
+                    display: block;
+                    padding: 9.5px;
+                    margin: 0 0 10px;
+                    line-height: 1.42857;
+                    word-wrap: break-word;
+                    background-color: #f5f5f5;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                }
+
+                span {
+                    cursor: pointer;
+                }
             }
         }
     }
