@@ -2,7 +2,7 @@ import { render, waitFor } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 
 module('Registries | Integration | Component | x-dummy', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
@@ -25,11 +25,11 @@ module('Registries | Integration | Component | x-dummy', hooks => {
         assert.dom('[data-attr="foo"]').hasText('This is a test!');
     });
 
-    skip('it yields yieldValue', async function(assert) {
+    test('it yields yieldValue', async function(assert) {
         await render(hbs`
-            {{#x-dummy yieldValue='It works!' as |val|}}
+            <XDummy data-test-dummy='1' @yieldValue='It works!' as |val|>
                 <p>{{val}}</p>
-            {{/x-dummy}}
+            </XDummy>
         `);
 
         assert.dom('[data-test-dummy="1"]').hasText('It works!');

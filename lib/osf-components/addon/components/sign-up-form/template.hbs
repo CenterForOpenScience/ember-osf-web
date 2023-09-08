@@ -37,7 +37,7 @@
         @valuePath='password'
         @shouldShowMessages={{this.didValidate}}
         disabled={{this.hasSubmitted}}
-        {{on 'keyup' (perform this.strength this.userRegistration.password)}}
+        @onKeyUp={{perform this.strength this.userRegistration.password}}
         placeholder={{t 'osf-components.sign-up-form.password'}}
         ariaLabel={{t 'osf-components.sign-up-form.password'}}
     />
