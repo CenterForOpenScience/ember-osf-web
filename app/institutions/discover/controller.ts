@@ -16,11 +16,9 @@ export default class InstitutionDiscoverController extends Controller {
     queryParams = ['cardSearchText', 'sort', 'resourceType'];
 
     get defaultQueryOptions() {
-        const identifiers = [this.model.rorIri, this.model.iri, this.model.links.self].filter(Boolean).join(',');
+        const identifiers = [this.model.rorIri, this.model.iri, this.model.links.html].filter(Boolean).join(',');
         return {
-            affiliation: identifiers,
-            'creator,affiliation': identifiers,
-            'isContainedby,affiliation': identifiers,
+            'affiliation,creator.affiliation,isContainedby.affiliation': identifiers,
         };
     }
 
