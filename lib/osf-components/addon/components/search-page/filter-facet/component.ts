@@ -31,18 +31,6 @@ interface FilterFacetArgs {
 
 const searchDebounceTime = 500;
 
-export const booleanFilterProperties = [
-    'hasAnalyticCodeResource', // registrations
-    'hasMaterialsResource', // registrations
-    'hasPapersResource', // registrations
-    'hasSupplementalResource', // registrations
-    'hasDataResource', // registrations and preprints
-    'hasPreregisteredAnalysisPlan', // preprints
-    'hasPreregisteredStudyDesign', // preprints
-    'isSupplementedBy', // preprints
-    'supplements', // projects
-];
-
 export default class FilterFacet extends Component<FilterFacetArgs> {
     @service store!: Store;
     @service intl!: IntlService;
@@ -118,22 +106,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     async fetchFacetValues() {
         const { cardSearchText, cardSearchFilter, property } = this.args;
         const { page, sort, filterString } = this;
-        // If the property is a boolean filter (e.g. hasDataResource), we don't want to fetch IRI values
-        // SHARE API filters on these properties using:
-        // `share.osf.io/api/v3/index-card-search?cardSearchFilter[hasDataResource][is-present]`
-        // or cardSearchFilter[hasDataResource][is-absent] (although this one is not used in the app)
-        if (booleanFilterProperties.includes(property.shortFormLabel)) {
-            this.filterableValues = [
-                {
-                    resourceId: 'is-present',
-                    indexCard: {
-                        label: this.intl.t('search.filter-facet.has-resource', { resource: property.displayLabel }),
-                        resourceId: 'is-present',
-                    },
-                },
-            ];
-            return;
-        }
+
         const valueSearch = await this.store.queryRecord('index-value-search', {
             cardSearchText,
             cardSearchFilter,
