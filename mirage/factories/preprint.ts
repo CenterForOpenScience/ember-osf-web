@@ -43,6 +43,10 @@ export default Factory.extend<PreprintModel>({
 
     doi: null,
 
+    tags() {
+        return faker.lorem.words(5).split(' ');
+    },
+
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 

@@ -148,7 +148,14 @@ data-analytics-scope='preprints detail page'
                     {{/each}}
                 </div>
                 <div>
-                    {{!Tags}}
+                    <h4>{{t 'preprints.detail.tags'}}</h4>
+                    {{#if this.model.preprint.tags.length}}
+                        {{#each this.model.preprint.tags as |tag|}}
+                            <span local-class='badge'>{{tag}}</span>
+                        {{/each}}
+                    {{else}}
+                        {{t 'preprints.detail.none'}}
+                    {{/if}}
                 </div>
                 {{#if this.model.preprint.originalPublicationDate}}
                     <div>

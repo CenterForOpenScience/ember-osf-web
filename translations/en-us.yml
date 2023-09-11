@@ -1143,6 +1143,8 @@ preprints:
         license: 'License'
         disciplines: 'Disciplines'
         original_publication_date: 'Original publication date'
+        tags: 'Tags'
+        none: 'None'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'

@@ -34,6 +34,7 @@ function buildOSF(
         title: 'Preprint RWF: Pre-moderation, Admin and Rejected',
         currentUserPermissions: [Permission.Admin],
         reviewsState: ReviewsState.REJECTED,
+        tags: [],
     });
 
     const approvedAdminPreprint = server.create('preprint', {
@@ -52,6 +53,7 @@ function buildOSF(
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
         currentUserPermissions: [],
         reviewsState: ReviewsState.REJECTED,
+        tags: [],
     });
 
     const approvedPreprint = server.create('preprint', {
