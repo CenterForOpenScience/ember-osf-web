@@ -1,4 +1,4 @@
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 

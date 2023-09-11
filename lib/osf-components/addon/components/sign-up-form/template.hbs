@@ -3,44 +3,44 @@
     local-class='sign-up-form'
     {{action 'submit' on='submit'}}
 >
-    {{validated-input/text
-        (html-attributes data-test-sign-up-full-name=true)
-        model=this.userRegistration
-        valuePath='fullName'
-        shouldShowMessages=this.didValidate
-        disabled=this.hasSubmitted
-        placeholder=(t 'osf-components.sign-up-form.full_name')
-        ariaLabel=(t 'osf-components.sign-up-form.full_name')
-    }}
-    {{validated-input/text
-        (html-attributes data-test-sign-up-email-1=true)
-        model=this.userRegistration
-        valuePath='email1'
-        shouldShowMessages=this.didValidate
-        disabled=this.hasSubmitted
-        placeholder=(t 'osf-components.sign-up-form.contact_email')
-        ariaLabel=(t 'osf-components.sign-up-form.contact_email')
-    }}
-    {{validated-input/text
-        (html-attributes data-test-sign-up-email-2=true)
-        model=this.userRegistration
-        valuePath='email2'
-        shouldShowMessages=this.didValidate
-        disabled=this.hasSubmitted
-        placeholder=(t 'osf-components.sign-up-form.confirm_email')
-        ariaLabel=(t 'osf-components.sign-up-form.confirm_email')
-    }}
-    {{validated-input/text
-        (html-attributes data-test-sign-up-password=true)
-        password=true
-        model=this.userRegistration
-        valuePath='password'
-        shouldShowMessages=this.didValidate
-        disabled=this.hasSubmitted
-        onKeyUp=(perform this.strength this.userRegistration.password)
-        placeholder=(t 'osf-components.sign-up-form.password')
-        ariaLabel=(t 'osf-components.sign-up-form.password')
-    }}
+    <ValidatedInput::Text
+        data-test-sign-up-full-name=true
+        @model={{this.userRegistration}}
+        @valuePath='fullName'
+        @shouldShowMessages={{this.didValidate}}
+        disabled={{this.hasSubmitted}}
+        placeholder={{t 'osf-components.sign-up-form.full_name'}}
+        ariaLabel={{t 'osf-components.sign-up-form.full_name'}}
+    />
+    <ValidatedInput::Text
+        data-test-sign-up-email-1=true
+        @model={{this.userRegistration}}
+        @valuePath='email1'
+        @shouldShowMessages={{this.didValidate}}
+        disabled={{this.hasSubmitted}}
+        placeholder={{t 'osf-components.sign-up-form.contact_email'}}
+        ariaLabel={{t 'osf-components.sign-up-form.contact_email'}}
+    />
+    <ValidatedInput::Text
+        data-test-sign-up-email-2=true
+        @model={{this.userRegistration}}
+        @valuePath='email2'
+        @shouldShowMessages={{this.didValidate}}
+        disabled={{this.hasSubmitted}}
+        placeholder={{t 'osf-components.sign-up-form.confirm_email'}}
+        ariaLabel={{t 'osf-components.sign-up-form.confirm_email'}}
+    />
+    <ValidatedInput::Text
+        data-test-sign-up-password=true
+        password={{true}}
+        @model={{this.userRegistration}}
+        @valuePath='password'
+        @shouldShowMessages={{this.didValidate}}
+        disabled={{this.hasSubmitted}}
+        @onKeyUp={{perform this.strength this.userRegistration.password}}
+        placeholder={{t 'osf-components.sign-up-form.password'}}
+        ariaLabel={{t 'osf-components.sign-up-form.password'}}
+    />
     <div local-class='progress' hidden={{not this.progress}}>
         <div
             local-class='progress-bar progress-bar-sm'

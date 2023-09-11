@@ -27,9 +27,9 @@ module('Registries | Integration | Component | x-dummy', hooks => {
 
     test('it yields yieldValue', async function(assert) {
         await render(hbs`
-            {{#x-dummy (html-attributes data-test-dummy='1') yieldValue='It works!' as |val|}}
+            <XDummy data-test-dummy='1' @yieldValue='It works!' as |val|>
                 <p>{{val}}</p>
-            {{/x-dummy}}
+            </XDummy>
         `);
 
         assert.dom('[data-test-dummy="1"]').hasText('It works!');

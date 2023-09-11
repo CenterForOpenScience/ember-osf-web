@@ -3,7 +3,7 @@ import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-d
 import { computed } from '@ember/object';
 import { alias, bool, equal, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import { buildValidations, validator } from 'ember-cp-validations';
 import Intl from 'ember-intl/services/intl';
 
