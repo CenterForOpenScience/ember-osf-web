@@ -166,7 +166,8 @@ data-analytics-scope='preprints detail page'
                     </div>
                 {{/if}}
                 <div>
-                    {{!Citations}}
+                    <h4>{{t 'preprints.detail.citations'}}</h4>
+                    <CitationViewer @citable={{this.model.preprint}} />
                 </div>
             </div>
         {{/unless}}

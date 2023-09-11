@@ -80,7 +80,6 @@
         .data-container-right {
             padding: 0 15px;
             width: 50%;
-            height: 700px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -88,6 +87,8 @@
         }
 
         .data-container-left {
+            height: 700px;
+
             &.expanded {
                 width: 100%;
             }
@@ -96,9 +97,6 @@
                 width: 50%;
             }
 
-        }
-
-        .data-container-left {
             .file-description-container {
                 display: flex;
                 flex-direction: row;
@@ -122,6 +120,8 @@
         }
 
         .data-container-right {
+            height: 100%;
+
             .abstract-truncated::after {
                 content: ' \2026';
             }

@@ -1,6 +1,7 @@
 import { attr, belongsTo, hasMany, SyncHasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import CitationModel from 'ember-osf-web/models/citation';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -53,6 +54,9 @@ export default class PreprintModel extends OsfModel {
 
     @hasMany('contributor', { inverse: null })
     bibliographicContributors!: AsyncHasMany<ContributorModel>;
+
+    @belongsTo('citation', { inverse: null })
+    citation!: AsyncBelongsTo<CitationModel>;
 
     @hasMany('subject', { inverse: null})
     subjects!: SyncHasMany<SubjectModel>;
