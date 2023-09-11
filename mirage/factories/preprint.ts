@@ -47,6 +47,8 @@ export default Factory.extend<PreprintModel>({
         return faker.lorem.words(5).split(' ');
     },
 
+    citation: null,
+
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 

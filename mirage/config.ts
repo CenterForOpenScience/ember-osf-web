@@ -335,7 +335,7 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'subject',
     });
-
+    this.get('/preprints/:guid/citation/:citationStyleID', getCitation);
 
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
     osfNestedResource(this, 'registration-provider', 'moderators', {

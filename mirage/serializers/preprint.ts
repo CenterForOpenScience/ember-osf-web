@@ -58,7 +58,7 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
             license: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/providers/preprints/${model.id}/licenses/`,
+                        href: `${apiUrl}/v2/licenses/${model.license.id}/`,
                         meta: {},
                     },
                 },
@@ -71,35 +71,14 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                     },
                 },
             },
-            /*
-            highlightedSubjects: {
+            citation: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/providers/preprints/${model.id}/subjects/highlighted/`,
-                        meta: {
-                            has_highlighted_subjects,
-                        },
-                    },
-                },
-            },
-            moderators: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/providers/preprints/${model.id}/moderators/`,
-                        meta: this.buildRelatedLinkMeta(model, 'moderators'),
-                    },
-                },
-            },
-            preprints: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/providers/preprints/${model.id}/preprints/`,
+                        href: `${apiUrl}/v2/preprints/${model.id}/citation/`,
                         meta: {},
                     },
                 },
             },
-            // TODO: subscriptions when we move ember-osf-reviews¥
-        */
         };
 
         if (model.license !== null) {

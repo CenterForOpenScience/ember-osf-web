@@ -29,7 +29,7 @@ const defaultCitations: DefaultCitation[] = [
 ];
 
 function citationUrl(citable: Node | Preprint, citationStyleId: string) {
-    const relatedHref = getRelatedHref(citable.links.relationships!.citation);
+    const relatedHref = getRelatedHref(citable?.links.relationships!.citation);
 
     if (!relatedHref) {
         throw Error('Error getting citation URL');
@@ -45,6 +45,7 @@ function citationUrl(citable: Node | Preprint, citationStyleId: string) {
 export default class CitationViewer extends Component {
     // Required parameter
     citable!: Node | Preprint;
+
 
     // Private properties
     @service store!: Store;
