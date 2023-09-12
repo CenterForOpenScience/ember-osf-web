@@ -262,10 +262,7 @@ export default class DraftRegistrationManager {
 
     @action
     validateAllVisitedPages() {
-        // console.log(this.metadataChangeset.change)
-        // debugger;
         this.metadataChangeset.validate();
-        // console.log(this.metadataChangeset.change)
         this.visitedPages
             .forEach(pageManager => {
                 pageManager.changeset!.validate();
