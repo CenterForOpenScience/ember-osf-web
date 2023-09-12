@@ -10,7 +10,7 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
         return {
             self: `${apiUrl}/v2/${model.id}/`,
             doi: model.doi ?  `https://doi.org/${model.doi}` : null,
-            preprint_doi: model.doi ?  `https://doi.org/${model.doi}/osf.io/${model.id}` : null,
+            preprint_doi: `https://doi.org/10.31219/osf.io/${model.id}`,
         };
     }
 
@@ -77,6 +77,14 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/citation/`,
                         meta: {},
+                    },
+                },
+            },
+            node: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.node.id}`,
+                        meta: this.buildRelatedLinkMeta(model, 'node'),
                     },
                 },
             },

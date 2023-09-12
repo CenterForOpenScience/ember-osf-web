@@ -31,7 +31,7 @@ export default class PreprintModel extends OsfModel {
     @attr('array') currentUserPermissions!: string[];
     @attr('fixstringarray') tags!: string[];
 
-    @belongsTo('node', { inverse: 'preprint' })
+    @belongsTo('node', { inverse: 'preprints' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('license', { inverse: null })
