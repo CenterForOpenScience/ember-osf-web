@@ -13,7 +13,7 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import DraftNode from 'ember-osf-web/models/draft-node';
-import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
+import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
@@ -262,7 +262,10 @@ export default class DraftRegistrationManager {
 
     @action
     validateAllVisitedPages() {
+        // console.log(this.metadataChangeset.change)
+        // debugger;
         this.metadataChangeset.validate();
+        // console.log(this.metadataChangeset.change)
         this.visitedPages
             .forEach(pageManager => {
                 pageManager.changeset!.validate();
@@ -270,14 +273,7 @@ export default class DraftRegistrationManager {
     }
 
     copyMetadataChangesToDraft() {
-        const { metadataChangeset, draftRegistration } = this;
-        Object.values(DraftMetadataProperties).forEach(metadataKey => {
-            set(
-                draftRegistration,
-                metadataKey,
-                metadataChangeset!.get(metadataKey),
-            );
-        });
+        this.metadataChangeset.execute();
     }
 
     updateRegistrationResponses(pageManager: PageManager) {
