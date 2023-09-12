@@ -8,16 +8,17 @@ import config from 'ember-get-config';
 
 import Theme from 'ember-osf-web/services/theme';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import { OnSearchParams } from 'osf-components/components/search-page/component';
+import { Filter, OnSearchParams } from 'osf-components/components/search-page/component';
 
 export default class PreprintDiscoverController extends Controller {
     @service store!: Store;
     @service theme!: Theme;
 
     @tracked cardSearchText?: string = '';
-    @tracked sort?: string =  '-relevance';
+    @tracked sort?: string = '-relevance';
+    @tracked activeFilters?: Filter[] = [];
 
-    queryParams = ['cardSearchText', 'sort'];
+    queryParams = ['cardSearchText', 'sort', 'activeFilters'];
 
     get defaultQueryOptions() {
         return {
@@ -30,5 +31,6 @@ export default class PreprintDiscoverController extends Controller {
     onSearch(queryOptions: OnSearchParams) {
         this.cardSearchText = queryOptions.cardSearchText;
         this.sort = queryOptions.sort;
+        this.activeFilters = queryOptions.activeFilters;
     }
 }

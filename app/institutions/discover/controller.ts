@@ -5,7 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import config from 'ember-get-config';
-import { OnSearchParams, ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
+import { Filter, OnSearchParams, ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
 
 export default class InstitutionDiscoverController extends Controller {
     @service currentUser!: CurrentUser;
@@ -13,8 +13,9 @@ export default class InstitutionDiscoverController extends Controller {
     @tracked cardSearchText?: string = '';
     @tracked sort?: string =  '-relevance';
     @tracked resourceType?: ResourceTypeFilterValue | null = null;
+    @tracked activeFilters?: Filter[] = [];
 
-    queryParams = ['cardSearchText', 'sort', 'resourceType'];
+    queryParams = ['cardSearchText', 'sort', 'resourceType', 'activeFilters'];
 
     get defaultQueryOptions() {
         return {
@@ -27,5 +28,6 @@ export default class InstitutionDiscoverController extends Controller {
         this.cardSearchText = queryOptions.cardSearchText;
         this.sort = queryOptions.sort;
         this.resourceType = queryOptions.resourceType;
+        this.activeFilters = queryOptions.activeFilters;
     }
 }

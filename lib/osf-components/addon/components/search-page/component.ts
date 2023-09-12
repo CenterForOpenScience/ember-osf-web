@@ -48,6 +48,7 @@ export interface OnSearchParams {
     cardSearchText?: string;
     sort?: string;
     resourceType?: ResourceTypeFilterValue | null;
+    activeFilters?: Filter[];
 }
 
 interface SearchArgs {
@@ -63,6 +64,7 @@ interface SearchArgs {
     provider?: ProviderModel;
     showResourceTypeFilter: boolean;
     page: string;
+    activeFilters: Filter[];
 }
 
 const searchDebounceTime = 100;
@@ -89,6 +91,7 @@ export default class SearchPage extends Component<SearchArgs> {
         this.cardSearchText = this.args.cardSearchText;
         this.sort = this.args.sort;
         this.resourceType = this.args.resourceType;
+        this.activeFilters = A<Filter>(this.args.activeFilters);
         taskFor(this.search).perform();
     }
 
@@ -233,7 +236,7 @@ export default class SearchPage extends Component<SearchArgs> {
             this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
                 searchResult.totalResultCount;
             if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType});
+                this.args.onSearch({cardSearchText, sort, resourceType, activeFilters});
             }
         } catch (e) {
             this.toast.error(e);
