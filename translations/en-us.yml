@@ -1140,6 +1140,7 @@ preprints:
             edit_resubmit_preprint: 'Edit and resubmit'
         see_less: 'See less'
         see_more: 'See more'
+        supplemental_materials: 'Supplemental Materials'
         tags: 'Tags'
     header:
         osf_registrations: 'OSF Preprints'

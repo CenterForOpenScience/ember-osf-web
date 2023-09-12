@@ -109,9 +109,19 @@ data-analytics-scope='preprints detail page'
                         </Button>
                     {{/if}}
                 </div>
-                <div>
-                    {{!Supplement Materials}}
-                </div>
+                {{#if this.model.node}}
+                    <div>
+                        <h4>{{t 'preprints.detail.supplemental_materials'}}</h4>
+                        <OsfLink
+                            data-test-supplemental-materials
+                            data-analytics-name='supplemental material'
+                            @href={{this.model.node.links.html}} 
+                        >
+                            {{this.model.node.links.html}} 
+                            <FaIcon @icon='external-link-alt' />
+                        </OsfLink>
+                    </div>
+                {{/if}}
                 <div>
                     <h4>{{t 'preprints.detail.preprint_doi' documentType=this.model.provider.documentType.singular}}</h4>
                     {{#if this.model.preprint.preprintDoiUrl}}

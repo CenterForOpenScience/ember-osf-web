@@ -40,7 +40,7 @@ export default class PreprintsDetail extends Route {
             const guid = params.guid;
 
             // eslint-disable-next-line max-len
-            const preprint = await this.store.findRecord('preprint', guid, {include: ['bibliographicContributors', 'citation'] });
+            const preprint = await this.store.findRecord('preprint', guid, {include: ['bibliographicContributors'] });
 
             const provider = await preprint?.get('provider');
 
@@ -53,6 +53,8 @@ export default class PreprintsDetail extends Route {
 
             const license = await preprint?.get('license');
 
+            const node = await preprint?.get('node');
+
             const subjects = await preprint?.queryHasMany('subjects');
 
             return {
@@ -63,6 +65,7 @@ export default class PreprintsDetail extends Route {
                 primaryFile,
                 license,
                 subjects,
+                node,
             };
 
         } catch (error) {
@@ -72,47 +75,3 @@ export default class PreprintsDetail extends Route {
         }
     }
 }
-
-/*
-export default Route.extend({
-    features: service(),
-    model(params) {
-        const opts = {
-            method: 'GET',
-            url: `${config.OSF.apiUrl}/${config.OSF.apiNamespace}/`,
-            dataType: 'json',
-            contentType: 'application/json',
-            xhrFields: {
-                withCredentials: true,
-            },
-        };
-
-        return this.store.findRecord(
-            'preprint', params.preprint_id,
-            {
-                adapterOptions: {
-                    query: {
-                        'metrics[views]': 'total',
-                        'metrics[downloads]': 'total',
-                    },
-                },
-            },
-        );
-    },
-    actions: {
-        error(error) {
-            // Handle API Errors
-            if (error && !(error instanceof DS.AbortError)
-                && error.errors && isArray(error.errors)) {
-                // If  the error is not a AbortError (no connection), we handle it here.
-                const { detail } = error.errors[0];
-                const page = handlers.get(detail) || 'page-not-found';
-                return this.intermediateTransitionTo(page);
-            } else {
-                // Otherwise, we bubble it to the error handler in our parent route.
-                return true;
-            }
-        },
-    },
-});
-*/

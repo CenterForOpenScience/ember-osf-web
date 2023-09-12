@@ -67,17 +67,7 @@ export default Factory.extend<PreprintModel>({
             },
         });
 
-        /*
-        fileReference: () => ({
-            file_id: this.id as string,
-            file_name: this.name as string,
-            file_urls: {
-            },
-            file_hashes: {
-                sha256: this.extra.hashes.sha256,
-            },
-        }),
-        */
+        const node = server.create('node');
 
         const license = server.create('license', {
             id: 'asdksusslsh',
@@ -120,6 +110,7 @@ export default Factory.extend<PreprintModel>({
             date_created: new Date('2018-05-05T14:49:27.746938Z'),
             date_modified: new Date('2018-07-02T11:51:07.837747Z'),
             date_published: new Date('2018-05-05T14:54:01.681202Z'),
+            node,
         });
     },
 
