@@ -10,6 +10,7 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
         return {
             self: `${apiUrl}/v2/${model.id}/`,
             doi: model.doi ?  `https://doi.org/${model.doi}` : null,
+            preprint_doi: model.doi ?  `https://doi.org/${model.doi}/osf.io/${model.id}` : null,
         };
     }
 

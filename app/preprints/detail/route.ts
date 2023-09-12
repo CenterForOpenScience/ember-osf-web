@@ -42,7 +42,6 @@ export default class PreprintsDetail extends Route {
             // eslint-disable-next-line max-len
             const preprint = await this.store.findRecord('preprint', guid, {include: ['bibliographicContributors', 'citation'] });
 
-
             const provider = await preprint?.get('provider');
 
             const primaryFile = await preprint?.get('primaryFile');
