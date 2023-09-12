@@ -333,6 +333,7 @@ export function cardSearch(_: Schema, __: Request) {
                             ],
                         },
                     ],
+                    suggestedFilterOperator: 'any-of',
                 },
             },
             {
@@ -369,6 +370,7 @@ export function cardSearch(_: Schema, __: Request) {
                             ],
                         },
                     ],
+                    suggestedFilterOperator: 'any-of',
                 },
             },
             {
@@ -405,6 +407,7 @@ export function cardSearch(_: Schema, __: Request) {
                             ],
                         },
                     ],
+                    suggestedFilterOperator: 'any-of',
                 },
             },
         ],

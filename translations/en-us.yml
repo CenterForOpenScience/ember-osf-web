@@ -265,8 +265,9 @@ search:
         see-more-modal-text: 'Please select a filter to apply to your search.'
         see-more-modal-placeholder: 'Search for a filter to apply'
         load-more: 'Load more'
-        has-resource: 'Has {resource}'
         no-resource: 'No {resource}'
+    boolean-filters:
+        dropdown-label: 'Has related resource'
 
     institutions:
         institution-logo: 'Logo for '

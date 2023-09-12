@@ -13,11 +13,17 @@ interface PropertyPath {
     shortFormLabel: LanguageText[];
 }
 
+export enum SuggestedFilterOperators {
+    AnyOf = 'any-of',
+    IsPresent = 'is-present'
+}
+
 export default class RelatedPropertyPathModel extends OsfModel {
     @attr('string') propertyPathKey!: string;
     @attr('number') cardSearchResultCount!: number;
     @attr('array') osfmapPropertyPath!: string[];
     @attr('array') propertyPath!: PropertyPath[];
+    @attr('string') suggestedFilterOperator!: SuggestedFilterOperators;
 
     getLocalizedString = new GetLocalizedPropertyHelper(getOwner(this));
 
