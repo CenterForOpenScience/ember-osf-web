@@ -36,7 +36,7 @@ as |layout|>
                             alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
                         >
                     {{/if}}
-                    <p data-test-institution-description>{{@institution.description}}</p>
+                    <p data-test-institution-description>{{html-safe @institution.description}}</p>
                 </label>
             </div>
         {{else}}
@@ -174,11 +174,20 @@ as |layout|>
                     @property={{filterableProperty}}
                     @toggleFilter={{this.toggleFilter}}
                 />
-            {{else}}
+            {{/each}}
+            {{#if this.booleanFilters.length}}
+                <SearchPage::BooleanFilters
+                    @cardSearchText={{@cardSearchText}}
+                    @cardSearchFilter={{this.filterQueryObject}}
+                    @properties={{this.booleanFilters}}
+                    @toggleFilter={{this.toggleFilter}}
+                />
+            {{/if}}
+            {{#if (and (not this.booleanFilters.length) (not this.relatedProperties.length))}}
                 <p local-class='no-properties'>
                     {{t 'search.left-panel.no-filterable-properties'}}
                 </p>
-            {{/each}}
+            {{/if}}
         {{/if}}
     </layout.left>
     <layout.main local-class={{if this.showSidePanelToggle 'search-main-mobile' 'search-main'}} data-analytics-scope='Search page main'>

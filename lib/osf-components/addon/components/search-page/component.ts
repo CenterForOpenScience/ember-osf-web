@@ -14,10 +14,8 @@ import Media from 'ember-responsive';
 import { ShareMoreThanTenThousand } from 'ember-osf-web/models/index-card-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
-import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path';
+import RelatedPropertyPathModel, { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import uniqueId from 'ember-osf-web/utils/unique-id';
-
-import { booleanFilterProperties } from './filter-facet/component';
 
 interface ResourceTypeOption {
     display: string;
@@ -42,12 +40,14 @@ export interface Filter {
     propertyShortFormLabel: string; // OSFMAP shorthand label
     value: string;
     label: string;
+    suggestedFilterOperator?: SuggestedFilterOperators;
 }
 
 export interface OnSearchParams {
     cardSearchText?: string;
     sort?: string;
     resourceType?: ResourceTypeFilterValue | null;
+    activeFilters?: Filter[];
 }
 
 interface SearchArgs {
@@ -63,6 +63,7 @@ interface SearchArgs {
     provider?: ProviderModel;
     showResourceTypeFilter: boolean;
     page: string;
+    activeFilters: Filter[];
 }
 
 const searchDebounceTime = 100;
@@ -76,6 +77,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked cardSearchText?: string;
     @tracked searchResults?: SearchResultModel[];
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
+    @tracked booleanFilters?: RelatedPropertyPathModel[] = [];
     @tracked page?: string = '';
     @tracked totalResultCount?: string | number;
     @tracked firstPageCursor?: string | null;
@@ -89,6 +91,7 @@ export default class SearchPage extends Component<SearchArgs> {
         this.cardSearchText = this.args.cardSearchText;
         this.sort = this.args.sort;
         this.resourceType = this.args.resourceType;
+        this.activeFilters = A<Filter>(this.args.activeFilters);
         taskFor(this.search).perform();
     }
 
@@ -199,7 +202,7 @@ export default class SearchPage extends Component<SearchArgs> {
             const { page, sort, activeFilters, resourceType } = this;
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
-                if (booleanFilterProperties.includes(filter.propertyShortFormLabel)) {
+                if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
                     acc[filter.propertyShortFormLabel] = {};
                     acc[filter.propertyShortFormLabel][filter.value] = true;
                     return acc;
@@ -225,7 +228,10 @@ export default class SearchPage extends Component<SearchArgs> {
                 'page[size]': 10,
             });
             await searchResult.relatedProperties;
-            this.relatedProperties = searchResult.relatedProperties;
+            this.booleanFilters = searchResult.relatedProperties
+                .filterBy('suggestedFilterOperator', SuggestedFilterOperators.IsPresent);
+            this.relatedProperties = searchResult.relatedProperties
+                .filterBy('suggestedFilterOperator', SuggestedFilterOperators.AnyOf);
             this.firstPageCursor = searchResult.firstPageCursor;
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
@@ -233,7 +239,7 @@ export default class SearchPage extends Component<SearchArgs> {
             this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
                 searchResult.totalResultCount;
             if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType});
+                this.args.onSearch({cardSearchText, sort, resourceType, activeFilters});
             }
         } catch (e) {
             this.toast.error(e);
