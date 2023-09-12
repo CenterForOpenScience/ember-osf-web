@@ -1130,6 +1130,10 @@ preprints:
         none: 'None'
         original_publication_date: 'Original publication date'
         orphan_preprint: 'The user has removed this file.'
+        preprint_doi: '{documentType} DOI'
+        preprint_pending_doi: 'DOI created after {documentType} is made public'
+        preprint_pending_doi_moderation: 'DOI created after moderator approval'
+        preprint_pending_doi_minted: 'DOIs are minted by a third party, and may take up to 24 hours to be registered.'
         private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
         project_button: 
             edit_preprint: 'Edit {documentType}'

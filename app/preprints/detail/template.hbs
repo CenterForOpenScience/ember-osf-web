@@ -113,7 +113,27 @@ data-analytics-scope='preprints detail page'
                     {{!Supplement Materials}}
                 </div>
                 <div>
-                    {{!Preprint DOI}}
+                    <h4>{{t 'preprints.detail.preprint_doi' documentType=this.model.provider.documentType.singular}}</h4>
+                    {{#if this.model.preprint.preprintDoiUrl}}
+                        {{#if this.model.preprint.preprintDoiCreated}}
+                            <OsfLink
+                                data-test-article-doi
+                                data-analytics-name='preprint doi'
+                                @href={{this.model.preprint.preprintDoiUrl}} 
+                            >
+                                {{this.preprintDoi}}
+                            </OsfLink>
+                        {{else}}
+                            <p> {{this.preprintDoi}} </p>
+                            <p> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
+                        {{/if}}
+                    {{else}}
+                        {{#if (not this.model.preprint.public)}}
+                            {{t 'preprints.detail.preprint_pending_doi' documentType=this.model.provider.documentType.singular }}
+                        {{else if (and this.model.provider.reviewsWorkflow (not this.model.preprint.isPublished))}}
+                            {{t 'preprints.detail.preprint_pending_doi_moderation'}}
+                        {{/if}}
+                    {{/if}}
                 </div>
                 {{#if this.model.preprint.articleDoiUrl}}
                     <div>
@@ -123,7 +143,7 @@ data-analytics-scope='preprints detail page'
                             data-analytics-name='peer review publication doi'
                             @href={{this.model.preprint.articleDoiUrl}} 
                         >
-                            {{this.doi}}
+                            {{this.articleDoi}}
                         </OsfLink>
                     </div>
                 {{/if}}

@@ -49,6 +49,8 @@ export default Factory.extend<PreprintModel>({
 
     citation: null,
 
+    isPublished: true,
+
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 

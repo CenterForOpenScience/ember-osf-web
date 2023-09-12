@@ -45,8 +45,10 @@ function buildOSF(
         title: 'Preprint RWF: Pre-moderation, Admin and Approved',
         currentUserPermissions: [Permission.Admin],
         reviewsState: ReviewsState.APPROVED,
+        description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(100)}`,
         doi: '10.30822/artk.v1i1.79',
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
+        preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
     });
 
     const rejectedPreprint = server.create('preprint', {
@@ -63,9 +65,11 @@ function buildOSF(
         id: 'osf-approved',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
         currentUserPermissions: [],
+        doi: '10.30822/artk.v1i1.79',
         reviewsState: ReviewsState.APPROVED,
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
+        preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
     });
 
     const orphanedPreprint = server.create('preprint', {
@@ -86,6 +90,15 @@ function buildOSF(
         public: false,
     });
 
+    const notPublishedPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-not-published',
+        title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.APPROVED,
+        isPublished: false,
+    });
+
     const subjects = server.createList('subject', 7);
 
     osf.update({
@@ -103,6 +116,7 @@ function buildOSF(
             rejectedPreprint,
             orphanedPreprint,
             privatePreprint,
+            notPublishedPreprint,
         ],
         description: 'This is the description for osf',
     });
