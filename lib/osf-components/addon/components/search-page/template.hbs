@@ -36,7 +36,7 @@ as |layout|>
                             alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
                         >
                     {{/if}}
-                    <p data-test-institution-description>{{@institution.description}}</p>
+                    <p data-test-institution-description>{{html-safe @institution.description}}</p>
                 </label>
             </div>
         {{else}}
