@@ -51,6 +51,13 @@ export default Factory.extend<PreprintModel>({
 
     isPublished: true,
 
+    apiMeta: {
+        metrics: {
+            downloads: faker.random.number(1000),
+            views: faker.random.number(10000),
+        },
+    },
+
     afterCreate(newPreprint, server) {
         guidAfterCreate(newPreprint, server);
 

@@ -106,19 +106,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
             };
         }
 
-        /*
-        if (model.brand) {
-            relationships.brand = {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/brands/${model.brand.id}/`,
-                        meta: {},
-                    },
-                },
-            };
-        }
-        */
-
         return relationships;
     }
 }

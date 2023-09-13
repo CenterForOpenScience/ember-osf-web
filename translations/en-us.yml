@@ -1149,6 +1149,12 @@ preprints:
             edit_resubmit_preprint: 'Edit and resubmit'
         see_less: 'See less'
         see_more: 'See more'
+        share: 
+            download: 'Download {documentType}'
+            downloads: 'Downloads'
+            download_file: 'Download file'
+            views: 'Views'
+            metrics_disclaimer: 'Metrics collected since:'
         supplemental_materials: 'Supplemental Materials'
         tags: 'Tags'
     header:

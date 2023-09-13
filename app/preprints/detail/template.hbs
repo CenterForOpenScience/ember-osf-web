@@ -86,8 +86,21 @@ data-analytics-scope='preprints detail page'
         </div>
         {{#unless this.fullScreenMFR }}
             <div local-class='data-container-right'>
-                <div>
-                    {{!Download}}
+                <div local-class='download-container'>
+                    <OsfLink
+                        data-test-download-button
+                        data-analytics-name='downloads'
+                        local-class='btn btn-primary'
+                        @href={{ this.fileDownloadUrl }} 
+                    >
+                        {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}
+                    </OsfLink>
+                    <div>
+                        {{t 'preprints.detail.share.views'}}: {{this.model.preprint.apiMeta.metrics.views}} | {{t 'preprints.detail.share.downloads'}}: {{this.model.preprint.apiMeta.metrics.downloads}}
+                        <EmberTooltip>
+                            {{t 'preprints.detail.share.metrics_disclaimer'}} {{moment-format this.metricsStartDate 'YYYY-MM-DD'}}
+                        </EmberTooltip>
+                    </div>
                 </div>
                 <div>
                     {{!Plaudit }}
