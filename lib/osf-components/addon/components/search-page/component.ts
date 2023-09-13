@@ -38,7 +38,7 @@ interface SortOption {
 
 export interface Filter {
     propertyVisibleLabel: string;
-    propertyShortFormLabel: string; // OSFMAP shorthand label
+    propertyPathKey: string; // OSFMAP shorthand label
     value: string;
     label: string;
     suggestedFilterOperator?: SuggestedFilterOperators;
@@ -205,13 +205,13 @@ export default class SearchPage extends Component<SearchArgs> {
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
                 if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
-                    acc[filter.propertyShortFormLabel] = {};
-                    acc[filter.propertyShortFormLabel][filter.value] = true;
+                    acc[filter.propertyPathKey] = {};
+                    acc[filter.propertyPathKey][filter.value] = true;
                     return acc;
                 }
                 // other filters should look like cardSearchFilter[propertyName]=IRI
-                const currentValue = acc[filter.propertyShortFormLabel];
-                acc[filter.propertyShortFormLabel] = currentValue ? currentValue.concat(filter.value) : [filter.value];
+                const currentValue = acc[filter.propertyPathKey];
+                acc[filter.propertyPathKey] = currentValue ? currentValue.concat(filter.value) : [filter.value];
                 return acc;
             }, {} as { [key: string]: any });
             let resourceTypeFilter = this.resourceType as string;
@@ -270,7 +270,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @action
     toggleFilter(filter: Filter) {
         const filterIndex = this.activeFilters.findIndex(
-            f => f.propertyShortFormLabel === filter.propertyShortFormLabel && f.value === filter.value,
+            f => f.propertyPathKey === filter.propertyPathKey && f.value === filter.value,
         );
         if (filterIndex > -1) {
             this.activeFilters.removeAt(filterIndex);

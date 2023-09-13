@@ -40,7 +40,7 @@
                                 title={{value.indexCard.label}}
                                 {{on 'click' (fn @toggleFilter (hash
                                     propertyVisibleLabel=@property.displayLabel
-                                    propertyShortFormLabel=@property.shortFormLabel
+                                    propertyPathKey=@property.propertyPathKey
                                     label=value.indexCard.label
                                     value=value.indexCard.resourceId)
                                 )}}
