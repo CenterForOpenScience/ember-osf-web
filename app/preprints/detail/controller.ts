@@ -72,7 +72,7 @@ export default class PrePrintsDetailController extends Controller {
         return `${config.OSF.url}${path}${version ? `version=${version}` : ''}`.replace(/[&?]$/, '');
     }
 
-    facebookAppId(): string {
+    get facebookAppId(): string {
         return this.model.provider.facebookAppId ? this.model.provider.facebookAppId : config.FB_APP_ID;
     }
 

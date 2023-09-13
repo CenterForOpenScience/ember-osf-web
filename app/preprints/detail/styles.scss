@@ -126,6 +126,29 @@
                 content: ' \2026';
             }
 
+            .plaudit-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                width: 100%;
+                height: 90px;
+
+                .plaudit {
+                    width: calc(100% - 145px);
+                    padding-right: 30px;
+                }
+
+                .sharing-icons {
+                    font-size: 1.5rem;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    width: 145px;
+                }
+            }
+
             .download-container {
                 background-color: $bg-light;
                 display: flex;

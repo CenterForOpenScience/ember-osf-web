@@ -49,4 +49,16 @@ export default class SharingIcons extends Component {
         };
         return `mailto:?${param(queryParams)}`;
     }
+
+    @computed('hyperlink', 'title', 'description')
+    get linkedInHref(): string {
+        const queryParams = {
+            url: this.hyperlink,
+            mini: true,
+            title: this.title,
+            summary: this.description || this.title,
+            source: 'OSF',
+        };
+        return `https://www.linkedin.com/shareArticle?${param(queryParams)}`;
+    }
 }
