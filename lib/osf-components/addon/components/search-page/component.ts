@@ -9,6 +9,7 @@ import Intl from 'ember-intl/services/intl';
 import { A } from '@ember/array';
 import Store from '@ember-data/store';
 import { action } from '@ember/object';
+import config from 'ember-get-config';
 import Media from 'ember-responsive';
 
 import { ShareMoreThanTenThousand } from 'ember-osf-web/models/index-card-search';
@@ -37,7 +38,7 @@ interface SortOption {
 
 export interface Filter {
     propertyVisibleLabel: string;
-    propertyShortFormLabel: string; // OSFMAP shorthand label
+    propertyPathKey: string; // OSFMAP shorthand label
     value: string;
     label: string;
     suggestedFilterOperator?: SuggestedFilterOperators;
@@ -66,6 +67,7 @@ interface SearchArgs {
     activeFilters: Filter[];
 }
 
+const osfURL = config.OSF.url;
 const searchDebounceTime = 100;
 
 export default class SearchPage extends Component<SearchArgs> {
@@ -203,13 +205,13 @@ export default class SearchPage extends Component<SearchArgs> {
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
                 if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
-                    acc[filter.propertyShortFormLabel] = {};
-                    acc[filter.propertyShortFormLabel][filter.value] = true;
+                    acc[filter.propertyPathKey] = {};
+                    acc[filter.propertyPathKey][filter.value] = true;
                     return acc;
                 }
                 // other filters should look like cardSearchFilter[propertyName]=IRI
-                const currentValue = acc[filter.propertyShortFormLabel];
-                acc[filter.propertyShortFormLabel] = currentValue ? currentValue.concat(filter.value) : [filter.value];
+                const currentValue = acc[filter.propertyPathKey];
+                acc[filter.propertyPathKey] = currentValue ? currentValue.concat(filter.value) : [filter.value];
                 return acc;
             }, {} as { [key: string]: any });
             let resourceTypeFilter = this.resourceType as string;
@@ -218,6 +220,10 @@ export default class SearchPage extends Component<SearchArgs> {
                 resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
             }
             filterQueryObject['resourceType'] = resourceTypeFilter;
+            // Add the accessService if we are not serving locally
+            if (!osfURL.includes('localhost')) {
+                filterQueryObject['accessService'] = osfURL; // Only fetch items from the current OSF environment
+            }
             filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
@@ -264,7 +270,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @action
     toggleFilter(filter: Filter) {
         const filterIndex = this.activeFilters.findIndex(
-            f => f.propertyShortFormLabel === filter.propertyShortFormLabel && f.value === filter.value,
+            f => f.propertyPathKey === filter.propertyPathKey && f.value === filter.value,
         );
         if (filterIndex > -1) {
             this.activeFilters.removeAt(filterIndex);

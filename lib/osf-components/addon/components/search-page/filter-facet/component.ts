@@ -75,7 +75,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             const card = this.selectedProperty.indexCard;
             const filter = {
                 propertyVisibleLabel: property.displayLabel,
-                propertyShortFormLabel: property.shortFormLabel,
+                propertyPathKey: property.propertyPathKey,
                 label: card.get('label'),
                 value: card.get('resourceId'),
             };
@@ -110,7 +110,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
         const valueSearch = await this.store.queryRecord('index-value-search', {
             cardSearchText,
             cardSearchFilter,
-            valueSearchPropertyPath: property.shortFormLabel,
+            valueSearchPropertyPath: property.propertyPathKey,
             valueSearchText: filterString || '',
             'page[cursor]': page,
             sort,
