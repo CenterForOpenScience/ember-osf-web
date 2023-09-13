@@ -66,8 +66,10 @@ export default class PrePrintsDetailController extends Controller {
         return window.location.href;
     }
 
-    fileDownloadURL() {
-        // return fileDownloadPath(this.model.primaryFile, this.model);
+    get fileDownloadUrl(): string {
+        const version = this.model.primaryFile.version;
+        const path = `${this.model.preprint.id}/download/?`;
+        return `${config.OSF.url}${path}${version ? `version=${version}` : ''}`.replace(/[&?]$/, '');
     }
 
     facebookAppId(): string {
@@ -92,7 +94,7 @@ export default class PrePrintsDetailController extends Controller {
         });
     }
 
-    isAdmin(): boolean {
+    private isAdmin(): boolean {
         // True if the current user has admin permissions for the node that contains the preprint
         return (this.model.preprint.currentUserPermissions).includes(Permission.Admin);
     }

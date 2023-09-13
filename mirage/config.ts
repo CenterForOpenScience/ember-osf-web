@@ -337,6 +337,10 @@ export default function(this: Server) {
     });
     this.get('/preprints/:guid/citation/:citationStyleID', getCitation);
 
+    /**
+     * End Preprint Details
+     */
+
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
     osfNestedResource(this, 'registration-provider', 'moderators', {
         only: ['index', 'show', 'update', 'delete'],
