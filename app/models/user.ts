@@ -94,6 +94,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('object') social!: {};
     @attr('array') employment!: Employment[];
     @attr('array') education!: Education[];
+    @attr('boolean') allowIndexing!: boolean;
 
     @belongsTo('region', { async: false })
     defaultRegion!: RegionModel;
