@@ -1,0 +1,41 @@
+<Panel
+    data-test-opt-out-panel
+    data-analytics-scope='Indexing opt out panel'
+    as |panel|
+>
+    <panel.heading @title={{t 'settings.account.opt-out.title'}} />
+    <panel.body>
+        <p data-test-opt-out-help-text>
+            {{t 'settings.account.opt-out.description'}}
+        </p>
+        <label>
+            <input
+                name='indexingPreference'
+                type='radio'
+                value={{false}}
+                checked={{this.allowIndexingIsFalse}}
+                {{on 'click' (action (mut this.indexingPreference) false)}}
+            />
+            {{t 'settings.account.opt-out.opt-out-label'}}
+        </label>
+        <br />
+        <label>
+            <input
+                name='indexingPreference'
+                type='radio'
+                value={{true}}
+                checked={{this.indexingPreference}}
+                {{on 'click' (action (mut this.indexingPreference) true)}}
+            />
+            {{t 'settings.account.opt-out.opt-in-label'}}
+        </label>
+        <br />
+        <Button
+            data-test-update-indexing-preference-button
+            data-analytics-name='Submit'
+            {{on 'click' (perform this.updateIndexingPreference)}}
+        >
+            {{t 'settings.account.opt-out.button-label'}}
+        </Button>
+    </panel.body>
+</Panel>

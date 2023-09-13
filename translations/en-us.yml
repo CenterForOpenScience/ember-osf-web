@@ -2561,6 +2561,14 @@ settings:
                 confirm_button_text: Remove
             remove_fail: 'Revocation request failed. Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> if the problem persists.'
             remove_success: 'You have revoked this connected identity.'
+        opt-out:
+            title: 'Opt out of SHARE indexing'
+            description: 'The Open Science Framework (OSF) indexes public projects and components for SHARE, a free, open dataset of research metadata. This allows SHARE to include your user profile and research in its database, which is used by search engines and other services to make research more discoverable.'
+            opt-out-label: 'Opt out of SHARE indexing'
+            opt-in-label: 'Opt in to SHARE indexing'
+            success: 'Successfully updated SHARE indexing preference.'
+            error: 'Could not update SHARE indexing preference. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+            button-label: 'Update'
     addons:
         title: 'Configure add-on accounts'
     notifications:
