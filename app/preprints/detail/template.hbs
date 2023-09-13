@@ -102,7 +102,30 @@ data-analytics-scope='preprints detail page'
                         </EmberTooltip>
                     </div>
                 </div>
-                <div>
+                <div local-class='plaudit-container'>
+                    <div local-class='plaudit'></div>
+                    <SharingIcons
+                        local-class='sharing-icons'
+                        @title={{this.model.preprint.title}}
+                        @description={{this.model.preprint.description}}
+                        @hyperlink='{{this.hyperlink}}'
+                        @showText={{false}}
+                        @facebookAppId={{this.facebookAppId}}
+                        as |links|
+                    >
+                        <div>
+                            {{links.email}}
+                        </div>
+                        <div>
+                            {{links.twitter}}
+                        </div>
+                        <div>
+                            {{links.facebook}}
+                        </div>
+                        <div>
+                            {{links.linkedIn}}
+                        </div>
+                    </SharingIcons>
                     {{!Plaudit }}
                 </div>
                 <div>
