@@ -18,7 +18,8 @@ export interface KeenConfig {
 }
 
 declare const config: {
-    WATER_BUTLER_ENABLED: any;
+    WATER_BUTLER_ENABLED: boolean;
+    PLAUDIT_WIDGET_URL: string,
     environment: any;
     lintOnBuild: boolean;
     testsEnabled: boolean;

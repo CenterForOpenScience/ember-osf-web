@@ -103,7 +103,9 @@ data-analytics-scope='preprints detail page'
                     </div>
                 </div>
                 <div local-class='plaudit-container'>
-                    <div local-class='plaudit'></div>
+                    <div local-class='plaudit'>
+                        <Preprints::-Components::PlauditWidget></Preprints::-Components::PlauditWidget>
+                    </div>
                     <SharingIcons
                         local-class='sharing-icons'
                         @title={{this.model.preprint.title}}
