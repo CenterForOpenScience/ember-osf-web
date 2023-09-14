@@ -230,8 +230,9 @@ export default class SearchPage extends Component<SearchArgs> {
             await searchResult.relatedProperties;
             this.booleanFilters = searchResult.relatedProperties
                 .filterBy('suggestedFilterOperator', SuggestedFilterOperators.IsPresent);
-            this.relatedProperties = searchResult.relatedProperties
-                .filterBy('suggestedFilterOperator', SuggestedFilterOperators.AnyOf);
+            this.relatedProperties = searchResult.relatedProperties.filter(
+                property => property.suggestedFilterOperator !== SuggestedFilterOperators.IsPresent, // AnyOf or AtDate
+            );
             this.firstPageCursor = searchResult.firstPageCursor;
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
