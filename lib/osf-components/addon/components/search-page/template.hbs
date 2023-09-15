@@ -192,7 +192,7 @@ as |layout|>
     </layout.left>
     <layout.main local-class={{if this.showSidePanelToggle 'search-main-mobile' 'search-main'}} data-analytics-scope='Search page main'>
         {{#unless this.showSidePanelToggle}}
-            <div data-test-topbar-wrapper local-class='topbar'>
+            <div data-test-topbar-wrapper local-class='topbar {{if @showResourceTypeFilter 'flex-column-tablet'}}'>
                 {{#if @showResourceTypeFilter}}
                     <nav
                         data-test-topbar-object-type-nav
