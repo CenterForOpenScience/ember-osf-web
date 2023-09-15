@@ -54,13 +54,8 @@ export default class PrePrintsDetailController extends Controller {
     };
 
     @tracked fullScreenMFR = false;
-    expandedAuthors = true;
     @tracked showLicenseText = false;
-    primaryFile = null;
-    showModalClaimUser = false;
     isPendingWithdrawal = false;
-    isWithdrawn = null;
-    isPlauditReady = false;
     @tracked expandedAbstract =  navigator.userAgent.includes('Prerender');
 
 

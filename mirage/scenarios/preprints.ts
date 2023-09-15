@@ -38,7 +38,6 @@ function buildOSF(
         tags: [],
     });
 
-
     const approvedAdminPreprint = server.create('preprint', {
         provider: osf,
         id: 'osf-approved-admin',
@@ -99,6 +98,16 @@ function buildOSF(
         isPublished: false,
     });
 
+    const withdrawnPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-withdrawn',
+        title: 'Preprint Non-Admin, Not Published and withdrawn',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.APPROVED,
+        isPublished: false,
+        dateWithdrawn: new Date(),
+    });
+
     const subjects = server.createList('subject', 7);
 
     osf.update({
@@ -117,6 +126,7 @@ function buildOSF(
             orphanedPreprint,
             privatePreprint,
             notPublishedPreprint,
+            withdrawnPreprint,
         ],
         description: 'This is the description for osf',
     });
