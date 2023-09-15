@@ -15,7 +15,8 @@ interface PropertyPath {
 
 export enum SuggestedFilterOperators {
     AnyOf = 'any-of',
-    IsPresent = 'is-present'
+    IsPresent = 'is-present',
+    AtDate = 'at-date'
 }
 
 export default class RelatedPropertyPathModel extends OsfModel {
