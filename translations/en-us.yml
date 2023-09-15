@@ -2563,7 +2563,7 @@ settings:
             remove_success: 'You have revoked this connected identity.'
         opt-out:
             title: 'Opt out of SHARE indexing'
-            description: 'The Open Science Framework (OSF) indexes public projects and components for SHARE, a free, open dataset of research metadata. This allows SHARE to include your user profile and research in its database, which is used by search engines and other services to make research more discoverable.'
+            description: 'By default, OSF users are indexed into SHARE, a free, open dataset of research metadata. This allows SHARE to include your user profile and research in its database, which is used by search engines and other services to make research more discoverable. You can opt out of this indexing by checking the box below. NOTE: Public projects, files, registrations, and preprints will still be indexed in SHARE. <br /> <a href="https://share.osf.io/">Learn more about SHARE</a>'
             opt-out-label: 'Opt out of SHARE indexing'
             opt-in-label: 'Opt in to SHARE indexing'
             success: 'Successfully updated SHARE indexing preference.'

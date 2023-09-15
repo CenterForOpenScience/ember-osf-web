@@ -6,7 +6,7 @@
     <panel.heading @title={{t 'settings.account.opt-out.title'}} />
     <panel.body>
         <p data-test-opt-out-help-text>
-            {{t 'settings.account.opt-out.description'}}
+            {{t 'settings.account.opt-out.description' htmlSafe=true}}
         </p>
         <label data-test-indexing-opt-out-label>
             <input
