@@ -1,7 +1,7 @@
 {{page-title this.model.preprint.title replace=false}}
 
 
-<div local-class='preprints-details-page-container' {{with-branding this.model.brand}}
+<div local-class='preprints-details-page-container {{if this.isMobile 'mobile'}}' {{with-branding this.model.brand}}
 data-analytics-scope='preprints detail page'
 >
     <div local-class='header-container'>
@@ -53,25 +53,30 @@ data-analytics-scope='preprints detail page'
                     />
                     <div local-class='file-description-container'>
                         <div local-class='file-description'>
-                            <span>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</span>
+                            <div>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</div>
+                            {{#unless this.isMobile}}
+                                <div> | </div> 
+                            {{/unless}}
                             {{#if this.isWithdrawn}}
-                                | <span>{{t 'preprints.detail.header.withdrawn_on'}}: {{moment-format this.model.preprint.dateWithdrawn 'MMMM DD, YYYY'}}</span>
+                                <div>{{t 'preprints.detail.header.withdrawn_on'}}: {{moment-format this.model.preprint.dateWithdrawn 'MMMM DD, YYYY'}}</div>
                             {{else}}
-                                | <span>{{t 'preprints.detail.header.last_edited'}}: {{moment-format this.model.preprint.dateModified 'MMMM DD, YYYY'}}</span>
+                                <div>{{t 'preprints.detail.header.last_edited'}}: {{moment-format this.model.preprint.dateModified 'MMMM DD, YYYY'}}</div>
                             {{/if}}
                         </div>
-                        <div local-class='toggle-button'>
-                            <Button
-                                data-test-toggle-document
-                                data-analytics-name='Expand Document'
-                                {{on 'click' (action this.expandMFR)}}
-                                aria-label={{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
-                                @type='default'
-                            >
-                                {{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
-                                <FaIcon @icon='chevron-{{if this.fullScreenMFR 'left' 'right'}}' /> 
-                            </Button>
-                        </div>
+                        {{#unless this.isMobile}}
+                            <div local-class='toggle-button'>
+                                <Button
+                                    data-test-toggle-document
+                                    data-analytics-name='Expand Document'
+                                    {{on 'click' (action this.expandMFR)}}
+                                    aria-label={{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
+                                    @type='default'
+                                >
+                                    {{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
+                                    <FaIcon @icon='chevron-{{if this.fullScreenMFR 'left' 'right'}}' /> 
+                                </Button>
+                            </div>
+                        {{/unless}}
                     </div>
                 {{else}}
                     <Alert
@@ -87,14 +92,16 @@ data-analytics-scope='preprints detail page'
         {{#unless this.fullScreenMFR }}
             <div local-class='data-container-right'>
                 <div local-class='download-container'>
-                    <OsfLink
-                        data-test-download-button
-                        data-analytics-name='downloads'
-                        local-class='btn btn-primary'
-                        @href={{ this.fileDownloadUrl }} 
-                    >
-                        {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}
-                    </OsfLink>
+                    <div>
+                        <OsfLink
+                            data-test-download-button
+                            data-analytics-name='downloads'
+                            local-class='btn btn-primary'
+                            @href={{ this.fileDownloadUrl }} 
+                        >
+                            {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}
+                        </OsfLink>
+                    </div>
                     <div>
                         {{t 'preprints.detail.share.views'}}: {{this.model.preprint.apiMeta.metrics.views}} | {{t 'preprints.detail.share.downloads'}}: {{this.model.preprint.apiMeta.metrics.downloads}}
                         <EmberTooltip>
