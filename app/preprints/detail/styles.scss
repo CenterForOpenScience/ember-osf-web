@@ -106,6 +106,10 @@
                 padding-top: 15px;
 
                 .file-description {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: flex-start;
                     width: 75%;
                 }
 
@@ -132,7 +136,7 @@
                 justify-content: flex-start;
                 align-items: center;
                 width: 100%;
-                height: 90px;
+                min-height: 90px;
 
                 .plaudit {
                     width: calc(100% - 145px);
@@ -202,6 +206,86 @@
             }
         }
     }
+
+    &.mobile {
+        .header-container {
+            padding: 0;
+            flex-direction: column;
+
+            .preprint-author-container,
+            .preprint-title-container {
+                width: 100%;
+                padding: 0 10px;
+            }
+        }
+
+        .data-container {
+            padding: 10px;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            .data-container-left,
+            .data-container-right {
+                width: 100%;
+                padding: 0;
+            }
+
+            .data-container-left {
+                height: 481px;
+
+                .file-description-container {
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    margin-bottom: 20px;
+
+                    & > div {
+                        margin-top: 10px;
+                    }
+
+                    .file-description {
+                        width: 100%;
+                        flex-direction: column;
+                    }
+
+                    .toggle-button {
+                        width: 100%;
+                        align-items: flex-end;
+                    }
+                }
+            }
+
+            .data-container-right {
+                .download-container {
+                    flex-direction: column;
+                    align-items: flex-start;
+
+                    & > div {
+                        margin-top: 10px;
+                    }
+                }
+
+                .plaudit-container {
+                    flex-direction: column;
+                    align-items: flex-start;
+
+                    .plaudit {
+                        width: 100%;
+                        padding-right: 0;
+                        height: 90px;
+                    }
+
+                    .sharing-icons {
+                        padding: 10px;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        width: 145px;
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 .bottom-margin {

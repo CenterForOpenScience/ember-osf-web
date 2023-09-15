@@ -105,7 +105,9 @@ export default Factory.extend<PreprintModel>({
 
         const unregisteredContributor = server.create('contributor', 'unregistered');
 
-        const allContributors = [contributor, unregisteredContributor, secondContributor];
+        const thirdContributor = server.create('contributor');
+
+        const allContributors = [contributor, unregisteredContributor, secondContributor, thirdContributor];
 
         newPreprint.update({
             contributors: allContributors,

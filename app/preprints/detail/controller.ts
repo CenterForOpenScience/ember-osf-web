@@ -12,6 +12,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState, ReviewsWorkFlow } from 'ember-osf-web/models/provider';
 import { tracked } from '@glimmer/tracking';
 import { extractDoi } from 'ember-osf-web/utils/doi';
+import Media from 'ember-responsive';
 
 
 /**
@@ -44,6 +45,7 @@ export default class PrePrintsDetailController extends Controller {
     @service currentUser!: CurrentUserService;
     @service features!: Features;
     @service intl!: Intl;
+    @service media!: Media;
 
     // metricsStartDate = config.OSF.metricsStartDate;
 
@@ -188,5 +190,9 @@ export default class PrePrintsDetailController extends Controller {
     @action
     trackNonContributors(category: string, label: string, url: string): void {
         this.send('click', category, label, url);
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }
