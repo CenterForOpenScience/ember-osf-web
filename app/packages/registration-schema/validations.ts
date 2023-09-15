@@ -80,7 +80,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel | D
 }
 
 export function validateNodeLicense() {
-    return async (_: unknown, __: unknown, ___: unknown, changes: LicensedContent, content: LicensedContent) => {
+    return async (_: unknown, newValue: any, __: unknown, changes: LicensedContent, content: LicensedContent) => {
         let validateLicenseTarget = await content.license;
         let validateNodeLicenseTarget = content.nodeLicense;
         if (changes?.license && Object.keys(changes.license).length
@@ -110,7 +110,7 @@ export function validateNodeLicense() {
 
         const missingFieldsList: Array<keyof NodeLicense> = [];
         for (const item of validateLicenseTarget.requiredFields) {
-            if (!validateNodeLicenseTarget || !validateNodeLicenseTarget[item]) {
+            if (!newValue || !newValue[item]) {
                 missingFieldsList.push(item);
             }
         }
