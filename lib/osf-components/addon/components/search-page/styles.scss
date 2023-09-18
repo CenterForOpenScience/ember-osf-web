@@ -164,6 +164,8 @@
 .topbar {
     border-bottom: 1px solid $color-text-black;
     display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     margin: 0 auto;
     max-height: 55px;
     margin-top: 1rem;
@@ -198,6 +200,11 @@
         a {
             padding-bottom: 10px;
         }
+    }
+
+    .search-count {
+        // override RegistriesStyle
+        font-size: 1.5em;
     }
 
     .help-button {
@@ -401,7 +408,7 @@
         gap: 1rem;
     }
 
-    .topbar {
+    .flex-column-tablet {
         display: flex;
         flex-direction: column;
     }
