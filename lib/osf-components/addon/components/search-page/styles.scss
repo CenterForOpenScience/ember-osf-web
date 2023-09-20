@@ -19,7 +19,6 @@
     display: flex;
     flex-direction: column;
     padding: 0;
-    z-index: 0;
 
     label > h1 {
         font-weight: 500;
@@ -28,7 +27,7 @@
         white-space: nowrap;
     }
 
-    span {
+    .search-input-wrapper {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -91,7 +90,6 @@
     display: flex;
     align-items: center;
     padding: 35px;
-    z-index: 0;
 
     label {
         padding: 30px;
@@ -121,6 +119,11 @@
     min-height: 100%;
     min-width: 100%;
     position: relative;
+    z-index: 1;
+
+    p {
+        color: $color-text-white;
+    }
 
     &::after {
         background: var(--hero-background-img-url);
@@ -242,6 +245,7 @@
     }
 
     h2 {
+        color: $color-text-white;
         font-weight: 400;
         height: 22px;
         margin-top: 0.5rem;
@@ -249,6 +253,7 @@
     }
 
     p {
+        color: $color-text-white;
         white-space: normal;
         margin: 25px 5px 0;
     }
