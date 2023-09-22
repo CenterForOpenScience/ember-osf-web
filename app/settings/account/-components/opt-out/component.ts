@@ -1,10 +1,12 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import config from 'ember-get-config';
 import IntlService from 'ember-intl/services/intl';
+
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 const { support: { supportEmail } } = config;
@@ -14,12 +16,17 @@ export default class OptOutComponent extends Component {
     @service intl!: IntlService;
     @service toast!: Toastr;
 
+    @tracked indexingPreference?: boolean;
+
     get allowIndexingIsFalse() {
         // allowIndexing is null by default
         return this.currentUser.user?.allowIndexing === false;
     }
 
-    indexingPreference = this.currentUser.user?.allowIndexing;
+    constructor(owner: unknown, args: any) {
+        super(owner, args);
+        this.indexingPreference = this.currentUser.user?.allowIndexing;
+    }
 
     @restartableTask
     @waitFor

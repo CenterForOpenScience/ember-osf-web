@@ -52,7 +52,7 @@ export default Factory.extend<MirageUser & UserTraits>({
     },
     acceptedTermsOfService: true,
     canViewReviews: false,
-    allowIndexing: true,
+    allowIndexing: null,
     social: {},
     employment() {
         const employmentCount = faker.random.number({ min: 1, max: 3 });
