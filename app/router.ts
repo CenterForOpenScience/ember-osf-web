@@ -26,6 +26,7 @@ Router.map(function() {
         this.route('dashboard', { path: '/:institution_id/dashboard' });
     });
     this.route('preprints', function() {
+        this.route('discover');
         this.route('discover', { path: '/:provider_id/discover' });
     });
     this.route('register');
