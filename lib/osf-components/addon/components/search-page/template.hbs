@@ -42,7 +42,7 @@ as |layout|>
         {{else}}
             <label
                 data-test-search-header
-                for='search-input'
+                for={{this.searchBoxId}}
                 local-class='heading-label'
             >
                 <h1>{{t 'search.search-header'}}</h1>
@@ -53,6 +53,7 @@ as |layout|>
                 data-test-search-input
                 data-analytics-name='Search input'
                 local-class='search-input'
+                id={{this.searchBoxId}}
                 @type='search'
                 @placeholder={{t 'search.textbox-placeholder'}}
                 @value={{this.cardSearchText}}
