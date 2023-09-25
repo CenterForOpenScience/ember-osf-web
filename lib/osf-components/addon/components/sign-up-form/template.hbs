@@ -9,7 +9,7 @@
         @valuePath='fullName'
         @shouldShowMessages={{this.didValidate}}
         disabled={{this.hasSubmitted}}
-        placeholder={{t 'osf-components.sign-up-form.full_name'}}
+        @placeholder={{t 'osf-components.sign-up-form.full_name'}}
         ariaLabel={{t 'osf-components.sign-up-form.full_name'}}
     />
     <ValidatedInput::Text
@@ -18,7 +18,7 @@
         @valuePath='email1'
         @shouldShowMessages={{this.didValidate}}
         disabled={{this.hasSubmitted}}
-        placeholder={{t 'osf-components.sign-up-form.contact_email'}}
+        @placeholder={{t 'osf-components.sign-up-form.contact_email'}}
         ariaLabel={{t 'osf-components.sign-up-form.contact_email'}}
     />
     <ValidatedInput::Text
@@ -27,7 +27,7 @@
         @valuePath='email2'
         @shouldShowMessages={{this.didValidate}}
         disabled={{this.hasSubmitted}}
-        placeholder={{t 'osf-components.sign-up-form.confirm_email'}}
+        @placeholder={{t 'osf-components.sign-up-form.confirm_email'}}
         ariaLabel={{t 'osf-components.sign-up-form.confirm_email'}}
     />
     <ValidatedInput::Text
@@ -38,7 +38,7 @@
         @shouldShowMessages={{this.didValidate}}
         disabled={{this.hasSubmitted}}
         @onKeyUp={{perform this.strength this.userRegistration.password}}
-        placeholder={{t 'osf-components.sign-up-form.password'}}
+        @placeholder={{t 'osf-components.sign-up-form.password'}}
         ariaLabel={{t 'osf-components.sign-up-form.password'}}
     />
     <div local-class='progress' hidden={{not this.progress}}>
