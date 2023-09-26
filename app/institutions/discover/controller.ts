@@ -8,12 +8,12 @@ import { Filter, OnSearchParams, ResourceTypeFilterValue } from 'osf-components/
 export default class InstitutionDiscoverController extends Controller {
     @service currentUser!: CurrentUser;
 
-    @tracked cardSearchText?: string = '';
+    @tracked q?: string = '';
     @tracked sort?: string =  '-relevance';
     @tracked resourceType?: ResourceTypeFilterValue | null = null;
     @tracked activeFilters?: Filter[] = [];
 
-    queryParams = ['cardSearchText', 'sort', 'resourceType', 'activeFilters'];
+    queryParams = ['q', 'sort', 'resourceType', 'activeFilters'];
 
     get defaultQueryOptions() {
         const identifiers = [this.model.rorIri, this.model.iri, this.model.links.html].filter(Boolean).join(',');
@@ -24,7 +24,7 @@ export default class InstitutionDiscoverController extends Controller {
 
     @action
     onSearch(queryOptions: OnSearchParams) {
-        this.cardSearchText = queryOptions.cardSearchText;
+        this.q = queryOptions.cardSearchText;
         this.sort = queryOptions.sort;
         this.resourceType = queryOptions.resourceType;
         this.activeFilters = queryOptions.activeFilters;
