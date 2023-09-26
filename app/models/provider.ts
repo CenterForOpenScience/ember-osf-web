@@ -30,6 +30,8 @@ export enum ReviewsState {
     INITIAL = 'initial',
     PENDING = 'pending',
     REJECTED = 'rejected',
+    WITHDRAWN = 'withdrawn',
+    PENDING_WITHDRAWAL = 'pending_withdrawal',
 }
 
 export enum ReviewPermissions {

@@ -1,0 +1,152 @@
+/* Import variables before bootstrap so that boostrap variables can be overridden */
+
+$color-alert-bg-warning: #fcf8e3;
+$color-alert-border-warning: #faebcc;
+$color-alert-text-warning: #8a6d3b;
+
+$color-alert-bg-success: #dff0d8;
+$color-alert-border-success: #d6e9c6;
+$color-alert-text-success: #3c763d;
+
+$color-alert-bg-danger: #f2dede;
+$color-alert-border-danger: #ebccd1;
+$color-alert-text-danger: #a94442;
+
+$color-alert-bg-info: #d9edf7;
+$color-alert-border-info: #bce8f1;
+$color-alert-text-info: #31708f;
+
+$color-bg-color-grey: #333;
+$color-bg-color-light: #eee;
+$color-border-light: #ddd;
+
+.preprint-status-pending-pre {
+    background-color: $color-alert-bg-warning;
+    border: 1px solid $color-alert-border-warning;
+    color: $color-alert-text-warning;
+
+    .status-icon {
+        -webkit-text-stroke: 1px $color-alert-text-warning;
+        font-size: 14px;
+    }
+}
+
+.preprint-status-pending-post {
+    background-color: $color-alert-bg-info;
+    border: 1px solid $color-alert-border-info;
+    color: $color-alert-text-info;
+
+    .status-icon {
+        -webkit-text-stroke: 1px $color-alert-text-info;
+        font-size: 14px;
+    }
+}
+
+.preprint-status-accepted {
+    background-color: $color-alert-bg-success;
+    border: 1px solid $color-alert-border-success;
+    color: $color-alert-text-success;
+
+    .status-icon {
+        -webkit-text-stroke: 0;
+        font-size: 16px;
+    }
+}
+
+.preprint-status-rejected {
+    background-color: $color-alert-bg-danger;
+    border: 1px solid $color-alert-border-danger;
+    color: $color-alert-text-danger;
+
+    .status-icon {
+        -webkit-text-stroke: 0;
+        font-size: 16px;
+    }
+}
+
+.preprint-status-withdrawn {
+    background-color: $color-alert-bg-warning;
+    border: 1px solid $color-alert-border-warning;
+    color: $color-alert-text-warning;
+
+    .status-icon {
+        -webkit-text-stroke: 1px $color-alert-text-warning;
+        font-size: 14px;
+    }
+}
+
+.preprint-status-component {
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+/*
+#preprint-status {
+    .flex-container {
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        align-content: space-between;
+
+        strong {
+            display: inline-block;  // required for the text-transform
+        }
+        strong::first-letter {
+            text-transform: uppercase;
+        }
+        .status-explanation {
+            padding-right: 15px;
+
+            .banner-content {
+                padding-left: 5px;
+            }
+        }
+        .reviewer-feedback {
+            margin-left: auto;
+            padding-right: 15px;
+
+            .dropdown-menu {
+                font-size:62.5%;
+                background-color: $color-bg-color-light;
+                color: $color-bg-color-grey;
+                border: 1px solid $color-border-light;
+                width: 445px;
+                left: auto;
+                right: 15px;
+                margin-top: 0px;
+                z-index: 98;  // prevent dropdown from scrolling over navbar
+
+                .status {
+                    font-size: 1.4em;
+                }
+
+                .moderator-comment {
+                    font-size: 1.8em;
+                    background-color: white;
+                    padding: 30px 15px;
+
+                    p {
+                        padding-bottom: 5px;
+                    }
+                }
+
+                .feedback-header {
+                    font-size: 2.0em;
+                    border-bottom: 1px solid $color-border-light;
+                    padding: 5px 15px 8px 15px;
+
+                    a {
+                        color: grey;
+                        float: right;
+                    }
+                }
+
+                .feedback-footer {
+                    border-top: 1px solid $color-border-light;
+                }
+            }
+        }
+    }
+}
+*/

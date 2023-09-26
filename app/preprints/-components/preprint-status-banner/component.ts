@@ -1,0 +1,198 @@
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
+import Theme from 'ember-osf-web/services/theme';
+import Intl from 'ember-intl/services/intl';
+import PreprintModel from 'ember-osf-web/models/preprint';
+
+const PENDING = 'pending';
+const ACCEPTED = 'accepted';
+const REJECTED = 'rejected';
+const PENDING_WITHDRAWAL = 'pendingWithdrawal';
+const WITHDRAWAL_REJECTED = 'withdrawalRejected';
+const WITHDRAWN = 'withdrawn';
+
+const PRE_MODERATION = 'pre-moderation';
+const POST_MODERATION = 'post-moderation';
+
+const ICONS = {
+    [PENDING]: 'fa-hourglass-o',
+    [ACCEPTED]: 'fa-check-circle-o',
+    [REJECTED]: 'fa-times-circle-o',
+    [PENDING_WITHDRAWAL]: 'fa-hourglass-o',
+    [WITHDRAWAL_REJECTED]: 'fa-times-circle-o',
+    [WITHDRAWN]: 'fa-exclamation-triangle',
+};
+
+const STATUS = {
+    [PENDING]: 'components.preprint-status-banner.pending',
+    [ACCEPTED]: 'components.preprint-status-banner.accepted',
+    [REJECTED]: 'components.preprint-status-banner.rejected',
+    [PENDING_WITHDRAWAL]: 'components.preprint-status-banner.pending_withdrawal',
+    [WITHDRAWAL_REJECTED]: 'components.preprint-status-banner.withdrawal_rejected',
+};
+
+const MESSAGE = {
+    [PRE_MODERATION]: 'components.preprint-status-banner.message.pending_pre',
+    [POST_MODERATION]: 'components.preprint-status-banner.message.pending_post',
+    [ACCEPTED]: 'components.preprint-status-banner.message.accepted',
+    [REJECTED]: 'components.preprint-status-banner.message.rejected',
+    [PENDING_WITHDRAWAL]: 'components.preprint-status-banner.message.pending_withdrawal',
+    [WITHDRAWAL_REJECTED]: 'components.preprint-status-banner.message.withdrawal_rejected',
+    [WITHDRAWN]: 'components.preprint-status-banner.message.withdrawn',
+};
+
+const WORKFLOW = {
+    [PRE_MODERATION]: 'global.pre_moderation',
+    [POST_MODERATION]: 'global.post_moderation',
+};
+
+const CLASS_NAMES = {
+    PRE_MODERATION: 'preprint-status-pending-pre',
+    POST_MODERATION: 'preprint-status-pending-post',
+    ACCEPTED: 'preprint-status-accepted',
+    REJECTED: 'preprint-status-rejected',
+    PENDING_WITHDRAWAL: 'preprint-status-rejected',
+    WITHDRAWAL_REJECTED: 'preprint-status-rejected',
+    WITHDRAWN: 'preprint-status-withdrawn',
+};
+
+interface InputArgs {
+    submission: PreprintModel;
+    isWithdrawn: boolean;
+}
+
+export default class PreprintStatusBanner extends Component<InputArgs>{
+    @service intl!: Intl;
+    @service theme!: Theme;
+
+    submission = this.args.submission;
+    isWithdrawn = this.args.isWithdrawn;
+
+    isPendingWithdrawal = false;
+    isWithdrawalRejected = false;
+
+    // translations
+    labelModeratorFeedback = 'components.preprint-status-banner.feedback.moderator_feedback';
+    moderator = 'components.preprint-status-banner.feedback.moderator';
+    baseMessage = 'components.preprint-status-banner.message.base';
+
+    classNames = ['preprint-status-component'];
+    classNameBindings = ['getClassName'];
+
+    latestAction = null;
+
+    reviewerComment = alias('latestAction.comment');
+    reviewerName = alias('latestAction.creator.fullName');
+
+    public getClassName(): string {
+        if (this.isPendingWithdrawal) {
+            return CLASS_NAMES['PENDING_WITHDRAWAL'];
+        } else if (this.isWithdrawn) {
+            return CLASS_NAMES['WITHDRAWN'];
+        } else if (this.isWithdrawalRejected) {
+            return CLASS_NAMES['WITHDRAWAL_REJECTED'];
+        } else {
+            return this.submission.reviewsState === PENDING ?
+                CLASS_NAMES[this.submission.provider.reviewsWorkflow] :
+                CLASS_NAMES[this.submission.reviewsState];
+        }
+    }
+
+    public bannerContent(): string {
+        if (this.isPendingWithdrawal) {
+            return this.intl.t(this.statusExplanation, { documentType: this.submission.provider.documentType });
+        } else if (this.isWithdrawn) {
+            return this.intl.t(MESSAGE[WITHDRAWN], { documentType: this.submission.provider.documentType });
+        } else if (this.isWithdrawalRejected) {
+            return this.intl.t(MESSAGE[WITHDRAWAL_REJECTED], { documentType: this.submission.provider.documentType });
+        } else {
+            const tName = this.theme.isProvider ?
+                this.theme.provider?.name :
+                this.intl.t('global.brand_name');
+            const tWorkflow = this.intl.t(this.workflow);
+            const tStatusExplanation = this.intl.t(this.statusExplanation);
+            // eslint-disable-next-line max-len
+            return `${this.intl.t(this.baseMessage), { name: tName, reviewsWorkflow: tWorkflow, documentType: this.submission.provider.documentType }} ${tStatusExplanation}`;
+        }
+    }
+
+    feedbackBaseMessage(): string {
+        if (this.isWithdrawalRejected) {
+            return '';
+        }
+        // eslint-disable-next-line max-len
+        return this.intl.t('components.preprint-status-banner.feedback.base', { documentType: this.submission.provider.documentType });
+    }
+
+    private get statusExplanation(): string {
+        if (this.isPendingWithdrawal) {
+            return MESSAGE[PENDING_WITHDRAWAL];
+        } else if (this.isWithdrawalRejected) {
+            return MESSAGE[WITHDRAWAL_REJECTED];
+        } else {
+            return this.submission.reviewsState === PENDING ?
+                MESSAGE[this.submission.provider.reviewsWorkflow] :
+                MESSAGE[this.submission.reviewsState];
+        }
+    }
+
+    status(): string {
+        let currentState = this.submission.reviewsState;
+        if (this.isPendingWithdrawal) {
+            currentState = PENDING_WITHDRAWAL;
+        } else if (this.isWithdrawalRejected) {
+            currentState = WITHDRAWAL_REJECTED;
+        }
+        return STATUS[currentState];
+    }
+
+    icon(): string {
+        let currentState = this.submission.reviewsState;
+        if (this.isPendingWithdrawal) {
+            currentState = PENDING_WITHDRAWAL;
+        } else if (this.isWithdrawalRejected) {
+            currentState = WITHDRAWAL_REJECTED;
+        } else if (this.isWithdrawn) {
+            currentState = WITHDRAWN;
+        }
+        return ICONS[currentState];
+    }
+
+    private get workflow(): string {
+        return WORKFLOW[this.submission.provider.reviewsWorkflow];
+    }
+
+    didReceiveAttrs() {
+        this._loadPreprintState.perform();
+    }
+
+    /*
+    _loadPreprintState: task(function* () {
+        if (this.isWithdrawn) {
+            return;
+        }
+        const submissionActions = yield this.submission.reviewActions;
+        const latestSubmissionAction = submissionActions.firstObject;
+        const withdrawalRequests = yield this.submission.requests;
+        const withdrawalRequest = withdrawalRequests.firstObject;
+        if (withdrawalRequest) {
+            const requestActions = yield withdrawalRequest.queryHasMany('actions', {
+                sort: '-modified',
+            });
+            const latestRequestAction = requestActions.firstObject;
+            if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
+                this.isWithdrawalRejected = true;
+                this.latestAction = latestRequestAction;
+                return;
+            } else {
+                this.isPendingWithdrawal = true;
+                return;
+            }
+        }
+        if (this.submission.provider.reviewsCommentsPrivate) {
+            return;
+        }
+        this.latestAction = latestSubmissionAction;
+    }
+    */
+}
