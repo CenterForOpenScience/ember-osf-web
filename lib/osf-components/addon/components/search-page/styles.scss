@@ -27,6 +27,10 @@
         white-space: nowrap;
     }
 
+    .provider-description {
+        width: 100%;
+    }
+
     .search-input-wrapper {
         display: flex;
         flex-direction: row;
@@ -96,6 +100,10 @@
         margin: 0 3rem 0 2rem;
     }
 
+    .provider-description {
+        width: 70vw;
+    }
+
     .heading-label > h1 {
         margin: 0;
         white-space: nowrap;
@@ -135,6 +143,26 @@
         left: 0;
         top: 0;
         z-index: -1;
+    }
+}
+
+.institutions-overlay {
+    background-color: $color-bg-gray-blue-light;
+    background-image: none;
+    border-bottom: solid 1px $alto;
+    color: $color-text-black;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 100%;
+    min-width: 100%;
+    position: relative;
+    z-index: 1;
+
+    img {
+        height: 70px;
+        margin: 0 auto;
     }
 }
 

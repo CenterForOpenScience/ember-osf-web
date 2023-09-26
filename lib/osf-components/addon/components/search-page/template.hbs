@@ -6,7 +6,7 @@ as |layout|>
         data-test-heading-wrapper
         data-analytics-scope='Search page heading'
         {{with-branding (get-model @provider.brand)}}
-        local-class='{{if this.showSidePanelToggle 'heading-wrapper-mobile' 'heading-wrapper'}} {{if @provider 'hero-overlay'}} {{if @institution 'heading-wrapper-institutions'}} {{if (and this.showSidePanelToggle @institution) 'heading-wrapper-institutions-mobile'}}'
+        local-class='{{if this.showSidePanelToggle 'heading-wrapper-mobile' 'heading-wrapper'}} {{if @provider 'hero-overlay'}} {{if @institution 'institutions-overlay'}}'
     >
         {{#if @provider}}
             <div
@@ -14,31 +14,24 @@ as |layout|>
                 local-class='provider-logo'
             >
             </div>
-            <p data-test-search-provider-description>
+            <p local-class='provider-description' data-test-search-provider-description>
                 {{html-safe @provider.description}}
             </p>
         {{else if @institution}}
-            <div local-class='heading-wrapper-institutions'>
-                <label
-                    for='search-input'
-                    local-class='heading-label-institution'
+            {{#if this.showSidePanelToggle}}
+                <img
+                    data-test-institution-logo
+                    src={{@institution.logoRoundedUrl}}
+                    alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
                 >
-                    {{#if this.showSidePanelToggle}}
-                        <img
-                            data-test-institution-logo
-                            src={{@institution.assets.logo}}
-                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
-                        >
-                    {{else}}
-                        <img
-                            data-test-institution-banner
-                            src={{@institution.assets.banner}}
-                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
-                        >
-                    {{/if}}
-                    <p data-test-institution-description>{{html-safe @institution.description}}</p>
-                </label>
-            </div>
+            {{else}}
+                <img
+                    data-test-institution-banner
+                    src={{@institution.bannerUrl}}
+                    alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
+                >
+            {{/if}}
+            <p local-class='provider-description' data-test-institution-description>{{html-safe @institution.description}}</p>
         {{else}}
             <label
                 data-test-search-header
