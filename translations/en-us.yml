@@ -1148,6 +1148,9 @@ preprints:
             metrics_disclaimer: 'Metrics collected since:'
         supplemental_materials: 'Supplemental Materials'
         tags: 'Tags'
+        status_banner:
+            loading: 'Loading...'
+            close: 'Close'
     header:
         osf_registrations: 'OSF Preprints'
         registrations: 'Preprints'
