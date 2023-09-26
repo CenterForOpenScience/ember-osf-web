@@ -14,11 +14,11 @@ export default class PreprintDiscoverController extends Controller {
     @service store!: Store;
     @service theme!: Theme;
 
-    @tracked cardSearchText?: string = '';
+    @tracked q?: string = '';
     @tracked sort?: string = '-relevance';
     @tracked activeFilters?: Filter[] = [];
 
-    queryParams = ['cardSearchText', 'sort', 'activeFilters'];
+    queryParams = ['q', 'sort', 'activeFilters'];
 
     get defaultQueryOptions() {
         return {
@@ -29,7 +29,7 @@ export default class PreprintDiscoverController extends Controller {
 
     @action
     onSearch(queryOptions: OnSearchParams) {
-        this.cardSearchText = queryOptions.cardSearchText;
+        this.q = queryOptions.cardSearchText;
         this.sort = queryOptions.sort;
         this.activeFilters = queryOptions.activeFilters;
     }
