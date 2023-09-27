@@ -2,6 +2,7 @@ import { attr, belongsTo, hasMany, SyncHasMany, AsyncBelongsTo, AsyncHasMany } f
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import CitationModel from 'ember-osf-web/models/citation';
+import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -60,6 +61,9 @@ export default class PreprintModel extends OsfModel {
 
     @hasMany('subject', { inverse: null})
     subjects!: SyncHasMany<SubjectModel>;
+
+    @hasMany('requests', { inverse: null})
+    requests!: SyncHasMany<PreprintRequestModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
     @alias('links.preprint_doi') preprintDoiUrl!: string;
