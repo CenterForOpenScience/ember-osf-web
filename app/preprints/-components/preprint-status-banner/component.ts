@@ -3,6 +3,10 @@ import { inject as service } from '@ember/service';
 import Theme from 'ember-osf-web/services/theme';
 import Intl from 'ember-intl/services/intl';
 import PreprintModel from 'ember-osf-web/models/preprint';
+import { task } from 'ember-concurrency';
+import { waitFor } from '@ember/test-waiters';
+import ReviewActionModel from 'ember-osf-web/models/review-action';
+import { alias } from '@ember/object/computed';
 
 const PENDING = 'pending';
 const ACCEPTED = 'accepted';
@@ -79,10 +83,24 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     classNames = ['preprint-status-component'];
     classNameBindings = ['getClassName'];
 
-    latestAction = null;
+    latestAction: ReviewActionModel | undefined;
 
-    reviewerComment = alias('latestAction.comment');
-    reviewerName = alias('latestAction.creator.fullName');
+    @alias('latestAction.comment') reviewerComment: string | undefined;
+    @alias('latestAction.creator.fullName') reviewerName: string | undefined;
+
+    /**
+     *
+     * @param owner The owner
+     * @param args The args
+     */
+    constructor(owner: unknown, args: InputArgs) {
+        super(owner, args);
+
+        this.latestAction = undefined;
+
+        this.loadPreprintState();
+
+    }
 
     public getClassName(): string {
         if (this.isPendingWithdrawal) {
@@ -162,21 +180,18 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         return WORKFLOW[this.submission.provider.reviewsWorkflow];
     }
 
-    didReceiveAttrs() {
-        this._loadPreprintState.perform();
-    }
-
-    /*
-    _loadPreprintState: task(function* () {
+    @task
+    @waitFor
+    async loadPreprintState()  {
         if (this.isWithdrawn) {
             return;
         }
-        const submissionActions = yield this.submission.reviewActions;
+        const submissionActions = await this.submission.reviewActions;
         const latestSubmissionAction = submissionActions.firstObject;
-        const withdrawalRequests = yield this.submission.requests;
+        const withdrawalRequests = await this.submission.requests;
         const withdrawalRequest = withdrawalRequests.firstObject;
         if (withdrawalRequest) {
-            const requestActions = yield withdrawalRequest.queryHasMany('actions', {
+            const requestActions = await withdrawalRequest.queryHasMany('actions', {
                 sort: '-modified',
             });
             const latestRequestAction = requestActions.firstObject;
@@ -194,5 +209,4 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         }
         this.latestAction = latestSubmissionAction;
     }
-    */
 }
