@@ -103,6 +103,7 @@ export default class SearchPage extends Component<SearchArgs> {
     leftPanelObjectDropdownId = uniqueId(['left-panel-object-dropdown']);
     firstTopbarObjectTypeLinkId = uniqueId(['first-topbar-object-type-link']);
     searchInputWrapperId = uniqueId(['search-input-wrapper']);
+    searchBoxId = uniqueId(['search-box']);
     leftPanelHeaderId = uniqueId(['left-panel-header']);
     firstFilterId = uniqueId(['first-filter']);
 
