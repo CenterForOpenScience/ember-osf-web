@@ -13,18 +13,18 @@ export default class PreprintRequestModel extends OsfModel {
     @attr('string') machineState!: String;
     @attr('string') requestType!: String;
 
-    @belongsTo('preprint', { polymorphic: false, inverse: 'requests', async: true})
+    @belongsTo('preprint', { inverse: 'requests'})
     target!: (AsyncBelongsTo<PreprintModel> & PreprintModel);
 
     @belongsTo('user', { inverse: null, async: true })
     creator!: AsyncBelongsTo<UserModel> & UserModel;
 
-    @hasMany('preprint-request-action', { inverse: 'target', async: true })
+    @hasMany('preprint-request-action', { inverse: 'target'})
     actions!: SyncHasMany<PreprintRequestActionModel> & PreprintRequestActionModel;
 }
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        preprintRequest: PreprintRequestModel;
+        'preprint-request': PreprintRequestModel;
     } // eslint-disable-line semi
 }

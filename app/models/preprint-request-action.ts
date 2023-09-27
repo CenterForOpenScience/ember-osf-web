@@ -11,7 +11,7 @@ export default class PreprintRequestActionModel extends OsfModel {
     @attr('boolean') auto!: boolean;
 
     // Relationships
-    @belongsTo('preprint-request', { polymorphic: false, inverse: 'actions', async: true})
+    @belongsTo('preprint-request', { inverse: 'actions' })
     target!: (AsyncBelongsTo<PreprintRequestModel> & PreprintRequestModel);
 
     @belongsTo('user', { inverse: null, async: true })
@@ -20,6 +20,6 @@ export default class PreprintRequestActionModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        preprintRequestAction: PreprintRequestActionModel;
+        'preprint-request-action': PreprintRequestActionModel;
     } // eslint-disable-line semi
 }

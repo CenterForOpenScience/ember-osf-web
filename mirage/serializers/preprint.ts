@@ -72,6 +72,24 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMo
                     },
                 },
             },
+            /*
+            reviewActions: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/review_actions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'reviewActions'),
+                    },
+                },
+            },
+            */
+            requests: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/requests/`,
+                        meta: this.buildRelatedLinkMeta(model, 'requests'),
+                    },
+                },
+            },
             citation: {
                 links: {
                     related: {

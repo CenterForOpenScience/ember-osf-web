@@ -7,6 +7,8 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import { alias } from '@ember/object/computed';
 import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-action';
+import { taskFor } from 'ember-concurrency-ts';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
 const UNKNOWN = 'unknown';
 const PENDING = 'pending';
@@ -72,6 +74,8 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     submission = this.args.submission;
     isWithdrawn = this.args.isWithdrawn;
 
+    provider: PreprintProviderModel | undefined;
+
     isPendingWithdrawal = false;
     isWithdrawalRejected = false;
 
@@ -96,10 +100,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     constructor(owner: unknown, args: InputArgs) {
         super(owner, args);
 
-        this.latestAction = undefined;
-
-        this.loadPreprintState();
-
+        taskFor(this.loadPreprintState).perform();
     }
 
     public getClassName(): string {
@@ -111,18 +112,18 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             return CLASS_NAMES['WITHDRAWAL_REJECTED'];
         } else {
             return this.submission.reviewsState === PENDING ?
-                CLASS_NAMES[this.submission?.provider?.reviewsWorkflow || UNKNOWN] :
+                CLASS_NAMES[this.provider?.reviewsWorkflow || UNKNOWN] :
                 CLASS_NAMES[this.submission.reviewsState];
         }
     }
 
-    public bannerContent(): string {
+    public get bannerContent(): string {
         if (this.isPendingWithdrawal) {
-            return this.intl.t(this.statusExplanation, { documentType: this.submission.provider.documentType });
+            return this.intl.t(this.statusExplanation, { documentType: this.provider?.documentType });
         } else if (this.isWithdrawn) {
-            return this.intl.t(MESSAGE[WITHDRAWN], { documentType: this.submission.provider.documentType });
+            return this.intl.t(MESSAGE[WITHDRAWN], { documentType: this.provider?.documentType });
         } else if (this.isWithdrawalRejected) {
-            return this.intl.t(MESSAGE[WITHDRAWAL_REJECTED], { documentType: this.submission.provider.documentType });
+            return this.intl.t(MESSAGE[WITHDRAWAL_REJECTED], { documentType: this.provider?.documentType });
         } else {
             const tName = this.theme.isProvider ?
                 this.theme.provider?.name :
@@ -130,7 +131,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             const tWorkflow = this.intl.t(this.workflow);
             const tStatusExplanation = this.intl.t(this.statusExplanation);
             // eslint-disable-next-line max-len
-            return `${this.intl.t(this.baseMessage), { name: tName, reviewsWorkflow: tWorkflow, documentType: this.submission.provider.documentType }} ${tStatusExplanation}`;
+            return `${this.intl.t(this.baseMessage), { name: tName, reviewsWorkflow: tWorkflow, documentType: this.provider?.documentType }} ${tStatusExplanation}`;
         }
     }
 
@@ -139,7 +140,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             return '';
         }
         // eslint-disable-next-line max-len
-        return this.intl.t('components.preprint-status-banner.feedback.base', { documentType: this.submission.provider.documentType });
+        return this.intl.t('components.preprint-status-banner.feedback.base', { documentType: this.provider?.documentType });
     }
 
     private get statusExplanation(): string {
@@ -149,12 +150,12 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             return MESSAGE[WITHDRAWAL_REJECTED];
         } else {
             return this.submission.reviewsState === PENDING ?
-                MESSAGE[this.submission?.provider?.reviewsWorkflow || UNKNOWN ] :
+                MESSAGE[this.provider?.reviewsWorkflow || UNKNOWN ] :
                 MESSAGE[this.submission.reviewsState];
         }
     }
 
-    status(): string {
+    public get status(): string {
         let currentState = this.submission.reviewsState;
         if (this.isPendingWithdrawal) {
             currentState = PENDING_WITHDRAWAL;
@@ -177,7 +178,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     }
 
     private get workflow(): string {
-        return WORKFLOW[this.submission?.provider?.reviewsWorkflow || UNKNOWN];
+        return WORKFLOW[this.provider?.reviewsWorkflow || UNKNOWN];
     }
 
     @task
@@ -186,6 +187,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         if (this.isWithdrawn) {
             return;
         }
+        this.provider = await this.submission.provider;
         const submissionActions = await this.submission.reviewActions;
         const latestSubmissionAction = submissionActions.firstObject;
         const withdrawalRequests = await this.submission.requests;
@@ -204,7 +206,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
                 return;
             }
         }
-        if (this.submission.provider.reviewsCommentsPrivate) {
+        if (this.provider.reviewsCommentsPrivate) {
             return;
         }
         this.latestAction = latestSubmissionAction;

@@ -28,7 +28,6 @@ function buildOSF(
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
 
-
     const rejectedAdminPreprint = server.create('preprint', {
         provider: osf,
         id: 'osf-rejected-admin',

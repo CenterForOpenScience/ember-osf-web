@@ -62,7 +62,7 @@ export default class PreprintModel extends OsfModel {
     @hasMany('subject', { inverse: null})
     subjects!: SyncHasMany<SubjectModel>;
 
-    @hasMany('requests', { inverse: null})
+    @hasMany('preprint-request', { inverse: 'target'})
     requests!: SyncHasMany<PreprintRequestModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
