@@ -18,15 +18,6 @@ const WITHDRAWN = 'withdrawn';
 const PRE_MODERATION = 'pre-moderation';
 const POST_MODERATION = 'post-moderation';
 
-const ICONS = {
-    [PENDING]: 'fa-hourglass-o',
-    [ACCEPTED]: 'fa-check-circle-o',
-    [REJECTED]: 'fa-times-circle-o',
-    [PENDING_WITHDRAWAL]: 'fa-hourglass-o',
-    [WITHDRAWAL_REJECTED]: 'fa-times-circle-o',
-    [WITHDRAWN]: 'fa-exclamation-triangle',
-};
-
 const STATUS = {
     [PENDING]: 'components.preprint-status-banner.pending',
     [ACCEPTED]: 'components.preprint-status-banner.accepted',
@@ -164,7 +155,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         return STATUS[currentState];
     }
 
-    icon(): string {
+    public get icon(): string {
         let currentState = this.submission.reviewsState;
         if (this.isPendingWithdrawal) {
             currentState = PENDING_WITHDRAWAL;
@@ -173,7 +164,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         } else if (this.isWithdrawn) {
             currentState = WITHDRAWN;
         }
-        return ICONS[currentState];
+        return this.getIcon(currentState);
     }
 
     private get workflow(): string {
@@ -208,5 +199,36 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             return;
         }
         this.latestAction = latestSubmissionAction;
+    }
+
+    /**
+     * getIcon
+     *
+     * @description Determines the correct icon from the current state
+     * @param currentState The current state as a string
+     * @returns the icon associated with the current state
+     */
+    private getIcon(currentState: string): string {
+        switch(currentState) {
+        case PENDING: {
+            return 'fa-hourglass-o';
+        }
+        case ACCEPTED: {
+            return 'fa-check-circle-o';
+        }
+        case REJECTED: {
+            return 'fa-times-circle-o';
+        }
+        case PENDING_WITHDRAWAL: {
+            return 'fa-hourglass-o';
+        }
+        case WITHDRAWAL_REJECTED: {
+            return 'fa-times-circle-o';
+        }
+        default: {
+            // [WITHDRAWN]: 'fa-exclamation-triangle',
+            return 'fa-exclamation-triangle';
+        }
+        }
     }
 }
