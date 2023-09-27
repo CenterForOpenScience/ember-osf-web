@@ -5,8 +5,8 @@ import Intl from 'ember-intl/services/intl';
 import PreprintModel from 'ember-osf-web/models/preprint';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
-import ReviewActionModel from 'ember-osf-web/models/review-action';
 import { alias } from '@ember/object/computed';
+import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-action';
 
 const UNKNOWN = 'unknown';
 const PENDING = 'pending';
@@ -83,7 +83,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     classNames = ['preprint-status-component'];
     classNameBindings = ['getClassName'];
 
-    latestAction: ReviewActionModel | undefined;
+    latestAction: PreprintRequestActionModel | undefined;
 
     @alias('latestAction.comment') reviewerComment: string | undefined;
     @alias('latestAction.creator.fullName') reviewerName: string | undefined;

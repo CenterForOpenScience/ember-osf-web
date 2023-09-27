@@ -3,6 +3,7 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import CitationModel from 'ember-osf-web/models/citation';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
+import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-action';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -10,7 +11,6 @@ import LicenseModel from './license';
 import NodeModel from './node';
 import OsfModel from './osf-model';
 import PreprintProviderModel from './preprint-provider';
-import ReviewActionModel from './review-action';
 import SubjectModel from './subject';
 
 export default class PreprintModel extends OsfModel {
@@ -45,7 +45,7 @@ export default class PreprintModel extends OsfModel {
     provider!: AsyncBelongsTo<PreprintProviderModel> & PreprintProviderModel;
 
     @hasMany('review-action', { inverse: 'target' })
-    reviewActions!: AsyncHasMany<ReviewActionModel>;
+    reviewActions!: AsyncHasMany<PreprintRequestActionModel>;
 
     @hasMany('files', { inverse: null})
     files!: AsyncHasMany<FileModel> & FileModel;

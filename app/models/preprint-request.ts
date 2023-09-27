@@ -1,4 +1,4 @@
-import { AsyncBelongsTo, attr, belongsTo, hasMany } from '@ember-data/model';
+import { AsyncBelongsTo, SyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
 import PreprintModel from 'ember-osf-web/models/preprint';
 import UserModel from 'ember-osf-web/models/user';
 import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-action';
@@ -20,7 +20,7 @@ export default class PreprintRequestModel extends OsfModel {
     creator!: AsyncBelongsTo<UserModel> & UserModel;
 
     @hasMany('preprint-request-action', { inverse: 'target', async: true })
-    actions!: AsyncBelongsTo<PreprintRequestActionModel> & PreprintRequestActionModel;
+    actions!: SyncHasMany<PreprintRequestActionModel> & PreprintRequestActionModel;
 }
 
 declare module 'ember-data/types/registries/model' {
