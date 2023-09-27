@@ -1,0 +1,9 @@
+<button
+    data-clipboard-text={{@clipboardText}}
+    type='button'
+    disabled={{@disabled}}
+    {{on 'click' (perform this.copy)}}
+    ...attributes
+>
+    {{yield}}
+</button>

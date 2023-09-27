@@ -6,7 +6,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import RouterService from '@ember/routing/router-service';
 
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';

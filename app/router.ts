@@ -1,5 +1,5 @@
 import EmberRouter from '@ember/routing/router';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 const {
     engines: {

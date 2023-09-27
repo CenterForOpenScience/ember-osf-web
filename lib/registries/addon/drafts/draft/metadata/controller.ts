@@ -5,7 +5,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { NodeCategory } from 'ember-osf-web/models/node';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 

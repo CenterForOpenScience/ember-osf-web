@@ -12,7 +12,7 @@ module(moduleName, hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('default query-parameters', async assert => {
+    test('default query-parameters', async function(assert) {
         // Load search page
         await visit('/search');
         // assert object type nav is shown
@@ -44,7 +44,7 @@ module(moduleName, hooks => {
         );
     });
 
-    test('default query-parameters, mobile', async assert => {
+    test('default query-parameters, mobile', async function(assert) {
         setBreakpoint('mobile');
         // Load search page
         await visit('/search');
@@ -79,7 +79,7 @@ module(moduleName, hooks => {
         );
     });
 
-    test('query-parameters from url', async assert => {
+    test('query-parameters from url', async function(assert) {
         await visit('/search?resourceType=Preprint&sort=-dateModified');
         assert.dom('[data-test-topbar-object-type-link="Preprints"]')
             .hasClass('active', 'Desktop: Active object type filter selected from url');

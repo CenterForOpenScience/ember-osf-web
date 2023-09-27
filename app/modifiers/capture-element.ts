@@ -1,11 +1,14 @@
 import Modifier from 'ember-modifier';
+import { registerDestructor } from '@ember/destroyable';
 
 type CaptureFn = (e: Element | null) => void;
 
-interface CaptureElementModifierArgs {
-    positional: [CaptureFn];
-    named: {};
-}
+interface CaptureElementModifierSignature {
+    Args: {
+      Positional: [any],
+      Named: {},
+    };
+  }
 /**
  * `capture-element` modifier
  *
@@ -19,14 +22,22 @@ interface CaptureElementModifierArgs {
  * {{will-destroy (action (mut this.myElement) null)}}
  * ```
  */
-export default class CaptureElementModifier extends Modifier<CaptureElementModifierArgs> {
-    didInstall() {
-        const captureFn = this.args.positional[0];
-        captureFn(this.element);
+export default class CaptureElementModifier extends Modifier<CaptureElementModifierSignature> {
+    captureFn?: any;
+
+    constructor(owner: any, args: any) {
+        super(owner, args);
+        registerDestructor(this, this.willRemove);
     }
 
-    willRemove() {
-        const captureFn = this.args.positional[0];
-        captureFn(null);
+    modify(element: any, CaptureFn: [CaptureFn], _: any) {
+        this.captureFn = CaptureFn[0];
+        this.captureFn(element);
+    }
+
+    willRemove(instance: CaptureElementModifier) {
+        if (instance.captureFn){
+            instance.captureFn(null);
+        }
     }
 }

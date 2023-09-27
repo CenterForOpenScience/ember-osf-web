@@ -13,7 +13,7 @@ import {
 } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
@@ -559,7 +559,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
     });
 
-    test('review: contributor can remove herself', async assert => {
+    test('review: contributor can remove herself', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const branchedFrom = server.create('node');
@@ -731,7 +731,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
     test(
         'Project-based registration: partial and finalize registration modal show, can register draft',
-        async assert => {
+        async function(assert) {
             const initiator = server.create('user', 'loggedIn');
             const registrationSchema = server.schema.registrationSchemas.find('testSchema');
             const rootNode = server.create('node');
@@ -803,7 +803,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
     test(
         'No-project registration: only finalize registration modal show, can register draft',
-        async assert => {
+        async function(assert) {
             const initiator = server.create('user', 'loggedIn');
             const registrationSchema = server.schema.registrationSchemas.find('testSchema');
             const draftNode = server.create('draft-node');
@@ -1121,13 +1121,13 @@ module('Registries | Acceptance | draft form', hooks => {
         await click(`[data-test-delete-current-folder="${folderOne.id}"] > button`);
         assert.dom('[data-test-confirm-delete]')
             .isVisible('folder delete hard-confirm modal has a confirm button');
+
         await click('[data-test-confirm-delete]');
 
         assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
             t('osf-components.files-widget.delete_success', { filename: folderOne.itemName }),
             'Toast success message shows; folderOne succesfully deleted',
         );
-
         await settled();
         assert.dom(`[data-test-file-browser-item="${folderOne.id}"]`)
             .doesNotExist('folderOne no longer shows in the parent folder view');
@@ -1196,5 +1196,44 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle', 'page 1 is now valid');
+    });
+
+    // Test case for bug: ENG-4293
+    test('validations: year and copyrightHolder validation succeeds after navigating to the next page',async function(
+        this: DraftFormTestContext, assert,
+    ) {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
+                license: server.schema.licenses.findBy({ id: '5c252c8e0989e100220edb7d' }), // MIT License
+                nodeLicense: { year: '2023', copyrightHolders: 'OSF' },
+            },
+        );
+        const subjects = [server.create('subject')];
+        registration.update({ subjects });
+
+        await visit(`/registries/drafts/${registration.id}/metadata`);
+        await click('[data-test-metadata-tags]');
+        await fillIn('[data-test-metadata-tags] input', 'newjeans');
+        await triggerKeyEvent('[data-test-metadata-tags] input', 'keydown', 'Enter');
+        await click('[data-test-goto-next-page]');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-check-circle', 'metadata page is marked valid');
+        await click('[data-test-goto-metadata]');
+        await fillIn('[data-test-required-field="copyrightHolders"]', '');
+        await blur('[data-test-required-field="copyrightHolders"]');
+        const validationErrorMsg = t('validationErrors.node_license_missing_fields',
+            { missingFields: 'Copyright Holders', numOfFields: 1 }).toString();
+        assert.dom('[data-test-validation-errors="nodeLicense"]')
+            .containsText(validationErrorMsg,
+                'NodeLicense validation error when copyright holders is empty');
+        await click('[data-test-goto-next-page]');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'metadata page is marked invalid');
     });
 });

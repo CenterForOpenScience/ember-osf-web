@@ -1,9 +1,9 @@
 <li data-test-item={{@manager.item.id}}>
     <Input
+        disabled={{@manager.isRoot}}
         @type='checkbox'
-        @change={{action @manager.onChange}}
         @checked={{@manager.itemChecked}}
-        @disabled={{@manager.isRoot}}
+        {{on 'change' @manager.onChange}}
     />
     <Button
         local-class='expand-button'

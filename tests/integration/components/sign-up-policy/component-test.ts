@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { setupIntl, t } from 'ember-intl/test-support';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { setupRenderingTest } from 'ember-qunit';

@@ -8,11 +8,11 @@ import { waitFor } from '@ember/test-waiters';
 import { restartableTask, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Cookies from 'ember-cookies/services/cookies';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
 import Toast from 'ember-toastr/services/toast';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';

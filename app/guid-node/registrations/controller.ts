@@ -6,7 +6,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Media from 'ember-responsive';
 
 import Node from 'ember-osf-web/models/node';

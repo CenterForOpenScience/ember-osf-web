@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
 
+import { setupIntl } from 'ember-intl/test-support';
 import { OsfLinkRouterStub } from '../../../helpers/osf-link-router-stub';
 
 const sessionStub = Service.extend({
@@ -21,6 +22,7 @@ const routingStub = Service.extend({
 
 module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:session', sessionStub);
@@ -43,7 +45,7 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
 
         await render(hbs`{{osf-navbar/auth-dropdown}}`);
 
-        assert.ok(!this.owner.lookup('service:currentUser').loginCalled, 'login has not been called');
+        assert.notOk(this.owner.lookup('service:currentUser').loginCalled, 'login has not been called');
         await click('[data-analytics-name="SignIn"]');
         assert.ok(this.owner.lookup('service:currentUser').loginCalled, 'login was called');
     });

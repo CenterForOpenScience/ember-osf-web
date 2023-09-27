@@ -1,7 +1,7 @@
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 const { support: { supportEmail } } = config;
 

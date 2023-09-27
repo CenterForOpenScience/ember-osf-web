@@ -36,7 +36,7 @@ for (const template of TEMPLATES) {
 }
 
 module('Unit | Helper | math', _ => {
-    test('it parses', assert => {
+    test('it parses', function(assert) {
         for (const testCase of TEST_CASES) {
             const result = replace(
                 testCase.input,

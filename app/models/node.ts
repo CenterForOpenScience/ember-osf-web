@@ -3,7 +3,7 @@ import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-d
 import { computed } from '@ember/object';
 import { alias, bool, equal, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import { buildValidations, validator } from 'ember-cp-validations';
 import Intl from 'ember-intl/services/intl';
 
@@ -147,7 +147,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @hasMany('registration', { inverse: 'registeredFrom' })
     registrations!: AsyncHasMany<RegistrationModel>;
 
-    @hasMany('node', { inverse: 'forkedFrom' })
+    @hasMany('node', { inverse: 'forkedFrom', polymorphic: true })
     forks!: AsyncHasMany<NodeModel>;
 
     @belongsTo('node', { inverse: 'forks', polymorphic: true })

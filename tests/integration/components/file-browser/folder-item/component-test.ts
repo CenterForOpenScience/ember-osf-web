@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { TestContext } from 'ember-intl/test-support';
+import { setupIntl, TestContext } from 'ember-intl/test-support';
 import { click } from 'ember-osf-web/tests/helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -33,6 +33,8 @@ interface FolderItemTestContext extends TestContext {
 
 module('Integration | Component | file-browser :: folder-item', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
+
     hooks.beforeEach(function(this: FolderItemTestContext) {
         this.item = {
             id: 'fakeId',

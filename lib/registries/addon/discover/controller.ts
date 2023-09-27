@@ -11,7 +11,7 @@ import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
 import Media from 'ember-responsive';
 
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import discoverStyles from 'registries/components/registries-discover-search/styles';

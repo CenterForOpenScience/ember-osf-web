@@ -1,5 +1,5 @@
 import { computed } from '@ember/object';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import { belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 
 import CollectionModel from './collection';

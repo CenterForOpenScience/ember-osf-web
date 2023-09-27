@@ -8,10 +8,10 @@
     >
         {{@field.field_name}}
     </span>
-    {{input
-        data-test-provider-metadata-edit-input=@field.field_name
+    <Input
+        data-test-provider-metadata-edit-input={{@field.field_name}}
+        disabled={{@manager.save.isRunning}}
         class='form-control'
-        value=@field.field_value
-        disabled=@manager.save.isRunning
-    }}
+        @value={{@field.field_value}}
+    />
 </div>

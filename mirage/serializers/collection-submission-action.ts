@@ -1,5 +1,5 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import CollectionSubmissionAction from 'ember-osf-web/models/collection-submission-action';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 

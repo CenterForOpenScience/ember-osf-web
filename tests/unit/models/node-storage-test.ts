@@ -28,13 +28,17 @@ module('Unit | Model | node-storage', hooks => {
                 id: 'public',
             }));
             if (TestCases.public[status].error) {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.ok(get(nodeStorage, 'isOverStorageCap'));
             } else {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.notOk(get(nodeStorage, 'isOverStorageCap'));
             }
             if (TestCases.public[status].warning) {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.ok(get(nodeStorage, 'isApproachingStorageCap'));
             } else {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.notOk(get(nodeStorage, 'isApproachingStorageCap'));
             }
         });
@@ -51,13 +55,17 @@ module('Unit | Model | node-storage', hooks => {
             }));
 
             if (TestCases.private[status].error) {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.ok(get(nodeStorage, 'isOverStorageCap'));
             } else {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.notOk(get(nodeStorage, 'isOverStorageCap'));
             }
             if (TestCases.private[status].warning) {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.ok(get(nodeStorage, 'isApproachingStorageCap'));
             } else {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.notOk(get(nodeStorage, 'isApproachingStorageCap'));
             }
         });

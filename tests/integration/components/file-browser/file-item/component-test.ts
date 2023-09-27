@@ -1,9 +1,9 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { TestContext, t } from 'ember-intl/test-support';
+import { TestContext, t, setupIntl } from 'ember-intl/test-support';
 import { click } from 'ember-osf-web/tests/helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import styles from 'osf-components/components/file-browser/file-item/styles';
@@ -38,6 +38,8 @@ interface FileItemTestContext extends TestContext {
 
 module('Integration | Component | file-browser :: file-item', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
+
     hooks.beforeEach(function(this: FileItemTestContext) {
         this.item = {
             id: 'fakeId',

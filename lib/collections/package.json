@@ -10,9 +10,9 @@
     "@fortawesome/ember-fontawesome": "*",
     "@fortawesome/free-brands-svg-icons": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
+    "ember-auto-import": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
-    "ember-cli-sanitize-html": "*",
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
@@ -34,7 +34,8 @@
     "ember-toastr": "*",
     "ember-tooltips": "*",
     "ember-wormhole": "*",
-    "liquid-fire": "*"
+    "liquid-fire": "*",
+    "moment-timezone": "*"
   },
   "ember-addon": {
     "paths": [

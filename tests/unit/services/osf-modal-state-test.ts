@@ -10,13 +10,13 @@ module('Unit | Service | osf-modal-state', hooks => {
     test('it handles dialog state', async function(assert) {
         const service: OsfModalState = this.owner.lookup('service:osf-modal-state');
 
-        assert.ok(!service.inModalState, 'Started in non-modal state');
+        assert.notOk(service.inModalState, 'Started in non-modal state');
         service.enterModalState();
         await settled(); // enterModalState schedules the change asynchronously
         assert.ok(service.inModalState, 'Entered modal state');
         service.exitModalState();
         await settled(); // exitModalState schedules the change asynchronously
-        assert.ok(!service.inModalState, 'Exited modal state');
+        assert.notOk(service.inModalState, 'Exited modal state');
 
         service.enterModalState();
         await settled(); // enterModalState schedules the change asynchronously

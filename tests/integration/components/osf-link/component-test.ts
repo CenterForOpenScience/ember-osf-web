@@ -1,12 +1,14 @@
 import { render} from '@ember/test-helpers';
 import Ember from 'ember';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 
 module('Integration | Component | osf-link', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     let orgOnError: any;
     hooks.beforeEach(function() {
@@ -16,7 +18,7 @@ module('Integration | Component | osf-link', hooks => {
         Ember.onerror = orgOnError;
     });
 
-    test('it renders the osf-link correctly for an @href', async assert => {
+    test('it renders the osf-link correctly for an @href', async function(assert) {
         await render(hbs`
             <OsfLink
                 data-test-get-started-button
@@ -37,7 +39,7 @@ module('Integration | Component | osf-link', hooks => {
             .exists('The href https://osf.io is in the dom');
     });
 
-    test('it renders the osf-link correctly for an empty @href', async assert => {
+    test('it renders the osf-link correctly for an empty @href', async function(assert) {
         await render(hbs`
             <OsfLink
                 data-test-get-started-button
@@ -58,7 +60,7 @@ module('Integration | Component | osf-link', hooks => {
             .exists('The empty href is in the dom');
     });
 
-    test('it should throw an error without an array @models', async assert => {
+    test('it should throw an error without an array @models', async function(assert) {
         Ember.onerror = (error: Error) => {
             assert.equal(error.message,
                 'Assertion Failed: `@models` must be undefined or an array. Consider using the `array` helper.');
@@ -79,7 +81,7 @@ module('Integration | Component | osf-link', hooks => {
         `);
     });
 
-    test('it should throw an error without an @href or @route', async assert => {
+    test('it should throw an error without an @href or @route', async function(assert) {
         Ember.onerror = (error: Error) => {
             assert.equal(error.message,
                 'Assertion Failed: Must pass `@href` xor `@route`. Did you pass `href` instead of `@href`?');
@@ -98,7 +100,7 @@ module('Integration | Component | osf-link', hooks => {
         `);
     });
 
-    test('it should throw an error with @href and @route set to empty', async assert => {
+    test('it should throw an error with @href and @route set to empty', async function(assert) {
         Ember.onerror = (error: Error) => {
             assert.equal(error.message,
                 'Assertion Failed: Both `@href` and `@route` were improperly set (probably to empty strings)');
@@ -119,7 +121,7 @@ module('Integration | Component | osf-link', hooks => {
         `);
     });
 
-    test('it should throw an error with @models and not @route', async assert => {
+    test('it should throw an error with @models and not @route', async function(assert) {
         Ember.onerror = (error: Error) => {
             assert.equal(error.message,
                 'Assertion Failed: `@models` makes sense only with `@route`');

@@ -15,7 +15,7 @@ export default class WikiModel extends OsfModel {
     @attr('string') materializedPath!: string;
     @attr('number') size!: number;
 
-    @belongsTo('node', { inverse: 'wikis' })
+    @belongsTo('node', { polymorphic: true, inverse: 'wikis' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
 }
 

@@ -46,9 +46,9 @@
                 <label local-class='emailLabel'>
                     {{t 'contributor_list.unregistered_contributor.enterEmail'}}
                     <Input
-                        local-class='emailInput'
                         data-test-email-input
-                        @placeholder={{t 'contributor_list.unregistered_contributor.emailPlaceholder'}}
+                        local-class='emailInput'
+                        placeholder={{t 'contributor_list.unregistered_contributor.emailPlaceholder'}}
                         @value={{get this.emailChangeset 'userEmail'}}
                     />
                     <ValidationErrors

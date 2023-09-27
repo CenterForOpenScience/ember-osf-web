@@ -1,4 +1,4 @@
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';

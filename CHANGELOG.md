@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [23.11.0] - 2023-09-27
+### Changed
+- Upgrade to Ember 3.28
+
+
 ## [23.10.0] - 2023-08-28
 ### Added
 - Added search improvement routes and related components
@@ -1940,6 +1945,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[23.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.11.0
 [23.10.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.2
 [23.10.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.1
 [23.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.0
