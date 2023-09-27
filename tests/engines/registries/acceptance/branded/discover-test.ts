@@ -61,7 +61,7 @@ module('Registries | Acceptance | branded.discover', hooks => {
         assert.dom(`[data-test-source-filter-id="${this.brandedProvider.shareSource}"]`).exists({ count: 1 });
     });
 
-    test('redirects', async assert => {
+    test('redirects', async function(assert) {
         const provider = server.create('registration-provider', {
             brandedDiscoveryPage: false,
         }, 'withBrand');

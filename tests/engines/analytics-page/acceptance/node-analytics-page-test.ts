@@ -10,7 +10,7 @@ module('Analytics Page | Acceptance | node-analytics-page', hooks => {
     setupEngineApplicationTest(hooks, 'guid-node.analytics');
     setupMirage(hooks);
 
-    test('it loads', async assert => {
+    test('it loads', async function(assert) {
         const node = server.create('node');
         await visit(`/${node.id}/analytics`);
         assert.equal(currentRouteName(), 'guid-node.analytics.index');

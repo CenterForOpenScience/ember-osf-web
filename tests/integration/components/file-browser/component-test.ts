@@ -1,7 +1,7 @@
 import { fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ModelInstance } from 'ember-cli-mirage';
-import { TestContext, t } from 'ember-intl/test-support';
+import { TestContext, t, setupIntl } from 'ember-intl/test-support';
 import { click } from 'ember-osf-web/tests/helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -23,6 +23,8 @@ interface FileBrowserTestContext extends TestContext {
 module('Integration | Component | file-browser', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
+
     hooks.beforeEach(function(this: FileBrowserTestContext) {
         this.store = this.owner.lookup('service:store');
         this.mirageNode = server.create('node', 'withFiles', 'withStorage', 'currentUserAdmin');

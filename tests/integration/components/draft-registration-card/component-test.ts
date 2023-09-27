@@ -4,7 +4,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { timeout } from 'ember-concurrency';
 import { TestContext } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
@@ -85,7 +85,7 @@ module('Integration | Component | draft-registration-card', hooks => {
         assert.dom('[data-test-draft-card-review]').exists('Read-only users can review draft');
     });
 
-    test('placeholders appear without draftRegistration', async assert => {
+    test('placeholders appear without draftRegistration', async function(assert) {
         await render(hbs`<DraftRegistrationCard />`);
         assert.dom('[data-test-header-placeholder]').exists();
         assert.dom('[data-test-content-placeholder]').exists();

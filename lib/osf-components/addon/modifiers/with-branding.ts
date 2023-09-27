@@ -7,10 +7,9 @@ interface WithBrandingModifierArgs {
 }
 
 export default class WithBrandingModifier extends Modifier<WithBrandingModifierArgs> {
-    didReceiveArguments() {
-        const { element } = this;
+    modify(element: any, positional: any, _: any) {
         const elementStyle = (element as HTMLElement).style;
-        const brand = this.args.positional[0];
+        const brand = positional[0];
 
         if (brand) {
             element.classList.add('with-custom-branding');

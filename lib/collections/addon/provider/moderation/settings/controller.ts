@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { alias } from '@ember/object/computed';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 export default class ModerationSettingsController extends Controller {

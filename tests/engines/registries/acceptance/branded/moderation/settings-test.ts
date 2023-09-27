@@ -35,18 +35,18 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
         });
     });
 
-    test('logged out users are rerouted', async assert => {
+    test('logged out users are rerouted', async function(assert) {
         await visit('/registries/mdr8n/moderation/settings');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'Non-moderators are rerouted');
     });
 
-    test('logged in, non-moderators are rerouted', async assert => {
+    test('logged in, non-moderators are rerouted', async function(assert) {
         server.create('user', 'loggedIn');
         await visit('/registries/mdr8n/moderation/settings');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'Non-moderators are rerouted');
     });
 
-    test('notifications list shows for moderators, but not bulk upload widget', async assert => {
+    test('notifications list shows for moderators, but not bulk upload widget', async function(assert) {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
@@ -67,28 +67,30 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
         assert.dom('[data-test-bulk-upload-widget]').doesNotExist();
     });
 
-    test('notifications list and bulk upload widget shows for admins when allowedBulkUploads is true', async assert => {
-        const regProvider = server.schema.registrationProviders.find('mdr8n');
-        const currentUser = server.create('user', 'loggedIn');
-        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
-        regProvider.update({ permissions: ['view_submissions', 'add_moderator'] });
-        await visit('/registries/mdr8n/moderation/settings');
-        await percySnapshot('moderation settings page for admins');
-        assert.equal(currentRouteName(), 'registries.branded.moderation.settings',
-            'On the settings page of registries reviews');
-        assert.dom('[data-test-subscription-list]').exists('Subscription list shown');
-        assert.dom('[data-test-subscription-list-row="mdr8n_new_pending_submissions"]')
-            .exists('Pending submissions notification shown');
-        assert.dom('[data-test-subscription-list-row="mdr8n_new_pending_withdraw_requests"]')
-            .exists('Pending withdraw requests notification shown');
-        assert.dom('[data-test-subscription-list-row="cat_photo_repository_subscription"]')
-            .doesNotExist('Other subscriptions are not shown');
-        assert.dom('[data-test-subscription-list-row="mdr8n_new_pending_withdraw_requests"] [data-test-power-select]')
-            .hasText('Instant', 'Subscription frequency is shown correctly');
-        assert.dom('[data-test-bulk-upload-widget]').exists();
-    });
+    test('notifications list and bulk upload widget shows for admins when allowedBulkUploads is true',
+        async function(assert) {
+            const regProvider = server.schema.registrationProviders.find('mdr8n');
+            const currentUser = server.create('user', 'loggedIn');
+            server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
+            regProvider.update({ permissions: ['view_submissions', 'add_moderator'] });
+            await visit('/registries/mdr8n/moderation/settings');
+            await percySnapshot('moderation settings page for admins');
+            assert.equal(currentRouteName(), 'registries.branded.moderation.settings',
+                'On the settings page of registries reviews');
+            assert.dom('[data-test-subscription-list]').exists('Subscription list shown');
+            assert.dom('[data-test-subscription-list-row="mdr8n_new_pending_submissions"]')
+                .exists('Pending submissions notification shown');
+            assert.dom('[data-test-subscription-list-row="mdr8n_new_pending_withdraw_requests"]')
+                .exists('Pending withdraw requests notification shown');
+            assert.dom('[data-test-subscription-list-row="cat_photo_repository_subscription"]')
+                .doesNotExist('Other subscriptions are not shown');
+            assert.dom(
+                '[data-test-subscription-list-row="mdr8n_new_pending_withdraw_requests"] [data-test-power-select]',
+            ).hasText('Instant', 'Subscription frequency is shown correctly');
+            assert.dom('[data-test-bulk-upload-widget]').exists();
+        });
 
-    test('bulk upload widget does not show for admins when allowedBulkUploads is false', async assert => {
+    test('bulk upload widget does not show for admins when allowedBulkUploads is false', async function(assert) {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         regProvider.update('allowBulkUploads', false);
         regProvider.save();
@@ -101,7 +103,7 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
         assert.dom('[data-test-bulk-upload-widget]').doesNotExist();
     });
 
-    test('test bulk upload widget', async assert => {
+    test('test bulk upload widget', async function(assert) {
         const filename = 'itzy.csv';
         const triggerFileUpload = () => triggerEvent(
             '[data-test-bulk-upload-widget]',

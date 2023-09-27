@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { TestContext } from 'ember-intl/test-support';
+import { setupIntl, TestContext } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 
 import { module, test } from 'qunit';
@@ -18,6 +18,7 @@ interface BreadcrumbTestContext extends TestContext {
 
 module('Integration | Component | file-browser / breadcrumbs', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: BreadcrumbTestContext) {
         this.provider = {name: 'osfstorage'};

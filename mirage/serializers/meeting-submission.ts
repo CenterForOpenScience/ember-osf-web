@@ -1,5 +1,5 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import MeetingSubmission from 'ember-osf-web/models/meeting-submission';
 import ApplicationSerializer from './application';
 

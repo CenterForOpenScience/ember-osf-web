@@ -7,7 +7,7 @@ import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { Permission } from './osf-model';
 
 export default class AbstractNodeModel extends BaseFileItem {
-    @hasMany('file-provider', { inverse: 'target' })
+    @hasMany('file-provider', { inverse: 'target', polymorphic: true })
     files!: AsyncHasMany<FileProviderModel> & FileProviderModel[];
 
     @hasMany('draft-registration', { inverse: 'branchedFrom' })

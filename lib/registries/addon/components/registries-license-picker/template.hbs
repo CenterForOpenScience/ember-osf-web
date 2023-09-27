@@ -51,9 +51,9 @@
                             </p>
                             <Input
                                 data-test-required-field={{key}}
-                                @class='form-control'
+                                class='form-control'
                                 @value={{readonly (get @manager.changeset.nodeLicense key)}}
-                                @change={{fn @manager.updateNodeLicense key}}
+                                {{on 'change' (fn @manager.updateNodeLicense key)}}
                             />
                         </label>
                     </div>

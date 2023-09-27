@@ -7,6 +7,9 @@ import OsfSerializer from './osf-serializer';
 export default class FileSerializer extends OsfSerializer {
     normalize(modelClass: FileModel, resourceHash: Resource) {
         const hash = resourceHash;
+        if (hash.relationships?.root_folder) {
+            hash.type = 'file-providers';
+        }
         const checkoutRel = hash.relationships!.checkout;
         if (checkoutRel && 'links' in checkoutRel) {
             const { related } = checkoutRel.links;

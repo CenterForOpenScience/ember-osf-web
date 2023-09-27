@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 
 // import ResourceModel, { ResourceTypes }  from 'ember-osf-web/models/resource';
 import RegistrationModel from 'ember-osf-web/models/registration';
+import { setupIntl } from 'ember-intl/test-support';
 
 interface ResourceCardTestContext extends TestContext {
     registration: RegistrationModel;
@@ -16,6 +17,7 @@ interface ResourceCardTestContext extends TestContext {
 module('Integration | Component | ResourcesList', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: ResourceCardTestContext) {
         this.store = this.owner.lookup('service:store');

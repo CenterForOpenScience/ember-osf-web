@@ -1,6 +1,6 @@
 import { click as untrackedClick, currentRouteName } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
@@ -20,7 +20,7 @@ module('Acceptance | guid-node/registrations', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('logged out, no registrations', async assert => {
+    test('logged out, no registrations', async function(assert) {
         server.create('registration-provider', {
             id: defaultProvider,
             shareSource: 'OSF Registries',
@@ -47,7 +47,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         );
     });
 
-    test('logged out, 1 registration', async assert => {
+    test('logged out, 1 registration', async function(assert) {
         const node = server.create('node', { id: 'decaf' });
 
         const title = 'Test Title';
@@ -69,7 +69,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-node-card-heading]').includesText(title);
     });
 
-    test('logged in read-permission, 1 registration, 1 draft', async assert => {
+    test('logged in read-permission, 1 registration, 1 draft', async function(assert) {
         server.create('user', 'loggedIn');
         const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Read] });
         server.create('registration', {
@@ -108,7 +108,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-draft-card-review]').exists('Read-only user can review the draft');
     });
 
-    test('logged in write-permission, 1 registration, 1 draft registration', async assert => {
+    test('logged in write-permission, 1 registration, 1 draft registration', async function(assert) {
         server.create('user', 'loggedIn');
         const node = server.create('node', {
             id: 'decaf',
@@ -154,7 +154,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-draft-card-review]').exists('Write user can review the draft');
     });
 
-    test('logged in admin, no registrations', async assert => {
+    test('logged in admin, no registrations', async function(assert) {
         server.create('user', 'loggedIn');
         server.create('registration-provider', {
             id: defaultProvider,
@@ -187,7 +187,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         );
     });
 
-    test('logged in admin, 1 registration', async assert => {
+    test('logged in admin, 1 registration', async function(assert) {
         const contributorUser = server.create('user', 'loggedIn');
         server.create('registration-provider', {
             id: defaultProvider,
@@ -237,7 +237,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         );
     });
 
-    test('logged in admin, 12 registrations', async assert => {
+    test('logged in admin, 12 registrations', async function(assert) {
         const contributorUser = server.create('user', 'loggedIn');
 
         const node = server.create('node', {
@@ -282,7 +282,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         );
     });
 
-    test('logged in admin, 1 draft registration', async assert => {
+    test('logged in admin, 1 draft registration', async function(assert) {
         const initiator = server.create('user', 'loggedIn');
 
         const node = server.create('node', {
@@ -333,7 +333,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-draft-registration-card-title]').includesText(draftRegistration.title);
     });
 
-    test('logged in admin, 12 draft registrations', async assert => {
+    test('logged in admin, 12 draft registrations', async function(assert) {
         const initiator = server.create('user', 'loggedIn');
 
         const node = server.create('node', {
@@ -371,7 +371,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         await percySnapshot(assert);
     });
 
-    test('logged in admin, new registration', async assert => {
+    test('logged in admin, new registration', async function(assert) {
         server.create('user', 'loggedIn');
 
         const node = server.create('node', { id: 'decaf' }, 'currentUserAdmin');

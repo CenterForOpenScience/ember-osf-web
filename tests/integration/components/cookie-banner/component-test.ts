@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -8,6 +9,8 @@ import sinon from 'sinon';
 
 module('Integration | Component | cookie-banner', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
+
     const sandbox = sinon.createSandbox();
 
     hooks.afterEach(() => {

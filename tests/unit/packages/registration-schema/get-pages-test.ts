@@ -2,7 +2,7 @@ import { getPages, SchemaBlock } from 'ember-osf-web/packages/registration-schem
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | get-pages', () => {
-    test('Group multipage schema', assert => {
+    test('Group multipage schema', function(assert) {
         const multipageSchema: SchemaBlock[] = [
             {
                 blockType: 'page-heading',
@@ -76,7 +76,7 @@ module('Unit | Packages | registration-schema | get-pages', () => {
         assert.equal(result.length, 3, 'has proper page length');
     });
 
-    test('Group single page schema', assert => {
+    test('Group single page schema', function(assert) {
         const singlepageSchema: SchemaBlock[] = [
             {
                 blockType: 'page-heading',
@@ -106,7 +106,7 @@ module('Unit | Packages | registration-schema | get-pages', () => {
         assert.equal(result.length, 1, 'has proper page length');
     });
 
-    test('Group schema with no page-heading', assert => {
+    test('Group schema with no page-heading', function(assert) {
         const noPageHeadingSchema: SchemaBlock[] = [
             {
                 blockType: 'section-heading',

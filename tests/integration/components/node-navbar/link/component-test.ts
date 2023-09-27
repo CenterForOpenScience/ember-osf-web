@@ -1,5 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 
@@ -10,6 +11,7 @@ import { OsfLinkRouterStub } from '../../../helpers/osf-link-router-stub';
 
 module('Integration | Component | node-navbar/link', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.unregister('service:router');

@@ -6,8 +6,8 @@ import { restartableTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Cookies from 'ember-cookies/services/cookies';
 import { localClassNames } from 'ember-css-modules';
-import config from 'ember-get-config';
-import moment from 'moment';
+import config from 'ember-osf-web/config/environment';
+import moment from 'moment-timezone';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';

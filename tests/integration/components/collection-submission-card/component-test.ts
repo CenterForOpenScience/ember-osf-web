@@ -4,6 +4,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-test-helpers';
+import { setupIntl } from 'ember-intl/test-support';
 
 import CollectionModel from 'ember-osf-web/models/collection';
 import CollectionSubmissionModel,{ CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
@@ -21,6 +22,7 @@ interface ThisTestContext extends TestContext {
 module('Integration | Component | collection-submission-card', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(async function(this: ThisTestContext) {
         this.owner.unregister('service:router');

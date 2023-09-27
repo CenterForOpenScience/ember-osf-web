@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { t } from 'ember-intl/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
@@ -24,6 +24,7 @@ interface MoveTestContext extends TestContext {
 module('Integration | Component | move-file-modal', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: MoveTestContext) {
         this.store = this.owner.lookup('service:store');

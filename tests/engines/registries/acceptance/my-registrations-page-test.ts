@@ -11,7 +11,7 @@ module('Registries | Acceptance | my-registrations page', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('navigation with drafts and registrations', async assert => {
+    test('navigation with drafts and registrations', async function(assert) {
         const contributorUser = server.create('user', 'loggedIn');
         const node = server.create('node', 'currentUserAdmin');
         server.create('contributor', { node, users: contributorUser });

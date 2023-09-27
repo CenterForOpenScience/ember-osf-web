@@ -1,13 +1,14 @@
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { TestContext } from 'ember-intl/test-support';
+import { setupIntl, TestContext } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('Integration | Component | registration-form-navigation-dropdown', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(async function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
@@ -30,7 +31,7 @@ module('Integration | Component | registration-form-navigation-dropdown', hooks 
         this.set('schemaBlocks', schemaBlocks);
     });
 
-    test('it renders only schema anchors and no metadata anchors by default', async assert => {
+    test('it renders only schema anchors and no metadata anchors by default', async function(assert) {
         await render(hbs`
             <Registries::RegistrationFormNavigationDropdown
                 @schemaBlocks={{this.schemaBlocks}}
@@ -47,7 +48,7 @@ module('Integration | Component | registration-form-navigation-dropdown', hooks 
         assert.dom('[data-test-list-item="question-label"]').exists({ count: 5 });
     });
 
-    test('it renders schema and metadata anchors with showMetadata flag', async assert => {
+    test('it renders schema and metadata anchors with showMetadata flag', async function(assert) {
         await render(hbs`
             <Registries::RegistrationFormNavigationDropdown
                 @schemaBlocks={{this.schemaBlocks}}

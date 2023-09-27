@@ -6,6 +6,7 @@ import { clickTrigger, typeInSearch } from 'ember-power-select/test-support/help
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
+import { setupIntl } from 'ember-intl/test-support';
 
 function expectedCitation(node: { title: string }, citationStyle: ModelInstance) {
     return `Pretend citation for "${node.title}" in the style "${citationStyle.title}"`;
@@ -14,6 +15,7 @@ function expectedCitation(node: { title: string }, citationStyle: ModelInstance)
 module('Integration | Component | citation-viewer', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');

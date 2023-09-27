@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import CollectionSubmission from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';

@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import NodeModel from 'ember-osf-web/models/node';
 import File from 'ember-osf-web/packages/files/file';

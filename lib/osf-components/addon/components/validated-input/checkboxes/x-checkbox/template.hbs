@@ -1,9 +1,9 @@
 <Input
     aria-label={{this.ariaLabel}}
+    id={{this.checkboxId}}
+    name={{this.checkboxName}}
+    disabled={{this.disabled}}
     @type='checkbox'
     @checked={{this.checked}}
-    @id={{this.checkboxId}}
-    @name={{this.checkboxName}}
-    @disabled={{this.disabled}}
-    @change={{action @onCheck @option}}
+    {{on 'change' (fn @onCheck @option)}}
 />

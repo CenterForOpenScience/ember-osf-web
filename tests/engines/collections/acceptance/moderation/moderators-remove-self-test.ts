@@ -10,7 +10,7 @@ module('Collections | Acceptance | moderation | moderators | remove self', hooks
     setupEngineApplicationTest(hooks, 'collections');
     setupMirage(hooks);
 
-    test('Can remove self as a collection moderator', async assert => {
+    test('Can remove self as a collection moderator', async function(assert) {
         // Given I create a collection, collection-provider and a second moderator
         server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');

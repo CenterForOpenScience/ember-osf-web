@@ -11,7 +11,7 @@ import { validateNumber, validatePresence } from 'ember-changeset-validations/va
 import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 

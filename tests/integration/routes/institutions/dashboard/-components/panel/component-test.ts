@@ -13,7 +13,7 @@ module('Integration | routes | institutions | dashboard | -components | panel', 
         this.store = this.owner.lookup('service:store');
     });
 
-    test('it renders while loading', async assert => {
+    test('it renders while loading', async function(assert) {
         await render(hbs`
             <Institutions::Dashboard::-Components::Panel
                 @isLoading={{true}}
@@ -34,7 +34,7 @@ module('Integration | routes | institutions | dashboard | -components | panel', 
             .exists({ count: 1 }, '1 loading indicator');
     });
 
-    test('it renders after loading', async assert => {
+    test('it renders after loading', async function(assert) {
         await render(hbs`
             <Institutions::Dashboard::-Components::Panel
                 @isLoading={{false}}

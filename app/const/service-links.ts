@@ -1,4 +1,4 @@
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 const osfUrl = config.OSF.url;
 const serviceLinks = {

@@ -1,6 +1,6 @@
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { t } from 'ember-intl/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import faker from 'faker';
 import { module, test } from 'qunit';
@@ -9,6 +9,7 @@ import styles from 'osf-components/components/expandable-preview/styles';
 
 module('Integration | Component | expandable-preview', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('it renders short text', async function(assert) {
         this.set('content', faker.lorem.sentences(1));

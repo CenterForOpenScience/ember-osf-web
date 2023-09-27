@@ -117,7 +117,7 @@ const TEST_CASES = [{
 }];
 
 module('Unit | Utility | cleanURL', () => {
-    test('cleanURL cleans urls', assert => {
+    test('cleanURL cleans urls', function(assert) {
         assert.expect(TEST_CASES.length);
 
         for (const testCase of TEST_CASES) {
@@ -125,7 +125,7 @@ module('Unit | Utility | cleanURL', () => {
         }
     });
 
-    test('notFoundURL appropriately cleans', assert => {
+    test('notFoundURL appropriately cleans', function(assert) {
         assert.expect(TEST_CASES.length);
 
         for (const testCase of TEST_CASES) {

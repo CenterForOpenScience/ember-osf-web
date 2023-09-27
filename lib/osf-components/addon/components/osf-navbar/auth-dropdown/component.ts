@@ -5,7 +5,7 @@ import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service, Registry as Services } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Session from 'ember-simple-auth/services/session';
 
 import { layout } from 'ember-osf-web/decorators/component';

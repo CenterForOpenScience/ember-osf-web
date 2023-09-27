@@ -12,7 +12,7 @@ module('Registries | Acceptance | overview.files', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('Redirects to page not found', async assert => {
+    test('Redirects to page not found', async function(assert) {
         const registration = server.create(
             'registration',
             { currentUserPermissions: [Permission.Admin] },
@@ -27,7 +27,7 @@ module('Registries | Acceptance | overview.files', hooks => {
         assert.dom('[data-test-file-list-item]').doesNotExist('No file items');
     });
 
-    test('Files list view', async assert => {
+    test('Files list view', async function(assert) {
         const registration = server.create(
             'registration',
             { currentUserPermissions: [Permission.Admin] },
@@ -69,7 +69,7 @@ module('Registries | Acceptance | overview.files', hooks => {
 
     });
 
-    test('No files', async assert => {
+    test('No files', async function(assert) {
         const registration = server.create('registration');
 
         await visit(`/${registration.id}/files`);

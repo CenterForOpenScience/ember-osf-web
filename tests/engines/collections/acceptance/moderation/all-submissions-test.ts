@@ -15,7 +15,7 @@ module('Collections | Acceptance | moderation | all', hooks => {
     setupEngineApplicationTest(hooks, 'collections');
     setupMirage(hooks);
 
-    test('it defaults to pending and changes tabs', async assert => {
+    test('it defaults to pending and changes tabs', async function(assert) {
         server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         server.create('collection-submission', {
@@ -69,7 +69,7 @@ module('Collections | Acceptance | moderation | all', hooks => {
         await percySnapshot(assert);
     });
 
-    test('it moderates pending submissions', async assert => {
+    test('it moderates pending submissions', async function(assert) {
         server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         server.create('collection-submission', {
@@ -130,7 +130,7 @@ module('Collections | Acceptance | moderation | all', hooks => {
     });
 
     // 1 accepted -> 1 removed
-    test('it moderates accepted submissions', async assert => {
+    test('it moderates accepted submissions', async function(assert) {
         server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         server.create('collection-submission', {

@@ -14,13 +14,13 @@
                     {{t 'general.title'}}
                     <Input
                         data-test-new-project-title
-                        @placeholder={{t 'new_project.title_placeholder'}}
-                        @autofocus='autofocus'
-                        @class='form-control'
-                        @required={{true}}
+                        placeholder={{t 'new_project.title_placeholder'}}
+                        autofocus={{true}}
+                        class='form-control'
+                        required={{true}}
                         @value={{this.nodeTitle}}
                         @type='text'
-                        @enter={{action this.create}}
+                        @enter={{this.create}}
                     />
                 </label>
             </div>
@@ -105,8 +105,8 @@
                         {{t 'general.description'}}
                         <Input
                             data-test-project-description-input
-                            @placeholder={{t 'new_project.description_placeholder'}}
-                            @class={{concat 'form-control ' (local-class 'noresize')}}
+                            placeholder={{t 'new_project.description_placeholder'}}
+                            class={{concat 'form-control ' (local-class 'noresize')}}
                             @value={{this.description}}
                             @type='text'
                         />

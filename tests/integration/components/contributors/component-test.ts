@@ -9,7 +9,7 @@ import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 import { selectChoose } from 'ember-power-select/test-support';
 import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import { setupRenderingTest } from 'ember-qunit';
-import { reorder } from 'ember-sortable/test-support/helpers';
+import { reorder } from 'ember-sortable/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, skip, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
