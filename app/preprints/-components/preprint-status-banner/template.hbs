@@ -1,6 +1,6 @@
 <div id='preprint-status' local-class='container p-md'>
     <div local-class='flex-container'>
-        {{#if (or this.submission.provider.isPending this._loadPreprintState.isRunning) }}
+        {{#if (or this.submission.provider.isPending this.loadPreprintState.isRunning) }}
             {{ t 'preprints.status_banner.loading' }}
         {{else}}
             {{#if this.isWithdrawn}}
