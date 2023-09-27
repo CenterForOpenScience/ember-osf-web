@@ -286,6 +286,12 @@
         margin: 25px 5px 0;
     }
 
+    .help-description {
+        a {
+            color: $color-link-lighter;
+        }
+    }
+
     .skip-button {
         color: $color-text-white;
         overflow: visible;
