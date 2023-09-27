@@ -11,7 +11,7 @@
             {{else}}
                 <div local-class='status-explanation'>
                     <i local-class='fa {{this.icon}} status-icon' aria-hidden='true'></i>
-                    <strong>{{t this.status}}:</strong>
+                    {{!-- <strong>{{t this.status }}:</strong> --}}
                     <span>{{this.bannerContent}}</span>
                 </div>
                 {{#if (and this.reviewerComment (not this.submission.provider.reviewsCommentsPrivate))}}

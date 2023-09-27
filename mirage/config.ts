@@ -342,6 +342,25 @@ export default function(this: Server) {
     this.get('/preprints/:guid/citation/:citationStyleID', getCitation);
 
     /**
+     * Preprint Requests
+     */
+
+    osfNestedResource(this, 'preprint', 'requests', {
+        path: '/preprints/:parentID/requests/',
+        defaultSortKey: 'index',
+        relatedModelName: 'preprint-request',
+    });
+
+    /**
+     * Preprint Request Actions
+     */
+    osfResource(this, 'requests');
+    osfNestedResource(this, 'requests', 'actions', {
+        path: '/requests/:parentID/actions',
+        relatedModelName: 'preprint-request-action',
+    });
+
+    /**
      * End Preprint Details
      */
 

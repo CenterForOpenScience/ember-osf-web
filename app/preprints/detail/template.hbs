@@ -33,6 +33,11 @@ data-analytics-scope='preprints detail page'
         </div>
         {{! removed }}
     </div>
+    {{#if (or this.showStatusBanner this.isWithdrawn)}}
+        <Preprints::-Components::PreprintStatusBanner
+        @submission={{this.model.preprint}} @isWithdrawn={{this.model.preprint.isWithdrawn}}
+        ></Preprints::-Components::PreprintStatusBanner>
+    {{/if}}
     {{! removed }}
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}
