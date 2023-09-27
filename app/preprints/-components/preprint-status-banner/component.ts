@@ -8,6 +8,7 @@ import { waitFor } from '@ember/test-waiters';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 import { alias } from '@ember/object/computed';
 
+const UNKNOWN = 'unknown';
 const PENDING = 'pending';
 const ACCEPTED = 'accepted';
 const REJECTED = 'rejected';
@@ -18,38 +19,46 @@ const WITHDRAWN = 'withdrawn';
 const PRE_MODERATION = 'pre-moderation';
 const POST_MODERATION = 'post-moderation';
 
-const STATUS = {
-    [PENDING]: 'components.preprint-status-banner.pending',
-    [ACCEPTED]: 'components.preprint-status-banner.accepted',
-    [REJECTED]: 'components.preprint-status-banner.rejected',
-    [PENDING_WITHDRAWAL]: 'components.preprint-status-banner.pending_withdrawal',
-    [WITHDRAWAL_REJECTED]: 'components.preprint-status-banner.withdrawal_rejected',
-};
+const STATUS = Object({});
+STATUS[PENDING]= 'components.preprint-status-banner.pending';
+STATUS[ACCEPTED]= 'components.preprint-status-banner.accepted';
+STATUS[REJECTED]= 'components.preprint-status-banner.rejected';
+STATUS[PENDING_WITHDRAWAL]= 'components.preprint-status-banner.pending_withdrawal';
+STATUS[WITHDRAWAL_REJECTED]= 'components.preprint-status-banner.withdrawal_rejected';
 
-const MESSAGE = {
-    [PRE_MODERATION]: 'components.preprint-status-banner.message.pending_pre',
-    [POST_MODERATION]: 'components.preprint-status-banner.message.pending_post',
-    [ACCEPTED]: 'components.preprint-status-banner.message.accepted',
-    [REJECTED]: 'components.preprint-status-banner.message.rejected',
-    [PENDING_WITHDRAWAL]: 'components.preprint-status-banner.message.pending_withdrawal',
-    [WITHDRAWAL_REJECTED]: 'components.preprint-status-banner.message.withdrawal_rejected',
-    [WITHDRAWN]: 'components.preprint-status-banner.message.withdrawn',
-};
+const MESSAGE = Object({});
+MESSAGE[PRE_MODERATION] =  'components.preprint-status-banner.message.pending_pre';
+MESSAGE[POST_MODERATION] =  'components.preprint-status-banner.message.pending_post';
+MESSAGE[ACCEPTED] =  'components.preprint-status-banner.message.accepted';
+MESSAGE[REJECTED] =  'components.preprint-status-banner.message.rejected';
+MESSAGE[PENDING_WITHDRAWAL] =  'components.preprint-status-banner.message.pending_withdrawal';
+MESSAGE[WITHDRAWAL_REJECTED] =  'components.preprint-status-banner.message.withdrawal_rejected';
+MESSAGE[WITHDRAWN] =  'components.preprint-status-banner.message.withdrawn';
+MESSAGE[UNKNOWN] =  'components.preprint-status-banner.message.withdrawn';
 
-const WORKFLOW = {
-    [PRE_MODERATION]: 'global.pre_moderation',
-    [POST_MODERATION]: 'global.post_moderation',
-};
+const WORKFLOW = Object({});
+WORKFLOW[PRE_MODERATION] = 'global.pre_moderation';
+WORKFLOW[POST_MODERATION] = 'global.post_moderation';
+WORKFLOW[UNKNOWN] = 'global.post_moderation';
 
-const CLASS_NAMES = {
-    PRE_MODERATION: 'preprint-status-pending-pre',
-    POST_MODERATION: 'preprint-status-pending-post',
-    ACCEPTED: 'preprint-status-accepted',
-    REJECTED: 'preprint-status-rejected',
-    PENDING_WITHDRAWAL: 'preprint-status-rejected',
-    WITHDRAWAL_REJECTED: 'preprint-status-rejected',
-    WITHDRAWN: 'preprint-status-withdrawn',
-};
+const CLASS_NAMES = Object({});
+CLASS_NAMES[PRE_MODERATION] = 'preprint-status-pending-pre';
+CLASS_NAMES[POST_MODERATION] =  'preprint-status-pending-post';
+CLASS_NAMES[ACCEPTED] =  'preprint-status-accepted';
+CLASS_NAMES[REJECTED] =  'preprint-status-rejected';
+CLASS_NAMES[PENDING_WITHDRAWAL] =  'preprint-status-rejected';
+CLASS_NAMES[WITHDRAWAL_REJECTED] =  'preprint-status-rejected';
+CLASS_NAMES[WITHDRAWN] =  'preprint-status-withdrawn';
+CLASS_NAMES[UNKNOWN] =  'preprint-status-withdrawn';
+
+const ICONS = Object({});
+ICONS[PENDING] = 'fa-hourglass-o';
+ICONS[ACCEPTED] = 'fa-check-circle-o';
+ICONS[REJECTED] = 'fa-times-circle-o';
+ICONS[PENDING_WITHDRAWAL] = 'fa-hourglass-o';
+ICONS[WITHDRAWAL_REJECTED] = 'fa-times-circle-o';
+ICONS[WITHDRAWN] = 'fa-exclamation-triangle';
+ICONS[UNKNOWN] = 'fa-exclamation-triangle';
 
 interface InputArgs {
     submission: PreprintModel;
@@ -102,7 +111,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             return CLASS_NAMES['WITHDRAWAL_REJECTED'];
         } else {
             return this.submission.reviewsState === PENDING ?
-                CLASS_NAMES[this.submission.provider.reviewsWorkflow] :
+                CLASS_NAMES[this.submission?.provider?.reviewsWorkflow || UNKNOWN] :
                 CLASS_NAMES[this.submission.reviewsState];
         }
     }
@@ -140,7 +149,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             return MESSAGE[WITHDRAWAL_REJECTED];
         } else {
             return this.submission.reviewsState === PENDING ?
-                MESSAGE[this.submission.provider.reviewsWorkflow] :
+                MESSAGE[this.submission?.provider?.reviewsWorkflow || UNKNOWN ] :
                 MESSAGE[this.submission.reviewsState];
         }
     }
@@ -164,11 +173,11 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         } else if (this.isWithdrawn) {
             currentState = WITHDRAWN;
         }
-        return this.getIcon(currentState);
+        return ICONS[currentState];
     }
 
     private get workflow(): string {
-        return WORKFLOW[this.submission.provider.reviewsWorkflow];
+        return WORKFLOW[this.submission?.provider?.reviewsWorkflow || UNKNOWN];
     }
 
     @task
@@ -201,34 +210,4 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         this.latestAction = latestSubmissionAction;
     }
 
-    /**
-     * getIcon
-     *
-     * @description Determines the correct icon from the current state
-     * @param currentState The current state as a string
-     * @returns the icon associated with the current state
-     */
-    private getIcon(currentState: string): string {
-        switch(currentState) {
-        case PENDING: {
-            return 'fa-hourglass-o';
-        }
-        case ACCEPTED: {
-            return 'fa-check-circle-o';
-        }
-        case REJECTED: {
-            return 'fa-times-circle-o';
-        }
-        case PENDING_WITHDRAWAL: {
-            return 'fa-hourglass-o';
-        }
-        case WITHDRAWAL_REJECTED: {
-            return 'fa-times-circle-o';
-        }
-        default: {
-            // [WITHDRAWN]: 'fa-exclamation-triangle',
-            return 'fa-exclamation-triangle';
-        }
-        }
-    }
 }
