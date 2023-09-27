@@ -1,6 +1,6 @@
 import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 import InstitutionDepartmentsModel from './institution-department';

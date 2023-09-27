@@ -16,12 +16,12 @@ module('Integration | Component | delete-node-modal', hooks => {
     });
 
     test('hidden by default', async function(assert) {
-        await render(hbs`{{delete-node-modal closeModal=closeModal delete=delete}}`);
+        await render(hbs`{{delete-node-modal closeModal=this.closeModal delete=this.delete}}`);
         assert.dom(this.element).hasText('');
     });
 
-    test('shown when openModal=true', async assert => {
-        await render(hbs`{{delete-node-modal closeModal=closeModal delete=delete openModal=true}}`);
+    test('shown when openModal=true', async function(assert) {
+        await render(hbs`{{delete-node-modal closeModal=this.closeModal delete=this.delete openModal=true}}`);
         assert.dom('[data-test-delete-warning]').includesText(
             t('delete_modal.title', { nodeType: 'project' }).toString(),
         );

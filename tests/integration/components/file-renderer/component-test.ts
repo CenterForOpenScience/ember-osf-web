@@ -1,6 +1,7 @@
 import { render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import config from 'ember-get-config';
+import { setupIntl } from 'ember-intl/test-support';
+import config from 'ember-osf-web/config/environment';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -8,12 +9,13 @@ const { OSF: { renderUrl } } = config;
 
 module('Integration | Component | file-renderer', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('file rendering defaults', async function(assert) {
         const download = this.set('download', 'http://cos.io/');
 
         await render(hbs`
-            {{file-renderer download=download}}
+            {{file-renderer download=this.download}}
         `);
 
         const iframe = this.element.querySelector('iframe') as HTMLIFrameElement;
@@ -38,7 +40,7 @@ module('Integration | Component | file-renderer', hooks => {
         });
 
         await render(hbs`
-            {{file-renderer download=download height=height width=width}}
+            {{file-renderer download=this.download height=this.height width=this.width}}
         `);
 
         const iframe = this.element.querySelector('iframe') as HTMLIFrameElement;

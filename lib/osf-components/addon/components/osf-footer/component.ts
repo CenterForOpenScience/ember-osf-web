@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import { serviceLinks } from 'ember-osf-web/const/service-links';
 import { layout } from 'ember-osf-web/decorators/component';

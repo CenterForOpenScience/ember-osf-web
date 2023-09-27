@@ -6,10 +6,12 @@ import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | schema-block-group-renderer', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     test('it renders a schema group', async function(assert) {
         this.store = this.owner.lookup('service:store');

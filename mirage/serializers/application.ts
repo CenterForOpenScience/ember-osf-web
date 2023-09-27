@@ -2,7 +2,7 @@ import Model from '@ember-data/model';
 import { underscore } from '@ember/string';
 import { Collection, JSONAPISerializer, ModelInstance, Request } from 'ember-cli-mirage';
 import { RelationshipsFor } from 'ember-data';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { BaseMeta, RelatedLinkMeta, Relationship } from 'osf-api';
 
 const { OSF: { apiUrl } } = config;

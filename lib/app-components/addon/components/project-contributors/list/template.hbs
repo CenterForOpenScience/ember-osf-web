@@ -33,16 +33,14 @@
         <div local-class='remove-spacer-container'></div>
     </div>
 {{/unless}}
-<SortableGroup
-    @onChange={{action (perform this.reorderContributors)}}
-    @model={{this.contributors}}
+<ol
+    {{sortable-group onChange=(action (perform this.reorderContributors)) }}
     local-class='contributors-list'
-    as |group|
 >
-    {{#each group.model as |modelItem|}}
-        {{#group.item model=modelItem as |item|}}
+    {{#each this.contributors as |modelItem|}}
+        <li {{sortable-item model=modelItem}}>
             <ProjectContributors::List::Item
-                @group={{group}}
+                @group={{this.contributors}}
                 @contributor={{modelItem}}
                 @isAdmin={{this.isAdmin}}
                 @adminCount={{this.adminCount}}
@@ -50,11 +48,11 @@
                 @removeContributor={{action (perform this.removeContributor)}}
                 @toggleBibliographic={{action (perform this.toggleBibliographic)}}
                 @updatePermissions={{action (perform this.updatePermissions)}}
-                @item={{item}}
+                @item={{modelItem}}
             />
-        {{/group.item}}
+        </li>
     {{/each}}
-</SortableGroup>
+</ol>
 {{#if this.loadContributors.isRunning}}
     <LoadingIndicator @dark={{true}} />
 {{else if this.hasMore}}

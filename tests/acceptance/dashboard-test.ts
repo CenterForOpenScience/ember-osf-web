@@ -1,6 +1,6 @@
 import { click as untrackedClick, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { module, skip, test } from 'qunit';
@@ -19,7 +19,7 @@ module('Acceptance | dashboard', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visiting /dashboard', async assert => {
+    test('visiting /dashboard', async function(assert) {
         // A fully loaded dashboard should have no major troubles
         const currentUser = server.create('user', 'loggedIn');
         const nodes = server.createList('node', 10, {}, 'withContributors');
@@ -49,7 +49,7 @@ module('Acceptance | dashboard', hooks => {
         await percySnapshot(assert);
     });
 
-    test('popular projects and new/noteworthy titles', async assert => {
+    test('popular projects and new/noteworthy titles', async function(assert) {
         server.create('user', 'loggedIn');
         const nodes = server.createList('node', 10, {}, 'withContributors');
         server.create('node', {
@@ -80,7 +80,7 @@ module('Acceptance | dashboard', hooks => {
         }
     });
 
-    test('user has no projects', async assert => {
+    test('user has no projects', async function(assert) {
         server.create('user', 'loggedIn');
         await visit('/dashboard');
         assert.dom('div[class*="quick-project"]')
@@ -88,7 +88,7 @@ module('Acceptance | dashboard', hooks => {
         await percySnapshot(assert);
     });
 
-    test('user has a project', async assert => {
+    test('user has a project', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const node = server.create('node', {}, 'withContributors');
         server.create('contributor', { node, users: currentUser, index: 11 });
@@ -274,7 +274,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[0]).hasText('az', 'Two character filtering item is correct');
     });
 
-    test('create project modal creates project - basic', async assert => {
+    test('create project modal creates project - basic', async function(assert) {
         server.loadFixtures('regions');
         server.create('user', 'loggedIn', 'withUsRegion');
         const title = 'Giraffical Interchange Format';
@@ -298,7 +298,7 @@ module('Acceptance | dashboard', hooks => {
         assert.equal(newNode.attrs.regionId, 'us');
     });
 
-    test('create project modal institution selection', async assert => {
+    test('create project modal institution selection', async function(assert) {
         server.loadFixtures('regions');
         server.create('user', 'loggedIn', 'withInstitutions');
         await visit('/dashboard');
@@ -329,7 +329,7 @@ module('Acceptance | dashboard', hooks => {
             .doesNotExist('Clicked select all so none not-selected');
     });
 
-    test('create project modal cancel does not create project', async assert => {
+    test('create project modal cancel does not create project', async function(assert) {
         server.loadFixtures('regions');
         server.create('user', 'loggedIn');
         const title = 'Giraffical Interchange Format';
@@ -345,7 +345,7 @@ module('Acceptance | dashboard', hooks => {
             .includesText('You have no projects yet. Create a project with the button on the top right.');
     });
 
-    test('create project modal close does not create project', async assert => {
+    test('create project modal close does not create project', async function(assert) {
         server.loadFixtures('regions');
         server.create('user', 'loggedIn');
         const title = 'Giraffical Interchange Format';
@@ -441,6 +441,6 @@ module('Acceptance | dashboard', hooks => {
         assert.equal(newNode.attrs.description, description);
         assert.equal(newNode.attrs.regionId, 'de-1');
         assert.equal(newNode.attrs.templateFrom, nodeTwo.id);
-        assert.equal(newNode.attrs.public, false, 'Projects created from the dashboard should not be public.');
+        assert.false(newNode.attrs.public, 'Projects created from the dashboard should not be public.');
     });
 });

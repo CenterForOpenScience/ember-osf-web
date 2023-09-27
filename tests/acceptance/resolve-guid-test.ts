@@ -2,7 +2,7 @@ import Transition from '@ember/routing/-private/transition';
 import Service from '@ember/service';
 import { currentRouteName, currentURL, settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -47,7 +47,7 @@ module('Acceptance | resolve-guid', hooks => {
     });
 
     module('File', __ => {
-        test('Index', async assert => {
+        test('Index', async function(assert) {
             const file = server.create('file', { target: server.create('registration') });
 
             await visit(`/${file.id}`);
@@ -62,7 +62,7 @@ module('Acceptance | resolve-guid', hooks => {
             analyticsEngine.register('service:keen', KeenStub);
         });
 
-        test('Index', async assert => {
+        test('Index', async function(assert) {
             const node = server.create('node');
 
             await visit(`/${node.id}`);
@@ -70,7 +70,7 @@ module('Acceptance | resolve-guid', hooks => {
             routingAssertions(assert, '--node', `/${node.id}`, 'guid-node.index');
         });
 
-        test('Forks', async assert => {
+        test('Forks', async function(assert) {
             const node = server.create('node');
 
             await visit(`/${node.id}/forks`);
@@ -78,7 +78,7 @@ module('Acceptance | resolve-guid', hooks => {
             routingAssertions(assert, '--node', `/${node.id}/forks`, 'guid-node.forks');
         });
 
-        test('Analytics', async assert => {
+        test('Analytics', async function(assert) {
             const node = server.create('node');
 
             await visit(`/${node.id}/analytics`);
@@ -86,7 +86,7 @@ module('Acceptance | resolve-guid', hooks => {
             routingAssertions(assert, '--node', `/${node.id}/analytics`, 'guid-node.analytics.index');
         });
 
-        test('Registrations', async assert => {
+        test('Registrations', async function(assert) {
             const { defaultProvider } = config;
 
             server.create('registration-provider', {
@@ -101,7 +101,7 @@ module('Acceptance | resolve-guid', hooks => {
             routingAssertions(assert, '--node', `/${node.id}/registrations`, 'guid-node.registrations');
         });
 
-        test('Metadata', async assert => {
+        test('Metadata', async function(assert) {
             const node = server.create('node');
 
             await visit(`/${node.id}/metadata`);
@@ -117,7 +117,7 @@ module('Acceptance | resolve-guid', hooks => {
         });
 
         module('No ember_registries_detail_page', __ => {
-            test('Index', async assert => {
+            test('Index', async function(assert) {
                 server.create('root', 'oldRegistrationDetail');
                 const reg = server.create('registration');
 
@@ -126,7 +126,7 @@ module('Acceptance | resolve-guid', hooks => {
                 routingAssertions(assert, '--registration', `/${reg.id}`, 'guid-registration.index');
             });
 
-            test('Forks', async assert => {
+            test('Forks', async function(assert) {
                 server.create('root', 'oldRegistrationDetail');
                 const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
@@ -135,7 +135,7 @@ module('Acceptance | resolve-guid', hooks => {
                 routingAssertions(assert, '--registration', `/${reg.id}/forks`, 'guid-registration.forks');
             });
 
-            test('Analytics', async assert => {
+            test('Analytics', async function(assert) {
                 server.create('root', 'oldRegistrationDetail');
                 const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
@@ -148,7 +148,7 @@ module('Acceptance | resolve-guid', hooks => {
         });
 
         module('With ember_registries_detail_page', __ => {
-            test('Index', async assert => {
+            test('Index', async function(assert) {
                 const reg = server.create('registration');
 
                 await visit(`/${reg.id}`);
@@ -156,7 +156,7 @@ module('Acceptance | resolve-guid', hooks => {
                 routingAssertions(assert, '--registries', `/${reg.id}`, 'registries.overview.index');
             });
 
-            test('Forks', async assert => {
+            test('Forks', async function(assert) {
                 const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 await visit(`/${reg.id}/forks`);
@@ -164,7 +164,7 @@ module('Acceptance | resolve-guid', hooks => {
                 routingAssertions(assert, '--registration', `/${reg.id}/forks`, 'guid-registration.forks');
             });
 
-            test('Analytics', async assert => {
+            test('Analytics', async function(assert) {
                 const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 const url = `/${reg.id}/analytics`;
@@ -174,7 +174,7 @@ module('Acceptance | resolve-guid', hooks => {
                 routingAssertions(assert, '--registration', url, 'guid-registration.analytics.index');
             });
 
-            test('Metadata', async assert => {
+            test('Metadata', async function(assert) {
                 const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
                 await visit(`/${reg.id}/metadata`);
@@ -184,7 +184,7 @@ module('Acceptance | resolve-guid', hooks => {
         });
     });
 
-    test('Not found', async assert => {
+    test('Not found', async function(assert) {
         const testCases = [
             { url: '/decaf', test: 'Nonexistent GUID' },
             { url: '/decaf/blah/blah/blah', test: 'Nonexistent GUID with nonexistent sub route' },

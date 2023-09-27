@@ -1,6 +1,7 @@
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -9,13 +10,14 @@ import { OsfLinkRouterStub } from '../../../../../helpers/osf-link-router-stub';
 module('Integration | routes | meetings | index | -components | meetings-list', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 
-    test('it renders and paginates', async assert => {
+    test('it renders and paginates', async function(assert) {
         server.createList('meeting', 11);
 
         await render(hbs`<Meetings::Index::-Components::MeetingsList />`);
@@ -64,7 +66,7 @@ module('Integration | routes | meetings | index | -components | meetings-list', 
             .hasText('Meeting B', 'Meeting name matches search term');
     });
 
-    test('it sorts', async assert => {
+    test('it sorts', async function(assert) {
         server.create('meeting', {
             name: 'Meeting B',
             submissionsCount: 9,

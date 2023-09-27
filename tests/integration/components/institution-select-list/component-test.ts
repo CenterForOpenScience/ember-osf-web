@@ -30,7 +30,7 @@ module('Integration | Component | institution-select-list', hooks => {
         this.set('manager', managerStub);
     });
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`<InstitutionSelectList @manager={{this.manager}} />`);
 
         assert.dom('[data-test-institution]').exists({ count: 3 });

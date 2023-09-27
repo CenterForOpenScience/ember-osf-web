@@ -1,6 +1,6 @@
 import { click as _click, settled, Target, visit as _visit } from '@ember/test-helpers';
 import { getContext } from '@ember/test-helpers/setup-context';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { setupApplicationTest } from 'ember-qunit';
 import faker from 'faker';
 

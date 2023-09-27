@@ -1,8 +1,8 @@
 import { buildValidation, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
-import { module, test } from 'qunit';
+import { module, skip, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | validations', () => {
-    test('validate text inputs', assert => {
+    test('validate text inputs', function(assert) {
         const groups: SchemaBlockGroup[] = [
             {
                 labelBlock: {
@@ -98,61 +98,61 @@ module('Unit | Packages | registration-schema | validations', () => {
             'has 0 validations for optional long text input');
     });
 
-    // test('validate contributor inputs', assert => {
-    //     const groups: SchemaBlockGroup[] = [
-    //         {
-    //             labelBlock: {
-    //                 blockType: 'section-heading',
-    //                 displayText: 'Test for Contributor Inputs',
-    //                 index: 0,
-    //             },
-    //             groupType: 'section-heading',
-    //         },
-    //         {
-    //             labelBlock: {
-    //                 blockType: 'question-label',
-    //                 displayText: 'Contributors: Required',
-    //                 index: 1,
-    //                 schemaBlockGroupKey: 'q1',
-    //             },
-    //             inputBlock: {
-    //                 blockType: 'contributors-input',
-    //                 index: 2,
-    //                 schemaBlockGroupKey: 'q1',
-    //                 registrationResponseKey: 'q1ContributorsRequired',
-    //                 required: true,
-    //             },
-    //             schemaBlockGroupKey: 'q1',
-    //             registrationResponseKey: 'q1ContributorsRequired',
-    //             groupType: 'contributors-input',
-    //         },
-    //         {
-    //             labelBlock: {
-    //                 blockType: 'question-label',
-    //                 displayText: 'Contributors: Optional',
-    //                 index: 3,
-    //                 schemaBlockGroupKey: 'q2',
-    //             },
-    //             inputBlock: {
-    //                 blockType: 'contributors-input',
-    //                 index: 4,
-    //                 schemaBlockGroupKey: 'q2',
-    //                 registrationResponseKey: 'q2ContributorsOptional',
-    //                 required: false,
-    //             },
-    //             schemaBlockGroupKey: 'q2',
-    //             registrationResponseKey: 'q2ContributorsOptional',
-    //             groupType: 'contributors-input',
-    //         },
-    //     ];
-    //     const result = buildValidation(groups);
-    //     assert.equal(result[groups[1].registrationResponseKey!].length, 2,
-    //         'has 2 validation for required contributor input');
-    //     assert.equal(result[groups[2].registrationResponseKey!].length, 1,
-    //         'has 1 validations for optional contributor input');
-    // });
+    skip('validate contributor inputs', assert => {
+        const groups: SchemaBlockGroup[] = [
+            {
+                labelBlock: {
+                    blockType: 'section-heading',
+                    displayText: 'Test for Contributor Inputs',
+                    index: 0,
+                },
+                groupType: 'section-heading',
+            },
+            {
+                labelBlock: {
+                    blockType: 'question-label',
+                    displayText: 'Contributors: Required',
+                    index: 1,
+                    schemaBlockGroupKey: 'q1',
+                },
+                inputBlock: {
+                    blockType: 'contributors-input',
+                    index: 2,
+                    schemaBlockGroupKey: 'q1',
+                    registrationResponseKey: 'q1ContributorsRequired',
+                    required: true,
+                },
+                schemaBlockGroupKey: 'q1',
+                registrationResponseKey: 'q1ContributorsRequired',
+                groupType: 'contributors-input',
+            },
+            {
+                labelBlock: {
+                    blockType: 'question-label',
+                    displayText: 'Contributors: Optional',
+                    index: 3,
+                    schemaBlockGroupKey: 'q2',
+                },
+                inputBlock: {
+                    blockType: 'contributors-input',
+                    index: 4,
+                    schemaBlockGroupKey: 'q2',
+                    registrationResponseKey: 'q2ContributorsOptional',
+                    required: false,
+                },
+                schemaBlockGroupKey: 'q2',
+                registrationResponseKey: 'q2ContributorsOptional',
+                groupType: 'contributors-input',
+            },
+        ];
+        const result = buildValidation(groups);
+        assert.equal(result[groups[1].registrationResponseKey!].length, 2,
+            'has 2 validation for required contributor input');
+        assert.equal(result[groups[2].registrationResponseKey!].length, 1,
+            'has 1 validations for optional contributor input');
+    });
 
-    test('validate file inputs', assert => {
+    test('validate file inputs', function(assert) {
         const groups: SchemaBlockGroup[] = [
             {
                 labelBlock: {
@@ -206,7 +206,7 @@ module('Unit | Packages | registration-schema | validations', () => {
             'has 1 validations for optional file input');
     });
 
-    test('validate select inputs', assert => {
+    test('validate select inputs', function(assert) {
         const groups: SchemaBlockGroup[] = [
             {
                 labelBlock: {

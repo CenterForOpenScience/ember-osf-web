@@ -1,5 +1,5 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { MirageSchemaResponseModel } from '../factories/schema-response';
 import ApplicationSerializer from './application';
 const { OSF: { apiUrl } } = config;

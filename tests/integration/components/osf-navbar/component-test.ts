@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
@@ -23,6 +24,7 @@ const sessionStub = Service.extend({
 
 module('Integration | Component | osf-navbar', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         // Make sure currentURL is always a string
@@ -31,7 +33,7 @@ module('Integration | Component | osf-navbar', hooks => {
         this.owner.register('service:session', sessionStub);
     });
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`<OsfNavbar />`);
         assert.dom('.service-name').includesText('OSF');
         assert.dom('.current-service').hasText('HOME');

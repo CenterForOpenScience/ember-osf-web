@@ -30,7 +30,7 @@ module('Registries | Unit | Service | search', hooks => {
         assert.ok(service);
     });
 
-    test('SearchOptions immutable', assert => {
+    test('SearchOptions immutable', function(assert) {
         const options = new SearchOptions({ page: 10 });
         const changed = options.set('page', 420);
 
@@ -38,7 +38,7 @@ module('Registries | Unit | Service | search', hooks => {
         assert.equal(changed.page, 420);
     });
 
-    test('SearchOptions equality', assert => {
+    test('SearchOptions equality', function(assert) {
         assert.ok(is(
             new SearchOptions({ query: 'Foo Bar' }),
             new SearchOptions({ query: 'Foo Bar' }),

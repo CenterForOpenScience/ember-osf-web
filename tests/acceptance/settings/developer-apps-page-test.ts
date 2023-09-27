@@ -9,20 +9,20 @@ module('Acceptance | settings | developer apps', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visit page', async assert => {
+    test('visit page', async function(assert) {
         server.create('user', 'loggedIn');
         await visit('/settings/applications');
 
         assert.equal(currentURL(), '/settings/applications', 'Went to the Applications route.');
     });
 
-    test('empty app list', async assert => {
+    test('empty app list', async function(assert) {
         server.create('user', 'loggedIn');
         await visit('/settings/applications');
         assert.dom('[data-test-developer-app-card]').doesNotExist();
     });
 
-    test('apps list', async assert => {
+    test('apps list', async function(assert) {
         server.create('user', 'loggedIn');
         server.createList('developer-app', 7);
 
@@ -31,7 +31,7 @@ module('Acceptance | settings | developer apps', hooks => {
         assert.dom('[data-test-developer-app-card]').exists({ count: 7 });
     });
 
-    test('long apps list', async assert => {
+    test('long apps list', async function(assert) {
         server.create('user', 'loggedIn');
         server.createList('developer-app', 27);
 
@@ -41,7 +41,7 @@ module('Acceptance | settings | developer apps', hooks => {
         await percySnapshot(assert);
     });
 
-    test('create app', async assert => {
+    test('create app', async function(assert) {
         server.create('user', 'loggedIn');
         const appName = 'my app!';
 
@@ -65,7 +65,7 @@ module('Acceptance | settings | developer apps', hooks => {
         assert.dom('[data-test-developer-app-card]').exists({ count: 1 });
     });
 
-    test('edit app', async assert => {
+    test('edit app', async function(assert) {
         server.create('user', 'loggedIn');
 
         const oldName = 'app the grey';
@@ -99,7 +99,7 @@ module('Acceptance | settings | developer apps', hooks => {
         assert.dom(link).containsText(newName);
     });
 
-    test('delete app', async assert => {
+    test('delete app', async function(assert) {
         server.create('user', 'loggedIn');
 
         const [app] = server.createList('developer-app', 2);
@@ -117,7 +117,7 @@ module('Acceptance | settings | developer apps', hooks => {
         assert.dom(card).doesNotExist();
     });
 
-    test('reset client secret', async assert => {
+    test('reset client secret', async function(assert) {
         server.create('user', 'loggedIn');
 
         const app = server.create('developer-app');

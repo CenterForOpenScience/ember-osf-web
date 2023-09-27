@@ -1,6 +1,6 @@
 import { underscore } from '@ember/string';
 import { ID, ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { pluralize } from 'ember-inflector';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';

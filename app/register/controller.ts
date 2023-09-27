@@ -6,7 +6,7 @@ import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import Analytics from 'ember-osf-web/services/analytics';

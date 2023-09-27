@@ -93,7 +93,7 @@ module('Acceptance | settings/account | security', hooks => {
         assert.equal(currentUser.urlCalled, '/settings/account');
     });
 
-    test('two factor disabled shows properly', async assert => {
+    test('two factor disabled shows properly', async function(assert) {
         assert.expect(13);
         const currentUser = server.create('user', 'loggedIn');
         server.create(
@@ -109,7 +109,7 @@ module('Acceptance | settings/account | security', hooks => {
         await percySnapshot(assert);
     });
 
-    test('two factor enabled unconfirmed shows and disables properly', async assert => {
+    test('two factor enabled unconfirmed shows and disables properly', async function(assert) {
         assert.expect(23);
         const currentUser = server.create('user', 'loggedIn');
         server.create(
@@ -127,7 +127,7 @@ module('Acceptance | settings/account | security', hooks => {
         assertionsNotEnabledNotConfirmed(assert, 'After disabling two-factor');
     });
 
-    test('two factor verification works and disables', async assert => {
+    test('two factor verification works and disables', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         server.create(
             'user-setting',
@@ -169,7 +169,7 @@ module('Acceptance | settings/account | security', hooks => {
         await percySnapshot(assert);
     });
 
-    test('two factor disabled->confirmed round trip works', async assert => {
+    test('two factor disabled->confirmed round trip works', async function(assert) {
         assert.expect(46);
         const currentUser = server.create('user', 'loggedIn');
         server.create(

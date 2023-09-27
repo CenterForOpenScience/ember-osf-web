@@ -11,7 +11,7 @@ import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines'
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 import { percySnapshot } from 'ember-percy';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 import fillIn from '@ember/test-helpers/dom/fill-in';
 import { timeout } from 'ember-concurrency';

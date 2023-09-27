@@ -26,12 +26,12 @@ module('Integration | Component | panel', () => {
             `);
         });
 
-        test('panel', assert => {
+        test('panel', function(assert) {
             assert.dom('[data-test-panel]')
                 .exists('Panel renders');
         });
 
-        test('heading', assert => {
+        test('heading', function(assert) {
             assert.dom('[data-test-panel-heading]')
                 .exists('Panel heading section renders');
             assert.dom('[data-test-panel-heading] [data-test-panel-title]')
@@ -40,14 +40,14 @@ module('Integration | Component | panel', () => {
                 .hasText(attrTitle, 'Panel title section contains title text');
         });
 
-        test('body', assert => {
+        test('body', function(assert) {
             assert.dom('[data-test-panel-body]')
                 .exists('Panel body section renders');
             assert.dom('[data-test-panel-body]')
                 .hasText(attrBody, 'Panel body section contains body text');
         });
 
-        test('footer', assert => {
+        test('footer', function(assert) {
             assert.dom('[data-test-panel-footer]')
                 .exists('Panel footer section renders');
             assert.dom('[data-test-panel-footer]')
@@ -75,11 +75,11 @@ module('Integration | Component | panel', () => {
             `);
         });
 
-        test('panel', assert => {
+        test('panel', function(assert) {
             assert.dom('[data-test-panel]').exists('Panel renders');
         });
 
-        test('heading', assert => {
+        test('heading', function(assert) {
             assert.dom('[data-test-panel-heading]')
                 .exists('Panel heading section renders');
             assert.dom('[data-test-panel-title]')
@@ -88,14 +88,14 @@ module('Integration | Component | panel', () => {
                 .hasText(blockTitle, 'Panel heading section contains title text');
         });
 
-        test('body', assert => {
+        test('body', function(assert) {
             assert.dom('[data-test-panel-body]')
                 .exists('Panel body section renders');
             assert.dom('[data-test-panel-body]')
                 .hasText(blockBody, 'Panel body section contains body text');
         });
 
-        test('footer', assert => {
+        test('footer', function(assert) {
             assert.dom('[data-test-panel-footer]')
                 .exists('Panel footer section renders');
             assert.dom('[data-test-panel-footer]')
@@ -123,11 +123,11 @@ module('Integration | Component | panel', () => {
             `);
         });
 
-        test('panel', assert => {
+        test('panel', function(assert) {
             assert.dom('[data-test-panel]').exists('Panel renders');
         });
 
-        test('heading', assert => {
+        test('heading', function(assert) {
             assert.dom('[data-test-panel-heading]')
                 .exists('Panel heading section renders');
             assert.dom('[data-test-panel-heading] [data-test-panel-title]')
@@ -139,7 +139,7 @@ module('Integration | Component | panel', () => {
                 );
         });
 
-        test('body', assert => {
+        test('body', function(assert) {
             assert.dom('[data-test-panel-body]')
                 .exists('Panel body section renders');
             assert.dom('[data-test-panel-body]')
@@ -149,7 +149,7 @@ module('Integration | Component | panel', () => {
                 );
         });
 
-        test('footer', assert => {
+        test('footer', function(assert) {
             assert.dom('[data-test-panel-footer]')
                 .exists('Panel footer section renders');
             assert.dom('[data-test-panel-footer]')

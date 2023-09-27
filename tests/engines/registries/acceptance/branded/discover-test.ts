@@ -40,7 +40,7 @@ module('Registries | Acceptance | branded.discover', hooks => {
             'registries.branded.discover', 'successfully redirects index to discover');
     });
 
-    test('redirects', async assert => {
+    test('redirects', async function(assert) {
         const provider = server.create('registration-provider', {
             brandedDiscoveryPage: false,
         }, 'withBrand');

@@ -13,6 +13,7 @@
     "@glimmer/component": "*",
     "@glimmer/tracking": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
+    "ember-auto-import": "*",
     "ember-aria-tabs": "*",
     "ember-basic-dropdown": "*",
     "ember-changeset": "*",
@@ -20,7 +21,6 @@
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-moment-shim": "*",
-    "ember-cli-sanitize-html": "*",
     "ember-cli-sass": "*",
     "ember-cli-showdown": "*",
     "ember-cli-string-helpers": "*",
@@ -46,7 +46,8 @@
     "ember-toastr": "*",
     "ember-tooltips": "*",
     "ember-truth-helpers": "*",
-    "immutable": "*"
+    "immutable": "*",
+    "moment-timezone": "*"
   },
   "ember-addon": {
     "paths": [

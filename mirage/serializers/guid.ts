@@ -1,6 +1,6 @@
 import { dasherize } from '@ember/string';
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { pluralize } from 'ember-inflector';
 
 import Guid from 'ember-osf-web/models/guid';

@@ -10,7 +10,7 @@ import { camelize } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
 import { keepLatestTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';

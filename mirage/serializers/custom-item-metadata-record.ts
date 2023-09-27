@@ -1,5 +1,5 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import CustomItemMetadataRecord from 'ember-osf-web/models/custom-item-metadata-record';
 import ApplicationSerializer from './application';
 const { OSF: { apiUrl } } = config;

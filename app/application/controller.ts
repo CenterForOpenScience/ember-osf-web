@@ -4,7 +4,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import Theme from 'ember-osf-web/services/theme';
 import OsfModalState from 'osf-components/services/osf-modal-state';

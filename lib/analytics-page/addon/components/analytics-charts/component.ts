@@ -2,7 +2,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { TaskInstance } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
-import moment, { Duration } from 'moment';
+import moment, { Duration } from 'moment-timezone';
 import Media from 'ember-responsive';
 
 import { Timespan } from 'analytics-page/application/route';
