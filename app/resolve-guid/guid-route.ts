@@ -20,28 +20,24 @@ export default abstract class GuidRoute extends Route {
     @service ready!: Ready;
     @service store!: Store;
 
+    abstract modelName(): keyof ModelRegistry;
+
     @task
     @waitFor
     async getModel(guid: string) {
-        const blocker = this.ready.getBlocker();
-
-        let model;
         try {
-            model = await this.store.findRecord(this.modelName(), guid, {
+            const blocker = this.ready.getBlocker();
+            const model = await this.store.findRecord(this.modelName(), guid, {
                 include: this.include(),
                 adapterOptions: this.adapterOptions(),
             });
+            blocker.done();
+            return model;
         } catch (e) {
             // To do custom error handling, add an error() action to the route that subclasses GuidRoute.
             this.send('error', e);
         }
-
-        blocker.done();
-
-        return model;
     }
-
-    abstract modelName(): keyof ModelRegistry;
 
     adapterOptions(): {} {
         return {};
@@ -52,8 +48,9 @@ export default abstract class GuidRoute extends Route {
     }
 
     model(params: { guid: string }) {
+        const paramsGuid = params.guid;
         return {
-            guid: params.guid,
+            guid: paramsGuid,
             taskInstance: taskFor(this.getModel).perform(params.guid),
             task: this.getModel,
         };

@@ -14,7 +14,7 @@ export default class Overview extends Controller {
 
     @computed('registration.{root,isRoot}')
     get root() {
-        if (!this.registration || this.registration.isRoot) {
+        if (!this.registration || !this.registration.isRoot) {
             return undefined;
         }
 
