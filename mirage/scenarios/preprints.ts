@@ -42,7 +42,7 @@ function buildOSF(
         id: 'osf-approved-admin',
         title: 'Preprint RWF: Pre-moderation, Admin and Approved',
         currentUserPermissions: [Permission.Admin],
-        reviewsState: ReviewsState.APPROVED,
+        reviewsState: ReviewsState.ACCEPTED,
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(100)}`,
         doi: '10.30822/artk.v1i1.79',
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
@@ -64,7 +64,7 @@ function buildOSF(
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
         currentUserPermissions: [],
         doi: '10.30822/artk.v1i1.79',
-        reviewsState: ReviewsState.APPROVED,
+        reviewsState: ReviewsState.ACCEPTED,
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
@@ -75,7 +75,7 @@ function buildOSF(
         id: 'osf-orphan',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
         currentUserPermissions: [],
-        reviewsState: ReviewsState.APPROVED,
+        reviewsState: ReviewsState.ACCEPTED,
         isPreprintOrphan: true,
     });
 
@@ -84,7 +84,7 @@ function buildOSF(
         id: 'osf-private',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
         currentUserPermissions: [],
-        reviewsState: ReviewsState.APPROVED,
+        reviewsState: ReviewsState.ACCEPTED,
         public: false,
     });
 
@@ -93,7 +93,7 @@ function buildOSF(
         id: 'osf-not-published',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
         currentUserPermissions: [],
-        reviewsState: ReviewsState.APPROVED,
+        reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
     });
 
@@ -102,7 +102,7 @@ function buildOSF(
         id: 'osf-withdrawn',
         title: 'Preprint Non-Admin, Not Published and withdrawn',
         currentUserPermissions: [],
-        reviewsState: ReviewsState.APPROVED,
+        reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
         dateWithdrawn: new Date(),
     });
