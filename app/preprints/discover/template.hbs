@@ -2,7 +2,7 @@
 <div data-analytics-scope='{{concat this.model.providerTitle ' Discover'}}'>
     <SearchPage
         @route='search'
-        @query={{this.q}}
+        @cardSearchText={{this.q}}
         @defaultQueryOptions={{this.defaultQueryOptions}}
         @resourceType={{'Preprint'}}
         @showResourceTypeFilter={{false}}

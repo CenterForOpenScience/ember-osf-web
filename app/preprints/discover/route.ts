@@ -2,7 +2,7 @@ import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import Theme from 'ember-osf-web/services/theme';
 
