@@ -47,8 +47,8 @@ as |layout|>
                 data-analytics-name='Search input'
                 local-class='search-input'
                 id={{this.searchBoxId}}
+                placeholder={{t 'search.textbox-placeholder'}}
                 @type='search'
-                @placeholder={{t 'search.textbox-placeholder'}}
                 @value={{this.cardSearchText}}
                 @enter={{perform this.doDebounceSearch}}
             />

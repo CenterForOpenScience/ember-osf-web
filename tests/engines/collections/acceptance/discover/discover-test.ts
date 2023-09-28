@@ -12,7 +12,7 @@ module('Collections | Acceptance | discover', hooks => {
     setupEngineApplicationTest(hooks, 'collections');
     setupMirage(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         const nodeAdded = server.create('node', {
@@ -48,7 +48,7 @@ module('Collections | Acceptance | discover', hooks => {
         await percySnapshot(assert);
     });
 
-    test('sorting', async assert => {
+    test('sorting', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         const node1 = server.create('node', {
@@ -107,7 +107,7 @@ module('Collections | Acceptance | discover', hooks => {
             .exists({ count: 1 }, 'sort by -modified: node2 is last in list');
     });
 
-    test('keyword search', async assert => {
+    test('keyword search', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         const node1 = server.create('node', {

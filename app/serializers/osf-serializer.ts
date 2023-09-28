@@ -6,6 +6,11 @@ import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { AttributesObject } from 'jsonapi-typescript';
 
+// This import will change with 4.12 of ember-data. It will instead be
+// import { peekGraph } from '@ember-data/graph/-private';
+import { peekGraph } from '@ember-data/record-data/-private';
+import { recordIdentifierFor } from '@ember-data/store';
+
 import {
     PaginatedMeta,
     Resource,
@@ -138,7 +143,7 @@ export default class OsfSerializer extends JSONAPISerializer {
 
         const includeCleanData = options && options.osf && options.osf.includeCleanData;
         if (!includeCleanData && !snapshot.record.get('isNew')) {
-            // Only send dirty attributes and relationships in request
+            // Only send dirty attributes in request
             const changedAttributes = snapshot.record.changedAttributes();
             for (const attribute of Object.keys(serialized.data.attributes!)) {
                 const { attrs }: { attrs: any } = this;
@@ -147,15 +152,30 @@ export default class OsfSerializer extends JSONAPISerializer {
                     delete serialized.data.attributes![attribute];
                 }
             }
-            // HACK: There's no public-API way to tell whether a relationship has been changed.
-            const relationships = (snapshot as any)._internalModel.__recordData._relationships.initializedRelationships;
+
+            // The following is a bit of a hack as it relies on currently private information.
+            // When https://github.com/emberjs/data/pull/8131 is merged, we should have public access
+            // to this data from a new import location.
             if (serialized.data.relationships) {
+                const graph = peekGraph(this.store);
                 for (const key of Object.keys(serialized.data.relationships)) {
-                    const rel = relationships[camelize(key)];
-                    if (rel
-                        && rel.members.list.length === rel.canonicalMembers.list.length
-                        && rel.members.list.every((v: any, i: any) => v === rel.canonicalMembers.list[i])
-                    ) {
+                    const rel = graph.get(recordIdentifierFor(snapshot.record), camelize(key));
+                    let isClean = true;
+                    if (rel.definition.kind === 'belongsTo') {
+                        isClean = rel.localState === rel.remoteState;
+                    } else if (rel.definition.kind === 'hasMany') {
+                        if (rel.canonicalState.length !== rel.currentState.length) {
+                            isClean = false;
+                        } else {
+                            for (const stateKey in rel.canonicalState) {
+                                if(rel.canonicalState[stateKey] !== rel.currentState[stateKey]) {
+                                    isClean = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (isClean) {
                         delete serialized.data.relationships[key];
                     }
                 }

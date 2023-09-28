@@ -1,5 +1,5 @@
 import { assert } from '@ember/debug';
-import { run, schedule } from '@ember/runloop';
+import { next, schedule } from '@ember/runloop';
 import Service from '@ember/service';
 
 export default class OsfModalState extends Service {
@@ -18,7 +18,7 @@ export default class OsfModalState extends Service {
         }
 
         // Update global state in another runloop to avoid "modified twice in one render" errors
-        run.next(this, function() {
+        next(this, function() {
             if (this.isDestroyed) {
                 // In tests, the service might be destroyed by now
                 return;
@@ -32,7 +32,7 @@ export default class OsfModalState extends Service {
 
     exitModalState() {
         // Update global state in another runloop to avoid "modified twice in one render" errors
-        run.next(this, function() {
+        next(this, function() {
             if (this.isDestroyed) {
                 // In tests, the service might be destroyed by now
                 return;

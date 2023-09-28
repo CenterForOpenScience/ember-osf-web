@@ -5,6 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
+import { setupIntl } from 'ember-intl/test-support';
 
 const currentUserStub = Service.extend({
     user: {
@@ -14,6 +15,7 @@ const currentUserStub = Service.extend({
 
 module('Integration | routes | settings | account | -components | opt-out', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('default allowIndexing: null', async function(this: TestContext, assert) {
         this.owner.register('service:currentUser', currentUserStub);

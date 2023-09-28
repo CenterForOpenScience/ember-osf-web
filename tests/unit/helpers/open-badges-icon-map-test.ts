@@ -4,7 +4,7 @@ import { getBadgeIcon, getBadgeIconDisabled } from 'ember-osf-web/helpers/open-b
 import { module, test } from 'qunit';
 
 module('Unit | Helper | open-badges-icon-map', () => {
-    test('it maps icons', assert => {
+    test('it maps icons', function(assert) {
         assert.equal(
             getBadgeIcon(ResourceTypes.Data),
             '/assets/images/badges/data_small_color.png',
@@ -32,7 +32,7 @@ module('Unit | Helper | open-badges-icon-map', () => {
         );
     });
 
-    test('it maps disabled icons', assert => {
+    test('it maps disabled icons', function(assert) {
         assert.equal(
             getBadgeIconDisabled(ResourceTypes.Data),
             '/assets/images/badges/data_small_gray.png',

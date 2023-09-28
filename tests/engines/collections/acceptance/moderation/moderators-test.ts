@@ -9,7 +9,7 @@ module('Collections | Acceptance | moderation | moderators', hooks => {
     setupEngineApplicationTest(hooks, 'collections');
     setupMirage(hooks);
 
-    test('it renders for collection admins', async assert => {
+    test('it renders for collection admins', async function(assert) {
         server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         const provider = server.create('collection-provider', {
@@ -27,7 +27,7 @@ module('Collections | Acceptance | moderation | moderators', hooks => {
         await percySnapshot(assert);
     });
 
-    test('it renders for collection moderators', async assert => {
+    test('it renders for collection moderators', async function(assert) {
         server.create('user', 'loggedIn');
         const primaryCollection = server.create('collection');
         const provider = server.create('collection-provider', {

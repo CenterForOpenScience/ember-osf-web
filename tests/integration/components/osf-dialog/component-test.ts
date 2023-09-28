@@ -5,6 +5,7 @@ import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
 import { TestContext } from 'ember-test-helpers';
+import { setupIntl } from 'ember-intl/test-support';
 
 interface DialogTestContext extends TestContext {
     isOpen: boolean;
@@ -12,8 +13,9 @@ interface DialogTestContext extends TestContext {
 
 module('Integration | Component | osf-dialog', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
-    test('it renders blocks the right way', async assert => {
+    test('it renders blocks the right way', async function(assert) {
         await render(hbs`<OsfDialog @renderInPlace={{true}} as |dialog|>
             <dialog.trigger>
                 <button test-open-dialog {{on 'click' dialog.open}}>Click me!</button>
@@ -51,7 +53,7 @@ module('Integration | Component | osf-dialog', hooks => {
         assert.dom('[test-close-dialog]').doesNotExist('Footer block not rendered');
     });
 
-    test('can close dialog several ways', async assert => {
+    test('can close dialog several ways', async function(assert) {
         await render(hbs`<OsfDialog @renderInPlace={{true}} as |dialog|>
             <dialog.trigger>
                 <button test-open-dialog {{on 'click' dialog.open}}>Click me!</button>
@@ -119,7 +121,7 @@ module('Integration | Component | osf-dialog', hooks => {
         assert.dom('[data-test-dialog]').doesNotExist('Dialog closed');
     });
 
-    test('does not close on outside click', async assert => {
+    test('does not close on outside click', async function(assert) {
         await render(hbs`<OsfDialog @renderInPlace={{true}} @closeOnOutsideClick={{false}} as |dialog|>
             <dialog.trigger>
                 <button test-open-dialog {{on 'click' dialog.open}}>Click me!</button>

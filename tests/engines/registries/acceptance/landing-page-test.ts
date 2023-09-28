@@ -23,7 +23,7 @@ module('Registries | Acceptance | landing page', hooks => {
         unfreezeDate();
     });
 
-    test('visiting /registries/', async assert => {
+    test('visiting /registries/', async function(assert) {
         await visit('/registries/');
         assert.dom('[data-test-search-box]').exists();
         await percySnapshot(assert);

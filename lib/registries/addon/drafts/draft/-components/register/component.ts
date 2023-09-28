@@ -4,7 +4,7 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { run } from '@ember/runloop';
+import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
@@ -115,7 +115,7 @@ export default class Register extends Component {
         this.registration.setProperties({ includedNodeIds });
 
         this.closePartialRegDialog();
-        run.next(this, () => {
+        next(this, () => {
             this.showFinalizeRegDialog();
         });
     }
@@ -124,7 +124,7 @@ export default class Register extends Component {
     onBack() {
         this.closeFinalizeRegDialog();
         if (this.node && this.node.relatedCounts.children > 0) {
-            run.next(this, () => {
+            next(this, () => {
                 this.showPartialRegDialog();
             });
         }

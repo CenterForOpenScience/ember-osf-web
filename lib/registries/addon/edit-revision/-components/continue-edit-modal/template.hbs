@@ -15,10 +15,10 @@
                     {{t 'registries.edit_revision.continue_edit_modal.reason'}}
                 </label>
                 <Textarea
-                    @id={{reasonInputId}}
+                    id={{reasonInputId}}
+                    local-class='textArea'
                     @type='textarea'
                     @value={{this.reason}}
-                    local-class='textArea'
                 />
             </div>
         {{/let}}

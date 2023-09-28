@@ -9,7 +9,7 @@ module('Acceptance | register (sign up page)', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('visiting /register', async assert => {
+    test('visiting /register', async function(assert) {
         await visit('/register');
 
         assert.equal(currentURL(), '/register', "Still at '/register'.");
@@ -20,7 +20,7 @@ module('Acceptance | register (sign up page)', hooks => {
         await percySnapshot(assert);
     });
 
-    test('visiting /register?next=foo', async assert => {
+    test('visiting /register?next=foo', async function(assert) {
         await visit('/register?next=foo');
 
         assert.equal(currentURL(), '/register?next=foo', "Still at '/register?next=foo'.");
@@ -32,7 +32,7 @@ module('Acceptance | register (sign up page)', hooks => {
     module('Campaigns', nestedHooks => {
         nestedHooks.beforeEach(() => server.loadFixtures('preprint-providers'));
 
-        test('visiting /register?campaign=osf-registries', async assert => {
+        test('visiting /register?campaign=osf-registries', async function(assert) {
             await visit('/register?campaign=osf-registries');
 
             assert.equal(
@@ -47,7 +47,7 @@ module('Acceptance | register (sign up page)', hooks => {
             await percySnapshot(assert);
         });
 
-        test('visiting /register?campaign=osf-preprints', async assert => {
+        test('visiting /register?campaign=osf-preprints', async function(assert) {
             await visit('/register?campaign=osf-preprints');
 
             assert.equal(
@@ -62,7 +62,7 @@ module('Acceptance | register (sign up page)', hooks => {
             await percySnapshot(assert);
         });
 
-        test('visiting /register?campaign=thesiscommons-preprints', async assert => {
+        test('visiting /register?campaign=thesiscommons-preprints', async function(assert) {
             await visit('/register?campaign=thesiscommons-preprints');
 
             assert.equal(
@@ -76,7 +76,7 @@ module('Acceptance | register (sign up page)', hooks => {
             await percySnapshot(assert);
         });
 
-        test('visiting /register?campaign=preprintrxiv-preprints', async assert => {
+        test('visiting /register?campaign=preprintrxiv-preprints', async function(assert) {
             await visit('/register?campaign=preprintrxiv-preprints');
 
             assert.equal(
@@ -90,7 +90,7 @@ module('Acceptance | register (sign up page)', hooks => {
             await percySnapshot(assert);
         });
 
-        test('visiting /register?campaign=paperxiv-preprints', async assert => {
+        test('visiting /register?campaign=paperxiv-preprints', async function(assert) {
             await visit('/register?campaign=paperxiv-preprints');
 
             assert.equal(
@@ -104,7 +104,7 @@ module('Acceptance | register (sign up page)', hooks => {
             await percySnapshot(assert);
         });
 
-        test('visiting /register?campaign=thesisrxiv-preprints', async assert => {
+        test('visiting /register?campaign=thesisrxiv-preprints', async function(assert) {
             await visit('/register?campaign=thesisrxiv-preprints');
 
             assert.equal(
@@ -118,7 +118,7 @@ module('Acceptance | register (sign up page)', hooks => {
             await percySnapshot(assert);
         });
 
-        test('visiting /register?campaign=workrxiv-preprints', async assert => {
+        test('visiting /register?campaign=workrxiv-preprints', async function(assert) {
             await visit('/register?campaign=workrxiv-preprints');
 
             assert.equal(
@@ -132,7 +132,7 @@ module('Acceptance | register (sign up page)', hooks => {
             await percySnapshot(assert);
         });
 
-        test('visiting /register?campaign=docrxiv-preprints', async assert => {
+        test('visiting /register?campaign=docrxiv-preprints', async function(assert) {
             await visit('/register?campaign=docrxiv-preprints');
 
             assert.equal(

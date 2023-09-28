@@ -4,10 +4,10 @@
             <li data-test-collection-provider-facet-item={{item.key}}>
                 <label local-class='provider-label'>
                     <Input
+                        disabled={{this.theme.isProvider}}
                         @type='checkbox'
                         @checked={{item.checked}}
-                        @change={{action this.updateFilters item.key}}
-                        @disabled={{this.theme.isProvider}}
+                        {{on 'change' (fn this.updateFilters item.key)}}
                     />
                     {{filter-replace item.key @filterReplace}}
                     <small>({{format-number item.doc_count}})</small>

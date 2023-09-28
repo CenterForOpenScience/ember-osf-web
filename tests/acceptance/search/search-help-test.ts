@@ -64,7 +64,7 @@ module('Integration | Component | Search help', hooks => {
         assert.dom('[data-test-search-help-1]').isNotVisible();
     });
 
-    test('help tutorial can be skipped', async assert => {
+    test('help tutorial can be skipped', async function(assert) {
         await visit('/search');
         assert.equal(currentURL(), '/search');
 

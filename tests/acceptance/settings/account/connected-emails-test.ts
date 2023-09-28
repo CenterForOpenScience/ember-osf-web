@@ -11,7 +11,7 @@ module('Acceptance | settings | account information page', hooks => {
     setupMirage(hooks);
 
     // primary email exists
-    test('primary email exists', async assert => {
+    test('primary email exists', async function(assert) {
         server.create('user', 'loggedIn', 'withSettings');
 
         await visit('/settings/account');
@@ -21,7 +21,7 @@ module('Acceptance | settings | account information page', hooks => {
     });
 
     // empty alternate/unconfirmed emails list
-    test('empty email lists', async assert => {
+    test('empty email lists', async function(assert) {
         server.create('user', 'loggedIn', 'withSettings');
 
         await visit('/settings/account');
@@ -31,7 +31,7 @@ module('Acceptance | settings | account information page', hooks => {
         assert.dom('[data-test-unconfirmed-email-item]').doesNotExist();
     });
 
-    test('email lists have emails', async assert => {
+    test('email lists have emails', async function(assert) {
         server.create('user', 'loggedIn', 'withSettings', 'withAlternateEmail', 'withUnconfirmedEmail');
 
         await visit('/settings/account');
@@ -42,7 +42,7 @@ module('Acceptance | settings | account information page', hooks => {
     });
 
     // add new email
-    test('add new email', async assert => {
+    test('add new email', async function(assert) {
         server.create('user', 'loggedIn', 'withSettings');
         const emailAddress = 'testAccount@gmail.com';
 
@@ -58,7 +58,7 @@ module('Acceptance | settings | account information page', hooks => {
     });
 
     // remove alternate email
-    test('delete alternate email', async assert => {
+    test('delete alternate email', async function(assert) {
         const user = server.create('user', 'loggedIn', 'withSettings', 'withAlternateEmail');
 
         const { emailAddress } = user.emails.models[1];
@@ -77,7 +77,7 @@ module('Acceptance | settings | account information page', hooks => {
     });
 
     // make primary
-    test('make email primary', async assert => {
+    test('make email primary', async function(assert) {
         const user = server.create('user', 'loggedIn', 'withSettings', 'withAlternateEmail');
 
         const { emailAddress } = user.emails.models[1];
@@ -91,7 +91,7 @@ module('Acceptance | settings | account information page', hooks => {
     });
 
     // test resend_confirmation url
-    test('resend confirmation', async assert => {
+    test('resend confirmation', async function(assert) {
         assert.expect(2);
 
         const done = assert.async();

@@ -1,6 +1,6 @@
 import { Request } from 'ember-cli-mirage';
 import { setupTest } from 'ember-qunit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import {
@@ -22,7 +22,7 @@ function fakeRequest(queryParams: { [key: string]: string }): Request {
 module('Unit | Mirage | Views | Utils | dynamicSort', hooks => {
     setupTest(hooks);
 
-    test('it can sort strings', assert => {
+    test('it can sort strings', function(assert) {
         const unsorted = [
             { attributes: { sortme: 'a' } },
             { attributes: { sortme: 'c' } },
@@ -37,7 +37,7 @@ module('Unit | Mirage | Views | Utils | dynamicSort', hooks => {
         assert.deepEqual(sorted, expected);
     });
 
-    test('it can reverse sort strings', assert => {
+    test('it can reverse sort strings', function(assert) {
         const unsorted = [
             { attributes: { sortme: 'a' } },
             { attributes: { sortme: 'c' } },
@@ -52,7 +52,7 @@ module('Unit | Mirage | Views | Utils | dynamicSort', hooks => {
         assert.deepEqual(sorted, expected);
     });
 
-    test('it can sort numbers', assert => {
+    test('it can sort numbers', function(assert) {
         const unsorted = [
             { attributes: { sortme: 3 } },
             { attributes: { sortme: 1 } },
@@ -67,7 +67,7 @@ module('Unit | Mirage | Views | Utils | dynamicSort', hooks => {
         assert.deepEqual(sorted, expected);
     });
 
-    test('it can sort dates', assert => {
+    test('it can sort dates', function(assert) {
         const dateOne = moment().subtract(10, 'days');
         const dateTwo = moment().subtract(5, 'days');
         const dateThree = moment().subtract(1, 'days');
@@ -89,7 +89,7 @@ module('Unit | Mirage | Views | Utils | dynamicSort', hooks => {
 module('Unit | Mirage | Views | Utils | sort', hooks => {
     setupTest(hooks);
 
-    test('it can sort', assert => {
+    test('it can sort', function(assert) {
         const request = fakeRequest({ sort: 'str' });
         const unsorted = [
             { attributes: { str: 'a', num: 3 } },
@@ -105,7 +105,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
         assert.deepEqual(sorted, expected);
     });
 
-    test('it can use a different key', assert => {
+    test('it can use a different key', function(assert) {
         const request = fakeRequest({ sort: 'num' });
         const unsorted = [
             { attributes: { str: 'a', num: 3 } },
@@ -121,7 +121,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
         assert.deepEqual(sorted, expected);
     });
 
-    test('it can reverse sort', assert => {
+    test('it can reverse sort', function(assert) {
         const request = fakeRequest({ sort: '-num' });
         const unsorted = [
             { attributes: { str: 'a', num: 3 } },
@@ -137,7 +137,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
         assert.deepEqual(sorted, expected);
     });
 
-    test('it can use a default sort key', assert => {
+    test('it can use a default sort key', function(assert) {
         const request = fakeRequest({ });
         const options: ProcessOptions = { defaultSortKey: 'num' };
         const unsorted = [
@@ -154,7 +154,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
         assert.deepEqual(sorted, expected);
     });
 
-    test('it can sort by id', assert => {
+    test('it can sort by id', function(assert) {
         const request = fakeRequest({ sort: 'id' });
         const unsorted = [
             { id: 2, attributes: { str: 'a', num: 3 } },
@@ -170,7 +170,7 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
         assert.deepEqual(sorted, expected);
     });
 
-    test('it can reverse sort by id', assert => {
+    test('it can reverse sort by id', function(assert) {
         const request = fakeRequest({ sort: '-id' });
         const unsorted = [
             { id: 2, attributes: { str: 'a', num: 3 } },

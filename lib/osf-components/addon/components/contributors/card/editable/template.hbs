@@ -3,11 +3,13 @@
     <div data-test-contributor-card-main local-class='MainSection'>
         <span local-class='CardSection'>
             <span local-class='Handle'>
-                {{#@item.handle aria-label=(t 'osf-components.contributors.reorderContributor.reorderContributor')}}
-                    <span data-test-sortable-handle={{@contributor.id}}>
-                        {{t 'osf-components.contributors.reorderContributor.dragHandle'}}
-                    </span>
-                {{/@item.handle}}
+                <span
+                    {{sortable-handle}}
+                    data-test-sortable-handle={{@contributor.id}}
+                    aria-label={{t 'osf-components.contributors.reorderContributor.reorderContributor'}}
+                >
+                    {{t 'osf-components.contributors.reorderContributor.dragHandle'}}
+                </span>
             </span>
             <img
                 data-test-contributor-gravatar

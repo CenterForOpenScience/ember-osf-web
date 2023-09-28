@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
 import Theme from 'ember-osf-web/services/theme';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 const {
     featureFlagNames: {

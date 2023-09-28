@@ -6,11 +6,11 @@
     />
     <Input
         data-test-subject-searchbox
-        @name='search'
+        placeholder={{t 'osf-components.subjects.search.placeholder'}}
+        name='search'
         @type='text'
         @value={{this.userQuery}}
-        @placeholder={{t 'osf-components.subjects.search.placeholder'}}
-        @key-up={{action (perform this.doSearch)}}
+        {{on 'keyup' (perform this.doSearch)}}
     />
 </div>
 

@@ -18,7 +18,7 @@ module('Integration | Helper | sort', hooks => {
         this.setProperties({ options });
 
         await render(
-            hbs`{{#each (sort options) as |option|}} {{option}} {{/each}}`,
+            hbs`{{#each (sort this.options) as |option|}} {{option}} {{/each}}`,
             { owner: this.engine },
         );
 

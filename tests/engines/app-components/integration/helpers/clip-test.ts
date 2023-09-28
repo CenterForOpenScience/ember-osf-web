@@ -24,7 +24,7 @@ module('Integration | Helper | clip', hooks => {
 
         for (const testCase of cases) {
             this.set('text', testCase.text);
-            await render(hbs`{{clip text 200}}`, { owner: this.engine });
+            await render(hbs`{{clip this.text 200}}`, { owner: this.engine });
             assert.dom(this.element).hasText(testCase.expected);
         }
     });

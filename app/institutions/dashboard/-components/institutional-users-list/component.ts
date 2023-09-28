@@ -23,7 +23,7 @@ export default class InstitutionalUsersList extends Component {
 
     // Private properties
     modelTaskInstance!: TaskInstance<InstitutionsDashboardModel>;
-    department?: string;
+    department = this.intl.t('institutions.dashboard.select_default');
     sort = 'user_name';
 
     reloadUserList?: () => void;
@@ -41,12 +41,6 @@ export default class InstitutionalUsersList extends Component {
             const institutionDepartments = this.departmentMetrics.map((x: InstitutionDepartmentsModel) => x.name);
             departments = departments.concat(institutionDepartments);
         }
-
-        if (!this.department) {
-            // eslint-disable-next-line ember/no-side-effects
-            this.set('department', departments[0]);
-        }
-
         return departments;
     }
 

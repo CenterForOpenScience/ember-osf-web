@@ -4,8 +4,8 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import config from 'ember-get-config';
-import moment from 'moment';
+import config from 'ember-osf-web/config/environment';
+import moment from 'moment-timezone';
 
 import Identifier from 'ember-osf-web/models/identifier';
 import LicenseModel from 'ember-osf-web/models/license';
@@ -149,7 +149,8 @@ export default class Overview extends GuidRoute {
     }
 
     @action
-    error() {
+    error(error: Error, _: unknown) {
         this.replaceWith('page-not-found', notFoundURL(this.router.currentURL));
+        captureException(error);
     }
 }

@@ -5,7 +5,7 @@ import { setupIntl, t, TestContext } from 'ember-intl/test-support';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { setupRenderingTest } from 'ember-qunit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { module, test } from 'qunit';
 
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';

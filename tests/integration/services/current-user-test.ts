@@ -1,6 +1,6 @@
 import { Request } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { TestContext } from 'ember-intl/test-support';
 import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';

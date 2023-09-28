@@ -7,9 +7,9 @@
         <Input
             local-class='search-input'
             aria-label={{t 'meetings.index.meetings-list.search'}}
+            placeholder={{t 'meetings.index.meetings-list.search'}}
             @type='text'
-            @placeholder={{t 'meetings.index.meetings-list.search'}}
-            @key-up={{perform this.searchMeetings}}
+            {{on 'keyup' (perform this.searchMeetings value='target.value')}}
         />
     </div>
 </div>

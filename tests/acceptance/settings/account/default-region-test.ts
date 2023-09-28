@@ -9,7 +9,7 @@ module('Acceptance | settings/account | default region', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('it works', async assert => {
+    test('it works', async function(assert) {
         server.create('region', { id: 'us', name: 'United States' });
         server.create('region', { id: 'au-1', name: 'Australia - Sydney' });
         const currentUser = server.create('user', 'loggedIn', 'withUsRegion');

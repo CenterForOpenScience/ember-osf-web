@@ -11,7 +11,7 @@ module(moduleName, hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('add and remove search filters', async assert => {
+    test('add and remove search filters', async function(assert) {
         // Load search page
         await visit('/search');
         // assert there are search filters after initial search
@@ -34,7 +34,7 @@ module(moduleName, hooks => {
         await click('[data-test-remove-active-filter]');
     });
 
-    test('add a search filter using the see-more modal', async assert => {
+    test('add a search filter using the see-more modal', async function(assert) {
         // Load search page
         await visit('/search');
         // assert there are no search filters

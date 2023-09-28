@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Session from 'ember-simple-auth/services/session';
 import RSVP from 'rsvp';
 

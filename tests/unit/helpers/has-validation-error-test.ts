@@ -2,7 +2,7 @@ import { hasValidationError } from 'osf-components/helpers/has-validation-error'
 import { module, test } from 'qunit';
 
 module('Unit | Helper | has-validation-error', () => {
-    test('it detects validation errors', assert => {
+    test('it detects validation errors', function(assert) {
         assert.ok(
             hasValidationError([['error message']]),
             'single error',
@@ -17,7 +17,7 @@ module('Unit | Helper | has-validation-error', () => {
         );
     });
 
-    test('it detects validation successes', assert => {
+    test('it detects validation successes', function(assert) {
         assert.notOk(
             hasValidationError([[true]]),
             'single success',

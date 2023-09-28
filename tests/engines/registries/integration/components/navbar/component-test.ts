@@ -27,11 +27,11 @@ module('Registries | Integration | Component | Navbar', hooks => {
 
         await render(hbs`
             <Navbar as |nav|>
-                <nav.buttons.primary @click={{action action2}} data-test-id="1">
+                <nav.buttons.primary @click={{action this.action2}} data-test-id="1">
                     Hello World!
                 </nav.buttons.primary>
 
-                <nav.buttons.secondary @onclick={{action action2}} data-test-id="2">
+                <nav.buttons.secondary @onclick={{action this.action2}} data-test-id="2">
                     Hello World Again!
                 </nav.buttons.secondary>
             </Navbar>

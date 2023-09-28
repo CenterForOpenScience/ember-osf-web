@@ -22,13 +22,13 @@ module('Integration | Component | new-project-navigation-modal', hooks => {
             },
         });
     });
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.set('myAction', function(val) { ... });
         await render(hbs`<NewProjectNavigationModal
             @openModal={{true}}
-            @node={{theNode}}
-            @closeModal={{action closeModal true}}
+            @node={{this.theNode}}
+            @closeModal={{action this.closeModal true}}
             @title="New project created successfully!"
         />`);
 
