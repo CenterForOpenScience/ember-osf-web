@@ -26,12 +26,12 @@ export enum ReviewsWorkFlow{
 }
 
 export enum ReviewsState {
-    APPROVED = 'approved',
-    INITIAL = 'initial',
     PENDING = 'pending',
+    ACCEPTED = 'accepted',
     REJECTED = 'rejected',
+    PENDING_WITHDRAWAL = 'pendingWithdrawal',
+    WITHDRAWAL_REJECTED = 'withdrawalRejected',
     WITHDRAWN = 'withdrawn',
-    PENDING_WITHDRAWAL = 'pending_withdrawal',
 }
 
 export enum ReviewPermissions {

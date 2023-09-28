@@ -22,26 +22,26 @@ const PRE_MODERATION = 'pre-moderation';
 const POST_MODERATION = 'post-moderation';
 
 const STATUS = Object({});
-STATUS[PENDING]= 'components.preprint-status-banner.pending';
-STATUS[ACCEPTED]= 'components.preprint-status-banner.accepted';
-STATUS[REJECTED]= 'components.preprint-status-banner.rejected';
-STATUS[PENDING_WITHDRAWAL]= 'components.preprint-status-banner.pending_withdrawal';
-STATUS[WITHDRAWAL_REJECTED]= 'components.preprint-status-banner.withdrawal_rejected';
+STATUS[PENDING]= 'preprints.detail.status_banner.pending';
+STATUS[ACCEPTED]= 'preprints.detail.status_banner.accepted';
+STATUS[REJECTED]= 'preprints.detail.status_banner.rejected';
+STATUS[PENDING_WITHDRAWAL]= 'preprints.detail.status_banner.pending_withdrawal';
+STATUS[WITHDRAWAL_REJECTED]= 'preprints.detail.status_banner.withdrawal_rejected';
 
 const MESSAGE = Object({});
-MESSAGE[PRE_MODERATION] =  'components.preprint-status-banner.message.pending_pre';
-MESSAGE[POST_MODERATION] =  'components.preprint-status-banner.message.pending_post';
-MESSAGE[ACCEPTED] =  'components.preprint-status-banner.message.accepted';
-MESSAGE[REJECTED] =  'components.preprint-status-banner.message.rejected';
-MESSAGE[PENDING_WITHDRAWAL] =  'components.preprint-status-banner.message.pending_withdrawal';
-MESSAGE[WITHDRAWAL_REJECTED] =  'components.preprint-status-banner.message.withdrawal_rejected';
-MESSAGE[WITHDRAWN] =  'components.preprint-status-banner.message.withdrawn';
-MESSAGE[UNKNOWN] =  'components.preprint-status-banner.message.withdrawn';
+MESSAGE[PRE_MODERATION] =  'preprints.detail.status_banner.message.pending_pre';
+MESSAGE[POST_MODERATION] =  'preprints.detail.status_banner.message.pending_post';
+MESSAGE[ACCEPTED] =  'preprints.detail.status_banner.message.accepted';
+MESSAGE[REJECTED] =  'preprints.detail.status_banner.message.rejected';
+MESSAGE[PENDING_WITHDRAWAL] =  'preprints.detail.status_banner.message.pending_withdrawal';
+MESSAGE[WITHDRAWAL_REJECTED] =  'preprints.detail.status_banner.message.withdrawal_rejected';
+MESSAGE[WITHDRAWN] =  'preprints.detail.status_banner.message.withdrawn';
+MESSAGE[UNKNOWN] =  'preprints.detail.status_banner.message.withdrawn';
 
 const WORKFLOW = Object({});
-WORKFLOW[PRE_MODERATION] = 'global.pre_moderation';
-WORKFLOW[POST_MODERATION] = 'global.post_moderation';
-WORKFLOW[UNKNOWN] = 'global.post_moderation';
+WORKFLOW[PRE_MODERATION] = 'preprints.detail.status_banner.pre_moderation';
+WORKFLOW[POST_MODERATION] = 'preprints.detail.status_banner.post_moderation';
+WORKFLOW[UNKNOWN] = 'preprints.detail.status_banner.post_moderation';
 
 const CLASS_NAMES = Object({});
 CLASS_NAMES[PRE_MODERATION] = 'preprint-status-pending-pre';
@@ -54,13 +54,13 @@ CLASS_NAMES[WITHDRAWN] =  'preprint-status-withdrawn';
 CLASS_NAMES[UNKNOWN] =  'preprint-status-withdrawn';
 
 const ICONS = Object({});
-ICONS[PENDING] = 'fa-hourglass-o';
-ICONS[ACCEPTED] = 'fa-check-circle-o';
-ICONS[REJECTED] = 'fa-times-circle-o';
-ICONS[PENDING_WITHDRAWAL] = 'fa-hourglass-o';
-ICONS[WITHDRAWAL_REJECTED] = 'fa-times-circle-o';
-ICONS[WITHDRAWN] = 'fa-exclamation-triangle';
-ICONS[UNKNOWN] = 'fa-exclamation-triangle';
+ICONS[PENDING] = 'hourglass';
+ICONS[ACCEPTED] = 'check-circle';
+ICONS[REJECTED] = 'times-circle';
+ICONS[PENDING_WITHDRAWAL] = 'hourglass';
+ICONS[WITHDRAWAL_REJECTED] = 'times-circle';
+ICONS[WITHDRAWN] = 'exclamation-triangle';
+ICONS[UNKNOWN] = 'exclamation-triangle';
 
 interface InputArgs {
     submission: PreprintModel;
@@ -80,9 +80,9 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     isWithdrawalRejected = false;
 
     // translations
-    labelModeratorFeedback = 'components.preprint-status-banner.feedback.moderator_feedback';
-    moderator = 'components.preprint-status-banner.feedback.moderator';
-    baseMessage = 'components.preprint-status-banner.message.base';
+    labelModeratorFeedback = 'preprints.detail.status_banner.feedback.moderator_feedback';
+    moderator = 'preprints.detail.status_banner.feedback.moderator';
+    baseMessage = 'preprints.detail.status_banner.message.base';
 
     classNames = ['preprint-status-component'];
     classNameBindings = ['getClassName'];
@@ -103,7 +103,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         taskFor(this.loadPreprintState).perform();
     }
 
-    public getClassName(): string {
+    public get getClassName(): string {
         if (this.isPendingWithdrawal) {
             return CLASS_NAMES['PENDING_WITHDRAWAL'];
         } else if (this.isWithdrawn) {
@@ -119,19 +119,20 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
 
     public get bannerContent(): string {
         if (this.isPendingWithdrawal) {
-            return this.intl.t(this.statusExplanation, { documentType: this.provider?.documentType });
+            return this.intl.t(this.statusExplanation, { documentType: this.provider?.documentType.singular });
         } else if (this.isWithdrawn) {
-            return this.intl.t(MESSAGE[WITHDRAWN], { documentType: this.provider?.documentType });
+            return this.intl.t(MESSAGE[WITHDRAWN], { documentType: this.provider?.documentType.singular });
         } else if (this.isWithdrawalRejected) {
-            return this.intl.t(MESSAGE[WITHDRAWAL_REJECTED], { documentType: this.provider?.documentType });
+            return this.intl.t(MESSAGE[WITHDRAWAL_REJECTED], { documentType: this.provider?.documentType.singular });
         } else {
             const tName = this.theme.isProvider ?
                 this.theme.provider?.name :
-                this.intl.t('global.brand_name');
+                this.intl.t('preprints.detail.status_banner.brand_name');
             const tWorkflow = this.intl.t(this.workflow);
             const tStatusExplanation = this.intl.t(this.statusExplanation);
             // eslint-disable-next-line max-len
-            return `${this.intl.t(this.baseMessage), { name: tName, reviewsWorkflow: tWorkflow, documentType: this.provider?.documentType }} ${tStatusExplanation}`;
+            const base = (this.intl.t(this.baseMessage, { name: tName, reviewsWorkflow: tWorkflow, documentType: this.provider?.documentType.singular }));
+            return `${base} ${tStatusExplanation}`;
         }
     }
 
@@ -140,7 +141,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             return '';
         }
         // eslint-disable-next-line max-len
-        return this.intl.t('components.preprint-status-banner.feedback.base', { documentType: this.provider?.documentType });
+        return this.intl.t('preprints.detail.status_banner.feedback.base', { documentType: this.provider?.documentType.singular });
     }
 
     private get statusExplanation(): string {
