@@ -13,11 +13,20 @@ export default class Overview extends Controller {
     registration?: Registration;
 
     @computed('registration.{root,isRoot}')
-    get root() {
-        if (!this.registration || !this.registration.isRoot) {
+    get rootTitle() {
+        if (!this.registration || this.registration.isRoot) {
             return undefined;
         }
+        const rootTitle = this.registration.root.get('title');
+        return rootTitle;
+    }
 
-        return this.registration.belongsTo('root').value() as Registration;
+    @computed('registration.{root,isRoot}')
+    get rootId() {
+        if (!this.registration || this.registration.isRoot) {
+            return undefined;
+        }
+        const rootId = this.registration.root.get('id');
+        return rootId;
     }
 }

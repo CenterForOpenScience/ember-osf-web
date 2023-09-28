@@ -1,14 +1,14 @@
-{{#if this.registration.isRoot}}
+{{#unless this.registration.isRoot}}
     <div data-test-root-link local-class='AboutComponent'>
         {{t 'registries.overview.component_of'}}
         <OsfLink
             @route='resolve-guid'
-            @models={{array this.root.id}}
+            @models={{array this.rootId}}
         >
-            {{this.root.title}}
+            {{this.rootTitle}}
         </OsfLink>
     </div>
-{{/if}}
+{{/unless}}
 
 {{#if this.registration}}
     <Overview::-Components::DiffManager
