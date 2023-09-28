@@ -318,6 +318,7 @@
 .object-type-filter-link {
     font-size: 1.3em;
     padding: 18px 15px;
+    color: $color-link-dark;
 
     &:global(.active),
     &:hover {
