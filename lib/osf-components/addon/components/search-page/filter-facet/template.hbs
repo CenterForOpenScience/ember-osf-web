@@ -5,7 +5,7 @@
         local-class='facet-wrapper'
         ...attributes
     >
-        {{#let (unique-id @property.displayLabel) as |facetElementId|}}
+        {{#let (unique-id @property.propertyPathKey) as |facetElementId|}}
             <Button
                 data-analytics-name='Filter facet toggle {{@property.displayLabel}}'
                 data-test-filter-facet-toggle={{@property.displayLabel}}
