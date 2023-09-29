@@ -43,44 +43,6 @@ $color-border-light: #ddd;
     }
 }
 
-.preprint-status-accepted {
-    background-color: $color-alert-bg-success;
-    border: 1px solid $color-alert-border-success;
-    color: $color-alert-text-success;
-
-    .status-icon {
-        -webkit-text-stroke: 0;
-        font-size: 16px;
-    }
-}
-
-.preprint-status-rejected {
-    background-color: $color-alert-bg-danger;
-    border: 1px solid $color-alert-border-danger;
-    color: $color-alert-text-danger;
-
-    .status-icon {
-        -webkit-text-stroke: 0;
-        font-size: 16px;
-    }
-}
-
-.preprint-status-withdrawn {
-    background-color: $color-alert-bg-warning;
-    border: 1px solid $color-alert-border-warning;
-    color: $color-alert-text-warning;
-
-    .status-icon {
-        -webkit-text-stroke: 1px $color-alert-text-warning;
-        font-size: 14px;
-    }
-}
-
-.preprint-status-component {
-    margin-top: -15px;
-    margin-bottom: 15px;
-}
-
 .preprint-banner-status-container {
     height: 75px;
     width: 100%;
@@ -89,65 +51,107 @@ $color-border-light: #ddd;
     align-items: center;
     justify-content: center;
     font-size: 16px;
-    margin-bottom: 15px;
 
-    .display-container {
+    .preprint-banner-status {
+        height: 75px;
+        width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        padding: 10px;
+        font-size: 16px;
 
-        strong {
-            display: inline-block;  // required for the text-transform
+        &.preprint-status-accepted {
+            background-color: $color-alert-bg-success;
+            border: 1px solid $color-alert-border-success;
+            color: $color-alert-text-success;
+        
+            .status-icon {
+                -webkit-text-stroke: 0;
+                font-size: 16px;
+            }
         }
 
-        strong::first-letter {
-            text-transform: uppercase;
+        &.preprint-status-rejected {
+            background-color: $color-alert-bg-danger;
+            border: 1px solid $color-alert-border-danger;
+            color: $color-alert-text-danger;
+
+            .status-icon {
+                -webkit-text-stroke: 0;
+                font-size: 16px;
+            }
         }
 
-        .reviewer-feedback {
-            margin-left: auto;
-            padding-right: 15px;
+        &.preprint-status-withdrawn {
+            background-color: $color-alert-bg-warning;
+            border: 1px solid $color-alert-border-warning;
+            color: $color-alert-text-warning;
 
-            .dropdown-menu {
-                font-size: 62.5%;
-                background-color: $color-bg-color-light;
-                color: $color-bg-color-grey;
-                border: 1px solid $color-border-light;
-                width: 445px;
-                left: auto;
-                right: 15px;
-                margin-top: 0;
-                z-index: 98;  // prevent dropdown from scrolling over navbar
+            .status-icon {
+                -webkit-text-stroke: 1px $color-alert-text-warning;
+                font-size: 14px;
+            }
+        }
 
-                .status {
-                    font-size: 1.4em;
-                }
+        .display-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
 
-                .moderator-comment {
-                    font-size: 1.8em;
-                    background-color: $white;
-                    padding: 30px 15px;
+            strong {
+                display: inline-block;  // required for the text-transform
+            }
 
-                    p {
-                        padding-bottom: 5px;
+            strong::first-letter {
+                text-transform: uppercase;
+            }
+
+            .reviewer-feedback {
+                margin-left: auto;
+                padding-right: 15px;
+
+                .dropdown-menu {
+                    font-size: 62.5%;
+                    background-color: $color-bg-color-light;
+                    color: $color-bg-color-grey;
+                    border: 1px solid $color-border-light;
+                    width: 445px;
+                    left: auto;
+                    right: 15px;
+                    margin-top: 0;
+                    z-index: 98;  // prevent dropdown from scrolling over navbar
+
+                    .status {
+                        font-size: 1.4em;
                     }
-                }
 
-                .feedback-header {
-                    font-size: 2em;
-                    border-bottom: 1px solid $color-border-light;
-                    padding: 5px 15px 8px;
+                    .moderator-comment {
+                        font-size: 1.8em;
+                        background-color: $color-text-white;
+                        padding: 30px 15px;
 
-                    a {
-                        color: #333;
-                        float: right;
+                        p {
+                            padding-bottom: 5px;
+                        }
                     }
-                }
 
-                .feedback-footer {
-                    border-top: 1px solid $color-border-light;
+                    .feedback-header {
+                        font-size: 2em;
+                        border-bottom: 1px solid $color-border-light;
+                        padding: 5px 15px 8px;
+
+                        a {
+                            color: #333;
+                            float: right;
+                        }
+                    }
+
+                    .feedback-footer {
+                        border-top: 1px solid $color-border-light;
+                    }
                 }
             }
         }

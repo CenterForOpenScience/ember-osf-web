@@ -1,48 +1,58 @@
 <div local-class='preprint-banner-status-container'>
-    <div local-class='display-container'>
-        {{#if (or this.submission.provider.isPending this.loadPreprintState.isRunning) }}
-            {{ t 'preprints.detail.status_banner.loading' }}
-        {{else}}
-            {{#if this.isWithdrawn}}
-                <div>
-                    <FaIcon @icon='{{this.icon}}' @prefix='far' local-class='status-icon' aria-hidden='true'/>
-                    <span local-class='banner-content'>{{this.bannerContent}}</span>
-                </div>
-            {{else}}
-                <div>
-                    <FaIcon @icon='{{this.icon}}' @prefix='far' local-class='status-icon' aria-hidden='true'/>
-                    <strong>{{t this.status }}:</strong>
-                    <span>{{this.bannerContent}}</span>
-                </div>
-                {{#if (and this.reviewerComment (not this.submission.provider.reviewsCommentsPrivate))}}
-                    <div local-class='dropdown reviewer-feedback'>
-                        <button local-class='btn btn-default dropdown-toggle feedback-btn' type='button' data-toggle='dropdown'>
-                            {{t this.labelModeratorFeedback}} 
-                            <FaIcon @icon='caret-down' @prefix='far' aria-hidden='true'/>
-                        </button>
-                        <div local-class='dropdown-menu'>
-                            <div local-class='feedback-header'>
-                                <span id='moderator-feedback'>{{t this.labelModeratorFeedback}}</span>
-                                <a role='button' aria-label={{ t 'preprints.detail.status_banner.close' }} href='#' local-class='dropdown-toggle' data-toggle='dropdown'>
-                                    <FaIcon @icon='times' @prefix='far' aria-hidden='true'/>
-                                </a>
-                            </div>
-                            <div local-class='status p-md'>
-                                <strong>{{t this.status}}</strong>
-                                <div>{{this.feedbackBaseMessage}} {{t this.statusExplanation documentType=this.submission.provider.documentType}}</div>
-                            </div>
-                            <div local-class='moderator-comment' aria-labelledby='moderator-feedback'>
-                                <p>{{this.reviewerComment}}</p>
-                                {{#unless this.submission.provider.reviewsCommentsAnonymous}}
-                                    <div>{{this.reviewerName}}</div>
-                                {{/unless}}
-                                {{if this.theme.isProvider this.theme.provider.name (t 'preprints.detail.status_banner.brand_name')}} {{t this.moderator}}
-                            </div>
-                            <div local-class='feedback-footer p-md'></div>
-                        </div>
+    {{#if (or this.submission.provider?.isPending this.loadPreprintState.isRunning) }}
+        {{ t 'preprints.detail.status_banner.loading' }}
+    {{else}}
+        <div local-class='preprint-banner-status {{this.getClassName}}'>
+            <div local-class='display-container'>
+                {{!<u>{{this.getClassName - after load</u>}}
+                {{#if this.isWithdrawn}}
+                    <div>
+                        <FaIcon @icon='{{this.icon}}' @prefix='fas' local-class='status-icon' aria-hidden='true'/>
+                        <span local-class='banner-content'>{{this.bannerContent}}</span>
                     </div>
+                {{else}}
+                    <div>
+                        <FaIcon @icon='{{this.icon}}' @prefix='far' local-class='status-icon' aria-hidden='true'/>
+                        <strong>{{t this.status }}:</strong>
+                        <span>{{this.bannerContent}}</span>
+                    </div>
+                    {{#if (and this.reviewerComment (not this.submission.provider.reviewsCommentsPrivate))}}
+                        {{!<u>comments</u>}}
+                        <div local-class='dropdown reviewer-feedback'>
+                            <button local-class='btn btn-default dropdown-toggle feedback-btn' type='button' data-toggle='dropdown'>
+                                {{t this.labelModeratorFeedback}} 
+                                <FaIcon @icon='caret-down' @prefix='far' aria-hidden='true'/>
+                            </button>
+                            <div local-class='dropdown-menu'>
+                                <div local-class='feedback-header'>
+                                    <span id='moderator-feedback'>{{t this.labelModeratorFeedback}}</span>
+                                    <a role='button' aria-label={{ t 'preprints.detail.status_banner.close' }} href='#' local-class='dropdown-toggle' data-toggle='dropdown'>
+                                        <FaIcon @icon='times' @prefix='far' aria-hidden='true'/>
+                                    </a>
+                                </div>
+                                <div local-class='status p-md'>
+                                    <strong>{{t this.status}}</strong>
+                                    <div>{{this.feedbackBaseMessage}} {{t this.statusExplanation documentType=this.submission.provider.documentType}}</div>
+                                </div>
+                                <div local-class='moderator-comment' aria-labelledby='moderator-feedback'>
+                                    <p>{{this.reviewerComment}}</p>
+                                    {{#unless this.submission.provider.reviewsCommentsAnonymous}}
+                                        {{!<u>reviewer name</u>}}
+                                        <div>{{this.reviewerName}}</div>
+                                    {{/unless}}
+                                    {{!#if this.theme.isProvider}}
+                                    {{!<u>isProvider</u>}}
+                                    {{!else}}
+                                    {{!<u>not isProvider</u>}}
+                                    {{!/if}}
+                                    {{if this.theme.isProvider this.theme.provider.name (t 'preprints.detail.status_banner.brand_name')}} {{t this.moderator}}
+                                </div>
+                                <div local-class='feedback-footer p-md'></div>
+                            </div>
+                        </div>
+                    {{/if}}
                 {{/if}}
-            {{/if}}
-        {{/if}}
-    </div>
+            </div>
+        </div>
+    {{/if}}
 </div>

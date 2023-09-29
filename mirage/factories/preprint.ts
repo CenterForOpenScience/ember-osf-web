@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, Trait, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import PreprintModel from 'ember-osf-web/models/preprint';
@@ -15,8 +15,12 @@ function buildLicenseText(): string {
     return text;
 }
 
+export interface PreprintTraits {
+    pendingWithdrawal: Trait;
+    rejectedWithdrawal: Trait;
+}
 
-export default Factory.extend<PreprintModel>({
+export default Factory.extend<PreprintModel & PreprintTraits>({
     id: guid('preprint'),
     title: faker.lorem.sentence(),
 
@@ -48,8 +52,6 @@ export default Factory.extend<PreprintModel>({
     },
 
     citation: null,
-
-    isPublished: true,
 
     apiMeta: {
         metrics: {
@@ -122,6 +124,24 @@ export default Factory.extend<PreprintModel>({
             node,
         });
     },
+
+    pendingWithdrawal: trait<PreprintModel>({
+        afterCreate(newPreprint, server) {
+            const preprintRequest = server.create('preprintRequest', {
+                target: newPreprint,
+            }, 'pending');
+            newPreprint.update({ requests: [preprintRequest ]});
+        },
+    }),
+
+    rejectedWithdrawal: trait<PreprintModel>({
+        afterCreate(newPreprint, server) {
+            const preprintRequest = server.create('preprintRequest', {
+                target: newPreprint,
+            }, 'reject');
+            newPreprint.update({ requests: [preprintRequest ]});
+        },
+    }),
 
 });
 

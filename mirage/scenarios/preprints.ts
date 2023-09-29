@@ -107,6 +107,24 @@ function buildOSF(
         dateWithdrawn: new Date(),
     });
 
+    const pendingWithdrawalPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-pending-withdrawal',
+        title: 'Preprint Non-Admin, Not Published and Pending Withdrawal',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        isPublished: false,
+    }, 'pendingWithdrawal');
+
+    const rejectedWithdrawalPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-rejected-withdrawal',
+        title: 'Preprint Non-Admin, Not Published and Rejected Withdrawal',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        isPublished: false,
+    }, 'rejectedWithdrawal');
+
     const subjects = server.createList('subject', 7);
 
     osf.update({
@@ -126,6 +144,8 @@ function buildOSF(
             privatePreprint,
             notPublishedPreprint,
             withdrawnPreprint,
+            pendingWithdrawalPreprint,
+            rejectedWithdrawalPreprint,
         ],
         description: 'This is the description for osf',
     });
