@@ -1859,6 +1859,8 @@ routes:
         email: Email
 osf-components:
     search-result-card:
+        show_additional_metadata: 'Show additional metadata'
+        hide_additional_metadata: 'Hide additional metadata'
         language: Language
         url: URL
         resource_type: Resource type
