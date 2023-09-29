@@ -5,6 +5,16 @@ import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-ac
 
 import OsfModel from './osf-model';
 
+export enum PreprintRequestType{
+    WITHDRAWAL = 'withdrawal',
+}
+
+export enum PreprintRequestMachineState {
+    PENDING = 'pending',
+    ACCEPTED = 'accepted',
+    REJECTED = 'rejected',
+}
+
 export default class PreprintRequestModel extends OsfModel {
     @attr('string') comment!: String;
     @attr('date') dateLastTransitioned!: Date;

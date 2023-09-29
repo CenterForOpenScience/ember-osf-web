@@ -110,11 +110,12 @@ export default class PrePrintsDetailController extends Controller {
     }
 
     showStatusBanner(): boolean {
+        // console.log('okay');
         return (
             this.model.provider.reviewsWorkflow
             && this.model.preprint.public
             && this.userIsContrib
-            && this.model.preprint.reviewsState !== ReviewsState.INITIAL
+            && this.model.preprint.reviewsState !== ReviewsState.PENDING
         ) || this.isPendingWithdrawal;
     }
 

@@ -14,7 +14,7 @@ const UNKNOWN = 'unknown';
 const PENDING = 'pending';
 const ACCEPTED = 'accepted';
 const REJECTED = 'rejected';
-const PENDING_WITHDRAWAL = 'pendingWithdrawal';
+const PENDING_WITHDRAWAL = 'endingWithdrawal';
 const WITHDRAWAL_REJECTED = 'withdrawalRejected';
 const WITHDRAWN = 'withdrawn';
 
@@ -64,7 +64,6 @@ ICONS[UNKNOWN] = 'exclamation-triangle';
 
 interface InputArgs {
     submission: PreprintModel;
-    isWithdrawn: boolean;
 }
 
 export default class PreprintStatusBanner extends Component<InputArgs>{
@@ -72,7 +71,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     @service theme!: Theme;
 
     submission = this.args.submission;
-    isWithdrawn = this.args.isWithdrawn;
+    isWithdrawn = this.args.submission.isWithdrawn;
 
     provider: PreprintProviderModel | undefined;
 
@@ -83,9 +82,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     labelModeratorFeedback = 'preprints.detail.status_banner.feedback.moderator_feedback';
     moderator = 'preprints.detail.status_banner.feedback.moderator';
     baseMessage = 'preprints.detail.status_banner.message.base';
-
-    classNames = ['preprint-status-component'];
-    classNameBindings = ['getClassName'];
 
     latestAction: PreprintRequestActionModel | undefined;
 
@@ -105,12 +101,13 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
 
     public get getClassName(): string {
         if (this.isPendingWithdrawal) {
-            return CLASS_NAMES['PENDING_WITHDRAWAL'];
+            return CLASS_NAMES[PENDING_WITHDRAWAL];
         } else if (this.isWithdrawn) {
-            return CLASS_NAMES['WITHDRAWN'];
+            return CLASS_NAMES[WITHDRAWN];
         } else if (this.isWithdrawalRejected) {
-            return CLASS_NAMES['WITHDRAWAL_REJECTED'];
+            return CLASS_NAMES[WITHDRAWAL_REJECTED];
         } else {
+            // console.log(5, this.submission.reviewsState === PENDING);
             return this.submission.reviewsState === PENDING ?
                 CLASS_NAMES[this.provider?.reviewsWorkflow || UNKNOWN] :
                 CLASS_NAMES[this.submission.reviewsState];
@@ -125,6 +122,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         } else if (this.isWithdrawalRejected) {
             return this.intl.t(MESSAGE[WITHDRAWAL_REJECTED], { documentType: this.provider?.documentType.singular });
         } else {
+            // console.log(25, this.theme.isProvider === true);
             const tName = this.theme.isProvider ?
                 this.theme.provider?.name :
                 this.intl.t('preprints.detail.status_banner.brand_name');
@@ -136,10 +134,11 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         }
     }
 
-    feedbackBaseMessage(): string {
+    public get feedbackBaseMessage(): string {
         if (this.isWithdrawalRejected) {
             return '';
         }
+        // console.log(33);
         // eslint-disable-next-line max-len
         return this.intl.t('preprints.detail.status_banner.feedback.base', { documentType: this.provider?.documentType.singular });
     }
@@ -150,6 +149,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         } else if (this.isWithdrawalRejected) {
             return MESSAGE[WITHDRAWAL_REJECTED];
         } else {
+            // console.log(44, this.submission.reviewsState === PENDING);
             return this.submission.reviewsState === PENDING ?
                 MESSAGE[this.provider?.reviewsWorkflow || UNKNOWN ] :
                 MESSAGE[this.submission.reviewsState];
@@ -197,6 +197,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             const requestActions = await withdrawalRequest.queryHasMany('actions', {
                 sort: '-modified',
             });
+
             const latestRequestAction = requestActions.firstObject;
             if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
                 this.isWithdrawalRejected = true;
@@ -208,9 +209,12 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             }
         }
         if (this.provider.reviewsCommentsPrivate) {
+            // console.log(88);
             return;
         }
+        // console.log(89);
         this.latestAction = latestSubmissionAction;
+        // console.log(90);
     }
 
 }

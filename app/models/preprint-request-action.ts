@@ -4,6 +4,13 @@ import UserModel from 'ember-osf-web/models/user';
 
 import OsfModel from './osf-model';
 
+
+export enum PreprintRequestActionTriggerEnum {
+    SUBMIT= 'submit',
+    ACCEPT = 'accept',
+    REJECT = 'reject',
+}
+
 export default class PreprintRequestActionModel extends OsfModel {
     @attr('string') comment!: String;
     @attr('string') actionTrigger!: String;

@@ -350,8 +350,8 @@ export default function(this: Server) {
     /**
      * Preprint Request Actions
      */
-    osfResource(this, 'requests');
-    osfNestedResource(this, 'requests', 'actions', {
+    osfResource(this, 'preprint-request', {path: '/requests'});
+    osfNestedResource(this, 'preprint-request', 'actions', {
         path: '/requests/:parentID/actions',
         relatedModelName: 'preprint-request-action',
     });
