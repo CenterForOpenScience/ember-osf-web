@@ -11,6 +11,7 @@ import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Media from 'ember-responsive';
 
+import config from 'ember-osf-web/config/environment';
 import { ShareMoreThanTenThousand } from 'ember-osf-web/models/index-card-search';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
@@ -66,6 +67,7 @@ interface SearchArgs {
     activeFilters: Filter[];
 }
 
+const osfURL = config.OSF.url;
 const searchDebounceTime = 100;
 
 export default class SearchPage extends Component<SearchArgs> {
@@ -219,6 +221,10 @@ export default class SearchPage extends Component<SearchArgs> {
                 resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
             }
             filterQueryObject['resourceType'] = resourceTypeFilter;
+            // Add the accessService if we are not serving locally
+            if (!osfURL.includes('localhost')) {
+                filterQueryObject['accessService'] = osfURL; // Only fetch items from the current OSF environment
+            }
             filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
