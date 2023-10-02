@@ -12,6 +12,7 @@ import { action } from '@ember/object';
 import Media from 'ember-responsive';
 
 import { ShareMoreThanTenThousand } from 'ember-osf-web/models/index-card-search';
+import InstitutionModel from 'ember-osf-web/models/institution';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
 import RelatedPropertyPathModel, { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
@@ -61,6 +62,7 @@ interface SearchArgs {
     resourceType?: ResourceTypeFilterValue;
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
+    institution?: InstitutionModel;
     showResourceTypeFilter: boolean;
     page: string;
     activeFilters: Filter[];
@@ -155,7 +157,7 @@ export default class SearchPage extends Component<SearchArgs> {
     }
 
     // Resource type
-    resourceTypeOptions: ResourceTypeOption[] = [
+    defaultResourceTypeOptions: ResourceTypeOption[] = [
         {
             display: this.intl.t('search.resource-type.all'),
             value: null,
@@ -181,6 +183,9 @@ export default class SearchPage extends Component<SearchArgs> {
             value: ResourceTypeFilterValue.Users,
         },
     ];
+
+    resourceTypeOptions = this.args.institution ? this.defaultResourceTypeOptions.slice(1)
+        : this.defaultResourceTypeOptions;
 
     // Sort
     sortOptions: SortOption[] = [
@@ -232,7 +237,8 @@ export default class SearchPage extends Component<SearchArgs> {
             this.booleanFilters = searchResult.relatedProperties
                 .filterBy('suggestedFilterOperator', SuggestedFilterOperators.IsPresent);
             this.relatedProperties = searchResult.relatedProperties.filter(
-                property => property.suggestedFilterOperator !== SuggestedFilterOperators.IsPresent, // AnyOf or AtDate
+                (property: RelatedPropertyPathModel) =>
+                    property.suggestedFilterOperator !== SuggestedFilterOperators.IsPresent, // AnyOf or AtDate
             );
             this.firstPageCursor = searchResult.firstPageCursor;
             this.nextPageCursor = searchResult.nextPageCursor;

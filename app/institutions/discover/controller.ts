@@ -10,7 +10,7 @@ export default class InstitutionDiscoverController extends Controller {
 
     @tracked q?: string = '';
     @tracked sort?: string =  '-relevance';
-    @tracked resourceType?: ResourceTypeFilterValue | null = null;
+    @tracked resourceType: ResourceTypeFilterValue = ResourceTypeFilterValue.Projects;
     @tracked activeFilters?: Filter[] = [];
 
     queryParams = ['q', 'sort', 'resourceType', 'activeFilters'];
@@ -26,7 +26,7 @@ export default class InstitutionDiscoverController extends Controller {
     onSearch(queryOptions: OnSearchParams) {
         this.q = queryOptions.cardSearchText;
         this.sort = queryOptions.sort;
-        this.resourceType = queryOptions.resourceType;
+        this.resourceType = queryOptions.resourceType as ResourceTypeFilterValue;
         this.activeFilters = queryOptions.activeFilters;
     }
 }
