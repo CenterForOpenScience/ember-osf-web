@@ -17,8 +17,20 @@ export default class InstitutionDiscoverController extends Controller {
 
     get defaultQueryOptions() {
         const identifiers = this.model.iris.join(',');
+        let key = 'affiliation';
+        const { resourceType } = this;
+        switch (resourceType) {
+        case ResourceTypeFilterValue.Preprints:
+            key = 'creator.affiliation';
+            break;
+        case ResourceTypeFilterValue.Files:
+            key = 'isContainedby.affiliation';
+            break;
+        default:
+            break;
+        }
         return {
-            'affiliation,creator.affiliation,isContainedby.affiliation': identifiers,
+            [key]: identifiers,
         };
     }
 

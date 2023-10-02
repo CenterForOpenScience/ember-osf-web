@@ -206,6 +206,9 @@ export default class SearchPage extends Component<SearchArgs> {
         try {
             const cardSearchText = this.cardSearchText;
             const { page, sort, activeFilters, resourceType } = this;
+            if (this.args.onSearch) {
+                this.args.onSearch({cardSearchText, sort, resourceType, activeFilters});
+            }
             let filterQueryObject = activeFilters.reduce((acc, filter) => {
                 // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
                 if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
@@ -246,9 +249,6 @@ export default class SearchPage extends Component<SearchArgs> {
             this.searchResults = searchResult.searchResultPage.toArray();
             this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
                 searchResult.totalResultCount;
-            if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType, activeFilters});
-            }
         } catch (e) {
             this.toast.error(e);
         }
