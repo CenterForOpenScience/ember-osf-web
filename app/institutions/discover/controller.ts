@@ -16,7 +16,7 @@ export default class InstitutionDiscoverController extends Controller {
     queryParams = ['q', 'sort', 'resourceType', 'activeFilters'];
 
     get defaultQueryOptions() {
-        const identifiers = [this.model.rorIri, this.model.iri, this.model.links.html].filter(Boolean).join(',');
+        const identifiers = this.model.iris.join(',');
         return {
             'affiliation,creator.affiliation,isContainedby.affiliation': identifiers,
         };

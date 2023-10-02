@@ -33,6 +33,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('fixstring') rorIri!: string;
     // identifier_domain in the admin app
     @attr('fixstring') iri!: string;
+    @attr('fixstringarray') iris!: string[];
 
     // TODO Might want to replace calls to `users` with `institutionUsers.user`?
     @hasMany('user', { inverse: 'institutions' })
