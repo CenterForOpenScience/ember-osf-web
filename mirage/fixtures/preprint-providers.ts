@@ -33,6 +33,8 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         preprintWord: 'preprint',
         assets: randomAssets(3),
         footerLinks: 'fake footer links',
+        reviewsCommentsPrivate: true,
+        reviewsWorkflow: ReviewsWorkFlow.PRE_MODERATION,
     },
     {
         id: 'paperxiv',
@@ -67,6 +69,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         name: 'AgriXiv',
         preprintWord: 'preprint',
         assets: randomAssets(8),
+        reviewsWorkflow: ReviewsWorkFlow.POST_MODERATION,
     },
     {
         id: 'biohackrxiv',

@@ -4,7 +4,6 @@
     {{else}}
         <div local-class='preprint-banner-status {{this.getClassName}}'>
             <div local-class='display-container'>
-                {{!<u>{{this.getClassName - after load</u>}}
                 {{#if this.isWithdrawn}}
                     <div>
                         <FaIcon @icon='{{this.icon}}' @prefix='fas' local-class='status-icon' aria-hidden='true'/>
@@ -16,39 +15,43 @@
                         <strong>{{t this.status }}:</strong>
                         <span>{{this.bannerContent}}</span>
                     </div>
+                    {{this.reviewerComment}}
+                    {{this.submission.provider.reviewsCommentsPrivate}}
                     {{#if (and this.reviewerComment (not this.submission.provider.reviewsCommentsPrivate))}}
-                        {{!<u>comments</u>}}
-                        <div local-class='dropdown reviewer-feedback'>
-                            <button local-class='btn btn-default dropdown-toggle feedback-btn' type='button' data-toggle='dropdown'>
+                        <div local-class='reviewer-feedback'>
+                            <Button
+                                data-test-view-comments
+                                data-analytics-name='View comments'
+                                @type='default'
+                                {{on 'click' (action (mut this.displayComment) (not this.displayComment))}}
+                            >
                                 {{t this.labelModeratorFeedback}} 
-                                <FaIcon @icon='caret-down' @prefix='far' aria-hidden='true'/>
-                            </button>
-                            <div local-class='dropdown-menu'>
-                                <div local-class='feedback-header'>
-                                    <span id='moderator-feedback'>{{t this.labelModeratorFeedback}}</span>
-                                    <a role='button' aria-label={{ t 'preprints.detail.status_banner.close' }} href='#' local-class='dropdown-toggle' data-toggle='dropdown'>
-                                        <FaIcon @icon='times' @prefix='far' aria-hidden='true'/>
-                                    </a>
-                                </div>
-                                <div local-class='status p-md'>
-                                    <strong>{{t this.status}}</strong>
-                                    <div>{{this.feedbackBaseMessage}} {{t this.statusExplanation documentType=this.submission.provider.documentType}}</div>
-                                </div>
-                                <div local-class='moderator-comment' aria-labelledby='moderator-feedback'>
-                                    <p>{{this.reviewerComment}}</p>
-                                    {{#unless this.submission.provider.reviewsCommentsAnonymous}}
-                                        {{!<u>reviewer name</u>}}
-                                        <div>{{this.reviewerName}}</div>
-                                    {{/unless}}
-                                    {{!#if this.theme.isProvider}}
-                                    {{!<u>isProvider</u>}}
-                                    {{!else}}
-                                    {{!<u>not isProvider</u>}}
-                                    {{!/if}}
-                                    {{if this.theme.isProvider this.theme.provider.name (t 'preprints.detail.status_banner.brand_name')}} {{t this.moderator}}
-                                </div>
-                                <div local-class='feedback-footer p-md'></div>
-                            </div>
+                                <FaIcon @icon='caret-down' @prefix='fas' aria-hidden='true'/>
+                            </Button>
+                            <OsfDialog
+                                @closeOnOutsideClick={{true}}
+                                @isOpen={{this.displayComment}}
+                                @onClose={{action (mut this.displayComment) false}}
+                                local-class='status-banner-dialog'
+                                as |dialog|
+                            >
+                                <dialog.heading>
+                                    <h3>{{t this.labelModeratorFeedback }}</h3>
+                                </dialog.heading>
+                                <dialog.main>
+                                    <div local-class='status'>
+                                        <strong>{{t this.status}}</strong>
+                                        <div>{{this.feedbackBaseMessage}} {{t this.statusExplanation documentType=this.submission.provider.documentType.singular}}</div>
+                                    </div>
+                                    <div local-class='moderator-comment' aria-labelledby='moderator-feedback'>
+                                        <p>{{this.reviewerComment}}</p>
+                                        {{#unless this.submission.provider.reviewsCommentsAnonymous}}
+                                            <div>{{this.reviewerName}}</div>
+                                        {{/unless}}
+                                        {{if this.theme.isProvider this.theme.provider.name (t 'preprints.detail.status_banner.brand_name')}} {{t this.moderator}}
+                                    </div>
+                                </dialog.main>
+                            </OsfDialog>
                         </div>
                     {{/if}}
                 {{/if}}
