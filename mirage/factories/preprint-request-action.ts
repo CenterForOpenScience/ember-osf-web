@@ -1,15 +1,12 @@
 import { Factory } from 'ember-cli-mirage';
-import faker from 'faker';
 import PreprintRequestActionModel,
 { PreprintRequestActionTriggerEnum } from 'ember-osf-web/models/preprint-request-action';
-
 
 import { guid, guidAfterCreate } from './utils';
 
 export default Factory.extend<PreprintRequestActionModel>({
     id: guid('preprint'),
 
-    comment: faker.lorem.sentence(100),
     actionTrigger: PreprintRequestActionTriggerEnum.SUBMIT,
     dateModified: new Date('2023-08-29T10:35:27.746938Z'),
     auto: false,

@@ -17,7 +17,9 @@ function buildLicenseText(): string {
 
 export interface PreprintTraits {
     pendingWithdrawal: Trait;
-    rejectedWithdrawal: Trait;
+    rejectedWithdrawalComment: Trait;
+    acceptedWithdrawalComment: Trait;
+    rejectedWithdrawalNoComment: Trait;
 }
 
 export default Factory.extend<PreprintModel & PreprintTraits>({
@@ -134,11 +136,29 @@ export default Factory.extend<PreprintModel & PreprintTraits>({
         },
     }),
 
-    rejectedWithdrawal: trait<PreprintModel>({
+    rejectedWithdrawalComment: trait<PreprintModel>({
         afterCreate(newPreprint, server) {
             const preprintRequest = server.create('preprintRequest', {
                 target: newPreprint,
-            }, 'reject');
+            }, 'rejectComment');
+            newPreprint.update({ requests: [preprintRequest ]});
+        },
+    }),
+
+    acceptedWithdrawalComment: trait<PreprintModel>({
+        afterCreate(newPreprint, server) {
+            const preprintRequest = server.create('preprintRequest', {
+                target: newPreprint,
+            }, 'acceptComment');
+            newPreprint.update({ requests: [preprintRequest ]});
+        },
+    }),
+
+    rejectedWithdrawalNoComment: trait<PreprintModel>({
+        afterCreate(newPreprint, server) {
+            const preprintRequest = server.create('preprintRequest', {
+                target: newPreprint,
+            }, 'rejectNoComment');
             newPreprint.update({ requests: [preprintRequest ]});
         },
     }),

@@ -101,59 +101,33 @@ $color-border-light: #ddd;
             justify-content: center;
             padding: 10px;
 
-            strong {
-                display: inline-block;  // required for the text-transform
-            }
-
-            strong::first-letter {
-                text-transform: uppercase;
-            }
-
             .reviewer-feedback {
-                margin-left: auto;
-                padding-right: 15px;
+                margin-left: 15px;
 
-                .dropdown-menu {
-                    font-size: 62.5%;
-                    background-color: $color-bg-color-light;
-                    color: $color-bg-color-grey;
-                    border: 1px solid $color-border-light;
-                    width: 445px;
-                    left: auto;
-                    right: 15px;
-                    margin-top: 0;
-                    z-index: 98;  // prevent dropdown from scrolling over navbar
-
-                    .status {
-                        font-size: 1.4em;
-                    }
-
-                    .moderator-comment {
-                        font-size: 1.8em;
-                        background-color: $color-text-white;
-                        padding: 30px 15px;
-
-                        p {
-                            padding-bottom: 5px;
-                        }
-                    }
-
-                    .feedback-header {
-                        font-size: 2em;
-                        border-bottom: 1px solid $color-border-light;
-                        padding: 5px 15px 8px;
-
-                        a {
-                            color: #333;
-                            float: right;
-                        }
-                    }
-
-                    .feedback-footer {
-                        border-top: 1px solid $color-border-light;
-                    }
-                }
             }
+        }
+    }
+}
+
+.status-banner-dialog {
+    .status {
+        font-size: 1.4em;
+
+        strong {
+            display: inline-block;  // required for the text-transform
+        }
+
+        strong::first-letter {
+            text-transform: uppercase;
+        }
+    }
+
+    .moderator-comment {
+        font-size: 1.8em;
+        padding: 30px 15px;
+
+        p {
+            padding-bottom: 5px;
         }
     }
 }

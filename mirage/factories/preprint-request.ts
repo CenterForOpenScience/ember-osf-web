@@ -8,7 +8,9 @@ import { guid, guidAfterCreate} from './utils';
 
 export interface PreprintRequestTraits {
     pending: Trait;
-    reject: Trait;
+    rejectComment: Trait;
+    acceptComment: Trait;
+    rejectNoComment: Trait;
 }
 
 export default Factory.extend<PreprintRequestModel & PreprintRequestTraits>({
@@ -46,12 +48,37 @@ export default Factory.extend<PreprintRequestModel & PreprintRequestTraits>({
         },
     }),
 
-    reject: trait<PreprintRequestModel>({
+    rejectNoComment: trait<PreprintRequestModel>({
         afterCreate(preprintRequest, server) {
             const preprintRequestAction = server.create('preprintRequestAction',
                 {
                     actionTrigger: PreprintRequestActionTriggerEnum.REJECT,
                     target: preprintRequest,
+                    comment: null,
+                });
+            preprintRequest.update({ actions: [preprintRequestAction ]});
+        },
+    }),
+
+    rejectComment: trait<PreprintRequestModel>({
+        afterCreate(preprintRequest, server) {
+            const preprintRequestAction = server.create('preprintRequestAction',
+                {
+                    actionTrigger: PreprintRequestActionTriggerEnum.REJECT,
+                    target: preprintRequest,
+                    comment: faker.lorem.sentence(100),
+                });
+            preprintRequest.update({ actions: [preprintRequestAction ]});
+        },
+    }),
+
+    acceptComment: trait<PreprintRequestModel>({
+        afterCreate(preprintRequest, server) {
+            const preprintRequestAction = server.create('preprintRequestAction',
+                {
+                    actionTrigger: PreprintRequestActionTriggerEnum.ACCEPT,
+                    target: preprintRequest,
+                    comment: faker.lorem.sentence(100),
                 });
             preprintRequest.update({ actions: [preprintRequestAction ]});
         },

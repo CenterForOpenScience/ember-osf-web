@@ -11,7 +11,11 @@ export function preprintsScenario(
     currentUser: ModelInstance<User>,
 ) {
     buildOSF(server, currentUser);
+    buildrXiv(server, currentUser);
     buildThesisCommons(server, currentUser);
+    buildAgrixiv(server, currentUser);
+    buildNutrixiv(server);
+    buildBiohackrxiv(server);
 }
 
 function buildOSF(
@@ -19,12 +23,14 @@ function buildOSF(
     currentUser: ModelInstance<User>,
 ) {
     const osf = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProvider>;
+
     const brand = server.create('brand', {
         primaryColor: '#286090',
         secondaryColor: '#fff',
         heroLogoImage: 'images/default-brand/osf-preprints-white.png',
         heroBackgroundImage: 'images/default-brand/bg-dark.jpg',
     });
+
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
 
@@ -116,14 +122,32 @@ function buildOSF(
         isPublished: false,
     }, 'pendingWithdrawal');
 
-    const rejectedWithdrawalPreprint = server.create('preprint', {
+    const rejectedWithdrawalPreprintNoComment = server.create('preprint', {
         provider: osf,
-        id: 'osf-rejected-withdrawal',
-        title: 'Preprint Non-Admin, Not Published and Rejected Withdrawal',
+        id: 'osf-rejected-withdrawal-no-comment',
+        title: 'Preprint Non-Admin, Not Published and Rejected Withdrawal - No Comment',
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
-    }, 'rejectedWithdrawal');
+    }, 'rejectedWithdrawalNoComment');
+
+    const rejectedWithdrawalPreprintComment = server.create('preprint', {
+        provider: osf,
+        id: 'osf-rejected-withdrawal-comment',
+        title: 'Preprint Non-Admin, Not Published and Rejected Withdrawal - Comment - Reviews Allowed',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        isPublished: false,
+    }, 'rejectedWithdrawalComment');
+
+    const acceptedWithdrawalPreprintComment = server.create('preprint', {
+        provider: osf,
+        id: 'osf-accepted-withdrawal-comment',
+        title: 'Preprint Non-Admin, Not Published and Accepted Withdrawal - Comment - Reviews Allowed',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        isPublished: false,
+    }, 'acceptedWithdrawalComment');
 
     const subjects = server.createList('subject', 7);
 
@@ -145,9 +169,62 @@ function buildOSF(
             notPublishedPreprint,
             withdrawnPreprint,
             pendingWithdrawalPreprint,
-            rejectedWithdrawalPreprint,
+            rejectedWithdrawalPreprintNoComment,
+            rejectedWithdrawalPreprintComment,
+            acceptedWithdrawalPreprintComment,
         ],
         description: 'This is the description for osf',
+    });
+}
+
+function buildrXiv(
+    server: Server,
+    currentUser: ModelInstance<User>,
+) {
+    const preprintrxiv = server.schema.preprintProviders.find('preprintrxiv') as ModelInstance<PreprintProvider>;
+
+    const brand = server.create('brand', {
+        primaryColor: '#286090',
+        secondaryColor: '#fff',
+        heroLogoImage: 'images/default-brand/osf-preprints-white.png',
+        heroBackgroundImage: 'images/default-brand/bg-dark.jpg',
+    });
+
+    const currentUserModerator = server.create('moderator',
+        { id: currentUser.id, user: currentUser, provider: preprintrxiv}, 'asAdmin');
+
+    const rejectedWithdrawalPreprintCommentPrivate = server.create('preprint', {
+        provider: preprintrxiv,
+        id: 'preprintrxiv-rejected-withdrawal-comment',
+        title: 'Preprint Non-Admin, Not Published and Rejected Withdrawal - Comment - Reviews Disabled',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        isPublished: false,
+    }, 'rejectedWithdrawalComment');
+
+    const pendingPreprint = server.create('preprint', {
+        provider: preprintrxiv,
+        id: 'preprintrxiv-pending',
+        title: 'Preprint Non-Admin, Pending - Pre Moderation',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.PENDING,
+        isPublished: false,
+    });
+
+    const subjects = server.createList('subject', 7);
+
+    preprintrxiv.update({
+        allowSubmissions: true,
+        highlightedSubjects: subjects,
+        // eslint-disable-next-line max-len
+        advisory_board: '<div class=\'preprint-advisory-header\'>\n<h2>Advisory Group</h2>\n<p>Our advisory group includes leaders in preprints and scholarly communication\n</p></div>\n<div class=\'preprint-advisory-list\'><div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>Devin Berg</strong> : engrXiv, University of Wisconsin-Stout</li>\n<li><strong>Pete Binfield</strong> : PeerJ PrePrints</li>\n<li><strong>Benjamin Brown</strong> : PsyArXiv, Georgia Gwinnett College</li>\n<li><strong>Philip Cohen</strong> : SocArXiv, University of Maryland</li>\n<li><strong>Kathleen Fitzpatrick</strong> : Modern Language Association</li>\n</ul>\n</div>\n<div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>John Inglis</strong> : bioRxiv, Cold Spring Harbor Laboratory Press</li>\n<li><strong>Rebecca Kennison</strong> : K | N Consultants</li>\n<li><strong>Kristen Ratan</strong> : CoKo Foundation</li>\n<li><strong>Oya Riege</strong>r : Ithaka S+R</li>\n<li><strong>Judy Ruttenberg</strong> : SHARE, Association of Research Libraries</li>\n</ul>\n</div>\n</div>',
+        footer_links: '',
+        brand,
+        moderators: [currentUserModerator],
+        preprints: [
+            rejectedWithdrawalPreprintCommentPrivate, pendingPreprint,
+        ],
+        description: 'This is the description for preprintrXiv',
     });
 }
 
@@ -182,18 +259,55 @@ function buildThesisCommons(
         footer_links: '<p><span><span style="vertical-align: baseline;">AfricArXiv: <a href="https://info.africarxiv.org/">About</a> | </span></span><span><span style="vertical-align: baseline;"><a href="https://info.africarxiv.org/before-you-submit/" target="_blank">Submission Guidelines</a> | </span></span><span><span style="vertical-align: baseline;"><a href="mailto:support+africarxiv@osf.io">Support</a> | <a href="mailto:contact+africarxiv@osf.io">Contact</a> |</span></span><span style="text-align: center;"> </span><a href="https://twitter.com/AfricArxiv" style="text-align: center;" target="_blank" title="AfricArxiv on Twitter"><span class="fa fa-twitter fa-2x" style="vertical-align: middle;"> </span></a><span style="text-align: center;"> </span><a href="https://www.facebook.com/africarxiv" style="text-align: center;" target="_blank" title="AfricArxiv on Facebook"><span class="fa fa-facebook fa-2x" style="vertical-align: middle;"> </span></a></p>',
         email_support: 'overwritten-email@osf.io',
     });
+}
 
+function buildAgrixiv(
+    server: Server,
+    currentUser: ModelInstance<User>,
+) {
     const agrixiv = server.schema.preprintProviders.find('agrixiv') as ModelInstance<PreprintProvider>;
+
     const agrixivBrand = server.create('brand', {
         primaryColor: '#85BF9B',
         secondaryColor: '#E7F7E1',
         heroBackgroundImage: 'https://singlecolorimage.com/get/E7F7E1/1000x1000',
     });
-    agrixiv.update({
-        brand: agrixivBrand,
-        description: '<p style="color: black">This is the description for agrixiv!</p>',
+
+    const currentUserModerator = server.create('moderator',
+        { id: currentUser.id, user: currentUser, provider: agrixiv}, 'asAdmin');
+
+    const rejectedWithdrawalPreprintComment = server.create('preprint', {
+        provider: agrixiv,
+        id: 'agrixiv-rejected-withdrawal-comment',
+        title: 'Preprint Non-Admin, Not Published and Rejected Withdrawal - Comment - Reviews Allowed',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        isPublished: false,
+    }, 'rejectedWithdrawalComment');
+
+    const pendingPreprint = server.create('preprint', {
+        provider: agrixiv,
+        id: 'agrixiv-pending',
+        title: 'Preprint Non-Admin, Pending - Post Moderation',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.PENDING,
+        isPublished: false,
     });
 
+    agrixiv.update({
+        moderators: [currentUserModerator],
+        brand: agrixivBrand,
+        description: '<p style="color: black">This is the description for agrixiv!</p>',
+        preprints: [
+            rejectedWithdrawalPreprintComment,
+            pendingPreprint,
+        ],
+    });
+}
+
+function buildNutrixiv(
+    server: Server,
+) {
     const nutrixiv = server.schema.preprintProviders.find('nutrixiv') as ModelInstance<PreprintProvider>;
     const nutrixivBrand = server.create('brand', {
         primaryColor: '#000000',
@@ -204,7 +318,9 @@ function buildThesisCommons(
         brand: nutrixivBrand,
         description: '<p style="color: green">This is the description for nutrixiv!</p>',
     });
+}
 
+function buildBiohackrxiv(server: Server) {
     const biohackrxiv = server.schema.preprintProviders.find('biohackrxiv') as ModelInstance<PreprintProvider>;
     const biohackrxivBrand = server.create('brand', {
         primaryColor: '#000000',

@@ -9,6 +9,7 @@ import { alias } from '@ember/object/computed';
 import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-action';
 import { taskFor } from 'ember-concurrency-ts';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
+import { tracked } from '@glimmer/tracking';
 
 const UNKNOWN = 'unknown';
 const PENDING = 'pending';
@@ -75,6 +76,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
 
     provider: PreprintProviderModel | undefined;
 
+    @tracked displayComment = false;
     isPendingWithdrawal = false;
     isWithdrawalRejected = false;
 
@@ -107,7 +109,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         } else if (this.isWithdrawalRejected) {
             return CLASS_NAMES[WITHDRAWAL_REJECTED];
         } else {
-            // console.log(5, this.submission.reviewsState === PENDING);
             return this.submission.reviewsState === PENDING ?
                 CLASS_NAMES[this.provider?.reviewsWorkflow || UNKNOWN] :
                 CLASS_NAMES[this.submission.reviewsState];
@@ -122,7 +123,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         } else if (this.isWithdrawalRejected) {
             return this.intl.t(MESSAGE[WITHDRAWAL_REJECTED], { documentType: this.provider?.documentType.singular });
         } else {
-            // console.log(25, this.theme.isProvider === true);
             const tName = this.theme.isProvider ?
                 this.theme.provider?.name :
                 this.intl.t('preprints.detail.status_banner.brand_name');
@@ -149,7 +149,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         } else if (this.isWithdrawalRejected) {
             return MESSAGE[WITHDRAWAL_REJECTED];
         } else {
-            // console.log(44, this.submission.reviewsState === PENDING);
             return this.submission.reviewsState === PENDING ?
                 MESSAGE[this.provider?.reviewsWorkflow || UNKNOWN ] :
                 MESSAGE[this.submission.reviewsState];
@@ -208,13 +207,11 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
                 return;
             }
         }
+
         if (this.provider.reviewsCommentsPrivate) {
-            // console.log(88);
             return;
         }
-        // console.log(89);
         this.latestAction = latestSubmissionAction;
-        // console.log(90);
     }
 
 }
