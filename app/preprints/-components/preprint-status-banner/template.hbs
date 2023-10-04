@@ -15,8 +15,6 @@
                         <strong>{{t this.status }}:</strong>
                         <span>{{this.bannerContent}}</span>
                     </div>
-                    {{this.reviewerComment}}
-                    {{this.submission.provider.reviewsCommentsPrivate}}
                     {{#if (and this.reviewerComment (not this.submission.provider.reviewsCommentsPrivate))}}
                         <div local-class='reviewer-feedback'>
                             <Button
@@ -41,7 +39,6 @@
                                 <dialog.main>
                                     <div local-class='status'>
                                         <strong>{{t this.status}}</strong>
-                                        <div>{{this.feedbackBaseMessage}} {{t this.statusExplanation documentType=this.submission.provider.documentType.singular}}</div>
                                     </div>
                                     <div local-class='moderator-comment' aria-labelledby='moderator-feedback'>
                                         <p>{{this.reviewerComment}}</p>
