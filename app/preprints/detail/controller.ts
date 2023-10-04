@@ -55,7 +55,6 @@ export default class PrePrintsDetailController extends Controller {
 
     @tracked fullScreenMFR = false;
     @tracked showLicenseText = false;
-    isPendingWithdrawal = false;
     @tracked expandedAbstract =  navigator.userAgent.includes('Prerender');
 
 
@@ -97,26 +96,43 @@ export default class PrePrintsDetailController extends Controller {
     }
 
     get userIsContrib(): boolean {
+        // console.log(1);
         if (this.isAdmin()) {
+            // console.log(2);
             return true;
         } else if (this.model.contributors.length) {
+            // console.log(3);
             const authorIds = [] as string[];
             this.model.contributors.forEach((author: ContributorModel) => {
+            // console.log(4);
                 authorIds.push(author.id);
             });
+            // eslint-disable-next-line max-len
+            // console.log(5, this.currentUser.currentUserId ? authorIds.includes(this.currentUser.currentUserId) : false);
             return this.currentUser.currentUserId ? authorIds.includes(this.currentUser.currentUserId) : false;
         }
+        // console.log(6);
         return false;
     }
 
-    showStatusBanner(): boolean {
-        // console.log('okay');
+    get showStatusBanner(): boolean {
+        // console.log('detail controller');
+        /* console.log('detail controller - condition',
+            this.model.provider.reviewsWorkflow
+            && this.model.preprint.public
+            && this.userIsContrib
+            && this.model.preprint.reviewsState !== ReviewsState.PENDING);
+            */
+        // console.log('detail controller - reviewsWorkFlow', this.model.provider.reviewsWorkflow);
+        // console.log('detail controller - public', this.model.preprint.public);
+        // console.log('detail controller - userIsContrib', this.userIsContrib);
+        // console.log('detail controller - reviewState', this.model.preprint.reviewsState !== ReviewsState.PENDING);
         return (
             this.model.provider.reviewsWorkflow
             && this.model.preprint.public
             && this.userIsContrib
             && this.model.preprint.reviewsState !== ReviewsState.PENDING
-        ) || this.isPendingWithdrawal;
+        );
     }
 
     get disciplineReduced(): [] {

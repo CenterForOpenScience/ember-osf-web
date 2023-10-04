@@ -134,15 +134,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         }
     }
 
-    public get feedbackBaseMessage(): string {
-        if (this.isWithdrawalRejected) {
-            return '';
-        }
-        // console.log(33);
-        // eslint-disable-next-line max-len
-        return this.intl.t('preprints.detail.status_banner.feedback.base', { documentType: this.provider?.documentType.singular });
-    }
-
     private get statusExplanation(): string {
         if (this.isPendingWithdrawal) {
             return MESSAGE[PENDING_WITHDRAWAL];

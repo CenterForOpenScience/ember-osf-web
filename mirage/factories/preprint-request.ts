@@ -43,6 +43,7 @@ export default Factory.extend<PreprintRequestModel & PreprintRequestTraits>({
                 {
                     actionTrigger: PreprintRequestActionTriggerEnum.SUBMIT,
                     target: preprintRequest,
+                    comment: faker.lorem.sentence(100),
                 });
             preprintRequest.update({ actions: [preprintRequestAction ]});
         },
