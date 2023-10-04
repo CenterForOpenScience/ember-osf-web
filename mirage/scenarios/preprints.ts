@@ -110,7 +110,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
-    });
+    }, 'isContributor');
 
     const withdrawnPreprint = server.create('preprint', {
         provider: osf,
@@ -120,7 +120,7 @@ function buildOSF(
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
         dateWithdrawn: new Date(),
-    });
+    }, 'isContributor');
 
     const pendingWithdrawalPreprint = server.create('preprint', {
         provider: osf,
@@ -129,7 +129,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
-    }, 'pendingWithdrawal');
+    }, 'pendingWithdrawal', 'isContributor');
 
     const rejectedWithdrawalPreprintNoComment = server.create('preprint', {
         provider: osf,
@@ -138,7 +138,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
-    }, 'rejectedWithdrawalNoComment');
+    }, 'rejectedWithdrawalNoComment', 'isContributor');
 
     const rejectedWithdrawalPreprintComment = server.create('preprint', {
         provider: osf,
@@ -147,7 +147,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
-    }, 'rejectedWithdrawalComment');
+    }, 'rejectedWithdrawalComment', 'isContributor');
 
     const acceptedWithdrawalPreprintComment = server.create('preprint', {
         provider: osf,
@@ -211,7 +211,7 @@ function buildrXiv(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
-    }, 'rejectedWithdrawalComment');
+    }, 'rejectedWithdrawalComment', 'isContributor');
 
     const pendingPreprint = server.create('preprint', {
         provider: preprintrxiv,
@@ -220,7 +220,7 @@ function buildrXiv(
         currentUserPermissions: [],
         reviewsState: ReviewsState.PENDING,
         isPublished: false,
-    });
+    }, 'isContributor');
 
     const subjects = server.createList('subject', 7);
 
@@ -294,7 +294,7 @@ function buildAgrixiv(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
-    }, 'rejectedWithdrawalComment');
+    }, 'rejectedWithdrawalComment', 'isContributor');
 
     const pendingPreprint = server.create('preprint', {
         provider: agrixiv,
@@ -303,7 +303,7 @@ function buildAgrixiv(
         currentUserPermissions: [],
         reviewsState: ReviewsState.PENDING,
         isPublished: false,
-    });
+    }, 'isContributor');
 
     agrixiv.update({
         moderators: [currentUserModerator],
