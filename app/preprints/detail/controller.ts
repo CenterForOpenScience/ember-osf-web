@@ -104,11 +104,12 @@ export default class PrePrintsDetailController extends Controller {
             // console.log(3);
             const authorIds = [] as string[];
             this.model.contributors.forEach((author: ContributorModel) => {
-            // console.log(4);
+            // console.log(4, author.id);
                 authorIds.push(author.id);
             });
+            // console.log(5, this.currentUser.currentUserId);
             // eslint-disable-next-line max-len
-            // console.log(5, this.currentUser.currentUserId ? authorIds.includes(this.currentUser.currentUserId) : false);
+            // console.log(51, this.currentUser.currentUserId ? authorIds.includes(this.currentUser.currentUserId) : false);
             return this.currentUser.currentUserId ? authorIds.includes(this.currentUser.currentUserId) : false;
         }
         // console.log(6);
@@ -117,11 +118,14 @@ export default class PrePrintsDetailController extends Controller {
 
     get showStatusBanner(): boolean {
         // console.log('detail controller');
-        /* console.log('detail controller - condition',
+        // console.log('detail controller - condition',
+        /*
             this.model.provider.reviewsWorkflow
             && this.model.preprint.public
             && this.userIsContrib
-            && this.model.preprint.reviewsState !== ReviewsState.PENDING);
+            && this.model.preprint.reviewsState !== ReviewsState.PENDING
+            && !this.model.preprint.isPreprintOrphan,
+            );
             */
         // console.log('detail controller - reviewsWorkFlow', this.model.provider.reviewsWorkflow);
         // console.log('detail controller - public', this.model.preprint.public);
@@ -132,6 +136,7 @@ export default class PrePrintsDetailController extends Controller {
             && this.model.preprint.public
             && this.userIsContrib
             && this.model.preprint.reviewsState !== ReviewsState.PENDING
+            && !this.model.preprint.isPreprintOrphan
         );
     }
 

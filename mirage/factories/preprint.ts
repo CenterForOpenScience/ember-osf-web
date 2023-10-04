@@ -17,6 +17,7 @@ function buildLicenseText(): string {
 
 export interface PreprintTraits {
     pendingWithdrawal: Trait;
+    isContributor: Trait;
     rejectedWithdrawalComment: Trait;
     acceptedWithdrawalComment: Trait;
     rejectedWithdrawalNoComment: Trait;
@@ -133,6 +134,16 @@ export default Factory.extend<PreprintModel & PreprintTraits>({
                 target: newPreprint,
             }, 'pending');
             newPreprint.update({ requests: [preprintRequest ]});
+        },
+    }),
+
+    isContributor: trait<PreprintModel>({
+        afterCreate(newPreprint, server) {
+            const { currentUserId } = server.schema.roots.first();
+            server.create('contributor', {
+                preprint: newPreprint,
+                id: currentUserId,
+            });
         },
     }),
 
