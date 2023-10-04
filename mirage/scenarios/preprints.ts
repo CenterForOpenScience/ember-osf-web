@@ -55,6 +55,15 @@ function buildOSF(
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
     });
 
+    const notContributorPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'osf-not-contributor',
+        title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.REJECTED,
+        tags: [],
+    });
+
     const rejectedPreprint = server.create('preprint', {
         provider: osf,
         id: 'osf-rejected',
@@ -62,7 +71,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.REJECTED,
         tags: [],
-    });
+    }, 'isContributor');
 
     const approvedPreprint = server.create('preprint', {
         provider: osf,
@@ -74,7 +83,7 @@ function buildOSF(
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
-    });
+    }, 'isContributor');
 
     const orphanedPreprint = server.create('preprint', {
         provider: osf,
@@ -83,7 +92,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPreprintOrphan: true,
-    });
+    }, 'isContributor');
 
     const privatePreprint = server.create('preprint', {
         provider: osf,
@@ -92,7 +101,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         public: false,
-    });
+    }, 'isContributor');
 
     const notPublishedPreprint = server.create('preprint', {
         provider: osf,
@@ -154,6 +163,7 @@ function buildOSF(
     osf.update({
         allowSubmissions: true,
         highlightedSubjects: subjects,
+        // currentUser,
         // eslint-disable-next-line max-len
         advisory_board: '<div class=\'preprint-advisory-header\'>\n<h2>Advisory Group</h2>\n<p>Our advisory group includes leaders in preprints and scholarly communication\n</p></div>\n<div class=\'preprint-advisory-list\'><div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>Devin Berg</strong> : engrXiv, University of Wisconsin-Stout</li>\n<li><strong>Pete Binfield</strong> : PeerJ PrePrints</li>\n<li><strong>Benjamin Brown</strong> : PsyArXiv, Georgia Gwinnett College</li>\n<li><strong>Philip Cohen</strong> : SocArXiv, University of Maryland</li>\n<li><strong>Kathleen Fitzpatrick</strong> : Modern Language Association</li>\n</ul>\n</div>\n<div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>John Inglis</strong> : bioRxiv, Cold Spring Harbor Laboratory Press</li>\n<li><strong>Rebecca Kennison</strong> : K | N Consultants</li>\n<li><strong>Kristen Ratan</strong> : CoKo Foundation</li>\n<li><strong>Oya Riege</strong>r : Ithaka S+R</li>\n<li><strong>Judy Ruttenberg</strong> : SHARE, Association of Research Libraries</li>\n</ul>\n</div>\n</div>',
         footer_links: '',
@@ -172,6 +182,7 @@ function buildOSF(
             rejectedWithdrawalPreprintNoComment,
             rejectedWithdrawalPreprintComment,
             acceptedWithdrawalPreprintComment,
+            notContributorPreprint,
         ],
         description: 'This is the description for osf',
     });
