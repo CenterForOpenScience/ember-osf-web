@@ -26,6 +26,7 @@ export enum ReviewsWorkFlow{
 }
 
 export enum ReviewsState {
+    INITIAL = 'initial',
     PENDING = 'pending',
     ACCEPTED = 'accepted',
     REJECTED = 'rejected',
@@ -53,7 +54,6 @@ export enum ReviewPermissions {
 }
 
 /* eslint-enable camelcase */
-
 export default abstract class ProviderModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('fixstring') description!: string;
