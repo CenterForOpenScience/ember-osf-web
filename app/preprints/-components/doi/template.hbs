@@ -1,0 +1,23 @@
+<div>
+    <h4>{{t 'preprints.detail.preprint_doi' documentType=this.documentType}}</h4>
+    {{#if this.preprint.preprintDoiUrl}}
+        {{#if this.preprint.preprintDoiCreated}}
+            <OsfLink
+                data-test-article-doi
+                data-analytics-name='preprint doi'
+                @href={{this.preprint.preprintDoiUrl}} 
+            >
+                {{this.preprintDoi}}
+            </OsfLink>
+        {{else}}
+            <p> {{this.preprintDoi}} </p>
+            <p> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
+        {{/if}}
+    {{else}}
+        {{#if (not this.preprint.public)}}
+            {{t 'preprints.detail.preprint_pending_doi' documentType=this.documentType}}
+        {{else if (and this.provider.reviewsWorkflow (not this.preprint.isPublished))}}
+            {{t 'preprints.detail.preprint_pending_doi_moderation'}}
+        {{/if}}
+    {{/if}}
+</div>

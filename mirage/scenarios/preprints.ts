@@ -94,14 +94,26 @@ function buildOSF(
         isPreprintOrphan: true,
     }, 'isContributor');
 
-    const privatePreprint = server.create('preprint', {
+    const privatePreprint = server.create('preprint', Object({
         provider: osf,
         id: 'osf-private',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         public: false,
-    }, 'isContributor');
+        isPreprintDoi: false,
+    }), 'isContributor');
+
+    const publicDoiPreprint = server.create('preprint', Object({
+        provider: osf,
+        id: 'osf-public-doi',
+        title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        public: true,
+        isPreprintDoi: false,
+        isPublished: false,
+    }), 'isContributor');
 
     const notPublishedPreprint = server.create('preprint', {
         provider: osf,
@@ -183,6 +195,7 @@ function buildOSF(
             rejectedWithdrawalPreprintComment,
             acceptedWithdrawalPreprintComment,
             notContributorPreprint,
+            publicDoiPreprint,
         ],
         description: 'This is the description for osf',
     });
@@ -213,14 +226,14 @@ function buildrXiv(
         isPublished: false,
     }, 'rejectedWithdrawalComment', 'isContributor');
 
-    const pendingPreprint = server.create('preprint', {
+    const pendingPreprint = server.create('preprint', Object({
         provider: preprintrxiv,
         id: 'preprintrxiv-pending',
         title: 'Preprint Non-Admin, Pending - Pre Moderation',
         currentUserPermissions: [],
         reviewsState: ReviewsState.PENDING,
         isPublished: false,
-    }, 'isContributor');
+    }) , 'isContributor');
 
     const subjects = server.createList('subject', 7);
 
@@ -338,8 +351,21 @@ function buildBiohackrxiv(server: Server) {
         secondaryColor: '#ccc',
         heroBackgroundImage: 'https://singlecolorimage.com/get/ffffff/1000x1000',
     });
+
+    const publicDoiPreprint = server.create('preprint', Object({
+        provider: biohackrxiv,
+        id: 'biohackrxiv-public-doi',
+        title: 'Preprint RWF: No ReviewStatus, Non-Admin, Accepted, No Preprint Doi, public ',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        public: true,
+        isPreprintDoi: false,
+        isPublished: false,
+    }), 'isContributor');
+
     biohackrxiv.update({
         brand: biohackrxivBrand,
         description: '<p style="color: black">This is the description for biohackrxiv!</p>',
+        preprints: [publicDoiPreprint],
     });
 }

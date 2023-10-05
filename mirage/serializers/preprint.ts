@@ -1,21 +1,21 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import PreprintModel from 'ember-osf-web/models/preprint';
+import { PreprintMirageModel } from 'ember-osf-web/mirage/factories/preprint';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class PreprintSerializer extends ApplicationSerializer<PreprintModel> {
+export default class PreprintSerializer extends ApplicationSerializer<PreprintMirageModel> {
     buildNormalLinks(model: ModelInstance) {
         return {
             self: `${apiUrl}/v2/${model.id}/`,
             doi: model.doi ?  `https://doi.org/${model.doi}` : null,
-            preprint_doi: `https://doi.org/10.31219/osf.io/${model.id}`,
+            preprint_doi: model.isPreprintDoi ? `https://doi.org/10.31219/osf.io/${model.id}` : null,
         };
     }
 
-    buildRelationships(model: ModelInstance<PreprintModel>) {
-        const relationships: SerializedRelationships<PreprintModel> = {
+    buildRelationships(model: ModelInstance<PreprintMirageModel>) {
+        const relationships: SerializedRelationships<PreprintMirageModel> = {
             provider: {
                 links: {
                     related: {
