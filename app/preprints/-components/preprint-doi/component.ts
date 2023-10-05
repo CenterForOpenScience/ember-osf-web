@@ -8,7 +8,7 @@ interface InputArgs {
     provider: PreprintProviderModel;
 }
 
-export default class DOI extends Component<InputArgs> {
+export default class PreprintDOI extends Component<InputArgs> {
     preprint = this.args.preprint;
     provider = this.args.provider;
 
