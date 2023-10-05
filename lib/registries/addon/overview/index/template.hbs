@@ -3,9 +3,9 @@
         {{t 'registries.overview.component_of'}}
         <OsfLink
             @route='resolve-guid'
-            @models={{array this.rootId}}
+            @models={{array this.root.id}}
         >
-            {{this.rootTitle}}
+            {{this.root.title}}
         </OsfLink>
     </div>
 {{/unless}}
