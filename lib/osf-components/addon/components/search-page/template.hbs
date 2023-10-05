@@ -64,7 +64,6 @@ as |layout|>
                     @type='primary'
                     @layout='large'
                     {{on 'click' (queue
-                        layout.openSidenavGutter
                         (fn (mut this.showTooltip3) false)
                         (fn (mut this.showTooltip2) false)
                         (fn (mut this.showTooltip1) true)
