@@ -1,0 +1,25 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.license-text {
+    pre {
+        white-space: pre-wrap;
+        font-size: 75%;
+        width: 100%;
+        text-align: justify;
+        max-height: 300px;
+        word-break: normal;
+        overflow: auto;
+        display: block;
+        padding: 9.5px;
+        margin: 0 0 10px;
+        line-height: 1.42857;
+        word-wrap: break-word;
+        background-color: $bg-light;
+        border: 1px solid $color-shadow-gray-light;
+        border-radius: 4px;
+    }
+
+    span {
+        cursor: pointer;
+    }
+}

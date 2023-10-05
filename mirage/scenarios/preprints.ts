@@ -124,15 +124,26 @@ function buildOSF(
         isPublished: false,
     }, 'isContributor');
 
-    const withdrawnPreprint = server.create('preprint', {
+    const withdrawnPreprint = server.create('preprint', Object({
         provider: osf,
         id: 'osf-withdrawn',
-        title: 'Preprint Non-Admin, Not Published and withdrawn',
+        title: 'Preprint Non-Admin, Not Published and withdrawn - no license',
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
         dateWithdrawn: new Date(),
-    }, 'isContributor');
+        addLicenseName: false,
+    }), 'isContributor');
+
+    const withdrawnLicensePreprint = server.create('preprint', Object({
+        provider: osf,
+        id: 'osf-withdrawn-license',
+        title: 'Preprint Non-Admin, Not Published and withdrawn - license',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        isPublished: false,
+        dateWithdrawn: new Date(),
+    }), 'isContributor');
 
     const pendingWithdrawalPreprint = server.create('preprint', {
         provider: osf,
@@ -190,6 +201,7 @@ function buildOSF(
             privatePreprint,
             notPublishedPreprint,
             withdrawnPreprint,
+            withdrawnLicensePreprint,
             pendingWithdrawalPreprint,
             rejectedWithdrawalPreprintNoComment,
             rejectedWithdrawalPreprintComment,
@@ -361,7 +373,7 @@ function buildBiohackrxiv(server: Server) {
         public: true,
         isPreprintDoi: false,
         isPublished: false,
-    }), 'isContributor');
+    }));
 
     biohackrxiv.update({
         brand: biohackrxivBrand,

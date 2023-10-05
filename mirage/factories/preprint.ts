@@ -17,6 +17,7 @@ function buildLicenseText(): string {
 
 export interface PreprintMirageModel extends PreprintModel {
     isPreprintDoi: boolean;
+    addLicenseName: boolean;
 }
 
 export interface PreprintTraits {
@@ -32,6 +33,8 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     title: faker.lorem.sentence(),
 
     isPreprintDoi: true,
+
+    addLicenseName: true,
 
     currentUserPermissions: [Permission.Admin],
 
@@ -69,12 +72,12 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
         },
     },
 
-    afterCreate(newPreprint, server) {
-        guidAfterCreate(newPreprint, server);
+    afterCreate(preprint, server) {
+        guidAfterCreate(preprint, server);
 
         const file = server.create('file', {
             id: 'afile',
-            target: newPreprint,
+            target: preprint,
             links: {
                 info: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
                 move: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
@@ -88,8 +91,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
         const node = server.create('node');
 
         const license = server.create('license', {
-            id: 'asdksusslsh',
-            name: 'Mozilla Public License 2.0',
+            name: preprint.addLicenseName ? 'Mozilla Public License 3.0' : undefined,
             text: buildLicenseText(),
             url: 'https://creativecommons.org/licenses/by/4.0/legalcode',
             requiredFields: [],
@@ -107,7 +109,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
         });
 
         const contributor = server.create('contributor', {
-            preprint: newPreprint,
+            preprint,
             users: contributorUser,
             index: 0,
         });
@@ -120,7 +122,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
         const allContributors = [contributor, unregisteredContributor, secondContributor, thirdContributor];
 
-        newPreprint.update({
+        preprint.update({
             contributors: allContributors,
             bibliographicContributors: allContributors,
             files: [file],
@@ -135,48 +137,48 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     },
 
     pendingWithdrawal: trait<PreprintModel>({
-        afterCreate(newPreprint, server) {
+        afterCreate(preprint, server) {
             const preprintRequest = server.create('preprintRequest', {
-                target: newPreprint,
+                target: preprint,
             }, 'pending');
-            newPreprint.update({ requests: [preprintRequest ]});
+            preprint.update({ requests: [preprintRequest ]});
         },
     }),
 
     isContributor: trait<PreprintModel>({
-        afterCreate(newPreprint, server) {
+        afterCreate(preprint, server) {
             const { currentUserId } = server.schema.roots.first();
             server.create('contributor', {
-                preprint: newPreprint,
+                preprint,
                 id: currentUserId,
             });
         },
     }),
 
     rejectedWithdrawalComment: trait<PreprintModel>({
-        afterCreate(newPreprint, server) {
+        afterCreate(preprint, server) {
             const preprintRequest = server.create('preprintRequest', {
-                target: newPreprint,
+                target: preprint,
             }, 'rejectComment');
-            newPreprint.update({ requests: [preprintRequest ]});
+            preprint.update({ requests: [preprintRequest ]});
         },
     }),
 
     acceptedWithdrawalComment: trait<PreprintModel>({
-        afterCreate(newPreprint, server) {
+        afterCreate(preprint, server) {
             const preprintRequest = server.create('preprintRequest', {
-                target: newPreprint,
+                target: preprint,
             }, 'acceptComment');
-            newPreprint.update({ requests: [preprintRequest ]});
+            preprint.update({ requests: [preprintRequest ]});
         },
     }),
 
     rejectedWithdrawalNoComment: trait<PreprintModel>({
-        afterCreate(newPreprint, server) {
+        afterCreate(preprint, server) {
             const preprintRequest = server.create('preprintRequest', {
-                target: newPreprint,
+                target: preprint,
             }, 'rejectNoComment');
-            newPreprint.update({ requests: [preprintRequest ]});
+            preprint.update({ requests: [preprintRequest ]});
         },
     }),
 
