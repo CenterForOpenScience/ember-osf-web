@@ -54,7 +54,6 @@ export default class PrePrintsDetailController extends Controller {
     };
 
     @tracked fullScreenMFR = false;
-    @tracked showLicenseText = false;
     @tracked expandedAbstract =  navigator.userAgent.includes('Prerender');
 
 
@@ -129,11 +128,6 @@ export default class PrePrintsDetailController extends Controller {
 
     get articleDoi(): string {
         return extractDoi(this.model.preprint.articleDoiUrl) || '';
-    }
-
-    @action
-    toggleLicenseText(): void {
-        this.showLicenseText = !this.showLicenseText;
     }
 
     get hasShortenedDescription(): String {

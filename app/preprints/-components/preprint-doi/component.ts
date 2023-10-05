@@ -14,10 +14,6 @@ export default class PreprintDOI extends Component<InputArgs> {
 
     documentType = this.provider.documentType.singular;
 
-    constructor(owner: any, args: any) {
-        super(owner, args);
-    }
-
     get preprintDoi(): string {
         return extractDoi(this.preprint.preprintDoiUrl) || '';
     }
