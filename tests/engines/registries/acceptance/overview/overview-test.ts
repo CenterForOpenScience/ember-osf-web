@@ -156,7 +156,8 @@ module('Registries | Acceptance | overview.overview', hooks => {
         reg.update({ currentUserPermissions: [Permission.Write, Permission.Read] });
         await visit(`/${reg.id}/`);
 
-        assert.dom('[data-test-tags-widget-tag-input="edit"] input').isNotVisible();
+        await click('[data-test-edit-button="tags"]');
+        assert.dom('[data-test-tags-widget-tag-input="edit"] input').isVisible();
 
         reg.update({ currentUserPermissions: [Permission.Read] });
         await visit(`/${reg.id}/`);
