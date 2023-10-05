@@ -31,15 +31,15 @@ data-analytics-scope='preprints detail page'
                 <ContributorList @model={{this.model.preprint}} @shouldTruncate={{false}} />
             </h5>
         </div>
-        {{! removed }}
+        {{! removed - author-assertions }}
     </div>
     {{#if (or this.showStatusBanner this.isWithdrawn)}}
         <Preprints::-Components::PreprintStatusBanner @submission={{this.model.preprint}} />
     {{/if}}
-    {{! removed }}
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}
             <div local-class='withdrawn-container'>
+                {{! removed - tombstone }}
                 <div>
                     <h4>{{t 'preprints.detail.abstract'}}</h4>
                     <p local-class='{{unless this.expandedAbstract 'abstract-truncated'}}'>
@@ -57,29 +57,7 @@ data-analytics-scope='preprints detail page'
                         </Button>
                     {{/if}}
                 </div>
-                <div>
-                    <h4>{{t 'preprints.detail.preprint_doi' documentType=this.model.provider.documentType.singular}}</h4>
-                    {{#if this.model.preprint.preprintDoiUrl}}
-                        {{#if this.model.preprint.preprintDoiCreated}}
-                            <OsfLink
-                                data-test-article-doi
-                                data-analytics-name='preprint doi'
-                                @href={{this.model.preprint.preprintDoiUrl}} 
-                            >
-                                {{this.preprintDoi}}
-                            </OsfLink>
-                        {{else}}
-                            <p> {{this.preprintDoi}} </p>
-                            <p> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
-                        {{/if}}
-                    {{else}}
-                        {{#if (not this.model.preprint.public)}}
-                            {{t 'preprints.detail.preprint_pending_doi' documentType=this.model.provider.documentType.singular }}
-                        {{else if (and this.model.provider.reviewsWorkflow (not this.model.preprint.isPublished))}}
-                            {{t 'preprints.detail.preprint_pending_doi_moderation'}}
-                        {{/if}}
-                    {{/if}}
-                </div>
+                <Preprints::-Components::Doi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
                 {{#if this.model.preprint.license.name}}
                     <div local-class='license-text'>
                         <h4>{{t 'preprints.detail.license'}}</h4>
@@ -243,29 +221,7 @@ data-analytics-scope='preprints detail page'
                             </OsfLink>
                         </div>
                     {{/if}}
-                    <div>
-                        <h4>{{t 'preprints.detail.preprint_doi' documentType=this.model.provider.documentType.singular}}</h4>
-                        {{#if this.model.preprint.preprintDoiUrl}}
-                            {{#if this.model.preprint.preprintDoiCreated}}
-                                <OsfLink
-                                    data-test-article-doi
-                                    data-analytics-name='preprint doi'
-                                    @href={{this.model.preprint.preprintDoiUrl}} 
-                                >
-                                    {{this.preprintDoi}}
-                                </OsfLink>
-                            {{else}}
-                                <p> {{this.preprintDoi}} </p>
-                                <p> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
-                            {{/if}}
-                        {{else}}
-                            {{#if (not this.model.preprint.public)}}
-                                {{t 'preprints.detail.preprint_pending_doi' documentType=this.model.provider.documentType.singular }}
-                            {{else if (and this.model.provider.reviewsWorkflow (not this.model.preprint.isPublished))}}
-                                {{t 'preprints.detail.preprint_pending_doi_moderation'}}
-                            {{/if}}
-                        {{/if}}
-                    </div>
+                    <Preprints::-Components::Doi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
                     {{#if this.model.preprint.articleDoiUrl}}
                         <div>
                             <h4>{{t 'preprints.detail.article_doi'}}</h4>

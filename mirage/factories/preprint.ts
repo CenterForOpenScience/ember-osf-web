@@ -15,6 +15,10 @@ function buildLicenseText(): string {
     return text;
 }
 
+export interface PreprintMirageModel extends PreprintModel {
+    isPreprintDoi: boolean;
+}
+
 export interface PreprintTraits {
     pendingWithdrawal: Trait;
     isContributor: Trait;
@@ -23,9 +27,11 @@ export interface PreprintTraits {
     rejectedWithdrawalNoComment: Trait;
 }
 
-export default Factory.extend<PreprintModel & PreprintTraits>({
+export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     id: guid('preprint'),
     title: faker.lorem.sentence(),
+
+    isPreprintDoi: true,
 
     currentUserPermissions: [Permission.Admin],
 

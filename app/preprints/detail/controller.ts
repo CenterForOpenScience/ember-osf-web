@@ -127,10 +127,6 @@ export default class PrePrintsDetailController extends Controller {
         return this.model.contributors;
     }
 
-    get preprintDoi(): string {
-        return extractDoi(this.model.preprint.preprintDoiUrl) || '';
-    }
-
     get articleDoi(): string {
         return extractDoi(this.model.preprint.articleDoiUrl) || '';
     }
