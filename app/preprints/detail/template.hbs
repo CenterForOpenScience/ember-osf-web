@@ -57,7 +57,7 @@ data-analytics-scope='preprints detail page'
                         </Button>
                     {{/if}}
                 </div>
-                <Preprints::-Components::Doi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
+                <Preprints::-Components::PreprintDoi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
                 {{#if this.model.preprint.license.name}}
                     <div local-class='license-text'>
                         <h4>{{t 'preprints.detail.license'}}</h4>
@@ -221,7 +221,7 @@ data-analytics-scope='preprints detail page'
                             </OsfLink>
                         </div>
                     {{/if}}
-                    <Preprints::-Components::Doi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
+                    <Preprints::-Components::PreprintDoi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
                     {{#if this.model.preprint.articleDoiUrl}}
                         <div>
                             <h4>{{t 'preprints.detail.article_doi'}}</h4>
