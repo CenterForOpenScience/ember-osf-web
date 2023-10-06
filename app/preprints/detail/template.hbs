@@ -39,7 +39,14 @@ data-analytics-scope='preprints detail page'
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}
             <div local-class='withdrawn-container'>
-                {{! removed - tombstone }}
+                {{#if this.model.preprint.withdrawalJustification}}
+                    <div>
+                        <h4>{{t 'preprints.detail.reason_for_withdrawal'}}</h4>
+                        <p>
+                            {{this.model.preprint.withdrawalJustification}}
+                        </p>
+                    </div>
+                {{/if}}
                 <div>
                     <h4>{{t 'preprints.detail.abstract'}}</h4>
                     <p local-class='{{unless this.expandedAbstract 'abstract-truncated'}}'>

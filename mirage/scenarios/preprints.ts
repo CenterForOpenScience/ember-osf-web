@@ -127,7 +127,7 @@ function buildOSF(
     const withdrawnPreprint = server.create('preprint', Object({
         provider: osf,
         id: 'osf-withdrawn',
-        title: 'Preprint Non-Admin, Not Published and withdrawn - no license',
+        title: 'Preprint Non-Admin, Not Published and withdrawn - no license - no justification',
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
@@ -138,11 +138,12 @@ function buildOSF(
     const withdrawnLicensePreprint = server.create('preprint', Object({
         provider: osf,
         id: 'osf-withdrawn-license',
-        title: 'Preprint Non-Admin, Not Published and withdrawn - license',
+        title: 'Preprint Non-Admin, Not Published and withdrawn - license - justification',
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
         dateWithdrawn: new Date(),
+        withdrawalJustification: 'This is the justification',
     }), 'isContributor');
 
     const pendingWithdrawalPreprint = server.create('preprint', {

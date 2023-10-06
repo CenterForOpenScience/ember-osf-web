@@ -175,10 +175,11 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     @task
     @waitFor
     async loadPreprintState()  {
+        this.provider = await this.submission.provider;
+
         if (this.isWithdrawn) {
             return;
         }
-        this.provider = await this.submission.provider;
         const submissionActions = await this.submission.reviewActions;
         const latestSubmissionAction = submissionActions.firstObject;
         const withdrawalRequests = await this.submission.requests;
