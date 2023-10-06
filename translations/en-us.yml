@@ -1148,6 +1148,7 @@ preprints:
             metrics_disclaimer: 'Metrics collected since:'
         supplemental_materials: 'Supplemental Materials'
         tags: 'Tags'
+        reason_for_withdrawal: 'Reason for withdrawal'
         status_banner:
             pre_moderation: 'pre-moderation'
             post_moderation: 'post-moderation'
