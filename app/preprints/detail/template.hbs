@@ -66,12 +66,8 @@ data-analytics-scope='preprints detail page'
                 </div>
                 <Preprints::-Components::PreprintDoi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
                 <Preprints::-Components::PreprintLicense @preprint={{this.model.preprint}} />
-                <div>
-                    <h4>{{t 'preprints.detail.disciplines'}}</h4>
-                    {{#each this.disciplineReduced as |subject|}}
-                        <span local-class='subject-preview'>{{subject.text}}</span>
-                    {{/each}}
-                </div>
+                <Preprints::-Components::PreprintDiscipline @subjects={{this.model.subjects}} />
+                <Preprints::-Components::PreprintTag @preprint={{this.model.preprint}} />
                 <div>
                     <h4>{{t 'preprints.detail.tags'}}</h4>
                     {{#if this.model.preprint.tags.length}}
@@ -229,12 +225,8 @@ data-analytics-scope='preprints detail page'
                         </div>
                     {{/if}}
                     <Preprints::-Components::PreprintLicense @preprint={{this.model.preprint}} />
-                    <div>
-                        <h4>{{t 'preprints.detail.disciplines'}}</h4>
-                        {{#each this.disciplineReduced as |subject|}}
-                            <span local-class='subject-preview'>{{subject.text}}</span>
-                        {{/each}}
-                    </div>
+                    <Preprints::-Components::PreprintDiscipline @subjects={{this.model.subjects}} />
+                    <Preprints::-Components::PreprintTag @preprint={{this.model.preprint}} />
                     <div>
                         <h4>{{t 'preprints.detail.tags'}}</h4>
                         {{#if this.model.preprint.tags.length}}

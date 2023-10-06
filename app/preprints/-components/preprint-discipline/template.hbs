@@ -1,0 +1,6 @@
+<div>
+    <h4>{{t 'preprints.detail.disciplines'}}</h4>
+    {{#each this.disciplineReduced as |subject|}}
+        <span local-class='subject-preview'>{{subject.text}}</span>
+    {{/each}}
+</div>
