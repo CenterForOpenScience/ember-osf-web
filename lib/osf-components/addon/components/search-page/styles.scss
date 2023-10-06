@@ -164,6 +164,12 @@
         height: 70px;
         margin: 0 auto;
     }
+
+    .provider-description {
+        a {
+            color: $color-link-dark;
+        }
+    }
 }
 
 .search-input-wrapper {
