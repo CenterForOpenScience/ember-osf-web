@@ -149,7 +149,7 @@ export default class SearchPage extends Component<SearchArgs> {
     }
 
     get showResultCountLeft() {
-        return this.totalResultCount && this.args.showResourceTypeFilter;
+        return this.totalResultCount && (this.args.showResourceTypeFilter || this.showSidePanelToggle);
     }
 
     get selectedSortOption() {
