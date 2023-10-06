@@ -3,3 +3,9 @@
     overflow: auto;
     padding: 1rem 1.25rem;
 }
+
+@media (min-width: 501px) and (max-width: 991px) {
+    .Main {
+        max-height: 50vh;
+    }
+}
