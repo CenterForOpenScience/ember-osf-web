@@ -233,7 +233,7 @@ search:
     textbox-placeholder: 'Enter search term(s) here'
     search-button-label: 'Search'
     search-help-label: 'Help tutorial'
-    total-results: '{count} results'
+    total-results: '{count} {count, plural, one {result} other {results} }'
     no-results: 'No results found'
     resource-type:
         search-by: 'Search by object type'
