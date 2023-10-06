@@ -6,7 +6,6 @@ import Theme from 'ember-osf-web/services/theme';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Features from 'ember-feature-flags';
 import ContributorModel from 'ember-osf-web/models/contributor';
-import SubjectModel from 'ember-osf-web/models/subject';
 import Intl from 'ember-intl/services/intl';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState, ReviewsWorkFlow } from 'ember-osf-web/models/provider';
@@ -115,11 +114,6 @@ export default class PrePrintsDetailController extends Controller {
             && this.model.preprint.reviewsState !== ReviewsState.INITIAL
             && !this.model.preprint.isPreprintOrphan
         );
-    }
-
-    get disciplineReduced(): [] {
-        // Preprint disciplines are displayed in collapsed form on content page
-        return this.model.subjects.reduce((acc: SubjectModel[], val: SubjectModel) => acc.concat(val), []).uniqBy('id');
     }
 
     get authors(): ContributorModel[] {
