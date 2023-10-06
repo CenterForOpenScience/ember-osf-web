@@ -144,6 +144,7 @@ function buildOSF(
         isPublished: false,
         dateWithdrawn: new Date(),
         withdrawalJustification: 'This is the justification',
+        description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(100)}`,
     }), 'isContributor');
 
     const pendingWithdrawalPreprint = server.create('preprint', {

@@ -53,8 +53,6 @@ export default class PrePrintsDetailController extends Controller {
     };
 
     @tracked fullScreenMFR = false;
-    @tracked expandedAbstract =  navigator.userAgent.includes('Prerender');
-
 
     get hyperlink(): string {
         return window.location.href;
@@ -124,46 +122,15 @@ export default class PrePrintsDetailController extends Controller {
         return extractDoi(this.model.preprint.articleDoiUrl) || '';
     }
 
-    get hasShortenedDescription(): String {
-        return this.model.preprint.description && this.model.preprint.description.length > 350;
-    }
-
-    get useShortenedDescription(): boolean {
-        return this.hasShortenedDescription && !this.expandedAbstract;
-    }
-
-    /**
-     * description
-     *
-     * @description Get a shortened version of the abstract, but doesn't cut in the middle of word
-     *      by going to the last space.
-     * @returns string
-     */
-    get description(): string {
-        if (this.useShortenedDescription) {
-            return this.model.preprint.description
-                .slice(0, 350)
-                .replace(/\s+\S*$/, '');
-        } else {
-            return this.model.preprint.description;
-        }
-    }
-
     emailHref(): string {
         const titleEncoded = encodeURIComponent(this.model.title);
         const hrefEncoded = encodeURIComponent(window.location.href);
         return `mailto:?subject=${titleEncoded}&body=${hrefEncoded}`;
     }
 
-
     @action
     expandMFR() {
         this.fullScreenMFR = !this.fullScreenMFR;
-    }
-
-    @action
-    expandAbstract() {
-        this.expandedAbstract = !this.expandedAbstract;
     }
 
     @action

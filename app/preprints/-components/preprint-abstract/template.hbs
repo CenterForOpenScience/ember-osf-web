@@ -1,0 +1,17 @@
+<div>
+    <h4>{{t 'preprints.detail.abstract'}}</h4>
+    <p local-class='{{and (not this.expandedAbstract) this.hasShortenedDescription 'abstract-truncated'}}'>
+        {{this.description}}
+    </p>
+    {{#if this.hasShortenedDescription}}
+        <Button
+            data-test-toggle-abstract
+            data-analytics-name='Expand Abstract'
+            {{on 'click' (action this.expandAbstract)}}
+            aria-label={{if this.expandedAbstract (t 'preprints.detail.see_less') ( t 'preprints.detail.see_more')}}
+            @type='default'
+        >
+            {{~t (if this.expandedAbstract 'preprints.detail.see_less' 'preprints.detail.see_more')~}}
+        </Button>
+    {{/if}}
+</div>
