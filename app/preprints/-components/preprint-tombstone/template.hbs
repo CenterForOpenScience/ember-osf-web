@@ -1,0 +1,41 @@
+<div local-class='withdrawn-container'>
+    {{#if this.preprint.withdrawalJustification}}
+        <div>
+            <h4>{{t 'preprints.detail.reason_for_withdrawal'}}</h4>
+            <p>
+                {{this.preprint.withdrawalJustification}}
+            </p>
+        </div>
+    {{/if}}
+    <div>
+        <h4>{{t 'preprints.detail.abstract'}}</h4>
+        <p local-class='{{unless this.expandedAbstract 'abstract-truncated'}}'>
+            {{this.description}}
+        </p>
+        {{#if this.hasShortenedDescription}}
+            <Button
+                data-test-toggle-abstract
+                data-analytics-name='Expand Abstract'
+                {{on 'click' (action this.expandAbstract)}}
+                aria-label={{if this.expandedAbstract ( t 'preprints.detail.see_less') (t 'preprints.detail.see_more')}}
+                @type='default'
+            >
+                {{~t (if this.expandedAbstract 'preprints.detail.see_less' 'preprints.detail.see_more')~}}
+            </Button>
+        {{/if}}
+    </div>
+    <Preprints::-Components::PreprintDoi @preprint={{this.preprint}} @provider={{this.provider}} />
+    <Preprints::-Components::PreprintLicense @preprint={{this.preprint}} />
+    <Preprints::-Components::PreprintDiscipline @subjects={{this.subjects}} />
+    <Preprints::-Components::PreprintTag @preprint={{this.preprint}} />
+    <div>
+        <h4>{{t 'preprints.detail.tags'}}</h4>
+        {{#if this.preprint.tags.length}}
+            {{#each this.preprint.tags as |tag|}}
+                <span local-class='badge'>{{tag}}</span>
+            {{/each}}
+        {{else}}
+            {{t 'preprints.detail.none'}}
+        {{/if}}
+    </div>
+</div>

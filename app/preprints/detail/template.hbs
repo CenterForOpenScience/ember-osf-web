@@ -38,6 +38,10 @@ data-analytics-scope='preprints detail page'
     {{/if}}
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}
+            <Preprints::-Components::PreprintTombstone
+                @preprint={{this.model.preprint}}
+                @provider={{this.model.provider}}
+                @subjects={{this.model.subjects}} />
             <div local-class='withdrawn-container'>
                 {{#if this.model.preprint.withdrawalJustification}}
                     <div>
@@ -68,16 +72,6 @@ data-analytics-scope='preprints detail page'
                 <Preprints::-Components::PreprintLicense @preprint={{this.model.preprint}} />
                 <Preprints::-Components::PreprintDiscipline @subjects={{this.model.subjects}} />
                 <Preprints::-Components::PreprintTag @preprint={{this.model.preprint}} />
-                <div>
-                    <h4>{{t 'preprints.detail.tags'}}</h4>
-                    {{#if this.model.preprint.tags.length}}
-                        {{#each this.model.preprint.tags as |tag|}}
-                            <span local-class='badge'>{{tag}}</span>
-                        {{/each}}
-                    {{else}}
-                        {{t 'preprints.detail.none'}}
-                    {{/if}}
-                </div>
             </div>
         {{else}}
             <div local-class='data-container-left {{if this.fullScreenMFR 'expanded' 'collapsed'}}'>
@@ -227,16 +221,6 @@ data-analytics-scope='preprints detail page'
                     <Preprints::-Components::PreprintLicense @preprint={{this.model.preprint}} />
                     <Preprints::-Components::PreprintDiscipline @subjects={{this.model.subjects}} />
                     <Preprints::-Components::PreprintTag @preprint={{this.model.preprint}} />
-                    <div>
-                        <h4>{{t 'preprints.detail.tags'}}</h4>
-                        {{#if this.model.preprint.tags.length}}
-                            {{#each this.model.preprint.tags as |tag|}}
-                                <span local-class='badge'>{{tag}}</span>
-                            {{/each}}
-                        {{else}}
-                            {{t 'preprints.detail.none'}}
-                        {{/if}}
-                    </div>
                     {{#if this.model.preprint.originalPublicationDate}}
                         <div>
                             <h4>{{t 'preprints.detail.original_publication_date'}}</h4>
