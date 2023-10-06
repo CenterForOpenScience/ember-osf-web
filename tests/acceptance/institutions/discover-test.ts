@@ -35,7 +35,7 @@ module('Acceptance | institutions | discover', hooks => {
         await visit('/institutions/has-users');
         assert.equal(currentURL(), '/institutions/has-users', 'Current route is institutions discover');
         // verify logo and description
-        assert.dom('[data-test-institution-logo]').exists('Institution header logo shown');
+        assert.dom('[data-test-institution-banner]').exists('Institution banner shown');
         assert.dom('[data-test-institution-description]').exists('Institution description is shown');
         // verify mobile menu display
         assert.dom('[data-test-topbar-wrapper]').doesNotExist('Topbar not shown on mobile');

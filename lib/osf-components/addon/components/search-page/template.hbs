@@ -18,19 +18,11 @@ as |layout|>
                 {{html-safe @provider.description}}
             </p>
         {{else if @institution}}
-            {{#if this.showSidePanelToggle}}
-                <img
-                    data-test-institution-logo
-                    src={{@institution.logoRoundedUrl}}
-                    alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
-                >
-            {{else}}
-                <img
-                    data-test-institution-banner
-                    src={{@institution.bannerUrl}}
-                    alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
-                >
-            {{/if}}
+            <img
+                data-test-institution-banner
+                src={{@institution.bannerUrl}}
+                alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
+            >
             <p local-class='provider-description' data-test-institution-description>{{html-safe @institution.description}}</p>
         {{else}}
             <label
@@ -72,7 +64,6 @@ as |layout|>
                     @type='primary'
                     @layout='large'
                     {{on 'click' (queue
-                        layout.openSidenavGutter
                         (fn (mut this.showTooltip3) false)
                         (fn (mut this.showTooltip2) false)
                         (fn (mut this.showTooltip1) true)
