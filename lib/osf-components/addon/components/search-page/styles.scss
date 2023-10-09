@@ -29,6 +29,7 @@
 
     .provider-description {
         width: 100%;
+        padding: 0 25px;
     }
 
     .search-input-wrapper {
@@ -345,6 +346,7 @@
     align-self: flex-end;
     padding-bottom: 10px;
     margin-left: 10px;
+    color: $color-link-dark;
 
     p {
         margin: 0 0 0 2px;
@@ -353,7 +355,6 @@
     div {
         background-color: $color-bg-gray-blue-light;
         border: 0 solid transparent;
-        color: $color-bg-blue-dark;
         width: 170px;
     }
 
@@ -478,6 +479,10 @@
 
 // Globals for use by product folks to modify style descriptions
 .provider-description {
+    a {
+        text-decoration: underline;
+    }
+
     :global(.ColorBlack) {
         color: $color-text-black;
     }
