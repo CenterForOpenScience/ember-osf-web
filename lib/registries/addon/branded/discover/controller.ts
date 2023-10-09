@@ -8,8 +8,7 @@ import Media from 'ember-responsive';
 import { tracked } from '@glimmer/tracking';
 import { Filter, OnSearchParams } from 'osf-components/components/search-page/component';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import config from 'ember-get-config';
-
+import config from 'ember-osf-web/config/environment';
 export default class BrandedDiscover extends Controller.extend() {
     @service media!: Media;
     @service intl!: Intl;

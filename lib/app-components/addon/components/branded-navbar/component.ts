@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 import Session from 'ember-simple-auth/services/session';

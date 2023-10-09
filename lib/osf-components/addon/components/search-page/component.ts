@@ -209,15 +209,17 @@ export default class SearchPage extends Component<SearchArgs> {
             if (this.args.onSearch) {
                 this.args.onSearch({cardSearchText, sort, resourceType, activeFilters});
             }
-            let filterQueryObject = activeFilters.reduce((acc, filter) => {
+            const filterQueryObject = activeFilters.reduce((acc, filter) => {
                 // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
                 if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
                     acc[filter.propertyPathKey] = {};
                     acc[filter.propertyPathKey][filter.value] = true;
                     return acc;
                 }
-                // other filters should look like cardSearchFilter[propertyName]=IRI
                 const currentValue = acc[filter.propertyPathKey];
+                // other filters should look like cardSearchFilter[propertyName]=IRI
+                // or cardSearchFilter[propertyName] = IRI1, IRI2
+                // Logic below is to handle the case where there are multiple filters for the same property
                 acc[filter.propertyPathKey] = currentValue ? currentValue.concat(filter.value) : [filter.value];
                 return acc;
             }, {} as { [key: string]: any });
@@ -227,7 +229,15 @@ export default class SearchPage extends Component<SearchArgs> {
                 resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
             }
             filterQueryObject['resourceType'] = resourceTypeFilter;
-            filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
+            if (this.args.defaultQueryOptions) {
+                const { defaultQueryOptions } = this.args;
+                const defaultQueryOptionKeys = Object.keys(this.args.defaultQueryOptions);
+                defaultQueryOptionKeys.forEach(key => {
+                    const currentValue = filterQueryObject[key];
+                    const defaultValue = defaultQueryOptions[key];
+                    filterQueryObject[key] = currentValue ? currentValue.concat(defaultValue) : [defaultValue];
+                });
+            }
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
                 cardSearchText,
