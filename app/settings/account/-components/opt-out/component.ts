@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import IntlService from 'ember-intl/services/intl';
 
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
