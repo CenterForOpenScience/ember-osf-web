@@ -18,14 +18,3 @@
     align-self: flex-start;
     margin: 10px;
 }
-
-@media (min-width: 501px) and (max-width: 991px) {
-    .HeadingWrapper h2 {
-        padding: 0.75rem 1rem 0.5rem;
-    }
-
-    .CloseButton.CloseButton {
-        display: flex;
-        margin-top: 20px;
-    }
-}
