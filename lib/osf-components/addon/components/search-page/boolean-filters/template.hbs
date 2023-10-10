@@ -1,0 +1,54 @@
+{{#if this.hasFilterableValues}}
+    <div
+        data-analytics-scope='Search page boolean filters wrapper'
+        data-test-boolean-filter-list
+        local-class='facet-wrapper'
+        ...attributes
+    >
+        {{#let (unique-id 'boolean-filters') as |facetElementId|}}
+            <Button
+                data-analytics-name='Toggle boolean filters'
+                data-test-filter-boolean-filters
+                @layout='fake-link'
+                local-class='facet-expand-button'
+                aria-controls={{facetElementId}}
+                aria-expanded={{not this.collapsed}}
+                {{on 'click' this.toggleFacet}}
+            >
+                <span>{{t 'search.boolean-filters.dropdown-label'}}</span>
+                <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
+            </Button>
+            <ul
+                local-class='facet-list {{if this.collapsed 'collapsed'}}'
+                id={{facetElementId}}
+            >
+                {{#each this.filterableValues as |value|}}
+                    <li
+                        data-test-filter-boolean-value={{value.displayLabel}}
+                        local-class='facet-value'
+                    >
+                        <Button
+                            data-analytics-name='Toggle boolean value {{value.displayLabel}}'
+                            local-class='facet-link'
+                            @layout='fake-link'
+                            title={{value.displayLabel}}
+                            {{on 'click' (fn @toggleFilter (hash
+                                propertyVisibleLabel=this.visibleLabel
+                                propertyPathKey=value.propertyPathKey
+                                label=value.displayLabel
+                                value='is-present'
+                                suggestedFilterOperator='is-present'
+                                )
+                            )}}
+                        >
+                            {{value.displayLabel}}
+                        </Button>
+                        <span local-class='facet-count'>
+                            {{value.cardSearchResultCount}}
+                        </span>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/let}}
+    </div>
+{{/if}}

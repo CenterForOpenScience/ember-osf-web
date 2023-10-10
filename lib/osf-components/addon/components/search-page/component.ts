@@ -12,12 +12,11 @@ import { action } from '@ember/object';
 import Media from 'ember-responsive';
 
 import { ShareMoreThanTenThousand } from 'ember-osf-web/models/index-card-search';
+import InstitutionModel from 'ember-osf-web/models/institution';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
-import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path';
+import RelatedPropertyPathModel, { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import uniqueId from 'ember-osf-web/utils/unique-id';
-
-import { booleanFilterProperties } from './filter-facet/component';
 
 interface ResourceTypeOption {
     display: string;
@@ -39,16 +38,17 @@ interface SortOption {
 
 export interface Filter {
     propertyVisibleLabel: string;
-    propertyShortFormLabel: string; // OSFMAP shorthand label
+    propertyPathKey: string; // OSFMAP shorthand label
     value: string;
     label: string;
+    suggestedFilterOperator?: SuggestedFilterOperators;
 }
 
 export interface OnSearchParams {
     cardSearchText?: string;
-    page?: string;
     sort?: string;
     resourceType?: ResourceTypeFilterValue | null;
+    activeFilters?: Filter[];
 }
 
 interface SearchArgs {
@@ -62,8 +62,10 @@ interface SearchArgs {
     resourceType?: ResourceTypeFilterValue;
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
+    institution?: InstitutionModel;
     showResourceTypeFilter: boolean;
     page: string;
+    activeFilters: Filter[];
 }
 
 const searchDebounceTime = 100;
@@ -77,6 +79,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked cardSearchText?: string;
     @tracked searchResults?: SearchResultModel[];
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
+    @tracked booleanFilters?: RelatedPropertyPathModel[] = [];
     @tracked page?: string = '';
     @tracked totalResultCount?: string | number;
     @tracked firstPageCursor?: string | null;
@@ -90,6 +93,7 @@ export default class SearchPage extends Component<SearchArgs> {
         this.cardSearchText = this.args.cardSearchText;
         this.sort = this.args.sort;
         this.resourceType = this.args.resourceType;
+        this.activeFilters = A<Filter>(this.args.activeFilters);
         taskFor(this.search).perform();
     }
 
@@ -101,6 +105,7 @@ export default class SearchPage extends Component<SearchArgs> {
     leftPanelObjectDropdownId = uniqueId(['left-panel-object-dropdown']);
     firstTopbarObjectTypeLinkId = uniqueId(['first-topbar-object-type-link']);
     searchInputWrapperId = uniqueId(['search-input-wrapper']);
+    searchBoxId = uniqueId(['search-box']);
     leftPanelHeaderId = uniqueId(['left-panel-header']);
     firstFilterId = uniqueId(['first-filter']);
 
@@ -144,7 +149,7 @@ export default class SearchPage extends Component<SearchArgs> {
     }
 
     get showResultCountLeft() {
-        return this.totalResultCount && this.args.showResourceTypeFilter;
+        return this.totalResultCount && (this.args.showResourceTypeFilter || this.showSidePanelToggle);
     }
 
     get selectedSortOption() {
@@ -152,7 +157,7 @@ export default class SearchPage extends Component<SearchArgs> {
     }
 
     // Resource type
-    resourceTypeOptions: ResourceTypeOption[] = [
+    defaultResourceTypeOptions: ResourceTypeOption[] = [
         {
             display: this.intl.t('search.resource-type.all'),
             value: null,
@@ -179,6 +184,9 @@ export default class SearchPage extends Component<SearchArgs> {
         },
     ];
 
+    resourceTypeOptions = this.args.institution ? this.defaultResourceTypeOptions.slice(1)
+        : this.defaultResourceTypeOptions;
+
     // Sort
     sortOptions: SortOption[] = [
         { display: this.intl.t('search.sort.relevance'), value: '-relevance' },
@@ -198,16 +206,21 @@ export default class SearchPage extends Component<SearchArgs> {
         try {
             const cardSearchText = this.cardSearchText;
             const { page, sort, activeFilters, resourceType } = this;
-            let filterQueryObject = activeFilters.reduce((acc, filter) => {
+            if (this.args.onSearch) {
+                this.args.onSearch({cardSearchText, sort, resourceType, activeFilters});
+            }
+            const filterQueryObject = activeFilters.reduce((acc, filter) => {
                 // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
-                if (booleanFilterProperties.includes(filter.propertyShortFormLabel)) {
-                    acc[filter.propertyShortFormLabel] = {};
-                    acc[filter.propertyShortFormLabel][filter.value] = true;
+                if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
+                    acc[filter.propertyPathKey] = {};
+                    acc[filter.propertyPathKey][filter.value] = true;
                     return acc;
                 }
+                const currentValue = acc[filter.propertyPathKey];
                 // other filters should look like cardSearchFilter[propertyName]=IRI
-                const currentValue = acc[filter.propertyShortFormLabel];
-                acc[filter.propertyShortFormLabel] = currentValue ? currentValue.concat(filter.value) : [filter.value];
+                // or cardSearchFilter[propertyName] = IRI1, IRI2
+                // Logic below is to handle the case where there are multiple filters for the same property
+                acc[filter.propertyPathKey] = currentValue ? currentValue.concat(filter.value) : [filter.value];
                 return acc;
             }, {} as { [key: string]: any });
             let resourceTypeFilter = this.resourceType as string;
@@ -216,7 +229,15 @@ export default class SearchPage extends Component<SearchArgs> {
                 resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
             }
             filterQueryObject['resourceType'] = resourceTypeFilter;
-            filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
+            if (this.args.defaultQueryOptions) {
+                const { defaultQueryOptions } = this.args;
+                const defaultQueryOptionKeys = Object.keys(this.args.defaultQueryOptions);
+                defaultQueryOptionKeys.forEach(key => {
+                    const currentValue = filterQueryObject[key];
+                    const defaultValue = defaultQueryOptions[key];
+                    filterQueryObject[key] = currentValue ? currentValue.concat(defaultValue) : [defaultValue];
+                });
+            }
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
                 cardSearchText,
@@ -226,16 +247,18 @@ export default class SearchPage extends Component<SearchArgs> {
                 'page[size]': 10,
             });
             await searchResult.relatedProperties;
-            this.relatedProperties = searchResult.relatedProperties;
+            this.booleanFilters = searchResult.relatedProperties
+                .filterBy('suggestedFilterOperator', SuggestedFilterOperators.IsPresent);
+            this.relatedProperties = searchResult.relatedProperties.filter(
+                (property: RelatedPropertyPathModel) =>
+                    property.suggestedFilterOperator !== SuggestedFilterOperators.IsPresent, // AnyOf or AtDate
+            );
             this.firstPageCursor = searchResult.firstPageCursor;
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
             this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
                 searchResult.totalResultCount;
-            if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType});
-            }
         } catch (e) {
             this.toast.error(e);
         }
@@ -259,7 +282,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @action
     toggleFilter(filter: Filter) {
         const filterIndex = this.activeFilters.findIndex(
-            f => f.propertyShortFormLabel === filter.propertyShortFormLabel && f.value === filter.value,
+            f => f.propertyPathKey === filter.propertyPathKey && f.value === filter.value,
         );
         if (filterIndex > -1) {
             this.activeFilters.removeAt(filterIndex);

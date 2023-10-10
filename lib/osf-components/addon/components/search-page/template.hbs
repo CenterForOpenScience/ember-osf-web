@@ -6,7 +6,7 @@ as |layout|>
         data-test-heading-wrapper
         data-analytics-scope='Search page heading'
         {{with-branding (get-model @provider.brand)}}
-        local-class='{{if this.showSidePanelToggle 'heading-wrapper-mobile' 'heading-wrapper'}} {{if @provider 'hero-overlay'}} {{if @institution 'heading-wrapper-institutions'}} {{if (and this.showSidePanelToggle @institution) 'heading-wrapper-institutions-mobile'}}'
+        local-class='{{if this.showSidePanelToggle 'heading-wrapper-mobile' 'heading-wrapper'}} {{if @provider 'hero-overlay'}} {{if @institution 'institutions-overlay'}}'
     >
         {{#if @provider}}
             <div
@@ -14,35 +14,20 @@ as |layout|>
                 local-class='provider-logo'
             >
             </div>
-            <p data-test-search-provider-description>
+            <p local-class='provider-description' data-test-search-provider-description>
                 {{html-safe @provider.description}}
             </p>
         {{else if @institution}}
-            <div local-class='heading-wrapper-institutions'>
-                <label
-                    for='search-input'
-                    local-class='heading-label-institution'
-                >
-                    {{#if this.showSidePanelToggle}}
-                        <img
-                            data-test-institution-logo
-                            src={{@institution.assets.logo}}
-                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
-                        >
-                    {{else}}
-                        <img
-                            data-test-institution-banner
-                            src={{@institution.assets.banner}}
-                            alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
-                        >
-                    {{/if}}
-                    <p data-test-institution-description>{{@institution.description}}</p>
-                </label>
-            </div>
+            <img
+                data-test-institution-banner
+                src={{@institution.bannerUrl}}
+                alt={{concat (t 'search.institutions.institution-logo') @institution.name}}
+            >
+            <p local-class='provider-description' data-test-institution-description>{{html-safe @institution.description}}</p>
         {{else}}
             <label
                 data-test-search-header
-                for='search-input'
+                for={{this.searchBoxId}}
                 local-class='heading-label'
             >
                 <h1>{{t 'search.search-header'}}</h1>
@@ -53,6 +38,7 @@ as |layout|>
                 data-test-search-input
                 data-analytics-name='Search input'
                 local-class='search-input'
+                id={{this.searchBoxId}}
                 placeholder={{t 'search.textbox-placeholder'}}
                 @type='search'
                 @value={{this.cardSearchText}}
@@ -78,7 +64,6 @@ as |layout|>
                     @type='primary'
                     @layout='large'
                     {{on 'click' (queue
-                        layout.openSidenavGutter
                         (fn (mut this.showTooltip3) false)
                         (fn (mut this.showTooltip2) false)
                         (fn (mut this.showTooltip1) true)
@@ -174,16 +159,25 @@ as |layout|>
                     @property={{filterableProperty}}
                     @toggleFilter={{this.toggleFilter}}
                 />
-            {{else}}
+            {{/each}}
+            {{#if this.booleanFilters.length}}
+                <SearchPage::BooleanFilters
+                    @cardSearchText={{@cardSearchText}}
+                    @cardSearchFilter={{this.filterQueryObject}}
+                    @properties={{this.booleanFilters}}
+                    @toggleFilter={{this.toggleFilter}}
+                />
+            {{/if}}
+            {{#if (and (not this.booleanFilters.length) (not this.relatedProperties.length))}}
                 <p local-class='no-properties'>
                     {{t 'search.left-panel.no-filterable-properties'}}
                 </p>
-            {{/each}}
+            {{/if}}
         {{/if}}
     </layout.left>
     <layout.main local-class={{if this.showSidePanelToggle 'search-main-mobile' 'search-main'}} data-analytics-scope='Search page main'>
         {{#unless this.showSidePanelToggle}}
-            <div data-test-topbar-wrapper local-class='topbar'>
+            <div data-test-topbar-wrapper local-class='topbar {{if @showResourceTypeFilter 'flex-column-tablet'}}'>
                 {{#if @showResourceTypeFilter}}
                     <nav
                         data-test-topbar-object-type-nav
@@ -206,19 +200,6 @@ as |layout|>
                             {{/each}}
                         </ul>
                     </nav>
-                    <div
-                        data-test-topbar-sort-dropdown
-                        local-class='sort-dropdown'
-                    >
-                        <PowerSelect
-                            @options={{this.sortOptions}}
-                            @selected={{this.selectedSortOption}}
-                            @onChange={{action this.updateSort}}
-                            as |sortOption|
-                        >
-                            <p>{{sortOption.display}}</p>
-                        </PowerSelect>
-                    </div>
                 {{else if this.showResultCountMiddle}}
                     <p
                         data-test-middle-search-count
@@ -227,6 +208,19 @@ as |layout|>
                         {{t 'search.total-results' count=this.totalResultCount}}
                     </p>
                 {{/if}}
+                <div
+                    data-test-topbar-sort-dropdown
+                    local-class='sort-dropdown'
+                >
+                    <PowerSelect
+                        @options={{this.sortOptions}}
+                        @selected={{this.selectedSortOption}}
+                        @onChange={{action this.updateSort}}
+                        as |sortOption|
+                    >
+                        <p>{{sortOption.display}}</p>
+                    </PowerSelect>
+                </div>
             </div>
         {{/unless}}
         {{#if this.search.isRunning}}
@@ -279,7 +273,7 @@ as |layout|>
             <h2 local-class='search-help-header' data-test-help-heading-1>
                 {{t 'search.search-help.header-1'}}
             </h2>
-            <p data-test-help-body-1>{{t 'search.search-help.body-1' htmlSafe=true}}</p>
+            <p local-class='help-description' data-test-help-body-1>{{t 'search.search-help.body-1' htmlSafe=true}}</p>
             <span local-class='pagination'>
                 <p local-class='enumeration' data-test-help-enumeration-1>{{t 'search.search-help.index-1'}}</p>
                 <span local-class='help-button-wrapper'>
@@ -323,7 +317,7 @@ as |layout|>
             <h2 local-class='search-help-header' data-test-help-heading-2>
                 {{t 'search.search-help.header-2'}}
             </h2>
-            <p data-test-help-body-2>{{t 'search.search-help.body-2'}}</p>
+            <p local-class='help-description' data-test-help-body-2>{{t 'search.search-help.body-2'}}</p>
             <span local-class='pagination'>
                 <p local-class='enumeration' data-test-help-enumeration-2>{{t 'search.search-help.index-2'}}</p>
                 <span local-class='help-button-wrapper'>
@@ -367,7 +361,7 @@ as |layout|>
             <h2 local-class='search-help-header' data-test-help-heading-3>
                 {{t 'search.search-help.header-3'}}
             </h2>
-            <p data-test-help-body-3>{{t 'search.search-help.body-3' htmlSafe=true}}</p>
+            <p local-class='help-description' data-test-help-body-3>{{t 'search.search-help.body-3' htmlSafe=true}}</p>
             <span local-class='pagination'>
                 <p local-class='enumeration' data-test-help-enumeration-3>{{t 'search.search-help.index-3'}}</p>
                 <span local-class='help-button-wrapper'>
