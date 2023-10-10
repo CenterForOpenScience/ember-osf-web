@@ -24,7 +24,7 @@ export default class InstitutionDiscoverController extends Controller {
             key = 'creator.affiliation';
             break;
         case ResourceTypeFilterValue.Files:
-            key = 'isContainedby.affiliation';
+            key = 'isContainedBy.affiliation';
             break;
         default:
             break;
