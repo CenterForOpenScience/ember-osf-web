@@ -1,0 +1,14 @@
+<ul class='assertions-links'>
+    {{#each this.links as |href|}}
+        <li>
+            <OsfLink
+                data-test-preprint-assertion-link
+                data-analytics-name={{this.analyticsName}}
+                @target='_blank'
+                @href='{{href}}'
+            >
+                {{href}}
+            </OsfLink>
+        </li>
+    {{/each}}
+</ul>

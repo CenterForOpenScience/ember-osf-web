@@ -87,7 +87,8 @@ function buildOSF(
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
         hasCoi: true,
         hasDataLinks: PreprintDataLinksEnum.AVAILABLE,
-        hasPreregLinks: PreprintPreregLinksEnum.available,
+        dataLinks: ['link 1', 'link 2', 'link 3'],
+        hasPreregLinks: PreprintPreregLinksEnum.AVAILABLE,
         conflictOfInterestStatement: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
     }, 'isContributor');
 

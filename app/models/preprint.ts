@@ -50,6 +50,7 @@ export default class PreprintModel extends OsfModel {
     @attr('string') hasDataLinks!: string;
     @attr('string') hasPreregLinks!: string;
     @attr('string') conflictOfInterestStatement!: string;
+    @attr('array') dataLinks!: string[];
 
     @belongsTo('node', { inverse: 'preprints' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
