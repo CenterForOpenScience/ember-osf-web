@@ -66,12 +66,18 @@ export default class TokenForm extends Component {
 
     @action
     async deleteToken() {
-        try {
-            await this.token!.destroyRecord();
-            this.toast.success(this.intl.t('settings.tokens.deleted'));
-            this.router.transitionTo('settings.tokens');
-        } catch {
-            this.toast.error(this.intl.t('settings.tokens.delete-error'));
+        if (this.token) {
+            try {
+                await this.changeset.validate();
+                if (this.changeset.isValid) {
+                    this.token.deleteRecord();
+                    this.token.save();
+                    this.toast.success(this.intl.t('settings.tokens.deleted'));
+                    this.router.transitionTo('settings.tokens');
+                }
+            } catch {
+                this.toast.error(this.intl.t('settings.tokens.delete-error'));
+            }
         }
     }
 }

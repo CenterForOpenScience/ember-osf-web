@@ -30,10 +30,10 @@
             </div>
         </form.checkboxes>
     </div>
-
     <DeleteButton
         @delete={{action this.deleteToken}}
         @disabled={{this.disabled}}
+        @hardConfirm={{false}}
         @modalTitle={{t
             'settings.tokens.confirmDelete.title'
             tokenName=this.token.name
@@ -41,7 +41,6 @@
         }}
         @modalBody={{t 'settings.tokens.confirmDelete.body'}}
     />
-
     <Button
         data-test-save-token-button
         data-analytics-name='Save'

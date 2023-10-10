@@ -24,6 +24,7 @@ export default class SettingsTokensEditController extends Controller {
     refresh() {
         if (this.token && this.token.tokenValue) {
             this.token.tokenValue = undefined;
+            this.token.save();
         }
     }
 
