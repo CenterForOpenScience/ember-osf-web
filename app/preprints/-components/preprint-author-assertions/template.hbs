@@ -39,7 +39,6 @@
         {{/if}}
 
         {{#if this.hasDataLinks}}
-            {{!-- if #3 --}}
             <div class='assertions-container'>
                 <Button
                     data-test-view-data-links
@@ -62,11 +61,10 @@
                     <dialog.main>
                         <div local-class='data-links-comment' aria-labelledby='coi-comment'>
                             {{#if (eq this.preprint.hasDataLinks 'available')}}
-                                {{!-- if #3.1 --}}
-                                {{assertions-links
-                                    links=this.preprint.dataLinks
-                                    analyticsName=(t 'preprints.detail.author-assertions.public_data.title')
-                                }}
+                                <Preprints::-Components::PreprintAssertionLink
+                                    @links={{this.preprint.dataLinks}}
+                                    @analyticsName={{ t 'preprints.detail.author-assertions.public_data.title'}}
+                                />
                             {{else if (eq this.preprint.hasDataLinks 'no')}}
                                 {{!-- else if #3.2 --}}
                                 {{#if this.preprint.whyNoData}}
