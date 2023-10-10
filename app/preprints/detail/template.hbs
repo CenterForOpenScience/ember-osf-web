@@ -31,7 +31,11 @@ data-analytics-scope='preprints detail page'
                 <ContributorList @model={{this.model.preprint}} @shouldTruncate={{false}} />
             </h5>
         </div>
-        {{! removed - author-assertions }}
+        <Preprints::-Components::PreprintAuthorAssertions
+            @preprint={{this.model.preprint}}
+            @provider={{this.model.provider}}
+            @documentType={{this.model.provider.documentType.singular}}
+        />
     </div>
     {{#if (or this.showStatusBanner this.isWithdrawn)}}
         <Preprints::-Components::PreprintStatusBanner @submission={{this.model.preprint}} />

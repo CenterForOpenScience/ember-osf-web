@@ -1,5 +1,6 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import { PreprintDataLinksEnum, PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
 
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import { ReviewsState } from 'ember-osf-web/models/provider';
@@ -53,6 +54,7 @@ function buildOSF(
         doi: '10.30822/artk.v1i1.79',
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
+        hasCoi: true,
     });
 
     const notContributorPreprint = server.create('preprint', {
@@ -83,6 +85,10 @@ function buildOSF(
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
+        hasCoi: true,
+        hasDataLinks: PreprintDataLinksEnum.AVAILABLE,
+        hasPreregLinks: PreprintPreregLinksEnum.available,
+        conflictOfInterestStatement: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
     }, 'isContributor');
 
     const orphanedPreprint = server.create('preprint', {

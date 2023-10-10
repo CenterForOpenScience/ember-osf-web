@@ -1158,6 +1158,34 @@ preprints:
         supplemental_materials: 'Supplemental Materials'
         tags: 'Tags'
         reason_for_withdrawal: 'Reason for withdrawal'
+        author-assertions:
+            header_label: 'Author Assertions'
+            describe: 'Describe'
+            available: 
+                yes: 'Yes'
+                no: 'No'
+                available: 'Available'
+                not_applicable: 'Not applicable'
+            conflict_of_interest:
+                title: 'Conflict of Interest'
+                no: 'Author asserted no Conflict of Interest'
+            public_data:
+                linksToData: 'Links to data'
+                title: 'Public Data'
+                no: 'No additional information provided by author.'
+                'not-applicable': 'Author asserted there is no data associated with this {documentType}.'
+                description: 'Data refers to raw and/or processed information (quantitative or qualitative) used for the analyses, case studies, and/or descriptive interpretation in the {documentType}. Public data could include data posted to open-access repositories, public archival library collection, or government archive. For data that is available under limited circumstances (e.g., after signing a data sharing agreement), choose the ‘No’ option and use the comment box to explain how others could access the data.'
+            prereg:
+                links: 'Links'
+                title: 'Preregistration'
+                type: 'Type'
+                chooseOne: 'Choose one'
+                no: 'No additional information provided by author.'
+                prereg_designs: 'Study Design'
+                prereg_analysis: 'Analysis Plan'
+                prereg_both: 'Both'
+                'not-applicable': 'Author asserted that preregistration was not applicable because no data collection, extraction, or analysis is reported in this {documentType}.'
+                description: 'A preregistration is a description of the research design and/or analysis plan that is created and registered before researchers collected data or before they have seen/interacted with preexisting data. The description should appear in a public registry (e.g., clinicaltrials.gov, OSF, AEA registry).'
         status_banner:
             pre_moderation: 'pre-moderation'
             post_moderation: 'post-moderation'

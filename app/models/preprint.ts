@@ -13,6 +13,20 @@ import OsfModel from './osf-model';
 import PreprintProviderModel from './preprint-provider';
 import SubjectModel from './subject';
 
+export enum PreprintDataLinksEnum {
+    AVAILABLE = 'available',
+    YES = 'yes',
+    NO = 'no',
+    NOT_APPLICABLE = 'pot applicable',
+}
+
+export enum PreprintPreregLinksEnum {
+    AVAILABLE = 'available',
+    YES = 'yes',
+    NO = 'no',
+    NOT_APPLICABLE = 'pot applicable',
+}
+
 export default class PreprintModel extends OsfModel {
     @attr('fixstring') title!: string;
     @attr('date') dateCreated!: Date;
@@ -32,6 +46,10 @@ export default class PreprintModel extends OsfModel {
     @attr('array') currentUserPermissions!: string[];
     @attr('fixstringarray') tags!: string[];
     @attr('fixstring') withdrawalJustification!     : string;
+    @attr('boolean') hasCoi!: boolean;
+    @attr('string') hasDataLinks!: string;
+    @attr('string') hasPreregLinks!: string;
+    @attr('string') conflictOfInterestStatement!: string;
 
     @belongsTo('node', { inverse: 'preprints' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
