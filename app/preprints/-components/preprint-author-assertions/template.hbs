@@ -1,0 +1,122 @@
+{{#if this.shouldShowSloanIcons}}
+    <div class='author-assertions-header-label'>
+        {{~t 'preprints.detail.author-assertions.header_label'~}}
+    </div>
+    <div class='author-assertions'>
+        {{#if this.hasCoi}}
+            <div class='assertions-container'>
+                <Button
+                    data-test-view-coi
+                    data-analytics-name='View coi'
+                    @type='default'
+                    {{on 'click' (action (mut this.displayCoi) (not this.displayCoi))}}
+                >
+                    {{if this.hasCoi
+                        (t 'preprints.detail.author-assertions.available.yes')
+                        (t 'preprints.detail.author-assertions.available.no')}}
+                    <FaIcon @icon='caret-down' @prefix='fas' aria-hidden='true'/>
+                </Button>
+                <OsfDialog
+                    @closeOnOutsideClick={{true}}
+                    @isOpen={{this.displayCoi}}
+                    @onClose={{action (mut this.displayCoi) false}}
+                    as |dialog|
+                >
+                    <dialog.heading>
+                        <h3>{{t 'preprints.detail.author-assertions.conflict_of_interest.title'}}</h3>
+                    </dialog.heading>
+                    <dialog.main>
+                        <div local-class='coi-comment' aria-labelledby='coi-comment'>
+                            {{#if this.hasCoiStatement}}
+                                {{~this.preprint.conflictOfInterestStatement~}}
+                            {{else}}
+                                {{~t 'preprints.detail.author-assertions.conflict_of_interest.no'~}}
+                            {{/if}}
+                        </div>
+                    </dialog.main>
+                </OsfDialog>
+            </div>
+        {{/if}}
+
+        {{#if this.hasDataLinks}}
+            {{!-- if #3 --}}
+            <div class='assertions-container'>
+                <Button
+                    data-test-view-data-links
+                    data-analytics-name='View data links'
+                    @type='default'
+                    {{on 'click' (action (mut this.displayDataLinks) (not this.displayDataLinks))}}
+                >
+                    {{t (concat 'preprints.detail.author-assertions.available.' this.preprint.hasDataLinks) }}
+                    <FaIcon @icon='caret-down' @prefix='fas' aria-hidden='true'/>
+                </Button>
+                <OsfDialog
+                    @closeOnOutsideClick={{true}}
+                    @isOpen={{this.displayDataLinks}}
+                    @onClose={{action (mut this.displayDataLinks) false}}
+                    as |dialog|
+                >
+                    <dialog.heading>
+                        <h3>{{t 'preprints.detail.author-assertions.public_data.title'}}</h3>
+                    </dialog.heading>
+                    <dialog.main>
+                        <div local-class='data-links-comment' aria-labelledby='coi-comment'>
+                            {{#if (eq this.preprint.hasDataLinks 'available')}}
+                                {{!-- if #3.1 --}}
+                                {{assertions-links
+                                    links=this.preprint.dataLinks
+                                    analyticsName=(t 'preprints.detail.author-assertions.public_data.title')
+                                }}
+                            {{else if (eq this.preprint.hasDataLinks 'no')}}
+                                {{!-- else if #3.2 --}}
+                                {{#if this.preprint.whyNoData}}
+                                    {{!-- else if if #3.2.1 --}}
+                                    {{this.preprint.whyNoData}}
+                                {{else}}
+                                    {{!-- else if if else #3.2.2 --}}
+                                    {{~t 'preprints.detail.author-assertions.public_data.no'~}}
+                                {{/if}}
+                            {{else}}
+                                {{!-- else if else #3.3 --}}
+                                {{~t 'preprints.detail.author-assertions.public_data.not-applicable' documentType=this.documentType~}}
+                            {{/if}}
+                        </div>
+                    </dialog.main>
+                </OsfDialog>
+            </div>
+        {{/if}}
+
+        {{#if this.shouldShowPreregLinks}}
+            {{!-- #if #4 --}}
+            <div class='assertions-container'>
+                {{#assertions-dropdown
+                    available=(t (concat 'preprints.detail.author-assertions.available.' this.preprint.hasPreregLinks))
+                    assertionName=(t 'preprints.detail.author-assertions.prereg.title')
+                    as |dropdown|
+                }}
+                    {{#dropdown.content}}
+                        {{#if (eq this.preprint.hasPreregLinks 'available')}}
+                            {{!-- #if #4.1 --}}
+                            {{assertions-links
+                                links=this.preprint.preregLinks
+                                analyticsName=(t 'preprints.detail.author-assertions.prereg.title')
+                            }}
+                        {{else if (eq this.preprint.hasPreregLinks 'no')}}
+                            {{!-- #if else #4.1.1 --}}
+                            {{#if this.preprint.whyNoPrereg}}
+                                {{!-- #if else if #4.1.2 --}}
+                                {{this.preprint.whyNoPrereg}}
+                            {{else}}
+                                {{!-- #if else else #4.1.3 --}}
+                                {{~t 'preprints.detail.author-assertions.prereg.no'~}}
+                            {{/if}}
+                        {{else}}
+                            {{!-- #if #4.2 --}}
+                            {{~t 'preprints.detail.author-assertions.prereg.not-applicable' documentType=this.documentType~}}
+                        {{/if}}
+                    {{/dropdown.content}}
+                {{/assertions-dropdown}}
+            </div>
+        {{/if}}
+    </div>
+{{/if}}
