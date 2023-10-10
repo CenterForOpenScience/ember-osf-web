@@ -303,6 +303,7 @@ export function cardSearch(_: Schema, __: Request) {
                 type: 'related-property-path',
                 id: 'propertyMatch1',
                 attributes: {
+                    propertyPathKey: 'rights',
                     matchEvidence: [
                         {
                             '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
@@ -333,12 +334,14 @@ export function cardSearch(_: Schema, __: Request) {
                             ],
                         },
                     ],
+                    suggestedFilterOperator: 'any-of',
                 },
             },
             {
                 type: 'related-property-path',
                 id: 'propertyMatch2',
                 attributes: {
+                    propertyPathKey: 'datePublished',
                     matchEvidence: [
                         {
                             '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
@@ -369,12 +372,14 @@ export function cardSearch(_: Schema, __: Request) {
                             ],
                         },
                     ],
+                    suggestedFilterOperator: 'any-of',
                 },
             },
             {
                 type: 'related-property-path',
                 id: 'propertyMatch3',
                 attributes: {
+                    propertyPathKey: 'funder',
                     matchEvidence: [
                         {
                             '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
@@ -405,6 +410,7 @@ export function cardSearch(_: Schema, __: Request) {
                             ],
                         },
                     ],
+                    suggestedFilterOperator: 'any-of',
                 },
             },
         ],

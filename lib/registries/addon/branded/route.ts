@@ -4,14 +4,20 @@ import { inject as service } from '@ember/service';
 
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 
 export default class BrandedRegistriesRoute extends Route {
     @service store!: Store;
     @service metaTags!: MetaTags;
     headTags?: HeadTagDef[];
 
-    model(params: { providerId: string }) {
-        return this.store.findRecord('registration-provider', params.providerId, { include: 'brand' });
+    async model(params: { providerId: string }) {
+        try {
+            return await this.store.findRecord('registration-provider', params.providerId, { include: 'brand' });
+        } catch (e) {
+            this.transitionTo('page-not-found', notFoundURL(window.location.pathname));
+            return null;
+        }
     }
 
     afterModel(model: RegistrationProviderModel) {

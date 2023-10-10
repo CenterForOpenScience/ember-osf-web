@@ -119,14 +119,14 @@
     }
 
     &.light-text {
-        a,
+        a:not(:global(.btn-top-signup)),
         :global(.secondary-nav-dropdown) {
             color: $color-text-white !important;
         }
     }
 
     &.dark-text {
-        a,
+        a:not(:global(.btn-top-signup)),
         :global(.secondary-nav-dropdown) {
             color: $color-text-black !important;
         }
@@ -136,7 +136,7 @@
 .white-background-branded-navbar.white-background-branded-navbar.white-background-branded-navbar {
     background-color: #fff;
 
-    a,
+    a:not(:global(.btn-top-signup)),
     :global(.secondary-nav-dropdown) {
         color: $color-text-black !important;
     }

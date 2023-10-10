@@ -27,7 +27,12 @@
         white-space: nowrap;
     }
 
-    span {
+    .provider-description {
+        width: 100%;
+        padding: 0 25px;
+    }
+
+    .search-input-wrapper {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -63,6 +68,11 @@
             width: 195px;
         }
     }
+
+    .search-count {
+        // override RegistriesStyle
+        font-size: 1.5em;
+    }
 }
 
 .search-main-mobile {
@@ -96,6 +106,10 @@
         margin: 0 3rem 0 2rem;
     }
 
+    .provider-description {
+        width: 70vw;
+    }
+
     .heading-label > h1 {
         margin: 0;
         white-space: nowrap;
@@ -119,6 +133,11 @@
     min-height: 100%;
     min-width: 100%;
     position: relative;
+    z-index: 1;
+
+    p {
+        color: $color-text-white;
+    }
 
     &::after {
         background: var(--hero-background-img-url);
@@ -130,6 +149,32 @@
         left: 0;
         top: 0;
         z-index: -1;
+    }
+}
+
+.institutions-overlay {
+    background-color: $color-bg-gray-blue-light;
+    background-image: none;
+    border-bottom: solid 1px $alto;
+    color: $color-text-black;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    min-height: 100%;
+    min-width: 100%;
+    position: relative;
+    z-index: 1;
+
+    img {
+        height: 70px;
+        margin: 0 auto;
+    }
+
+    .provider-description {
+        a {
+            color: $color-link-dark;
+        }
     }
 }
 
@@ -162,6 +207,8 @@
 .topbar {
     border-bottom: 1px solid $color-text-black;
     display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     margin: 0 auto;
     max-height: 55px;
     margin-top: 1rem;
@@ -196,6 +243,11 @@
         a {
             padding-bottom: 10px;
         }
+    }
+
+    .search-count {
+        // override RegistriesStyle
+        font-size: 1.5em;
     }
 
     .help-button {
@@ -233,6 +285,7 @@
     }
 
     h2 {
+        color: $color-text-white;
         font-weight: 400;
         height: 22px;
         margin-top: 0.5rem;
@@ -240,8 +293,15 @@
     }
 
     p {
+        color: $color-text-white;
         white-space: normal;
         margin: 25px 5px 0;
+    }
+
+    .help-description {
+        a {
+            color: $color-link-lighter;
+        }
     }
 
     .skip-button {
@@ -270,6 +330,7 @@
 .object-type-filter-link {
     font-size: 1.3em;
     padding: 18px 15px;
+    color: $color-link-dark;
 
     &:global(.active),
     &:hover {
@@ -285,6 +346,7 @@
     align-self: flex-end;
     padding-bottom: 10px;
     margin-left: 10px;
+    color: $color-link-dark;
 
     p {
         margin: 0 0 0 2px;
@@ -293,7 +355,6 @@
     div {
         background-color: $color-bg-gray-blue-light;
         border: 0 solid transparent;
-        color: $color-bg-blue-dark;
         width: 170px;
     }
 
@@ -399,7 +460,7 @@
         gap: 1rem;
     }
 
-    .topbar {
+    .flex-column-tablet {
         display: flex;
         flex-direction: column;
     }
@@ -411,6 +472,108 @@
         > div {
             background-color: $color-bg-white;
             margin-top: 0.4rem;
+        }
+    }
+}
+
+
+// Globals for use by product folks to modify style descriptions
+.provider-description {
+    a {
+        text-decoration: underline;
+    }
+
+    :global(.ColorBlack) {
+        color: $color-text-black;
+    }
+
+    :global(.ColorPureBlack) {
+        color: $color-black;
+    }
+
+    :global(.ColorBlue) {
+        color: $color-blue;
+    }
+
+    :global(.ColorPureBlue) {
+        color: $color-pure-blue;
+    }
+
+    :global(.ColorGrey) {
+        color: $color-text-gray;
+    }
+
+    :global(.ColorRed) {
+        color: $color-red;
+    }
+
+    :global(.ColorGreen) {
+        color: $color-green;
+    }
+
+    :global(.ColorYellow) {
+        color: $color-yellow;
+    }
+
+    :global(.ColorTurquoise) {
+        color: $color-turquoise;
+    }
+
+    :global(.ColorPurple) {
+        color: $color-purple;
+    }
+
+    :global(.LinkColorBlack) {
+        a {
+            color: $color-link-black;
+        }
+    }
+
+    :global(.LinkColorBlue) {
+        a {
+            color: $color-link-blue;
+        }
+    }
+
+    :global(.LinkColorPureBlue) {
+        a {
+            color: $color-pure-blue;
+        }
+    }
+
+    :global(.LinkColorGrey) {
+        a {
+            color: $color-grey;
+        }
+    }
+
+    :global(.LinkColorRed) {
+        a {
+            color: $color-red;
+        }
+    }
+
+    :global(.LinkColorGreen) {
+        a {
+            color: $color-green;
+        }
+    }
+
+    :global(.LinkColorYellow) {
+        a {
+            color: $color-yellow;
+        }
+    }
+
+    :global(.LinkColorTurquoise) {
+        a {
+            color: $color-turquoise;
+        }
+    }
+
+    :global(.LinkColorPurple) {
+        a {
+            color: $color-purple;
         }
     }
 }
