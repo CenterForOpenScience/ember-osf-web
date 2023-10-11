@@ -17,14 +17,14 @@ export enum PreprintDataLinksEnum {
     AVAILABLE = 'available',
     YES = 'yes',
     NO = 'no',
-    NOT_APPLICABLE = 'pot applicable',
+    NOT_APPLICABLE = 'not applicable',
 }
 
 export enum PreprintPreregLinksEnum {
     AVAILABLE = 'available',
     YES = 'yes',
     NO = 'no',
-    NOT_APPLICABLE = 'pot applicable',
+    NOT_APPLICABLE = 'not applicable',
 }
 
 export default class PreprintModel extends OsfModel {
@@ -51,6 +51,7 @@ export default class PreprintModel extends OsfModel {
     @attr('string') hasPreregLinks!: string;
     @attr('string') conflictOfInterestStatement!: string;
     @attr('array') dataLinks!: string[];
+    @attr('string') whyNoData!: string;
 
     @belongsTo('node', { inverse: 'preprints' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
