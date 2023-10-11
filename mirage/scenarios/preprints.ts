@@ -55,6 +55,7 @@ function buildOSF(
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
         hasCoi: true,
+        hasDataLinks: PreprintDataLinksEnum.NOT_APPLICABLE,
     });
 
     const notContributorPreprint = server.create('preprint', {
@@ -63,6 +64,8 @@ function buildOSF(
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
         currentUserPermissions: [],
         reviewsState: ReviewsState.REJECTED,
+        hasDataLinks: PreprintDataLinksEnum.NO,
+        whyNoData: `Why No Data\n${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         tags: [],
     });
 
@@ -72,6 +75,7 @@ function buildOSF(
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
         currentUserPermissions: [],
         reviewsState: ReviewsState.REJECTED,
+        hasDataLinks: PreprintDataLinksEnum.NO,
         tags: [],
     }, 'isContributor');
 

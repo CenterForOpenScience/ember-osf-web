@@ -1173,7 +1173,7 @@ preprints:
                 linksToData: 'Links to data'
                 title: 'Public Data'
                 no: 'No additional information provided by author.'
-                'not-applicable': 'Author asserted there is no data associated with this {documentType}.'
+                'not_applicable': 'Author asserted there is no data associated with this {documentType}.'
                 description: 'Data refers to raw and/or processed information (quantitative or qualitative) used for the analyses, case studies, and/or descriptive interpretation in the {documentType}. Public data could include data posted to open-access repositories, public archival library collection, or government archive. For data that is available under limited circumstances (e.g., after signing a data sharing agreement), choose the ‘No’ option and use the comment box to explain how others could access the data.'
             prereg:
                 links: 'Links'

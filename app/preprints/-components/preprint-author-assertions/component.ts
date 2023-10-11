@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
 import PreprintModel from 'ember-osf-web/models/preprint';
 import Features from 'ember-feature-flags';
 import ProviderModel from 'ember-osf-web/models/provider';
@@ -13,6 +14,7 @@ interface InputArgs {
 
 export default class PreprintAuthorAssertions extends Component<InputArgs> {
     @service features!: Features;
+    @service intl!: Intl;
 
     @tracked displayCoi = false;
     @tracked displayDataLinks = false;
@@ -25,6 +27,13 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
     shouldShowSloanIcons: alias('hasSloanData'),
     shouldShowPreregLinks: alias('hasPreregLinks'),
     */
+
+    public get availableMessage(): string {
+        const prefix = 'preprints.detail.author-assertions.available.';
+        const suffix = this.preprint.hasDataLinks.replace(/\s/g, '_');
+        return this.intl.t(`${prefix}${suffix}`);
+
+    }
 
     public get shouldShowSloanIcons(): boolean {
         return this.hasSloanData();
