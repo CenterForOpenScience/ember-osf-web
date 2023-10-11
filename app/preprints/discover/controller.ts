@@ -8,7 +8,7 @@ import config from 'ember-osf-web/config/environment';
 
 import Theme from 'ember-osf-web/services/theme';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import { Filter, OnSearchParams } from 'osf-components/components/search-page/component';
+import { Filter, OnQueryParamChangeParams } from 'osf-components/components/search-page/component';
 
 export default class PreprintDiscoverController extends Controller {
     @service store!: Store;
@@ -28,7 +28,7 @@ export default class PreprintDiscoverController extends Controller {
     }
 
     @action
-    onSearch(queryOptions: OnSearchParams) {
+    onQueryParamChange(queryOptions: OnQueryParamChangeParams) {
         this.q = queryOptions.cardSearchText;
         this.sort = queryOptions.sort;
         this.activeFilters = queryOptions.activeFilters;

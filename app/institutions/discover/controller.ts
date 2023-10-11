@@ -3,7 +3,9 @@ import { inject as service } from '@ember/service';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { Filter, OnSearchParams, ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
+import {
+    Filter, OnQueryParamChangeParams, ResourceTypeFilterValue,
+} from 'osf-components/components/search-page/component';
 
 export default class InstitutionDiscoverController extends Controller {
     @service currentUser!: CurrentUser;
@@ -35,7 +37,7 @@ export default class InstitutionDiscoverController extends Controller {
     }
 
     @action
-    onSearch(queryOptions: OnSearchParams) {
+    onQueryParamChange(queryOptions: OnQueryParamChangeParams) {
         this.q = queryOptions.cardSearchText;
         this.sort = queryOptions.sort;
         this.resourceType = queryOptions.resourceType as ResourceTypeFilterValue;
