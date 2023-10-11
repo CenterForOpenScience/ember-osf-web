@@ -18,6 +18,7 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
 
     @tracked displayCoi = false;
     @tracked displayDataLinks = false;
+    @tracked displayPreregLinks = false;
 
     preprint = this.args.preprint;
     provider = this.args.provider;
@@ -28,9 +29,15 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
     shouldShowPreregLinks: alias('hasPreregLinks'),
     */
 
-    public get availableMessage(): string {
+    public get availableDataLinksMessage(): string {
         const prefix = 'preprints.detail.author-assertions.available.';
         const suffix = this.preprint.hasDataLinks.replace(/\s/g, '_');
+        return this.intl.t(`${prefix}${suffix}`);
+    }
+
+    public get availablePreregLinksMessage(): string {
+        const prefix = 'preprints.detail.author-assertions.available.';
+        const suffix = this.preprint.hasPreregLinks.replace(/\s/g, '_');
         return this.intl.t(`${prefix}${suffix}`);
 
     }
@@ -40,7 +47,7 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
     }
 
     private hasSloanData(): boolean {
-        return this.hasCoi || this.hasDataLinks || this.hasPreregLinks();
+        return this.hasCoi || this.hasDataLinks || this.hasPreregLinks;
     }
 
     public get hasCoi(): boolean {
@@ -55,7 +62,7 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
         return typeof this.preprint.hasDataLinks === 'string';
     }
 
-    private hasPreregLinks(): boolean {
+    public get hasPreregLinks(): boolean {
         return typeof this.preprint.hasPreregLinks === 'string';
     }
 }

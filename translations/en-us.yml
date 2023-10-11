@@ -1173,7 +1173,7 @@ preprints:
                 linksToData: 'Links to data'
                 title: 'Public Data'
                 no: 'No additional information provided by author.'
-                'not_applicable': 'Author asserted there is no data associated with this {documentType}.'
+                not_applicable: 'Author asserted there is no data associated with this {documentType}.'
                 description: 'Data refers to raw and/or processed information (quantitative or qualitative) used for the analyses, case studies, and/or descriptive interpretation in the {documentType}. Public data could include data posted to open-access repositories, public archival library collection, or government archive. For data that is available under limited circumstances (e.g., after signing a data sharing agreement), choose the ‘No’ option and use the comment box to explain how others could access the data.'
             prereg:
                 links: 'Links'
@@ -1184,7 +1184,7 @@ preprints:
                 prereg_designs: 'Study Design'
                 prereg_analysis: 'Analysis Plan'
                 prereg_both: 'Both'
-                'not-applicable': 'Author asserted that preregistration was not applicable because no data collection, extraction, or analysis is reported in this {documentType}.'
+                not_applicable: 'Author asserted that preregistration was not applicable because no data collection, extraction, or analysis is reported in this {documentType}.'
                 description: 'A preregistration is a description of the research design and/or analysis plan that is created and registered before researchers collected data or before they have seen/interacted with preexisting data. The description should appear in a public registry (e.g., clinicaltrials.gov, OSF, AEA registry).'
         status_banner:
             pre_moderation: 'pre-moderation'

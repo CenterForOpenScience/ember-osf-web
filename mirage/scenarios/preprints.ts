@@ -56,6 +56,7 @@ function buildOSF(
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
         hasCoi: true,
         hasDataLinks: PreprintDataLinksEnum.NOT_APPLICABLE,
+        hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
     });
 
     const notContributorPreprint = server.create('preprint', {
@@ -65,7 +66,9 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.REJECTED,
         hasDataLinks: PreprintDataLinksEnum.NO,
+        hasPreregLinks: PreprintPreregLinksEnum.NO,
         whyNoData: `Why No Data\n${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
+        whyNoPrereg: `Why No Prereg\n${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         tags: [],
     });
 
@@ -76,6 +79,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.REJECTED,
         hasDataLinks: PreprintDataLinksEnum.NO,
+        hasPreregLinks: PreprintPreregLinksEnum.NO,
         tags: [],
     }, 'isContributor');
 
@@ -91,8 +95,9 @@ function buildOSF(
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
         hasCoi: true,
         hasDataLinks: PreprintDataLinksEnum.AVAILABLE,
-        dataLinks: ['link 1', 'link 2', 'link 3'],
+        dataLinks: ['Data link 1', 'Data link 2', 'Data link 3'],
         hasPreregLinks: PreprintPreregLinksEnum.AVAILABLE,
+        preregLinks: ['Prereg link 1', 'Prereg link 2', 'Prereg link 3'],
         conflictOfInterestStatement: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
     }, 'isContributor');
 
