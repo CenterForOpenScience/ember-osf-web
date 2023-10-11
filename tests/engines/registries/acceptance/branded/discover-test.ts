@@ -27,30 +27,10 @@ module('Registries | Acceptance | branded.discover', hooks => {
         server.createList('registration', 3, { provider: this.brandedProvider });
     });
 
-    test('branded discover with no external providers', async function(this: ThisTestContext, assert) {
+    test('branded discover page renders', async function(this: ThisTestContext, assert) {
         await visit(`/registries/${this.brandedProvider.id}/discover`);
         await percySnapshot('branded discover page');
         assert.equal(currentRouteName(), 'registries.branded.discover', 'On the branded discover page');
-
-        assert.dom('[data-test-active-filter]').doesNotExist('The given provider is not shown as an active filter');
-        assert.dom('[data-test-source-filter-id]').exists({ count: 1 }, 'Only one provider is available');
-        assert.dom('[data-test-source-filter-id]').isChecked('Provider facet checkbox is checked');
-        assert.dom('[data-test-source-filter-id]').isDisabled('Provider facet checkbox is disabled');
-        assert.dom('[data-test-link-other-registries]').exists('Link to other registries is shown');
-        assert.dom('[data-test-provider-description]').containsText('Find out more', 'Provider description exists');
-        assert.dom('[data-test-provider-description] a').exists('There is a link in the provider description');
-        assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
-    });
-
-    test('branded discover with external providers', async function(this: ThisTestContext, assert) {
-        const externalProvider = server.create('external-provider', { shareSource: 'ClinicalTrials.gov' });
-        server.createList('external-registration', 3, { provider: externalProvider });
-
-        await visit(`/registries/${this.brandedProvider.id}/discover`);
-        assert.dom('[data-test-source-filter-id]').exists({ count: 1 }, 'Only brand provider is shown');
-        assert.dom(`[data-test-source-filter-id="${externalProvider.shareSource}"]`)
-            .doesNotExist('External provider is not shown');
-        assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
     });
 
     test('redirects branded.index to branded.discover', async function(this: ThisTestContext, assert) {
@@ -58,7 +38,6 @@ module('Registries | Acceptance | branded.discover', hooks => {
 
         assert.equal(currentRouteName(),
             'registries.branded.discover', 'successfully redirects index to discover');
-        assert.dom(`[data-test-source-filter-id="${this.brandedProvider.shareSource}"]`).exists({ count: 1 });
     });
 
     test('redirects', async function(assert) {

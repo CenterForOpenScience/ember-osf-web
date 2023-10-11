@@ -1,11 +1,12 @@
 import Route from '@ember/routing/route';
+import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 
 export default class BrandedRegistriesDiscoverRoute extends Route {
-    // this route uses the registries.discover page template where the custom branding is handled
-    templateName = 'discover';
+    @service router!: RouterService;
 
     model() {
         return this.modelFor('branded');
@@ -14,7 +15,11 @@ export default class BrandedRegistriesDiscoverRoute extends Route {
     afterModel(provider: RegistrationProviderModel) {
         if (!provider.brandedDiscoveryPage) {
             if (provider.id === 'osf') {
-                this.transitionTo('discover');
+                this.router.transitionTo('search', {
+                    queryParams: {
+                        resourceType: 'Registration,RegistrationComponent',
+                    },
+                });
             } else {
                 this.transitionTo('page-not-found', notFoundURL(window.location.pathname));
             }
@@ -25,6 +30,7 @@ export default class BrandedRegistriesDiscoverRoute extends Route {
         return {
             osfMetrics: {
                 isSearch: true,
+                providerId: this.controller.model.id,
             },
         };
     }
