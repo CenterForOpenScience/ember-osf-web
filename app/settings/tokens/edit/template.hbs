@@ -39,7 +39,9 @@
     {{else}}
         <h4>{{t 'settings.tokens.editToken'}}</h4>
 
-        {{#if this.model.taskInstance.isSuccessful}}
+        {{#if this.model.taskInstance.isRunning}}
+            <LoadingIndicator />
+        {{else if this.model.taskInstance.isSuccessful}}
             <Settings::Tokens::-Components::EditForm
                 @token={{this.token}}
             />
