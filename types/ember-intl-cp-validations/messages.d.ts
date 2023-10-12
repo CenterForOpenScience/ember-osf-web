@@ -1,4 +1,4 @@
-declare module 'ember-intl-cp-validations/validators/messages' {
+declare module '@ember-intl/cp-validations/validators/messages' {
     class ValidatorsMessages {
         prefix: string;
     }

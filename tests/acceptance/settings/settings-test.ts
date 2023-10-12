@@ -34,7 +34,7 @@ module('Acceptance | settings', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('two factor does not validate or submit when user disabling is requested', async assert => {
+    test('two factor does not validate or submit when user disabling is requested', async function(assert) {
         assert.expect(24);
         const currentUser = server.create('user', 'loggedIn');
         server.create(

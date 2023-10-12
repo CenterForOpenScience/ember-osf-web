@@ -32,19 +32,19 @@ module('Integration | Component | registries-side-nav', hooks => {
         this.owner.register('service:current-user', CurrentUserStub);
     });
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`<OsfLayout::RegistriesSideNav />`);
 
         assert.dom('nav[data-test-side-nav]').exists('The nav element is rendered');
     });
 
-    test('it renders splattributes', async assert => {
+    test('it renders splattributes', async function(assert) {
         await render(hbs`<OsfLayout::RegistriesSideNav data-for-a-test="foo" />`);
 
         assert.dom('nav[data-test-side-nav][data-for-a-test="foo"]').exists('The nav element contains splattributes');
     });
 
-    test('it yielded component render splattributes', async assert => {
+    test('it yielded component render splattributes', async function(assert) {
         await render(hbs`
             <OsfLayout::RegistriesSideNav as |nav|>
                 <nav.link data-for-a-test="bar" @route="home" @icon="home" @label="test" />

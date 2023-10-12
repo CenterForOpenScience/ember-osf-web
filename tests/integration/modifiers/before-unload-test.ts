@@ -39,6 +39,7 @@ module('Integration | Modifier | before-unload', hooks => {
         window.dispatchEvent(new Event('beforeunload'));
         sinon.assert.calledOnce(firstListener);
         sinon.assert.notCalled(otherListener);
+        assert.ok(true, 'firstListener called once, otherListener not called');
         this.set('listener', otherListener);
         window.dispatchEvent(new Event('beforeunload'));
         sinon.assert.calledOnce(firstListener);

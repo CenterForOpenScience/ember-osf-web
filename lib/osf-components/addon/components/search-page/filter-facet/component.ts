@@ -1,46 +1,52 @@
 import Store from '@ember-data/store';
-import { getOwner } from '@ember/application';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
+import { task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
-import GetLocalizedPropertyHelper from 'ember-osf-web/helpers/get-localized-property';
+import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path';
 
-import IndexCardModel from 'ember-osf-web/models/index-card';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 
 import { Filter } from '../component';
 
+interface FakeIndexCard {
+    resourceId: string;
+    indexCard: {
+        label: string,
+        resourceId: string,
+    };
+}
+
+
 interface FilterFacetArgs {
     cardSearchText: string;
-    cardSearchFilters: Filter[];
-    propertyCard: IndexCardModel;
-    propertySearch: SearchResultModel;
+    cardSearchFilter: Filter[];
+    property: RelatedPropertyPathModel;
     toggleFilter: (filter: Filter) => void;
 }
+
+const searchDebounceTime = 500;
 
 export default class FilterFacet extends Component<FilterFacetArgs> {
     @service store!: Store;
     @service intl!: IntlService;
     @service toast!: Toastr;
 
-    @tracked page = 1;
+    @tracked page = '';
     @tracked sort = '-relevance';
     @tracked collapsed = true;
-    @tracked filterableValues: SearchResultModel[] = [];
+    @tracked filterableValues: SearchResultModel[] | FakeIndexCard[] = [];
+    @tracked modalValueOptions: SearchResultModel[] = [];
     @tracked seeMoreModalShown = false;
     @tracked selectedProperty: SearchResultModel | null = null;
-
-    getLocalizedString = new GetLocalizedPropertyHelper(getOwner(this));
-
-    get showSeeMoreButton() {
-        // TODO: make this actually check if there are more
-        return true;
-    }
+    @tracked showSeeMoreButton = false;
+    @tracked filterString = '';
+    @tracked hasMoreValueOptions = false;
+    @tracked nextPageCursor = '';
 
     @action
     toggleFacet() {
@@ -55,33 +61,72 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
         this.selectedProperty = property;
     }
 
+    @action
+    openSeeMoreModal() {
+        this.seeMoreModalShown = true;
+        this.modalValueOptions = [...this.filterableValues] as SearchResultModel[];
+    }
+
     @task
     @waitFor
     async applySelectedProperty() {
         if (this.selectedProperty) {
-            const { toggleFilter, propertyCard } = this.args;
-            const card = await this.selectedProperty.indexCard;
+            const { toggleFilter, property } = this.args;
+            const card = this.selectedProperty.indexCard;
             const filter = {
-                property: this.getLocalizedString.compute([propertyCard.get('resourceMetadata'), 'label']),
-                value: this.getLocalizedString.compute([card.resourceMetadata, 'title']),
+                propertyVisibleLabel: property.displayLabel,
+                propertyPathKey: property.propertyPathKey,
+                label: card.get('label'),
+                value: card.get('resourceId'),
             };
             toggleFilter(filter);
             this.selectedProperty = null;
         }
     }
 
+    @task({ restartable: true })
+    @waitFor
+    async debouncedValueSearch(filterString: string) {
+        await timeout(searchDebounceTime);
+        this.filterString = filterString;
+        this.page = '';
+        this.modalValueOptions = [];
+        await taskFor(this.fetchFacetValues).perform();
+    }
+
+    @task
+    @waitFor
+    async loadMoreValues() {
+        this.page = this.nextPageCursor;
+        await taskFor(this.fetchFacetValues).perform();
+    }
+
     @task
     @waitFor
     async fetchFacetValues() {
-        const { cardSearchText, cardSearchFilters } = this.args;
-        const { page, sort } = this;
+        const { cardSearchText, cardSearchFilter, property } = this.args;
+        const { page, sort, filterString } = this;
+
         const valueSearch = await this.store.queryRecord('index-value-search', {
             cardSearchText,
-            cardSearchFilters,
-            page,
+            cardSearchFilter,
+            valueSearchPropertyPath: property.propertyPathKey,
+            valueSearchText: filterString || '',
+            'page[cursor]': page,
             sort,
         });
-        const results = valueSearch.get('searchResultPage').toArray();
-        this.filterableValues = results;
+        const searchResultPage = valueSearch.get('searchResultPage');
+        const results = searchResultPage.toArray();
+        if (!this.seeMoreModalShown) {
+            this.filterableValues = results;
+            this.showSeeMoreButton = Boolean(searchResultPage.links?.next);
+        }
+        this.modalValueOptions = [...this.modalValueOptions, ...results];
+        this.hasMoreValueOptions = Boolean(searchResultPage.links?.next);
+        if (searchResultPage.links?.next) {
+            this.nextPageCursor = new URL(searchResultPage.links.next.href).searchParams.get('page[cursor]') || '';
+        } else {
+            this.nextPageCursor = '';
+        }
     }
 }

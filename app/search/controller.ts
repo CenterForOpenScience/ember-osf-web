@@ -1,19 +1,21 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { OnSearchParams, ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
+import { Filter, OnSearchParams, ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
 
 export default class SearchController extends Controller {
-    @tracked cardSearchText?: string = '';
+    @tracked q?: string = '';
     @tracked sort?: string =  '-relevance';
-    @tracked resourceType?: ResourceTypeFilterValue | null =  null;
+    @tracked resourceType?: ResourceTypeFilterValue | null = null;
+    @tracked activeFilters?: Filter[] = [];
 
-    queryParams = ['cardSearchText', 'page', 'sort', 'resourceType'];
+    queryParams = ['q', 'sort', 'resourceType', 'activeFilters'];
 
     @action
     onSearch(queryOptions: OnSearchParams) {
-        this.cardSearchText = queryOptions.cardSearchText;
+        this.q = queryOptions.cardSearchText;
         this.sort = queryOptions.sort;
         this.resourceType = queryOptions.resourceType;
+        this.activeFilters = queryOptions.activeFilters;
     }
 }

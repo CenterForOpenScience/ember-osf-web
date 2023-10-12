@@ -6,31 +6,30 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 import { tracked } from '@glimmer/tracking';
-import { OnSearchParams } from 'osf-components/components/search-page/component';
+import { Filter, OnSearchParams } from 'osf-components/components/search-page/component';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import config from 'ember-get-config';
-
+import config from 'ember-osf-web/config/environment';
 export default class BrandedDiscover extends Controller.extend() {
     @service media!: Media;
     @service intl!: Intl;
     @service store!: Store;
 
     @tracked cardSearchText? = '';
-    @tracked sort? = '-relevance';
-    @tracked page? = '';
+    @tracked sort?= '-relevance';
+    @tracked activeFilters?: Filter[] = [];
 
-    queryParams = ['cardSearchText', 'page', 'sort'];
+    queryParams = ['cardSearchText', 'sort', 'activeFilters'];
 
     get defaultQueryOptions() {
         return {
-            publisher: pathJoin(config.OSF.url, 'registrations', this.model.id),
+            publisher: pathJoin(config.OSF.url, 'registries', this.model.id),
         };
     }
 
     @action
     onSearch(onSearchParams: OnSearchParams) {
         this.cardSearchText = onSearchParams.cardSearchText;
-        this.page = onSearchParams.page;
         this.sort = onSearchParams.sort;
+        this.activeFilters = onSearchParams.activeFilters;
     }
 }

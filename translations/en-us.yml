@@ -219,11 +219,11 @@ search:
         no-title: 'No title found'
     search-help:
         header-1: 'Improved OSF Search'
-        header-2: 'OSF Smart Facets'
+        header-2: 'Refine Your Search'
         header-3: 'Add Metadata'
-        body-1: 'Enter any term in the search box and filter by specific object types.'
+        body-1: 'Enter any term in the search box and filter by specific object types. More information is available on our <a href="https://help.osf.io/article/588-getting-started-with-osf-search" target="_blank" rel="noopener noreferrer">help guides</a>.'
         body-2: 'Narrow the source, discipline, and more. For example, find content supported by a specific funder or view only datasets.'
-        body-3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable!'
+        body-3: 'Remember to add metadata and resources to your own work on OSF to make it more discoverable! Learn more in our <a href="https://help.osf.io/article/572-metadata-to-increase-discoverability" target="_blank" rel="noopener noreferrer">help guides</a>.'
         index-1: '1 of 3'
         index-2: '2 of 3'
         index-3: '3 of 3'
@@ -232,19 +232,22 @@ search:
             next: 'Next'
             done: 'Done'
     search-header: 'Search OSF'
-    textbox-placeholder: 'Search placeholder'
+    textbox-placeholder: 'Enter search term(s) here'
     search-button-label: 'Search'
     search-help-label: 'Help tutorial'
-    total-results: '{count} results'
+    total-results: '{count} {count, plural, one {result} other {results} }'
     no-results: 'No results found'
     resource-type:
-        search-by: 'Search by resource type'
+        search-by: 'Search by object type'
         all: 'All'
         projects: 'Projects'
         registrations: 'Registrations'
         preprints: 'Preprints'
         files: 'Files'
         users: 'Users'
+    first: First
+    prev: Prev
+    next: Next
     sort:
         sort-by: 'Sort by'
         relevance: 'Relevance'
@@ -257,12 +260,17 @@ search:
         header: Refine
         no-filterable-properties: 'No properties'
     active-filters:
-        remove-filter: 'Remove filter {property} {value}'
+        remove-filter: 'Remove filter {property} {label}'
     filter-facet:
         facet-load-failed: 'Failed to load facet values'
         see-more: 'See more'
         see-more-modal-text: 'Please select a filter to apply to your search.'
         see-more-modal-placeholder: 'Search for a filter to apply'
+        load-more: 'Load more'
+        no-resource: 'No {resource}'
+    boolean-filters:
+        dropdown-label: 'Has related resource'
+
     institutions:
         institution-logo: 'Logo for '
 helpers:
@@ -607,7 +615,7 @@ node_navbar:
     settings: Settings
     comments: Comments
 status:
-    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
+    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/search?resourceType=Project%2CProjectComponent">popular public projects</a>.</p>'
     alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.'
     # remove_addon: 'Because the GitHub add-on for {extra.category} "{extra.title}" was authenticated by {extra.user}, authentication information has been deleted.'
     project_deleted: 'Project has been successfully deleted.'
@@ -1108,6 +1116,7 @@ collections:
             reject: rejected
             remove: 'removed'
 preprints:
+    osf-title: 'OSF Preprints'
     provider-title: '{name} {pluralizedPreprintWord}'
     discover:
         title: 'Search'
@@ -1980,7 +1989,11 @@ routes:
         email: Email
 osf-components:
     search-result-card:
-        resource_nature: Resource nature
+        show_additional_metadata: 'Show additional metadata'
+        hide_additional_metadata: 'Hide additional metadata'
+        language: Language
+        url: URL
+        resource_type: Resource type
         title: Title
         collection: Collection
         context: Context
@@ -1996,6 +2009,7 @@ osf-components:
         last_edited: Last edited
         member_since: Member since
         preprint_provider: Preprint provider
+        registration_provider: Registration provider
         conflict_of_interest: Conflict of Interest response
         no_conflict_of_interest: 'Author asserted no Conflict of Interest'
         associated_data: Associated data
@@ -2008,6 +2022,10 @@ osf-components:
         user: User
         project_component: Project component
         registration_component: Registration component
+        link_to_orcid_id: Link to orcid id
+        withdrawn: Withdrawn
+        unknown: Unknown
+        remaining_count: '{count} more'
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
         add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
@@ -2675,6 +2693,14 @@ settings:
                 confirm_button_text: Remove
             remove_fail: 'Revocation request failed. Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> if the problem persists.'
             remove_success: 'You have revoked this connected identity.'
+        opt-out:
+            title: 'Opt out of SHARE indexing'
+            description: 'By default, OSF users are indexed into SHARE, a free, open dataset of research metadata. This allows SHARE to include your user profile and research in its database, which is used by search engines and other services to make research more discoverable. You can opt out of this indexing by checking the box below. NOTE: Public projects, files, registrations, and preprints will still be indexed in SHARE. <br /> <a href="https://share.osf.io/">Learn more about SHARE</a>'
+            opt-out-label: 'Opt out of SHARE indexing'
+            opt-in-label: 'Opt in to SHARE indexing'
+            success: 'Successfully updated SHARE indexing preference.'
+            error: 'Could not update SHARE indexing preference. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+            button-label: 'Update'
     addons:
         title: 'Configure add-on accounts'
     notifications:

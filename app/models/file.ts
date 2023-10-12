@@ -43,7 +43,7 @@ export default class FileModel extends BaseFileItem {
     @attr('fixstring') checkout!: string;
     @attr('boolean') showAsUnviewed!: boolean;
 
-    @belongsTo('file', { inverse: 'files' })
+    @belongsTo('file', { inverse: 'files', polymorphic: true })
     parentFolder!: AsyncBelongsTo<FileModel> & FileModel;
 
     // Folder attributes

@@ -12,7 +12,7 @@ module(moduleName, hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('default query-parameters', async assert => {
+    test('default query-parameters', async function(assert) {
         // Load search page
         await visit('/search');
         // assert object type nav is shown
@@ -39,12 +39,12 @@ module(moduleName, hooks => {
             'Date created, oldest first is selected');
         assert.equal(
             currentURL(),
-            '/search?resourceType=Project%2CProjectComponent&sort=date_created',
+            '/search?resourceType=Project%2CProjectComponent&sort=dateCreated',
             'Query-params are updated',
         );
     });
 
-    test('default query-parameters, mobile', async assert => {
+    test('default query-parameters, mobile', async function(assert) {
         setBreakpoint('mobile');
         // Load search page
         await visit('/search');
@@ -74,13 +74,13 @@ module(moduleName, hooks => {
         await untrackedClick('[data-option-index="4"]'); // date-modified, oldest
         assert.equal(
             currentURL(),
-            '/search?resourceType=Registration%2CRegistrationComponent&sort=date_modified',
+            '/search?resourceType=Registration%2CRegistrationComponent&sort=dateModified',
             'Query-params are updated',
         );
     });
 
-    test('query-parameters from url', async assert => {
-        await visit('/search?resourceType=Preprint&sort=-date_modified');
+    test('query-parameters from url', async function(assert) {
+        await visit('/search?resourceType=Preprint&sort=-dateModified');
         assert.dom('[data-test-topbar-object-type-link="Preprints"]')
             .hasClass('active', 'Desktop: Active object type filter selected from url');
         assert.dom('[data-test-topbar-sort-dropdown]')

@@ -40,7 +40,7 @@ module('Registries | Acceptance | branded.discover', hooks => {
             'registries.branded.discover', 'successfully redirects index to discover');
     });
 
-    test('redirects', async assert => {
+    test('redirects', async function(assert) {
         const provider = server.create('registration-provider', {
             brandedDiscoveryPage: false,
         }, 'withBrand');
@@ -58,11 +58,11 @@ module('Registries | Acceptance | branded.discover', hooks => {
         await visit(`/registries/${osfProvider.id}/discover`);
         assert.equal(currentRouteName(),
             'search',
-            '/registries/osf/discover redirects to /search');
+            '/registries/osf/discover redirects to search page');
 
         await visit(`/registries/${osfProvider.id}`);
         assert.equal(currentRouteName(),
-            'search',
-            '/registries/osf redirects to /search');
+            'registries.index',
+            '/registries/osf redirects to registries index page');
     });
 });

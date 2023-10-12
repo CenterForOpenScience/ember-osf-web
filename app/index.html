@@ -22,6 +22,7 @@
     {{content-for "head-footer"}}
   </head>
   <body>
+    {{content-for "gtm"}}
     {{content-for "assets"}}
     <noscript>
       <p>
@@ -37,7 +38,6 @@
     <script src="{{content-for "assetsPrefix"}}assets/ember-osf-web.js"></script>
 
     {{content-for "raven"}}
-    {{content-for "zxcvbn"}}
     {{content-for "body-footer"}}
   </body>
 </html>

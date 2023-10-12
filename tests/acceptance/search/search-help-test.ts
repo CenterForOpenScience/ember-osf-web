@@ -29,7 +29,7 @@ module('Integration | Component | Search help', hooks => {
         assert.dom('[data-test-help-heading-1]').hasText('Improved OSF Search');
         assert.dom('[data-test-help-body-1]').exists();
         assert.dom('[data-test-help-body-1]').hasText(`Enter any term in the search box 
-            and filter by specific object types.`);
+            and filter by specific object types. More information is available on our help guides.`);
         assert.dom('[data-test-help-enumeration-1]').exists();
         assert.dom('[data-test-help-enumeration-1]').hasText('1 of 3');
 
@@ -38,7 +38,7 @@ module('Integration | Component | Search help', hooks => {
         assert.dom('[data-test-search-help-2]').exists();
         // verify second popover content
         assert.dom('[data-test-help-heading-2]').exists();
-        assert.dom('[data-test-help-heading-2]').hasText('OSF Smart Facets');
+        assert.dom('[data-test-help-heading-2]').hasText('Refine Your Search');
         assert.dom('[data-test-help-body-2]').exists();
         assert.dom('[data-test-help-body-2]').hasText(`Narrow the source, discipline, and more. 
             For example, find content supported by a specific funder or view only datasets.`);
@@ -53,7 +53,7 @@ module('Integration | Component | Search help', hooks => {
         assert.dom('[data-test-help-heading-3]').hasText('Add Metadata');
         assert.dom('[data-test-help-body-3]').exists();
         assert.dom('[data-test-help-body-3]').hasText(`Remember to add metadata and resources 
-            to your own work on OSF to make it more discoverable!`);
+            to your own work on OSF to make it more discoverable! Learn more in our help guides.`);
         assert.dom('[data-test-help-enumeration-3]').exists();
         assert.dom('[data-test-help-enumeration-3]').hasText('3 of 3');
 
@@ -64,7 +64,7 @@ module('Integration | Component | Search help', hooks => {
         assert.dom('[data-test-search-help-1]').isNotVisible();
     });
 
-    test('help tutorial can be skipped', async assert => {
+    test('help tutorial can be skipped', async function(assert) {
         await visit('/search');
         assert.equal(currentURL(), '/search');
 

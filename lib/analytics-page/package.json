@@ -9,6 +9,7 @@
     "@fortawesome/free-solid-svg-icons": "*",
     "@fortawesome/ember-fontawesome": "*",
     "@fortawesome/free-brands-svg-icons": "*",
+    "ember-auto-import": "*",
     "ember-truth-helpers": "*",
     "ember-component-attributes": "*",
     "ember-composable-helpers": "*",
@@ -26,7 +27,8 @@
     "ember-moment": "*",
     "ember-page-title": "*",
     "ember-tooltips": "*",
-    "ember-wormhole": "*"
+    "ember-wormhole": "*",
+    "moment-timezone": "*"
   },
   "ember-addon": {
     "paths": [

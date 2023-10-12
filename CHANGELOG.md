@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [23.12.0] - 2023-10-10
+### Added
+- Search improvement phase 2: preprints, institutions and registries discover pages
+
+## [23.11.0] - 2023-09-27
+### Changed
+- Upgrade to Ember 3.28
+
+
+## [23.10.0] - 2023-08-28
+### Added
+- Added search improvement routes and related components
+
+## [23.09.0] - 2023-08-16
+### Changed
+- Added Google Tag Manager
+
 ## [23.08.0] - 2023-07-13
 ### Changed
 - Removed remaining Bootstrap components
@@ -1932,6 +1949,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[23.12.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.12.0
+[23.11.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.11.1
+[23.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.11.0
+[23.10.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.2
+[23.10.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.1
+[23.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.10.0
+[23.09.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.09.0
 [23.08.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.08.0
 [23.07.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.07.0
 [23.06.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.06.1

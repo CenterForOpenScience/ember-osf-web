@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import Store from '@ember-data/store';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 

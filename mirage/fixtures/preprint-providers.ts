@@ -83,6 +83,24 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         preprintWord: 'preprint',
         assets: randomAssets(10),
     },
+    {
+        id: 'agrixiv',
+        name: 'AgriXiv',
+        preprintWord: 'preprint',
+        assets: randomAssets(),
+    },
+    {
+        id: 'biohackrxiv',
+        name: 'BioHackrXiv',
+        preprintWord: 'preprint',
+        assets: randomAssets(),
+    },
+    {
+        id: 'nutrixiv',
+        name: 'NutriXiv',
+        preprintWord: 'preprint',
+        assets: randomAssets(),
+    },
 ];
 
 export default preprintProviders;

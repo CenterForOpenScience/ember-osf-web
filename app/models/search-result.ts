@@ -2,6 +2,7 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import IntlService from 'ember-intl/services/intl';
+import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
 
 import IndexCardModel from './index-card';
 
@@ -23,7 +24,7 @@ export default class SearchResultModel extends Model {
     @service intl!: IntlService;
 
     @attr('array') matchEvidence!: Array<IriMatchEvidence | TextMatchEvidence>;
-    @attr('number') recordResultCount!: number;
+    @attr('number') cardSearchResultCount!: number;
 
     @belongsTo('index-card', { inverse: null })
     indexCard!: IndexCardModel;
@@ -77,8 +78,12 @@ export default class SearchResultModel extends Model {
     get affiliatedEntities() {
         if (this.resourceType === 'user') {
             // return something
-        } else {
-            return this.resourceMetadata.creator?.map( (item:any) => item.name[0]['@value']);
+        } else if (this.resourceMetadata.creator) {
+            return this.resourceMetadata.creator?.map((item: any) =>
+                ({ name: item.name[0]['@value'], absoluteUrl: item['@id'] }));
+        } else if (this.isContainedBy?.[0]?.creator) {
+            return this.isContainedBy[0].creator.map((item: any) =>
+                ({ name: item.name?.[0]?.['@value'], absoluteUrl: item['@id'] }));
         }
     }
 
@@ -113,11 +118,28 @@ export default class SearchResultModel extends Model {
     }
 
     get isPartOf() {
-        const isPartOf = this.resourceMetadata.isPartOf;
-        if (isPartOf) {
+        return this.resourceMetadata.isPartOf;
+    }
+
+    get isContainedBy() {
+        return this.resourceMetadata.isContainedBy;
+    }
+
+    get isPartOfTitleAndUrl() {
+        if (this.isPartOf) {
             return {
-                title: this.resourceMetadata.isPartOf?.[0]?.title?.[0]?.['@value'],
-                absoluteUrl: this.resourceMetadata.isPartOf?.[0]?.['@id'],
+                title: this.isPartOf[0]?.title?.[0]?.['@value'],
+                absoluteUrl: this.isPartOf[0]?.['@id'],
+            };
+        }
+        return null;
+    }
+
+    get isContainedByTitleAndUrl() {
+        if (this.isContainedBy) {
+            return {
+                title: this.isContainedBy[0]?.title?.[0]?.['@value'],
+                absoluteUrl: this.isContainedBy[0]?.['@id'],
             };
         }
         return null;
@@ -134,8 +156,11 @@ export default class SearchResultModel extends Model {
         return null;
     }
 
-    get language() {
-        return this.resourceMetadata.language;
+    get languageFromCode() {
+        if (this.resourceMetadata.language) {
+            return languageFromLanguageCode(this.resourceMetadata.language[0]['@value']);
+        }
+        return null;
     }
 
     get funders() {
@@ -148,10 +173,20 @@ export default class SearchResultModel extends Model {
         return null;
     }
 
+    get nodeFunders() {
+        if (this.resourceMetadata.isContainedBy?.[0]?.funder) {
+            return this.resourceMetadata.isContainedBy[0].funder.map( (item: any) => ({
+                name: item.name[0]['@value'],
+                identifier: item.identifier?.[0]['@value'],
+            }));
+        }
+        return null;
+    }
+
     get provider() {
         if (this.resourceMetadata.publisher) {
             return {
-                name: this.resourceMetadata.publisher[0].name[0]['@value'],
+                name: this.resourceMetadata.publisher[0]?.name?.[0]['@value'],
                 identifier: this.resourceMetadata.publisher[0]['@id'],
             };
         }
@@ -165,8 +200,19 @@ export default class SearchResultModel extends Model {
     get license() {
         if (this.resourceMetadata.rights) {
             return {
-                name: this.resourceMetadata.rights?.[0].name[0]['@value'],
-                identifier: this.resourceMetadata.rights?.[0]['@id'],
+                name: this.resourceMetadata.rights?.[0]?.name?.[0]?.['@value'],
+                identifier: this.resourceMetadata.rights?.[0]?.['@id'],
+            };
+        }
+        return null;
+    }
+
+    get nodeLicense() {
+        if (this.resourceMetadata.isContainedBy?.[0]?.rights) {
+            return {
+                name: this.resourceMetadata.isContainedBy[0].rights?.[0]?.name?.[0]?.['@value'],
+                identifier: this.resourceMetadata.rights?.[0]?.['@id'] ||
+                    this.resourceMetadata.isContainedBy[0].rights[0]?.['@id'],
             };
         }
         return null;
@@ -192,8 +238,18 @@ export default class SearchResultModel extends Model {
         return 'unknown';
     }
 
+    get orcids() {
+        if (this.resourceMetadata.identifier) {
+            const orcids = this.resourceMetadata.identifier.filter(
+                (item: any) => item['@value'].includes('http://orcid.org/'),
+            );
+            return orcids.map( (item: any) => item['@value']);
+        }
+        return null;
+    }
+
     get resourceNature() {
-        return this.resourceMetadata.resourceNature?.[0]['@value'];
+        return this.resourceMetadata.resourceNature?.[0]?.displayLabel?.[0]?.['@value'];
     }
 
     get hasDataResource() {
@@ -217,7 +273,11 @@ export default class SearchResultModel extends Model {
     }
 
     get registrationTemplate() {
-        return this.resourceMetadata['https://osf.io/vocab/2022/registration_type']?.[0]?.['@value'];
+        return this.resourceMetadata.conformsTo?.[0]?.title?.[0]?.['@value'];
+    }
+
+    get isWithdrawn() {
+        return this.resourceMetadata.dateWithdrawn || this.resourceMetadata['https://osf.io/vocab/2022/withdrawal'];
     }
 }
 

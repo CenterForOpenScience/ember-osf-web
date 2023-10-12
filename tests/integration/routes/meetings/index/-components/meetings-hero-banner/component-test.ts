@@ -1,12 +1,14 @@
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('Integration | Component | meetings-hero-banner', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`<Meetings::Index::-Components::MeetingsHeroBanner />`);
         assert.dom('[data-test-hero-banner-container]').exists({ count: 1 }, '1 hero banner container');
         assert.dom('[data-test-osf-meeting-img]').exists({ count: 1 }, '1 osf-meeting image');
@@ -14,7 +16,7 @@ module('Integration | Component | meetings-hero-banner', hooks => {
         assert.dom('[data-test-fa-icon-cloud-upload]').exists({ count: 1 }, '1 fa-cloud-upload icon');
     });
 
-    test('button click open panels', async assert => {
+    test('button click open panels', async function(assert) {
         await render(hbs`<Meetings::Index::-Components::MeetingsHeroBanner />`);
         assert.dom('[data-test-register-panel-text]').doesNotExist();
         assert.dom('[data-test-upload-panel-text]').doesNotExist();

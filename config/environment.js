@@ -1,4 +1,5 @@
 /* eslint-env node */
+// Note: environment.d.ts is now in app/config
 
 function isTruthy(val) {
     return ['true', '1'].includes(val.toString().toLowerCase());
@@ -24,6 +25,7 @@ const {
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
+    GOOGLE_TAG_MANAGER_ID,
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     WATER_BUTLER_ENABLED = true,
@@ -80,6 +82,7 @@ module.exports = function(environment) {
         assetsPrefix,
         locationType: 'auto',
         sentryDSN: null,
+        googleTagManagerId: null,
         sentryOptions: {
             release,
             ignoreErrors: [
@@ -121,6 +124,13 @@ module.exports = function(environment) {
                     isPublic: 'dimension3',
                     isWithdrawn: 'dimension4',
                     version: 'dimension5',
+                },
+            },
+            {
+                name: 'GoogleTagManager',
+                environments: GOOGLE_TAG_MANAGER_ID ? ['all'] : [],
+                config: {
+                    id: GOOGLE_TAG_MANAGER_ID,
                 },
             },
         ],

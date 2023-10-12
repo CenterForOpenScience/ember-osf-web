@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import param from 'ember-osf-web/utils/param';

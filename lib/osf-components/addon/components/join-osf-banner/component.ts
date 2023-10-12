@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Session from 'ember-simple-auth/services/session';
 
 import { layout } from 'ember-osf-web/decorators/component';

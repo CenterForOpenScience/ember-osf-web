@@ -2,7 +2,7 @@ import { attr, hasMany, AsyncHasMany, belongsTo, AsyncBelongsTo } from '@ember-d
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Intl from 'ember-intl/services/intl';
 import BrandModel from 'ember-osf-web/models/brand';
 
@@ -77,6 +77,7 @@ export default class PreprintProviderModel extends ProviderModel {
         } else {
             return this.intl.t('preprints.header.osf_registrations');
         }
+        return this.intl.t('preprints.osf-title');
     }
 }
 

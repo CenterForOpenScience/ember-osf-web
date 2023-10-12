@@ -80,7 +80,7 @@ function assertPasses(assert: Assert, testFn: () => object, expected: Error | ob
 }
 
 module('Unit | Utility | map-keys', () => {
-    test('camelizeKeys camelizes keys', assert => {
+    test('camelizeKeys camelizes keys', function(assert) {
         assert.expect(caseCases.length);
         caseCases.forEach(testCase => {
             assertPasses(
@@ -91,7 +91,7 @@ module('Unit | Utility | map-keys', () => {
         });
     });
 
-    test('snakifyKeys snakifies keys', assert => {
+    test('snakifyKeys snakifies keys', function(assert) {
         assert.expect(caseCases.length);
         caseCases.forEach(testCase => {
             assertPasses(
@@ -102,7 +102,7 @@ module('Unit | Utility | map-keys', () => {
         });
     });
 
-    test('mapKeysAndValues maps keys and values', assert => {
+    test('mapKeysAndValues maps keys and values', function(assert) {
         assert.expect(keysAndValuesCases.length);
         keysAndValuesCases.forEach(testCase => {
             assertPasses(

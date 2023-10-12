@@ -1,8 +1,8 @@
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 
 export default class BrandedRegistriesDiscoverRoute extends Route {
@@ -17,7 +17,7 @@ export default class BrandedRegistriesDiscoverRoute extends Route {
             if (provider.id === 'osf') {
                 this.router.transitionTo('search', {
                     queryParams: {
-                        resourceType: 'osf:Registration',
+                        resourceType: 'Registration,RegistrationComponent',
                     },
                 });
             } else {

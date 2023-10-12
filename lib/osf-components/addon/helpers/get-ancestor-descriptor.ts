@@ -16,7 +16,7 @@ function fetchIdFromRelationshipLink(node: Node, relationship: keyof Node) {
     if (node) {
         // @ts-ignore - private attribute
         const initializedRelationship = node._internalModel.__recordData
-            ._relationships.initializedRelationships[relationship];
+            ._relationships?.initializedRelationships[relationship];
 
         if (initializedRelationship && initializedRelationship.link) {
             return initializedRelationship.link.split('nodes')[1].replace(/\//g, '');

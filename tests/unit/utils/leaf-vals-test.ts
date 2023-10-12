@@ -70,7 +70,7 @@ const TEST_CASES = [{
 }];
 
 module('Unit | Utility | leafvals', () => {
-    test('leafVals returns all values for leaves in an object tree', assert => {
+    test('leafVals returns all values for leaves in an object tree', function(assert) {
         for (const testCase of TEST_CASES) {
             assert.deepEqual(leafVals(testCase.input), testCase.output, `Test case: ${testCase.name}`);
         }

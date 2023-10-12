@@ -18,7 +18,7 @@ module('Unit | Validator | password-strength', hooks => {
             const options = { min: i };
             const builtOptions = validator.buildOptions(options);
             const message = await validator.validate(minima[i], { ...builtOptions });
-            assert.equal(message, true);
+            assert.true(message);
         });
     }
 });

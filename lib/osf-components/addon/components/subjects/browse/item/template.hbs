@@ -10,8 +10,8 @@
     >
         <Input
             @type='checkbox'
-            @change={{action @singleSubjectManager.toggleSelected}}
             @checked={{@singleSubjectManager.isSelected}}
+            {{on 'change' @singleSubjectManager.toggleSelected}}
         />
         {{#if this.isPlaceholder}}
             {{random-text wordsPerSentence=3}}

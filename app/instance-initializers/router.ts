@@ -7,7 +7,7 @@ import Features from 'ember-feature-flags/services/features';
 import { Blocker } from 'ember-osf-web/services/ready';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 const {
     featureFlagNames: {

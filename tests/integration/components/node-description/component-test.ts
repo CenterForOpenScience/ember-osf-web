@@ -1,6 +1,7 @@
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import faker from 'faker';
@@ -11,6 +12,7 @@ import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 module('Integration | Component | node-description', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');

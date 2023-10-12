@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import pathJoin from 'ember-osf-web/utils/path-join';

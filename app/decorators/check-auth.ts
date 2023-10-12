@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service, Registry as ServiceRegistry } from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
 import CurrentUser from 'ember-osf-web/services/current-user';

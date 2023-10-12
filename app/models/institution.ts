@@ -1,6 +1,6 @@
 import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 import InstitutionDepartmentsModel from './institution-department';
@@ -30,6 +30,10 @@ export default class InstitutionModel extends OsfModel {
     @attr('object') assets?: Assets;
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
     @attr('date') lastUpdated!: Date;
+    @attr('fixstring') rorIri!: string;
+    // identifier_domain in the admin app
+    @attr('fixstring') iri!: string;
+    @attr('fixstringarray') iris!: string[];
 
     // TODO Might want to replace calls to `users` with `institutionUsers.user`?
     @hasMany('user', { inverse: 'institutions' })

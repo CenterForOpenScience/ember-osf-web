@@ -1,6 +1,7 @@
 import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { setupIntl } from 'ember-intl/test-support';
 import NodeModel from 'ember-osf-web/models/node';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -8,6 +9,7 @@ import { module, test } from 'qunit';
 module('Integration | Component | partial-registration-modal', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     test('it renders a hierarchical list with root already selected', async function(assert) {
         assert.expect(8);
@@ -22,10 +24,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         this.set('rootNode', rootNode);
         this.set('isOpen', false);
         this.set('onContinue', (selectedNodes: NodeModel[]) => {
-            assert.ok(
-                selectedNodes.length === 3,
-                `expected 3 but instead got ${selectedNodes.length}`,
-            );
+            assert.strictEqual(selectedNodes.length, 3, `expected 3 but instead got ${selectedNodes.length}`);
             assert.ok(
                 selectedNodes.includes(rootNode),
                 'root node is included in nodes list sent to onContinue hook',
@@ -76,10 +75,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         this.set('rootNode', rootNode);
         this.set('isOpen', false);
         this.set('onContinue', (selectedNodes: NodeModel[]) => {
-            assert.ok(
-                selectedNodes.length === 3,
-                `expected 3 but instead got ${selectedNodes.length}`,
-            );
+            assert.strictEqual(selectedNodes.length, 3, `expected 3 but instead got ${selectedNodes.length}`);
             assert.ok(
                 selectedNodes.includes(rootNode),
                 'root node is included in nodes list sent to onContinue hook',
@@ -133,10 +129,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         this.set('rootNode', rootNode);
         this.set('isOpen', false);
         this.set('onContinue', (selectedNodes: NodeModel[]) => {
-            assert.ok(
-                selectedNodes.length === 3,
-                `expected 3 but instead got ${selectedNodes.length}`,
-            );
+            assert.strictEqual(selectedNodes.length, 3, `expected 3 but instead got ${selectedNodes.length}`);
             assert.ok(
                 selectedNodes.includes(rootNode),
                 'root node is included in nodes list sent to onContinue hook',
@@ -193,10 +186,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         this.set('rootNode', rootNode);
         this.set('isOpen', false);
         this.set('onContinue', (selectedNodes: NodeModel[]) => {
-            assert.ok(
-                selectedNodes.length === 1,
-                `expected 1 but instead got ${selectedNodes.length}`,
-            );
+            assert.strictEqual(selectedNodes.length, 1, `expected 1 but instead got ${selectedNodes.length}`);
             assert.ok(
                 selectedNodes.includes(rootNode),
                 'root node should be included in nodes list sent to onContinue hook',

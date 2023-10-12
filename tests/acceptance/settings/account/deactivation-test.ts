@@ -29,7 +29,7 @@ module('Acceptance | settings/account | deactivation', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('it works from default state', async assert => {
+    test('it works from default state', async function(assert) {
         assert.expect(32);
         const currentUser = server.create('user', 'loggedIn');
         server.create('user-setting', { user: currentUser });
@@ -58,7 +58,7 @@ module('Acceptance | settings/account | deactivation', hooks => {
         assertDeactivationNotRequested(assert, 'Deactivation undone');
     });
 
-    test('it works from deactivation requested state', async assert => {
+    test('it works from deactivation requested state', async function(assert) {
         assert.expect(6);
         const currentUser = server.create('user', 'loggedIn');
         server.create('user-setting', {

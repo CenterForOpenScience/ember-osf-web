@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { pluralize } from 'ember-inflector';
 import Session from 'ember-simple-auth/services/session';
 

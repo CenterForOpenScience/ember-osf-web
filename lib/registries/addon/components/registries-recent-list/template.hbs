@@ -4,12 +4,12 @@
             {{t 'registries.index.recent.title'}}
         </div>
         <div local-class='see-more'>
-            <OsfLink
+            <LinkToExternal
                 @route='search'
-                @queryParams={{hash resourceType='osf:Registrations'}}
+                @query={{hash resourceType='Registration,RegistrationComponent'}}
             >
                 {{t 'registries.index.recent.more'}}
-            </OsfLink>
+            </LinkToExternal>
         </div>
     </div>
 

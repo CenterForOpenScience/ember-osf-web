@@ -64,10 +64,11 @@
         >
             <Input
                 aria-label={{t 'app_components.project_contributors.list.item.in_citation_label'}}
+                disabled={{not this.canChangeBibliographic}}
                 @type='checkbox'
-                @disabled={{not this.canChangeBibliographic}}
                 @checked={{@contributor.bibliographic}}
-                @change={{action @toggleBibliographic @contributor}} />
+                {{on 'change' (fn @toggleBibliographic @contributor)}}
+            />
 
             {{#if this.isMobile}}
                 <FaIcon @icon='question-circle' />

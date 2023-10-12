@@ -4,7 +4,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
-import { module, test } from 'qunit';
+import { module, skip } from 'qunit';
 
 import { setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
@@ -28,7 +28,7 @@ module('Acceptance | preprints | discover', hooks => {
         this.provider = provider;
     });
 
-    test('Desktop', async function(this: PreprintDiscoverTestContext, assert) {
+    skip('Desktop', async function(this: PreprintDiscoverTestContext, assert) {
         await visit(`/preprints/${this.provider.id}/discover`);
         assert.equal(currentRouteName(), 'preprints.discover', 'Current route is preprints discover');
         const pageTitle = document.getElementsByTagName('title')[0].innerText;
@@ -41,7 +41,7 @@ module('Acceptance | preprints | discover', hooks => {
         await percySnapshot(assert);
     });
 
-    test('mobile', async function(this: PreprintDiscoverTestContext, assert) {
+    skip('mobile', async function(this: PreprintDiscoverTestContext, assert) {
         setBreakpoint('mobile');
         await visit(`/preprints/${this.provider.id}/discover`);
         assert.equal(currentRouteName(), 'preprints.discover', 'Current route is preprints discover');

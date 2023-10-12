@@ -1,6 +1,5 @@
 /* eslint-env node */
 
-const nodeSass = require('node-sass');
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 const broccoliAssetRevDefaults = require('broccoli-asset-rev/lib/default-options');
@@ -22,12 +21,8 @@ module.exports = function(defaults) {
             modes: ['handlebars'],
         },
         autoImport: {
-            webpack: {
-                node: {
-                    path: true,
-                },
-            },
             exclude: ['jsonapi-typescript'],
+            publicAssetURL: `${config.assetsPrefix}assets`,
         },
         addons: {
             blacklist: [
@@ -39,14 +34,10 @@ module.exports = function(defaults) {
         'ember-composable-helpers': {
             only: ['compose', 'contains', 'flatten', 'includes', 'range', 'queue', 'map-by', 'without', 'find-by'],
         },
-        'ember-cli-password-strength': {
-            bundleZxcvbn: !IS_PROD,
-        },
         fingerprint: {
             enabled: true,
             extensions: broccoliAssetRevDefaults.extensions.concat(['svg']),
             exclude: [
-                'zxcvbn.js',
                 'assets/osf-assets',
                 'assets/images/addons/icons',
                 // Exclude <engine-name>/config/environment.js from fingerprinting so it matches
@@ -57,7 +48,6 @@ module.exports = function(defaults) {
             prepend: config.assetsPrefix,
         },
         sassOptions: {
-            implementation: nodeSass,
             includePaths: [
                 'app/styles/',
             ],
@@ -92,19 +82,21 @@ module.exports = function(defaults) {
                 `,
                 postProcess,
             },
-            zxcvbn: {
+            gtm: {
                 enabled: IS_PROD,
-                /* eslint-disable max-len */
-                content: `
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"
-                        integrity="sha256-Znf8FdJF85f1LV0JmPOob5qudSrns8pLPZ6qkd/+F0o=
-                                   sha384-jhGcGHNZytnBnH1wbEM3KxJYyRDy9Q0QLKjE65xk+aMqXFCdvFuYIjzMWAAWBBtR
-                                   sha512-TZlMGFY9xKj38t/5m2FzJ+RM/aD5alMHDe26p0mYUMoCF5G7ibfHUQILq0qQPV3wlsnCwL+TPRNK4vIWGLOkUQ=="
-                        crossorigin="anonymous">
-                    </script>
-                `,
+                content: `<script>
+                    var configJson = document.head.querySelector("meta[name$='/config/environment']").content;
+                    var configObject = JSON.parse(unescape(configJson));
+                    if (configObject.googleTagManagerId) {
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+
+                        gtag('config', configObject.googleTagManagerId);
+                    }
+                </script>
+            `,
                 postProcess,
-                /* eslint-enable max-len */
             },
         },
         'ember-cli-babel': {

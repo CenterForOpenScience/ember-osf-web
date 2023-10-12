@@ -1,6 +1,9 @@
 .facet-wrapper {
-    border-top: 1px solid $color-border-gray;
     padding: 0.5rem 0;
+}
+
+.facet-wrapper:not(:first-of-type) {
+    border-top: 1px solid $color-border-gray;
 }
 
 .facet-expand-button {
@@ -15,9 +18,11 @@
 }
 
 .facet-list {
-    padding: 0;
-    margin: 0;
     list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0.2rem;
 
     &.collapsed {
         display: none;
@@ -25,13 +30,20 @@
 }
 
 .facet-value {
-    margin: 10px 0;
     display: flex;
     justify-content: space-between;
+    margin: 10px 0;
 
-    .facet-link,
-    .facet-count {
+    .facet-link {
         margin: 0 5px;
+        max-width: 90%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .facet-count {
+        flex-shrink: 0;
     }
 }
 

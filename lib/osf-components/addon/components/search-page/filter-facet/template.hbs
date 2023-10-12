@@ -1,24 +1,25 @@
-<div
-    data-analytics-scope='Search page filter facet wrapper'
-    data-test-filter-facet
-    local-class='facet-wrapper'
-    ...attributes
->
-    {{#let (get-localized-property @propertyCard.resourceMetadata 'label') as |propertyLabel|}}
-        {{#let (unique-id propertyLabel) as |facetElementId|}}
+{{#if @property.cardSearchResultCount}}
+    <div
+        data-analytics-scope='Search page filter facet wrapper'
+        data-test-filter-facet
+        local-class='facet-wrapper'
+        ...attributes
+    >
+        {{#let (unique-id @property.propertyPathKey) as |facetElementId|}}
             <Button
-                data-analytics-name='Filter facet toggle {{propertyLabel}}'
-                data-test-filter-facet-toggle={{propertyLabel}}
+                data-analytics-name='Filter facet toggle {{@property.displayLabel}}'
+                data-test-filter-facet-toggle={{@property.displayLabel}}
                 @layout='fake-link'
                 local-class='facet-expand-button'
                 aria-controls={{facetElementId}}
                 aria-expanded={{not this.collapsed}}
+                title={{@property.displayLabel}}
                 {{on 'click' this.toggleFacet}}
             >
-                <span>{{propertyLabel}}</span>
+                <span>{{@property.displayLabel}}</span>
                 <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
             </Button>
-            {{#if this.fetchFacetValues.isRunning}}
+            {{#if (and this.fetchFacetValues.isRunning (not this.seeMoreModalShown))}}
                 <LoadingIndicator @dark={{true}} />
             {{else if this.fetchFacetValues.isError}}
                 {{t 'search.filter-facet.facet-load-failed'}}
@@ -28,32 +29,36 @@
                     id={{facetElementId}}
                 >
                     {{#each this.filterableValues as |value|}}
-                        {{#let (get-localized-property value.indexCard.resourceMetadata 'title') as |valueTitle|}}
-                            <li
-                                data-test-filter-facet-value={{valueTitle}}
-                                local-class='facet-value'
+                        <li
+                            data-test-filter-facet-value={{value.indexCard.label}}
+                            local-class='facet-value'
+                        >
+                            <Button
+                                data-analytics-name='Toggle filter facet value {{value.indexCard.label}}'
+                                local-class='facet-link'
+                                @layout='fake-link'
+                                title={{value.indexCard.label}}
+                                {{on 'click' (fn @toggleFilter (hash
+                                    propertyVisibleLabel=@property.displayLabel
+                                    propertyPathKey=@property.propertyPathKey
+                                    label=value.indexCard.label
+                                    value=value.indexCard.resourceId)
+                                )}}
                             >
-                                <Button
-                                    data-analytics-name='Toggle filter facet value {{valueTitle}}'
-                                    local-class='facet-link'
-                                    @layout='fake-link'
-                                    {{on 'click' (fn @toggleFilter (hash property=propertyLabel value=valueTitle))}}
-                                >
-                                    {{valueTitle}}
-                                </Button>
-                                <span local-class='facet-count'>
-                                    {{value.recordResultCount}}
-                                </span>
-                            </li>
-                        {{/let}}
+                                {{value.indexCard.label}}
+                            </Button>
+                            <span local-class='facet-count'>
+                                {{value.cardSearchResultCount}}
+                            </span>
+                        </li>
                     {{/each}}
                     {{#if this.showSeeMoreButton}}
                         <li>
                             <Button
-                                data-analytics-name='See more filterable values {{propertyLabel}}'
-                                data-test-see-more-filterable-values={{propertyLabel}}
+                                data-analytics-name='See more filterable values {{@property.displayLabel}}'
+                                data-test-see-more-filterable-values={{@property.displayLabel}}
                                 @layout='fake-link'
-                                {{on 'click' (fn (mut this.seeMoreModalShown) true)}}
+                                {{on 'click' this.openSeeMoreModal}}
                             >
                                 {{t 'search.filter-facet.see-more'}}
                             </Button>
@@ -68,21 +73,22 @@
                 as |dialog|
             >
                 <dialog.heading data-test-see-more-dialog-heading>
-                    {{propertyLabel}}
+                    {{@property.displayLabel}}
                 </dialog.heading>
                 <dialog.main local-class='see-more-dialog'>
                     {{t 'search.filter-facet.see-more-modal-text'}}
                     <PowerSelect
                         data-test-property-value-select
-                        @options={{this.filterableValues}}
+                        @options={{this.modalValueOptions}}
                         @searchEnabled={{true}}
                         @selected={{this.selectedProperty}}
                         @placeholder={{t 'search.filter-facet.see-more-modal-placeholder'}}
-                        @search={{perform this.fetchFacetValues}}
+                        @search={{perform this.debouncedValueSearch}}
                         @onChange={{action this.updateSelectedProperty}}
+                        @afterOptionsComponent={{component 'search-page/filter-facet/after-options' fetchValues=(perform this.loadMoreValues) hasMoreValues=this.hasMoreValueOptions}}
                         as |property|
                     >
-                        {{get-localized-property property.indexCard.resourceMetadata 'title'}}
+                        <span>{{property.indexCard.label}} ({{property.cardSearchResultCount}})</span>
                     </PowerSelect>
                 </dialog.main>
                 <dialog.footer>
@@ -106,5 +112,5 @@
                 </dialog.footer>
             </OsfDialog>
         {{/let}}
-    {{/let}}
-</div>
+    </div>
+{{/if}}

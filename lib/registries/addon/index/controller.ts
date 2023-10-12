@@ -37,7 +37,7 @@ export default class Index extends Controller {
         this.router.transitionTo('search', {
             queryParams: {
                 q: query,
-                resourceType: 'osf:Registration',
+                resourceType: 'Registration,RegistrationComponent',
             },
         });
     }

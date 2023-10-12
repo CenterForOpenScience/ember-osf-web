@@ -1,5 +1,5 @@
 import Model from '@ember-data/model';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { Resource } from 'osf-api';
 import OsfSerializer from './osf-serializer';
 

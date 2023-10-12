@@ -32,6 +32,8 @@
                 data-test-search-box
                 aria-label={{t (concat @translationParent '.header.search_label' )}}
                 id='search'
+                placeholder={{t 'registries.header.search_placeholder'}}
+                class='form-control'
                 @value={{this.value}}
                 @class='form-control'
                 @placeholder={{this.searchPlaceholder}}

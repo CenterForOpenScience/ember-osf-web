@@ -4,7 +4,8 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import { tracked } from 'tracked-built-ins';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import {
@@ -22,16 +23,17 @@ export default class FinalizeRegisrationModalComponent extends Component {
     manager!: FinalizeRegistrationModalManager;
 
     // Private properties
-    makePublicOption = '';
-    embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
-    embargoRangeEndDate: Date = moment().add(1460, 'days').toDate();
+    @tracked makePublicOption = '';
+    @tracked embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
+    @tracked embargoRangeEndDate: Date = moment().add(1460, 'days').toDate();
 
     didReceiveAttrs() {
         assert('finalize-registration-modal requires @manager!', Boolean(this.manager));
     }
 
     @action
-    onChoiceChange() {
+    onChoiceChange(value: string) {
+        this.makePublicOption = value;
         if (this.makePublicOption === 'immediate') {
             this.manager.setEmbargoEndDate(null);
         }

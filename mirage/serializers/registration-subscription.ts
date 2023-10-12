@@ -1,5 +1,5 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import RegistrationSubscription from 'ember-osf-web/models/registration-subscription';
 import ApplicationSerializer from './application';
 

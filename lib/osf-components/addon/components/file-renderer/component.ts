@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { next } from '@ember/runloop';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { tracked } from 'tracked-built-ins';

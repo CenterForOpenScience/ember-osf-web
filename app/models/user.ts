@@ -1,7 +1,7 @@
 import { attr, belongsTo, hasMany, AsyncHasMany } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { Link } from 'jsonapi-typescript';
 
 import SparseNodeModel from 'ember-osf-web/models/sparse-node';
@@ -95,6 +95,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('object') social!: {};
     @attr('array') employment!: Employment[];
     @attr('array') education!: Education[];
+    @attr('boolean', { allowNull: true }) allowIndexing?: boolean;
 
     @belongsTo('region', { async: false })
     defaultRegion!: RegionModel;

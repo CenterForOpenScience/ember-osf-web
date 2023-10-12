@@ -8,7 +8,7 @@ import styles from 'osf-components/components/button/styles';
 module('Osf Components | Integration | Component | Button', hooks => {
     setupRenderingTest(hooks);
 
-    test('it renders', async assert => {
+    test('it renders', async function(assert) {
         await render(hbs`
             <Button>
                 Click me
@@ -20,7 +20,7 @@ module('Osf Components | Integration | Component | Button', hooks => {
         assert.dom('button').hasAttribute('type', 'button');
     });
 
-    test('it accepts a layout prop', async assert => {
+    test('it accepts a layout prop', async function(assert) {
         await render(hbs`
             <Button
                 @layout='small'
@@ -39,7 +39,7 @@ module('Osf Components | Integration | Component | Button', hooks => {
         );
     });
 
-    test('it accepts a type prop', async assert => {
+    test('it accepts a type prop', async function(assert) {
         await render(hbs`
             <Button
                 @type='primary'

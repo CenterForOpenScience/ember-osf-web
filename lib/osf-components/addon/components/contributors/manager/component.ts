@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -114,21 +114,27 @@ export default class ContributorsManager extends Component {
         }
     }
 
+    @action
+    removeContributor(contributor: ContributorModel) {
+        taskFor(this.removeContributorTask).perform(contributor);
+    }
+
     @enqueueTask
     @waitFor
-    async removeContributor(contributor: ContributorModel) {
+    async removeContributorTask(contributor: ContributorModel) {
+        const contributorName = contributor.unregisteredContributor
+            ? contributor.unregisteredContributor
+            : contributor.users.get('fullName');
+        const userId = contributor.users.get('id');
         const user = this.currentUser.get('user');
         try {
             await contributor.destroyRecord();
             this.contributors.removeObject(contributor);
 
-            if (user && user.id === contributor.users.get('id')) {
+            if (user && user.id === userId) {
                 this.toast.success(this.intl.t('contributor_list.remove_contributor.success'));
                 this.router.transitionTo('home');
             } else {
-                const contributorName = contributor.unregisteredContributor
-                    ? contributor.unregisteredContributor
-                    : contributor.users.get('fullName');
                 this.toast.success(this.intl.t(
                     'osf-components.contributors.removeContributor.success',
                     { contributorName, htmlSafe: true },

@@ -1,5 +1,5 @@
 import { ModelInstance, Request, Schema } from 'ember-cli-mirage';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';

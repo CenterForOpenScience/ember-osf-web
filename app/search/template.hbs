@@ -2,10 +2,12 @@
 
 <SearchPage
     @route='search'
-    @query={{this.q}}
+    @cardSearchText={{this.q}}
     @queryParams={{this.queryParams}}
     @onSearch={{action this.onSearch}}
     @showResourceTypeFilter={{true}}
     @sort={{this.sort}}
     @resourceType={{this.resourceType}}
+    @page={{this.page}}
+    @activeFilters={{this.activeFilters}}
 />

@@ -1,5 +1,5 @@
 import Application from '@ember/application';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import loadInitializers from 'ember-load-initializers';
 import Resolver from './resolver';
 
@@ -56,6 +56,7 @@ const App = Application.extend({
                     'osf-router',
                 ],
                 externalRoutes: {
+                    search: 'search',
                     'guid-registration': 'guid-registration',
                     'guid-registration.analytics': 'guid-registration.analytics',
                     'guid-registration.forks': 'guid-registration.forks',

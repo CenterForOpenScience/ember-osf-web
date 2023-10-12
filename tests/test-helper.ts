@@ -5,7 +5,7 @@ import { setup } from 'qunit-dom';
 
 import preloadAssets from 'ember-asset-loader/test-support/preload-assets';
 import start from 'ember-exam/test-support/start';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Application from 'ember-osf-web/app';
 import manifest from 'ember-osf-web/config/asset-manifest';
 

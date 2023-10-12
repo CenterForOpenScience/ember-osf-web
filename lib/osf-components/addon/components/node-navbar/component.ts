@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Media from 'ember-responsive';
 import { tracked } from 'tracked-built-ins';
 

@@ -3,8 +3,8 @@
         <Input
             local-class='UserSearchInput'
             data-test-user-search-input
+            placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
             @type='text'
-            @placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
             @value={{this.query}}
             @enter={{perform this.fetchUsers false}}
         />

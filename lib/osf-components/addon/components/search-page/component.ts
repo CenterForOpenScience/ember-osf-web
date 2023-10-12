@@ -11,9 +11,11 @@ import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Media from 'ember-responsive';
 
-import IndexPropertySearchModel from 'ember-osf-web/models/index-property-search';
+import { ShareMoreThanTenThousand } from 'ember-osf-web/models/index-card-search';
+import InstitutionModel from 'ember-osf-web/models/institution';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
+import RelatedPropertyPathModel, { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import uniqueId from 'ember-osf-web/utils/unique-id';
 
 interface ResourceTypeOption {
@@ -25,7 +27,7 @@ export enum ResourceTypeFilterValue {
     Registrations = 'Registration,RegistrationComponent',
     Projects = 'Project,ProjectComponent',
     Preprints = 'Preprint',
-    Users = 'User',
+    Users = 'Agent',
     Files = 'File',
 }
 
@@ -35,20 +37,22 @@ interface SortOption {
 }
 
 export interface Filter {
-    property: string;
+    propertyVisibleLabel: string;
+    propertyPathKey: string; // OSFMAP shorthand label
     value: string;
+    label: string;
+    suggestedFilterOperator?: SuggestedFilterOperators;
 }
 
 export interface OnSearchParams {
     cardSearchText?: string;
-    page?: string;
     sort?: string;
     resourceType?: ResourceTypeFilterValue | null;
+    activeFilters?: Filter[];
 }
 
 interface SearchArgs {
     onSearch?: (obj: OnSearchParams) => void;
-    query?: string;
     cardSearchText: string;
     cardSearchFilters: Filter[];
     propertyCard: IndexCardModel;
@@ -58,8 +62,10 @@ interface SearchArgs {
     resourceType?: ResourceTypeFilterValue;
     defaultQueryOptions: Record<string, string>;
     provider?: ProviderModel;
+    institution?: InstitutionModel;
     showResourceTypeFilter: boolean;
-    showSidePanelToggle: boolean;
+    page: string;
+    activeFilters: Filter[];
 }
 
 const searchDebounceTime = 100;
@@ -70,17 +76,24 @@ export default class SearchPage extends Component<SearchArgs> {
     @service store!: Store;
     @service media!: Media;
 
-    @tracked searchText?: string;
+    @tracked cardSearchText?: string;
     @tracked searchResults?: SearchResultModel[];
-    @tracked propertySearch?: IndexPropertySearchModel;
-    @tracked page?: number = 1;
-    @tracked totalResultCount?: number;
+    @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
+    @tracked booleanFilters?: RelatedPropertyPathModel[] = [];
+    @tracked page?: string = '';
+    @tracked totalResultCount?: string | number;
+    @tracked firstPageCursor?: string | null;
+    @tracked prevPageCursor?: string | null;
+    @tracked nextPageCursor?: string | null;
+
+    @tracked filterQueryObject: Record<string, string> = {};
 
     constructor( owner: unknown, args: SearchArgs) {
         super(owner, args);
-        this.searchText = this.args.query;
+        this.cardSearchText = this.args.cardSearchText;
         this.sort = this.args.sort;
         this.resourceType = this.args.resourceType;
+        this.activeFilters = A<Filter>(this.args.activeFilters);
         taskFor(this.search).perform();
     }
 
@@ -88,28 +101,36 @@ export default class SearchPage extends Component<SearchArgs> {
     showTooltip2?: boolean;
     showTooltip3?: boolean;
 
+    sidePanelToggleId = uniqueId(['side-panel-toggle']);
     leftPanelObjectDropdownId = uniqueId(['left-panel-object-dropdown']);
     firstTopbarObjectTypeLinkId = uniqueId(['first-topbar-object-type-link']);
     searchInputWrapperId = uniqueId(['search-input-wrapper']);
+    searchBoxId = uniqueId(['search-box']);
     leftPanelHeaderId = uniqueId(['left-panel-header']);
     firstFilterId = uniqueId(['first-filter']);
 
     get tooltipTarget1Id() {
+        if (this.showSidePanelToggle) {
+            return this.sidePanelToggleId;
+        }
         if (this.args.showResourceTypeFilter) {
-            if (this.showSidePanelToggle) {
-                return this.leftPanelObjectDropdownId;
-            }
             return this.firstTopbarObjectTypeLinkId;
         }
         return this.searchInputWrapperId;
     }
 
     get tooltipTarget2Id() {
+        if (this.showSidePanelToggle) {
+            return this.sidePanelToggleId;
+        }
         return this.leftPanelHeaderId;
     }
 
     get tooltipTarget3Id() {
-        if (this.propertySearch) {
+        if (this.showSidePanelToggle) {
+            return this.sidePanelToggleId;
+        }
+        if (this.relatedProperties) {
             return this.firstFilterId;
         }
         return this.leftPanelHeaderId;
@@ -119,25 +140,16 @@ export default class SearchPage extends Component<SearchArgs> {
         return this.media.isMobile || this.media.isTablet;
     }
 
-    get filterableProperties() {
-        if (!this.propertySearch) {
-            return [];
-        }
-        return this.propertySearch.get('searchResultPage');
-    }
-
     get selectedResourceTypeOption() {
         return this.resourceTypeOptions.find(option => option.value === this.resourceType);
     }
 
     get showResultCountMiddle() {
-        const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
+        return this.totalResultCount && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
     }
 
     get showResultCountLeft() {
-        const hasResults = this.totalResultCount && this.totalResultCount > 0;
-        return hasResults && this.showSidePanelToggle;
+        return this.totalResultCount && (this.args.showResourceTypeFilter || this.showSidePanelToggle);
     }
 
     get selectedSortOption() {
@@ -145,7 +157,7 @@ export default class SearchPage extends Component<SearchArgs> {
     }
 
     // Resource type
-    resourceTypeOptions: ResourceTypeOption[] = [
+    defaultResourceTypeOptions: ResourceTypeOption[] = [
         {
             display: this.intl.t('search.resource-type.all'),
             value: null,
@@ -172,13 +184,16 @@ export default class SearchPage extends Component<SearchArgs> {
         },
     ];
 
+    resourceTypeOptions = this.args.institution ? this.defaultResourceTypeOptions.slice(1)
+        : this.defaultResourceTypeOptions;
+
     // Sort
     sortOptions: SortOption[] = [
         { display: this.intl.t('search.sort.relevance'), value: '-relevance' },
-        { display: this.intl.t('search.sort.created-date-descending'), value: '-date_created' },
-        { display: this.intl.t('search.sort.created-date-ascending'), value: 'date_created' },
-        { display: this.intl.t('search.sort.modified-date-descending'), value: '-date_modified' },
-        { display: this.intl.t('search.sort.modified-date-ascending'), value: 'date_modified' },
+        { display: this.intl.t('search.sort.created-date-descending'), value: '-dateCreated' },
+        { display: this.intl.t('search.sort.created-date-ascending'), value: 'dateCreated' },
+        { display: this.intl.t('search.sort.modified-date-descending'), value: '-dateModified' },
+        { display: this.intl.t('search.sort.modified-date-ascending'), value: 'dateModified' },
     ];
 
     @tracked resourceType?: ResourceTypeFilterValue | null;
@@ -189,64 +204,107 @@ export default class SearchPage extends Component<SearchArgs> {
     @waitFor
     async search() {
         try {
-            const cardSearchText = this.searchText;
+            const cardSearchText = this.cardSearchText;
             const { page, sort, activeFilters, resourceType } = this;
-            let filterQueryObject = activeFilters.reduce((acc, filter) => {
-                acc[filter.property] = filter.value;
+            if (this.args.onSearch) {
+                this.args.onSearch({cardSearchText, sort, resourceType, activeFilters});
+            }
+            const filterQueryObject = activeFilters.reduce((acc, filter) => {
+                // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
+                if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
+                    acc[filter.propertyPathKey] = {};
+                    acc[filter.propertyPathKey][filter.value] = true;
+                    return acc;
+                }
+                const currentValue = acc[filter.propertyPathKey];
+                // other filters should look like cardSearchFilter[propertyName]=IRI
+                // or cardSearchFilter[propertyName] = IRI1, IRI2
+                // Logic below is to handle the case where there are multiple filters for the same property
+                acc[filter.propertyPathKey] = currentValue ? currentValue.concat(filter.value) : [filter.value];
                 return acc;
-            }, {} as { [key: string]: string });
+            }, {} as { [key: string]: any });
             let resourceTypeFilter = this.resourceType as string;
+            // If resourceType is null, we want to search all resource types
             if (!resourceTypeFilter) {
                 resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
             }
             filterQueryObject['resourceType'] = resourceTypeFilter;
-            filterQueryObject = { ...filterQueryObject, ...this.args.defaultQueryOptions };
+            if (this.args.defaultQueryOptions) {
+                const { defaultQueryOptions } = this.args;
+                const defaultQueryOptionKeys = Object.keys(this.args.defaultQueryOptions);
+                defaultQueryOptionKeys.forEach(key => {
+                    const currentValue = filterQueryObject[key];
+                    const defaultValue = defaultQueryOptions[key];
+                    filterQueryObject[key] = currentValue ? currentValue.concat(defaultValue) : [defaultValue];
+                });
+            }
+            this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
                 cardSearchText,
-                page,
+                'page[cursor]': page,
                 sort,
                 cardSearchFilter: filterQueryObject,
+                'page[size]': 10,
             });
-            this.propertySearch = await searchResult.relatedPropertySearch;
+            await searchResult.relatedProperties;
+            this.booleanFilters = searchResult.relatedProperties
+                .filterBy('suggestedFilterOperator', SuggestedFilterOperators.IsPresent);
+            this.relatedProperties = searchResult.relatedProperties.filter(
+                (property: RelatedPropertyPathModel) =>
+                    property.suggestedFilterOperator !== SuggestedFilterOperators.IsPresent, // AnyOf or AtDate
+            );
+            this.firstPageCursor = searchResult.firstPageCursor;
+            this.nextPageCursor = searchResult.nextPageCursor;
+            this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
-            this.totalResultCount = searchResult.totalResultCount;
-            if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType});
-            }
+            this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
+                searchResult.totalResultCount;
         } catch (e) {
             this.toast.error(e);
         }
+    }
+
+    @action
+    switchPage(pageCursor: string) {
+        this.page = pageCursor;
+        taskFor(this.search).perform();
+        document.querySelector('[data-test-topbar-wrapper]')?.scrollIntoView({ behavior: 'smooth' });
     }
 
     @task({ restartable: true })
     @waitFor
     async doDebounceSearch() {
         await timeout(searchDebounceTime);
+        this.page = '';
         taskFor(this.search).perform();
     }
 
     @action
     toggleFilter(filter: Filter) {
         const filterIndex = this.activeFilters.findIndex(
-            f => f.property === filter.property && f.value === filter.value,
+            f => f.propertyPathKey === filter.propertyPathKey && f.value === filter.value,
         );
         if (filterIndex > -1) {
             this.activeFilters.removeAt(filterIndex);
         } else {
             this.activeFilters.pushObject(filter);
         }
+        this.page = '';
         taskFor(this.search).perform();
     }
 
     @action
     updateSort(sortOption: SortOption) {
         this.sort = sortOption.value;
+        this.page = '';
         taskFor(this.search).perform();
     }
 
     @action
     updateResourceType(resourceTypeOption: ResourceTypeOption) {
         this.resourceType = resourceTypeOption.value;
+        this.activeFilters = A<Filter>([]);
+        this.page = '';
         taskFor(this.search).perform();
     }
 }

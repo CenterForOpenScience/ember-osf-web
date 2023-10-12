@@ -69,7 +69,7 @@ module('Unit | Location | history with fragments', hooks => {
         this.owner.register('service:osf-router', OsfRouterStub);
     });
 
-    test('replaceURL preserves URL fragment', assert => {
+    test('replaceURL preserves URL fragment', function(assert) {
         const testCases = [
             { start: '/', replaceWith: '/boron', expect: '/boron' },
             { start: '/boron', replaceWith: '/boron#summary', expect: '/boron#summary' },
@@ -99,7 +99,7 @@ module('Unit | Location | history with fragments', hooks => {
         }
     });
 
-    test('onUpdateURL callback called only when path/query update', assert => {
+    test('onUpdateURL callback called only when path/query update', function(assert) {
         const testCases = [
             // yes callback
             { previousURL: '/', newURL: '/foo', expectCall: true },
@@ -151,11 +151,13 @@ module('Unit | Location | history with fragments', hooks => {
             historyLocation.destroy();
 
             if (testCase.expectCall) {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.ok(
                     callback.calledOnceWithExactly(testCase.newURL),
                     `onUpdateURL callback called on transiton from ${testCase.previousURL} to ${testCase.newURL}`,
                 );
             } else {
+                // eslint-disable-next-line qunit/no-conditional-assertions
                 assert.ok(
                     callback.notCalled,
                     `onUpdateURL callback not called on transiton from ${testCase.previousURL} to ${testCase.newURL}`,

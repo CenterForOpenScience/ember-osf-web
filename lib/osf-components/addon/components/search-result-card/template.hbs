@@ -1,78 +1,107 @@
-<div local-class='result-card-container'>
-    <div local-class='primary-metadata-container'>
-        <div local-class='header'>
-            <div local-class='type-label'>
-                {{this.cardTypeLabel}}
+<div data-test-search-result-card local-class='result-card-container'>
+    {{#let (unique-id) as |secondaryMetadataPanelId|}}
+        <div local-class='primary-metadata-container'>
+            <div local-class='header'>
+                <div local-class='type-label'>
+                    {{this.cardTypeLabel}}
+                </div>
+                {{#if (not-eq @result.resourceType 'user')}}
+                    <Button
+                        {{on 'click' this.toggleSecondaryMetadata}}
+                        aria-label={{if this.isOpenSecondaryMetadata
+                            (t 'osf-components.search-result-card.hide_additional_metadata')
+                            (t 'osf-components.search-result-card.show_additional_metadata')
+                        }}
+                        aria-controls={{secondaryMetadataPanelId}}
+                        aria-expanded={{this.isOpenSecondaryMetadata}}
+                    >
+                        {{#if this.isOpenSecondaryMetadata}}
+                            <FaIcon
+                                @icon={{'angle-up'}}
+                            />
+                        {{else}}
+                            <FaIcon
+                                @icon={{'angle-down'}}
+                            />  
+                        {{/if}}
+                    </Button>
+                {{/if}}
             </div>
-            <Button
-                {{on 'click' this.toggleSecondaryMetadata}}
-            >
-                {{#if this.isOpenSecondaryMetadata}}
-                    <FaIcon
-                        @icon={{'angle-up'}}
+            <h4>
+                <a data-test-search-result-card-title href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
+                {{#if @result.isWithdrawn}}
+                    <span local-class='withdrawn-label'>{{t 'osf-components.search-result-card.withdrawn'}}</span>
+                {{/if}}
+                {{#if @result.orcids}}
+                    {{#each @result.orcids as |item|}}
+                        <a href={{item}}
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            aria-label={{t 'osf-components.search-result-card.link_to_orcid_id'}}
+                        >
+                            <FaIcon @prefix='fab' @icon='orcid' local-class='orcid-logo' />
+                        </a>
+                    {{/each}}
+                {{/if}}
+            </h4>
+            
+            {{#if @result.affiliatedEntities}}
+                <div local-class='name-fields'>
+                    <InlineList
+                        @items={{@result.affiliatedEntities}}
+                        @total={{@result.affiliatedEntities.count}}
+                        @truncate={{5}}
+                        as |list|
+                    >
+                        {{#if list.item}}
+                            <a href={{list.item.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{list.item.name}} </a>
+                        {{else if list.remainingCount}}
+                            {{t 'osf-components.search-result-card.remaining_count' count=list.remainingCount}}
+                        {{/if}}
+                    </InlineList>
+                </div>
+            {{/if}}
+            {{#if @result.isPartOf}}
+                <div>
+                    <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isPartOfTitleAndUrl.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOfTitleAndUrl.title}} </a></span>
+                </div>
+            {{/if}}
+            {{#if @result.isContainedBy}}
+                <div>
+                    <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isContainedByTitleAndUrl.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isContainedByTitleAndUrl.title}} </a></span>
+                </div>
+            {{/if}}
+            <div local-class='date-fields'>
+                {{#each @result.dateFields as |field|}}
+                    {{#if field.date}}
+                        <span>{{field.label}}: {{field.date}}</span>
+                    {{/if}}
+                {{/each}}
+            </div>
+            {{#if @result.context}}
+                <div local-class='context-field'>
+                    <span>{{t 'osf-components.search-result-card.context'}}: {{@result.context}}</span>
+                </div>
+            {{/if}}
+            {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
+                <div>
+                    <OpenBadgesList
+                        @hasData={{@result.hasDataResource}}
+                        @hasMaterials={{@result.hasMaterialsResource}}
+                        @hasAnalyticCode={{@result.hasAnalyticCodeResource}}
+                        @hasPapers={{@result.hasPapersResource}}
+                        @hasSupplements={{@result.hasSupplementalResource}}
+                        @absoluteUrl={{@result.absoluteUrl}}
+                        @verticalLayout={{false}}
                     />
-                {{else}}
-                    <FaIcon
-                        @icon={{'angle-down'}}
-                    />  
-                {{/if}}
-            </Button>
+                </div>
+            {{/if}}
         </div>
-        <h4 local-class='display-name'>
-            <a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
-        </h4>
-        {{#if @result.affiliatedEntities}}
-            <div local-class='name-fields'>
-                <InlineList
-                    @items={{@result.affiliatedEntities}}
-                    @total={{@result.affiliatedEntities.count}}
-                    @truncate={{5}}
-                    as |list|
-                >
-                    {{list.item}}
-                </InlineList>
-            </div>
-        {{/if}}
-        {{#if @result.isPartOf}}
-            <div>
-                <span>{{t 'osf-components.search-result-card.from'}}: <a href={{@result.isPartOf.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.isPartOf.title}} </a></span>
-            </div>
-        {{/if}}
-        <div local-class='date-fields'>
-            {{#each @result.dateFields as |field|}}
-                {{#if field.date}}
-                    <span>{{field.label}}: {{field.date}}</span>   
-                {{/if}}
-            {{/each}}
-        </div>
-        {{#if @result.context}}
-            <div local-class='context-field'>
-                <span>{{t 'osf-components.search-result-card.context'}}: {{@result.context}}</span>
-            </div>
-        {{/if}}
-        {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
-            <OpenBadgesList
-                    @hasData={{@result.hasDataResource}}
-                    @hasMaterials={{@result.hasMaterialsResource}}
-                    @hasAnalyticCode={{@result.hasAnalyticCodeResource}}
-                    @hasPapers={{@result.hasPapersResource}}
-                    @hasSupplements={{@result.hasSupplementsResource}}
-                    @absoluteUrl={{@result.absoluteUrl}}
-                    @verticalLayout={{false}}
-                />
-        {{/if}}
-    </div>
-    <CpPanel @open={{this.isOpenSecondaryMetadata}} as |panel|>
-        <panel.body>
-            <hr>
-            {{component this.secondaryMetadataComponent result=@result}}
-            {{!-- {{#if (or (eq @result.resourceType 'registration') (eq @result.resourceType 'registration_component'))}}
-                <SearchResultCard::RegistrationSecondaryMetadata @result={{@result}} />
-            {{else if (or (eq @result.resourceType 'project') (eq @result.resourceType 'project_component'))}}
-                <SearchResultCard::ProjectSecondaryMetadata @result={{@result}} />
-            {{else if (eq @result.resourceType 'preprint')}}
-                <SearchResultCard::PreprintSecondaryMetadata @result={{@result}} />
-            {{/if}} --}}
-        </panel.body>
-    </CpPanel>
+        <CpPanel local-class='cp-panel' id={{secondaryMetadataPanelId}} @open={{this.isOpenSecondaryMetadata}} as |panel|>
+            <panel.body>
+                <hr>
+                {{component this.secondaryMetadataComponent result=@result}}
+            </panel.body>
+        </CpPanel>
+    {{/let}}
 </div>

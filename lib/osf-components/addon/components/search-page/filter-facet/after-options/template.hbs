@@ -1,0 +1,5 @@
+{{#if @fetchValues.isRunning}}
+    <LoadingIndicator @inline={{true}} />
+{{else if @hasMoreValues}}
+    <Button @layout='fake-link' {{on 'click' @fetchValues}}>{{t 'search.filter-facet.load-more'}}</Button>
+{{/if}}

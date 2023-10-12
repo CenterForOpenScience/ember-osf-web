@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 
 export default class NoAPI extends Controller {
     supportEmail = config.support.supportEmail;

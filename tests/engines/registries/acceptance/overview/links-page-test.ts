@@ -8,7 +8,7 @@ module('Registries | Acceptance | overview.links', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('With linked node and no linked registration', async assert => {
+    test('With linked node and no linked registration', async function(assert) {
         const registration = server.create('registration');
         const linkedNode = server.create('node', {
             title: 'Linked node',
@@ -23,7 +23,7 @@ module('Registries | Acceptance | overview.links', hooks => {
         assert.dom('[data-test-no-linked-registrations]').exists('No linked registrations message is shown');
     });
 
-    test('With linked registration and no linked node', async assert => {
+    test('With linked registration and no linked node', async function(assert) {
         const registration = server.create('registration');
         const linkedRegistration = server.create('registration', {
             title: 'Linked registration',

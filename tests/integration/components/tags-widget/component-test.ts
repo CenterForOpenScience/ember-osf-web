@@ -1,6 +1,7 @@
 import EmberObject from '@ember/object';
 import { click as untrackedClick, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
@@ -13,6 +14,7 @@ function fakeNode(tags: string[]) {
 
 module('Integration | Component | tags-widget', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('it renders passed-in tags', async function(assert) {
         const tags = ['foo', 'bar', 'baz'];

@@ -1,4 +1,4 @@
-import Model, { AsyncHasMany, AsyncBelongsTo, attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
 import IndexPropertySearchModel from './index-property-search';
 import { SearchFilter } from './index-card-search';
@@ -6,7 +6,7 @@ import SearchResultModel from './search-result';
 
 export default class IndexValueSearchModel extends Model {
     @attr('string') valueSearchText!: string;
-    @attr('array') valueSearchFilter!: SearchFilter[];
+    @attr('string') valueSearchPropertyPath!: string;
     @attr('string') cardSearchText!: string;
     @attr('array') cardSearchFilter!: SearchFilter[];
     @attr('number') totalResultCount!: number;

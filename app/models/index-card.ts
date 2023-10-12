@@ -2,6 +2,9 @@ import { inject as service } from '@ember/service';
 import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 import IntlService from 'ember-intl/services/intl';
 
+import GetLocalizedPropertyHelper from 'ember-osf-web/helpers/get-localized-property';
+import { getOwner } from '@ember/application';
+
 export interface LanguageText {
     '@language': string;
     '@value': string;
@@ -17,6 +20,30 @@ export default class IndexCardModel extends Model {
 
     @hasMany('index-card', { inverse: null })
     relatedRecordSet!: AsyncHasMany<IndexCardModel> & IndexCardModel[];
+
+    getLocalizedString = new GetLocalizedPropertyHelper(getOwner(this));
+
+    get resourceId() {
+        return this.resourceIdentifier[0];
+    }
+
+    get label() {
+        const possibleLabelKeys = ['displayLabel', 'name', 'title'];
+        for (const key of possibleLabelKeys) {
+            if (this.resourceMetadata[key]) {
+                const label = this.getLocalizedString.compute([this.resourceMetadata, key]);
+                // TODO: Get rid of this special casing once we have a decision on how BE should represents OSF provider
+                if (label === 'OSF') {
+                    return 'OSF Projects';
+                }
+                if (label === 'Open Science Framework') {
+                    return 'OSF Preprints';
+                }
+                return label;
+            }
+        }
+        return '';
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

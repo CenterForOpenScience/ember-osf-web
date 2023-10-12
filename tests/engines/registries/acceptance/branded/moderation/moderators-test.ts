@@ -20,18 +20,18 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         server.create('registration-provider', { id: 'empty' });
     });
 
-    test('logged out users are rerouted', async assert => {
+    test('logged out users are rerouted', async function(assert) {
         await visit('/registries/mdr8n/moderation/moderators');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'Non-moderators are rerouted');
     });
 
-    test('logged in, non-moderators are rerouted', async assert => {
+    test('logged in, non-moderators are rerouted', async function(assert) {
         server.create('user', 'loggedIn');
         await visit('/registries/mdr8n/moderation/moderators');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'Non-moderators are rerouted');
     });
 
-    test('moderators list view for moderators', async assert => {
+    test('moderators list view for moderators', async function(assert) {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
@@ -50,7 +50,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
             .doesNotExist('Button to add moderator is not visible for moderators');
     });
 
-    test('admins list view for moderators', async assert => {
+    test('admins list view for moderators', async function(assert) {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asAdmin');
@@ -69,7 +69,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
             .exists('Button to add moderator is visible for admins');
     });
 
-    test('moderator CRUD operations', async assert => {
+    test('moderator CRUD operations', async function(assert) {
         const regProvider = server.schema.registrationProviders.find('empty');
         const currentUser = server.create('user', { fullName: 'J' }, 'loggedIn');
         const suzy = server.create('user', { fullName: 'Bae Suzy' });

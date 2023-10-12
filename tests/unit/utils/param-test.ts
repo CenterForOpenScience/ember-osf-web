@@ -2,7 +2,7 @@ import param from 'ember-osf-web/utils/param';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | param', () => {
-    test('it creates a query string from params', assert => {
+    test('it creates a query string from params', function(assert) {
         assert.equal(
             param({
                 foo: 'boo',
@@ -12,14 +12,14 @@ module('Unit | Utility | param', () => {
         );
     });
 
-    test('it creates an empty query string from empty params', assert => {
+    test('it creates an empty query string from empty params', function(assert) {
         assert.equal(
             param({}),
             '',
         );
     });
 
-    test('it url encodes keys and values', assert => {
+    test('it url encodes keys and values', function(assert) {
         assert.equal(
             param({
                 'foo/bar': 'boo,hoo',

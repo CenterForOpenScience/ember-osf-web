@@ -1,6 +1,6 @@
 import { visit } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -20,7 +20,7 @@ module('Acceptance | Status Banner', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('welcome message shows correctly', async assert => {
+    test('welcome message shows correctly', async function(assert) {
         server.create('user', 'loggedIn');
 
         /* eslint-disable-next-line max-len */
