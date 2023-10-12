@@ -22,10 +22,10 @@ export default class SettingsTokensEditController extends Controller {
 
     @action
     refresh() {
-        if (this.token && this.token.tokenValue) {
-            this.token.tokenValue = undefined;
-            this.token.save();
-        }
+        this.clearTokenValue();
+
+        // Send action to route
+        this.send('refreshRoute');
     }
 
     clearTokenValue() {
