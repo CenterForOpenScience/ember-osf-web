@@ -2627,7 +2627,7 @@ settings:
             message: 'Token <strong>{tokenName}</strong> created:'
             instructions: 'This token will never expire. This token should never be shared with others. If it is accidentally revealed publicly, it should be deactivated immediately.'
             warning: 'This is the only time your token will be displayed.'
-            editScopes: 'Edit scopes'
+            close: 'Close'
 verifyEmail:
     merge:
         header: 'Merge account?'

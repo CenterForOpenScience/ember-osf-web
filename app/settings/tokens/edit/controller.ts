@@ -23,9 +23,7 @@ export default class SettingsTokensEditController extends Controller {
     @action
     refresh() {
         this.clearTokenValue();
-
-        // Send action to route
-        this.send('refreshRoute');
+        this.router.transitionTo('settings.tokens');
     }
 
     clearTokenValue() {
