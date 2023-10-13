@@ -5,7 +5,7 @@
         local-class='facet-wrapper'
         ...attributes
     >
-        {{#let (unique-id @property.displayLabel) as |facetElementId|}}
+        {{#let (unique-id @property.propertyPathKey) as |facetElementId|}}
             <Button
                 data-analytics-name='Filter facet toggle {{@property.displayLabel}}'
                 data-test-filter-facet-toggle={{@property.displayLabel}}
@@ -40,7 +40,7 @@
                                 title={{value.indexCard.label}}
                                 {{on 'click' (fn @toggleFilter (hash
                                     propertyVisibleLabel=@property.displayLabel
-                                    propertyShortFormLabel=@property.shortFormLabel
+                                    propertyPathKey=@property.propertyPathKey
                                     label=value.indexCard.label
                                     value=value.indexCard.resourceId)
                                 )}}

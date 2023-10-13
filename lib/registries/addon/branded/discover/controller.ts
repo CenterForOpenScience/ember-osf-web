@@ -1,18 +1,35 @@
-import DiscoverController from 'registries/discover/controller';
+import Store from '@ember-data/store';
+// import EmberArray, { A } from '@ember/array';
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
+import Media from 'ember-responsive';
+import { tracked } from '@glimmer/tracking';
+import { Filter, OnSearchParams } from 'osf-components/components/search-page/component';
+import pathJoin from 'ember-osf-web/utils/path-join';
+import config from 'ember-osf-web/config/environment';
+export default class BrandedDiscover extends Controller.extend() {
+    @service media!: Media;
+    @service intl!: Intl;
+    @service store!: Store;
 
-import { ShareTermsFilter } from 'registries/services/share-search';
+    @tracked cardSearchText? = '';
+    @tracked sort?= '-relevance';
+    @tracked activeFilters?: Filter[] = [];
 
-export default class Discover extends DiscoverController {
-    // this route uses the registries.discover page template where the custom branding is handled
-    get providerModel() {
-        return this.model;
+    queryParams = ['cardSearchText', 'sort', 'activeFilters'];
+
+    get defaultQueryOptions() {
+        return {
+            publisher: pathJoin(config.OSF.url, 'registries', this.model.id),
+        };
     }
 
-    get additionalFilters() {
-        const { shareSource, name } = this.model;
-
-        return [
-            new ShareTermsFilter('sources', shareSource, name),
-        ];
+    @action
+    onSearch(onSearchParams: OnSearchParams) {
+        this.cardSearchText = onSearchParams.cardSearchText;
+        this.sort = onSearchParams.sort;
+        this.activeFilters = onSearchParams.activeFilters;
     }
 }

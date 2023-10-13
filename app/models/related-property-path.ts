@@ -13,28 +13,20 @@ interface PropertyPath {
     shortFormLabel: LanguageText[];
 }
 
+export enum SuggestedFilterOperators {
+    AnyOf = 'any-of',
+    IsPresent = 'is-present',
+    AtDate = 'at-date'
+}
+
 export default class RelatedPropertyPathModel extends OsfModel {
     @attr('string') propertyPathKey!: string;
     @attr('number') cardSearchResultCount!: number;
     @attr('array') osfmapPropertyPath!: string[];
     @attr('array') propertyPath!: PropertyPath[];
+    @attr('string') suggestedFilterOperator!: SuggestedFilterOperators;
 
     getLocalizedString = new GetLocalizedPropertyHelper(getOwner(this));
-
-    get shortFormLabel() {
-        const labelArray = [];
-        // propertyPath is likely an array of length 1,
-        // unless it is nested property(e.g. file's isContainedBy.funder, file's isContainedBy.license)
-        for (const property of this.propertyPath) {
-            const label = this.getLocalizedString.compute(
-                [property as unknown as Record<string, LanguageText[]>, 'shortFormLabel'],
-            );
-            if (label) {
-                labelArray.push(label);
-            }
-        }
-        return labelArray.join(',');
-    }
 
     get displayLabel() {
         // propertyPath is likely an array of length 1,

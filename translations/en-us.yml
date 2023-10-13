@@ -233,10 +233,10 @@ search:
     textbox-placeholder: 'Enter search term(s) here'
     search-button-label: 'Search'
     search-help-label: 'Help tutorial'
-    total-results: '{count} results'
+    total-results: '{count} {count, plural, one {result} other {results} }'
     no-results: 'No results found'
     resource-type:
-        search-by: 'Search by resource type'
+        search-by: 'Search by object type'
         all: 'All'
         projects: 'Projects'
         registrations: 'Registrations'
@@ -265,8 +265,9 @@ search:
         see-more-modal-text: 'Please select a filter to apply to your search.'
         see-more-modal-placeholder: 'Search for a filter to apply'
         load-more: 'Load more'
-        has-resource: 'Has {resource}'
         no-resource: 'No {resource}'
+    boolean-filters:
+        dropdown-label: 'Has related resource'
 
     institutions:
         institution-logo: 'Logo for '
@@ -1858,6 +1859,8 @@ routes:
         email: Email
 osf-components:
     search-result-card:
+        show_additional_metadata: 'Show additional metadata'
+        hide_additional_metadata: 'Hide additional metadata'
         language: Language
         url: URL
         resource_type: Resource type
@@ -2560,6 +2563,14 @@ settings:
                 confirm_button_text: Remove
             remove_fail: 'Revocation request failed. Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> if the problem persists.'
             remove_success: 'You have revoked this connected identity.'
+        opt-out:
+            title: 'Opt out of SHARE indexing'
+            description: 'By default, OSF users are indexed into SHARE, a free, open dataset of research metadata. This allows SHARE to include your user profile and research in its database, which is used by search engines and other services to make research more discoverable. You can opt out of this indexing by checking the box below. NOTE: Public projects, files, registrations, and preprints will still be indexed in SHARE. <br /> <a href="https://share.osf.io/">Learn more about SHARE</a>'
+            opt-out-label: 'Opt out of SHARE indexing'
+            opt-in-label: 'Opt in to SHARE indexing'
+            success: 'Successfully updated SHARE indexing preference.'
+            error: 'Could not update SHARE indexing preference. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+            button-label: 'Update'
     addons:
         title: 'Configure add-on accounts'
     notifications:
