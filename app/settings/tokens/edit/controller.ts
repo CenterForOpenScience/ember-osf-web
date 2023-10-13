@@ -7,8 +7,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import Token from 'ember-osf-web/models/token';
 import Analytics from 'ember-osf-web/services/analytics';
-import { task } from 'ember-concurrency';
-import { waitFor } from '@ember/test-waiters';
+import { action } from '@ember/object';
 
 export default class SettingsTokensEditController extends Controller {
     @service analytics!: Analytics;
@@ -21,8 +20,7 @@ export default class SettingsTokensEditController extends Controller {
     @reads('model.taskInstance.value')
     token?: Token;
 
-    @task
-    @waitFor
+    @action
     async refreshToken() {
         this.clearTokenValue();
 
