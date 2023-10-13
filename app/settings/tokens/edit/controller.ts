@@ -21,7 +21,7 @@ export default class SettingsTokensEditController extends Controller {
     token?: Token;
 
     @action
-    async refreshToken() {
+    refreshToken() {
         this.clearTokenValue();
 
         // Send action to route
