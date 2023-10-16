@@ -4,10 +4,11 @@ import { ReviewsWorkFlow } from 'ember-osf-web/models/provider';
 
 import { randomGravatar } from '../utils';
 
-function randomAssets(i: number) {
+function randomAssets(i: number, includeImage = true) {
+    const image = includeImage ? placekitten(150, 75, i) : undefined;
     return {
         square_color_no_transparent: randomGravatar(100),
-        wide_white: placekitten(150, 75, i),
+        wide_white: image,
     };
 }
 
@@ -84,22 +85,16 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         assets: randomAssets(10),
     },
     {
-        id: 'agrixiv',
-        name: 'AgriXiv',
+        id: 'paleorxiv',
+        name: 'PaleoRrxiv',
         preprintWord: 'preprint',
-        assets: randomAssets(),
+        assets: randomAssets(10, false),
     },
     {
-        id: 'biohackrxiv',
-        name: 'BioHackrXiv',
-        preprintWord: 'preprint',
-        assets: randomAssets(),
-    },
-    {
-        id: 'nutrixiv',
-        name: 'NutriXiv',
-        preprintWord: 'preprint',
-        assets: randomAssets(),
+        id: 'sportrxiv',
+        name: 'Sport-Rxiv',
+        preprintWord: 'paper',
+        assets: randomAssets(10),
     },
 ];
 
