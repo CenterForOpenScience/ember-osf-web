@@ -297,7 +297,10 @@ export default function(this: Server) {
         only: ['index'],
     });
 
-    osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
+    osfResource(this, 'preprint-provider', {
+        path: '/providers/preprints',
+        defaultPageSize: 1000,
+    });
     osfNestedResource(this, 'preprint-provider', 'highlightedSubjects', {
         only: ['index'],
         path: '/providers/preprints/:parentID/subjects/highlighted/',
