@@ -70,7 +70,7 @@ export default class PreprintModel extends OsfModel {
     @hasMany('review-action', { inverse: 'target' })
     reviewActions!: AsyncHasMany<PreprintRequestActionModel>;
 
-    @hasMany('files', { inverse: null})
+    @hasMany('files', { inverse: 'target'})
     files!: AsyncHasMany<FileModel> & FileModel;
 
     @hasMany('contributors', { inverse: 'preprint'})
