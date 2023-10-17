@@ -8,7 +8,7 @@ data-analytics-scope='preprints detail page'
         <div local-class='preprint-title-container'>
             <h1>{{this.model.preprint.title}}</h1>
             {{#unless this.model.preprint.isWithdrawn}}
-                <div class='p-b-md edit-preprint-button'>
+                <div class='edit-preprint-button'>
                     {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
                         <OsfLink
                             data-test-edit-preprint-button
