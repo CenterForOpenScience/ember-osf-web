@@ -303,7 +303,6 @@ export default function(this: Server) {
         relatedModelName: 'subject',
     });
     osfNestedResource(this, 'preprint-provider', 'preprints', {
-        // only: ['index'],
         path: '/providers/preprints/:parentID/preprints/',
         relatedModelName: 'preprint',
     });
