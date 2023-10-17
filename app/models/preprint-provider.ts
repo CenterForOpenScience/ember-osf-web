@@ -53,7 +53,6 @@ export default class PreprintProviderModel extends ProviderModel {
         };
     }
 
-    @computed('documentType.plural')
     get searchPlaceholder(): string {
         return this.intl.t('preprints.header.search_placeholder',
             { placeholder: this.documentType.plural});
