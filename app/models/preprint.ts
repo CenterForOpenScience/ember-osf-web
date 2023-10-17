@@ -18,14 +18,14 @@ export enum PreprintDataLinksEnum {
     AVAILABLE = 'available',
     YES = 'yes',
     NO = 'no',
-    NOT_APPLICABLE = 'not applicable',
+    NOT_APPLICABLE = 'not_applicable',
 }
 
 export enum PreprintPreregLinksEnum {
     AVAILABLE = 'available',
     YES = 'yes',
     NO = 'no',
-    NOT_APPLICABLE = 'not applicable',
+    NOT_APPLICABLE = 'not_applicable',
 }
 
 export default class PreprintModel extends OsfModel {

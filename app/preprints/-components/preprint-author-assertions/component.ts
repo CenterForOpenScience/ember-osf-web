@@ -26,13 +26,13 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
 
     public get availableDataLinksMessage(): string {
         const prefix = 'preprints.detail.author-assertions.available.';
-        const suffix = this.preprint.hasDataLinks.replace(/\s/g, '_');
+        const suffix = this.preprint.hasDataLinks;
         return this.intl.t(`${prefix}${suffix}`);
     }
 
     public get availablePreregLinksMessage(): string {
         const prefix = 'preprints.detail.author-assertions.available.';
-        const suffix = this.preprint.hasPreregLinks.replace(/\s/g, '_');
+        const suffix = this.preprint.hasPreregLinks;
         return this.intl.t(`${prefix}${suffix}`);
 
     }
