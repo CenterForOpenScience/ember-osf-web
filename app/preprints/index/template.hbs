@@ -39,8 +39,8 @@
                         </OsfLink>
                         <div local-class='example-container'>
                             <OsfLink
-                                data-test-see-example
-                                data-analytics-name='See Example'
+                                data-test-submission-see-submission-example
+                                data-analytics-name='See Submission Example'
                                 @href={{concat '/content/' (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
                             >
                                 {{t 'preprints.header.example'}}
@@ -64,8 +64,8 @@
             </h2>
             {{#if this.theme.provider.hasHighlightedSubjects}}
                 <OsfLink
-                    data-test-see-example
-                    data-analytics-name='See Example'
+                    data-test-see-highlighted-subject example
+                    data-analytics-name='See Highlighted Subject Example'
                     @href='/discover/'
                 >
                     {{t 'preprints.subjects.links.seeAllSubjects'}}
@@ -96,8 +96,8 @@
                     {{#each this.model.brandedProviders as |provider| }}
                         {{#if (not-eq provider.id 'livedata') }}
                             <OsfLink
-                                data-test-see-example
-                                data-analytics-name='See Example'
+                                data-test-see-branded-providers-example
+                                data-analytics-name='See Branded Providers Example'
                                 @href={{concat '/preprints/' provider.id }}
                                 title='{{provider.name}}'
                                 local-class='provider-logo'
