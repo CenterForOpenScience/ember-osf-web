@@ -1231,13 +1231,10 @@ preprints:
             seeAllSubjects: 'See all subjects available'
     services:
         top:
-            # heading: '{documentType.singularCapitalized} Services'
             heading: '{documentType} Services'
-            # paragraph: 'Leading {documentType.singular} service providers use this open source infrastructure to support their communities.'
             paragraph: 'Leading {documentType} service providers use this open source infrastructure to support their communities.'
         bottom:
             contact: 'Contact us'
-            # p1: 'Create your own branded {documentType.singular} servers backed by the OSF.'
             p1: 'Create your own branded {documentType} servers backed by the OSF.'
             div: 
                 line1: 'Check out the'
