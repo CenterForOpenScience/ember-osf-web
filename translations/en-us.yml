@@ -1211,7 +1211,7 @@ preprints:
                 moderator: 'Moderator'
                 base: 'This {documentType}'
     header:
-        osf_registrations: 'OSF Preprints'
+        osf_preprints: 'OSF Preprints'
         registrations: 'Preprints'
         search_placeholder: 'Search {placeholder} ...'
         search_button: 'Perform search'
