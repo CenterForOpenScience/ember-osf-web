@@ -1,6 +1,6 @@
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import { placekitten } from 'ember-osf-web/mirage/utils';
-import { ReviewsWorkFlow } from 'ember-osf-web/models/provider';
+import { PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
 
 import { randomGravatar } from '../utils';
 
@@ -19,7 +19,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         preprintWord: 'preprint',
         assets: randomAssets(1),
         footerLinks: 'fake footer links',
-        reviewsWorkflow: ReviewsWorkFlow.PRE_MODERATION,
+        reviewsWorkflow: PreprintProviderReviewsWorkFlow.PRE_MODERATION,
     },
     {
         id: 'thesiscommons',
@@ -35,7 +35,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         assets: randomAssets(3),
         footerLinks: 'fake footer links',
         reviewsCommentsPrivate: true,
-        reviewsWorkflow: ReviewsWorkFlow.PRE_MODERATION,
+        reviewsWorkflow: PreprintProviderReviewsWorkFlow.PRE_MODERATION,
     },
     {
         id: 'paperxiv',
@@ -70,7 +70,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         name: 'AgriXiv',
         preprintWord: 'preprint',
         assets: randomAssets(8),
-        reviewsWorkflow: ReviewsWorkFlow.POST_MODERATION,
+        reviewsWorkflow: PreprintProviderReviewsWorkFlow.POST_MODERATION,
     },
     {
         id: 'biohackrxiv',

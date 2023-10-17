@@ -8,7 +8,7 @@ import Features from 'ember-feature-flags';
 import ContributorModel from 'ember-osf-web/models/contributor';
 import Intl from 'ember-intl/services/intl';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { ReviewsState, ReviewsWorkFlow } from 'ember-osf-web/models/provider';
+import { ReviewsState, PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
 import { tracked } from '@glimmer/tracking';
 import { extractDoi } from 'ember-osf-web/utils/doi';
 import Media from 'ember-responsive';
@@ -67,7 +67,7 @@ export default class PrePrintsDetailController extends Controller {
     }
 
     get dateLabel(): string {
-        return this.model.provider.reviewsWorkflow === ReviewsWorkFlow.PRE_MODERATION ?
+        return this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION ?
             DATE_LABEL.submitted :
             DATE_LABEL.created;
     }
@@ -75,7 +75,7 @@ export default class PrePrintsDetailController extends Controller {
     get editButtonLabel(): string {
         const editPreprint = 'preprints.detail.project_button.edit_preprint';
         const editResubmitPreprint = 'preprints.detail.project_button.edit_resubmit_preprint';
-        const translation = this.model.provider.reviewsWorkflow === ReviewsWorkFlow.PRE_MODERATION
+        const translation = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
             && this.model.preprint.reviewsState === ReviewsState.REJECTED && this.isAdmin()
             ? editResubmitPreprint : editPreprint;
         return this.intl.t(translation, {
