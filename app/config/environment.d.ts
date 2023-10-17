@@ -79,6 +79,7 @@ declare const config: {
         devMode: boolean;
         cookieDomain: string;
         authenticator: string;
+        metricsStartDate: string;
         cookies: {
             status: string;
             keenUserId: string;
