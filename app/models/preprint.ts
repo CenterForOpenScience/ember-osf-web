@@ -10,7 +10,7 @@ import ContributorModel from './contributor';
 import FileModel from './file';
 import LicenseModel from './license';
 import NodeModel from './node';
-import OsfModel from './osf-model';
+import OsfModel, { Permission } from './osf-model';
 import PreprintProviderModel from './preprint-provider';
 import SubjectModel from './subject';
 
@@ -44,7 +44,7 @@ export default class PreprintModel extends OsfModel {
     @attr('string') description!: string;
     @attr('date') dateLastTransitioned!: Date;
     @attr('date') preprintDoiCreated!: Date;
-    @attr('array') currentUserPermissions!: string[];
+    @attr('array') currentUserPermissions!: Permission[];
     @attr('fixstringarray') tags!: string[];
     @attr('fixstring') withdrawalJustification!     : string;
     @attr('boolean') hasCoi!: boolean;
