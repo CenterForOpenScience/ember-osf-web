@@ -1,9 +1,9 @@
 <ul class='assertions-links'>
-    {{#each this.links as |href|}}
+    {{#each @links as |href|}}
         <li>
             <OsfLink
                 data-test-preprint-assertion-link
-                data-analytics-name={{this.analyticsName}}
+                data-analytics-name={{@analyticsName}}
                 @target='_blank'
                 @href='{{href}}'
             >
