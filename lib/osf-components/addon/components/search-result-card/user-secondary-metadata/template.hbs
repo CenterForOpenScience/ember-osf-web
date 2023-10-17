@@ -1,0 +1,24 @@
+{{#if @fetchTask.isRunning}}
+    <LoadingIndicator @dark={{true}}/>
+{{else if @fetchTask.isError}}
+    {{t 'osf-components.search-result-card.fetch_user_error'}}
+{{else if (not @user)}}
+    {{t 'osf-components.search-result-card.no_user'}}
+{{else}}
+    <dl>
+        {{#if @user.employment.length}}
+            <dt>{{t 'osf-components.search-result-card.employment'}}</dt>
+            <dd>{{@user.employment.[0].institution}}</dd>
+        {{/if}}
+        {{#if @user.education.length}}
+            <dt>{{t 'osf-components.search-result-card.education'}}</dt>
+            <dd>{{@user.education.[0].institution}}</dd>
+        {{/if}}
+        <dt>{{t 'osf-components.search-result-card.public_projects'}}</dt>
+        <dd>{{@user.relatedCounts.nodes}}</dd>
+        <dt>{{t 'osf-components.search-result-card.public_registrations'}}</dt>
+        <dd>{{@user.relatedCounts.registrations}}</dd>
+        <dt>{{t 'osf-components.search-result-card.public_preprints'}}</dt>
+        <dd>{{@user.relatedCounts.preprints}}</dd>
+    </dl>
+{{/if}}

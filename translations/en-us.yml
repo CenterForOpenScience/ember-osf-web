@@ -1896,6 +1896,13 @@ osf-components:
         withdrawn: Withdrawn
         unknown: Unknown
         remaining_count: '{count} more'
+        fetch_user_error: 'Unable to fetch user information from OSF'
+        no_user: 'No user'
+        employment: Employment
+        education: Education
+        public_projects: Public projects
+        public_registrations: Public registrations
+        public_preprints: Public preprints
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
         add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
