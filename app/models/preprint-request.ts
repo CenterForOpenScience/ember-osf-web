@@ -16,12 +16,12 @@ export enum PreprintRequestMachineState {
 }
 
 export default class PreprintRequestModel extends OsfModel {
-    @attr('string') comment!: String;
+    @attr('string') comment!: string;
     @attr('date') dateLastTransitioned!: Date;
     @attr('date') created!: Date;
     @attr('date') modified!: Date;
-    @attr('string') machineState!: String;
-    @attr('string') requestType!: String;
+    @attr('string') machineState!: string;
+    @attr('string') requestType!: string;
 
     @belongsTo('preprint', { inverse: 'requests'})
     target!: (AsyncBelongsTo<PreprintModel> & PreprintModel);
