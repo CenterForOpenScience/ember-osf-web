@@ -5,17 +5,6 @@ import { inject as service } from '@ember/service';
 import Theme from 'ember-osf-web/services/theme';
 import captureException from 'ember-osf-web/utils/capture-exception';
 
-// Error handling for API
-/*
-const handlers = new Map([
-    // format: ['Message detail', 'page']
-    ['Authentication credentials were not provided.', 'page-not-found'], // 401
-    ['You do not have permission to perform this action.', 'page-not-found'], // 403
-    ['Not found.', 'page-not-found'], // 404
-    ['The requested node is no longer available.', 'resource-deleted'], // 410
-]);
-*/
-
 /**
  * @module ember-preprints
  * @submodule routes
