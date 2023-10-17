@@ -77,7 +77,6 @@ export default class PrePrintsDetailController extends Controller {
     get editButtonLabel(): string {
         const editPreprint = 'preprints.detail.project_button.edit_preprint';
         const editResubmitPreprint = 'preprints.detail.project_button.edit_resubmit_preprint';
-        // eslint-disable-next-line max-len
         const translation = this.model.provider.reviewsWorkflow === ReviewsWorkFlow.PRE_MODERATION
             && this.model.preprint.reviewsState === ReviewsState.REJECTED && this.isAdmin()
             ? editResubmitPreprint : editPreprint;
