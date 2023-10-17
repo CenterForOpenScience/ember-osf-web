@@ -46,8 +46,6 @@ export default class PrePrintsDetailController extends Controller {
     @service intl!: Intl;
     @service media!: Media;
 
-    // metricsStartDate = config.OSF.metricsStartDate;
-
     queryParams_Altered = {
         chosenFile: 'file',
     };
