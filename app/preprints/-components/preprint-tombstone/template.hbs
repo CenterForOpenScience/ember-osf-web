@@ -1,15 +1,15 @@
 <div local-class='withdrawn-container'>
-    {{#if this.preprint.withdrawalJustification}}
+    {{#if @preprint.withdrawalJustification}}
         <div>
             <h4>{{t 'preprints.detail.reason_for_withdrawal'}}</h4>
             <p>
-                {{this.preprint.withdrawalJustification}}
+                {{@preprint.withdrawalJustification}}
             </p>
         </div>
     {{/if}}
-    <Preprints::-Components::PreprintAbstract @preprint={{this.preprint}} />
-    <Preprints::-Components::PreprintDoi @preprint={{this.preprint}} @provider={{this.provider}} />
-    <Preprints::-Components::PreprintLicense @preprint={{this.preprint}} />
-    <Preprints::-Components::PreprintDiscipline @subjects={{this.subjects}} />
-    <Preprints::-Components::PreprintTag @preprint={{this.preprint}} />
+    <Preprints::-Components::PreprintAbstract @preprint={{@preprint}} />
+    <Preprints::-Components::PreprintDoi @preprint={{@preprint}} @provider={{@provider}} />
+    <Preprints::-Components::PreprintLicense @preprint={{@preprint}} />
+    <Preprints::-Components::PreprintDiscipline @subjects={{@subjects}} />
+    <Preprints::-Components::PreprintTag @preprint={{@preprint}} />
 </div>
