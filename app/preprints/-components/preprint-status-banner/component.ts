@@ -128,8 +128,12 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
                 this.intl.t('preprints.detail.status_banner.brand_name');
             const tWorkflow = this.intl.t(this.workflow);
             const tStatusExplanation = this.intl.t(this.statusExplanation);
-            // eslint-disable-next-line max-len
-            const base = (this.intl.t(this.baseMessage, { name: tName, reviewsWorkflow: tWorkflow, documentType: this.provider?.documentType.singular }));
+            const base = (this.intl.t(this.baseMessage, {
+                name: tName,
+                reviewsWorkflow:
+                tWorkflow,
+                documentType: this.provider?.documentType.singular,
+            }));
             return `${base} ${tStatusExplanation}`;
         }
     }

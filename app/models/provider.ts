@@ -68,7 +68,7 @@ export default abstract class ProviderModel extends OsfModel {
     @attr('boolean') allowCommenting!: boolean;
     @attr('boolean') allowUpdates!: boolean;
     @attr('array') permissions!: ReviewPermissions[];
-    @attr('fixstring') reviewsWorkflow!: string | null;
+    @attr('fixstring') reviewsWorkflow!: ReviewsWorkFlow | null;
     @attr('boolean') reviewsCommentsAnonymous!: boolean | null;
     @attr() assets?: Partial<Assets>; // TODO: camelize in transform
 
