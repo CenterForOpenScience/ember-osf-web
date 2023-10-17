@@ -24,11 +24,6 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
     provider = this.args.provider;
     documentType = this.args.documentType;
 
-    /*
-    shouldShowSloanIcons: alias('hasSloanData'),
-    shouldShowPreregLinks: alias('hasPreregLinks'),
-    */
-
     public get availableDataLinksMessage(): string {
         const prefix = 'preprints.detail.author-assertions.available.';
         const suffix = this.preprint.hasDataLinks.replace(/\s/g, '_');
