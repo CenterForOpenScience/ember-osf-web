@@ -1,7 +1,7 @@
 <div>
     <h4>{{t 'preprints.detail.tags'}}</h4>
-    {{#if this.preprint.tags.length}}
-        {{#each this.preprint.tags as |tag|}}
+    {{#if @preprint.tags.length}}
+        {{#each @preprint.tags as |tag|}}
             <span local-class='badge'>{{tag}}</span>
         {{/each}}
     {{else}}
