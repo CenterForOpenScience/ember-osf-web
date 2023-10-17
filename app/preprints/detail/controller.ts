@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import config from 'ember-get-config';
+import config from 'ember-osf-web/config/environment';
 import Theme from 'ember-osf-web/services/theme';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Features from 'ember-feature-flags';
