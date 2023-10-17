@@ -10,6 +10,7 @@ import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-ac
 import { taskFor } from 'ember-concurrency-ts';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import { tracked } from '@glimmer/tracking';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 
 const UNKNOWN = 'unknown';
 const PENDING = 'pending';
@@ -90,11 +91,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     @alias('latestAction.comment') reviewerComment: string | undefined;
     @alias('latestAction.creator.fullName') reviewerName: string | undefined;
 
-    /**
-     *
-     * @param owner The owner
-     * @param args The args
-     */
     constructor(owner: unknown, args: InputArgs) {
         super(owner, args);
 
@@ -153,9 +149,9 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     public get status(): string {
         let currentState = this.submission.reviewsState;
         if (this.isPendingWithdrawal) {
-            currentState = PENDING_WITHDRAWAL;
+            currentState = ReviewsState.PENDING_WITHDRAWAL;
         } else if (this.isWithdrawalRejected) {
-            currentState = WITHDRAWAL_REJECTED;
+            currentState = ReviewsState.WITHDRAWAL_REJECTED;
         }
         return STATUS[currentState];
     }
@@ -163,11 +159,11 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     public get icon(): string {
         let currentState = this.submission.reviewsState;
         if (this.isPendingWithdrawal) {
-            currentState = PENDING_WITHDRAWAL;
+            currentState = ReviewsState.PENDING_WITHDRAWAL;
         } else if (this.isWithdrawalRejected) {
-            currentState = WITHDRAWAL_REJECTED;
+            currentState = ReviewsState.WITHDRAWAL_REJECTED;
         } else if (this.isWithdrawn) {
-            currentState = WITHDRAWN;
+            currentState = ReviewsState.WITHDRAWN;
         }
         return ICONS[currentState];
     }
