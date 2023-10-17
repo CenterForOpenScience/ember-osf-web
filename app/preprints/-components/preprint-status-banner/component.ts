@@ -15,7 +15,7 @@ const UNKNOWN = 'unknown';
 const PENDING = 'pending';
 const ACCEPTED = 'accepted';
 const REJECTED = 'rejected';
-const PENDING_WITHDRAWAL = 'endingWithdrawal';
+const PENDING_WITHDRAWAL = 'pendingWithdrawal';
 const WITHDRAWAL_REJECTED = 'withdrawalRejected';
 const WITHDRAWN = 'withdrawn';
 
