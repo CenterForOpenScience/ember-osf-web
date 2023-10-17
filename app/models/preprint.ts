@@ -4,6 +4,7 @@ import { alias } from '@ember/object/computed';
 import CitationModel from 'ember-osf-web/models/citation';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
 import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-action';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -39,7 +40,7 @@ export default class PreprintModel extends OsfModel {
     @attr('boolean') isPublished!: boolean;
     @attr('boolean') isPreprintOrphan!: boolean;
     @attr('object') licenseRecord!: any;
-    @attr('string') reviewsState!: string;
+    @attr('string') reviewsState!: ReviewsState;
     @attr('string') description!: string;
     @attr('date') dateLastTransitioned!: Date;
     @attr('date') preprintDoiCreated!: Date;
