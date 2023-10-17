@@ -12,8 +12,8 @@ export enum PreprintRequestActionTriggerEnum {
 }
 
 export default class PreprintRequestActionModel extends OsfModel {
-    @attr('string') comment!: String;
-    @attr('string') actionTrigger!: String;
+    @attr('string') comment!: string;
+    @attr('string') actionTrigger!: string;
     @attr('date') dateModified!: Date;
     @attr('boolean') auto!: boolean;
 
