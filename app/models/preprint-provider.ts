@@ -60,16 +60,16 @@ export default class PreprintProviderModel extends ProviderModel {
     }
 
     @computed('id')
-    get preprintWordInTitle() {
+    get preprintWordNotInTitle() {
         return this.id === 'thesiscommons';
     }
 
     // Is either OSF Preprints if provider is the default provider,
     // name+preprintWord.pluralCapitalized(e.g.AfricArXiv Preprints or MarXiv Papers), or "Thesis Commons"
-    @computed('documentType.pluralCapitalized', 'id', 'name', 'preprintWordInTitle')
+    @computed('documentType.pluralCapitalized', 'id', 'name', 'preprintWordNotInTitle')
     get providerTitle() {
         if (this.id !== defaultProvider) {
-            if (this.preprintWordInTitle) {
+            if (this.preprintWordNotInTitle) {
                 return this.name;
             }
             return this.intl.t('preprints.provider-title',
