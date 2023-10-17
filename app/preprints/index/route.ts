@@ -30,10 +30,12 @@ export default class Preprints extends Route {
                 },
             });
 
-            const brandedProviders = this.theme.id === 'osf' ? await this.store
-                .findAll('preprint-provider', { reload: true })
-                .then(result => result
-                    .filter(item => item.id !== 'osf')) : [];
+            let brandedProviders = [];
+
+            if (this.theme.id === 'osf') {
+                const allProviders = await this.store.findAll('preprint-provider', { reload: true });
+                brandedProviders = allProviders.filter(item => item.id !== 'osf');
+            }
 
             return {
                 provider,
