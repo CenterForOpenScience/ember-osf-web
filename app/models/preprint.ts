@@ -47,8 +47,8 @@ export default class PreprintModel extends OsfModel {
     @attr('fixstringarray') tags!: string[];
     @attr('fixstring') withdrawalJustification!     : string;
     @attr('boolean') hasCoi!: boolean;
-    @attr('string') hasDataLinks!: string;
-    @attr('string') hasPreregLinks!: string;
+    @attr('string') hasDataLinks!: PreprintDataLinksEnum;
+    @attr('string') hasPreregLinks!: PreprintPreregLinksEnum;
     @attr('string') conflictOfInterestStatement!: string;
     @attr('array') dataLinks!: string[];
     @attr('array') preregLinks!: string[];
