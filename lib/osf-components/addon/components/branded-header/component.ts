@@ -56,11 +56,4 @@ export default class BrandedHeader extends Component<InputArgs> {
     toggleHelp() {
         this.showingHelp = !this.showingHelp;
     }
-
-    @action
-    keyPress(event: KeyboardEvent) {
-        if (event.keyCode !== 13) {
-            this.analytics.track('input', 'onkeyup', 'Discover - Search', this.value);
-        }
-    }
 }
