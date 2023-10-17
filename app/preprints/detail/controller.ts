@@ -48,6 +48,8 @@ export default class PrePrintsDetailController extends Controller {
 
     @tracked fullScreenMFR = false;
 
+    metricsStartDate = config.OSF.metricsStartDate;
+
     get hyperlink(): string {
         return window.location.href;
     }

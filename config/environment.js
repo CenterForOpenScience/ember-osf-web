@@ -49,7 +49,8 @@ const {
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
     OSF_AUTHENTICATOR: osfAuthenticator = 'osf-cookie',
-    PLAUDIT_WIDGET_URL = 'https://osf-review.plaudit.pub/embed/endorsements.js',
+    PLAUDIT_WIDGET_URL: plauditWidgetUrl = 'https://osf-review.plaudit.pub/embed/endorsements.js',
+    METRICS_START_DATE: metricsStartDate = '2019-01-01',
     POLICY_URL_PREFIX = 'https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/',
     POPULAR_LINKS_NODE: popularNode = '57tnq',
     // POPULAR_LINKS_REGISTRATIONS = '',
@@ -72,7 +73,7 @@ module.exports = function(environment) {
     const ENV = {
         modulePrefix: 'ember-osf-web',
         WATER_BUTLER_ENABLED,
-        PLAUDIT_WIDGET_URL,
+        plauditWidgetUrl,
         environment,
         lintOnBuild,
         testsEnabled: false, // Disable tests by default.
@@ -155,6 +156,7 @@ module.exports = function(environment) {
             shareApiUrl,
             shareSearchUrl,
             devMode,
+            metricsStartDate,
             cookieDomain,
             authenticator: `authenticator:${osfAuthenticator}`,
             cookies: {
