@@ -39,7 +39,6 @@ export default class PreprintsDetail extends Route {
         try {
             const guid = params.guid;
 
-            // eslint-disable-next-line max-len
             const preprint = await this.store.findRecord('preprint', guid, {
                 include: ['bibliographicContributors'],
                 adapterOptions: {
