@@ -3,9 +3,7 @@
     <div {{with-branding (get-model this.theme.provider.brand)}}>
         <ThemeStyles />
         <BrandedNavbar
-            @translateKey='collections.general.brand'
             @brandRoute='preprints.discover'
-            @addLinkKey='collections.navbar.add'
         />
     </div>
 {{/if}}
