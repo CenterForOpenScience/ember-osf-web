@@ -30,9 +30,8 @@
             <label local-class='hidden-label' for='search'>{{t (concat @translationParent '.header.search_label' )}}</label>
             <Input
                 data-test-search-box
-                aria-label={{t (concat @translationParent '.header.search_label' )}}
+                aria-label={{this.headerAriaLabel}}
                 id='search'
-                placeholder={{t 'registries.header.search_placeholder'}}
                 class='form-control'
                 @value={{this.value}}
                 @class='form-control'

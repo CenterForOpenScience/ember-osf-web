@@ -1212,7 +1212,6 @@ preprints:
                 base: 'This {documentType}'
     header:
         osf_preprints: 'OSF Preprints'
-        registrations: 'Preprints'
         search_placeholder: 'Search {placeholder} ...'
         search_button: 'Perform search'
         search_label: 'Search'

@@ -76,7 +76,6 @@ export default class PreprintProviderModel extends ProviderModel {
         } else {
             return this.intl.t('preprints.header.osf_preprints');
         }
-        return this.intl.t('preprints.osf-title');
     }
 }
 
