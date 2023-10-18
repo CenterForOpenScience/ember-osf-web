@@ -1,20 +1,20 @@
 <div>
     <h4>{{t 'preprints.detail.preprint_doi' documentType=this.documentType}}</h4>
-    {{#if this.preprint.preprintDoiUrl}}
-        {{#if this.preprint.preprintDoiCreated}}
+    {{#if @preprint.preprintDoiUrl}}
+        {{#if @preprint.preprintDoiCreated}}
             <OsfLink
                 data-test-article-doi
                 data-analytics-name='preprint doi'
-                @href={{this.preprint.preprintDoiUrl}} 
+                @href={{@preprint.preprintDoiUrl}} 
             >
-                {{this.preprint.preprintDoiUrl}}
+                {{@preprint.preprintDoiUrl}}
             </OsfLink>
         {{else}}
-            <p> {{this.preprint.preprintDoiUrl}} </p>
+            <p> {{@preprint.preprintDoiUrl}} </p>
             <p> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
         {{/if}}
     {{else}}
-        {{#if (not this.preprint.public)}}
+        {{#if (not @preprint.public)}}
             {{t 'preprints.detail.preprint_pending_doi' documentType=this.documentType}}
         {{else if (and this.provider.reviewsWorkflow (not this.preprint.isPublished))}}
             {{t 'preprints.detail.preprint_pending_doi_moderation'}}

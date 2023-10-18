@@ -8,7 +8,6 @@ interface InputArgs {
 }
 
 export default class PreprintAbstract extends Component<InputArgs> {
-    preprint = this.args.preprint;
     provider = this.args.provider;
 
     documentType = this.provider.documentType.singular;
