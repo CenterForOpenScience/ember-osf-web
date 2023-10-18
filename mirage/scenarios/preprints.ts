@@ -154,7 +154,7 @@ function buildOSF(
     const withdrawnLicensePreprint = server.create('preprint', Object({
         provider: osf,
         id: 'osf-withdrawn-license',
-        title: 'Preprint Non-Admin, Not Published and withdrawn - license - justification',
+        title: 'Preprint Non-Admin, Not Published and withdrawn - license - justification - tombstone',
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: false,
