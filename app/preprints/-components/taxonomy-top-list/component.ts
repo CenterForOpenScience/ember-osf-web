@@ -35,7 +35,12 @@ export default class TaxonomyTopList extends Component<InputArgs> {
                 const subject= sortedList.objectAt(i) as SubjectModel;
                 pair.pushObject({
                     queryParam: {
-                        activeFilters: [ subject?.taxonomyName ],
+                        activeFilters: [{
+                            propertyVisibleLabel:'Subject',
+                            propertyPathKey:'subject',
+                            label:subject.text,
+                            value: subject?.links?.iri,
+                        }],
                     },
                     text: subject?.text,
                 } as PairModel);
@@ -49,7 +54,12 @@ export default class TaxonomyTopList extends Component<InputArgs> {
                 const subjectOdd = sortedList.objectAt(i) as SubjectModel;
                 pair.pushObject({
                     queryParam: {
-                        activeFilters: [ subjectOdd?.taxonomyName ],
+                        activeFilters: [{
+                            propertyVisibleLabel:'Subject',
+                            propertyPathKey:'subject',
+                            label:subjectOdd.text,
+                            value: subjectOdd?.links?.iri,
+                        }],
                     },
                     text: subjectOdd?.text,
                 } as PairModel);
@@ -58,7 +68,12 @@ export default class TaxonomyTopList extends Component<InputArgs> {
                     const subjectEven = sortedList.objectAt(i + 1) as SubjectModel;
                     pair.pushObject({
                         queryParam: {
-                            activeFilters: [ subjectEven?.taxonomyName ],
+                            activeFilters: [{
+                                propertyVisibleLabel:'Subject',
+                                propertyPathKey:'subject',
+                                label:subjectEven.text,
+                                value: subjectEven?.links?.iri,
+                            }],
                         },
                         text: subjectEven?.text,
                     });
