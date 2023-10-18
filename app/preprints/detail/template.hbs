@@ -19,6 +19,7 @@
                             @href={{concat this.theme.pathPrefix this.model.preprint.id '/edit'}}
                         >
                             {{this.editButtonLabel}}
+
                         </OsfLink>
                     {{/if}}
                     <br>
@@ -172,7 +173,7 @@
                                 data-analytics-name='peer review publication doi'
                                 @href={{this.model.preprint.articleDoiUrl}} 
                             >
-                                {{this.articleDoi}}
+                                {{this.model.preprint.articleDoiUrl}}
                             </OsfLink>
                         </div>
                     {{/if}}
