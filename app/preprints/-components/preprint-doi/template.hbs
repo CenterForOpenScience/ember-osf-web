@@ -7,10 +7,10 @@
                 data-analytics-name='preprint doi'
                 @href={{this.preprint.preprintDoiUrl}} 
             >
-                {{this.preprintDoi}}
+                {{this.preprint.preprintDoiUrl}}
             </OsfLink>
         {{else}}
-            <p> {{this.preprintDoi}} </p>
+            <p> {{this.preprint.preprintDoiUrl}} </p>
             <p> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
         {{/if}}
     {{else}}
