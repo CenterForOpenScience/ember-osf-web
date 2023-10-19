@@ -17,6 +17,10 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
     buildRelationships(model: ModelInstance<PreprintMirageModel>) {
         const relationships: SerializedRelationships<PreprintMirageModel> = {
             provider: {
+                data: {
+                    id: model.provider.id,
+                    type: 'preprint-providers',
+                },
                 links: {
                     related: {
                         href: `${apiUrl}/v2/providers/preprints/${model.provider.id}`,
