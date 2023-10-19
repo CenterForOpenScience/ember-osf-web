@@ -340,6 +340,16 @@ export default function(this: Server) {
     this.get('/preprints/:guid/citation/:citationStyleID', getCitation);
 
     /**
+     * Preprint Review Actions
+     */
+
+    osfNestedResource(this, 'preprint', 'reviewActions', {
+        path: '/preprints/:parentID/review_actions/',
+        defaultSortKey: 'index',
+        relatedModelName: 'review-action',
+    });
+
+    /**
      * Preprint Requests
      */
 

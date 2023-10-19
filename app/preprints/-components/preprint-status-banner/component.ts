@@ -175,12 +175,17 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     @task
     @waitFor
     async loadPreprintState()  {
+        // console.log('loadPreprintState - 1');
         this.provider = await this.submission.provider;
 
+        // console.log('loadPreprintState - 2');
         if (this.isWithdrawn) {
+        // console.log('loadPreprintState - 3');
             return;
         }
+        // console.log('loadPreprintState - 4');
         const submissionActions = await this.submission.reviewActions;
+        // console.log('submissionActions', submissionActions);
         const latestSubmissionAction = submissionActions.firstObject;
         const withdrawalRequests = await this.submission.requests;
         const withdrawalRequest = withdrawalRequests.firstObject;
@@ -203,7 +208,9 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         if (this.provider.reviewsCommentsPrivate) {
             return;
         }
-        this.latestAction = latestSubmissionAction;
-    }
 
+        // console.log('found');
+        this.latestAction = latestSubmissionAction;
+        // console.log('latestAction', this.latestAction);
+    }
 }

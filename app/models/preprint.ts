@@ -1,10 +1,10 @@
-import { attr, belongsTo, hasMany, SyncHasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import CitationModel from 'ember-osf-web/models/citation';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
-import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-action';
 import { ReviewsState } from 'ember-osf-web/models/provider';
+import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -69,7 +69,7 @@ export default class PreprintModel extends OsfModel {
     provider!: AsyncBelongsTo<PreprintProviderModel> & PreprintProviderModel;
 
     @hasMany('review-action', { inverse: 'target' })
-    reviewActions!: AsyncHasMany<PreprintRequestActionModel>;
+    reviewActions!: AsyncHasMany<ReviewActionModel>;
 
     @hasMany('files', { inverse: 'target'})
     files!: AsyncHasMany<FileModel> & FileModel;
@@ -84,10 +84,10 @@ export default class PreprintModel extends OsfModel {
     citation!: AsyncBelongsTo<CitationModel>;
 
     @hasMany('subject', { inverse: null})
-    subjects!: SyncHasMany<SubjectModel>;
+    subjects!: AsyncHasMany<SubjectModel>;
 
     @hasMany('preprint-request', { inverse: 'target'})
-    requests!: SyncHasMany<PreprintRequestModel>;
+    requests!: AsyncHasMany<PreprintRequestModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
     @alias('links.preprint_doi') preprintDoiUrl!: string;
