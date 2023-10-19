@@ -1,0 +1,33 @@
+<OsfDialog @isOpen={{@isOpen}} @onClose={{@closeModal}} as |dialog|>
+    <dialog.heading>
+        {{t 'osf-components.file-browser.submit_to_boa'}}
+    </dialog.heading>
+    <dialog.main>
+
+        <p>{{t 'osf-components.file-browser.boa_dataset_spiel'}}</p>
+        <PowerSelect
+            @options={{this.datasets}}
+            @selected={{this.selectedDataset}}
+            @onChange={{this.onDatasetChange}}
+            as |dataset|
+        >
+            {{dataset}}
+        </PowerSelect>
+        <p>{{t 'osf-components.file-browser.confirm_submit_to_boa' fileName=@file.name}}</p>
+
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            {{on 'click' (fn (mut @isOpen) false)}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            @type='destroy'
+            disabled={{this.confirmSubmitToBoa.isRunning}}
+            {{on 'click' (perform this.confirmSubmitToBoa)}}
+        >
+            {{t 'osf-components.file-browser.confirm_submit_to_boa_yes'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>
