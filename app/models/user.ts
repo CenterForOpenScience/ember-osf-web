@@ -115,7 +115,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @hasMany('draft-registration')
     draftRegistrations!: AsyncHasMany<DraftRegistrationModel>;
 
-    @hasMany('preprints')
+    @hasMany('preprint')
     preprints!: AsyncHasMany<PreprintModel>;
 
     @hasMany('institution', { inverse: 'users' })

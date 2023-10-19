@@ -95,18 +95,11 @@
                 </div>
             {{/if}}
         </div>
-        <CpPanel local-class='cp-panel' id={{secondaryMetadataPanelId}} @open={{this.isOpenSecondaryMetadata}} as |panel|>
-            <panel.body>
-                <hr>
-                {{#if this.isUserResultCard}}
-                    <SearchResultCard::UserSecondaryMetadata
-                        @user={{this.osfUser}}
-                        @fetchTask={{this.getOsfUserModel}}
-                    />
-                {{else}}
-                    {{component this.secondaryMetadataComponent result=@result}}
-                {{/if}}
-            </panel.body>
-        </CpPanel>
+        {{component this.secondaryMetadataComponent
+            wrapperClass=(local-class 'cp-panel')
+            wrapperId=secondaryMetadataPanelId
+            result=@result
+            isOpen=this.isOpenSecondaryMetadata
+        }}
     {{/let}}
 </div>
