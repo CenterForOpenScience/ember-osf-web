@@ -38,11 +38,11 @@ function buildOSF(
     const rejectedAdminPreprint = server.create('preprint', {
         provider: osf,
         id: 'osf-rejected-admin',
-        title: 'Preprint RWF: Pre-moderation, Admin and Rejected',
+        title: 'Preprint RWF: Pre-moderation, Admin and Rejected with Review Actions comment',
         currentUserPermissions: [Permission.Admin],
         reviewsState: ReviewsState.REJECTED,
         tags: [],
-    });
+    }, 'reviewAction');
 
     const approvedAdminPreprint = server.create('preprint', {
         provider: osf,

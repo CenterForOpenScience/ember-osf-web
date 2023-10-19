@@ -1,5 +1,6 @@
 import { Factory, Trait, trait } from 'ember-cli-mirage';
 import faker from 'faker';
+import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
 import PreprintModel from 'ember-osf-web/models/preprint';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -26,6 +27,7 @@ export interface PreprintTraits {
     rejectedWithdrawalComment: Trait;
     acceptedWithdrawalComment: Trait;
     rejectedWithdrawalNoComment: Trait;
+    reviewAction: Trait;
 }
 
 export default Factory.extend<PreprintMirageModel & PreprintTraits>({
@@ -179,6 +181,20 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                 target: preprint,
             }, 'rejectNoComment');
             preprint.update({ requests: [preprintRequest ]});
+        },
+    }),
+
+    reviewAction: trait<PreprintModel>({
+        afterCreate(preprint, server) {
+            // console.log('created');
+            const creator = server.create('user', { fullName: 'Review action Commentor' });
+            const preprintReviewAction = server.create('review-action', {
+                target: preprint,
+                creator,
+                actionTrigger: ReviewActionTrigger.RequestWithdrawal,
+                comment: 'This is a job for Mario &amp; Luigi &gt;_&lt;',
+            });
+            preprint.update({ reviewActions: [preprintReviewAction]});
         },
     }),
 

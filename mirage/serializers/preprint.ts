@@ -72,7 +72,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
-            /*
             reviewActions: {
                 links: {
                     related: {
@@ -81,7 +80,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
-            */
             requests: {
                 links: {
                     related: {
