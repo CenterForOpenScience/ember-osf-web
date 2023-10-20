@@ -1,30 +1,24 @@
-<CpPanel class={{@wrapperClass}} id={{@wrapperId}} @open={{@isOpen}} as |panel|>
-    <panel.body {{did-update this.onToggle @isOpen}}>
-        <hr>
-
-        {{#if this.getOsfUserModel.isRunning}}
-            <LoadingIndicator @dark={{true}}/>
-        {{else if this.getOsfUserModel.isError}}
-            {{t 'osf-components.search-result-card.fetch_user_error'}}
-        {{else if (not this.user)}}
-            {{t 'osf-components.search-result-card.no_user'}}
-        {{else}}
-            <dl>
-                {{#if this.user.employment.length}}
-                    <dt>{{t 'osf-components.search-result-card.employment'}}</dt>
-                    <dd>{{this.user.employment.[0].institution}}</dd>
-                {{/if}}
-                {{#if this.user.education.length}}
-                    <dt>{{t 'osf-components.search-result-card.education'}}</dt>
-                    <dd>{{this.user.education.[0].institution}}</dd>
-                {{/if}}
-                <dt>{{t 'osf-components.search-result-card.public_projects'}}</dt>
-                <dd>{{this.user.relatedCounts.nodes}}</dd>
-                <dt>{{t 'osf-components.search-result-card.public_registrations'}}</dt>
-                <dd>{{this.user.relatedCounts.registrations}}</dd>
-                <dt>{{t 'osf-components.search-result-card.public_preprints'}}</dt>
-                <dd>{{this.user.relatedCounts.preprints}}</dd>
-            </dl>
+{{#if this.getOsfUserModel.isRunning}}
+    <LoadingIndicator @dark={{true}}/>
+{{else if this.getOsfUserModel.isError}}
+    {{t 'osf-components.search-result-card.fetch_user_error'}}
+{{else if (not this.user)}}
+    {{t 'osf-components.search-result-card.no_user'}}
+{{else}}
+    <dl>
+        {{#if this.user.employment.length}}
+            <dt>{{t 'osf-components.search-result-card.employment'}}</dt>
+            <dd>{{this.user.employment.[0].institution}}</dd>
         {{/if}}
-    </panel.body>
-</CpPanel>
+        {{#if this.user.education.length}}
+            <dt>{{t 'osf-components.search-result-card.education'}}</dt>
+            <dd>{{this.user.education.[0].institution}}</dd>
+        {{/if}}
+        <dt>{{t 'osf-components.search-result-card.public_projects'}}</dt>
+        <dd>{{this.user.relatedCounts.nodes}}</dd>
+        <dt>{{t 'osf-components.search-result-card.public_registrations'}}</dt>
+        <dd>{{this.user.relatedCounts.registrations}}</dd>
+        <dt>{{t 'osf-components.search-result-card.public_preprints'}}</dt>
+        <dd>{{this.user.relatedCounts.preprints}}</dd>
+    </dl>
+{{/if}}

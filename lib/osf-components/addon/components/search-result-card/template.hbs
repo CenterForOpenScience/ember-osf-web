@@ -95,11 +95,11 @@
                 </div>
             {{/if}}
         </div>
-        {{component this.secondaryMetadataComponent
-            wrapperClass=(local-class 'cp-panel')
-            wrapperId=secondaryMetadataPanelId
-            result=@result
-            isOpen=this.isOpenSecondaryMetadata
-        }}
+        <CpPanel local-class='cp-panel' id={{secondaryMetadataPanelId}} @open={{this.isOpenSecondaryMetadata}} as |panel|>
+            <panel.body>
+                <hr>
+                {{component this.secondaryMetadataComponent result=@result}}
+            </panel.body>
+        </CpPanel>
     {{/let}}
 </div>

@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Store from '@ember-data/store';
 import Component from '@glimmer/component';
@@ -22,8 +21,8 @@ export default class UserSecondaryMetadata extends Component<Args> {
 
     @alias('args.result.indexCard.osfModel') user?: UserModel;
 
-    @action
-    onToggle() {
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
         if (!this.user) {
             taskFor(this.getOsfUserModel).perform();
         }

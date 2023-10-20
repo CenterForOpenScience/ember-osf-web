@@ -1,61 +1,56 @@
-<CpPanel class={{@wrapperClass}} id={{@wrapperId}} @open={{@isOpen}} as |panel|>
-    <panel.body>
-        <hr>
-        <dl>
-            {{#if @result.description}}
-                <dt>{{t 'osf-components.search-result-card.description'}}</dt>
-                <dd local-class='description'>{{@result.description}}</dd>
-            {{/if}}
-            {{#if @result.funders}}
-                <dt>{{t 'osf-components.search-result-card.funder'}}</dt>
-                <dd>
-                    <InlineList
-                        @items={{@result.funders}}
-                        @total={{@result.funders.count}}
-                        @truncate={{5}}
-                        as |list|
-                    >
-                        {{#if list.item}}
-                            <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
-                        {{else if list.remainingCount}}
-                            {{t 'osf-components.search-result-card.remaining_count' count=list.remainingCount}}
-                        {{/if}}
-                    </InlineList>
-                </dd>
-            {{/if}}
-            {{#if @result.provider}}
-                <dt>{{t 'osf-components.search-result-card.registration_provider'}}</dt>
-                <dd><a href={{@result.provider.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.provider.name}}</a></dd>
-            {{/if}}
-            {{#if @result.registrationTemplate}}
-                <dt>{{t 'osf-components.search-result-card.registration_template'}}</dt>
-                <dd>{{@result.registrationTemplate}}</dd>
-            {{/if}}
-            {{#if @result.license}}
-                <dt>{{t 'osf-components.search-result-card.license'}}</dt>
-                <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
-            {{/if}}
-            {{#if @result.absoluteUrl}}
-                <dt>{{t 'osf-components.search-result-card.url'}}</dt>
-                <dd><a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'>{{@result.absoluteUrl}}</a></dd>
-            {{/if}}
-            {{#if @result.doi}}
-                <dt>{{t 'osf-components.search-result-card.doi'}}</dt>
-                <dd>
-                    <InlineList
-                        @items={{@result.doi}}
-                        @total={{@result.doi.count}}
-                        @truncate={{5}}
-                        as |list|
-                    >
-                        {{#if list.item}}
-                            <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
-                        {{else if list.remainingCount}}
-                            {{t 'osf-components.search-result-card.remaining_count' count=list.remainingCount}}
-                        {{/if}}
-                    </InlineList>
-                </dd>
-            {{/if}}
-        </dl>
-    </panel.body>
-</CpPanel>
+<dl>
+    {{#if @result.description}}
+        <dt>{{t 'osf-components.search-result-card.description'}}</dt>
+        <dd local-class='description'>{{@result.description}}</dd>
+    {{/if}}
+    {{#if @result.funders}}
+        <dt>{{t 'osf-components.search-result-card.funder'}}</dt>
+        <dd>
+            <InlineList
+                @items={{@result.funders}}
+                @total={{@result.funders.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                {{#if list.item}}
+                    <a href={{list.item.identifier}} target='_blank' rel='noopener noreferrer'>{{list.item.name}}</a>
+                {{else if list.remainingCount}}
+                    {{t 'osf-components.search-result-card.remaining_count' count=list.remainingCount}}
+                {{/if}}
+            </InlineList>
+        </dd>
+    {{/if}}
+    {{#if @result.provider}}
+        <dt>{{t 'osf-components.search-result-card.registration_provider'}}</dt>
+        <dd><a href={{@result.provider.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.provider.name}}</a></dd>
+    {{/if}}
+    {{#if @result.registrationTemplate}}
+        <dt>{{t 'osf-components.search-result-card.registration_template'}}</dt>
+        <dd>{{@result.registrationTemplate}}</dd>
+    {{/if}}
+    {{#if @result.license}}
+        <dt>{{t 'osf-components.search-result-card.license'}}</dt>
+        <dd><a href={{@result.license.identifier}} target='_blank' rel='noopener noreferrer'>{{@result.license.name}}</a></dd>
+    {{/if}}
+    {{#if @result.absoluteUrl}}
+        <dt>{{t 'osf-components.search-result-card.url'}}</dt>
+        <dd><a href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'>{{@result.absoluteUrl}}</a></dd>
+    {{/if}}
+    {{#if @result.doi}}
+        <dt>{{t 'osf-components.search-result-card.doi'}}</dt>
+        <dd>
+            <InlineList
+                @items={{@result.doi}}
+                @total={{@result.doi.count}}
+                @truncate={{5}}
+                as |list|
+            >
+                {{#if list.item}}
+                    <a href={{list.item}} target='_blank' rel='noopener noreferrer'>{{list.item}}</a>
+                {{else if list.remainingCount}}
+                    {{t 'osf-components.search-result-card.remaining_count' count=list.remainingCount}}
+                {{/if}}
+            </InlineList>
+        </dd>
+    {{/if}}
+</dl>
