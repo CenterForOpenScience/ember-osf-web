@@ -30,6 +30,7 @@ export default abstract class GuidRoute extends Route {
             model = await this.store.findRecord(this.modelName(), guid, {
                 include: this.include(),
                 adapterOptions: this.adapterOptions(),
+                reload: true,
             });
         } catch (e) {
             // To do custom error handling, add an error() action to the route that subclasses GuidRoute.
