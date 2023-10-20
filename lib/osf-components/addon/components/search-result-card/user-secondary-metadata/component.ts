@@ -12,7 +12,6 @@ import { waitFor } from '@ember/test-waiters';
 
 interface Args {
     result: SearchResultModel;
-    isOpen: boolean;
 }
 
 export default class UserSecondaryMetadata extends Component<Args> {
