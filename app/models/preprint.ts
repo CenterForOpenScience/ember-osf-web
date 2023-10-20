@@ -68,7 +68,7 @@ export default class PreprintModel extends OsfModel {
     @belongsTo('preprint-provider', { inverse: 'preprints' })
     provider!: AsyncBelongsTo<PreprintProviderModel> & PreprintProviderModel;
 
-    @hasMany('review-action', { inverse: 'target' })
+    @hasMany('review-action')
     reviewActions!: AsyncHasMany<ReviewActionModel>;
 
     @hasMany('files', { inverse: 'target'})
