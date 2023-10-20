@@ -73,11 +73,15 @@ export default class SearchResultModel extends Model {
         return this.resourceMetadata['@id'];
     }
 
+    // returns list of affilated institutions for users
     // returns list of contributors for osf objects
     // returns list of affiliated institutions for osf users
     get affiliatedEntities() {
         if (this.resourceType === 'user') {
-            // return something
+            if (this.resourceMetadata.affiliation) {
+                return this.resourceMetadata.affiliation.map((item: any) =>
+                    ({ name: item.name[0]['@value'], absoluteUrl: item['@id'] }));
+            }
         } else if (this.resourceMetadata.creator) {
             return this.resourceMetadata.creator?.map((item: any) =>
                 ({ name: item.name[0]['@value'], absoluteUrl: item['@id'] }));

@@ -80,8 +80,11 @@
         padding-top: 10px;
     }
 
-    dt,
-    dd {
+    dt {
         margin: 15px 0 0 5px;
+    }
+
+    dd {
+        margin-left: 5px;
     }
 }
