@@ -71,27 +71,19 @@ export default class IndexCardModel extends Model {
 
     @dropTask
     @waitFor
-    async getOsfModel() {
+    async getOsfModel(options?: object) {
         const identifier = this.resourceIdentifier;
         if (identifier && this.osfModelType) {
             const guid = this.guidFromIdentifierList(identifier);
-            const relatedCounts = this.osfModelType === 'user' ? 'nodes,registrations,preprints' : '';
             if (guid) {
-                const osfModel = await this.store.findRecord(this.osfModelType, guid, {
-                    adapterOptions: {
-                        query: {
-                            related_counts: relatedCounts,
-                        },
-                    },
-                    reload: true,
-                });
+                const osfModel = await this.store.findRecord(this.osfModelType, guid, options);
                 this.osfModel = osfModel;
             }
         }
     }
 
-    guidFromIdentifierList(ids: string[]) {
-        for (const iri of ids) {
+    guidFromIdentifierList() {
+        for (const iri of this.resourceIdentifier) {
             if (iri && iri.startsWith(osfUrl)) {
                 const pathSegments = iri.slice(osfUrl.length).split('/').filter(Boolean);
                 if (pathSegments.length === 1) {

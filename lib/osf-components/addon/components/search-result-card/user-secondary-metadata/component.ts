@@ -32,6 +32,14 @@ export default class UserSecondaryMetadata extends Component<Args> {
     @task
     @waitFor
     async getOsfUserModel() {
-        await taskFor(this.args.result.indexCard.get('getOsfModel')).perform();
+        const options = {
+            adapterOptions: {
+                query: {
+                    related_counts: 'nodes,registrations,preprints',
+                },
+            },
+            reload: true,
+        };
+        await taskFor(this.args.result.indexCard.get('getOsfModel')).perform(options);
     }
 }
