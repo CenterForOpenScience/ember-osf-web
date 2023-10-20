@@ -240,7 +240,7 @@ export default class SearchPage extends Component<SearchArgs> {
             }
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
-                cardSearchText,
+                'cardSearchText[*,creator.name,isContainedBy.creator.name]': cardSearchText,
                 'page[cursor]': page,
                 sort,
                 cardSearchFilter: filterQueryObject,

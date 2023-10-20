@@ -86,9 +86,10 @@
                         @search={{perform this.debouncedValueSearch}}
                         @onChange={{action this.updateSelectedProperty}}
                         @afterOptionsComponent={{component 'search-page/filter-facet/after-options' fetchValues=(perform this.loadMoreValues) hasMoreValues=this.hasMoreValueOptions}}
+                        @selectedItemComponent={{component 'search-page/filter-facet/value-option' isSelected=true}}
                         as |property|
                     >
-                        <span>{{property.indexCard.label}} ({{property.cardSearchResultCount}})</span>
+                        <SearchPage::FilterFacet::ValueOption @option={{property}} />
                     </PowerSelect>
                 </dialog.main>
                 <dialog.footer>
