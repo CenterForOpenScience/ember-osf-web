@@ -15,9 +15,7 @@
                         <strong>{{t this.status }}:</strong>
                         <span>{{this.bannerContent}}</span>
                     </div>
-                    {{!-- 1 {{this.reviewerComment}} --}}
                     {{#if (and this.reviewerComment (not this.submission.provider.reviewsCommentsPrivate))}}
-                        {{!-- 2 --}}
                         <div local-class='reviewer-feedback'>
                             <Button
                                 data-test-view-comments

@@ -11,6 +11,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import { tracked } from '@glimmer/tracking';
 import { ReviewsState } from 'ember-osf-web/models/provider';
+import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 const UNKNOWN = 'unknown';
 const PENDING = 'pending';
@@ -86,7 +87,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     moderator = 'preprints.detail.status_banner.feedback.moderator';
     baseMessage = 'preprints.detail.status_banner.message.base';
 
-    latestAction: PreprintRequestActionModel | undefined;
+    latestAction: PreprintRequestActionModel | ReviewActionModel |  undefined;
 
     @alias('latestAction.comment') reviewerComment: string | undefined;
     @alias('latestAction.creator.fullName') reviewerName: string | undefined;
@@ -175,17 +176,12 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     @task
     @waitFor
     async loadPreprintState()  {
-        // console.log('loadPreprintState - 1');
         this.provider = await this.submission.provider;
 
-        // console.log('loadPreprintState - 2');
         if (this.isWithdrawn) {
-        // console.log('loadPreprintState - 3');
             return;
         }
-        // console.log('loadPreprintState - 4');
         const submissionActions = await this.submission.reviewActions;
-        // console.log('submissionActions', submissionActions);
         const latestSubmissionAction = submissionActions.firstObject;
         const withdrawalRequests = await this.submission.requests;
         const withdrawalRequest = withdrawalRequests.firstObject;
@@ -209,8 +205,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             return;
         }
 
-        // console.log('found');
         this.latestAction = latestSubmissionAction;
-        // console.log('latestAction', this.latestAction);
     }
 }
