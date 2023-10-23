@@ -6,10 +6,11 @@ import { tracked } from '@glimmer/tracking';
 import Intl from 'ember-intl/services/intl';
 
 import SearchResultModel from 'ember-osf-web/models/search-result';
-import UserModel from 'ember-osf-web/models/user';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
 interface Args {
     result: SearchResultModel;
+    provider?: PreprintProviderModel;
 }
 
 export default class SearchResultCard extends Component<Args> {
@@ -17,7 +18,6 @@ export default class SearchResultCard extends Component<Args> {
     @service store!: Store;
 
     @tracked isOpenSecondaryMetadata = false;
-    @tracked osfUser?: UserModel;
 
     @action
     toggleSecondaryMetadata() {
@@ -25,7 +25,9 @@ export default class SearchResultCard extends Component<Args> {
     }
 
     get cardTypeLabel() {
-        return this.intl.t(`osf-components.search-result-card.${this.args.result.resourceType}`);
+        const preprintWord = this.args.provider?.preprintWord;
+        return (preprintWord && this.args.result.resourceType === 'preprint') ? preprintWord :
+            this.intl.t(`osf-components.search-result-card.${this.args.result.resourceType}`);
     }
 
     get secondaryMetadataComponent() {
