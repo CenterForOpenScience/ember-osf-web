@@ -1878,7 +1878,7 @@ osf-components:
         date_modified: Date modified
         last_edited: Last edited
         member_since: Member since
-        preprint_provider: Preprint provider
+        preprint_provider: Provider
         registration_provider: Registration provider
         conflict_of_interest: Conflict of Interest response
         no_conflict_of_interest: 'Author asserted no Conflict of Interest'

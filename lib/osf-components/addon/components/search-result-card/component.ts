@@ -6,10 +6,23 @@ import { tracked } from '@glimmer/tracking';
 import Intl from 'ember-intl/services/intl';
 
 import SearchResultModel from 'ember-osf-web/models/search-result';
-import UserModel from 'ember-osf-web/models/user';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
+
+
+const CardLabelTranslationKeys = {
+    project: 'osf-components.search-result-card.project',
+    project_component: 'osf-components.search-result-card.project_component',
+    registration: 'osf-components.search-result-card.registration',
+    registration_component: 'osf-components.search-result-card.registration_component',
+    preprint: 'osf-components.search-result-card.preprint',
+    file: 'osf-components.search-result-card.file',
+    user: 'osf-components.search-result-card.user',
+    unknown: 'osf-components.search-result-card.unknown',
+};
 
 interface Args {
     result: SearchResultModel;
+    provider?: PreprintProviderModel;
 }
 
 export default class SearchResultCard extends Component<Args> {
@@ -17,7 +30,6 @@ export default class SearchResultCard extends Component<Args> {
     @service store!: Store;
 
     @tracked isOpenSecondaryMetadata = false;
-    @tracked osfUser?: UserModel;
 
     @action
     toggleSecondaryMetadata() {
@@ -25,7 +37,10 @@ export default class SearchResultCard extends Component<Args> {
     }
 
     get cardTypeLabel() {
-        return this.intl.t(`osf-components.search-result-card.${this.args.result.resourceType}`);
+        const provider = this.args.provider;
+        const resourceType = this.args.result.resourceType;
+        return (provider?.preprintWord && resourceType === 'preprint') ? provider.documentType.singularCapitalized :
+            this.intl.t(CardLabelTranslationKeys[resourceType]);
     }
 
     get secondaryMetadataComponent() {
