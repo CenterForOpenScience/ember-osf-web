@@ -37,9 +37,10 @@ export default class SearchResultCard extends Component<Args> {
     }
 
     get cardTypeLabel() {
-        const preprintWord = this.args.provider?.preprintWord;
-        return (preprintWord && this.args.result.resourceType === 'preprint') ? preprintWord :
-            this.intl.t(CardLabelTranslationKeys[this.args.result.resourceType]);
+        const provider = this.args.provider;
+        const resourceType = this.args.result.resourceType;
+        return (provider?.preprintWord && resourceType === 'preprint') ? provider.documentType.singularCapitalized :
+            this.intl.t(CardLabelTranslationKeys[resourceType]);
     }
 
     get secondaryMetadataComponent() {
