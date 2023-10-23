@@ -8,6 +8,18 @@ import Intl from 'ember-intl/services/intl';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
+
+const CardLabelTranslationKeys = {
+    project: 'osf-components.search-result-card.project',
+    project_component: 'osf-components.search-result-card.project_component',
+    registration: 'osf-components.search-result-card.registration',
+    registration_component: 'osf-components.search-result-card.registration_component',
+    preprint: 'osf-components.search-result-card.preprint',
+    file: 'osf-components.search-result-card.file',
+    user: 'osf-components.search-result-card.user',
+    unknown: 'osf-components.search-result-card.unknown',
+};
+
 interface Args {
     result: SearchResultModel;
     provider?: PreprintProviderModel;
@@ -27,7 +39,7 @@ export default class SearchResultCard extends Component<Args> {
     get cardTypeLabel() {
         const preprintWord = this.args.provider?.preprintWord;
         return (preprintWord && this.args.result.resourceType === 'preprint') ? preprintWord :
-            this.intl.t(`osf-components.search-result-card.${this.args.result.resourceType}`);
+            this.intl.t(CardLabelTranslationKeys[this.args.result.resourceType]);
     }
 
     get secondaryMetadataComponent() {
