@@ -23,6 +23,8 @@ interface ResourceTypeOption {
     value?: ResourceTypeFilterValue | null;
 }
 
+export const CARD_SEARCH_TEXT_PARAM = 'cardSearchText[*,creator.name,isContainedBy.creator.name]';
+
 export enum ResourceTypeFilterValue {
     Registrations = 'Registration,RegistrationComponent',
     Projects = 'Project,ProjectComponent',
@@ -240,7 +242,7 @@ export default class SearchPage extends Component<SearchArgs> {
             }
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
-                'cardSearchText[*,creator.name,isContainedBy.creator.name]': cardSearchText,
+                [CARD_SEARCH_TEXT_PARAM]: cardSearchText,
                 'page[cursor]': page,
                 sort,
                 cardSearchFilter: filterQueryObject,
