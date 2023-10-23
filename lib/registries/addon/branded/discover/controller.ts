@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 import { tracked } from '@glimmer/tracking';
-import { Filter, OnSearchParams } from 'osf-components/components/search-page/component';
+import { Filter, OnQueryParamChangeParams } from 'osf-components/components/search-page/component';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import config from 'ember-osf-web/config/environment';
 export default class BrandedDiscover extends Controller.extend() {
@@ -27,9 +27,9 @@ export default class BrandedDiscover extends Controller.extend() {
     }
 
     @action
-    onSearch(onSearchParams: OnSearchParams) {
-        this.cardSearchText = onSearchParams.cardSearchText;
-        this.sort = onSearchParams.sort;
-        this.activeFilters = onSearchParams.activeFilters;
+    onQueryParamChange(onQueryParamChangeParams: OnQueryParamChangeParams) {
+        this.cardSearchText = onQueryParamChangeParams.cardSearchText;
+        this.sort = onQueryParamChangeParams.sort;
+        this.activeFilters = onQueryParamChangeParams.activeFilters;
     }
 }
