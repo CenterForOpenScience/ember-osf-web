@@ -1,0 +1,6 @@
+<div local-class={{if @isSelected 'SelectedValueOption'}}>
+    <div>{{@option.indexCard.label}} ({{@option.cardSearchResultCount}})</div>
+    {{#if this.additionalDetail}}
+        <div local-class='AdditionalDetail'>{{this.additionalDetail}}</div>
+    {{/if}}
+</div>

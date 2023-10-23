@@ -5,27 +5,25 @@
                 <div local-class='type-label'>
                     {{this.cardTypeLabel}}
                 </div>
-                {{#if (not-eq @result.resourceType 'user')}}
-                    <Button
-                        {{on 'click' this.toggleSecondaryMetadata}}
-                        aria-label={{if this.isOpenSecondaryMetadata
-                            (t 'osf-components.search-result-card.hide_additional_metadata')
-                            (t 'osf-components.search-result-card.show_additional_metadata')
-                        }}
-                        aria-controls={{secondaryMetadataPanelId}}
-                        aria-expanded={{this.isOpenSecondaryMetadata}}
-                    >
-                        {{#if this.isOpenSecondaryMetadata}}
-                            <FaIcon
-                                @icon={{'angle-up'}}
-                            />
-                        {{else}}
-                            <FaIcon
-                                @icon={{'angle-down'}}
-                            />  
-                        {{/if}}
-                    </Button>
-                {{/if}}
+                <Button
+                    {{on 'click' this.toggleSecondaryMetadata}}
+                    aria-label={{if this.isOpenSecondaryMetadata
+                        (t 'osf-components.search-result-card.hide_additional_metadata')
+                        (t 'osf-components.search-result-card.show_additional_metadata')
+                    }}
+                    aria-controls={{secondaryMetadataPanelId}}
+                    aria-expanded={{this.isOpenSecondaryMetadata}}
+                >
+                    {{#if this.isOpenSecondaryMetadata}}
+                        <FaIcon
+                            @icon={{'angle-up'}}
+                        />
+                    {{else}}
+                        <FaIcon
+                            @icon={{'angle-down'}}
+                        />
+                    {{/if}}
+                </Button>
             </div>
             <h4>
                 <a data-test-search-result-card-title href={{@result.absoluteUrl}} target='_blank' rel='noopener noreferrer'> {{@result.displayTitle}} </a>
