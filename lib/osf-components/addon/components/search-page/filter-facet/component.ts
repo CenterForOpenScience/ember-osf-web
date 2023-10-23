@@ -11,7 +11,7 @@ import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path
 
 import SearchResultModel from 'ember-osf-web/models/search-result';
 
-import { Filter } from '../component';
+import { Filter, CARD_SEARCH_TEXT_PARAM } from '../component';
 
 interface FakeIndexCard {
     resourceId: string;
@@ -123,7 +123,7 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
             return;  // skip fetching
         }
         const valueSearch = await this.store.queryRecord('index-value-search', {
-            cardSearchText,
+            [CARD_SEARCH_TEXT_PARAM]: cardSearchText,
             cardSearchFilter,
             valueSearchPropertyPath: property.propertyPathKey,
             valueSearchText: filterString || '',
