@@ -43,7 +43,10 @@ export default class BrandedHeader extends Component<InputArgs> {
 
     @computed('args.translationParent')
     get headerAriaLabel() {
-        return  this.intl.t(`${this.args.translationParent}.header.osf_registrations`);
+        if (this.args.translationParent === 'preprints') {
+            return this.intl.t(`${this.args.translationParent}.header.osf_preprints`);
+        }
+        return this.intl.t(`${this.args.translationParent}.header.osf_registrations`);
     }
 
     @action
