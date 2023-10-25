@@ -1,5 +1,5 @@
 .container {
-    background-color: $color-bg-white;
+    background-color: $color-white;
     flex-direction: column;
 
     svg {
@@ -77,7 +77,7 @@
     }
 
     dt > a {
-        background: $color-bg-white;
+        background: $color-white;
         background-image: none;
         border: 1px solid transparent;
         border-radius: 2px;

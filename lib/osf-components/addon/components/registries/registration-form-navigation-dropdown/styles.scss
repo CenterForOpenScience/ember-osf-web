@@ -12,7 +12,7 @@
     .ToggleNav__button:global(.btn.btn-link) {
         border: 1px solid $color-border-gray;
         border-radius: 2px;
-        background-color: $color-bg-white;
+        background-color: $color-white;
 
         &:hover {
             background-color: $color-border-gray;
@@ -36,7 +36,7 @@
 
 .HeaderText {
     padding-left: 15px;
-    background-color: $color-bg-white;
+    background-color: $color-white;
     font-size: 15px;
     font-weight: 700;
     line-height: 2.8;
@@ -64,7 +64,7 @@
     height: 300px;
     overflow: scroll;
     padding: 0 15px 15px;
-    background-color: $color-bg-white;
+    background-color: $color-white;
 
     a {
         color: $color-osf-primary;

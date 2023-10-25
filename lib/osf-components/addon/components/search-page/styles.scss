@@ -334,7 +334,7 @@
 
     &:global(.active),
     &:hover {
-        background-color: $color-bg-white;
+        background-color: $color-white;
         border-bottom: 1px solid $color-gray;
         color: $color-gray;
         text-decoration: none;
@@ -470,7 +470,7 @@
         margin: 0.5rem 0;
 
         > div {
-            background-color: $color-bg-white;
+            background-color: $color-white;
             margin-top: 0.4rem;
         }
     }

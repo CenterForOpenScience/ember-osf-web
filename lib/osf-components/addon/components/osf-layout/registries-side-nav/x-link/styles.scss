@@ -15,7 +15,7 @@
         box-shadow: -2px 1px 5px -2px $color-border-gray;
         border: $color-border-gray 1px solid;
         border-right: 0;
-        background: $color-bg-white;
+        background: $color-white;
         width: $width-expanded + 1px;
 
         .Count {
@@ -25,7 +25,7 @@
 
     :global(.fa-fw) {
         border-radius: 50%;
-        background-color: $color-bg-white;
+        background-color: $color-white;
         box-shadow: 0 0 0 3px $color-shadow-white;
     }
 

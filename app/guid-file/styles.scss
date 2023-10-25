@@ -37,7 +37,7 @@
 }
 
 .slide-buttons {
-    background-color: $color-bg-white;
+    background-color: $color-white;
     border: 0;
     color: $color-link-dark;
     margin: 20px 20px 0;
@@ -48,7 +48,7 @@
 
     &.active {
         @media (max-width: 767px) {
-            background-color: $color-bg-white;
+            background-color: $color-white;
             color: $color-gray;
         }
         background-color: $color-bg-gray-light;
