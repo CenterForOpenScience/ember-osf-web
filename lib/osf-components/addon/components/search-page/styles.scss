@@ -508,7 +508,7 @@
     }
 
     :global(.ColorGreen) {
-        color: $color-green;
+        color: $brand-success;
     }
 
     :global(.ColorYellow) {
@@ -555,7 +555,7 @@
 
     :global(.LinkColorGreen) {
         a {
-            color: $color-green;
+            color: $brand-success;
         }
     }
 
