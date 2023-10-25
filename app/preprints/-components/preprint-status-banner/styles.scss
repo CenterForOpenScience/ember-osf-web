@@ -1,9 +1,5 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-$color-alert-bg-info: #d9edf7;
-$color-alert-border-info: #bce8f1;
-$color-alert-text-info: #31708f;
-
 $color-bg-color-grey: #333;
 $color-bg-color-light: #eee;
 $color-border-light: #ddd;
@@ -19,12 +15,11 @@ $color-border-light: #ddd;
 }
 
 .preprint-status-pending-post {
-    background-color: $color-alert-bg-info;
-    border: 1px solid $color-alert-border-info;
-    color: $color-alert-text-info;
+    background-color: $brand-info;
+    color: $color-white;
 
     .status-icon {
-        -webkit-text-stroke: 1px $color-alert-text-info;
+        -webkit-text-stroke: 1px $color-white;
         font-size: 14px;
     }
 }
