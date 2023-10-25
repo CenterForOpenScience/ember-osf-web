@@ -3,14 +3,14 @@
     :global(.emberTagInput-tag) {
         background: $color-bg-blue-light;
         border-radius: 0;
-        color: $color-text-black;
+        color: $color-grey;
         cursor: pointer;
         font-size: 13px;
         max-width: 100%;
         overflow-wrap: break-word;
 
         > a {
-            color: $color-text-black;
+            color: $color-grey;
         }
 
         :hover {

@@ -10,7 +10,7 @@
     display: inline-flex;
     background: $color-bg-blue-light;
     border-radius: 0;
-    color: $color-text-black;
+    color: $color-grey;
     cursor: default;
     max-width: 100%;
     overflow-wrap: break-word;
@@ -23,7 +23,7 @@
     border: 1px dotted $color-border-gray-light;
     padding: 4px 8px;
     font-style: italic;
-    color: $color-text-black;
+    color: $color-grey;
 }
 
 .RemoveButton.RemoveButton {

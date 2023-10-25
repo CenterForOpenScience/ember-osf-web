@@ -50,13 +50,13 @@
 // This should only be used in preprint branding as we move away from using custom CSS
 // Please don't rely on this class for new brands
 .DarkText {
-    color: $color-text-black;
+    color: $color-grey;
 }
 
 .SecondaryButton {
     background-color: $color-bg-white;
     border: 1px solid $color-border-gray-light;
-    color: $color-text-black;
+    color: $color-grey;
 
     &:hover:not([disabled]) {
         border: 1px solid $color-bg-gray-blue;
@@ -74,7 +74,7 @@
 }
 
 .DefaultButton {
-    color: $color-text-black;
+    color: $color-grey;
 }
 
 .DestroyButton {

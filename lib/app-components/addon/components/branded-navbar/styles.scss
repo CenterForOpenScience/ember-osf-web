@@ -24,7 +24,7 @@
     }
 
     .navbar-toggle:hover {
-        background-color: $color-bg-black;
+        background-color: $color-grey;
     }
 
     :global(.navbar-collapse) {
@@ -128,7 +128,7 @@
     &.dark-text {
         a:not(:global(.btn-top-signup)),
         :global(.secondary-nav-dropdown) {
-            color: $color-text-black !important;
+            color: $color-grey !important;
         }
     }
 }
@@ -138,6 +138,6 @@
 
     a:not(:global(.btn-top-signup)),
     :global(.secondary-nav-dropdown) {
-        color: $color-text-black !important;
+        color: $color-grey !important;
     }
 }
