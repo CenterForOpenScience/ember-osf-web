@@ -1,10 +1,10 @@
 :global(.new-feature-modal) {
-    background-color: $color-osf-primaryer !important;
+    background-color: $color-bg-blue-darker !important;
     color: $color-text-white;
     border-radius: 0 !important;
 
     :global(.ember-popover-inner) {
-        background-color: $color-osf-primaryer;
+        background-color: $color-bg-blue-darker;
         color: $color-text-white;
     }
 
@@ -13,7 +13,7 @@
     }
 
     :global(.ember-popover-arrow) {
-        border-right-color: $color-osf-primaryer !important;
+        border-right-color: $color-bg-blue-darker !important;
     }
 }
 
