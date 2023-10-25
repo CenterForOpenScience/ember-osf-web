@@ -5,7 +5,7 @@ $primary-blue: $color-dark-blue; // Links, Icons
 $secondary-blue: #15a5eb; // Link Hover
 $selected-blue: rgba($primary-blue, 0.2); // Used to show current page
 
-$midnight-blue: #263947; // Primary Type Color
+$midnight-blue: $color-gray-blue; // Primary Type Color
 $dark-slate-gray: #365063; // Dark Background Color
 
 $slate-gray: #a5b3bd; // Light Acent Color

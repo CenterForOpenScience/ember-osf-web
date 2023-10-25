@@ -22,9 +22,36 @@ $bg-light: #f8f8f8;
 $border-light: 1px solid #eee;
 $tall-line-height: 1.42857;
 
-$osf-teal-navbar: #2e6a74;
-$osf-highlight-navbar: #5a8288;
-$osf-dark-blue-navbar: #263947;
+/*
+ * OSF Color Palette
+ */
+$color-osf-primary: $color-dark-blue;
+$color-osf-secondary: $color-link-lighter;
+
+$color-white: #fff;
+$color-dark-blue: #337ab7;
+
+$color-blue: #204762;
+$color-pure-blue: #00f;
+$color-hover: #e0ebf3;
+$color-light: #eee;
+$color-alt: #c7ffc7;
+$color-select: $color-dark-blue;
+$color-grey: #333;
+$color-filter-bg: #a4b3bd;
+$color-red: #f00;
+$color-green: $brand-success;
+$color-yellow: #ff0;
+$color-turquoise: rgb(64, 224, 211);
+$color-purple: rgb(154, 0, 192);
+$color-black: #000;
+$color-teal: #2e6a74;
+$color-teal-light: #5a8288;
+$color-gray-blue: #548288;
+
+$osf-teal-navbar: $color-teal;
+$osf-highlight-navbar: $color-teal-light;
+$osf-dark-blue-navbar: $color-gray-blue;
 
 /* default bootstrap colors so osf-style can compile without bootstrap */
 $brand-success: #5cb85c !default;
@@ -58,7 +85,7 @@ $color-text-gray: #555;
 $color-text-gray-light: #777770; // 4.5 color contrast against fff background
 $color-text-gray-dark: #888;
 $color-text-gray-cool: #e0ebf3;
-$color-text-gray-blue: #263947;
+$color-text-gray-blue: $color-gray-blue;
 $color-text-blue-light: #adcce6;
 $color-text-blue-dark: $color-dark-blue;
 $color-text-blue-heading: #365062;
@@ -77,8 +104,8 @@ $color-bg-gray: #e0e0e0;
 $color-bg-gray-light: #efefef;
 $color-bg-gray-lighter: #f7f7f7;
 $color-bg-gray-dark: #d9d9d9;
-$color-bg-gray-blue: #263947;
-$color-bg-gray-blue-dark: #34495e;
+$color-bg-gray-blue: $color-gray-blue;
+$color-bg-gray-blue-dark: $color-blue;
 $color-bg-gray-blue-light: #ecf0f1;
 $color-bg-blue-dark: $color-dark-blue;
 $color-bg-blue-darker: #214661;
@@ -112,29 +139,6 @@ warning: #f0ad4e,
 danger: #d9534f,
 );
 
-/*
- * OSF Color Palette
- */
-$color-osf-primary: $color-dark-blue;
-$color-osf-secondary: $color-link-lighter;
-
-$color-white: #fff;
-$color-dark-blue: #337ab7;
-
-$color-blue: #204762;
-$color-pure-blue: #00f;
-$color-hover: #e0ebf3;
-$color-light: #eee;
-$color-alt: #c7ffc7;
-$color-select: $color-dark-blue;
-$color-grey: #333;
-$color-filter-bg: #a4b3bd;
-$color-red: #f00;
-$color-green: $brand-success;
-$color-yellow: #ff0;
-$color-turquoise: rgb(64, 224, 211);
-$color-purple: rgb(154, 0, 192);
-$color-black: #000;
 
 .bg-color-blue {
     background-color: $color-blue;

@@ -5,7 +5,7 @@
 // osf-style interop
 .AuthDropdown.AuthDropdown {
     z-index: 2000;
-    background-color: #2e6a74;
+    background-color: $color-teal;
 
     ul {
         list-style: none;
@@ -22,7 +22,7 @@
     }
 
     a:hover {
-        background-color: #5a8288;
+        background-color: $color-teal-light;
     }
 }
 
@@ -49,7 +49,7 @@
 }
 
 .logout-link:hover {
-    background-color: #5a8288;
+    background-color: $color-teal-light;
     width: 100%;
     color: $color-text-white;
     text-align: inherit;
