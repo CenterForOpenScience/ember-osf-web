@@ -245,7 +245,7 @@ export default class SearchResultModel extends Model {
     get orcids() {
         if (this.resourceMetadata.identifier) {
             const orcids = this.resourceMetadata.identifier.filter(
-                (item: any) => item['@value'].includes('http://orcid.org/'),
+                (item: any) => new URL(item['@value']).host === 'orcid.org',
             );
             return orcids.map( (item: any) => item['@value']);
         }
