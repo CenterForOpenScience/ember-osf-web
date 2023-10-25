@@ -829,7 +829,7 @@
 
     /* Overrides the color, relative position, and font size of dropdown menus (both service and auth) */
     .dropdown-menu {
-        background-color: $osf-teal-navbar;
+        background-color: $color-teal;
 
         &.service-dropdown {
             top: 17px;
@@ -865,7 +865,7 @@
             position: absolute;
             display: inline-block;
             border-right: 9px solid transparent;
-            border-bottom: 9px solid $osf-teal-navbar;
+            border-bottom: 9px solid $color-teal;
             border-left: 9px solid transparent;
             content: '';
             top: -8px;
@@ -882,7 +882,7 @@
                 position: absolute;
                 display: inline-block;
                 border-right: 6px solid transparent;
-                border-bottom: 6px solid $osf-teal-navbar;
+                border-bottom: 6px solid $color-teal;
                 border-left: 6px solid transparent;
                 content: '';
                 top: -4px;

@@ -35,7 +35,7 @@
 .service-dropdown.service-dropdown {
     top: 17px;
     width: 200px;
-    background-color: $osf-teal-navbar;
+    background-color: $color-teal;
     position: absolute;
     z-index: 1001;
     float: left;
@@ -57,7 +57,7 @@
     position: absolute;
     display: inline-block;
     border-right: 9px solid transparent;
-    border-bottom: 9px solid $osf-teal-navbar;
+    border-bottom: 9px solid $color-teal;
     border-left: 9px solid transparent;
     content: '';
     top: -8px;
