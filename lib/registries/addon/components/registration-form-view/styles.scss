@@ -45,7 +45,7 @@
     padding: 3px 8px;
 
     &:hover {
-        color: $secondary-blue;
+        color: $color-osf-secondary;
     }
 
     &:focus {
@@ -68,7 +68,7 @@
 
         &:hover,
         &:focus {
-            color: $secondary-blue;
+            color: $color-osf-secondary;
             text-decoration: none;
         }
     }

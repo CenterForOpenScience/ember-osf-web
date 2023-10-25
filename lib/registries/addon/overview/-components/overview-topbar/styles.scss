@@ -38,7 +38,7 @@
         &:active,
         &:focus {
             text-decoration: none;
-            color: $secondary-blue;
+            color: $color-osf-secondary;
             outline: 0;
         }
 
@@ -56,7 +56,7 @@
     &:focus,
     &:active:focus {
         text-decoration: none;
-        color: $secondary-blue;
+        color: $color-osf-secondary;
         outline: 0;
     }
 

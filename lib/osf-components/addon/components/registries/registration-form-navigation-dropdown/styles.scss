@@ -48,7 +48,7 @@
     padding: 3px 8px;
 
     &:hover {
-        color: $color-link-lighter;
+        color: $color-osf-secondary;
     }
 
     &:focus {
@@ -71,7 +71,7 @@
 
         &:hover,
         &:focus {
-            color: $color-link-lighter;
+            color: $color-osf-secondary;
             text-decoration: none;
         }
     }

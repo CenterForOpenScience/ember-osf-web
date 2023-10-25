@@ -22,11 +22,15 @@ $bg-light: #f8f8f8;
 $border-light: 1px solid #eee;
 $tall-line-height: 1.42857;
 
+/* default bootstrap colors so osf-style can compile without bootstrap */
+$brand-success: #5cb85c !default;
+$brand-info: #5bc0de !default;
+$brand-warning: #f0ad4e !default;
+$brand-danger: #d9534f;
+
 /*
  * OSF Color Palette
  */
-$color-osf-primary: $color-dark-blue;
-$color-osf-secondary: $color-link-lighter;
 
 $color-white: #fff;
 $color-dark-blue: #337ab7;
@@ -50,15 +54,13 @@ $color-teal-light: #5a8288;
 $color-gray-blue: #548288;
 $color-gray-blue-dark: #365062;
 
+$color-osf-primary: $color-dark-blue;
+$color-osf-secondary: #15a5eb;
+
 $osf-teal-navbar: $color-teal;
 $osf-highlight-navbar: $color-teal-light;
 $osf-dark-blue-navbar: $color-gray-blue;
 
-/* default bootstrap colors so osf-style can compile without bootstrap */
-$brand-success: #5cb85c !default;
-$brand-info: #5bc0de !default;
-$brand-warning: #f0ad4e !default;
-$brand-danger: #d9534f;
 
 /* overrides with darkened colors for a11y contrast */
 $brand-success: darken($brand-success, 10%);
@@ -95,7 +97,6 @@ $color-link-black: #000;
 $color-link-light: #08c;
 $color-link-dark: #2d6a9f;
 $color-link-blue: #80c2f7;
-$color-link-lighter: #15a5eb;
 
 $color-bg-black: #333;
 $color-bg-white: $color-white;
@@ -128,7 +129,6 @@ $btn-danger-high-contrast-color: $color-white;
 
 $primary-box-shadow: rgba(0, 0, 0, 0.2);
 $alto: #ddd; //Borders
-$secondary-blue: $color-link-lighter; // Link Hover
 
 $ember-power-select-placeholder-color: #555;
 

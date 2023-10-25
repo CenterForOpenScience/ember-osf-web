@@ -14,7 +14,7 @@
         color: $slate-gray;
 
         & svg:global(.fa-fw) {
-            color: $secondary-blue;
+            color: $color-osf-secondary;
         }
     }
 
@@ -45,7 +45,7 @@
 
     // Override bootstrap/osf-style
     & > li > a:hover {
-        color: $secondary-blue;
+        color: $color-osf-secondary;
         background-color: $midnight-blue;
         background-image: none;
     }
@@ -171,7 +171,7 @@
         font-size: inherit;
 
         &:hover {
-            color: $secondary-blue;
+            color: $color-osf-secondary;
             text-decoration: none;
             outline: 0;
         }

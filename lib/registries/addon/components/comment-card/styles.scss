@@ -49,7 +49,7 @@
         &:hover,
         &:active,
         &:focus {
-            color: $secondary-blue;
+            color: $color-osf-secondary;
             text-decoration: none;
             outline: 0;
         }
@@ -82,7 +82,7 @@
 
     &:hover,
     &:focus {
-        color: $secondary-blue;
+        color: $color-osf-secondary;
         text-decoration: none;
     }
 }
@@ -101,7 +101,7 @@
 
         &:hover,
         &:focus {
-            color: $secondary-blue;
+            color: $color-osf-secondary;
             text-decoration: none;
         }
     }
@@ -159,7 +159,7 @@
     &:active,
     &:focus {
         background-color: $porcelain;
-        color: $secondary-blue;
+        color: $color-osf-secondary;
         outline: 0;
     }
 }
@@ -175,7 +175,7 @@
 
         &:hover,
         &:focus {
-            color: $secondary-blue;
+            color: $color-osf-secondary;
             text-decoration: none;
         }
     }
