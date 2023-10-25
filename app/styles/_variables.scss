@@ -40,7 +40,7 @@ $color-hover: #e0ebf3;
 $color-light: #eee;
 $color-alt: #c7ffc7;
 $color-select: $color-dark-blue;
-$color-grey: #333;
+$color-gray: #333;
 $color-filter-bg: #a4b3bd;
 $color-red: #f00;
 $color-green: $brand-success;
@@ -117,7 +117,7 @@ $color-shadow-dark: rgba(0, 0, 0, 0.2);
 $color-shadow-gray-light: #ccc;
 $color-shadow-gray-dark: #898787;
 
-$color-text-placeholder-grey-dark: #666;
+$color-text-placeholder-gray-dark: #666;
 
 $btn-success-high-contrast-color: $color-white;
 $btn-info-high-contrast-color: $color-white;
@@ -156,8 +156,8 @@ danger: #d9534f,
     background-color: $color-select;
 }
 
-.bg-color-grey {
-    background-color: $color-grey;
+.bg-color-gray {
+    background-color: $color-gray;
 }
 
 /*

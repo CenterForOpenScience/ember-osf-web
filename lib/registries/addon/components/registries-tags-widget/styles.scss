@@ -7,14 +7,14 @@
 .TagsWidget :global(.emberTagInput-tag) {
     background: $color-bg-gray-light;
     border-radius: 0;
-    color: $color-grey;
+    color: $color-gray;
     cursor: pointer;
     max-width: 100%;
     overflow-wrap: break-word;
     font: 14px 'Open Sans', 'Helvatica Neue', sans-serif !important;
 
     > a {
-        color: $color-grey;
+        color: $color-gray;
     }
 
     &:hover {

@@ -1,12 +1,12 @@
 .expand-button {
     border: 0;
     padding: 0;
-    color: $color-grey;
+    color: $color-gray;
 
     &:hover,
     &:active,
     &:focus {
-        color: $color-grey;
+        color: $color-gray;
         text-decoration: none;
         outline: none;
     }
