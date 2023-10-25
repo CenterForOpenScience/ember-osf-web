@@ -1878,7 +1878,7 @@ osf-components:
         date_modified: Date modified
         last_edited: Last edited
         member_since: Member since
-        preprint_provider: Preprint provider
+        preprint_provider: Provider
         registration_provider: Registration provider
         conflict_of_interest: Conflict of Interest response
         no_conflict_of_interest: 'Author asserted no Conflict of Interest'
@@ -1896,6 +1896,13 @@ osf-components:
         withdrawn: Withdrawn
         unknown: Unknown
         remaining_count: '{count} more'
+        fetch_user_error: 'Unable to fetch user information from OSF'
+        no_user: 'No user'
+        employment: Employment
+        education: Education
+        public_projects: Public projects
+        public_registrations: Public registrations
+        public_preprints: Public preprints
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
         add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'

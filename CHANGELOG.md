@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [23.13.0] - 2023-10-25
+### Added
+- Search improvement post release fixes
+- Misc bug fixes
+
 ## [23.12.0] - 2023-10-10
 ### Added
 - Search improvement phase 2: preprints, institutions and registries discover pages
@@ -1949,6 +1954,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[23.13.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.13.0
+[23.12.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.12.1
 [23.12.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.12.0
 [23.11.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.11.1
 [23.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.11.0
