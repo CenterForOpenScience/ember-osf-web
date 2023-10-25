@@ -94,7 +94,7 @@
 }
 
 .osf-box-dk {
-    background-color: $color-dark-blue;
+    background-color: $color-osf-primary;
     color: $color-white;
 }
 
@@ -129,14 +129,14 @@
     }
 
     .active>a:focus {
-        background-color: $color-dark-blue;
+        background-color: $color-osf-primary;
     }
 }
 
 .osf-project-navbar li.active,
 .osf-project-navbar li.active a:hover,
 .osf-project-navbar li:hover {
-    background-color: $color-dark-blue;
+    background-color: $color-osf-primary;
 }
 
 .osf-project-navbar li.active a {
@@ -569,7 +569,7 @@
     color: $color-white;
     text-decoration: none;
     outline: 0;
-    background-color: $color-dark-blue;
+    background-color: $color-osf-primary;
 }
 
 .dropdown-menu>.disabled>a,
@@ -665,10 +665,10 @@
 .dropdown-menu>.active>a,
 .dropdown-menu>.active>a:hover,
 .dropdown-menu>.active>a:focus {
-    background-image: linear-gradient(to bottom, $color-dark-blue 0%, $color-dark-blue 100%);
+    background-image: linear-gradient(to bottom, $color-osf-primary 0%, $color-osf-primary 100%);
     background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='337ab7', endColorstr='$color-dark-blue', GradientType=0);
-    background-color: $color-dark-blue;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='337ab7', endColorstr='$color-osf-primary', GradientType=0);
+    background-color: $color-osf-primary;
 }
 
 #menuLogin .form-control {
