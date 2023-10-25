@@ -65,7 +65,7 @@
 }
 
 .OverviewBody {
-    background: $white;
+    background: $color-white;
     padding: 0 30px;
 }
 
@@ -83,7 +83,7 @@
     display: inline-flex;
     flex-direction: column;
     justify-content: space-around;
-    background-color: $white;
+    background-color: $color-white;
     color: $primary-blue;
     border-top: 1px solid #999;
     padding-left: 8px;

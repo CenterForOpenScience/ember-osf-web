@@ -2,7 +2,7 @@
 
 // Mixins
 /* simplified version of bootstrap's button-variant mixin */
-@mixin a11y-button-variant($background, $color: $white) {
+@mixin a11y-button-variant($background, $color: $color-white) {
     color: $color;
     $border: darken($background, 5%); // stylelint-disable-line
     background-color: $background;

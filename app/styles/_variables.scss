@@ -42,10 +42,7 @@ $brand-danger: darken($brand-danger, 15%);
 // Internal variables
 // Color variations ordered darkest to lightest within each section.
 
-$white: #fff;
-$dark-blue: $dark-blue;
-
-$color-border-white: $white;
+$color-border-white: $color-white;
 $color-border-gray-darker: #ababab;
 $color-border-gray-dark: #e5e5e5;
 $color-border-gray: #ddd;
@@ -55,7 +52,7 @@ $color-border-gray-cool: #d6dbdc;
 $color-gradient-primary: #eee;
 $color-gradient-secondary: #ccc;
 
-$color-text-white: $white;
+$color-text-white: $color-white;
 $color-text-black: #333;
 $color-text-gray: #555;
 $color-text-gray-light: #777770; // 4.5 color contrast against fff background
@@ -63,7 +60,7 @@ $color-text-gray-dark: #888;
 $color-text-gray-cool: #e0ebf3;
 $color-text-gray-blue: #263947;
 $color-text-blue-light: #adcce6;
-$color-text-blue-dark: $dark-blue;
+$color-text-blue-dark: $color-dark-blue;
 $color-text-blue-heading: #365062;
 $color-text-slate-gray: #a5b3bd;
 
@@ -74,7 +71,7 @@ $color-link-blue: #80c2f7;
 $color-link-lighter: #15a5eb;
 
 $color-bg-black: #333;
-$color-bg-white: $white;
+$color-bg-white: $color-white;
 $color-bg-gray-darker: #4c4c4c;
 $color-bg-gray: #e0e0e0;
 $color-bg-gray-light: #efefef;
@@ -83,14 +80,14 @@ $color-bg-gray-dark: #d9d9d9;
 $color-bg-gray-blue: #263947;
 $color-bg-gray-blue-dark: #34495e;
 $color-bg-gray-blue-light: #ecf0f1;
-$color-bg-blue-dark: $dark-blue;
+$color-bg-blue-dark: $color-dark-blue;
 $color-bg-blue-darker: #214661;
 $color-bg-blue-light: #def;
 $color-bg-blue-lighter: rgba($color-bg-blue-dark, 0.2);
 $color-bg-red: #a00;
 $color-bg-white-transparent: rgba(255, 255, 255, 0.49);
 
-$color-shadow-white: $white;
+$color-shadow-white: $color-white;
 $color-shadow-light: rgba(0, 0, 0, 0.05);
 $color-shadow-dark: rgba(0, 0, 0, 0.2);
 $color-shadow-gray-light: #ccc;
@@ -98,13 +95,13 @@ $color-shadow-gray-dark: #898787;
 
 $color-text-placeholder-grey-dark: #666;
 
-$btn-success-high-contrast-color: $white;
-$btn-info-high-contrast-color: $white;
-$btn-danger-high-contrast-color: $white;
+$btn-success-high-contrast-color: $color-white;
+$btn-info-high-contrast-color: $color-white;
+$btn-danger-high-contrast-color: $color-white;
 
 $primary-box-shadow: rgba(0, 0, 0, 0.2);
 $alto: #ddd; //Borders
-$secondary-blue: #15a5eb; // Link Hover
+$secondary-blue: $color-link-lighter; // Link Hover
 
 $ember-power-select-placeholder-color: #555;
 
@@ -118,15 +115,18 @@ danger: #d9534f,
 /*
  * OSF Color Palette
  */
-$color-osf-primary: $dark-blue;
-$color-osf-secondary: #15a5eb;
+$color-osf-primary: $color-dark-blue;
+$color-osf-secondary: $color-link-lighter;
+
+$color-white: #fff;
+$color-dark-blue: #337ab7;
 
 $color-blue: #204762;
 $color-pure-blue: #00f;
 $color-hover: #e0ebf3;
 $color-light: #eee;
 $color-alt: #c7ffc7;
-$color-select: $dark-blue;
+$color-select: $color-dark-blue;
 $color-grey: #333;
 $color-filter-bg: #a4b3bd;
 $color-red: #f00;

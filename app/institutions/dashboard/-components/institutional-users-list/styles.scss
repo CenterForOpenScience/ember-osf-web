@@ -4,7 +4,7 @@
     margin-bottom: 15px;
     border-color: #ddd;
     border-radius: 2px;
-    color: $dark-blue;
+    color: $color-dark-blue;
 }
 
 .table {
@@ -38,7 +38,7 @@
     th {
         background: #365063;
         border: 0;
-        color: $white;
+        color: $color-white;
         text-transform: uppercase;
         vertical-align: middle;
     }
@@ -80,11 +80,11 @@
     }
 
     :global(.btn.selected) {
-        color: $white !important;
+        color: $color-white !important;
     }
 
     :global(.btn.not-selected) {
-        color: $white !important;
+        color: $color-white !important;
         opacity: 0.25;
 
         &:hover {

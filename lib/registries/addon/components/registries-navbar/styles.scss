@@ -5,7 +5,7 @@
     &:active,
     &:focus,
     &:hover {
-        color: $white;
+        color: $color-white;
         text-decoration: none;
     }
 
@@ -75,20 +75,20 @@
 }
 
 .HomeLink {
-    color: $white;
+    color: $color-white;
     font-size: 18px;
     font-weight: 400;
     text-decoration: none;
     margin: 0 16px 0 10px;
 
     &.HomeLink:hover {
-        color: $white;
+        color: $color-white;
         text-decoration: none;
     }
 }
 
 .Service {
-    color: $white;
+    color: $color-white;
     font-size: 20px;
 
     & > strong {
@@ -112,7 +112,7 @@
         white-space: nowrap;
         clear: both;
         font-weight: 400;
-        color: $white;
+        color: $color-white;
     }
 
     li>a:hover {
@@ -165,7 +165,7 @@
 
     // Logout and sign in buttons
     & > li > :global(.btn.btn-link) {
-        color: $white;
+        color: $color-white;
         display: block;
         padding: 3px 20px;
         font-size: inherit;
@@ -184,7 +184,7 @@
         white-space: nowrap;
         clear: both;
         font-weight: 400;
-        color: $white;
+        color: $color-white;
     }
 
     li>a:hover,

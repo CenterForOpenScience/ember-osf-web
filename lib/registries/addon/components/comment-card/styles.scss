@@ -122,9 +122,9 @@
 .CommentReport__save:global(.btn) {
     border-radius: 2px;
     font-size: 14px;
-    color: $white;
+    color: $color-white;
     text-align: center;
-    text-decoration: none solid $white;
+    text-decoration: none solid $color-white;
     font-weight: 600;
     outline: 0;
     border: 0;
@@ -135,7 +135,7 @@
     &:active,
     &:focus {
         background-color: $secondary-green;
-        color: $white;
+        color: $color-white;
         outline: 0;
     }
 

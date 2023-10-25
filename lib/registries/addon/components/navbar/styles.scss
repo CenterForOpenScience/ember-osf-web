@@ -81,7 +81,7 @@
     }
 
     & .Item {
-        color: $white;
+        color: $color-white;
     }
 
     & .Primary,
@@ -106,7 +106,7 @@
     }
 
     & .Divider {
-        background: $white;
+        background: $color-white;
     }
 
     & .Item {
@@ -115,11 +115,11 @@
 
 
     & .Section.Bordered > .Item:not(:last-child) {
-        border-right-color: $white;
+        border-right-color: $color-white;
     }
 
     & .Section.Bordered:last-child {
-        border-left-color: $white;
+        border-left-color: $color-white;
     }
 }
 // --- \Color "Themes" ---

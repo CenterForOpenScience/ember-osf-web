@@ -12,16 +12,16 @@
         padding: 6px 12px;
         line-height: $tall-line-height;
         text-decoration: none;
-        color: $dark-blue;
-        background-color: $white;
+        color: $color-dark-blue;
+        background-color: $color-white;
         border: 1px solid #ddd;
     }
 
     .active {
         z-index: 3;
-        color: $white;
-        background-color: $dark-blue;
-        border-color: $dark-blue;
+        color: $color-white;
+        background-color: $color-dark-blue;
+        border-color: $color-dark-blue;
         cursor: default;
     }
 }

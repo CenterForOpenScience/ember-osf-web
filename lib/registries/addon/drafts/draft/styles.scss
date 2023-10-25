@@ -13,7 +13,7 @@
 }
 
 .Main {
-    background: $white;
+    background: $color-white;
     padding: 30px;
 }
 
@@ -35,7 +35,7 @@
 
     & > h1,
     & > a {
-        color: $white;
+        color: $color-white;
         width: fit-content;
     }
 
