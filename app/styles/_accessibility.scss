@@ -25,6 +25,24 @@
     line-height: 1.33333;
 }
 
+.btn-primary {
+    color: $color-text-white;
+    background-color: $color-osf-primary;
+    border-color: $color-osf-primary;
+
+    &:focus {
+        color: $color-text-white;
+        background-color: $color-link-dark;
+        border-color: $color-blue;
+    }
+    
+    &:hover {
+        color: $color-text-white;
+        background-color: $color-link-dark;
+        border-color: $color-bg-blue-darker;
+    }    
+}
+
 .btn-success {
     color: $btn-success-high-contrast-color;
     background-color: $brand-success;

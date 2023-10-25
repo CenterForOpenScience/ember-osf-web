@@ -15,22 +15,3 @@
         font-size: 18px;
     }
 }
-
-.btn-primary {
-    color: $color-text-white;
-    background-color: $color-osf-primary;
-    border-color: $color-osf-primary;
-}
-
-.btn-primary:focus,
-.btn-primary.focus {
-    color: $color-text-white;
-    background-color: #286090;
-    border-color: #122b40;
-}
-
-.btn-primary:hover {
-    color: $color-text-white;
-    background-color: #286090;
-    border-color: #204d74;
-}
