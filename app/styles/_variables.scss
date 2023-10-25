@@ -50,9 +50,6 @@ $color-gray-blue-dark: #365062;
 $color-osf-primary: #337ab7;
 $color-osf-secondary: #15a5eb;
 
-$osf-dark-blue-navbar: $color-gray-blue;
-
-
 /* overrides with darkened colors for a11y contrast */
 $brand-success: darken($brand-success, 10%);
 $brand-info: darken($brand-info, 15%);

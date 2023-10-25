@@ -14,7 +14,7 @@
 
 .heading-wrapper-mobile {
     background-image: url('images/default-brand/bg-dark.jpg');
-    background-color: $osf-dark-blue-navbar;
+    background-color: $color-gray-blue;
     color: $color-text-white;
     display: flex;
     flex-direction: column;
@@ -95,7 +95,7 @@
 
 .heading-wrapper {
     background-image: url('images/default-brand/bg-dark.jpg');
-    background-color: $osf-dark-blue-navbar;
+    background-color: $color-gray-blue;
     color: $color-text-white;
     display: flex;
     align-items: center;
@@ -261,7 +261,7 @@
 }
 
 .search-help-tutorial {
-    background-color: $osf-dark-blue-navbar;
+    background-color: $color-gray-blue;
     color: $color-text-white;
     width: 400px;
     max-width: 100%;
