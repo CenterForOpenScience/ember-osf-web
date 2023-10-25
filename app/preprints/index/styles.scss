@@ -57,7 +57,7 @@
     /* Subject Panel */
     .preprint-subjects-container {
         background-color: $color-bg-gray-lighter;
-        border-bottom: 1px solid #$color-gray-blue;
+        border-bottom: 1px solid $color-gray-blue;
         padding: 15px 0;
         width: 100%;
         flex-direction: column;
@@ -89,7 +89,7 @@
     .preprint-tool-container {
         background: var(--hero-background-img-url);
         color: $color-text-white;
-        text-shadow: 0 0 5px #506069;
+        text-shadow: 0 0 5px $color-gray-blue-dark;
         background-size: cover;
         padding: 15px 0;
         min-width: 100%;
