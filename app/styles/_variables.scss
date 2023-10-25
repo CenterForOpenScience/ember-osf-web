@@ -17,7 +17,7 @@ $mobile-width: 768px;
 
 /* Defaults */
 $radius: 2px;
-$bg-light: #$bg-light;
+$bg-light: #f8f8f8;
 $tall-line-height: 1.42857;
 
 /* default bootstrap colors so osf-style can compile without bootstrap */
@@ -131,7 +131,7 @@ $progress-bar-bg-bright: (primary: #428bca,
 info: $brand-info,
 success: $brand-success,
 warning: $brand-warning,
-danger: #d9534f,
+danger: $brand-danger,
 );
 
 

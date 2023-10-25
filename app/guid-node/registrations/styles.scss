@@ -45,7 +45,7 @@
 
                 li:global(.ember-tabs__tab--selected) {
                     background-color: $bg-light;
-                    border-bottom: 2px solid #204762;
+                    border-bottom: 2px solid $color-blue;
                 }
 
                 li:hover {
