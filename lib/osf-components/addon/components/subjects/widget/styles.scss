@@ -25,14 +25,14 @@
         }
 
         li:global(.ember-tabs__tab--selected) {
-            background-color: #f8f8f8;
+            background-color: $bg-light;
             border-bottom: 2px solid #204762;
         }
 
         li:hover {
             border-color: transparent;
             text-decoration: none;
-            background-color: #f8f8f8;
+            background-color: $bg-light;
             color: var(--primary-color);
         }
     }

@@ -15,7 +15,7 @@
 }
 
 .body {
-    background-color: #f8f8f8;
+    background-color: $bg-light;
 
     label {
         display: inline;
@@ -31,7 +31,7 @@
 
     .subject {
         display: inline-block;
-        background-color: #f8f8f8;
+        background-color: $bg-light;
         border: 1px solid #ccc;
         border-radius: 3px;
         padding: 2px;

@@ -17,8 +17,7 @@ $mobile-width: 768px;
 
 /* Defaults */
 $radius: 2px;
-$bg-light: #f8f8f8;
-$border-light: 1px solid #eee;
+$bg-light: #$bg-light;
 $tall-line-height: 1.42857;
 
 /* default bootstrap colors so osf-style can compile without bootstrap */
