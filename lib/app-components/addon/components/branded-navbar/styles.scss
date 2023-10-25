@@ -134,7 +134,7 @@
 }
 
 .white-background-branded-navbar.white-background-branded-navbar.white-background-branded-navbar {
-    background-color: #fff;
+    background-color: $white;
 
     a:not(:global(.btn-top-signup)),
     :global(.secondary-nav-dropdown) {

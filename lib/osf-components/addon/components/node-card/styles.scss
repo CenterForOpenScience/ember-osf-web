@@ -37,7 +37,7 @@
             }
 
             .label-primary {
-                background-color: #337ab7;
+                background-color: $dark-blue;
             }
 
             .label {
@@ -45,7 +45,7 @@
                 padding: 0.2em 0.6em 0.3em;
                 font-size: 75%;
                 font-weight: 700;
-                color: #fff;
+                color: $white;
                 text-align: center;
                 white-space: nowrap;
                 vertical-align: baseline;

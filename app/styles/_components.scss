@@ -81,7 +81,7 @@
 .osf-box {
     border: 1px solid #eee;
     border-radius: 0;
-    background-color: #fff;
+    background-color: $white;
 }
 
 .box-round {
@@ -95,7 +95,7 @@
 
 .osf-box-dk {
     background-color: $color-select;
-    color: #fff;
+    color: $white;
 }
 
 
@@ -129,18 +129,18 @@
     }
 
     .active>a:focus {
-        background-color: #337ab7;
+        background-color: $dark-blue;
     }
 }
 
 .osf-project-navbar li.active,
 .osf-project-navbar li.active a:hover,
 .osf-project-navbar li:hover {
-    background-color: #337ab7;
+    background-color: $dark-blue;
 }
 
 .osf-project-navbar li.active a {
-    color: #fff;
+    color: $white;
 }
 
 .osf-project-navbar a.project-title {
@@ -417,7 +417,7 @@
 }
 
 #navbarScope a {
-    color: #fff;
+    color: $white;
 }
 
 #navbarScope a:hover {
@@ -433,7 +433,7 @@
     padding: 4px 13px;
     margin-top: 3px;
     font-size: 15px;
-    color: #fff;
+    color: $white;
 }
 
 #navbarScope .btn-top-login {
@@ -448,9 +448,9 @@
 }
 
 .navbar-default {
-    background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
+    background-image: linear-gradient(to bottom, $white 0%, #f8f8f8 100%);
     background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff', endColorstr='#fff8f8f8', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$white', endColorstr='$f8f8f8', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     border-radius: 4px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 5px rgba(0, 0, 0, 0.075);
@@ -552,7 +552,7 @@
     clear: both;
     font-weight: normal;
     line-height: 1.8;
-    color: #fff;
+    color: $white;
     white-space: nowrap;
 }
 
@@ -566,10 +566,10 @@
 .dropdown-menu>.active>a,
 .dropdown-menu>.active>a:hover,
 .dropdown-menu>.active>a:focus {
-    color: #fff;
+    color: $white;
     text-decoration: none;
     outline: 0;
-    background-color: #337ab7;
+    background-color: $dark-blue;
 }
 
 .dropdown-menu>.disabled>a,
@@ -665,10 +665,10 @@
 .dropdown-menu>.active>a,
 .dropdown-menu>.active>a:hover,
 .dropdown-menu>.active>a:focus {
-    background-image: linear-gradient(to bottom, #337ab7 0%, #2e6da4 100%);
+    background-image: linear-gradient(to bottom, $dark-blue 0%, $dark-blue 100%);
     background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff2e6da4', GradientType=0);
-    background-color: #2e6da4;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='337ab7', endColorstr='$dark-blue', GradientType=0);
+    background-color: $dark-blue;
 }
 
 #menuLogin .form-control {
@@ -748,7 +748,7 @@
 
         // Specifies color and hover interactions of buttons that look like links (primary dropdown caret, auth dropdown)
         .btn-link {
-            color: #fff;
+            color: $white;
             border-width: 0;
             padding-bottom: 5px;
             padding-left: 22px;

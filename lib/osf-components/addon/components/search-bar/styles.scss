@@ -1,12 +1,12 @@
 .iconInput {
-    background-color: #fff;
+    background-color: $white;
     width: 100%;
     display: inline-flex;
     align-items: center;
 
     span {
         font-size: 25px;
-        color: #337ab7;
+        color: $dark-blue;
         padding: 0 5px 0 10px;
     }
 

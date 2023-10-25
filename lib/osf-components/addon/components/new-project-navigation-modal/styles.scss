@@ -16,14 +16,8 @@
     font-weight: bold;
     line-height: 1;
     color: $color-text-black;
-    text-shadow: 0 1px 0 #fff;
+    text-shadow: 0 1px 0 $white;
     opacity: 0.2;
-}
-
-.btn-success.btn-success {
-    color: $color-text-white;
-    background-color: #357935;
-    border-color: $brand-success;
 }
 
 .btn {

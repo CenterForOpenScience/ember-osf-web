@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #fff;
+    color: $white;
     font-weight: 600;
     font-size: 20px;
 }
@@ -20,5 +20,5 @@
 }
 
 .bg-class {
-    background: #fff;
+    background: $white;
 }

@@ -9,6 +9,11 @@
         border-color: darken($brand-success, 15%);
     }
 
+    &:focus {
+        background-color: darken($brand-success, 10%) !important;
+        border-color: darken($brand-success, 15%);
+    }
+
     &[disabled],
     &[disabled]:hover,
     :global(&.disabled),

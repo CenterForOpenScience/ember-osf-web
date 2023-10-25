@@ -1,6 +1,6 @@
 @import 'app/styles/variables';
 
-$primary-blue: #337ab7; // Links, Icons
+$primary-blue: $dark-blue; // Links, Icons
 // (AAA) $primary-blue: ##0059a6; // Links, Icons
 $secondary-blue: #15a5eb; // Link Hover
 $selected-blue: rgba($primary-blue, 0.2); // Used to show current page
@@ -21,7 +21,7 @@ $primary-red: #bf4d4d; // Locked State, Error Color, Danger Action Color;
 $secondary-red: #fb2424; // Red Hover
 
 $disabled-gray: #a5b3bd; // Disabled button icons
-$white: #fff;
+$white: $white;
 $black: #000;
 
 $primary-box-shadow: rgba(0, 0, 0, 0.2);
