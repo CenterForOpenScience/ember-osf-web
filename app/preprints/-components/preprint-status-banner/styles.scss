@@ -1,9 +1,5 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-$color-alert-bg-success: #dff0d8;
-$color-alert-border-success: #d6e9c6;
-$color-alert-text-success: #3c763d;
-
 $color-alert-bg-danger: #f2dede;
 $color-alert-border-danger: #ebccd1;
 $color-alert-text-danger: #a94442;
@@ -18,7 +14,7 @@ $color-border-light: #ddd;
 
 .preprint-status-pending-pre {
     background-color: $brand-warning;
-    color: $color-black;
+    color: $color-white;
 
     .status-icon {
         -webkit-text-stroke: 1px $color-black;
@@ -56,9 +52,8 @@ $color-border-light: #ddd;
         font-size: 16px;
 
         &.preprint-status-accepted {
-            background-color: $color-alert-bg-success;
-            border: 1px solid $color-alert-border-success;
-            color: $color-alert-text-success;
+            background-color: $brand-success;
+            color: $color-white;
         
             .status-icon {
                 -webkit-text-stroke: 0;
@@ -79,7 +74,7 @@ $color-border-light: #ddd;
 
         &.preprint-status-withdrawn {
             background-color: $brand-warning;
-            color: $color-black;
+            color: $color-white;
 
             .status-icon {
                 -webkit-text-stroke: 1px $color-black;
