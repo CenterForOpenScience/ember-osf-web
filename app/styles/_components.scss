@@ -14,7 +14,7 @@
 }
 
 .box-shadow-md {
-    box-shadow: 0 0 9px -1px #ccc;
+    box-shadow: 0 0 9px -1px $color-gray-light;
 }
 
 .box-shadow-lg {
@@ -518,7 +518,7 @@
     font-size: 14px;
     text-align: left;
     background-color: rgba(0, 0, 0, 0.9);
-    border: 1px solid #ccc;
+    border: 1px solid $color-gray-light;
     border: 1px solid rgba(100, 100, 100, 0.3);
     border-radius: 4px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);

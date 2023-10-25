@@ -16,7 +16,7 @@
     background:
         linear-gradient(to right,
         $color-light 10%,
-        darken($color-gradient-secondary, 5%) 40%,
+        darken($color-gray-light, 5%) 40%,
         $color-light 80%);
     background-size: 300px;
     animation-duration: 1.5s;
