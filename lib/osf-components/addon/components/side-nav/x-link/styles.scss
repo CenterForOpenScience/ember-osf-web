@@ -33,7 +33,7 @@ $sidenav-link-height: 40px;
         &::before {
             @include primary-color-bg;
             opacity: 0.2;
-            border: solid 1px $color-border-white;
+            border: solid 1px $color-white;
             border-radius: 5px;
         }
 
@@ -87,7 +87,7 @@ $sidenav-link-height: 40px;
     &::before {
         position: absolute;
         z-index: 100;
-        border: solid 1px $color-border-white;
+        border: solid 1px $color-white;
         border-left: 0;
         border-right: 0;
         background: transparent;
@@ -120,7 +120,7 @@ $sidenav-link-height: 40px;
     }
 
     &:hover .LabelWrapper {
-        @include hover-poke-through($color-border-white);
+        @include hover-poke-through($color-white);
         border: $color-border-gray 1px solid;
         border-left: 0;
         left: 28px;
