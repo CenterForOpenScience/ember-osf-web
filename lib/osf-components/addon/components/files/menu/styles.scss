@@ -27,10 +27,10 @@
 
     .close-button,
     .close-button:focus {
-        background-color: $color-bg-blue-dark;
+        background-color: $color-osf-primary;
 
         &:hover {
-            background-color: darken($color-bg-blue-dark, 10%);
+            background-color: darken($color-osf-primary, 10%);
         }
 
         svg {

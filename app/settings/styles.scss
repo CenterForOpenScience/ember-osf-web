@@ -70,10 +70,10 @@
                 }
 
                 :global(.active) {
-                    background-color: $color-bg-blue-dark;
+                    background-color: $color-osf-primary;
 
                     :hover {
-                        background-color: $color-bg-blue-dark;
+                        background-color: $color-osf-primary;
                     }
                 }
             }
