@@ -58,7 +58,7 @@
     padding-bottom: 30px;
     margin-bottom: 30px;
     color: inherit;
-    background-color: #eee;
+    background-color: $color-light;
 }
 
 .jumbotron h1,
@@ -180,7 +180,7 @@ output {
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control {
-    background-color: #eee;
+    background-color: $color-light;
     opacity: 1;
 }
 
@@ -324,7 +324,7 @@ fieldset[disabled] .form-control {
 .nav .open>a,
 .nav .open>a:focus,
 .nav .open>a:hover {
-    background-color: #eee;
+    background-color: $color-light;
     border-color: $color-dark-blue;
 }
 

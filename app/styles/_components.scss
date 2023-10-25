@@ -6,11 +6,11 @@
 
 /* Box shadow */
 .box-shadow-xs {
-    box-shadow: 0 0 3px 0 #eee;
+    box-shadow: 0 0 3px 0 $color-light;
 }
 
 .box-shadow-sm {
-    box-shadow: 0 0 6px 0 #eee;
+    box-shadow: 0 0 6px 0 $color-light;
 }
 
 .box-shadow-md {
@@ -79,7 +79,7 @@
 /* OSF BOX */
 
 .osf-box {
-    border: 1px solid #eee;
+    border: 1px solid $color-light;
     border-radius: 0;
     background-color: $color-white;
 }
@@ -105,7 +105,7 @@
     width: 100%;
     left: 0;
     top: 50px;
-    background-color: #eee;
+    background-color: $color-light;
     z-index: 99;
     box-shadow: 0 0 9px -1px #838383;
     border-radius: 0;
@@ -125,7 +125,7 @@
     }
 
     li>a:focus {
-        background-color: #eee;
+        background-color: $color-light;
     }
 
     .active>a:focus {
