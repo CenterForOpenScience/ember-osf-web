@@ -1,9 +1,5 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-$color-alert-bg-danger: #f2dede;
-$color-alert-border-danger: #ebccd1;
-$color-alert-text-danger: #a94442;
-
 $color-alert-bg-info: #d9edf7;
 $color-alert-border-info: #bce8f1;
 $color-alert-text-info: #31708f;
@@ -62,9 +58,8 @@ $color-border-light: #ddd;
         }
 
         &.preprint-status-rejected {
-            background-color: $color-alert-bg-danger;
-            border: 1px solid $color-alert-border-danger;
-            color: $color-alert-text-danger;
+            background-color: $brand-danger;
+            color: $color-white;
 
             .status-icon {
                 -webkit-text-stroke: 0;
