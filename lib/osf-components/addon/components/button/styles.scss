@@ -59,7 +59,7 @@
     color: $color-gray;
 
     &:hover:not([disabled]) {
-        border: 1px solid $color-bg-gray-blue;
+        border: 1px solid $color-gray-blue;
         background-color: $color-bg-gray-blue-light;
     }
 }
