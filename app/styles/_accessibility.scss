@@ -25,6 +25,13 @@
     line-height: 1.33333;
 }
 
+.btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
 .btn-primary {
     color: $color-text-white;
     background-color: $color-osf-primary;
