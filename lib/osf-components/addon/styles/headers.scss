@@ -4,31 +4,31 @@
 // in the application template
 :global(.RegistriesStyle) {
     h1 {
-        color: $color-text-gray-blue;
+        color: $color-gray-blue;
         font-size: 36px;
         font-weight: 400;
     }
 
     h2 {
-        color: $color-text-gray-blue;
+        color: $color-gray-blue;
         font-size: 24px;
         font-weight: 600;
     }
 
     h3 {
-        color: $color-text-gray-blue;
+        color: $color-gray-blue;
         font-size: 18px;
         font-weight: 700;
     }
 
     h4 {
-        color: $color-text-gray-blue;
+        color: $color-gray-blue;
         font-size: 15px;
         font-weight: 700;
     }
 
     p {
-        color: $color-text-gray-blue;
+        color: $color-gray-blue;
         font-size: 14px;
 
         &:global(.large) {
