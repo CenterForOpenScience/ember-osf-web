@@ -32,8 +32,7 @@
                         <OsfLink
                             data-test-submit-button
                             data-analytics-name='submit button'
-                            class='btn btn-success'
-                            local-class='btn-lg'
+                            class='btn btn-success btn-lg'
                             @href={{concat this.theme.pathPrefix 'submit'}}
                         >
                             {{t 'preprints.header.submit_label' documentType=this.theme.provider.content.documentType}}
@@ -140,8 +139,7 @@
                         <OsfLink
                             data-test-contact-link
                             data-analytics-name='Contact Email'
-                            local-class='btn-lg'
-                            class='btn btn-info'
+                            class='btn btn-info btn-lg'
                             @href={{this.supportEmail}}
                         >
                             {{t 'preprints.services.bottom.contact'}}
