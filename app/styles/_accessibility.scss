@@ -69,7 +69,7 @@
 }
 
 .btn-success {
-    color: $btn-success-high-contrast-color;
+    color: $color-white;
     background-color: $brand-success;
     border-color: darken($brand-success, 5%);
 
@@ -103,7 +103,7 @@
 }
 
 .btn-info {
-    color: $btn-info-high-contrast-color;
+    color: $color-white;
     background-color: $brand-info;
     border-color: darken($brand-info, 5%);
 
@@ -114,7 +114,7 @@
 }
 
 .btn-danger {
-    color: $btn-danger-high-contrast-color;
+    color: $color-white;
     background-color: $brand-danger;
     border-color: darken($brand-danger, 5%);
 
@@ -126,7 +126,7 @@
 
 .btn-danger.disabled,
 .btn-danger.disabled:hover {
-    color: $btn-danger-high-contrast-color;
+    color: $color-white;
     background-color: $brand-danger;
     border-color: lighten($brand-danger, 5%);
     opacity: 1;
