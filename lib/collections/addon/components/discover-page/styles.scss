@@ -204,25 +204,6 @@
     vertical-align: middle;
 }
 
-.btn-default {
-    background-color: $bg-light;
-    color: $color-gray;
-    border-color: $color-border-gray;
-}
-
-.btn-default:focus,
-.btn-default.focus {
-    color: $color-gray;
-    background-color: #e6e6e6;
-    border-color: #8c8c8c;
-}
-
-.btn-default:hover {
-    color: $color-gray;
-    background-color: #e6e6e6;
-    border-color: #adadad;
-}
-
 .text-center {
     text-align: center;
 }

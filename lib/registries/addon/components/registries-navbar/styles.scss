@@ -17,20 +17,6 @@
             color: $color-osf-secondary;
         }
     }
-
-    :global(.btn.btn-default) {
-        background-color: $color-gray-blue;
-        border: 0;
-
-        svg {
-            font-size: 20px;
-        }
-
-        &:hover,
-        &:focus {
-            outline: 0;
-        }
-    }
 }
 
 :global(.with-custom-branding) .Service.Dropdown {

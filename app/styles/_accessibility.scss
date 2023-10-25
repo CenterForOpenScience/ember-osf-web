@@ -50,6 +50,24 @@
     }    
 }
 
+.btn-default {
+    background-color: $bg-light;
+    color: $color-gray;
+    border-color: $color-border-gray;
+
+    &:focus {
+        color: $color-gray;
+        background-color: $color-light;
+        border-color: $color-gray-dark;
+    }
+
+    &:hover {
+        color: $color-gray;
+        background-color: $color-light;
+        border-color: $color-bg-gray;
+    }
+}
+
 .btn-success {
     color: $btn-success-high-contrast-color;
     background-color: $brand-success;
