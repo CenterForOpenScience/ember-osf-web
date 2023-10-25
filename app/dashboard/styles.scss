@@ -206,7 +206,7 @@
         align-items: center;
         background: $color-bg-gray-blue-dark;
         padding-top: 25px;
-        color: $color-text-white;
+        color: $color-white;
 
         .noteworthy-header-container {
             width: 50%;
@@ -268,7 +268,7 @@
     .preprint-container,
     .meeting-container {
         width: 100%;
-        color: $color-text-white;
+        color: $color-white;
 
         display: flex;
         flex-direction: row;
@@ -332,6 +332,6 @@
 
     .preprint-container {
         background: $color-bg-gray-blue-dark;
-        color: $color-text-white;
+        color: $color-white;
     }
 }

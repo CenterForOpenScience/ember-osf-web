@@ -16,7 +16,7 @@
     line-height: 1.42857;
     user-select: none;
     vertical-align: middle;
-    color: $color-text-white;
+    color: $color-white;
 }
 
 .btn-lg {
@@ -33,18 +33,18 @@
 }
 
 .btn-primary {
-    color: $color-text-white;
+    color: $color-white;
     background-color: $color-osf-primary;
     border-color: $color-osf-primary;
 
     &:focus {
-        color: $color-text-white;
+        color: $color-white;
         background-color: $color-link-dark;
         border-color: $color-blue;
     }
     
     &:hover {
-        color: $color-text-white;
+        color: $color-white;
         background-color: $color-link-dark;
         border-color: $color-bg-blue-darker;
     }    

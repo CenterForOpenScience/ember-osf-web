@@ -14,7 +14,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: $color-text-white;
+        color: $color-white;
         background: var(--hero-background-img-url);
 
         .preprint-author-container,
@@ -27,7 +27,7 @@
             justify-content: center;
 
             .view-authors {
-                color: $color-text-white;
+                color: $color-white;
                 padding-bottom: 15px;
 
                 a {

@@ -15,7 +15,7 @@
 .heading-wrapper-mobile {
     background-image: url('images/default-brand/bg-dark.jpg');
     background-color: $color-gray-blue;
-    color: $color-text-white;
+    color: $color-white;
     display: flex;
     flex-direction: column;
     padding: 0;
@@ -96,7 +96,7 @@
 .heading-wrapper {
     background-image: url('images/default-brand/bg-dark.jpg');
     background-color: $color-gray-blue;
-    color: $color-text-white;
+    color: $color-white;
     display: flex;
     align-items: center;
     padding: 35px;
@@ -136,7 +136,7 @@
     z-index: 1;
 
     p {
-        color: $color-text-white;
+        color: $color-white;
     }
 
     &::after {
@@ -262,7 +262,7 @@
 
 .search-help-tutorial {
     background-color: $color-gray-blue;
-    color: $color-text-white;
+    color: $color-white;
     width: 400px;
     max-width: 100%;
     z-index: 100;
@@ -285,7 +285,7 @@
     }
 
     h2 {
-        color: $color-text-white;
+        color: $color-white;
         font-weight: 400;
         height: 22px;
         margin-top: 0.5rem;
@@ -293,7 +293,7 @@
     }
 
     p {
-        color: $color-text-white;
+        color: $color-white;
         white-space: normal;
         margin: 25px 5px 0;
     }
@@ -305,7 +305,7 @@
     }
 
     .skip-button {
-        color: $color-text-white;
+        color: $color-white;
         overflow: visible;
     }
 

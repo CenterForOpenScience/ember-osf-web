@@ -7,7 +7,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: $color-text-white;
+    color: $color-white;
     background: var(--hero-background-img-url);
 
     .lead {
@@ -24,7 +24,7 @@
     }
 
     p {
-        color: $color-text-white;
+        color: $color-white;
     }
 
     .brand-container {

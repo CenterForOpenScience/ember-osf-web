@@ -13,7 +13,7 @@
     }
 
     a {
-        color: $color-text-white;
+        color: $color-white;
         display: block;
         padding: 3px 20px;
         line-height: 1.8;
@@ -43,7 +43,7 @@
 }
 
 .logout-link {
-    color: $color-text-white;
+    color: $color-white;
     font-size: 16px;
     padding: 3px 20px;
 }
@@ -51,7 +51,7 @@
 .logout-link:hover {
     background-color: $color-teal-light;
     width: 100%;
-    color: $color-text-white;
+    color: $color-white;
     text-align: inherit;
 }
 

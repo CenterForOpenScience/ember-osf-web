@@ -11,7 +11,7 @@
     line-height: $tall-line-height;
     border-radius: 2px;
     user-select: none;
-    color: $color-text-white;
+    color: $color-white;
 
     &:active {
         // TODO: color variable
@@ -39,7 +39,7 @@
 
 .PrimaryButton {
     background-color: var(--primary-color);
-    color: $color-text-white;
+    color: $color-white;
     font-weight: bold;
 
     &:hover:not([disabled]) {
@@ -66,7 +66,7 @@
 
 .CreateButton {
     background-color: darken($brand-success, 10%);
-    color: $color-text-white;
+    color: $color-white;
 
     &:hover:not([disabled]) {
         background-color: darken($brand-success, 25%);
@@ -79,7 +79,7 @@
 
 .DestroyButton {
     background-color: $brand-danger;
-    color: $color-text-white;
+    color: $color-white;
 
     &:hover:not([disabled]) {
         background-color: darken($brand-danger, 15%);

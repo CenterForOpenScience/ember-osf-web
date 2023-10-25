@@ -9,7 +9,7 @@
         border-radius: 50%;
         margin-right: 15px;
         outline: none;
-        color: $color-text-white;
+        color: $color-white;
 
         &:focus,
         &:active:focus {
@@ -48,7 +48,7 @@
     padding: 15px;
     border: 1px solid $color-border-gray;
     border-radius: 2px;
-    background-color: $color-text-white;
+    background-color: $color-white;
     background-size: cover;
     box-shadow: 0 0 15px $color-shadow-dark;
 

@@ -1,15 +1,15 @@
 :global(.new-feature-modal) {
     background-color: $color-bg-blue-darker !important;
-    color: $color-text-white;
+    color: $color-white;
     border-radius: 0 !important;
 
     :global(.ember-popover-inner) {
         background-color: $color-bg-blue-darker;
-        color: $color-text-white;
+        color: $color-white;
     }
 
     h3 {
-        color: $color-text-white;
+        color: $color-white;
     }
 
     :global(.ember-popover-arrow) {

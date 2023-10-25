@@ -20,7 +20,7 @@
         background-image: none;
         border: 1px solid transparent;
         border-radius: 4px;
-        color: $color-text-white;
+        color: $color-white;
     }
 
     .navbar-toggle:hover {
@@ -34,12 +34,12 @@
     #navbarScope {
         :global(.secondary-nav-dropdown) {
             a {
-                color: $color-text-white;
+                color: $color-white;
             }
         }
 
         :global(.btn-success) {
-            color: $color-text-white;
+            color: $color-white;
         }
     }
     /* stylelint-enable */
@@ -121,7 +121,7 @@
     &.light-text {
         a:not(:global(.btn-top-signup)),
         :global(.secondary-nav-dropdown) {
-            color: $color-text-white !important;
+            color: $color-white !important;
         }
     }
 

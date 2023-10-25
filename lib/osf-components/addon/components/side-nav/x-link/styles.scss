@@ -155,7 +155,7 @@ $sidenav-link-height: 40px;
 
     // Hides Expand/Collapse when not being hovered over
     &:not(:hover) h4 {
-        color: $color-text-white;
+        color: $color-white;
     }
 
     &:hover .LabelWrapper::before {

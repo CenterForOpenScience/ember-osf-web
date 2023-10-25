@@ -35,7 +35,7 @@
                 margin-bottom: 20px;
                 font-weight: 300;
                 line-height: 1.4;
-                color: $color-text-white;
+                color: $color-white;
         
                 width: 100%;
                 display: flex;
@@ -88,7 +88,7 @@
     /* Preprint providers and become provider */
     .preprint-tool-container {
         background: var(--hero-background-img-url);
-        color: $color-text-white;
+        color: $color-white;
         text-shadow: 0 0 5px $color-gray-blue-dark;
         background-size: cover;
         padding: 15px 0;
@@ -145,7 +145,7 @@
                     text-align: center;
 
                     .links {
-                        color: $color-text-white;
+                        color: $color-white;
                         text-decoration: underline;
                     }
                 }
