@@ -15,7 +15,8 @@
                         <OsfLink
                             data-test-edit-preprint-button
                             data-analytics-name='Edit preprint button'
-                            local-class='btn btn-primary'
+                            class='btn'
+                            local-class='btn-primary'
                             @href={{concat this.theme.pathPrefix this.model.preprint.id '/edit'}}
                         >
                             {{this.editButtonLabel}}
@@ -110,7 +111,8 @@
                             <OsfLink
                                 data-test-download-button
                                 data-analytics-name='downloads'
-                                local-class='btn btn-primary'
+                                class='btn'
+                                local-class='btn-primary'
                                 @href={{ this.fileDownloadUrl }} 
                             >
                                 {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}

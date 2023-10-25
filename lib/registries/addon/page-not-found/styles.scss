@@ -13,24 +13,3 @@
 .m-t-md {
     margin-top: 15px;
 }
-
-.btn {
-    color: $color-text-white;
-    background-color: $color-osf-primary;
-    border-color: $color-osf-primary;
-    display: inline-block;
-    margin-bottom: 0;
-    font-weight: normal;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    touch-action: manipulation;
-    cursor: pointer;
-    background-image: none;
-    border: 1px solid transparent;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: $tall-line-height;
-    border-radius: 2px;
-    user-select: none;
-}
