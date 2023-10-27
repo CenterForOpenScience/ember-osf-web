@@ -126,7 +126,7 @@
 .open-badges {
     width: 20%;
     border-left-width: thin;
-    border-left-color: $color-bg-gray-light;
+    border-left-color: $color-gray-light;
     border-left-style: solid;
     padding-left: 10px;
 
@@ -146,7 +146,7 @@
 }
 
 .dropdown-list.dropdown-list {
-    background-color: $color-bg-gray-light;
+    background-color: $color-gray-light;
     min-width: 180px;
 
     ul {
@@ -161,7 +161,7 @@
     .dropdown-link {
         color: $color-black;
         border-color: transparent;
-        background-color: $color-bg-gray-light;
+        background-color: $color-gray-light;
         min-width: 180px;
         text-align: left;
         padding: 3px 20px;
