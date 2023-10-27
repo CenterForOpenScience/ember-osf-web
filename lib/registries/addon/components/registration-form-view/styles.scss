@@ -6,12 +6,12 @@
     }
 
     .ToggleNav__button:global(.btn.btn-link) {
-        border: 1px solid $color-border-gray;
+        border: 1px solid $color-gray-light;
         border-radius: 2px;
         background-color: $color-white;
 
         &:hover {
-            background-color: $color-border-gray;
+            background-color: $color-gray-light;
         }
     }
 }
@@ -28,7 +28,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    border-bottom: 1px solid $color-border-gray;
+    border-bottom: 1px solid $color-gray-light;
 }
 
 .HeaderText {
@@ -91,7 +91,7 @@
 
     &:not(:last-child) {
         padding-bottom: 10px;
-        border-bottom: 1px solid $color-border-gray;
+        border-bottom: 1px solid $color-gray-light;
     }
 
     a:not(:last-child) {

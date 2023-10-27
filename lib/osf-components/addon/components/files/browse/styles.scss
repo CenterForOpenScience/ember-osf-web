@@ -4,15 +4,15 @@
     width: 100%;
     padding: 8px 15px;
     font-weight: 700;
-    border-bottom: 1px solid $color-border-gray;
+    border-bottom: 1px solid $color-gray-light;
 }
 
 .current-folder {
-    border-bottom: 1px solid $color-border-gray;
+    border-bottom: 1px solid $color-gray-light;
 }
 
 .file-browser-list {
-    border: 1px solid $color-border-gray;
+    border: 1px solid $color-gray-light;
 
     :global(.animated-container) {
         overflow: hidden;
@@ -25,7 +25,7 @@
 
     .uploading {
         padding: 15px;
-        border-bottom: 1px solid $color-border-gray;
+        border-bottom: 1px solid $color-gray-light;
     }
 }
 

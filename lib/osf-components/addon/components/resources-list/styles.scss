@@ -3,21 +3,21 @@
     padding: 0;
 
     > li:last-of-type {
-        border-bottom: solid 1px $color-border-gray;
+        border-bottom: solid 1px $color-gray-light;
     }
 }
 
 .ResourceItem {
     list-style: none;
     padding: 12px 0;
-    border-top: solid 1px $color-border-gray;
+    border-top: solid 1px $color-gray-light;
     min-height: 60px;
 }
 
 
 .EmptyList {
     padding: 12px 0;
-    border-top: solid 1px $color-border-gray;
+    border-top: solid 1px $color-gray-light;
 }
 
 .AddResourceHeading {

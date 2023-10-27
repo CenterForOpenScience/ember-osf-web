@@ -2,7 +2,7 @@
     min-width: 40vw;
 
     :global(.cp-Panel) {
-        border: 1px solid $color-border-gray;
+        border: 1px solid $color-gray-light;
 
         &:not(:last-of-type) {
             border-bottom: 0;

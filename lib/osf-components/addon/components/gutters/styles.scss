@@ -10,7 +10,7 @@
         $border-side: 'right';
     }
 
-    border-#{$border-side}: $color-border-gray 1px solid;
+    border-#{$border-side}: $color-gray-light 1px solid;
     background: $color-white;
 
     // Animate Everything

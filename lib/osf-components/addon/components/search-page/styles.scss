@@ -155,7 +155,7 @@
 .institutions-overlay {
     background-color: $color-bg-gray-blue-light;
     background-image: none;
-    border-bottom: solid 1px $color-border-gray;
+    border-bottom: solid 1px $color-gray-light;
     color: $color-gray;
     display: flex;
     flex-direction: column;
@@ -416,7 +416,7 @@
     width: 340px;
 
     .left-panel-header {
-        border-bottom: 1px solid $color-border-gray;
+        border-bottom: 1px solid $color-gray-light;
         font-weight: 300;
         margin: 1rem 0;
         padding: 0 0 1.5rem;

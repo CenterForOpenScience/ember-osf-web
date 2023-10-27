@@ -40,12 +40,12 @@
     padding: 20px 20px 0;
 
     > li:last-of-type {
-        border-bottom: solid 1px $color-border-gray;
+        border-bottom: solid 1px $color-gray-light;
     }
 }
 
 .ChildItem {
-    border-top: solid 1px $color-border-gray;
+    border-top: solid 1px $color-gray-light;
     padding: 12px 10px;
 }
 

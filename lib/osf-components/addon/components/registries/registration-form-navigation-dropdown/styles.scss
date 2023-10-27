@@ -10,12 +10,12 @@
     }
 
     .ToggleNav__button:global(.btn.btn-link) {
-        border: 1px solid $color-border-gray;
+        border: 1px solid $color-gray-light;
         border-radius: 2px;
         background-color: $color-white;
 
         &:hover {
-            background-color: $color-border-gray;
+            background-color: $color-gray-light;
         }
     }
 }
@@ -31,7 +31,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    border-bottom: 1px solid $color-border-gray;
+    border-bottom: 1px solid $color-gray-light;
 }
 
 .HeaderText {
@@ -80,7 +80,7 @@
 .page-heading {
     font-weight: 800;
     font-size: 14px;
-    border-top: 1px solid $color-border-gray;
+    border-top: 1px solid $color-gray-light;
     list-style-type: none;
 
     &:first-child {

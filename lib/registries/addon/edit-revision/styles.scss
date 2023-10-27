@@ -63,7 +63,7 @@
     text-align: center;
     z-index: 1;
     background: $color-white;
-    border-bottom: 1px solid $color-border-gray;
+    border-bottom: 1px solid $color-gray-light;
 
     & > * {
         margin-bottom: 15px;
@@ -82,7 +82,7 @@
 }
 
 .BackButton {
-    border: 1px solid $color-border-gray;
+    border: 1px solid $color-gray-light;
     border-radius: 2px;
     font-weight: 600;
 

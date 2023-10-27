@@ -1,5 +1,5 @@
 .Container {
-    border: 1px solid $color-border-gray;
+    border: 1px solid $color-gray-light;
     margin-top: 10px;
     overflow-y: scroll;
     max-height: 500px;
@@ -10,7 +10,7 @@
     height: 40px;
     font-weight: bold;
     display: flex;
-    border-bottom: 1px solid $color-border-gray;
+    border-bottom: 1px solid $color-gray-light;
     background-color: $color-white;
     position: sticky;
     top: 0;

@@ -12,8 +12,8 @@
 
     &.CurrentPage {
         color: $color-gray;
-        box-shadow: -2px 1px 5px -2px $color-border-gray;
-        border: $color-border-gray 1px solid;
+        box-shadow: -2px 1px 5px -2px $color-gray-light;
+        border: $color-gray-light 1px solid;
         border-right: 0;
         background: $color-white;
         width: $width-expanded + 1px;

@@ -121,7 +121,7 @@ $sidenav-link-height: 40px;
 
     &:hover .LabelWrapper {
         @include hover-poke-through($color-white);
-        border: $color-border-gray 1px solid;
+        border: $color-gray-light 1px solid;
         border-left: 0;
         left: 28px;
         padding-right: 0;
