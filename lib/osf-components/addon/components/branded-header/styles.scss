@@ -36,6 +36,7 @@
         margin-top: 25px;
 
 
+
         .brand {
             height: 70px;
             width: 100%;
@@ -44,7 +45,13 @@
                 background: var(--hero-logo-img-url) top center no-repeat;
                 background-size: contain;
             }
+
+            &.brand-logo {
+                background: var(--hero-logo-img-url) top center no-repeat;
+                background-size: contain;
+            }
         }
+
 
     }
 
@@ -118,6 +125,14 @@
     &.mobile {
         padding: 30px 10px;
 
+        .search-container {
+            width: 100%;
+
+            .form {
+                margin: 0;
+            }
+        }
+        
         .search-container {
             width: 100%;
 

@@ -327,6 +327,31 @@
     }
 }
 
+.search-help-tutorial {
+    background-color: $osf-dark-blue-navbar;
+    color: $color-text-white;
+    width: 400px;
+    max-width: 100%;
+    z-index: 100;
+
+    // prevent target element styles from dictating popover text-styles
+    white-space: wrap;
+    text-align: initial;
+
+    .enumeration {
+        float: left;
+    }
+    
+    .help-button-wrappers {
+        float: right;
+    }
+
+    .skip-button {
+        color: $color-text-white;
+    }
+}
+
+
 .object-type-filter-link {
     font-size: 1.3em;
     padding: 18px 15px;

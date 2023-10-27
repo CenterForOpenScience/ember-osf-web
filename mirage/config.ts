@@ -38,6 +38,7 @@ import { createSchemaResponseAction } from './views/schema-response-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { cardSearch, valueSearch } from './views/search';
+import { cardSearch, valueSearch } from './views/search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import {
@@ -66,6 +67,9 @@ export default function(this: Server) {
     this.get('/index-card-search', cardSearch);
     this.get('/index-value-search', valueSearch);
     // this.get('/index-card/:id', Detail);
+    this.get('/index-card-searches', cardSearch);
+    this.get('/index-value-searches', valueSearch);
+    // this.get('/index-cards/:id', Detail);
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
