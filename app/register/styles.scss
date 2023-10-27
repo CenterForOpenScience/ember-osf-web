@@ -41,7 +41,7 @@
     &:hover {
         text-decoration: none;
         color: $color-gray;
-        background-image: linear-gradient(to bottom, $color-bg-gray-lighter 0, $color-bg-gray-dark 100%);
+        background-image: linear-gradient(to bottom, $color-gray-light 0, $color-bg-gray-dark 100%);
     }
 }
 
@@ -72,7 +72,7 @@
 
     &::before {
         content: '';
-        background: linear-gradient(to right, transparent, $color-gray, $color-bg-gray-lighter);
+        background: linear-gradient(to right, transparent, $color-gray, $color-gray-light);
         position: absolute;
         left: 0;
         top: 50%;
