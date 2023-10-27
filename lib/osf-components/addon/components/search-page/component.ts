@@ -144,17 +144,6 @@ export default class SearchPage extends Component<SearchArgs> {
         return this.resourceTypeOptions.find(option => option.value === this.resourceType);
     }
 
-<<<<<<< HEAD
-    get showResultCountMiddle() {
-        return this.totalResultCount && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
-    }
-
-    get showResultCountLeft() {
-        return this.totalResultCount && (this.args.showResourceTypeFilter || this.showSidePanelToggle);
-    }
-
-=======
->>>>>>> 198df048d (Group CR feedback re: search-page component arguments)
     get showResultCountMiddle() {
         return this.totalResultCount && !this.args.showResourceTypeFilter && !this.showSidePanelToggle;
     }
