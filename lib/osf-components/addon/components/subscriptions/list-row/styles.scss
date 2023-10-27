@@ -3,12 +3,12 @@
     align-items: center;
     justify-content: space-between;
     height: 45px;
-    border-top: 1px solid $color-bg-gray-dark;
+    border-top: 1px solid $color-gray-light;
 }
 
 li:last-of-type {
     .subscription-row {
-        border-bottom: 1px solid $color-bg-gray-dark;
+        border-bottom: 1px solid $color-gray-light;
     }
 }
 

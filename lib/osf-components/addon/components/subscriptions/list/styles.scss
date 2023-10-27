@@ -11,7 +11,7 @@
     justify-content: space-between;
     width: 75%;
     height: 45px;
-    border-top: 1px solid $color-bg-gray-dark;
+    border-top: 1px solid $color-gray-light;
 
     &:global(.ember-content-placeholders-text) {
         margin-top: 0 !important;
@@ -22,6 +22,6 @@
     }
 
     &:last-of-type {
-        border-bottom: 1px solid $color-bg-gray-dark;
+        border-bottom: 1px solid $color-gray-light;
     }
 }

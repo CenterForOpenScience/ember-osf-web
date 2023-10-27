@@ -9,9 +9,9 @@
 }
 
 .list-container {
-    border-bottom: 1px solid $color-bg-gray-dark;
+    border-bottom: 1px solid $color-gray-light;
 
     div:not(:first-of-type) {
-        border-top: 1px solid $color-bg-gray-dark;
+        border-top: 1px solid $color-gray-light;
     }
 }
