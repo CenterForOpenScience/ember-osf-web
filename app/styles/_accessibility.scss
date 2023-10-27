@@ -39,13 +39,13 @@
 
     &:focus {
         color: $color-white;
-        background-color: $color-link-dark;
+        background-color: $color-osf-primary;
         border-color: $color-blue;
     }
     
     &:hover {
         color: $color-white;
-        background-color: $color-link-dark;
+        background-color: $color-osf-primary;
         border-color: $color-blue;
     }    
 }

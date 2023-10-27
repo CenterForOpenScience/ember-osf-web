@@ -173,7 +173,7 @@
 
     .provider-description {
         a {
-            color: $color-link-dark;
+            color: $color-osf-primary;
         }
     }
 }
@@ -355,7 +355,7 @@
 .object-type-filter-link {
     font-size: 1.3em;
     padding: 18px 15px;
-    color: $color-link-dark;
+    color: $color-osf-primary;
 
     &:global(.active),
     &:hover {
@@ -371,7 +371,7 @@
     align-self: flex-end;
     padding-bottom: 10px;
     margin-left: 10px;
-    color: $color-link-dark;
+    color: $color-osf-primary;
 
     p {
         margin: 0 0 0 2px;

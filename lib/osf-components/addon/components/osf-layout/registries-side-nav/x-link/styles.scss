@@ -30,7 +30,7 @@
     }
 
     &:hover {
-        background: $color-link-dark !important; // !important needed to override bootstrap .btn properties
+        background: $color-osf-primary !important; // !important needed to override bootstrap .btn properties
         color: $color-white !important; // !important needed to override bootstrap .btn properties
         text-decoration: none !important; // !important needed to override bootstrap .btn properties
         width: max-content;
