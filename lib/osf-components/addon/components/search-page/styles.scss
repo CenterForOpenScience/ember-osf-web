@@ -236,7 +236,7 @@
 
             &.active,
             &:hover {
-                background-color: $$color-gray-light;
+                background-color: $color-gray-light;
             }
         }
 
@@ -328,8 +328,8 @@
 }
 
 .search-help-tutorial {
-    background-color: $osf-dark-blue-navbar;
-    color: $color-text-white;
+    background-color: $color-gray-blue-dark;
+    color: $color-white;
     width: 400px;
     max-width: 100%;
     z-index: 100;
@@ -347,7 +347,7 @@
     }
 
     .skip-button {
-        color: $color-text-white;
+        color: $color-white;
     }
 }
 
