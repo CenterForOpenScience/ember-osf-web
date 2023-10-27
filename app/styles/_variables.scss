@@ -35,16 +35,6 @@ $color-white: #fff;
 $color-blue: #204762;
 $color-pure-blue: #00f;
 $color-hover: #e0ebf3;
-$color-gray-light: #d9d9d9;
-$color-gray: #868686;
-$color-gray-dark: #333;
-$color-red: #f00;
-$color-yellow: #ff0;
-$color-turquoise: rgb(64, 224, 211);
-$color-purple: rgb(154, 0, 192);
-$color-black: #000;
-$color-teal: #2e6a74;
-$color-teal-light: #5a8288;
 $color-gray-blue: #548288;
 $color-gray-blue-dark: #365062;
 $color-text-blue-light: #adcce6;
@@ -53,6 +43,20 @@ $color-link-blue: #80c2f7;
 
 $color-osf-primary: #337ab7;
 $color-osf-secondary: #15a5eb;
+
+$color-gray-light: #d9d9d9;
+$color-gray: #868686;
+$color-gray-dark: #333;
+$color-black: #000;
+
+$color-red: #f00;
+$color-yellow: #ff0;
+$color-turquoise: rgb(64, 224, 211);
+$color-purple: rgb(154, 0, 192);
+
+$color-teal: #2e6a74;
+$color-teal-light: #5a8288;
+
 
 /* overrides with darkened colors for a11y contrast */
 $brand-success: darken($brand-success, 10%);
@@ -64,7 +68,6 @@ $brand-danger: darken($brand-danger, 15%);
 // Internal variables
 // Color variations ordered darkest to lightest within each section.
 
-$color-bg-gray-blue-light: #ecf0f1;
 $color-bg-blue-darker: #214661;
 $color-bg-blue-light: #def;
 $color-bg-white-transparent: rgba(255, 255, 255, 0.49);

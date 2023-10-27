@@ -1,11 +1,11 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors, selector-no-qualifying-type
 
 .search-page {
-    background: $color-bg-gray-blue-light;
+    background: $color-gray-light;
 }
 
 .search-page-mobile {
-    background: $color-bg-gray-blue-light;
+    background: $color-gray-light;
 
     > div:first-of-type {
         margin-left: 0;
@@ -153,7 +153,7 @@
 }
 
 .institutions-overlay {
-    background-color: $color-bg-gray-blue-light;
+    background-color: $color-gray-light;
     background-image: none;
     border-bottom: solid 1px $color-gray-light;
     color: $color-gray;
@@ -367,7 +367,7 @@
 }
 
 .sort-dropdown {
-    background-color: $color-bg-gray-blue-light;
+    background-color: $color-gray-light;
     align-self: flex-end;
     padding-bottom: 10px;
     margin-left: 10px;
@@ -378,7 +378,7 @@
     }
 
     div {
-        background-color: $color-bg-gray-blue-light;
+        background-color: $color-gray-light;
         border: 0 solid transparent;
         width: 170px;
     }
@@ -409,7 +409,7 @@
 }
 
 .left-panel {
-    background-color: $color-bg-gray-blue-light;
+    background-color: $color-gray-light;
     margin-bottom: 0;
     min-width: 300px;
     padding: 2rem 12px;
