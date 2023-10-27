@@ -30,6 +30,9 @@ $brand-danger: #d9534f;
  * OSF Color Palette
  */
 
+$color-osf-primary: #337ab7;
+$color-osf-secondary: #15a5eb;
+
 $color-white: #fff;
 
 $color-blue: #204762;
@@ -40,9 +43,9 @@ $color-gray-blue-dark: #365062;
 $color-text-blue-light: #adcce6;
 $color-link-dark: #2d6a9f;
 $color-link-blue: #80c2f7;
+$color-bg-blue-darker: #214661;
+$color-bg-blue-light: #def;
 
-$color-osf-primary: #337ab7;
-$color-osf-secondary: #15a5eb;
 
 $color-gray-light: #d9d9d9;
 $color-gray: #868686;
@@ -68,13 +71,8 @@ $brand-danger: darken($brand-danger, 15%);
 // Internal variables
 // Color variations ordered darkest to lightest within each section.
 
-$color-bg-blue-darker: #214661;
-$color-bg-blue-light: #def;
 $color-bg-white-transparent: rgba(255, 255, 255, 0.49);
-
 $color-shadow-dark: rgba(0, 0, 0, 0.2);
-
-$primary-box-shadow: rgba(0, 0, 0, 0.2);
 
 $progress-bar-bg-bright: (primary: #428bca,
 info: $brand-info,
