@@ -1,7 +1,7 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 .tagInput {
     :global(.emberTagInput-tag) {
-        background: $color-bg-blue-light;
+        background: $color-blue-light;
         border-radius: 0;
         color: $color-gray;
         cursor: pointer;
