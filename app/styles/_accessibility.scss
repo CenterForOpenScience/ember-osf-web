@@ -57,13 +57,13 @@
 
     &:focus {
         color: $color-gray;
-        background-color: $color-light;
+        background-color: $color-gray-light;
         border-color: $color-gray-dark;
     }
 
     &:hover {
         color: $color-gray;
-        background-color: $color-light;
+        background-color: $color-gray-light;
         border-color: $$color-gray-light;
     }
 }

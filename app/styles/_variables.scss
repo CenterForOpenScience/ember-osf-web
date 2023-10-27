@@ -35,7 +35,6 @@ $color-white: #fff;
 $color-blue: #204762;
 $color-pure-blue: #00f;
 $color-hover: #e0ebf3;
-$color-light: #eee;
 $color-gray-light: #d9d9d9;
 $color-gray: #868686;
 $color-gray-dark: #333;
@@ -83,7 +82,7 @@ danger: $brand-danger,
 
 
 .bg-color-light {
-    background-color: $color-light;
+    background-color: $color-gray-light;
 }
 
 /*
