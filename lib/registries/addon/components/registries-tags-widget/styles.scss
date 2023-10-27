@@ -19,11 +19,11 @@
 
     &:hover {
         background: var(--primary-color);
-        color: $color-text-gray-cool;
+        color: $color-gray-dark-cool;
 
         > a,
         > button {
-            color: $color-text-gray-cool;
+            color: $color-gray-dark-cool;
         }
     }
 }

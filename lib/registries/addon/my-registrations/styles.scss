@@ -41,14 +41,14 @@
 
         &:hover {
             border: none;
-            color: $color-text-gray;
+            color: $color-gray-dark;
             background-color: #e4e4e4;
         }
     }
 
     :global(.ember-tabs__tab--selected) {
         border: none;
-        color: $color-text-gray;
+        color: $color-gray-dark;
         background-color: #e4e4e4;
 
         &:focus {
