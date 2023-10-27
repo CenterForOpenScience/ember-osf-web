@@ -14,7 +14,7 @@
         align-items: center;
         width: 100%;
 
-        background: $color-bg-blue-darker;
+        background: $color-blue;
         background-position-y: -50px;
         padding-bottom: 30px;
         border-bottom: 1px solid $color-gray-light;
@@ -152,7 +152,7 @@
     .footer-container {
         padding-top: 40px;
         padding-bottom: 20px;
-        background: $color-bg-blue-darker;
+        background: $color-blue;
         color: $color-white;
         display: flex;
         flex-direction: column;
