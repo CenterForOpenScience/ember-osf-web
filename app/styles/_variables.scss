@@ -36,9 +36,9 @@ $color-blue: #204762;
 $color-pure-blue: #00f;
 $color-hover: #e0ebf3;
 $color-light: #eee;
-$color-gray: #333;
-$color-gray-dark: #888;
-$color-gray-light: #ccc;
+$color-gray-light: #d9d9d9;
+$color-gray: #868686;
+$color-gray-dark: #333;
 $color-red: #f00;
 $color-yellow: #ff0;
 $color-turquoise: rgb(64, 224, 211);
@@ -62,7 +62,6 @@ $brand-danger: darken($brand-danger, 15%);
 // Internal variables
 // Color variations ordered darkest to lightest within each section.
 
-$color-border-gray-darker: #ababab;
 $color-border-gray: #ddd;
 
 $color-text-gray: #555;

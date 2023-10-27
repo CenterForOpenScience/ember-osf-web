@@ -32,7 +32,7 @@
     width: 150px;
     text-decoration: none;
     background-image: linear-gradient(to bottom, $color-white 0, $color-bg-gray 100%);
-    border: 1px solid $color-border-gray-darker;
+    border: 1px solid $color-gray;
     color: $color-gray;
     border-radius: 4px;
     padding: 0;
@@ -47,7 +47,7 @@
 
 .sign-up-button__logo {
     flex: 0 0 45px;
-    border-right: 1px solid $color-border-gray-darker;
+    border-right: 1px solid $color-gray;
     padding: 6px;
     height: 44px;
     width: 45px;
