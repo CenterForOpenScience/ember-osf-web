@@ -57,7 +57,7 @@ export default class FileModel extends BaseFileItem {
     @hasMany('comment', { inverse: null })
     comments!: AsyncHasMany<CommentModel>;
 
-    @belongsTo('osf-model', { inverse: null, polymorphic: true })
+    @belongsTo('osf-model', { polymorphic: true })
     // eslint-disable-next-line max-len
     target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<PreprintModel> & PreprintModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
 
