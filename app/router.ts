@@ -72,6 +72,14 @@ Router.map(function() {
         this.route('drafts', { path: '/drafts/:draftId' }, function() {
             this.route('register');
         });
+        this.route('addons', function() {
+            this.route('addon', { path: '/:addonId' }, function() {
+                this.route('terms');
+                this.route('account');
+                this.route('confirm');
+                this.route('configure');
+            });
+        });
     });
 
     this.route('guid-preprint', { path: '--preprint/:guid' });
