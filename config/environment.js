@@ -29,6 +29,7 @@ const {
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     WATER_BUTLER_ENABLED = true,
+    ANALYTICS_ENABLED = true,
     MIRAGE_ENABLED = false,
     MIRAGE_SCENARIOS = [
         'loggedIn',
@@ -73,6 +74,7 @@ module.exports = function(environment) {
     const ENV = {
         modulePrefix: 'ember-osf-web',
         WATER_BUTLER_ENABLED,
+        ANALYTICS_ENABLED,
         plauditWidgetUrl,
         environment,
         lintOnBuild,

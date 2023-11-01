@@ -19,6 +19,7 @@ import Ready from 'ember-osf-web/services/ready';
 
 const {
     metricsAdapters,
+    ANALYTICS_ENABLED,
     OSF: {
         analyticsAttrs,
         apiUrl,
@@ -321,14 +322,16 @@ export default class Analytics extends Service {
     }
 
     async _sendCountedUsage(payload: object) {
-        await this.currentUser.authenticatedAJAX({
-            method: 'POST',
-            url: `${apiUrl}/_/metrics/events/counted_usage/`,
-            data: JSON.stringify(payload),
-            headers: {
-                'Content-Type': 'application/vnd.api+json',
-            },
-        });
+        if (ANALYTICS_ENABLED) {
+            await this.currentUser.authenticatedAJAX({
+                method: 'POST',
+                url: `${apiUrl}/_/metrics/events/counted_usage/`,
+                data: JSON.stringify(payload),
+                headers: {
+                    'Content-Type': 'application/vnd.api+json',
+                },
+            });
+        }
     }
 
     _getPageviewPayload() {
