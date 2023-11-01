@@ -29,6 +29,7 @@ export default class PreprintsDetail extends Route {
             const guid = params.guid;
 
             const preprint = await this.store.findRecord('preprint', guid, {
+                include: ['bibliographicContributors'],
                 adapterOptions: {
                     query: {
                         'metrics[views]': 'total',

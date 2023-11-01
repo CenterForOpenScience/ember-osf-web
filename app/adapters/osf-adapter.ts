@@ -11,7 +11,6 @@ import Session from 'ember-simple-auth/services/session';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 const {
-    ANALYTICS_ENABLED,
     OSF: {
         apiUrl: host,
         apiNamespace: namespace,
@@ -75,10 +74,7 @@ export default class OsfAdapter extends JSONAPIAdapter {
      * @method buildQuery
      */
     buildQuery(snapshot: DS.Snapshot): object {
-        let adapterOptionsQuery = {} as AdapterOptions;
-        if (ANALYTICS_ENABLED) {
-            adapterOptionsQuery = (snapshot.adapterOptions || {}) as AdapterOptions;
-        }
+        const { query: adapterOptionsQuery = {} } = (snapshot.adapterOptions || {}) as AdapterOptions;
 
         const { viewOnlyToken } = this.currentUser;
 
