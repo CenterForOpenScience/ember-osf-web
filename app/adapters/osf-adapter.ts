@@ -75,8 +75,10 @@ export default class OsfAdapter extends JSONAPIAdapter {
      * @method buildQuery
      */
     buildQuery(snapshot: DS.Snapshot): object {
-        const { query: adapterOptionsQuery = {} } = ANALYTICS_ENABLED ?
-         (snapshot.adapterOptions || {}) as AdapterOptions : {} as AdapterOptions;
+        let adapterOptionsQuery = {} as AdapterOptions;
+        if (ANALYTICS_ENABLED) {
+            adapterOptionsQuery = (snapshot.adapterOptions || {}) as AdapterOptions;
+        }
 
         const { viewOnlyToken } = this.currentUser;
 
