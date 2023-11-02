@@ -13,11 +13,13 @@ export interface MirageNode extends Node {
     regionId: string | number;
     lastLogged: Date | string;
     _anonymized: boolean;
+    boaEnabled: boolean;
 }
 
 export interface NodeTraits {
     anonymized: Trait;
     currentUserAdmin: Trait;
+    hasBoaEnabled: Trait;
     withContributors: Trait;
     withRegistrations: Trait;
     withDraftRegistrations: Trait;
@@ -72,6 +74,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
     public: true,
     tags: faker.lorem.words(5).split(' '),
     _anonymized: false,
+    boaEnabled: false,
 
     withContributors: trait<MirageNode>({
         afterCreate(node, server) {
@@ -185,6 +188,9 @@ export default Factory.extend<MirageNode & NodeTraits>({
 
     anonymized: trait<MirageNode>({
         _anonymized: true,
+    }),
+    hasBoaEnabled: trait<MirageNode>({
+        boaEnabled: true,
     }),
 });
 
