@@ -48,6 +48,6 @@ export default class FileActionsMenu extends Component<Args> {
     }
 
     get isBoaEnabled() {
-        return this.args.addonsEnabled.includes('boa');
+        return this.args.addonsEnabled?.includes('boa');
     }
 }

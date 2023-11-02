@@ -4,10 +4,10 @@ import { computed } from '@ember/object';
 import { alias, bool, equal, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
+import { tracked } from '@glimmer/tracking';
 import { buildValidations, validator } from 'ember-cp-validations';
 import Intl from 'ember-intl/services/intl';
 
-import fetch from 'fetch';
 import config from 'ember-osf-web/config/environment';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
@@ -119,7 +119,10 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @attr('boolean') preprint!: boolean;
     @attr('boolean') currentUserCanComment!: boolean;
     @attr('boolean') wikiEnabled!: boolean;
-    @attr('fixstringarray') addonsEnabled!: string[];
+
+    // FE-only property to check enabled addons.
+    // null until getEnabledAddons has been called
+    @tracked addonsEnabled?: string[];
 
     @hasMany('contributor', { inverse: 'node' })
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel[];
@@ -333,8 +336,8 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
         if (response.status === 200) {
             const addons = await response.json();
             const addonList = addons.data
-                .filter(addon => addon.attributes.node_has_auth)
-                .map(addon => addon.id);
+                .filter((addon: any) => addon.attributes.node_has_auth)
+                .map((addon: any) => addon.id);
             this.set('addonsEnabled', addonList);
         }
     }
