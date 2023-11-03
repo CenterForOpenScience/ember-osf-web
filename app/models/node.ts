@@ -332,7 +332,14 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @waitFor
     async getEnabledAddons() {
         const endpoint = `${apiUrl}/${apiNamespace}/nodes/${this.id}/addons/`;
-        const response = await fetch(endpoint);
+        const response = await this.currentUser.authenticatedAJAX({
+            url: endpoint,
+            type: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            xhrFields: { withCredentials: true },
+        });
         if (response.status === 200) {
             const addons = await response.json();
             const addonList = addons.data
