@@ -24,7 +24,7 @@
         </Button>
         <Button
             @type='primary'
-            disabled={{this.confirmSubmitToBoa.isRunning}}
+            disabled={{or this.confirmSubmitToBoa.isRunning (not this.selectedDataset)}}
             {{on 'click' (perform this.confirmSubmitToBoa)}}
         >
             {{t 'osf-components.file-browser.confirm_submit_to_boa_yes'}}
