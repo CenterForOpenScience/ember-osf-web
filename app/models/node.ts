@@ -340,9 +340,8 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
             },
             xhrFields: { withCredentials: true },
         });
-        if (response.status === 200) {
-            const addons = await response.json();
-            const addonList = addons.data
+        if (response.data) {
+            const addonList = response.data
                 .filter((addon: any) => addon.attributes.node_has_auth)
                 .map((addon: any) => addon.id);
             this.set('addonsEnabled', addonList);

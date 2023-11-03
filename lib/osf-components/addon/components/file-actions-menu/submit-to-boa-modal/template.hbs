@@ -23,7 +23,7 @@
             {{t 'general.cancel'}}
         </Button>
         <Button
-            @type='destroy'
+            @type='primary'
             disabled={{this.confirmSubmitToBoa.isRunning}}
             {{on 'click' (perform this.confirmSubmitToBoa)}}
         >
