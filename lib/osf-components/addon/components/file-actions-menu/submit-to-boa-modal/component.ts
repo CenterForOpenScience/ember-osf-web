@@ -56,6 +56,8 @@ export default class SubmitToBoaModal extends Component<Args> {
             const parentFolder = await fileModel.get('parentFolder');
             const grandparentFolder = await parentFolder.get('parentFolder');
             const endpoint = config.OSF.url + 'api/v1/project/' + fileModel.target.get('id') + '/boa/submit-job/';
+            const uploadLink = new URL(parentFolder.get('links').upload as string);
+            uploadLink.searchParams.set('kind', 'file');
             const payload = {
                 data: {
                     nodeId: fileModel.target.get('id'),
@@ -68,7 +70,7 @@ export default class SubmitToBoaModal extends Component<Args> {
                 },
                 parent: {
                     links: {
-                        upload: parentFolder.get('links').upload,
+                        upload: uploadLink.toString(),
                     },
                     isAddonRoot: !grandparentFolder,
                 },
