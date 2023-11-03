@@ -7,6 +7,9 @@ import FileProviderModel from 'ember-osf-web/models/file-provider';
 export function addonsList(this: HandlerContext, schema: Schema, request: Request) {
     const { parentID } = request.params;
     const node = schema.nodes.find(parentID);
+    if (!node) {
+        return;
+    }
     const addons = node.files.models.map((addon: ModelInstance<FileProviderModel>) => {
         const data = this.serialize(addon).data;
         data.id = addon.name;
