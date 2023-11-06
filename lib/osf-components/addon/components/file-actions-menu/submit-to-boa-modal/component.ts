@@ -89,8 +89,9 @@ export default class SubmitToBoaModal extends Component<Args> {
             this.args.closeModal();
         } catch (e) {
             captureException(e);
-            this.toast.error(getApiErrorMessage(e),
-                this.intl.t('osf-components.file-browser.submit_to_boa_fail', { fileName: this.args.file.name }));
+            const errorMessageKey = this.intl.t('osf-components.file-browser.submit_to_boa_fail',
+                { fileName: this.args.file.name, htmlSafe: true }) as string;
+            this.toast.error(getApiErrorMessage(e), errorMessageKey);
             return;
         }
 

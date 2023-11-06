@@ -2227,8 +2227,8 @@ osf-components:
         boa_dataset_select_placeholder: 'Select a dataset'
         confirm_submit_to_boa: 'Are you sure you want to submit "{fileName}" to Boa?'
         confirm_submit_to_boa_yes: 'Submit'
-        submit_to_boa_fail: 'Failed to submit "{fileName}" to Boa'
-        submit_to_boa_success: 'Successfully submitted "{fileName}" to Boa'
+        submit_to_boa_fail: 'Unable to submit "{fileName}" to Boa. Please try again later. Contact <a href="mailto:support@osf.io">support@osf.io</a> if the problem persists'
+        submit_to_boa_success: 'Successfully submitted "{fileName}" to Boa. You will be notified by email when the job is done.'
         boa_dataset_spiel: 'Please select a dataset to run the query against:'
         help_modal:
             heading: 'Using the OSF Files Browser'
