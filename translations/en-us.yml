@@ -2224,6 +2224,7 @@ osf-components:
             deleting: 'Deleting {itemCount, plural, one {# item} other {# items}}'
             retry: 'retry delete'
         submit_to_boa: 'Submit file to Boa?'
+        boa_dataset_select_placeholder: 'Select a dataset'
         confirm_submit_to_boa: 'Are you sure you want to submit "{fileName}" to Boa?'
         confirm_submit_to_boa_yes: 'Submit'
         submit_to_boa_fail: 'Failed to submit "{fileName}" to Boa'
