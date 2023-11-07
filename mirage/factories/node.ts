@@ -19,7 +19,6 @@ export interface MirageNode extends Node {
 export interface NodeTraits {
     anonymized: Trait;
     currentUserAdmin: Trait;
-    hasBoaEnabled: Trait;
     withContributors: Trait;
     withRegistrations: Trait;
     withDraftRegistrations: Trait;
@@ -188,9 +187,6 @@ export default Factory.extend<MirageNode & NodeTraits>({
 
     anonymized: trait<MirageNode>({
         _anonymized: true,
-    }),
-    hasBoaEnabled: trait<MirageNode>({
-        boaEnabled: true,
     }),
 });
 

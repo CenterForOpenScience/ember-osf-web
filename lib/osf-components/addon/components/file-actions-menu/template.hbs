@@ -110,26 +110,20 @@
                 </Button>
             {{/if}}
         {{/if}}
-        {{#if @item.currentUserCanDelete}}
-            {{#if @item.providerIsOsfstorage}}
-                {{#if @item.isBoaFile}}
-                    {{#if this.isBoaEnabled}}
-                        <Button
-                            @layout='fake-link'
-                            data-test-submit-to-boa
-                            data-analytics-name='Submit to Boa'
-                            local-class='DropdownItem'
-                            {{on 'click' (queue
-                                dropdown.close
-                                this.openSubmitToBoaModal
-                            )}}
-                        >
-                            <FaIcon @icon='upload' />
-                            {{t 'file_actions_menu.submit_to_boa'}}
-                        </Button>
-                    {{/if}}
-                {{/if}}
-            {{/if}}
+        {{#if this.showSubmitToBoa}}
+            <Button
+                @layout='fake-link'
+                data-test-submit-to-boa
+                data-analytics-name='Submit to Boa'
+                local-class='DropdownItem'
+                {{on 'click' (queue
+                    dropdown.close
+                    this.openSubmitToBoaModal
+                )}}
+            >
+                <FaIcon @icon='upload' />
+                {{t 'file_actions_menu.submit_to_boa'}}
+            </Button>
         {{/if}}
     </dropdown.content>
 </ResponsiveDropdown>

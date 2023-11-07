@@ -49,9 +49,9 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     const filesNode = server.create('node', {
         id: 'file5',
         title: 'With some files',
+        boaEnabled: true,
         currentUserPermissions: [Permission.Read, Permission.Write, Permission.Admin],
-    }, 'hasBoaEnabled', 'withFiles', 'withStorage', 'withContributors',
-    'withAffiliatedInstitutions', 'withDoi', 'withLinkedByNodes');
+    }, 'withFiles', 'withStorage', 'withContributors', 'withAffiliatedInstitutions', 'withDoi', 'withLinkedByNodes');
     const filesNodeOsfStorage = filesNode.files.models.filter(
         (provider: ModelInstance<FileProviderModel>) => provider.name === 'osfstorage',
     )[0] as ModelInstance<FileProviderModel>;

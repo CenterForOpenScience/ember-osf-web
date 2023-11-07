@@ -50,4 +50,9 @@ export default class FileActionsMenu extends Component<Args> {
     get isBoaEnabled() {
         return this.args.addonsEnabled?.includes('boa');
     }
+
+    get showSubmitToBoa() {
+        const { item } = this.args;
+        return this.isBoaEnabled && item.isBoaFile && item.providerIsOsfstorage && item.currentUserCanDelete;
+    }
 }
