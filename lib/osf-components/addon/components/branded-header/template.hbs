@@ -37,6 +37,9 @@
                 @class='form-control'
                 @placeholder={{this.searchPlaceholder}}
             />
+            <button local-class='btn search-button {{if this.showHelp 'right-margin'}}' type='button' {{on 'click' (action this.onSubmit)}}>
+                {{t 'general.search'}}
+            </button>
             {{#if this.showHelp}}
                 <Button
                     data-test-search-help-button
