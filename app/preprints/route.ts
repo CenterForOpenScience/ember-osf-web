@@ -5,4 +5,8 @@ import Theme from 'ember-osf-web/services/theme';
 
 export default class Preprints extends Route {
     @service theme!: Theme;
+
+    deactivate() {
+        this.theme.reset();
+    }
 }

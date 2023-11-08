@@ -21,6 +21,7 @@ export default class Preprints extends Route {
             const provider = await this.store.findRecord('preprint-provider', provider_id, {
                 include: 'brand',
             });
+
             this.theme.set('providerType', 'preprint');
             this.theme.set('id', provider_id);
 
