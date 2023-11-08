@@ -35,8 +35,4 @@ export default class PreprintDiscoverRoute extends Route {
             return null;
         }
     }
-
-    deactivate() {
-        this.theme.reset();
-    }
 }
