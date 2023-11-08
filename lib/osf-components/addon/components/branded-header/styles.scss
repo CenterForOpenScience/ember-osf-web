@@ -86,42 +86,6 @@
                 clip: rect(1px, 1px, 1px, 1px);
             }
 
-            .btn {
-                display: inline-block;
-                margin-bottom: 0;
-                font-weight: 400;
-                text-align: center;
-                white-space: nowrap;
-                touch-action: manipulation;
-                cursor: pointer;
-                background-image: none;
-                border: 1px solid transparent;
-                border-radius: 2px;
-                padding: 6px 12px;
-                font-size: 14px;
-                line-height: 1.42857;
-                user-select: none;
-                vertical-align: middle;
-                color: $color-text-white;
-            }
-
-            .search-button {
-                position: absolute;
-                top: 1px;
-                bottom: 1px;
-                right: 0;
-                font-size: 24px;
-                color: var(--primary-color);
-
-                &.right-margin {
-                    right: 50px;
-                }
-
-                &:hover {
-                    color: var(--secondary-color);
-                }
-            }
-
             .help-icon {
                 position: absolute;
                 top: 10px;
