@@ -10,6 +10,7 @@ interface Args {
     item: File;
     onDelete: () => void;
     manager?: StorageManager; // No manager for file-detail page
+    addonsEnabled? : string[];
 }
 
 export default class FileActionsMenu extends Component<Args> {
@@ -19,6 +20,7 @@ export default class FileActionsMenu extends Component<Args> {
     @tracked moveModalOpen = false;
     @tracked useCopyModal = false;
     @tracked renameModalOpen = false;
+    @tracked isSubmitToBoaModalOpen = false;
 
     @action
     closeDeleteModal() {
@@ -33,5 +35,24 @@ export default class FileActionsMenu extends Component<Args> {
     @action
     openRenameModal() {
         this.renameModalOpen = true;
+    }
+
+    @action
+    closeSubmitToBoaModal() {
+        this.isSubmitToBoaModalOpen = false;
+    }
+
+    @action
+    openSubmitToBoaModal() {
+        this.isSubmitToBoaModalOpen = true;
+    }
+
+    get isBoaEnabled() {
+        return this.args.addonsEnabled?.includes('boa');
+    }
+
+    get showSubmitToBoa() {
+        const { item } = this.args;
+        return this.isBoaEnabled && item.isBoaFile && item.providerIsOsfstorage && item.currentUserCanDelete;
     }
 }
