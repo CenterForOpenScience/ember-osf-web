@@ -67,7 +67,6 @@ general:
     filter: Filter
     revert: Revert
     save: Save
-    search: Search
     ellipsis: …
     warning: Warning
     caution: Caution
