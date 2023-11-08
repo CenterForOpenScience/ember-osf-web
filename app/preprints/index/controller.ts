@@ -24,13 +24,9 @@ export default class Preprints extends Controller {
 
     @action
     onSearch(query: string) {
-        let route = 'search';
+        const route = 'preprints.discover';
 
-        if (this.theme.isSubRoute) {
-            route = 'provider.discover';
-        }
-
-        this.router.transitionTo(route, { queryParams: { q: query } });
+        this.router.transitionTo(route, this.theme.id, { queryParams: { q: query } });
     }
 
     get supportEmail(): string {
