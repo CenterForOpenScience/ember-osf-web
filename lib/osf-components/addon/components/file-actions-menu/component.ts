@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 import File from 'ember-osf-web/packages/files/file';
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
+import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 
 interface Args {
     item: File;
@@ -52,7 +53,17 @@ export default class FileActionsMenu extends Component<Args> {
     }
 
     get showSubmitToBoa() {
-        const { item } = this.args;
-        return this.isBoaEnabled && item.isBoaFile && item.providerIsOsfstorage && item.currentUserCanDelete;
+        const { item, manager } = this.args;
+        if (item.providerIsOsfstorage) {
+            let userCanUploadToHere;
+            if (manager) {
+                userCanUploadToHere = manager.currentFolder.userCanUploadToHere;
+            } else {
+                const parentFolder = new OsfStorageFile(item.currentUser, item.fileModel.get('parentFolder'));
+                userCanUploadToHere = parentFolder.userCanUploadToHere;
+            }
+            return this.isBoaEnabled && item.isBoaFile && userCanUploadToHere;
+        }
+        return false;
     }
 }
