@@ -46,6 +46,8 @@ const {
     OSF_API_VERSION: apiVersion = '2.20',
     OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
+    // TODO: where shold this actually go?
+    ADDON_SERVICE_URL: addonServiceUrl = 'http://localhost:7979/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
     OSF_AUTHENTICATOR: osfAuthenticator = 'osf-cookie',
     POLICY_URL_PREFIX = 'https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/',
@@ -146,6 +148,7 @@ module.exports = function(environment) {
             learnMoreUrl: 'https://cos.io/our-products/osf/',
             renderUrl,
             waterbutlerUrl,
+            addonServiceUrl,
             helpUrl,
             shareBaseUrl,
             shareApiUrl,
