@@ -62,7 +62,7 @@ export default class SubmitToBoaModal extends Component<Args> {
                     nodeId: fileModel.target.get('id'),
                     name: file.name,
                     materialized: fileModel.materializedPath,
-                    size: fileModel.size,
+                    sizeInt: fileModel.size,
                     links: {
                         download: file.links.download,
                         upload: file.links.upload,
