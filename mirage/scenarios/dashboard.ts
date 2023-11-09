@@ -58,6 +58,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     server.create('file', {
         id: 'snake',
         name: 'snake.boa',
+        checkout: currentUser.id,
         target: filesNode,
         parentFolder: filesNodeOsfStorage.rootFolder,
     });
