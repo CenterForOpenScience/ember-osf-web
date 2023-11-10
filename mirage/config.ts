@@ -3,6 +3,7 @@ import config from 'ember-osf-web/config/environment';
 
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
+import { addonsList } from './views/addons';
 import { getCitation } from './views/citation';
 import { createCollectionSubmission, getCollectionSubmissions } from './views/collection-submission';
 import { createSubmissionAction } from './views/collection-submission-action';
@@ -49,7 +50,7 @@ import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl, shareBaseUrl } } = config;
+const { OSF: { apiUrl, shareBaseUrl, url: osfUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
@@ -66,6 +67,10 @@ export default function(this: Server) {
     this.get('/index-card-search', cardSearch);
     this.get('/index-value-search', valueSearch);
     // this.get('/index-card/:id', Detail);
+
+    this.urlPrefix = osfUrl;
+    this.namespace = '/api/v1/';
+    this.post('project/:id/boa/submit-job/', () => ({})); // submissions to BoA
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
@@ -111,6 +116,7 @@ export default function(this: Server) {
         onCreate: createBibliographicContributor,
     });
 
+    this.get('/nodes/:parentID/addons', addonsList);
     this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
     this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider
     this.get('/nodes/:parentID/files/:fileProviderId/:folderId', folderFilesList); // Node folder detail view
