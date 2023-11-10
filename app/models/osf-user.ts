@@ -6,14 +6,14 @@ import OsfResourceModel from './osf-resource';
 import OsfModel from './osf-model';
 
 export default class OsfUserModel extends OsfModel {
-    @hasMany('authorized-storage-account', { inverse: null })
-    authorizedStorageAccounts!: AsyncHasMany<AuthorizedStorageAccountModel> | AuthorizedStorageAccountModel[];
+    @hasMany('authorized-storage-account', { inverse: 'configuringUser' })
+    authorizedStorageAccounts!: AsyncHasMany<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel[];
 
-    @hasMany('external-account', { inverse: null })
-    externalAccounts!: AsyncHasMany<AddonExternalAccountModel> |AddonExternalAccountModel[];
+    @hasMany('external-account')
+    externalAccounts!: AsyncHasMany<AddonExternalAccountModel> & AddonExternalAccountModel[];
 
-    @hasMany('osf-resource', { inverse: null })
-    configuredResources!: AsyncHasMany<OsfResourceModel> | OsfResourceModel[];
+    @hasMany('osf-resource')
+    configuredResources!: AsyncHasMany<OsfResourceModel> & OsfResourceModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

@@ -1,6 +1,9 @@
 import AddonServiceAdapter from './addon-service';
 
 export default class StorageAddonProviderAdapter extends AddonServiceAdapter {
+    pathForType() {
+        return 'storage_providers';
+    }
 }
 
 declare module 'ember-data/types/registries/adapter' {
