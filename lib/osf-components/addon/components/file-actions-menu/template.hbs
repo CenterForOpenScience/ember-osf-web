@@ -128,11 +128,13 @@
     </dropdown.content>
 </ResponsiveDropdown>
 <FileActionsMenu::DeleteModal @file={{@item}} @isOpen={{this.isDeleteModalOpen}} @closeModal={{this.closeDeleteModal}} @onDelete={{@onDelete}} />
-<FileActionsMenu::SubmitToBoaModal
-    @file={{@item}}
-    @isOpen={{this.isSubmitToBoaModalOpen}}
-    @closeModal={{this.closeSubmitToBoaModal}}
-/>
+{{#if this.showSubmitToBoa}}
+    <FileActionsMenu::SubmitToBoaModal
+        @file={{@item}}
+        @isOpen={{this.isSubmitToBoaModalOpen}}
+        @closeModal={{this.closeSubmitToBoaModal}}
+    />
+{{/if}}
 {{#if @manager}}
     <MoveFileModal
         @isOpen={{this.moveModalOpen}}
