@@ -4,8 +4,13 @@ import { computed } from '@ember/object';
 import { alias, bool, equal, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
+import { tracked } from '@glimmer/tracking';
 import { buildValidations, validator } from 'ember-cp-validations';
 import Intl from 'ember-intl/services/intl';
+
+import config from 'ember-osf-web/config/environment';
+import { task } from 'ember-concurrency';
+import { waitFor } from '@ember/test-waiters';
 
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
@@ -24,6 +29,13 @@ import RegionModel from './region';
 import RegistrationModel from './registration';
 import SubjectModel from './subject';
 import WikiModel from './wiki';
+
+const {
+    OSF: {
+        apiUrl,
+        apiNamespace,
+    },
+} = config;
 
 const Validations = buildValidations({
     title: [
@@ -107,6 +119,10 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @attr('boolean') preprint!: boolean;
     @attr('boolean') currentUserCanComment!: boolean;
     @attr('boolean') wikiEnabled!: boolean;
+
+    // FE-only property to check enabled addons.
+    // null until getEnabledAddons has been called
+    @tracked addonsEnabled?: string[];
 
     @hasMany('contributor', { inverse: 'node' })
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel[];
@@ -310,6 +326,26 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
         );
 
         this.set('nodeLicense', props);
+    }
+
+    @task
+    @waitFor
+    async getEnabledAddons() {
+        const endpoint = `${apiUrl}/${apiNamespace}/nodes/${this.id}/addons/`;
+        const response = await this.currentUser.authenticatedAJAX({
+            url: endpoint,
+            type: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            xhrFields: { withCredentials: true },
+        });
+        if (response.data) {
+            const addonList = response.data
+                .filter((addon: any) => addon.attributes.node_has_auth)
+                .map((addon: any) => addon.id);
+            this.set('addonsEnabled', addonList);
+        }
     }
 }
 
