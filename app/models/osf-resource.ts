@@ -4,7 +4,7 @@ import OsfModel from './osf-model';
 import ConfiguredStorageAccountModel from './configured-storage-addon';
 
 export default class OsfResourceModel extends OsfModel {
-    @hasMany('configured-storage-account', { inverse: null })
+    @hasMany('configured-storage-account', { inverse: 'authorizedResource' })
     configuredStorageAddons!: AsyncHasMany<ConfiguredStorageAccountModel> & ConfiguredStorageAccountModel[];
 }
 

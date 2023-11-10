@@ -17,7 +17,7 @@ export default class ConfiguredStorageAddonModel extends OsfModel {
     @belongsTo('osf-resource', { inverse: 'configuredStorageAddons' })
     authorizedResource!: AsyncBelongsTo<OsfResourceModel> & OsfResourceModel;
 
-    @belongsTo('authorized-storage-account', { inverse: null })
+    @belongsTo('authorized-storage-account')
     baseAccount!: AsyncBelongsTo<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel;
 }
 

@@ -1,6 +1,6 @@
-import OsfAdapter from './osf-adapter';
+import AddonServiceAdapter from './addon-service';
 
-export default class AddonExternalAccountAdapter extends OsfAdapter {
+export default class AddonExternalAccountAdapter extends AddonServiceAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
