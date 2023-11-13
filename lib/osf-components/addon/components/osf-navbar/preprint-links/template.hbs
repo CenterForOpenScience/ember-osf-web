@@ -1,0 +1,57 @@
+<li data-test-nav-my-preprints-link>
+    <OsfLink
+        @href='/myprojects/#preprints/'
+        data-analytics-name='My preprints'
+        {{on 'click' @onLinkClicked}}
+    >
+        {{t 'navbar.my_preprints'}}
+    </OsfLink>
+</li>
+{{#if this.currentUser.user.canViewReviews}}
+    <li data-test-nav-reviews-link>
+        <OsfLink
+            @href='/reviews/'
+            data-analytics-name='My reviews'
+            {{on 'click' @onLinkClicked}}
+        >
+            {{t 'navbar.reviews'}}
+        </OsfLink>
+    </li>
+{{/if}}
+<li data-test-nav-submit-preprint-link>
+    <OsfLink
+        @href='/preprints/submit/'
+        data-analytics-name='Add a preprint'
+        {{on 'click' @onLinkClicked}}
+    >
+        {{t 'navbar.add_a_preprint' preprintWord=(t 'documentType.preprint.singularCapitalized')}}
+    </OsfLink>
+</li>
+<li data-test-nav-search-link>
+    <OsfLink
+        @route='search'
+        @queryParams={{hash resourceType='Preprint'}}
+        data-analytics-name='Search'
+        {{on 'click' @onLinkClicked}}
+    >
+        {{t 'navbar.search'}}
+    </OsfLink>
+</li>
+<li data-test-nav-support-link>
+    <OsfLink
+        @href={{this.supportURL}}
+        data-analytics-name='Support'
+        {{on 'click' @onLinkClicked}}
+    >
+        {{t 'navbar.support'}}
+    </OsfLink>
+</li>
+<li class='navbar-donate-button' data-test-nav-donate-link>
+    <OsfLink
+        @href={{this.donateURL}}
+        data-analytics-name='Donate'
+        {{on 'click' @onLinkClicked}}
+    >
+        {{t 'navbar.donate'}}
+    </OsfLink>
+</li>

@@ -81,11 +81,18 @@
                             links=(component 'osf-navbar/x-links'
                                 onLinkClicked=(action 'onLinkClicked')
                             )
+                            preprintLinks=(component 'osf-navbar/preprint-links'
+                                onLinkClicked=(action 'onLinkClicked')
+                            )
                         ) as |ctx|}}
                             {{#if (has-block)}}
                                 {{yield ctx}}
                             {{else}}
-                                {{ctx.links}}
+                                {{#if (eq this._activeService.name 'PREPRINTS')}}
+                                    {{ctx.preprintLinks}}
+                                {{else}}
+                                    {{ctx.links}}
+                                {{/if}}
                             {{/if}}
                         {{/let}}
                     </ul>
