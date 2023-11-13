@@ -60,9 +60,6 @@
     "ember-validators": "^4.1.1",
     "watch-detector": "^1.0.2"
   },
-  "dependencies": {
-    "cedar-embeddable-editor": "^1.0.4"
-  },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "3.0.0",
     "@ember-intl/cp-validations": "^6.0.0",
@@ -119,6 +116,7 @@
     "@typescript-eslint/parser": "^4.22.0",
     "babel-eslint": "^8.0.0",
     "broccoli-asset-rev": "^3.0.0",
+    "cedar-embeddable-editor": "^1.0.4",
     "c3": "^0.6.14",
     "chai": "^4.1.2",
     "coveralls": "^3.0.3",
