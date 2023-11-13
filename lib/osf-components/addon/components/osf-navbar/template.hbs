@@ -18,7 +18,6 @@
                     <OsfLink
                         data-analytics-name={{this._activeService.name}}
                         @route={{this._activeService.route}}
-                        @href={{this._activeService.href}}
                     >
                         <span class='hidden-xs'> {{t 'general.OSF'}} </span>
                         <span class='current-service'><strong>{{this._activeService.name}}</strong></span>
@@ -46,7 +45,6 @@
                                     <OsfLink
                                         data-analytics-name={{service.name}}
                                         @route={{service.route}}
-                                        @href={{service.href}}
                                         local-class='service-links'
                                         @onClick={{action dd.close}}
                                     >
