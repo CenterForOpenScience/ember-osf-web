@@ -19,6 +19,7 @@ export interface KeenConfig {
 
 declare const config: {
     environment: any;
+    cedarConfig: any;
     lintOnBuild: boolean;
     testsEnabled: boolean;
     sourcemapsEnabled: boolean;
