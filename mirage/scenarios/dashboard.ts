@@ -1,5 +1,6 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
+import AddonModel from 'ember-osf-web/models/addon';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
@@ -55,6 +56,30 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         users: currentUser,
         permission: Permission.Admin,
         index: 0,
+    });
+
+    // Addons for filesNode
+    const dropbox = server.schema.addons.find('dropbox') as ModelInstance<AddonModel>;
+    const dropboxAccount = server.create('external-account', {
+        displayName: 'Bugs Bunny',
+        provider: dropbox,
+    });
+    const dropboxAccountTwo = server.create('external-account', {
+        displayName: 'Daffy Duck',
+        provider: dropbox,
+    });
+    server.create('user-addon', {
+        id: 'dropbox',
+        externalAccounts: [ dropboxAccount, dropboxAccountTwo ],
+        userHasAuth: true,
+        user: currentUser,
+    });
+    server.create('node-addon', {
+        nodeHasAuth: true,
+        folderId: '/',
+        folderPath: '/',
+        externalAccount: dropboxAccount,
+        node: filesNode,
     });
 
     // NOTE: Some institutions are already created by this point

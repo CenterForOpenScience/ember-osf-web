@@ -66,6 +66,13 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     },
                 },
             },
+            userAddons: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/addons/`,
+                    },
+                },
+            },
         };
         if (model.defaultRegion) {
             serializedRelationships.defaultRegion = {
