@@ -8,13 +8,14 @@ import { layout } from 'ember-osf-web/decorators/component';
 
 import template from './template';
 
-const osfURL = config.OSF.url;
+const { url: osfURL, donateUrl } = config.OSF;
 
 @layout(template)
 @tagName('') // Don't wrap this component in a div
 export default class XLinks extends Component {
     @service session!: Session;
 
+    donateURL = donateUrl;
     myProjectsURL = `${osfURL}myprojects/`;
     myRegistrationsURL = `${osfURL}myprojects/#registrations`;
     supportURL = `${config.support.faqPageUrl}`;
