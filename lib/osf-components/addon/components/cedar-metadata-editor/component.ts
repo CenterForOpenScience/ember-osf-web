@@ -7,8 +7,8 @@ import config from 'ember-osf-web/config/environment';
 const { cedarConfig } = config;
 
 interface Args {
-    instanceObj: any;
-    templateOjb: any;
+    instanceObject: any;
+    templateObject: any;
 }
 
 export default class CedarMetadataEditor extends Component<Args> {
