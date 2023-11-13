@@ -46,8 +46,12 @@ export default class Preprints extends Route {
             };
 
         } catch (error) {
-            captureException(error);
-            this.router.transitionTo('not-found', 'preprints');
+            if (params.provider_id) {
+                this.router.transitionTo('resolve-guid', params.provider_id);
+            } else {
+                captureException(error);
+                this.router.transitionTo('not-found', 'preprints');
+            }
             return null;
         }
     }
