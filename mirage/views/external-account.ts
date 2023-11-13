@@ -22,7 +22,10 @@ export function externalAccountList(this: HandlerContext, schema: Schema, reques
         .models;
     const externalAccounts = userAddons.length ? userAddons[0].externalAccounts.models : null;
     if (externalAccounts) {
-        externalAccounts.map((model: ModelInstance<ExternalAccountsModel>) => this.serialize(model).data);
+        externalAccounts
+            .filter( (item: ModelInstance<ExternalAccountsModel>) => item.provider.id === request.params.addonID )
+            .map((model: ModelInstance<ExternalAccountsModel>) => this.serialize(model).data);
+
         const json = process(schema, request, this, externalAccounts, { defaultSortKey: 'id' });
         return json;
     }
