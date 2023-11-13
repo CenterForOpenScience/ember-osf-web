@@ -25,6 +25,13 @@ export default class UserAddonSerializer extends ApplicationSerializer<UserAddon
                     },
                 },
             },
+            addon: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/addons/${model.addon.id}`,
+                    },
+                },
+            },
         };
     }
 

@@ -73,6 +73,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         externalAccounts: [ dropboxAccount, dropboxAccountTwo ],
         userHasAuth: true,
         user: currentUser,
+        addon: dropbox,
     });
     server.create('node-addon', {
         nodeHasAuth: true,

@@ -17,7 +17,7 @@ export default class UserAddonModel extends OsfModel {
     user!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('addon', { inverse: null })
-    addon!: AsyncBelongsTo<AddonModel>;
+    addon!: AsyncBelongsTo<AddonModel> & AddonModel;
 }
 
 declare module 'ember-data/types/registries/model' {
