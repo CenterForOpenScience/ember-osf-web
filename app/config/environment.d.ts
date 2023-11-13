@@ -69,6 +69,7 @@ declare const config: {
         apiHeaders: { [k: string]: string };
         learnMoreUrl: string;
         renderUrl: string;
+        addonServiceUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
         shareBaseUrl: string;
