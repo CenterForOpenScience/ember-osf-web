@@ -1,6 +1,8 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
+import { externalAccountDetail, externalAccountList } from 'ember-osf-web/mirage/views/external-account';
+import { nodeAddonDetail, nodeAddonList } from 'ember-osf-web/mirage/views/node-addon';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
@@ -72,9 +74,12 @@ export default function(this: Server) {
 
     this.get('/', rootDetail);
 
+    osfResource(this, 'addon', { only: ['index']});
     osfResource(this, 'developer-app', { path: 'applications', except: ['create', 'update'] });
     this.post('/applications', createDeveloperApp);
     this.patch('/applications/:id', updateDeveloperApp);
+
+    osfResource(this, 'external-account', {only: ['index', 'show', 'create']});
 
     osfResource(this, 'file', { only: ['show', 'update'] });
 
@@ -110,6 +115,9 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,
     });
+    this.get('/nodes/:parentID/addons/:id', nodeAddonDetail);
+    this.get('/nodes/:parentID/addons/', nodeAddonList);
+    osfNestedResource(this, 'node', 'nodeAddons', {except: [ 'index', 'show' ]});
 
     this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
     this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider
@@ -280,6 +288,12 @@ export default function(this: Server) {
     this.post('/users/:id/settings/export', userSettings.requestExport);
     this.post('/users/:parentID/settings/password/', updatePassword);
     this.post('/users/:parentID/claim/', claimUnregisteredUser);
+    osfNestedResource(this, 'user', 'userAddons', {
+        path: '/users/:parentID/addons/',
+        relatedModelName: 'user-addon',
+    });
+    this.get('/users/:userID/addons/:addonID/accounts', externalAccountList);
+    this.get('/users/:userID/addons/:addonID/accounts/:accountID', externalAccountDetail);
 
     osfResource(this, 'external-identity', {
         path: '/users/me/settings/identities',

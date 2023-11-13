@@ -6,6 +6,7 @@ import { Link } from 'jsonapi-typescript';
 
 import PreprintModel from 'ember-osf-web/models/preprint';
 import SparseNodeModel from 'ember-osf-web/models/sparse-node';
+import UserAddonModel from 'ember-osf-web/models/user-addon';
 import ContributorModel from './contributor';
 import DraftRegistrationModel from './draft-registration';
 import InstitutionModel from './institution';
@@ -126,6 +127,9 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @hasMany('sparse-node', { inverse: null })
     sparseNodes!: AsyncHasMany<SparseNodeModel>;
+
+    @hasMany('user-addon', { inverse: 'user' })
+    userAddons!: AsyncHasMany<UserAddonModel>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;
