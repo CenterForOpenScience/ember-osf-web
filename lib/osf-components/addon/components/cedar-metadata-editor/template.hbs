@@ -1,0 +1,13 @@
+<div>
+    <cedar-embeddable-editor
+        config={{this.cedarConfig}}
+        templateObject={{this.templateObject}}
+        instanceObject={{this.instanceObject}}
+    >
+    </cedar-embeddable-editor>
+    <Button
+        {{on 'click' this.save}}
+    >
+        Save
+    </Button>
+</div>

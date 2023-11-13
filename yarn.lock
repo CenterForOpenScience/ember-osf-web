@@ -9165,6 +9165,11 @@ ccount@^1.0.0:
   resolved "https://registry.yarnpkg.com/ccount/-/ccount-1.1.0.tgz#246687debb6014735131be8abab2d93898f8d043"
   integrity sha512-vlNK021QdI7PNeiUh/lKkC/mNHHfV0m/Ad5JoI0TYtlBnJAslM/JIkm/tGC88bkLIwO6OQ5uV6ztS6kVAtCDlg==
 
+cedar-embeddable-editor@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/cedar-embeddable-editor/-/cedar-embeddable-editor-1.0.4.tgz#52c504dbd4ea2ecf9275cc73f35a7f4ad21b61c9"
+  integrity sha512-c28w2920u/3Hvk+3CtvV9v3twf7Q1o3ZXZHhPzigwYBUly22KFi+vZ3m7kvSceKjsVCH7P1IWkCYp0KG/UD8oQ==
+
 chai-as-promised@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/chai-as-promised/-/chai-as-promised-6.0.0.tgz#1a02a433a6f24dafac63b9c96fa1684db1aa8da6"

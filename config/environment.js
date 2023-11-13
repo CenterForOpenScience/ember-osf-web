@@ -18,6 +18,13 @@ const {
     ASSETS_PREFIX: assetsPrefix = '/ember_osf_web/',
     BACKEND: backend = 'local',
     CAS_URL: casUrl = 'http://192.168.168.167:8080',
+    CEDAR_CONFIG: cedarConfig = {
+        ceeConfig: {
+            showTemplateUpload: false,
+            showDataSaver: false,
+            showSampleTemplateLinks: false,
+        },
+    },
     CLIENT_ID: clientId,
     COLLECTIONS_ENABLED = false,
     REGISTRIES_ENABLED = true,
@@ -69,6 +76,7 @@ module.exports = function(environment) {
 
     const ENV = {
         modulePrefix: 'ember-osf-web',
+        cedarConfig,
         environment,
         lintOnBuild,
         testsEnabled: false, // Disable tests by default.
