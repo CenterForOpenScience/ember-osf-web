@@ -58,6 +58,14 @@ export default class PreprintProviderSerializer extends ApplicationSerializer<Pr
                     },
                 },
             },
+            citationStyles: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/preprints/${model.id}/citation_styles/`,
+                        meta: {},
+                    },
+                },
+            },
             // TODO: subscriptions when we move ember-osf-reviews¥
         };
 

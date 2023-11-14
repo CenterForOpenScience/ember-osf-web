@@ -236,6 +236,9 @@ function buildrXiv(
     currentUser: ModelInstance<User>,
 ) {
     const preprintrxiv = server.schema.preprintProviders.find('preprintrxiv') as ModelInstance<PreprintProvider>;
+    preprintrxiv.update({
+        citationStyles: [server.schema.citationStyles.find('another-citation')],
+    });
 
     const brand = server.create('brand', {
         primaryColor: '#286090',

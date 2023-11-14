@@ -310,6 +310,12 @@ export default function(this: Server) {
         relatedModelName: 'preprint',
     });
 
+    osfNestedResource(this, 'preprint-provider', 'citationStyles', {
+        only: ['index'],
+        path: '/providers/preprints/:parentID/citation_styles/',
+        relatedModelName: 'citation-style',
+    });
+
     /**
      * Preprint Details
      */

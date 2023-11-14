@@ -190,7 +190,10 @@
                     {{/if}}
                     <div>
                         <h4>{{t 'preprints.detail.citations'}}</h4>
-                        <CitationViewer @citable={{this.model.preprint}} />
+                        <CitationViewer
+                            @citable={{this.model.preprint}}
+                            @provider={{this.model.provider}}
+                        />
                     </div>
                 </div>
             {{/unless}}
