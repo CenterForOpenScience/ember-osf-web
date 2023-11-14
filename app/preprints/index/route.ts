@@ -15,26 +15,26 @@ export default class Preprints extends Route {
     @service router!: RouterService;
 
     async model(params: { provider_id : string }) {
+        const provider_id = params.provider_id ? params.provider_id : 'osf';
+        let provider;
         try {
-            const provider_id = params.provider_id ? params.provider_id : 'osf';
-            let provider;
-
-            try {
-                provider = await this.store.findRecord('preprint-provider', provider_id, {
-                    include: 'brand',
-                });
-            } catch (error) {
-                if (params.provider_id) {
-                    this.router.transitionTo('resolve-guid', params.provider_id);
-                    return null;
-                } else {
-                    throw error;
-                }
+            provider = await this.store.findRecord('preprint-provider', provider_id, {
+                include: 'brand',
+            });
+        } catch (error) {
+            if (params.provider_id) {
+                this.router.transitionTo('resolve-guid', params.provider_id);
+                return null;
+            } else {
+                this.router.transitionTo('not-found', 'preprints');
+                return null;
             }
+        }
 
-            this.theme.set('providerType', 'preprint');
-            this.theme.set('id', provider_id);
+        this.theme.set('providerType', 'preprint');
+        this.theme.set('id', provider_id);
 
+        try {
             const taxonomies = await this.theme.provider?.queryHasMany('highlightedSubjects', {
                 page: {
                     size: 20,
@@ -54,7 +54,6 @@ export default class Preprints extends Route {
                 brandedProviders,
                 brand: provider.brand.content,
             };
-
         } catch (error) {
             captureException(error);
             this.router.transitionTo('not-found', 'preprints');
