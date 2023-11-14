@@ -17,10 +17,20 @@ export default class Preprints extends Route {
     async model(params: { provider_id : string }) {
         try {
             const provider_id = params.provider_id ? params.provider_id : 'osf';
+            let provider;
 
-            const provider = await this.store.findRecord('preprint-provider', provider_id, {
-                include: 'brand',
-            });
+            try {
+                provider = await this.store.findRecord('preprint-provider', provider_id, {
+                    include: 'brand',
+                });
+            } catch (error) {
+                if (params.provider_id) {
+                    this.router.transitionTo('resolve-guid', params.provider_id);
+                    return null;
+                } else {
+                    throw error;
+                }
+            }
 
             this.theme.set('providerType', 'preprint');
             this.theme.set('id', provider_id);
@@ -46,12 +56,8 @@ export default class Preprints extends Route {
             };
 
         } catch (error) {
-            if (params.provider_id) {
-                this.router.transitionTo('resolve-guid', params.provider_id);
-            } else {
-                captureException(error);
-                this.router.transitionTo('not-found', 'preprints');
-            }
+            captureException(error);
+            this.router.transitionTo('not-found', 'preprints');
             return null;
         }
     }
