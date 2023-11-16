@@ -1,6 +1,7 @@
 import { attr, hasMany, SyncHasMany, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 
+import CitationStyleModel from './citation-style';
 import LicenseModel from './license';
 import ModeratorModel from './moderator';
 import OsfModel from './osf-model';
@@ -83,6 +84,9 @@ export default abstract class ProviderModel extends OsfModel {
 
     @hasMany('moderator', { inverse: 'provider' })
     moderators!: AsyncHasMany<ModeratorModel> | ModeratorModel[];
+
+    @hasMany('citation-style', { inverse: null })
+    citationStyles!: AsyncHasMany<CitationStyleModel> & CitationStyleModel[];
 
     @computed('permissions')
     get currentUserCanReview() {
