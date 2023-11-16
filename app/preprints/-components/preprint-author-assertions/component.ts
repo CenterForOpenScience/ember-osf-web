@@ -5,6 +5,7 @@ import PreprintModel from 'ember-osf-web/models/preprint';
 import Features from 'ember-feature-flags';
 import ProviderModel from 'ember-osf-web/models/provider';
 import { tracked } from '@glimmer/tracking';
+import Media from 'ember-responsive';
 
 interface InputArgs {
     preprint: PreprintModel;
@@ -15,6 +16,7 @@ interface InputArgs {
 export default class PreprintAuthorAssertions extends Component<InputArgs> {
     @service features!: Features;
     @service intl!: Intl;
+    @service media!: Media;
 
     @tracked displayCoi = false;
     @tracked displayDataLinks = false;
@@ -59,6 +61,10 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
 
     public get hasPreregLinks(): boolean {
         return typeof this.preprint.hasPreregLinks === 'string';
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }
 

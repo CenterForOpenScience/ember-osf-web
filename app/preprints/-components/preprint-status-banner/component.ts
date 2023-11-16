@@ -12,6 +12,7 @@ import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import { tracked } from '@glimmer/tracking';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
+import Media from 'ember-responsive';
 
 const UNKNOWN = 'unknown';
 const PENDING = 'pending';
@@ -72,6 +73,7 @@ interface InputArgs {
 export default class PreprintStatusBanner extends Component<InputArgs>{
     @service intl!: Intl;
     @service theme!: Theme;
+    @service media!: Media;
 
     submission = this.args.submission;
     isWithdrawn = this.args.submission.isWithdrawn;
@@ -206,5 +208,9 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
         }
 
         this.latestAction = latestSubmissionAction;
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

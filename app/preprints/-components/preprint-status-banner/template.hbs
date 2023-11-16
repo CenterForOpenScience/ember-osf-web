@@ -1,4 +1,4 @@
-<div local-class='preprint-banner-status-container'>
+<div local-class='preprint-banner-status-container  {{if this.isMobile 'mobile'}}'>
     {{#if (or this.submission.provider?.isPending this.loadPreprintState.isRunning) }}
         {{ t 'preprints.detail.status_banner.loading' }}
     {{else}}
