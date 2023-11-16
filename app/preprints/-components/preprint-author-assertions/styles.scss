@@ -31,7 +31,6 @@
             margin: 0 10px;
 
             .assertions-container {
-                justify-content: center;
                 display: flex;
                 flex-direction: row;
                 justify-content: center;
@@ -43,6 +42,34 @@
                     padding-bottom: 2px;
                     font-weight: bold;
                     padding: 0 20px;
+                }
+            }
+        }
+    }
+
+    &.mobile {
+        padding: 10px;
+
+        .author-assertions-container {
+            width: calc(100% - 20px);
+
+            .author-assertions {
+                flex-direction: column;
+                align-items: flex-start;
+                margin: 0;
+                width: 100%;
+
+                .assertions-container {
+                    width: 100%;
+                    justify-content: flex-start;
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+
+                    .assertion-header-label {
+                        width: 175px;
+                        padding-left: 10px;
+                        padding-right: 10px;
+                    }
                 }
             }
         }
