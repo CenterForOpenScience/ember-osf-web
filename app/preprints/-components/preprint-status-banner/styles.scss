@@ -106,6 +106,14 @@ $color-border-light: #ddd;
             }
         }
     }
+
+    &.mobile {
+        height: fit-content;
+
+        .preprint-banner-status {
+            height: fit-content;
+        }
+    }
 }
 
 .status-banner-dialog {
