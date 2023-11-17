@@ -128,8 +128,8 @@
 
         /* stylelint-disable */
         .desktop {
-            >ul>li a:not(:global(.btn-top-signup)),
-            >:global(.secondary-nav-dropdown) {
+            a:not(:global(.btn-top-signup)),
+            :global(.secondary-nav-dropdown) {
                 color: $color-text-black !important;
             }
         }
