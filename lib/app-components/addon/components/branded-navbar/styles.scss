@@ -113,31 +113,30 @@
 .preprint-branded-navbar.preprint-branded-navbar {
     background-color: var(--primary-color);
     background-image: none;
+    color: $color-text-white;
 
     .secondary-navigation {
         border-color: transparent;
     }
 
-    &.light-text {
-        a:not(:global(.btn-top-signup)),
-        :global(.secondary-nav-dropdown) {
-            color: $color-text-white !important;
-        }
-    }
-
+    // Dark text only applied to provider name, hamburger menu (only shows up in mobile), and navbar links in desktop view
     &.dark-text {
-        a:not(:global(.btn-top-signup)),
-        :global(.secondary-nav-dropdown) {
+        a:global(.navbar-brand),
+        .navbar-toggle {
             color: $color-text-black !important;
         }
+
+        /* stylelint-disable */
+        .desktop {
+            a:not(:global(.btn-top-signup)),
+            :global(.secondary-nav-dropdown) {
+                color: $color-text-black !important;
+            }
+        }
+        /* stylelint-enable */
     }
 }
 
-.white-background-branded-navbar.white-background-branded-navbar.white-background-branded-navbar {
-    background-color: #fff;
-
-    a:not(:global(.btn-top-signup)),
-    :global(.secondary-nav-dropdown) {
-        color: $color-text-black !important;
-    }
+.white-background-branded-navbar {
+    background-color: #fff !important;
 }
