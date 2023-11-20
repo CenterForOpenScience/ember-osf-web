@@ -27,7 +27,7 @@ import { summaryMetrics } from './views/institution';
 import { postCountedUsage, getNodeAnalytics } from './views/metrics';
 import { addCollectionModerator, addRegistrationModerator } from './views/moderator';
 import { createNode, storageStatus } from './views/node';
-import { osfNestedResource, osfResource, osfToManyRelationship } from './views/internal-resource';
+import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
 import {
     createRegistration,
