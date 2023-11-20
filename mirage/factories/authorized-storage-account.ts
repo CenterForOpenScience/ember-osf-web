@@ -12,7 +12,7 @@ export default Factory.extend<AuthorizedStorageAccountModel>({
     scopes: [],
     defaultRootFolder: faker.system.filePath,
 
-    configuringUser: belongsTo('osf-user'),
+    configuringUser: belongsTo('internal-user'),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

@@ -1,14 +1,14 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
-import OsfUserModel from 'ember-osf-web/models/osf-user';
+import InternalUserModel from 'ember-osf-web/models/internal-user';
 
 import ApplicationSerializer from './application';
 
 const { addonServiceUrl } = config.OSF;
 
-export default class OsfUserSerializer extends ApplicationSerializer<OsfUserModel> {
-    buildRelationships(model: ModelInstance<OsfUserModel>) {
+export default class InternalUserSerializer extends ApplicationSerializer<InternalUserModel> {
+    buildRelationships(model: ModelInstance<InternalUserModel>) {
         return {
             authorizedStorageAccounts: {
                 links: {
@@ -29,7 +29,7 @@ export default class OsfUserSerializer extends ApplicationSerializer<OsfUserMode
         };
     }
 
-    buildNormalLinks(model: ModelInstance<OsfUserModel>) {
+    buildNormalLinks(model: ModelInstance<InternalUserModel>) {
         return {
             self: `${addonServiceUrl}/osf_users/${model.id}/`,
         };

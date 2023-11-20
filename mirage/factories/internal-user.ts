@@ -1,19 +1,20 @@
 import { Factory, hasMany } from 'ember-cli-mirage';
 
-import OsfResourceModel from 'ember-osf-web/models/osf-resource';
+import InternalUserModel from 'ember-osf-web/models/internal-user';
 
-export default Factory.extend<OsfResourceModel>({
-    configuredStorageAddons: hasMany('configured-storage-addon'),
+export default Factory.extend<InternalUserModel>({
+    authorizedStorageAccounts: hasMany('authorized-storage-account'),
+    configuredResources: hasMany('internal-resource'),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        'osf-resource': OsfResourceModel;
+        'internal-user': InternalUserModel;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        osfResource: OsfResourceModel;
+        internalUser: InternalUserModel;
     } // eslint-disable-line semi
 }

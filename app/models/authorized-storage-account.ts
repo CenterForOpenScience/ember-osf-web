@@ -1,6 +1,6 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
-import OsfUserModel from './osf-user';
+import InternalUserModel from './internal-user';
 import OsfModel from './osf-model';
 
 export default class AuthorizedStorageAccountModel extends OsfModel {
@@ -10,8 +10,8 @@ export default class AuthorizedStorageAccountModel extends OsfModel {
     @attr('fixstringarray') scopes!: string[];
     @attr('fixstring') defaultRootFolder!: string;
 
-    @belongsTo('osf-user', { inverse: 'authorizedStorageAccounts' })
-    configuringUser!: AsyncBelongsTo<OsfUserModel> & OsfUserModel;
+    @belongsTo('internal-user', { inverse: 'authorizedStorageAccounts' })
+    configuringUser!: AsyncBelongsTo<InternalUserModel> & InternalUserModel;
 }
 
 declare module 'ember-data/types/registries/model' {

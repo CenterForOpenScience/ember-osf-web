@@ -11,8 +11,8 @@ export default Factory.extend<ConfiguredStorageAddonModel>({
     externalUserDisplayName: faker.name.findName,
     rootFolder: faker.system.filePath,
 
-    accountOwner: belongsTo('osf-user'),
-    authorizedResource: belongsTo('osf-resource'),
+    accountOwner: belongsTo('internal-user'),
+    authorizedResource: belongsTo('internal-resource'),
     baseAccount: belongsTo('authorized-storage-account'),
 });
 
