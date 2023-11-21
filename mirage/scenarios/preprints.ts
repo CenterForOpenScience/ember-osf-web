@@ -127,6 +127,7 @@ function buildOSF(
         currentUserPermissions: [],
         reviewsState: ReviewsState.ACCEPTED,
         public: true,
+        hasCoi: false,
         isPreprintDoi: false,
         isPublished: false,
     }), 'isContributor');

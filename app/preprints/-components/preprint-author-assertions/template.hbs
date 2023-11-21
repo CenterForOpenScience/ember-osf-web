@@ -16,7 +16,7 @@
                             @type='default'
                             {{on 'click' (action (mut this.displayCoi) (not this.displayCoi))}}
                         >
-                            {{if this.hasCoi
+                            {{if this.isCoiTrue
                                 (t 'preprints.detail.author-assertions.available.yes')
                                 (t 'preprints.detail.author-assertions.available.no')}}
                             <FaIcon @icon='caret-down' @prefix='fas' aria-hidden='true'/>
