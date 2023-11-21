@@ -48,6 +48,10 @@ export default class PreprintAuthorAssertions extends Component<InputArgs> {
     }
 
     public get hasCoi(): boolean {
+        return this.preprint.hasCoi !== null;
+    }
+
+    public get isCoiTrue(): boolean {
         return this.preprint.hasCoi;
     }
 
