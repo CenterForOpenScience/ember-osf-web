@@ -23,6 +23,7 @@ export default function(server: Server) {
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
     server.loadFixtures('addons');
+    server.loadFixtures('storage-addon-providers');
     // server.loadFixtures('registration-providers');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? []

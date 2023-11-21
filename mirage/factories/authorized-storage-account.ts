@@ -7,10 +7,10 @@ import Addons from '../fixtures/addons';
 
 export default Factory.extend<AuthorizedStorageAccountModel>({
     storageProvider: faker.random.arrayElement(Addons).id,
-    externalUserId: faker.datatype.uuid,
-    externalUserDisplayName: faker.name.findName,
+    externalUserId: faker.random.uuid(),
+    externalUserDisplayName: faker.name.findName(),
     scopes: [],
-    defaultRootFolder: faker.system.filePath,
+    defaultRootFolder: faker.system.filePath(),
 
     configuringUser: belongsTo('internal-user'),
 });
