@@ -3,10 +3,7 @@ import faker from 'faker';
 
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
-import Addons from '../fixtures/addons';
-
 export default Factory.extend<ConfiguredStorageAddonModel>({
-    storageProvider: faker.random.arrayElement(Addons).id,
     externalUserId: faker.random.uuid(),
     externalUserDisplayName: faker.name.findName(),
     rootFolder: faker.system.filePath(),
@@ -14,6 +11,7 @@ export default Factory.extend<ConfiguredStorageAddonModel>({
     accountOwner: belongsTo('internal-user'),
     authorizedResource: belongsTo('internal-resource'),
     baseAccount: belongsTo('authorized-storage-account'),
+    storageProvider: belongsTo('storage-addon-provider'),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

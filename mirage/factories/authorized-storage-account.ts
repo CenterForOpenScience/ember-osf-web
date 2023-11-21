@@ -3,16 +3,14 @@ import faker from 'faker';
 
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 
-import Addons from '../fixtures/addons';
-
 export default Factory.extend<AuthorizedStorageAccountModel>({
-    storageProvider: faker.random.arrayElement(Addons).id,
     externalUserId: faker.random.uuid(),
     externalUserDisplayName: faker.name.findName(),
     scopes: [],
     defaultRootFolder: faker.system.filePath(),
 
     configuringUser: belongsTo('internal-user'),
+    storageProvider: belongsTo('storage-addon-provider'),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
