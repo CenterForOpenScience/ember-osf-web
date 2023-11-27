@@ -943,9 +943,7 @@ app_components:
     search_help_modal:
         close: Close
         title: 'Search help'
-        queries: Queries
-        searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>.'
-        helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
+        description: 'OSF Search provides a powerful discovery tool to help you find data, papers, analysis plans, and more content across the research lifecycle. OSF Preprints has some specialized filters, which you can learn more about on our <a href="https://help.osf.io/article/181-search-and-discover-preprints" target="_blank">help guides</a>.'
     search_paginator:
         prev: «
         prev_aria: 'Go to previous page'
