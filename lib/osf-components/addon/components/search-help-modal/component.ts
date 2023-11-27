@@ -21,21 +21,6 @@ interface InputArgs {
 export default class SearchHelpModal extends Component<InputArgs> {
     @service router!: RouterService;
 
-    examples: Array<{ q: string, text: string }> = [
-        {
-            q: 'repro*',
-            text: 'repro*',
-        },
-        {
-            q: 'brian+AND+title%3Amany',
-            text: 'brian AND title:many',
-        },
-        {
-            q: 'tags%3A%28psychology%29',
-            text: 'tags:(psychology)',
-        },
-    ];
-
     get currentPath(): string {
         return getOwner(this).lookup('controller:application').currentPath;
     }

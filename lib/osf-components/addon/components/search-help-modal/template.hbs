@@ -10,23 +10,11 @@
             </h3>
         </dialog.heading>
         <dialog.main data-test-search-help-modal-body>
-            <h4>
-                {{t 'app_components.search_help_modal.queries'}}
-            </h4>
             <p>
-                {{t 'app_components.search_help_modal.searchSyntax' htmlSafe=true}}
-                {{t 'app_components.search_help_modal.helpDescription'}}
+                {{t 'app_components.search_help_modal.description' htmlSafe=true}}
             </p>
-            <ul>
-                {{#each this.examples as |example|}}
-                    <li>
-                        <a href={{concat this.currentPath '?q=' example.q}}>
-                            {{example.text}}
-                        </a>
-                    </li>
-                {{/each}}
-            </ul>
         </dialog.main>
+
         <dialog.footer data-test-search-help-modal-footer>
             <Button
                 data-test-search-help-modal-close-button
