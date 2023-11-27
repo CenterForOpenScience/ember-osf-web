@@ -22,8 +22,12 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
-    server.loadFixtures('citation-styles');
     // server.loadFixtures('registration-providers');
+
+    // load citations for preprints, registrations, or manyProjectRegistrations
+    if (mirageScenarios.some(s => ['preprints', 'manyProjectRegistrations', 'registrations'].includes(s))) {
+        server.loadFixtures('citation-styles');
+    }
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? []
         : [
