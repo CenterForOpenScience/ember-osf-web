@@ -13,7 +13,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/osf_users/${model.accountOwner.id}/`,
+                        href: `${addonServiceUrl}/internal_users/${model.accountOwner.id}/`,
                         meta: this.buildRelatedLinkMeta(model, 'accountOwner'),
                     },
                 },
@@ -21,7 +21,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             authorizedResource: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/osf_resources/${model.authorizedResource.id}/`,
+                        href: `${addonServiceUrl}/internal_resources/${model.authorizedResource.id}/`,
                         meta: this.buildRelatedLinkMeta(model, 'authorizedResource'),
                     },
                 },

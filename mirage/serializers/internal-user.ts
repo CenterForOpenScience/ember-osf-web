@@ -13,7 +13,7 @@ export default class InternalUserSerializer extends ApplicationSerializer<Intern
             authorizedStorageAccounts: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/osf_users/${model.id}/authorized_storage_accounts`,
+                        href: `${addonServiceUrl}/internal_users/${model.id}/authorized_storage_accounts`,
                         meta: this.buildRelatedLinkMeta(model, 'authorizedStorageAccounts'),
                     },
                 },
@@ -21,7 +21,7 @@ export default class InternalUserSerializer extends ApplicationSerializer<Intern
             configuredResources: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/osf_users/${model.id}/configured_resources`,
+                        href: `${addonServiceUrl}/internal_users/${model.id}/configured_resources`,
                         meta: this.buildRelatedLinkMeta(model, 'configuredResources'),
                     },
                 },
@@ -31,7 +31,7 @@ export default class InternalUserSerializer extends ApplicationSerializer<Intern
 
     buildNormalLinks(model: ModelInstance<InternalUserModel>) {
         return {
-            self: `${addonServiceUrl}/osf_users/${model.id}/`,
+            self: `${addonServiceUrl}/internal_users/${model.id}/`,
         };
     }
 }

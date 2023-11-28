@@ -13,7 +13,7 @@ export default class AuthorizedStorageAccountSerializer extends ApplicationSeria
             configuringUser: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/osf_users/${model.configuringUser.id}/`,
+                        href: `${addonServiceUrl}/internal_users/${model.configuringUser.id}/`,
                         meta: this.buildRelatedLinkMeta(model, 'configuringUser'),
                     },
                 },
