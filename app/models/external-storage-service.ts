@@ -2,7 +2,7 @@ import { attr } from '@ember-data/model';
 
 import OsfModel from './osf-model';
 
-export default class StorageAddonProviderModel extends OsfModel {
+export default class ExternalStorageServiceModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('fixstring') iconUri!: string;
     @attr('fixstring') authUri!: string;
@@ -17,6 +17,6 @@ export default class StorageAddonProviderModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'storage-addon-provider': StorageAddonProviderModel;
+        'external-storage-service': ExternalStorageServiceModel;
     } // eslint-disable-line semi
 }

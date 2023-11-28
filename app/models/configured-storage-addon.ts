@@ -4,15 +4,15 @@ import AuthorizedStorageAccountModel from './authorized-storage-account';
 import InternalResourceModel from './internal-resource';
 import InternalUserModel from './internal-user';
 import OsfModel from './osf-model';
-import StorageAddonProviderModel from './storage-addon-provider';
+import ExternalStorageServiceModel from './external-storage-service';
 
 export default class ConfiguredStorageAddonModel extends OsfModel {
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstring') rootFolder!: string;
 
-    @belongsTo('storage-addon-provider')
-    storageProvider!: AsyncBelongsTo<StorageAddonProviderModel> & StorageAddonProviderModel;
+    @belongsTo('external-storage-service')
+    storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
 
     @belongsTo('internal-user', { inverse: 'configuredResources' })
     accountOwner!: AsyncBelongsTo<InternalUserModel> & InternalUserModel;

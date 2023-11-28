@@ -11,7 +11,7 @@ export default Factory.extend<ConfiguredStorageAddonModel>({
     accountOwner: belongsTo('internal-user'),
     authorizedResource: belongsTo('internal-resource'),
     baseAccount: belongsTo('authorized-storage-account'),
-    storageProvider: belongsTo('storage-addon-provider'),
+    storageProvider: belongsTo('external-storage-service'),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

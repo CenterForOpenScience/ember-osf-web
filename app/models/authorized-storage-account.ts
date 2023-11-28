@@ -9,7 +9,7 @@ export default class AuthorizedStorageAccountModel extends OsfModel {
     @attr('fixstringarray') scopes!: string[];
     @attr('fixstring') defaultRootFolder!: string;
 
-    @belongsTo('storage-addon-provider')
+    @belongsTo('external-storage-service')
     storageProvider!: AsyncBelongsTo<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel;
 
     @belongsTo('internal-user', { inverse: 'authorizedStorageAccounts' })
