@@ -5,5 +5,5 @@ const addonServiceUrl = config.OSF.url;
 
 export default class AddonServiceAdapter extends JSONAPIAdapter {
     host = addonServiceUrl.replace(/\/$/, ''); // Remove trailing slash to avoid // in URLs
-    // TODO: namespace??
+    namespace = 'v1';
 }
