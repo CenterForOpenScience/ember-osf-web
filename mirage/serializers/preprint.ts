@@ -108,6 +108,14 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
+            identifiers: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/identifiers/`,
+                        meta: this.buildRelatedLinkMeta(model, 'identifiers'),
+                    },
+                },
+            },
         };
 
         if (model.license !== null) {
