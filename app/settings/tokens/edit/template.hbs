@@ -32,19 +32,21 @@
             {{t 'settings.tokens.createSuccess.instructions'}}
         </p>
         <Button
-            {{on 'click' (action this.refresh)}}
+            {{on 'click' (action this.refreshToken)}}
         >
             {{t 'settings.tokens.createSuccess.editScopes'}}
         </Button>
     {{else}}
         <h4>{{t 'settings.tokens.editToken'}}</h4>
 
-        {{#if this.model.taskInstance.isError}}
-            {{this.model.taskInstance.error}}
-        {{else}}
+        {{#if this.model.taskInstance.isRunning}}
+            <LoadingIndicator @dark={{true}} />
+        {{else if this.model.taskInstance.isSuccessful}}
             <Settings::Tokens::-Components::EditForm
                 @token={{this.token}}
             />
+        {{else}}
+            {{this.model.taskInstance.error}}
         {{/if}}
     {{/if}}
 </div>

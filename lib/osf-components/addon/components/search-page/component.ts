@@ -23,6 +23,8 @@ interface ResourceTypeOption {
     value?: ResourceTypeFilterValue | null;
 }
 
+export const CARD_SEARCH_TEXT_PARAM = 'cardSearchText[*,creator.name,isContainedBy.creator.name]';
+
 export enum ResourceTypeFilterValue {
     Registrations = 'Registration,RegistrationComponent',
     Projects = 'Project,ProjectComponent',
@@ -44,7 +46,7 @@ export interface Filter {
     suggestedFilterOperator?: SuggestedFilterOperators;
 }
 
-export interface OnSearchParams {
+export interface OnQueryParamChangeParams {
     cardSearchText?: string;
     sort?: string;
     resourceType?: ResourceTypeFilterValue | null;
@@ -52,7 +54,7 @@ export interface OnSearchParams {
 }
 
 interface SearchArgs {
-    onSearch?: (obj: OnSearchParams) => void;
+    onQueryParamChange?: (obj: OnQueryParamChangeParams) => void;
     cardSearchText: string;
     cardSearchFilters: Filter[];
     propertyCard: IndexCardModel;
@@ -206,9 +208,6 @@ export default class SearchPage extends Component<SearchArgs> {
         try {
             const cardSearchText = this.cardSearchText;
             const { page, sort, activeFilters, resourceType } = this;
-            if (this.args.onSearch) {
-                this.args.onSearch({cardSearchText, sort, resourceType, activeFilters});
-            }
             const filterQueryObject = activeFilters.reduce((acc, filter) => {
                 // boolean filters should look like cardSearchFilter[hasDataResource][is-present]
                 if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
@@ -223,7 +222,7 @@ export default class SearchPage extends Component<SearchArgs> {
                 acc[filter.propertyPathKey] = currentValue ? currentValue.concat(filter.value) : [filter.value];
                 return acc;
             }, {} as { [key: string]: any });
-            let resourceTypeFilter = this.resourceType as string;
+            let resourceTypeFilter = resourceType as string;
             // If resourceType is null, we want to search all resource types
             if (!resourceTypeFilter) {
                 resourceTypeFilter = Object.values(ResourceTypeFilterValue).join(',');
@@ -240,7 +239,7 @@ export default class SearchPage extends Component<SearchArgs> {
             }
             this.filterQueryObject = filterQueryObject;
             const searchResult = await this.store.queryRecord('index-card-search', {
-                cardSearchText,
+                [CARD_SEARCH_TEXT_PARAM]: cardSearchText,
                 'page[cursor]': page,
                 sort,
                 cardSearchFilter: filterQueryObject,
@@ -276,6 +275,7 @@ export default class SearchPage extends Component<SearchArgs> {
     async doDebounceSearch() {
         await timeout(searchDebounceTime);
         this.page = '';
+        this.updateQueryParams();
         taskFor(this.search).perform();
     }
 
@@ -290,6 +290,7 @@ export default class SearchPage extends Component<SearchArgs> {
             this.activeFilters.pushObject(filter);
         }
         this.page = '';
+        this.updateQueryParams();
         taskFor(this.search).perform();
     }
 
@@ -297,6 +298,7 @@ export default class SearchPage extends Component<SearchArgs> {
     updateSort(sortOption: SortOption) {
         this.sort = sortOption.value;
         this.page = '';
+        this.updateQueryParams();
         taskFor(this.search).perform();
     }
 
@@ -305,6 +307,15 @@ export default class SearchPage extends Component<SearchArgs> {
         this.resourceType = resourceTypeOption.value;
         this.activeFilters = A<Filter>([]);
         this.page = '';
+        this.updateQueryParams();
         taskFor(this.search).perform();
+    }
+
+    @action
+    updateQueryParams() {
+        const { cardSearchText, sort, activeFilters, resourceType } = this;
+        if (this.args.onQueryParamChange) {
+            this.args.onQueryParamChange({cardSearchText, sort, resourceType, activeFilters});
+        }
     }
 }

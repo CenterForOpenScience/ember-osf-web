@@ -119,6 +119,7 @@ file_actions_menu:
     error_message: 'Could not copy to clipboard'
     rename: 'Rename'
     rename_aria: 'Open rename link'
+    submit_to_boa: 'Submit to Boa'
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -2001,7 +2002,7 @@ osf-components:
         date_modified: Date modified
         last_edited: Last edited
         member_since: Member since
-        preprint_provider: Preprint provider
+        preprint_provider: Provider
         registration_provider: Registration provider
         conflict_of_interest: Conflict of Interest response
         no_conflict_of_interest: 'Author asserted no Conflict of Interest'
@@ -2019,6 +2020,13 @@ osf-components:
         withdrawn: Withdrawn
         unknown: Unknown
         remaining_count: '{count} more'
+        fetch_user_error: 'Unable to fetch user information from OSF'
+        no_user: 'No user'
+        employment: Employment
+        education: Education
+        public_projects: Public projects
+        public_registrations: Public registrations
+        public_preprints: Public preprints
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button.'
         add_instructions_adhere: 'Contributors affirmed to adhere to the criteria for each badge.'
@@ -2338,6 +2346,13 @@ osf-components:
             delete_success: '{itemCount, plural, one {# item} other {# items}} deleted successfully'
             deleting: 'Deleting {itemCount, plural, one {# item} other {# items}}'
             retry: 'retry delete'
+        submit_to_boa: 'Submit file to Boa?'
+        boa_dataset_select_placeholder: 'Select a dataset'
+        confirm_submit_to_boa: 'Are you sure you want to submit "{fileName}" to Boa?'
+        confirm_submit_to_boa_yes: 'Submit'
+        submit_to_boa_fail: 'Unable to submit "{fileName}" to Boa. Please try again later. Contact <a href="mailto:support@osf.io">support@osf.io</a> if the problem persists'
+        submit_to_boa_success: 'Successfully submitted "{fileName}" to Boa. You will be notified by email when the job is done.'
+        boa_dataset_spiel: 'Please select a dataset to run the query against:'
         help_modal:
             heading: 'Using the OSF Files Browser'
             providers: 'See All Files in a Provider'

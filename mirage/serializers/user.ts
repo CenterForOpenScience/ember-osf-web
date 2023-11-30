@@ -66,6 +66,14 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     },
                 },
             },
+            preprints: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/preprints/`,
+                        meta: this.buildRelatedLinkMeta(model, 'preprints'),
+                    },
+                },
+            },
         };
         if (model.defaultRegion) {
             serializedRelationships.defaultRegion = {

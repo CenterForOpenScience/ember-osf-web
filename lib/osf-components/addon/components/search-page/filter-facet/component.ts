@@ -11,7 +11,7 @@ import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path
 
 import SearchResultModel from 'ember-osf-web/models/search-result';
 
-import { Filter } from '../component';
+import { Filter, CARD_SEARCH_TEXT_PARAM } from '../component';
 
 interface FakeIndexCard {
     resourceId: string;
@@ -48,12 +48,21 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked hasMoreValueOptions = false;
     @tracked nextPageCursor = '';
 
+    get shouldShowTopValues() {
+        const { args: { property: { propertyPathKey } } } = this;
+        return propertyPathKey !== 'creator';
+    }
+
     @action
     toggleFacet() {
-        if (this.filterableValues.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
-            taskFor(this.fetchFacetValues).perform();
+        if (this.shouldShowTopValues) {
+            if (this.filterableValues.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
+                taskFor(this.fetchFacetValues).perform();
+            }
+            this.collapsed = !this.collapsed;
+        } else {
+            this.openSeeMoreModal();
         }
-        this.collapsed = !this.collapsed;
     }
 
     @action
@@ -105,10 +114,16 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @waitFor
     async fetchFacetValues() {
         const { cardSearchText, cardSearchFilter, property } = this.args;
-        const { page, sort, filterString } = this;
-
+        const { page, sort, filterString, shouldShowTopValues } = this;
+        if (!shouldShowTopValues && !filterString.trim()) {
+            this.filterableValues = [];
+            this.modalValueOptions = [];
+            this.hasMoreValueOptions = false;
+            this.nextPageCursor = '';
+            return;  // skip fetching
+        }
         const valueSearch = await this.store.queryRecord('index-value-search', {
-            cardSearchText,
+            [CARD_SEARCH_TEXT_PARAM]: cardSearchText,
             cardSearchFilter,
             valueSearchPropertyPath: property.propertyPathKey,
             valueSearchText: filterString || '',

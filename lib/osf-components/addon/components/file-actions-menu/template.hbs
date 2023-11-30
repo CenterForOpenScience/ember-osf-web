@@ -110,9 +110,31 @@
                 </Button>
             {{/if}}
         {{/if}}
+        {{#if this.showSubmitToBoa}}
+            <Button
+                @layout='fake-link'
+                data-test-submit-to-boa
+                data-analytics-name='Submit to Boa'
+                local-class='DropdownItem'
+                {{on 'click' (queue
+                    dropdown.close
+                    this.openSubmitToBoaModal
+                )}}
+            >
+                <FaIcon @icon='upload' />
+                {{t 'file_actions_menu.submit_to_boa'}}
+            </Button>
+        {{/if}}
     </dropdown.content>
 </ResponsiveDropdown>
 <FileActionsMenu::DeleteModal @file={{@item}} @isOpen={{this.isDeleteModalOpen}} @closeModal={{this.closeDeleteModal}} @onDelete={{@onDelete}} />
+{{#if this.showSubmitToBoa}}
+    <FileActionsMenu::SubmitToBoaModal
+        @file={{@item}}
+        @isOpen={{this.isSubmitToBoaModalOpen}}
+        @closeModal={{this.closeSubmitToBoaModal}}
+    />
+{{/if}}
 {{#if @manager}}
     <MoveFileModal
         @isOpen={{this.moveModalOpen}}
