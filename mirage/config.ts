@@ -67,6 +67,9 @@ export default function(this: Server) {
     this.get('/index-card-search', cardSearch);
     this.get('/index-value-search', valueSearch);
     // this.get('/index-card/:id', Detail);
+    this.get('/index-card-searches', cardSearch);
+    this.get('/index-value-searches', valueSearch);
+    // this.get('/index-cards/:id', Detail);
 
     this.urlPrefix = osfUrl;
     this.namespace = '/api/v1/';
@@ -299,7 +302,91 @@ export default function(this: Server) {
         only: ['index'],
     });
 
-    osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
+    osfResource(this, 'preprint-provider', {
+        path: '/providers/preprints',
+        defaultPageSize: 1000,
+    });
+    osfNestedResource(this, 'preprint-provider', 'highlightedSubjects', {
+        only: ['index'],
+        path: '/providers/preprints/:parentID/subjects/highlighted/',
+        relatedModelName: 'subject',
+    });
+    osfNestedResource(this, 'preprint-provider', 'preprints', {
+        path: '/providers/preprints/:parentID/preprints/',
+        relatedModelName: 'preprint',
+    });
+
+    osfNestedResource(this, 'preprint-provider', 'citationStyles', {
+        only: ['index'],
+        path: '/providers/preprints/:parentID/citation_styles/',
+        relatedModelName: 'citation-style',
+    });
+
+    /**
+     * Preprint Details
+     */
+
+    osfResource(this, 'preprint');
+    osfNestedResource(this, 'preprint', 'contributors', {
+        path: '/preprints/:parentID/contributors/',
+        defaultSortKey: 'index',
+        relatedModelName: 'contributor',
+    });
+    osfNestedResource(this, 'preprint', 'bibliographicContributors', {
+        path: '/preprints/:parentID/bibliographic_contributors/',
+        defaultSortKey: 'index',
+        relatedModelName: 'contributor',
+    });
+    osfNestedResource(this, 'preprint', 'files', {
+        path: '/preprints/:parentID/files/',
+        defaultSortKey: 'index',
+        relatedModelName: 'file',
+    });
+    osfNestedResource(this, 'preprint', 'primaryFile', {
+        path: '/wb/files/:fileID/',
+        defaultSortKey: 'index',
+        relatedModelName: 'file',
+    });
+    osfNestedResource(this, 'preprint', 'subjects', {
+        path: '/preprints/:parentID/subjects/',
+        defaultSortKey: 'index',
+        relatedModelName: 'subject',
+    });
+    this.get('/preprints/:guid/citation/:citationStyleID', getCitation);
+
+    /**
+     * Preprint Review Actions
+     */
+
+    osfNestedResource(this, 'preprint', 'reviewActions', {
+        path: '/preprints/:parentID/review_actions/',
+        defaultSortKey: 'index',
+        relatedModelName: 'review-action',
+    });
+
+    /**
+     * Preprint Requests
+     */
+
+    osfNestedResource(this, 'preprint', 'requests', {
+        path: '/preprints/:parentID/requests/',
+        defaultSortKey: 'index',
+        relatedModelName: 'preprint-request',
+    });
+
+    /**
+     * Preprint Request Actions
+     */
+    osfResource(this, 'preprint-request', {path: '/requests'});
+    osfNestedResource(this, 'preprint-request', 'actions', {
+        path: '/requests/:parentID/actions',
+        relatedModelName: 'preprint-request-action',
+    });
+
+    /**
+     * End Preprint Details
+     */
+
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
     osfNestedResource(this, 'registration-provider', 'moderators', {
         only: ['index', 'show', 'update', 'delete'],

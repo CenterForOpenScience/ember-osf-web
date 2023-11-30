@@ -1,0 +1,129 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.header-container {
+    padding: 30px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: $color-text-white;
+    background: var(--hero-background-img-url);
+
+    .lead {
+        font-size: 21px;
+        margin-bottom: 20px;
+        font-weight: 300;
+        line-height: 1.4;
+
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    p {
+        color: $color-text-white;
+    }
+
+    .brand-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 25px;
+
+
+        .brand {
+            height: 70px;
+            width: 100%;
+
+            &.brand-logo {
+                background: var(--hero-logo-img-url) top center no-repeat;
+                background-size: contain;
+            }
+        }
+
+    }
+
+    .search-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 75%;
+        margin-top: 25px;
+
+        .form {
+            width: 100%;
+            position: relative;
+            margin: 0 50px;
+
+            input {
+                font-size: 18px;
+                padding: 28px 50px;
+            }
+
+            .icon {
+                position: absolute;
+                top: 9px;
+                left: 8px;
+                font-size: 24px;
+                color: var(--primary-color);
+
+                &:hover {
+                    color: var(--secondary-color);
+                }
+            }
+
+            .hidden-label {
+                position: absolute;
+                height: 1px;
+                width: 1px;
+                overflow: hidden;
+                clip: rect(1px, 1px, 1px, 1px);
+            }
+
+            .help-icon {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 24px;
+                color: var(--primary-color);
+
+                &:hover {
+                    color: var(--secondary-color);
+                }
+            }
+
+        }
+    }
+    
+
+    .provider-description {
+        justify-content: center;
+        margin-top: 15px;
+        margin-bottom: 25px;
+        width: 75%;
+    }
+
+    .example-container {
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    &.mobile {
+        padding: 30px 10px;
+
+        .search-container {
+            width: 100%;
+
+            .form {
+                margin: 0;
+            }
+        }
+    }
+}

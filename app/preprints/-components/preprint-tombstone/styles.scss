@@ -1,0 +1,16 @@
+.withdrawn-container {
+    padding: 0 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    h4 {
+        padding-bottom: 15px;
+        padding-top: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+}

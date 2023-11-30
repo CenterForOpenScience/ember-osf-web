@@ -1,0 +1,62 @@
+<div local-class='header-container {{if this.isMobile 'mobile'}}' data-test-header-container>
+    <div local-class='brand-container'>
+        <div
+            data-test-brand-logo
+            local-class='brand brand-logo'
+            role='heading'
+            aria-level='1'
+            aria-label={{this.headerAriaLabel}}
+        ></div>
+    </div>
+    <p local-class='lead'>
+        {{yield (hash lead=(element ''))}}
+    </p>
+
+    <div local-class='search-container {{if this.isMobile 'mobile'}}'>
+        <form
+            local-class='form'
+            data-test-search-form
+            {{action 'onSubmit' on='submit'}}
+        >
+            <Button
+                data-test-perform-search-button
+                aria-label={{t (concat @translationParent '.header.search_button' )}}
+                local-class='icon'
+                @layout='fake-link'
+                {{on 'click' this.onSubmit}}
+            >
+                <FaIcon data-test-search-icon @icon='search' />
+            </Button>
+            <label local-class='hidden-label' for='search'>{{t (concat @translationParent '.header.search_label' )}}</label>
+            <Input
+                data-test-search-box
+                aria-label={{this.headerAriaLabel}}
+                id='search'
+                class='form-control'
+                @value={{this.value}}
+                @class='form-control'
+                @placeholder={{this.searchPlaceholder}}
+            />
+            {{#if this.showHelp}}
+                <Button
+                    data-test-search-help-button
+                    aria-label={{t (concat @translationParent '.header.search_help' )}}
+                    local-class='help-icon'
+                    @layout='fake-link'
+                    {{on 'click' (action this.toggleHelp)}}
+                >
+                    <FaIcon @icon='question' />
+                </Button>
+            {{/if}}
+        </form>
+    </div>
+
+    <div local-class='example-container'>
+        {{yield (hash row=(element ''))}}
+    </div>
+
+    <SearchHelpModal @isOpen={{this.showingHelp}}
+    @onClose={{this.toggleHelp}}
+     />
+
+</div>

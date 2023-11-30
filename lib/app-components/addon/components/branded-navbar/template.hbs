@@ -2,8 +2,8 @@
     <nav
         local-class='branded-nav
         {{if (eq this.theme.providerType 'preprint') 'preprint-branded-navbar'}}
-        {{if (sufficient-contrast this.brandPrimaryColor '#fff') 'light-text' 'dark-text'}}
-        {{if this.useWhiteBackground 'white-background-branded-navbar'}}'
+        {{if (not (sufficient-contrast this.brandPrimaryColor '#fff')) 'dark-text'}}
+        {{if this.useWhiteBackground 'white-background-branded-navbar dark-text'}}'
         class='navbar navbar-inverse navbar-fixed-top'
         id='navbarScope'
     >
@@ -11,6 +11,7 @@
             <div class='navbar-header'>
                 <LinkTo 
                     @route={{@brandRoute}}
+                    @model={{this.providerId}}
                     class='navbar-brand'
                 >
                     <span local-class='navbar-image' class='navbar-image'></span>
@@ -33,7 +34,7 @@
             {{#if this.shouldShowNavLinks}}
                 <div
                     class='navbar-collapse navbar-right'
-                    local-class='secondary-navigation'
+                    local-class='secondary-navigation {{if this.isMobileOrTablet 'mobile' 'desktop'}}'
                 >
                     <ul class='nav navbar-nav' local-class='links'>
                         {{#if (eq this.theme.providerType 'collection')}}
@@ -107,7 +108,7 @@
                         {{/if}}
                         <li>
                             <a
-                                href='https://cos.io/donate'
+                                href={{this.donateUrl}}
                                 onclick={{action 'click' 'link' 'Navbar - Donate' target=this.analytics}}
                             >
                                 {{t 'navbar.donate'}}

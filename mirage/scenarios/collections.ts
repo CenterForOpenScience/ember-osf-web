@@ -8,6 +8,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
 import { MirageSubmissionAction } from 'ember-osf-web/mirage/factories/collection-submission';
+import { PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
 
 
 /**
@@ -55,7 +56,7 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
         id: 'studyswap',
         primaryCollection,
         licensesAcceptable,
-        reviewsWorkflow: 'pre-moderation',
+        reviewsWorkflow: PreprintProviderReviewsWorkFlow.PRE_MODERATION,
     }, 'currentUserIsAdmin');
 
     server.createList('moderator', 3, {

@@ -2,6 +2,7 @@ import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import PreprintModel from 'ember-osf-web/models/preprint';
 
 import Action from './action';
 import RegistrationModel, { RegistrationReviewStates } from './registration';
@@ -63,7 +64,8 @@ export default class ReviewActionModel extends Action {
     @attr('string') toState!: RegistrationReviewStates;
 
     @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
-    target!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
+    target!: (AsyncBelongsTo<RegistrationModel> & RegistrationModel
+        ) | (AsyncBelongsTo<PreprintModel> & PreprintModel);
 
     @computed('actionTrigger')
     get triggerPastTense(): string {
