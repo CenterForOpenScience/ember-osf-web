@@ -1,11 +1,11 @@
 import { AsyncHasMany, hasMany } from '@ember-data/model';
 
 import OsfModel from './osf-model';
-import ConfiguredStorageAccountModel from './configured-storage-addon';
+import ConfiguredStorageAddonModel from './configured-storage-addon';
 
 export default class InternalResourceModel extends OsfModel {
-    @hasMany('configured-storage-account', { inverse: 'authorizedResource' })
-    configuredStorageAddons!: AsyncHasMany<ConfiguredStorageAccountModel> & ConfiguredStorageAccountModel[];
+    @hasMany('configured-storage-addon', { inverse: 'authorizedResource' })
+    configuredStorageAddons!: AsyncHasMany<ConfiguredStorageAddonModel> & ConfiguredStorageAddonModel[];
 }
 
 declare module 'ember-data/types/registries/model' {
