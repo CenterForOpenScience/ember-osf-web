@@ -90,7 +90,7 @@ export default class PreprintModel extends OsfModel {
     @hasMany('preprint-request', { inverse: 'target'})
     requests!: AsyncHasMany<PreprintRequestModel>;
 
-    @hasMany('identifiers', { inverse: 'referent' })
+    @hasMany('identifiers')
     identifiers!: AsyncHasMany<IdentifierModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
