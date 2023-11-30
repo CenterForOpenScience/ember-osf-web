@@ -4,6 +4,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import Theme from 'ember-osf-web/services/theme';
 import captureException from 'ember-osf-web/utils/capture-exception';
+import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 
 /**
  * Loads all disciplines and preprint providers to the index page
@@ -13,6 +14,9 @@ export default class Preprints extends Route {
     @service store!: Store;
     @service theme!: Theme;
     @service router!: RouterService;
+    @service metaTags!: MetaTags;
+    headTags?: HeadTagDef[];
+
 
     async model(params: { provider_id : string }) {
         const provider_id = params.provider_id ? params.provider_id : 'osf';
@@ -61,13 +65,14 @@ export default class Preprints extends Route {
         }
     }
 
-    afterModel(model: PreprintProviderModel) {
-        if (model && model.assets && model.assets.favicon) {
+    afterModel(model: any) {
+        const {provider} = model;
+        if (provider && provider.assets && provider.assets.favicon) {
             const headTags = [{
                 type: 'link',
                 attrs: {
                     rel: 'icon',
-                    href: model.assets.favicon,
+                    href: provider.assets.favicon,
                 },
             }];
             this.set('headTags', headTags);
