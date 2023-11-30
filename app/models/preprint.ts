@@ -8,6 +8,7 @@ import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
+import IdentifierModel from './identifier';
 import LicenseModel from './license';
 import NodeModel from './node';
 import OsfModel, { Permission } from './osf-model';
@@ -88,6 +89,9 @@ export default class PreprintModel extends OsfModel {
 
     @hasMany('preprint-request', { inverse: 'target'})
     requests!: AsyncHasMany<PreprintRequestModel>;
+
+    @hasMany('identifiers', { inverse: 'referent' })
+    identifiers!: AsyncHasMany<IdentifierModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
     @alias('links.preprint_doi') preprintDoiUrl!: string;

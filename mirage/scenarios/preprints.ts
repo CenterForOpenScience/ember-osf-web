@@ -59,6 +59,10 @@ function buildOSF(
         hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
     });
 
+    const osfApprovedAdminIdentifier = server.create('identifier');
+
+    approvedAdminPreprint.update({ identifiers: [osfApprovedAdminIdentifier] });
+
     const notContributorPreprint = server.create('preprint', {
         provider: osf,
         id: 'osf-not-contributor',

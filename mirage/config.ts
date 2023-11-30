@@ -352,6 +352,11 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'subject',
     });
+    osfNestedResource(this, 'preprint', 'identifiers', {
+        path: '/preprints/:parentID/identifiers/',
+        defaultSortKey: 'index',
+        relatedModelName: 'identifier',
+    });
     this.get('/preprints/:guid/citation/:citationStyleID', getCitation);
 
     /**
