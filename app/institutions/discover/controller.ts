@@ -10,7 +10,7 @@ import {
 export default class InstitutionDiscoverController extends Controller {
     @service currentUser!: CurrentUser;
 
-    @tracked q?: string = '';
+    @tracked cardSearchText?: string = '';
     @tracked sort?: string =  '-relevance';
     @tracked resourceType: ResourceTypeFilterValue = ResourceTypeFilterValue.Projects;
     @tracked activeFilters?: Filter[] = [];

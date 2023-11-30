@@ -3,7 +3,6 @@ import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import config from 'ember-osf-web/config/environment';
-import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Theme from 'ember-osf-web/services/theme';
@@ -38,23 +37,5 @@ export default class PreprintDiscoverRoute extends Route {
             this.router.transitionTo('not-found', `preprints/${args.provider_id}/discover`);
             return null;
         }
-    }
-
-    // TODO: Move this to app/preprints/index/route.ts when landing page PR is merged
-    afterModel(model: PreprintProviderModel) {
-        if (model && model.assets && model.assets.favicon) {
-            const headTags = [{
-                type: 'link',
-                attrs: {
-                    rel: 'icon',
-                    href: model.assets.favicon,
-                },
-            }];
-            this.set('headTags', headTags);
-        }
-    }
-
-    deactivate() {
-        this.theme.reset();
     }
 }

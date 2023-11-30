@@ -1958,6 +1958,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[23.15.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.15.0
 [23.14.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.14.0
 [23.13.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.13.0
 [23.12.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.12.1

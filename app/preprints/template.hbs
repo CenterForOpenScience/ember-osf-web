@@ -1,9 +1,16 @@
 {{page-title this.theme.provider.providerTitle replace=true}}
-<div {{with-branding (get-model this.theme.provider.brand)}}>
-    <BrandedNavbar
-        @translateKey='collections.general.brand'
-        @brandRoute='preprints.discover'
-        @addLinkKey='collections.navbar.add'
-    />
-    {{outlet}}
+{{#if this.theme.isProvider}}
+    <div {{with-branding (get-model this.theme.provider.brand)}}>
+        <ThemeStyles />
+        <BrandedNavbar
+            @brandRoute='preprints.discover'
+        />
+    </div>
+{{/if}}
+{{outlet}}
+
+<div>
+    <Preprints::-Components::BrandedFooter
+        @footerLinks={{this.theme.provider.footerLinks}}
+    ></Preprints::-Components::BrandedFooter>
 </div>

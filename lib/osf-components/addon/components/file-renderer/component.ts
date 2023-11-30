@@ -69,7 +69,12 @@ export default class FileRenderer extends Component {
         // This is most apparent in 3D files
         const urlWithParams = new URL(renderUrl);
         urlWithParams.searchParams.set('url', this.downloadUrl);
-        return this.isLoading ? '' : urlWithParams.toString();
+        if (config.WATER_BUTLER_ENABLED) {
+            return this.isLoading ? '' : urlWithParams.toString();
+        } else {
+            return this.isLoading ? '' : this.downloadUrl;
+
+        }
     }
 
     didReceiveAttrs(): void {

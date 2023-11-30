@@ -10,6 +10,14 @@ import ApplicationSerializer, { SerializedRelationships } from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class UserSerializer extends ApplicationSerializer<User> {
+    buildNormalLinks(model: ModelInstance<User>) {
+        return {
+            ...super.buildNormalLinks(model),
+            profile_image: randomGravatar(),
+            html: randomGravatar(),
+        };
+    }
+
     buildRelationships(model: ModelInstance<User>) {
         const serializedRelationships: SerializedRelationships<User> = {
             emails: {
@@ -82,12 +90,5 @@ export default class UserSerializer extends ApplicationSerializer<User> {
             };
         }
         return serializedRelationships;
-    }
-
-    buildNormalLinks(model: ModelInstance<User>) {
-        return {
-            ...super.buildNormalLinks(model),
-            profile_image: randomGravatar(),
-        };
     }
 }

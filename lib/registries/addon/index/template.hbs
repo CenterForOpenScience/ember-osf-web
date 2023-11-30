@@ -1,11 +1,16 @@
 <RegistriesWrapper>
     <ScheduledBanner />
     <HeroOverlay>
-        {{#registries-header onSearch=(action 'onSearch') as |header|}}
-            {{#header.lead}}
+        <BrandedHeader
+            @translationParent='registries'
+            @onSearch={{action this.onSearch}}
+            @showHelp=true
+            as |branded-header|
+        >
+            {{#branded-header.lead}}
                 <span>{{t 'registries.index.lead' htmlSafe=true}}</span>
-            {{/header.lead}}
-            {{#header.row}}
+            {{/branded-header.lead}}
+            {{#branded-header.row}}
                 <div local-class='example-container'>
                     <a
                         href='https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67'
@@ -14,8 +19,8 @@
                         {{t 'registries.index.see_example'}}
                     </a>
                 </div>
-            {{/header.row}}
-        {{/registries-header}}
+            {{/branded-header.row}}
+        </BrandedHeader>
     </HeroOverlay>
 
     {{#if this.getRecentRegistrations.isRunning}}

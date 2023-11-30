@@ -1,0 +1,138 @@
+{{#if this.shouldShowSloanIcons}}
+    <div local-class='author-assertions-page-container {{if this.isMobile 'mobile'}}'>
+        <div local-class='author-assertions-container'>
+            <div local-class='header-label'>
+                {{~t 'preprints.detail.author-assertions.header_label'~}}
+            </div>
+            <div local-class='author-assertions'>
+                {{#if this.hasCoi}}
+                    <div local-class='assertions-container'>
+                        <div local-class='assertion-header-label'>
+                            {{~t 'preprints.detail.author-assertions.conflict_of_interest.title'~}}
+                        </div>
+                        <Button
+                            data-test-view-coi
+                            data-analytics-name='View coi'
+                            @type='default'
+                            {{on 'click' (action (mut this.displayCoi) (not this.displayCoi))}}
+                        >
+                            {{if this.isCoiTrue
+                                (t 'preprints.detail.author-assertions.available.yes')
+                                (t 'preprints.detail.author-assertions.available.no')}}
+                            <FaIcon @icon='caret-down' @prefix='fas' aria-hidden='true'/>
+                        </Button>
+                        <OsfDialog
+                            @closeOnOutsideClick={{true}}
+                            @isOpen={{this.displayCoi}}
+                            @onClose={{action (mut this.displayCoi) false}}
+                            as |dialog|
+                        >
+                            <dialog.heading>
+                                <h3>{{t 'preprints.detail.author-assertions.conflict_of_interest.title'}}</h3>
+                            </dialog.heading>
+                            <dialog.main>
+                                <div>
+                                    {{#if this.hasCoiStatement}}
+                                        {{~this.preprint.conflictOfInterestStatement~}}
+                                    {{else}}
+                                        {{~t 'preprints.detail.author-assertions.conflict_of_interest.no'~}}
+                                    {{/if}}
+                                </div>
+                            </dialog.main>
+                        </OsfDialog>
+                    </div>
+                {{/if}}
+
+                {{#if this.hasDataLinks}}
+                    <div local-class='assertions-container'>
+                        <div local-class='assertion-header-label'>
+                            {{~t 'preprints.detail.author-assertions.public_data.title'~}}
+                        </div>
+                        <Button
+                            data-test-view-data-links
+                            data-analytics-name='View data links'
+                            @type='default'
+                            {{on 'click' (action (mut this.displayDataLinks) (not this.displayDataLinks))}}
+                        >
+                            {{this.availableDataLinksMessage}}
+                            <FaIcon @icon='caret-down' @prefix='fas' aria-hidden='true'/>
+                        </Button>
+                        <OsfDialog
+                            @closeOnOutsideClick={{true}}
+                            @isOpen={{this.displayDataLinks}}
+                            @onClose={{action (mut this.displayDataLinks) false}}
+                            as |dialog|
+                        >
+                            <dialog.heading>
+                                <h3>{{t 'preprints.detail.author-assertions.public_data.title'}}</h3>
+                            </dialog.heading>
+                            <dialog.main>
+                                <div>
+                                    {{#if (eq this.preprint.hasDataLinks 'available')}}
+                                        <Preprints::-Components::PreprintAssertionLink
+                                            @links={{this.preprint.dataLinks}}
+                                            @analyticsName={{ t 'preprints.detail.author-assertions.public_data.title'}}
+                                        />
+                                    {{else if (eq this.preprint.hasDataLinks 'no')}}
+                                        {{#if this.preprint.whyNoData}}
+                                            {{this.preprint.whyNoData}}
+                                        {{else}}
+                                            {{~t 'preprints.detail.author-assertions.public_data.no'~}}
+                                        {{/if}}
+                                    {{else}}
+                                        {{~t 'preprints.detail.author-assertions.public_data.not_applicable' documentType=this.documentType~}}
+                                    {{/if}}
+                                </div>
+                            </dialog.main>
+                        </OsfDialog>
+                    </div>
+                {{/if}}
+
+                {{#if this.hasPreregLinks}}
+                    <div local-class='assertions-container'>
+                        <div local-class='assertion-header-label'>
+                            {{~t 'preprints.detail.author-assertions.prereg.title'~}}
+                        </div>
+                        <Button
+                            data-test-view-prereg
+                            data-analytics-name='View prereg'
+                            @type='default'
+                            {{on 'click' (action (mut this.displayPreregLinks) (not this.displayPreregLinks))}}
+                        >
+                            {{this.availablePreregLinksMessage}}
+                            <FaIcon @icon='caret-down' @prefix='fas' aria-hidden='true'/>
+                        </Button>
+                        <OsfDialog
+                            @closeOnOutsideClick={{true}}
+                            @isOpen={{this.displayPreregLinks}}
+                            @onClose={{action (mut this.displayPreregLinks) false}}
+                            as |dialog|
+                        >
+                            <dialog.heading>
+                                <h3>{{t 'preprints.detail.author-assertions.prereg.title'}}</h3>
+                            </dialog.heading>
+                            <dialog.main>
+                                <div>
+                                    {{#if (eq this.preprint.hasPreregLinks 'available')}}
+                                        <Preprints::-Components::PreprintAssertionLink
+                                            @links={{this.preprint.preregLinks}}
+                                            @analyticsName={{ t 'preprints.detail.author-assertions.prereg.title'}}
+                                        />
+                                    {{else if (eq this.preprint.hasPreregLinks 'no')}}
+                                        {{#if this.preprint.whyNoPrereg}}
+                                            {{this.preprint.whyNoPrereg}}
+                                        {{else}}
+                                            {{~t 'preprints.detail.author-assertions.prereg.no'~}}
+                                        {{/if}}
+                                    {{else}}
+                                        {{~t 'preprints.detail.author-assertions.prereg.not_applicable' documentType=this.documentType~}}
+                                    {{/if}}
+                                </div>
+                            </dialog.main>
+                        </OsfDialog>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+{{/if}}
