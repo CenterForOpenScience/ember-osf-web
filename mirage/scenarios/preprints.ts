@@ -200,6 +200,21 @@ function buildOSF(
         isPublished: false,
     }, 'acceptedWithdrawalComment');
 
+    const examplePreprint = server.create('preprint', {
+        provider: osf,
+        id: 'khbvy',
+        title: 'The "See Example" hard-coded preprint',
+        currentUserPermissions: [],
+        reviewsState: ReviewsState.ACCEPTED,
+        description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(100)}`,
+        doi: '10.30822/artk.v1i1.79',
+        originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
+        preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
+        hasCoi: true,
+        hasDataLinks: PreprintDataLinksEnum.NOT_APPLICABLE,
+        hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
+    });
+
     const subjects = server.createList('subject', 7);
 
     osf.update({
@@ -212,6 +227,7 @@ function buildOSF(
         brand,
         moderators: [currentUserModerator],
         preprints: [
+            examplePreprint,
             rejectedAdminPreprint,
             approvedAdminPreprint,
             approvedPreprint,

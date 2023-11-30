@@ -41,7 +41,8 @@
                             <OsfLink
                                 data-test-submission-see-submission-example
                                 data-analytics-name='See Submission Example'
-                                @href={{if this.theme.provider.example this.theme.provider.example 'khbvy'}}
+                                @route='resolve-guid'
+                                @models={{array (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
                             >
                                 {{t 'preprints.header.example'}}
                             </OsfLink>
