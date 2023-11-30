@@ -60,4 +60,17 @@ export default class Preprints extends Route {
             return null;
         }
     }
+
+    afterModel(model: PreprintProviderModel) {
+        if (model && model.assets && model.assets.favicon) {
+            const headTags = [{
+                type: 'link',
+                attrs: {
+                    rel: 'icon',
+                    href: model.assets.favicon,
+                },
+            }];
+            this.set('headTags', headTags);
+        }
+    }
 }
