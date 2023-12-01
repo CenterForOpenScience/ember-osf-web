@@ -390,16 +390,6 @@ export default function(this: Server) {
     osfResource(this, 'collection-subscription', { only: ['show', 'update'] });
     osfResource(this, 'registration-subscription', { only: ['show', 'update'] });
 
-    // Addon service namespace
-    this.urlPrefix = addonServiceUrl;
-    this.namespace = '/v1';
-    this.resource('external_storage_services', { only: ['index', 'show'] });
-    this.resource('internal_users', { only: ['show'] });
-    this.get('/internal_users/:userGuid/authorized_storage_accounts/', addons.internalUserAuthorizedStorageAccountList);
-    this.resource('internal_resources', { only: ['show'] });
-    this.resource('authorized_storage_accounts', { only: ['show', 'update'] });
-    this.resource('configured_storage_addons', { only: ['show', 'update'] });
-
     // Waterbutler namespace
     this.namespace = '/wb';
     this.post('/files/:id/move', wb.moveFile);
@@ -431,4 +421,14 @@ export default function(this: Server) {
 
     // node analytics
     this.get('/metrics/query/node_analytics/:nodeID/:timespan', getNodeAnalytics);
+
+    // Addon service
+    this.urlPrefix = addonServiceUrl;
+    this.namespace = '/v1';
+    this.resource('external_storage_services', { only: ['index', 'show'] });
+    this.resource('internal_users', { only: ['show'] });
+    this.get('/internal_users/:userGuid/authorized_storage_accounts/', addons.internalUserAuthorizedStorageAccountList);
+    this.resource('internal_resources', { only: ['show'] });
+    this.resource('authorized_storage_accounts', { only: ['show', 'update'] });
+    this.resource('configured_storage_addons', { only: ['show', 'update'] });
 }
