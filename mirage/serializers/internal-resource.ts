@@ -13,7 +13,7 @@ export default class InternalResourceSerializer extends ApplicationSerializer<In
             configuredStorageAddons: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/internal_resources/${model.id}/configured_storage_addons`,
+                        href: `${addonServiceUrl}v1/internal_resources/${model.id}/configured_storage_addons`,
                         meta: this.buildRelatedLinkMeta(model, 'configuredStorageAddons'),
                     },
                 },
@@ -23,7 +23,7 @@ export default class InternalResourceSerializer extends ApplicationSerializer<In
 
     buildNormalLinks(model: ModelInstance<InternalResourceModel>) {
         return {
-            self: `${addonServiceUrl}/internal_resources/${model.id}/`,
+            self: `${addonServiceUrl}v1/internal_resources/${model.id}/`,
         };
     }
 }

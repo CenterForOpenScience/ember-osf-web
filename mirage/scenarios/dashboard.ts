@@ -3,6 +3,7 @@ import config from 'ember-osf-web/config/environment';
 import AddonModel from 'ember-osf-web/models/addon';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import User from 'ember-osf-web/models/user';
 
 const {
@@ -59,6 +60,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     });
 
     // Addons for filesNode
+    // Dropbox using v2 API
     const dropbox = server.schema.addons.find('dropbox') as ModelInstance<AddonModel>;
     const dropboxAccount = server.create('external-account', {
         displayName: 'Bugs Bunny',
@@ -81,6 +83,30 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         folderPath: '/',
         externalAccount: dropboxAccount,
         node: filesNode,
+    });
+
+    // OneDrive using Addons Service
+    const boxAddon = server.schema.externalStorageServices.find('box') as ModelInstance<ExternalStorageServiceModel>;
+    const addonUser = server.create('internal-user', { id: currentUser.id });
+    const addonFile5 = server.create('internal-resource', { id: filesNode.id });
+    addonUser.update({
+        configuredResources: [addonFile5],
+    });
+
+    const boxAccount = server.create('authorized-storage-account', {
+        externalUserId: currentUser.id,
+        externalUserDisplayName: currentUser.fullName,
+        defaultRootFolder: '/',
+        scopes: ['write'], // TODO: This should be a from an enum?
+        storageProvider: boxAddon,
+        configuringUser: addonUser,
+    });
+
+    server.create('configured-storage-addon', {
+        storageProvider: boxAddon,
+        accountOwner: addonUser,
+        authorizedResource: addonFile5,
+        baseAccount: boxAccount,
     });
 
     // NOTE: Some institutions are already created by this point

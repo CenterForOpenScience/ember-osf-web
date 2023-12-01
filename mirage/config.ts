@@ -49,9 +49,10 @@ import {
 } from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
+import * as addons from './views/addons';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl, shareBaseUrl } } = config;
+const { OSF: { addonServiceUrl, apiUrl, shareBaseUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
@@ -388,6 +389,16 @@ export default function(this: Server) {
     osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
     osfResource(this, 'collection-subscription', { only: ['show', 'update'] });
     osfResource(this, 'registration-subscription', { only: ['show', 'update'] });
+
+    // Addon service namespace
+    this.urlPrefix = addonServiceUrl;
+    this.namespace = '/v1';
+    this.resource('external_storage_services', { only: ['index', 'show'] });
+    this.resource('internal_users', { only: ['show'] });
+    this.get('/internal_users/:userGuid/authorized_storage_accounts/', addons.internalUserAuthorizedStorageAccountList);
+    this.resource('internal_resources', { only: ['show'] });
+    this.resource('authorized_storage_accounts', { only: ['show', 'update'] });
+    this.resource('configured_storage_addons', { only: ['show', 'update'] });
 
     // Waterbutler namespace
     this.namespace = '/wb';

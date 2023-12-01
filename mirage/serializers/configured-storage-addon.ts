@@ -7,13 +7,19 @@ import ApplicationSerializer from './application';
 
 const { addonServiceUrl } = config.OSF;
 
-export default class ConfiguredStorageAddonSerializer extends ApplicationSerializer<ConfiguredStorageAddonModel> {
-    buildRelationships(model: ModelInstance<ConfiguredStorageAddonModel>) {
+interface MirageConfiguredStorageAddon extends ConfiguredStorageAddonModel {
+    accountOwnerId: string;
+    authorizedResourceId: string;
+    baseAccountId: string;
+}
+
+export default class ConfiguredStorageAddonSerializer extends ApplicationSerializer<MirageConfiguredStorageAddon> {
+    buildRelationships(model: ModelInstance<MirageConfiguredStorageAddon>) {
         return {
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/internal_users/${model.accountOwner.id}/`,
+                        href: `${addonServiceUrl}v1/internal_users/${model.accountOwnerId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'accountOwner'),
                     },
                 },
@@ -21,7 +27,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             authorizedResource: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/internal_resources/${model.authorizedResource.id}/`,
+                        href: `${addonServiceUrl}v1/internal_resources/${model.authorizedResourceId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'authorizedResource'),
                     },
                 },
@@ -29,7 +35,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             baseAccount: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}/authorized_storage_accounts/${model.baseAccount.id}/`,
+                        href: `${addonServiceUrl}v1/authorized_storage_accounts/${model.baseAccountId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'baseAccount'),
                     },
                 },
@@ -39,7 +45,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
 
     buildNormalLinks(model: ModelInstance<ConfiguredStorageAddonModel>) {
         return {
-            self: `${addonServiceUrl}/configured_storage_addons/${model.id}/`,
+            self: `${addonServiceUrl}v1/configured_storage_addons/${model.id}/`,
         };
     }
 }

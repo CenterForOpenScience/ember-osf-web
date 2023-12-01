@@ -1,10 +1,8 @@
-import { Factory, hasMany } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
 
 import InternalUserModel from 'ember-osf-web/models/internal-user';
 
 export default Factory.extend<InternalUserModel>({
-    authorizedStorageAccounts: hasMany('authorized-storage-account'),
-    configuredResources: hasMany('internal-resource'),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

@@ -1,4 +1,4 @@
-import { belongsTo, Factory } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
@@ -8,9 +8,6 @@ export default Factory.extend<AuthorizedStorageAccountModel>({
     externalUserDisplayName: faker.name.findName(),
     scopes: [],
     defaultRootFolder: faker.system.filePath(),
-
-    configuringUser: belongsTo('internal-user'),
-    storageProvider: belongsTo('external-storage-service'),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

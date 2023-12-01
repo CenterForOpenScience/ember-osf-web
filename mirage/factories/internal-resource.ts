@@ -1,9 +1,8 @@
-import { Factory, hasMany } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
 
 import InternalResourceModel from 'ember-osf-web/models/internal-resource';
 
 export default Factory.extend<InternalResourceModel>({
-    configuredStorageAddons: hasMany('configured-storage-addon'),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
