@@ -85,7 +85,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         node: filesNode,
     });
 
-    // OneDrive using Addons Service
+    // Box using Addons Service
     const boxAddon = server.schema.externalStorageServices.find('box') as ModelInstance<ExternalStorageServiceModel>;
     const addonUser = server.create('internal-user', { id: currentUser.id });
     const addonFile5 = server.create('internal-resource', { id: filesNode.id });

@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
+import { addonServiceNamespace } from 'ember-osf-web/adapters/addon-service';
 import { externalAccountDetail, externalAccountList } from 'ember-osf-web/mirage/views/external-account';
 import { nodeAddonDetail, nodeAddonList } from 'ember-osf-web/mirage/views/node-addon';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
@@ -424,7 +425,7 @@ export default function(this: Server) {
 
     // Addon service
     this.urlPrefix = addonServiceUrl;
-    this.namespace = '/v1';
+    this.namespace = addonServiceNamespace;
     this.resource('external_storage_services', { only: ['index', 'show'] });
     this.resource('internal_users', { only: ['show'] });
     this.get('/internal_users/:userGuid/authorized_storage_accounts/', addons.internalUserAuthorizedStorageAccountList);

@@ -1,11 +1,9 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-osf-web/config/environment';
 
+import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
 import ApplicationSerializer from './application';
-
-const { addonServiceUrl } = config.OSF;
 
 interface MirageConfiguredStorageAddon extends ConfiguredStorageAddonModel {
     accountOwnerId: string;
@@ -19,7 +17,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}v1/internal_users/${model.accountOwnerId}/`,
+                        href: `${addonServiceAPIUrl}internal_users/${model.accountOwnerId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'accountOwner'),
                     },
                 },
@@ -27,7 +25,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             authorizedResource: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}v1/internal_resources/${model.authorizedResourceId}/`,
+                        href: `${addonServiceAPIUrl}internal_resources/${model.authorizedResourceId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'authorizedResource'),
                     },
                 },
@@ -35,7 +33,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             baseAccount: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}v1/authorized_storage_accounts/${model.baseAccountId}/`,
+                        href: `${addonServiceAPIUrl}authorized_storage_accounts/${model.baseAccountId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'baseAccount'),
                     },
                 },
@@ -45,7 +43,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
 
     buildNormalLinks(model: ModelInstance<ConfiguredStorageAddonModel>) {
         return {
-            self: `${addonServiceUrl}v1/configured_storage_addons/${model.id}/`,
+            self: `${addonServiceAPIUrl}configured_storage_addons/${model.id}/`,
         };
     }
 }

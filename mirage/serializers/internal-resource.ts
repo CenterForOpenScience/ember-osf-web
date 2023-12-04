@@ -1,11 +1,9 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-osf-web/config/environment';
 
+import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import InternalResourceModel from 'ember-osf-web/models/internal-resource';
 
 import ApplicationSerializer from './application';
-
-const { addonServiceUrl } = config.OSF;
 
 export default class InternalResourceSerializer extends ApplicationSerializer<InternalResourceModel> {
     buildRelationships(model: ModelInstance<InternalResourceModel>) {
@@ -13,7 +11,7 @@ export default class InternalResourceSerializer extends ApplicationSerializer<In
             configuredStorageAddons: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}v1/internal_resources/${model.id}/configured_storage_addons`,
+                        href: `${addonServiceAPIUrl}internal_resources/${model.id}/configured_storage_addons`,
                         meta: this.buildRelatedLinkMeta(model, 'configuredStorageAddons'),
                     },
                 },
@@ -23,7 +21,7 @@ export default class InternalResourceSerializer extends ApplicationSerializer<In
 
     buildNormalLinks(model: ModelInstance<InternalResourceModel>) {
         return {
-            self: `${addonServiceUrl}v1/internal_resources/${model.id}/`,
+            self: `${addonServiceAPIUrl}internal_resources/${model.id}/`,
         };
     }
 }

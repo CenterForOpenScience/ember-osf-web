@@ -3,7 +3,10 @@ import config from 'ember-osf-web/config/environment';
 
 const addonServiceUrl = config.OSF.url;
 
+export const addonServiceNamespace = 'v1';
+export const addonServiceAPIUrl = `${addonServiceUrl}${addonServiceNamespace}/`;
+
 export default class AddonServiceAdapter extends JSONAPIAdapter {
     host = addonServiceUrl.replace(/\/$/, ''); // Remove trailing slash to avoid // in URLs
-    namespace = 'v1';
+    namespace = addonServiceNamespace;
 }

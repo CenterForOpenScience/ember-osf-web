@@ -1,11 +1,9 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import config from 'ember-osf-web/config/environment';
 
+import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import AuthorizedStorageAccount from 'ember-osf-web/models/authorized-storage-account';
 
 import ApplicationSerializer from './application';
-
-const { addonServiceUrl } = config.OSF;
 
 export default class AuthorizedStorageAccountSerializer extends ApplicationSerializer<AuthorizedStorageAccount> {
     buildRelationships(model: ModelInstance<AuthorizedStorageAccount>) {
@@ -13,7 +11,7 @@ export default class AuthorizedStorageAccountSerializer extends ApplicationSeria
             configuringUser: {
                 links: {
                     related: {
-                        href: `${addonServiceUrl}v1/internal_users/${model.configuringUser.id}/`,
+                        href: `${addonServiceAPIUrl}internal_users/${model.configuringUser.id}/`,
                         meta: this.buildRelatedLinkMeta(model, 'configuringUser'),
                     },
                 },
@@ -23,7 +21,7 @@ export default class AuthorizedStorageAccountSerializer extends ApplicationSeria
 
     buildNormalLinks(model: ModelInstance<AuthorizedStorageAccount>) {
         return {
-            self: `${addonServiceUrl}v1/authorized_storage_accounts/${model.id}/`,
+            self: `${addonServiceAPIUrl}authorized_storage_accounts/${model.id}/`,
         };
     }
 }
