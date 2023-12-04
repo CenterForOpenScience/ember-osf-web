@@ -59,6 +59,16 @@ export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
     this.passthrough('https://api.crossref.org/*');
 
+    // Addon service
+    this.urlPrefix = addonServiceUrl;
+    this.namespace = addonServiceNamespace;
+    this.resource('external_storage_services', { only: ['index', 'show'] });
+    this.resource('internal_users', { only: ['show'] });
+    this.get('/internal_users/:userGuid/authorized_storage_accounts/', addons.internalUserAuthorizedStorageAccountList);
+    this.resource('internal_resources', { only: ['show'] });
+    this.resource('authorized_storage_accounts', { only: ['show', 'update'] });
+    this.resource('configured_storage_addons', { only: ['show', 'update'] });
+
     // SHARE-powered registration discover endpoint
     this.urlPrefix = 'https://share.osf.io';
     this.namespace = '/api/v2/';
@@ -422,14 +432,4 @@ export default function(this: Server) {
 
     // node analytics
     this.get('/metrics/query/node_analytics/:nodeID/:timespan', getNodeAnalytics);
-
-    // Addon service
-    this.urlPrefix = addonServiceUrl;
-    this.namespace = addonServiceNamespace;
-    this.resource('external_storage_services', { only: ['index', 'show'] });
-    this.resource('internal_users', { only: ['show'] });
-    this.get('/internal_users/:userGuid/authorized_storage_accounts/', addons.internalUserAuthorizedStorageAccountList);
-    this.resource('internal_resources', { only: ['show'] });
-    this.resource('authorized_storage_accounts', { only: ['show', 'update'] });
-    this.resource('configured_storage_addons', { only: ['show', 'update'] });
 }
