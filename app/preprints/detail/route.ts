@@ -17,6 +17,7 @@ import Ready from 'ember-osf-web/services/ready';
 import Theme from 'ember-osf-web/services/theme';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import PrePrintsDetailController from './controller';
 
 /**
  * @module ember-preprints
@@ -143,6 +144,7 @@ export default class PreprintsDetail extends Route {
             }
             this.set('headTags', allTags);
             this.metaTags.updateHeadTags();
+            (this.controller as PrePrintsDetailController).plauditIsReady = true;
         }
         blocker.done();
     }

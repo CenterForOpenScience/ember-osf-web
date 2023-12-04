@@ -125,7 +125,9 @@
                     </div>
                     <div local-class='plaudit-container'>
                         <div local-class='plaudit'>
-                            <Preprints::-Components::PlauditWidget></Preprints::-Components::PlauditWidget>
+                            {{#if this.plauditIsReady}}
+                                <Preprints::-Components::PlauditWidget />
+                            {{/if}}
                         </div>
                         <SharingIcons
                             local-class='sharing-icons'
