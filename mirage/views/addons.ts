@@ -7,6 +7,6 @@ export function internalUserAuthorizedStorageAccountList(this: HandlerContext, s
     const authorizedStorageAccounts = internalUser.attrs.authorizedStorageAccountIds.map(
         (id: string) => schema.authorizedStorageAccounts.find(id),
     );
-    const data = [authorizedStorageAccounts.map((account: ModelInstance) => this.serialize(account).data)];
+    const data = authorizedStorageAccounts.map((account: ModelInstance) => this.serialize(account).data);
     return process(schema, request, this, data);
 }
