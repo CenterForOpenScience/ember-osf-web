@@ -61,10 +61,11 @@
                     </Alert>
                 {{else}}
                     {{#if this.model.preprint.public}}
-                        <FileRenderer
-                            @download={{this.model.primaryFile.links.download}}
-                            @version={{this.viewedVersion}}
-                        />
+                        <Preprints::-Components::PreprintFileRender
+                            @provider={{this.model.provider}}
+                            @preprint={{this.model.preprint}}
+                            @primaryFile={{this.model.primaryFile}}
+                        ></Preprints::-Components::PreprintFileRender>
                         <div local-class='file-description-container'>
                             <div local-class='file-description'>
                                 <div>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</div>
