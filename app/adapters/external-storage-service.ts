@@ -1,6 +1,6 @@
 import AddonServiceAdapter from './addon-service';
 
-export default class StorageAddonProviderAdapter extends AddonServiceAdapter {
+export default class ExternalStorageServiceAdapter extends AddonServiceAdapter {
     pathForType() {
         return 'storage_providers';
     }
@@ -8,6 +8,6 @@ export default class StorageAddonProviderAdapter extends AddonServiceAdapter {
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'storage-addon-provider': StorageAddonProviderAdapter;
+        'external-storage-service': ExternalStorageServiceAdapter;
     } // eslint-disable-line semi
 }

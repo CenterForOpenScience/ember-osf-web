@@ -1,19 +1,19 @@
 import { AsyncHasMany, hasMany } from '@ember-data/model';
 
 import AuthorizedStorageAccountModel from './authorized-storage-account';
-import OsfResourceModel from './osf-resource';
+import InternalResourceModel from './internal-resource';
 import OsfModel from './osf-model';
 
-export default class OsfUserModel extends OsfModel {
+export default class InternalUserModel extends OsfModel {
     @hasMany('authorized-storage-account', { inverse: 'configuringUser' })
     authorizedStorageAccounts!: AsyncHasMany<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel[];
 
-    @hasMany('osf-resource')
-    configuredResources!: AsyncHasMany<OsfResourceModel> & OsfResourceModel[];
+    @hasMany('internal-resource')
+    configuredResources!: AsyncHasMany<InternalResourceModel> & InternalResourceModel[];
 }
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'osf-user': OsfUserModel;
+        'internal-user': InternalUserModel;
     } // eslint-disable-line semi
 }

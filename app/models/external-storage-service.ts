@@ -2,10 +2,11 @@ import { attr } from '@ember-data/model';
 
 import OsfModel from './osf-model';
 
-export default class StorageAddonProviderModel extends OsfModel {
+export default class ExternalStorageServiceModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('fixstring') iconUri!: string;
     @attr('fixstring') authUri!: string;
+    // TODO: combine these boolean scopes into a single array of strings from some enum
     @attr('boolean') readOnly!: boolean;
     @attr('boolean') supportsCopy!: boolean;
     @attr('boolean') supportsUserSpecifiedRootFolder!: boolean;
@@ -17,6 +18,6 @@ export default class StorageAddonProviderModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'storage-addon-provider': StorageAddonProviderModel;
+        'external-storage-service': ExternalStorageServiceModel;
     } // eslint-disable-line semi
 }

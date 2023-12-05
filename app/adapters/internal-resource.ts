@@ -1,10 +1,10 @@
 import AddonServiceAdapter from './addon-service';
 
-export default class OsfUserAdapter extends AddonServiceAdapter {
+export default class InternalResourceAdapter extends AddonServiceAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'osf-user': OsfUserAdapter;
+        'internal-resource': InternalResourceAdapter;
     } // eslint-disable-line semi
 }

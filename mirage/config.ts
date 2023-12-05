@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
+import { addonServiceNamespace } from 'ember-osf-web/adapters/addon-service';
 import { externalAccountDetail, externalAccountList } from 'ember-osf-web/mirage/views/external-account';
 import { nodeAddonDetail, nodeAddonList } from 'ember-osf-web/mirage/views/node-addon';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
@@ -49,9 +50,10 @@ import {
 } from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
+import * as addons from './views/addons';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl, shareBaseUrl } } = config;
+const { OSF: { addonServiceUrl, apiUrl, shareBaseUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
@@ -420,4 +422,19 @@ export default function(this: Server) {
 
     // node analytics
     this.get('/metrics/query/node_analytics/:nodeID/:timespan', getNodeAnalytics);
+
+
+    // Addon service
+    this.urlPrefix = addonServiceUrl;
+    this.namespace = addonServiceNamespace;
+    this.resource('external_storage_services', { only: ['index', 'show'] });
+    this.resource('internal_users', { only: ['show'] });
+    this.get('/internal_users/:userGuid/authorized_storage_accounts/', addons.internalUserAuthorizedStorageAccountList);
+    this.resource('internal_resources', { only: ['show'] });
+    this.resource('authorized_storage_accounts', { only: ['show', 'update'] });
+    this.resource('configured_storage_addons', { only: ['show', 'update'] });
+
+    // Reset API url and namespace to use v2 endpoints for tests
+    this.urlPrefix = apiUrl;
+    this.namespace = '/v2';
 }
