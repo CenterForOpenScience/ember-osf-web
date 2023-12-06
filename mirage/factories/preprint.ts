@@ -87,8 +87,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                 delete: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
                 html: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
                 upload: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-                // download: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-                download: 'http://localhost:4200/assets/osf-assets/amazon.png',
+                download: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
             },
         });
 

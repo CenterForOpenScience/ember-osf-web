@@ -43,7 +43,9 @@ export default class PreprintFileRender extends Component<InputArgs> {
     @task
     @waitFor
     private async loadPrimaryFileVersions()  {
-        const primaryFileVersions = (await this.primaryFile.versions).toArray();
+        const primaryFileVersions = (await this.primaryFile.queryHasMany('versions', {
+            sort: '-id', 'page[size]': 50,
+        })).toArray();
         this.serializeVersions(primaryFileVersions);
         this.primaryFileHasVersions = primaryFileVersions.length > 0;
     }

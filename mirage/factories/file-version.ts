@@ -9,6 +9,7 @@ export default Factory.extend<FileVersionModel>({
     id: guid('file - version'),
     afterCreate: (fileVersion/* , server: Server */) => {
         fileVersion.update({
+            id : faker.random.number(1000),
             size: faker.random.number(1000),
             contentType: 'application/octet-stream',
             dateCreated: faker.date.past(2, new Date(2018, 0, 0)),
