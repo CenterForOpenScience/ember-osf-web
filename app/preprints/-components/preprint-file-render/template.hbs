@@ -1,4 +1,4 @@
-<div local-class='file-renderer-container'>
+<div local-class='file-renderer-container {{if this.isMobile 'mobile'}}'>
     <div local-class='file-container'>
         <FileRenderer
             @allowCommenting={{this.allowCommenting}}
@@ -8,13 +8,13 @@
     </div>
 
     <div local-class='details-container'>
-        <div local-class='name'>
-            <span data-test-selected-file-name>
+        <div local-class='name-container'>
+            <div data-test-selected-file-name local-class='name'>
                 {{this.primaryFile.name}}
-            </span>
-            <span data-test-file-version>
+            </div>
+            <div data-test-file-version local-class='version'>
                 {{t 'preprints.detail.file_renderer.version'}}: {{this.primaryFile.currentVersion}}
-            </span>
+            </div>
         </div>
         <div local-class='version-container'>
             {{#if this.primaryFileHasVersions}}

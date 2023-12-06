@@ -25,13 +25,28 @@
         align-items: center;
         justify-content: flex-start;
 
-        .name {
+        .name-container {
             width: 60%;
+            height: 50px;
             overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .name,
+            .version {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                height: 25px;
+            }
         }
 
         .version-container {
             width: 40%;
+            height: 50px;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -79,6 +94,28 @@
                         border-color: #2e6da4;
                     }
                 }
+            }
+        }
+    }
+
+    &.mobile {
+        height: 500px;
+
+        .file-container {
+            height: 400px;
+        }
+
+        .details-container {
+            height: 100px;
+            flex-direction: column;
+
+            .version-container,
+            .name-container {
+                height: 50px;
+                width: 100%;
+                justify-content: center;
+                align-items: flex-start;
+                flex-direction: column;
             }
         }
     }

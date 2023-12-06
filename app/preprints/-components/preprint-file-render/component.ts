@@ -9,6 +9,7 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import { taskFor } from 'ember-concurrency-ts';
 import FileVersionModel from 'ember-osf-web/models/file-version';
+import Media from 'ember-responsive';
 
 
 interface InputArgs {
@@ -23,6 +24,7 @@ export interface VersionModel extends FileVersionModel {
 
 export default class PreprintFileRender extends Component<InputArgs> {
     @service theme!: Theme;
+    @service media!: Media;
 
     @tracked allowCommenting = false;
     @tracked primaryFileHasVersions = false;
@@ -74,5 +76,9 @@ export default class PreprintFileRender extends Component<InputArgs> {
             );
             return version;
         });
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }

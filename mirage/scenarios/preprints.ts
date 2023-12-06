@@ -134,7 +134,7 @@ function buildOSF(
         hasCoi: false,
         isPreprintDoi: false,
         isPublished: false,
-    }), 'isContributor');
+    }), 'isContributor', 'pngImage');
 
     const notPublishedPreprint = server.create('preprint', {
         provider: osf,

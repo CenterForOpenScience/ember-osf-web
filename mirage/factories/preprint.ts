@@ -28,6 +28,7 @@ export interface PreprintTraits {
     acceptedWithdrawalComment: Trait;
     rejectedWithdrawalNoComment: Trait;
     reviewAction: Trait;
+    pngImage: Trait;
 }
 
 export default Factory.extend<PreprintMirageModel & PreprintTraits>({
@@ -86,7 +87,8 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                 delete: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
                 html: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
                 upload: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-                download: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                // download: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                download: 'http://localhost:4200/assets/osf-assets/amazon.png',
             },
         });
 
@@ -195,6 +197,21 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                 comment: 'This is a job for Mario &amp; Luigi &gt;_&lt;',
             });
             preprint.update({ reviewActions: [preprintReviewAction]});
+        },
+    }),
+
+    pngImage: trait<PreprintModel>({
+        afterCreate(preprint) {
+            preprint.update({
+                links: {
+                    info: 'http://localhost:4200/assets/osf-assets/amazon.png',
+                    move: 'http://localhost:4200/assets/osf-assets/amazon.png',
+                    delete: 'http://localhost:4200/assets/osf-assets/amazon.png',
+                    html: 'http://localhost:4200/assets/osf-assets/amazon.png',
+                    upload: 'http://localhost:4200/assets/osf-assets/amazon.png',
+                    download: 'http://localhost:4200/assets/osf-assets/amazon.png',
+                },
+            });
         },
     }),
 
