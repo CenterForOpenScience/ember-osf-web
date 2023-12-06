@@ -28,11 +28,7 @@ export default Factory.extend<MirageFile & FileTraits>({
             referentType: newObj.modelName,
         });
 
-        const versions = [
-            server.create('file-version'),
-            server.create('file-version'),
-            server.create('file-version'),
-        ];
+        const versions = server.createList('file-version', 3);
 
         newObj.update({
             guid: newObj.id,
