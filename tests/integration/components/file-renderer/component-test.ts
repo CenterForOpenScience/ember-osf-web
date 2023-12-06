@@ -28,7 +28,7 @@ module('Integration | Component | file-renderer', hooks => {
         assert.equal(iframe.getAttribute('width'), '100%');
         assert.equal(
             iframe.getAttribute('src'),
-            `${renderUrl}?url=${encodeURIComponent(`${download}?direct=&mode=render`)}`,
+            `${renderUrl}?url=${encodeURIComponent(`${download}?direct=&mode=render&allowCommenting=false`)}`,
         );
     });
 
@@ -37,10 +37,12 @@ module('Integration | Component | file-renderer', hooks => {
             download: 'http://cos.io/',
             height: 500,
             width: 500,
+            allowCommenting: true,
         });
 
         await render(hbs`
-            {{file-renderer download=this.download height=this.height width=this.width}}
+            {{file-renderer download=this.download height=this.height width=this.width 
+                allowCommenting=this.allowCommenting}}
         `);
 
         const iframe = this.element.querySelector('iframe') as HTMLIFrameElement;
@@ -53,7 +55,7 @@ module('Integration | Component | file-renderer', hooks => {
         assert.equal(iframe.getAttribute('width'), '500');
         assert.equal(
             iframe.getAttribute('src'),
-            `${renderUrl}?url=${encodeURIComponent('http://cos.io/?direct=&mode=render')}`,
+            `${renderUrl}?url=${encodeURIComponent('http://cos.io/?direct=&mode=render&allowCommenting=true')}`,
         );
     });
 });
