@@ -14,7 +14,9 @@ export type ChoicesFields =
     'statusChoices' |
     'volumeChoices' |
     'studyDesignChoices' |
-    'schoolTypeChoices';
+    'schoolTypeChoices' |
+    'dataTypeChoices' |
+    'diseaseChoices';
 
 export const choicesFields = choiceFields.map(field => `${field}Choices`) as ChoicesFields[];
 
@@ -32,6 +34,8 @@ export default class CollectionModel extends OsfModel {
     @attr('array') volumeChoices!: string[];
     @attr('array') studyDesignChoices!: string[]; // custom field for Character Lab
     @attr('array') schoolTypeChoices!: string[]; // custom field for Character Lab
+    @attr('array') dataTypeChoices!: string[];
+    @attr('array') diseaseChoices!: string[];
 
     @belongsTo('collection-provider')
     provider!: AsyncBelongsTo<CollectionProviderModel> & CollectionProviderModel;

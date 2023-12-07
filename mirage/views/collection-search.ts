@@ -19,6 +19,8 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
                 volume,
                 schoolType,
                 studyDesign,
+                dataType,
+                disease,
                 provider,
             },
         },
@@ -80,6 +82,20 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
         collectionSubmissions = collectionSubmissions.filter(
             (item: ModelInstance<CollectionSubmission>) => studyDesign.any(
                 (value: string) => item.attrs.studyDesign === value,
+            ),
+        );
+    }
+    if (dataType) {
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => dataType.any(
+                (value: string) => item.attrs.dataType === value,
+            ),
+        );
+    }
+    if (disease) {
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => disease.any(
+                (value: string) => item.attrs.disease === value,
             ),
         );
     }
