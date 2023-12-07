@@ -3,18 +3,19 @@ import faker from 'faker';
 
 import FileVersionModel from 'ember-osf-web/models/file-version';
 
-import { guid } from './utils';
-
 export default Factory.extend<FileVersionModel>({
-    id: guid('file - version'),
-    afterCreate: (fileVersion/* , server: Server */) => {
-        fileVersion.update({
-            id : faker.random.number(1000),
-            size: faker.random.number(1000),
-            contentType: 'application/octet-stream',
-            dateCreated: faker.date.past(2, new Date(2018, 0, 0)),
-            name: faker.system.commonFileName(faker.system.commonFileExt()),
-        });
+    id() {
+        return faker.random.number(1000);
+    },
+    size() {
+        return faker.random.number(1000);
+    },
+    contentType: 'application/octet-stream',
+    dateCreated() {
+        return faker.date.past(2, new Date(2018, 0, 0));
+    },
+    name() {
+        return faker.system.commonFileName(faker.system.commonFileExt());
     },
 });
 

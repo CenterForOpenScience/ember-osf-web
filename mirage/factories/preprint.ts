@@ -28,7 +28,6 @@ export interface PreprintTraits {
     acceptedWithdrawalComment: Trait;
     rejectedWithdrawalNoComment: Trait;
     reviewAction: Trait;
-    pngImage: Trait;
 }
 
 export default Factory.extend<PreprintMirageModel & PreprintTraits>({
@@ -198,22 +197,6 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
             preprint.update({ reviewActions: [preprintReviewAction]});
         },
     }),
-
-    pngImage: trait<PreprintModel>({
-        afterCreate(preprint) {
-            preprint.update({
-                links: {
-                    info: 'http://localhost:4200/assets/osf-assets/amazon.png',
-                    move: 'http://localhost:4200/assets/osf-assets/amazon.png',
-                    delete: 'http://localhost:4200/assets/osf-assets/amazon.png',
-                    html: 'http://localhost:4200/assets/osf-assets/amazon.png',
-                    upload: 'http://localhost:4200/assets/osf-assets/amazon.png',
-                    download: 'http://localhost:4200/assets/osf-assets/amazon.png',
-                },
-            });
-        },
-    }),
-
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
