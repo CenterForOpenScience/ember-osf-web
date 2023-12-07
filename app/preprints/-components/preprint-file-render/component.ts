@@ -38,6 +38,8 @@ export default class PreprintFileRender extends Component<InputArgs> {
         super(owner, args);
 
         taskFor(this.loadPrimaryFileVersions).perform();
+
+        this.allowCommenting = this.provider.allowCommenting && this.preprint.isPublished && this.preprint.public;
     }
 
     @task
@@ -48,11 +50,6 @@ export default class PreprintFileRender extends Component<InputArgs> {
         })).toArray();
         this.serializeVersions(primaryFileVersions);
         this.primaryFileHasVersions = primaryFileVersions.length > 0;
-    }
-
-    didReceiveAttrs(): void {
-        const publishedAndPublic = this.preprint.isPublished && this.preprint.public;
-        this.allowCommenting = this.provider.allowCommenting && publishedAndPublic;
     }
 
     private serializeVersions(versions: FileVersionModel[]) {
