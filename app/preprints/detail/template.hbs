@@ -153,7 +153,7 @@
                         </SharingIcons>
                     </div>
                     <Preprints::-Components::PreprintAbstract @preprint={{this.model.preprint}} />
-                    {{#if this.model.preprint.node}}
+                    {{#if this.model.preprint.node.links}}
                         <div>
                             <h4>{{t 'preprints.detail.supplemental_materials'}}</h4>
                             <OsfLink
