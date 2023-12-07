@@ -29,7 +29,7 @@ interface Params {
  * ```handlebars
  * {{file-renderer
  *   download=model.links.download
- *     width="800" height="1000" allowfullscreen=true allowCommenting=true}}
+ *     width="800" height="1000" allowfullscreen=true}}
  * ```
  * @class FileRenderer
  */
@@ -45,20 +45,18 @@ export default class FileRenderer extends Component {
     width = '100%';
     height = '100%';
     allowfullscreen = true;
-    allowCommenting = false;
     version?: number;
     @tracked isLoading = true;
 
-    @computed('download', 'params', 'version', 'allowCommenting')
+    @computed('download', 'params', 'version')
     get downloadUrl(): string {
-        const { download, params, version, allowCommenting } = this;
+        const { download, params, version } = this;
         if (!download) {
             return '';
         }
         const downloadLink = new URL(download);
         downloadLink.searchParams.set('direct', params.direct || '');
         downloadLink.searchParams.set('mode', params.mode);
-        downloadLink.searchParams.set('allowCommenting', allowCommenting.toString());
         if (version) {
             downloadLink.searchParams.set('version', version.toString());
         }
