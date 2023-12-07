@@ -68,7 +68,7 @@
                         ></Preprints::-Components::PreprintFileRender>
                         <div local-class='file-description-container'>
                             <div local-class='file-description'>
-                                <div>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</div>
+                                <div>{{t this.dateLabel}}: {{moment-format this.model.preprint.dateCreated 'MMMM DD, YYYY'}}</div>
                                 {{#unless this.isMobile}}
                                     <div> | </div> 
                                 {{/unless}}
