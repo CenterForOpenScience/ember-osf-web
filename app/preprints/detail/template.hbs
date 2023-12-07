@@ -69,7 +69,7 @@
                             <div local-class='file-description'>
                                 <div>{{t this.dateLabel}}: {{moment-format this.model.dateCreated 'MMMM DD, YYYY'}}</div>
                                 {{#unless this.isMobile}}
-                                    <div> | </div> 
+                                    <div> | </div>
                                 {{/unless}}
                                 {{#if this.isWithdrawn}}
                                     <div>{{t 'preprints.detail.header.withdrawn_on'}}: {{moment-format this.model.preprint.dateWithdrawn 'MMMM DD, YYYY'}}</div>
@@ -87,7 +87,7 @@
                                         @type='default'
                                     >
                                         {{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
-                                        <FaIcon @icon='chevron-{{if this.fullScreenMFR 'left' 'right'}}' /> 
+                                        <FaIcon @icon='chevron-{{if this.fullScreenMFR 'left' 'right'}}' />
                                     </Button>
                                 </div>
                             {{/unless}}
@@ -111,7 +111,7 @@
                                 data-test-download-button
                                 data-analytics-name='downloads'
                                 local-class='btn btn-primary'
-                                @href={{ this.fileDownloadUrl }} 
+                                @href={{ this.fileDownloadUrl }}
                             >
                                 {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}
                             </OsfLink>
@@ -153,15 +153,15 @@
                         </SharingIcons>
                     </div>
                     <Preprints::-Components::PreprintAbstract @preprint={{this.model.preprint}} />
-                    {{#if this.model.node}}
+                    {{#if this.model.preprint.node}}
                         <div>
                             <h4>{{t 'preprints.detail.supplemental_materials'}}</h4>
                             <OsfLink
                                 data-test-supplemental-materials
                                 data-analytics-name='supplemental material'
-                                @href={{this.model.node.links.html}} 
+                                @href={{this.model.prepint.node.links.html}}
                             >
-                                {{this.model.node.links.html}} 
+                                {{this.model.preprint.node.links.html}}
                                 <FaIcon @icon='external-link-alt' />
                             </OsfLink>
                         </div>
@@ -173,7 +173,7 @@
                             <OsfLink
                                 data-test-article-doi
                                 data-analytics-name='peer review publication doi'
-                                @href={{this.model.preprint.articleDoiUrl}} 
+                                @href={{this.model.preprint.articleDoiUrl}}
                             >
                                 {{this.model.preprint.articleDoiUrl}}
                             </OsfLink>
