@@ -54,7 +54,7 @@ export default class PreprintFileRender extends Component<InputArgs> {
 
     private serializeVersions(versions: FileVersionModel[]) {
         const downloadUrl = this.primaryFile.links.download as string || '';
-        const primaryFileGuid = this.primaryFile.guid;
+        const primaryFileGuid = this.primaryFile.id;
 
         const directDownloadUrl = downloadUrl.replace(
             `download/${primaryFileGuid}`,
