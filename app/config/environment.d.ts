@@ -72,6 +72,7 @@ declare const config: {
         learnMoreUrl: string;
         donateUrl: string;
         renderUrl: string;
+        mfrUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
         shareBaseUrl: string;
