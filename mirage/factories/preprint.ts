@@ -197,7 +197,6 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
             preprint.update({ reviewActions: [preprintReviewAction]});
         },
     }),
-
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
