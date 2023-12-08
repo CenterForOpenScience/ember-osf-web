@@ -31,7 +31,11 @@
                 <div local-class='detail-header-label'>
                     <strong>{{t 'preprints.detail.header.authors_label'}}</strong>
                 </div>
-                <ContributorList @model={{this.model.preprint}} @shouldTruncate={{false}} />
+                <ContributorList
+                    @model={{this.model.preprint}}
+                    @shouldTruncate={{false}}
+                    @shouldLinkUsers={{true}}
+                />
             </h5>
         </div>
         <Preprints::-Components::PreprintAuthorAssertions
