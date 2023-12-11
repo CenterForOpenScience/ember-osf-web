@@ -78,7 +78,11 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
         guidAfterCreate(preprint, server);
 
         const file = server.create('file', {
+            // Comment in the id with a guid and the download if you want to
+            // verify the `serializeVersions` method in the `preprint-file-render`
+            // component
             id: 'afile',
+            // id: '65453248654b1e000b0ac15e',
             target: preprint,
             links: {
                 info: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
@@ -86,6 +90,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                 delete: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
                 html: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
                 upload: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                // download: 'https://staging3.osf.io/download/65453248654b1e000b0ac15e/',
                 download: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
             },
         });
