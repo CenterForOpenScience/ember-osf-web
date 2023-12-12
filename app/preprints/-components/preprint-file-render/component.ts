@@ -54,12 +54,6 @@ export default class PreprintFileRender extends Component<InputArgs> {
 
     private serializeVersions(versions: FileVersionModel[]) {
         const downloadUrl = this.primaryFile.links.download as string || '';
-        const primaryFileGuid = this.primaryFile.id;
-
-        const directDownloadUrl = downloadUrl.replace(
-            `download/${primaryFileGuid}`,
-            `${primaryFileGuid}/download`,
-        );
 
         versions.map((version: VersionModel) => {
             const dateFormatted = encodeURIComponent(version.dateCreated.toISOString());
@@ -70,7 +64,7 @@ export default class PreprintFileRender extends Component<InputArgs> {
                   name: version.name,
                   id: version.id,
                   dateCreated: version.dateCreated,
-                  downloadUrl: `${directDownloadUrl}?version=${version.id}&displayName=${displayName}`,
+                  downloadUrl: `${downloadUrl}?version=${version.id}&displayName=${displayName}`,
               } as VersionModel,
             );
             return version;
