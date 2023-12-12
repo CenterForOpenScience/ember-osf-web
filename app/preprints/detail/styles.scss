@@ -71,6 +71,7 @@
     .data-container {
         padding: 30px;
         width: 100%;
+        min-height: 1250px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -204,7 +205,7 @@
             }
 
             .data-container-left {
-                height: 481px;
+                height: 600px;
 
                 .file-description-container {
                     flex-direction: column;

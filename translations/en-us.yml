@@ -1156,6 +1156,9 @@ preprints:
         supplemental_materials: 'Supplemental Materials'
         tags: 'Tags'
         reason_for_withdrawal: 'Reason for withdrawal'
+        file_renderer:
+            download_previous_versions: 'Download previous versions'
+            version: 'Version'
         author-assertions:
             header_label: 'Author Assertions'
             describe: 'Describe'

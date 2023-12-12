@@ -7,6 +7,7 @@ import Intl from 'ember-intl/services/intl';
 
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
+import InstitutionModel from 'ember-osf-web/models/institution';
 
 
 const CardLabelTranslationKeys = {
@@ -23,6 +24,7 @@ const CardLabelTranslationKeys = {
 interface Args {
     result: SearchResultModel;
     provider?: PreprintProviderModel;
+    institution?: InstitutionModel;
 }
 
 export default class SearchResultCard extends Component<Args> {
@@ -37,10 +39,17 @@ export default class SearchResultCard extends Component<Args> {
     }
 
     get cardTypeLabel() {
-        const provider = this.args.provider;
+        const { provider, institution } = this.args;
         const resourceType = this.args.result.resourceType;
-        return (provider?.preprintWord && resourceType === 'preprint') ? provider.documentType.singularCapitalized :
-            this.intl.t(CardLabelTranslationKeys[resourceType]);
+        if (resourceType === 'preprint') {
+            if (institution?.id === 'yls') {
+                return this.intl.t('documentType.paper.singularCapitalized');
+            }
+            if (provider?.preprintWord) {
+                return provider.documentType.singularCapitalized;
+            }
+        }
+        return this.intl.t(CardLabelTranslationKeys[resourceType]);
     }
 
     get secondaryMetadataComponent() {

@@ -158,6 +158,13 @@ export default class SearchPage extends Component<SearchArgs> {
         return this.sortOptions.find(option => option.value === this.sort);// || this.sortOptions[0];
     }
 
+    get preprintLabel() {
+        if (this.args.institution?.id === 'yls') {
+            return this.intl.t('documentType.paper.pluralCapitalized');
+        }
+        return this.intl.t('search.resource-type.preprints');
+    }
+
     // Resource type
     defaultResourceTypeOptions: ResourceTypeOption[] = [
         {
@@ -173,7 +180,7 @@ export default class SearchPage extends Component<SearchArgs> {
             value: ResourceTypeFilterValue.Registrations,
         },
         {
-            display: this.intl.t('search.resource-type.preprints'),
+            display: this.preprintLabel,
             value: ResourceTypeFilterValue.Preprints,
         },
         {
