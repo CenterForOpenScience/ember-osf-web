@@ -85,6 +85,10 @@ export default function(this: Server) {
     this.patch('/applications/:id', updateDeveloperApp);
 
     osfResource(this, 'file', { only: ['show', 'update'] });
+    osfNestedResource(this, 'file', 'versions', {
+        only: ['index'],
+        path: '/files/:parentID/versions',
+    });
 
     this.get('/guids/:id', guidDetail);
 
