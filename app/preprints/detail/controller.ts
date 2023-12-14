@@ -46,6 +46,7 @@ export default class PrePrintsDetailController extends Controller {
     @service media!: Media;
 
     @tracked fullScreenMFR = false;
+    @tracked plauditIsReady = false;
 
     metricsStartDate = config.OSF.metricsStartDate;
 

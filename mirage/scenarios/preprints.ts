@@ -133,7 +133,7 @@ function buildOSF(
         public: true,
         hasCoi: false,
         isPreprintDoi: false,
-        isPublished: false,
+        isPublished: true,
     }), 'isContributor');
 
     const notPublishedPreprint = server.create('preprint', {

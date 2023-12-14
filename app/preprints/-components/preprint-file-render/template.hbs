@@ -1,0 +1,49 @@
+<div local-class='file-renderer-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='file-container'>
+        <FileRenderer
+            @allowCommenting={{this.allowCommenting}}
+            @download={{this.primaryFile.links.download}}
+        />
+    </div>
+
+    <div local-class='details-container'>
+        <div local-class='name-container'>
+            <div data-test-selected-file-name local-class='name'>
+                {{this.primaryFile.name}}
+            </div>
+            <div data-test-file-version local-class='version'>
+                {{t 'preprints.detail.file_renderer.version'}}: {{this.primaryFile.currentVersion}}
+            </div>
+        </div>
+        <div local-class='version-container'>
+            {{#if this.primaryFileHasVersions}}
+                <ResponsiveDropdown 
+                    @renderInPlace={{true}}
+                    @buttonStyling={{true}}
+                    as |dd|
+                >
+                    <dd.trigger>
+                        {{t 'preprints.detail.file_renderer.download_previous_versions'}}
+                        <span class='fa fa-caret-down'></span>
+                    </dd.trigger>
+                    <dd.content local-class='version-menu'>
+                        <ul role='menu' tabindex='-1'>
+                            {{#each this.fileVersions as |version|}}
+                                <li role='menuitem' local-class='li-container'>
+                                    <OsfLink
+                                        data-test-get-started-button
+                                        data-analytics-name='Content - Download Previous Version'
+                                        local-class='btn btn-primary'
+                                        @href={{version.downloadUrl}}
+                                    >
+                                        {{t 'preprints.detail.file_renderer.version'}} {{version.id}}, {{moment-format version.dateCreated 'MM/DD/YYYY HH:mm:SS'}}
+                                    </OsfLink>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </dd.content>
+                </ResponsiveDropdown>
+            {{/if}}
+        </div>
+    </div>
+</div>
