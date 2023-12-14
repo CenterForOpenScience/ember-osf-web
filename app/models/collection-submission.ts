@@ -21,6 +21,8 @@ export const choiceFields = tuple(
     'volume',
     'studyDesign',
     'schoolType',
+    'dataType',
+    'disease',
 );
 
 export enum CollectionSubmissionReviewStates {
@@ -76,9 +78,11 @@ export default class CollectionSubmissionModel extends OsfModel.extend(Validatio
     @attr('string') programArea?: string;
     @attr('string') status?: string;
     @attr('string') volume?: string;
-    @attr('string') reviewsState?: CollectionSubmissionReviewStates;
     @attr('string') studyDesign?: string; // custom field for Character Lab
     @attr('string') schoolType?: string; // custom field for Character Lab
+    @attr('string') dataType?: string;
+    @attr('string') disease?: string;
+    @attr('string') reviewsState?: CollectionSubmissionReviewStates;
 
     @belongsTo('collection') collection!: Collection;
     @belongsTo('node') guid!: Node;
