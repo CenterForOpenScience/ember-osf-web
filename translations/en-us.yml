@@ -990,6 +990,8 @@ collections:
             volume: Volume
             study_design: 'Study Design'
             school_type: 'School Type'
+            data_type: 'Data Type'
+            disease: Disease
     collections_submission:
         title: Submit
         add_header: 'Add to Collection'
