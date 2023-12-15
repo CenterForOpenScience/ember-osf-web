@@ -44,22 +44,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
-            files: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/preprints/${model.id}/files/`,
-                        meta: this.buildRelatedLinkMeta(model, 'files'),
-                    },
-                },
-            },
-            primaryFile: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/files/${model.primaryFile.id}/`,
-                        meta: this.buildRelatedLinkMeta(model, 'files'),
-                    },
-                },
-            },
             license: {
                 links: {
                     related: {
@@ -117,6 +101,26 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                 },
             },
         };
+
+        if (model.primaryFile) {
+            relationships['files'] = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/files/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                    },
+                },
+            };
+
+            relationships['primaryFile'] = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/files/${model.primaryFile.id}/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                    },
+                },
+            };
+        }
 
         if (model.license !== null) {
             const { id } = model.license;
