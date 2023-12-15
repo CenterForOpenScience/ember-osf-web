@@ -11,8 +11,8 @@ export default class CedarMetadataTemplateModel extends OsfModel {
     @attr('fixstring') schemaName!: string;
     @attr('fixstring') cedarId!: string;
     @attr('boolean') active!: boolean;
-    @attr('fixstring') template!: string;
-    @attr('fixstring') templateVersion!: number;
+    @attr('object') template!: any;
+    @attr('number') templateVersion!: number;
 }
 
 declare module 'ember-data/types/registries/model' {

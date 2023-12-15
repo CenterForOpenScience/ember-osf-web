@@ -9,7 +9,7 @@ import OsfModel from './osf-model';
  * @description The cedar metadata record model
  */
 export default class CedarMetadataRecordModel extends OsfModel {
-    @attr('fixstring') metadata!: string;
+    @attr('object') metadata!: any;
     @attr('boolean') isPublished!: boolean;
 }
 

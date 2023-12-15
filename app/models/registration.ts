@@ -147,7 +147,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @hasMany('registration', { inverse: 'parent' })
     children!: AsyncHasMany<RegistrationModel>;
 
-    @hasMany('cedar-metadata-record', { inverse: null })
+    @hasMany('cedar-metadata-records', { inverse: null })
     template!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     @hasMany('institution', { inverse: 'registrations' })
