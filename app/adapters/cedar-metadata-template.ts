@@ -1,6 +1,7 @@
 import OsfAdapter from './osf-adapter';
 
 export default class CedarMetadataTemplateAdapter extends OsfAdapter {
+    namespace = '_';
 }
 
 declare module 'ember-data/types/registries/adapter' {
