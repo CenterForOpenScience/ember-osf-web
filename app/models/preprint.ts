@@ -64,7 +64,7 @@ export default class PreprintModel extends OsfModel {
     license!: AsyncBelongsTo<LicenseModel> & LicenseModel;
 
     @belongsTo('file', { inverse: null })
-    primaryFile!: AsyncBelongsTo<FileModel> & FileModel;
+    primaryFile?: AsyncBelongsTo<FileModel> & FileModel;
 
     @belongsTo('preprint-provider', { inverse: 'preprints' })
     provider!: AsyncBelongsTo<PreprintProviderModel> & PreprintProviderModel;
