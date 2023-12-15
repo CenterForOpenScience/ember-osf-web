@@ -151,8 +151,8 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @hasMany('node', { inverse: 'forkedFrom', polymorphic: true })
     forks!: AsyncHasMany<NodeModel>;
 
-    @hasMany('cedar-metadata-records', { inverse: null })
-    template!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
+    @hasMany('cedar-metadata-record', { inverse: null })
+    cedarMetadataRecords!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     @belongsTo('node', { inverse: 'forks', polymorphic: true })
     forkedFrom!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<RegistrationModel> & RegistrationModel);

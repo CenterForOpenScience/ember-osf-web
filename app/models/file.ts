@@ -60,8 +60,8 @@ export default class FileModel extends BaseFileItem {
     @belongsTo('abstract-node', { polymorphic: true })
     target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
 
-    @hasMany('cedar-metadata-records', { inverse: null })
-    template!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
+    @hasMany('cedar-metadata-record', { inverse: null })
+    cedarMetadataRecords!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     // BaseFileItem override
     isFileModel = true;
