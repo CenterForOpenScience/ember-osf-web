@@ -209,7 +209,9 @@ dashboard:
         registries: 'OSF Registries'
         preprints: 'OSF Preprints'
         institutions: 'OSF Institutions'
-
+cedar:
+    editor:
+        save-button: 'Save'
 search:
     page-title: 'Search'
     index-card:
