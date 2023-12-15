@@ -9,6 +9,7 @@ import { dashboardScenario } from './dashboard';
 import { forksScenario } from './forks';
 import { meetingsScenario } from './meetings';
 import { preprintsScenario } from './preprints';
+import { cedarScenario } from './cedar';
 import { manyProjectRegistrationsScenario, registrationScenario } from './registrations';
 import { settingsScenario } from './settings';
 
@@ -59,5 +60,9 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('preprints')) {
         preprintsScenario(server, currentUser);
+    }
+
+    if (mirageScenarios.includes('cedar')) {
+        cedarScenario(server, currentUser);
     }
 }
