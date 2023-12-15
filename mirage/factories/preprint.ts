@@ -23,6 +23,7 @@ export interface PreprintMirageModel extends PreprintModel {
 
 export interface PreprintTraits {
     pendingWithdrawal: Trait;
+    withdrawn: Trait;
     isContributor: Trait;
     rejectedWithdrawalComment: Trait;
     acceptedWithdrawalComment: Trait;
@@ -77,24 +78,6 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     afterCreate(preprint, server) {
         guidAfterCreate(preprint, server);
 
-        const file = server.create('file', {
-            // Comment in the id with a guid and the download if you want to
-            // verify the `serializeVersions` method in the `preprint-file-render`
-            // component
-            id: 'afile',
-            // id: '65453248654b1e000b0ac15e',
-            target: preprint,
-            links: {
-                info: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-                move: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-                delete: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-                html: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-                upload: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-                // download: 'https://staging3.osf.io/download/65453248654b1e000b0ac15e/',
-                download: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
-            },
-        });
-
         const node = server.create('node');
 
         const license = server.create('license', {
@@ -129,13 +112,31 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
         const allContributors = [contributor, unregisteredContributor, secondContributor, thirdContributor];
 
+        const file = server.create('file', {
+            // Comment in the id with a guid and the download if you want to
+            // verify the `serializeVersions` method in the `preprint-file-render`
+            // component
+            // id: 'afile',
+            // id: '65453248654b1e000b0ac15e',
+            target: preprint,
+            links: {
+                info: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                move: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                delete: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                html: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                upload: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+                // download: 'https://staging3.osf.io/download/65453248654b1e000b0ac15e/',
+                download: 'http://localhost:4200/assets/osf-assets/mfr-test.pdf',
+            },
+        });
+
         preprint.update({
             contributors: allContributors,
             bibliographicContributors: allContributors,
-            files: [file],
-            primaryFile: file,
             license,
             subjects,
+            files: [file],
+            primaryFile: file,
             date_created: new Date('2018-05-05T14:49:27.746938Z'),
             date_modified: new Date('2018-07-02T11:51:07.837747Z'),
             date_published: new Date('2018-05-05T14:54:01.681202Z'),
@@ -171,12 +172,25 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
         },
     }),
 
+    withdrawn: trait<PreprintModel>({
+        afterCreate(preprint, server) {
+            const primaryFile = server.schema.files.find(preprint.primaryFile!.id);
+            primaryFile.destroy();
+            preprint.update({
+                files: undefined,
+                primaryFile: undefined,
+            });
+        },
+    }),
+
     acceptedWithdrawalComment: trait<PreprintModel>({
         afterCreate(preprint, server) {
             const preprintRequest = server.create('preprintRequest', {
                 target: preprint,
             }, 'acceptComment');
-            preprint.update({ requests: [preprintRequest ]});
+            preprint.update({
+                requests: [preprintRequest ],
+            });
         },
     }),
 
@@ -191,7 +205,6 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
     reviewAction: trait<PreprintModel>({
         afterCreate(preprint, server) {
-            // console.log('created');
             const creator = server.create('user', { fullName: 'Review action Commentor' });
             const preprintReviewAction = server.create('review-action', {
                 target: preprint,
