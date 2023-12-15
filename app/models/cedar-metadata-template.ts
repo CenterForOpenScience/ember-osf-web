@@ -17,6 +17,6 @@ export default class CedarMetadataTemplateModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'cedar-metadata-templates': CedarMetadataTemplateModel;
+        'cedar-metadata-template': CedarMetadataTemplateModel;
     } // eslint-disable-line semi
 }

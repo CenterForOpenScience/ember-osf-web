@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import { buildValidations, validator } from 'ember-cp-validations';
 import Intl from 'ember-intl/services/intl';
+import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
@@ -149,6 +150,9 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
 
     @hasMany('node', { inverse: 'forkedFrom', polymorphic: true })
     forks!: AsyncHasMany<NodeModel>;
+
+    @hasMany('cedar-metadata-record', { inverse: null })
+    template!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     @belongsTo('node', { inverse: 'forks', polymorphic: true })
     forkedFrom!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<RegistrationModel> & RegistrationModel);
