@@ -58,12 +58,15 @@ export default class PreprintsDetail extends Route {
 
             const provider = await preprint?.get('provider');
 
-            const primaryFile = await preprint?.get('primaryFile');
-
-            primaryFile.versions = await primaryFile?.versions;
-
             this.theme.set('providerType', 'preprint');
             this.theme.set('id', provider.id);
+
+            let primaryFile;
+
+            if (!preprint.isWithdrawn) {
+                primaryFile = await preprint?.get('primaryFile');
+                primaryFile.versions = await primaryFile?.versions;
+            }
 
             const contributors = await preprint?.queryHasMany('contributors');
 
