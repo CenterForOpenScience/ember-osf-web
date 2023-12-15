@@ -1,7 +1,7 @@
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import config from 'ember-osf-web/config/environment';
 
-const addonServiceUrl = config.OSF.url;
+const { addonServiceUrl } = config.OSF;
 
 export const addonServiceNamespace = 'v1';
 export const addonServiceAPIUrl = `${addonServiceUrl}${addonServiceNamespace}/`;
