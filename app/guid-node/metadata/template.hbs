@@ -1,9 +1,41 @@
-<div local-class='container'>
-    <NodeMetadataManager @node={{this.model.taskInstance.value}} as |manager|>
-        {{#if manager.isGatheringData}}
-            <LoadingIndicator @dark={{true}} />
-        {{else}}
-            <NodeMetadataForm @manager={{manager}} />
-        {{/if}}
-    </NodeMetadataManager>
+<div local-class='metadata-container'>
+    <div local-class='header'>
+        <h2 data-test-metadata-header>
+            {{t 'metadata.header'}}
+        </h2>
+    </div>
+    <div local-class='metadata-tab-container'>
+        <AriaTabs
+            data-analytics-scope='Metadata Tab'
+            @defaultIndex={{0}}
+            @onSelect={{action this.changeTab}}
+            local-class='tabs'
+            as |tab|
+        >
+            <tab.tabList
+                local-class='tab-list'
+                as |tablist|
+            >
+                <tablist.tab>{{t 'metadata.main-tab'}}</tablist.tab>
+                <tablist.tab>{{t 'node.registrations.registrations'}}</tablist.tab>
+            </tab.tabList>
+            <tab.tabPanel>
+                <div local-class='metadata-pane' data-test-registrations-pane>
+                    <NodeMetadataManager @node={{this.model.taskInstance.value}} as |manager|>
+                        {{#if manager.isGatheringData}}
+                            <LoadingIndicator @dark={{true}} />
+                        {{else}}
+                            <NodeMetadataForm @manager={{manager}} />
+                        {{/if}}
+                    </NodeMetadataManager>
+                </div>
+            </tab.tabPanel>
+            <tab.tabPanel>
+                <div local-class='metadata-pane' data-test-registrations-pane>
+                    {{ t 'cedar.editor.save-button' }}
+                </div>
+            </tab.tabPanel>
+        </AriaTabs>
+    </div>
 </div>
+

@@ -1,3 +1,82 @@
-.container {
-    margin: 10px 40px;
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.metadata-container {
+    margin: 30px;
+    padding: 30px;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .header {
+        margin-bottom: 30px;
+    }
+
+
+    .metadata-tab-container {
+        width: 100%;
+
+        .tabs {
+            .metadata-pane {
+                padding-top: 20px;
+                min-height: 150px;
+            }
+
+            /* stylelint-disable selector-no-qualifying-type */
+            ul.tab-list {
+                margin-bottom: 10px;
+                border-bottom: 1px solid #ddd;
+                box-sizing: border-box;
+                color: rgb(51, 51, 51);
+                display: block;
+                line-height: 20px;
+                list-style-image: none;
+                list-style-position: outside;
+                list-style-type: none;
+                height: 41px;
+                padding: 0;
+            }
+
+            /* stylelint-enable selector-no-qualifying-type */
+            .tab-list {
+                li {
+                    display: block;
+                    position: relative;
+                    margin-bottom: -1px;
+                    float: left;
+                    height: 41px;
+                    padding: 10px 15px;
+                }
+
+                li:global(.ember-tabs__tab--selected) {
+                    background-color: #f8f8f8;
+                    border-bottom: 2px solid #204762;
+                }
+
+                li:hover {
+                    border-color: transparent;
+                    text-decoration: none;
+                    background-color: #f8f8f8;
+                    color: var(--primary-color);
+                }
+            }
+        }
+    }
+
+    &.mobile {
+        margin: 0;
+        padding: 0;
+
+        .metadata-tab-container {
+            width: 100%;
+
+            .tabs {
+                .metadata-pane {
+                    padding-top: 20px;
+                    min-height: 150px;
+                }
+            }
+        }
+    }
 }
