@@ -25,7 +25,11 @@ module('Integration | Component | addon-card', hooks => {
         this.owner.unregister('service:router');
         this.owner.register('service:router', RouterStub);
         this.set('addon', {
-            provider: { id: 'box', name: 'Test Addon' },
+            provider: {
+                id: 'box',
+                name: 'Test Addon',
+                iconUri: 'https://some.url/from/addons/service/box.png',
+            },
             disableProjectAddon: sinon.stub(),
             nodeAddon: { configured: false },
         });
@@ -35,15 +39,15 @@ module('Integration | Component | addon-card', hooks => {
         });
 
         await render(hbs`
-            <AddonCard
-                @addon={{this.addon}}
-                @manager={{this.manager}}
-            />
+<AddonCard
+    @addon={{this.addon}}
+    @manager={{this.manager}}
+/>
         `);
 
         assert.dom('[data-test-addon-card="Test Addon"]').exists();
         assert.dom('[data-test-addon-card-logo]').hasAttribute(
-            'src', '/assets/images/addons/logos/box.png', 'Logo is correct',
+            'src', 'https://some.url/from/addons/service/box.png', 'Logo is correct',
         );
         assert.dom('[data-test-addon-card-logo]').hasAttribute('alt', 'Test Addon logo', 'Alt text is correct');
         assert.dom('[data-test-addon-card-title]').hasText('Test Addon');
@@ -56,7 +60,11 @@ module('Integration | Component | addon-card', hooks => {
         this.owner.unregister('service:router');
         this.owner.register('service:router', RouterStub);
         const addonObj = {
-            provider: { id: 'box', name: 'Test Addon' },
+            provider: {
+                id: 'box',
+                name: 'Test Addon',
+                iconUri: 'https://some.url/from/addons/service/box.png',
+            },
             disableProjectAddon: sinon.stub(),
             nodeAddon: { configured: true },
         };
@@ -67,15 +75,15 @@ module('Integration | Component | addon-card', hooks => {
         });
 
         await render(hbs`
-            <AddonCard
-                @addon={{this.addon}}
-                @manager={{this.manager}}
-            />
+<AddonCard
+    @addon={{this.addon}}
+    @manager={{this.manager}}
+/>
         `);
 
         assert.dom('[data-test-addon-card="Test Addon"]').exists();
         assert.dom('[data-test-addon-card-logo]').hasAttribute(
-            'src', '/assets/images/addons/logos/box.png', 'Logo is correct',
+            'src', 'https://some.url/from/addons/service/box.png', 'Logo is correct',
         );
         assert.dom('[data-test-addon-card-logo]').hasAttribute('alt', 'Test Addon logo', 'Alt text is correct');
         assert.dom('[data-test-addon-card-title]').hasText('Test Addon');
