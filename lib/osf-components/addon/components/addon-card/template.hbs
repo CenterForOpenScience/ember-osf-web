@@ -31,7 +31,7 @@
                 data-test-addon-card-disable
                 data-analytics-name='Disable'
                 local-class='disable'
-                {{on 'click' this.toggleDeleteModal}}
+                {{on 'click' (action (mut this.deleteModalOpen) true)}}
             >
                 {{t 'osf-components.addon-card.disable'}}
             </Button>

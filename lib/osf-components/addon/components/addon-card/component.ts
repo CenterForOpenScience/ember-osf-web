@@ -11,11 +11,10 @@ interface Args {
     manager: AddonsServiceManagerComponent;
 }
 
-const addonLogoMap: Record<string, string> = {
+const legacyAddonLogoMap: Record<string, string> = {
     aws: '/assets/images/addons/logos/aws.png',
     bitbucket: '/assets/images/addons/logos/bitbucket.png',
     boa: '/assets/images/addons/logos/boa_color.png',
-    box: '/assets/images/addons/logos/box.png',
     dataverse: '/assets/images/addons/logos/dataverse.png',
     dropbox: '/assets/images/addons/logos/dropbox.png',
     figshare: '/assets/images/addons/logos/figshare.png',
@@ -32,11 +31,6 @@ export default class AddonsCardComponent extends Component<Args> {
     @tracked deleteModalOpen = false;
 
     @action
-    toggleDeleteModal() {
-        this.deleteModalOpen = !this.deleteModalOpen;
-    }
-
-    @action
     closeDeleteModal() {
         this.deleteModalOpen = false;
     }
@@ -48,7 +42,11 @@ export default class AddonsCardComponent extends Component<Args> {
     }
 
     get assetLogo() {
-        return addonLogoMap[this.args.addon.provider.id];
+        if (this.args.addon instanceof LegacyProvider) {
+            return legacyAddonLogoMap[this.args.addon.provider.id];
+        } else {
+            return this.args.addon.provider.iconUri;
+        }
     }
 
     get addonIsConfigured() {
