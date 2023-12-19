@@ -1,0 +1,85 @@
+<div
+    local-class='card-wrapper'
+    data-test-addon-card={{@addon.provider.name}}
+    data-analytics-scope={{concat 'Addon card' @addon.provider.name}}
+>
+    <img
+        data-test-addon-card-logo
+        src={{this.assetLogo}}
+        alt={{t 'osf-components.addon-card.provider-logo-alt' provider=@addon.provider.name}}
+        local-class='addon-card-logo'
+    />
+    <div
+        data-test-addon-card-title
+        local-class='provider-name'
+    >
+        {{@addon.provider.name}}
+    </div>
+    
+    <div local-class='buttons-wrapper'>
+        {{#if this.addonIsConfigured}}
+            <OsfLink
+                data-test-addon-card-configure
+                data-analytics-name='Configure'
+                local-class='button-looking-links configure'
+                @route='guid-node.addons.addon.configure'
+                @models={{array @manager.node.id @addon.provider.id}}
+            >
+                {{t 'osf-components.addon-card.configure'}}
+            </OsfLink>
+            <Button
+                data-test-addon-card-disable
+                data-analytics-name='Disable'
+                local-class='disable'
+                {{on 'click' (action (mut this.deleteModalOpen) true)}}
+            >
+                {{t 'osf-components.addon-card.disable'}}
+            </Button>
+        {{else}}
+            <OsfLink
+                data-test-addon-card-enable
+                data-analytics-name='Enable'
+                local-class='button-looking-links enable'
+                @route='guid-node.addons.addon.terms'
+                @models={{array @manager.node.id @addon.provider.id}}
+            >
+                {{t 'osf-components.addon-card.enable'}}
+            </OsfLink>
+        {{/if}}
+    </div>
+</div>
+{{#if this.addonIsConfigured}}
+    <OsfDialog
+        @isOpen={{this.deleteModalOpen}}
+        @onClose={{action this.closeDeleteModal}}
+        as |dialog|
+    >
+        <dialog.heading>
+            {{t 'osf-components.addon-card.disable-modal-header'}}
+        </dialog.heading>
+        <dialog.main>
+            <p>
+                {{t 'osf-components.addon-card.disable-modal-body'}}
+            </p>
+        </dialog.main>
+        <dialog.footer data-analytics-scope='Disable addon modal'>
+            <Button
+                data-test-addon-disable-cancel
+                data-analytics-name='Cancel'
+                @type='secondary'
+                {{on 'click' dialog.close}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                data-test-addon-disable-modal-disable
+                data-analytics-name='Disable'
+                @type='destroy'
+                {{on 'click' (queue this.disableAddon dialog.close)}}
+            >
+                {{t 'osf-components.addon-card.disable'}}
+            </Button>
+        </dialog.footer>
+    </OsfDialog>
+{{/if}}
+

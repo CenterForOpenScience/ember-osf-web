@@ -427,12 +427,12 @@ export default function(this: Server) {
     // Addon service
     this.urlPrefix = addonServiceUrl;
     this.namespace = addonServiceNamespace;
-    this.resource('external_storage_services', { only: ['index', 'show'] });
-    this.resource('internal_users', { only: ['show'] });
-    this.get('/internal_users/:userGuid/authorized_storage_accounts/', addons.internalUserAuthorizedStorageAccountList);
-    this.resource('internal_resources', { only: ['show'] });
-    this.resource('authorized_storage_accounts', { only: ['show', 'update'] });
-    this.resource('configured_storage_addons', { only: ['show', 'update'] });
+    this.resource('external-storage-services', { only: ['index', 'show'] });
+    this.resource('internal-users', { only: ['show'] });
+    this.get('/internal-users/:userGuid/authorized-storage-accounts/', addons.internalUserAuthorizedStorageAccountList);
+    this.resource('internal-resources', { only: ['show'] });
+    this.resource('authorized-storage-accounts', { only: ['show', 'update'] });
+    this.resource('configured-storage-addons', { only: ['show', 'update'] });
 
     // Reset API url and namespace to use v2 endpoints for tests
     this.urlPrefix = apiUrl;

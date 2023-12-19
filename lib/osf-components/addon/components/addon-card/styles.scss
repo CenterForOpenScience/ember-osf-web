@@ -1,0 +1,47 @@
+.card-wrapper {
+    min-width: 208px;
+    border: solid 1px $color-border-gray;
+    margin: 5px 3px;
+    padding: 20px;
+    text-align: center;
+}
+
+.addon-card-logo {
+    height: 36px;
+}
+
+.provider-name {
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.button-looking-links {
+    composes: Button from '../button/styles.scss';
+    composes: MediumButton from '../button/styles.scss';
+    composes: SecondaryButton from '../button/styles.scss';
+}
+
+.buttons-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .enable {
+        color: darken($brand-success, 10%);
+    }
+    
+    .configure {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .disable {
+        color: darken($brand-danger, 10%);
+        border-left: 0;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
