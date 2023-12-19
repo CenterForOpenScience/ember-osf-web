@@ -12,8 +12,8 @@
                 {{else}}
                     <div>
                         <FaIcon @icon='{{this.icon}}' @prefix='far' local-class='status-icon' aria-hidden='true'/>
-                        <strong>{{t this.status }}:</strong>
-                        <span>{{this.bannerContent}}</span>
+                        <strong data-test-status>{{t this.status }}:</strong>
+                        <span data-test-status-explanation>{{this.bannerContent}}</span>
                     </div>
                     {{#if (and this.reviewerComment (not this.submission.provider.reviewsCommentsPrivate))}}
                         <div local-class='reviewer-feedback'>
