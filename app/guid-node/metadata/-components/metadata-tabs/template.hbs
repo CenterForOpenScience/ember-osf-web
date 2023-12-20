@@ -16,11 +16,13 @@
             {{did-insert this.didRenderList}}
         >
             <tablist.tab>{{t 'metadata.main-tab'}}</tablist.tab>
-            <tablist.tab>{{t 'node.registrations.registrations'}}</tablist.tab>
+            {{#each this.templates as |template| }}
+                <tablist.tab>{{template.metadata.name}}</tablist.tab>
+            {{/each}}
         </tab.tabList>
         <tab.tabPanel>
             <div local-class='metadata-pane' data-test-registrations-pane>
-                <NodeMetadataManager @node={{this.taskInstance.value}} as |manager|>
+                <NodeMetadataManager @node={{this.guidNode}} as |manager|>
                     {{#if manager.isGatheringData}}
                         <LoadingIndicator @dark={{true}} />
                     {{else}}

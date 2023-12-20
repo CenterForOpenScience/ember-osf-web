@@ -4,9 +4,12 @@ import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 import Analytics from 'ember-osf-web/services/analytics';
 import { tracked } from '@glimmer/tracking';
+import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
+import NodeModel from 'ember-osf-web/models/node';
 
 interface TabArgs {
-    taskInstance: any;
+    guidNode: NodeModel;
+    templates: [CedarMetadataRecordModel];
 }
 
 
@@ -14,7 +17,8 @@ export default class MetadataTabs extends Component<TabArgs> {
     @service media!: Media;
     @service analytics!: Analytics;
 
-    taskInstance = this.args.taskInstance;
+    guidNode= this.args.guidNode;
+    templates = this.args.templates;
 
     @tracked showTabs = false;
     @tracked showMore = false;
