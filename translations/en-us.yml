@@ -212,6 +212,10 @@ dashboard:
 metadata:
     main-tab: 'OSF'
     header: 'Metadata'
+    download: 'Download'
+    add-schema: 'Add Community Metadata Schemas'
+    see-more: 'Click to see more metadata options'
+    see-less: 'Click to see less metadata options'
 cedar:
     editor:
         save-button: 'Save'

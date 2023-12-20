@@ -1,0 +1,42 @@
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Media from 'ember-responsive';
+import Analytics from 'ember-osf-web/services/analytics';
+import { tracked } from '@glimmer/tracking';
+
+interface TabArgs {
+    taskInstance: any;
+}
+
+
+export default class MetadataTabs extends Component<TabArgs> {
+    @service media!: Media;
+    @service analytics!: Analytics;
+
+    taskInstance = this.args.taskInstance;
+
+    @tracked showTabs = false;
+    @tracked showMore = false;
+
+    @action
+    changeTab(activeId: number) {
+        const tabName = activeId === 0 ? 'registrations' : 'drafts';
+        this.analytics.click('tab', `Registrations tab - Change tab to: ${tabName}`);
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
+    }
+
+    @action
+    didRenderList(element: HTMLElement): boolean {
+        this.showTabs = element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+        return true;
+    }
+
+    @action
+    clickIcon(): void {
+        this.showMore = !this.showMore;
+    }
+}
