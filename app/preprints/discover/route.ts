@@ -3,8 +3,8 @@ import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import config from 'ember-osf-web/config/environment';
-import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Theme from 'ember-osf-web/services/theme';
 
@@ -40,7 +40,6 @@ export default class PreprintDiscoverRoute extends Route {
         }
     }
 
-    // TODO: Move this to app/preprints/index/route.ts when landing page PR is merged
     afterModel(model: PreprintProviderModel) {
         if (model && model.assets && model.assets.favicon) {
             const headTags = [{
@@ -52,9 +51,5 @@ export default class PreprintDiscoverRoute extends Route {
             }];
             this.set('headTags', headTags);
         }
-    }
-
-    deactivate() {
-        this.theme.reset();
     }
 }

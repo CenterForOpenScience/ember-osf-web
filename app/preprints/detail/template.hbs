@@ -1,0 +1,209 @@
+{{page-title this.model.preprint.title replace=false}}
+
+
+<div
+    local-class='preprints-details-page-container {{if this.isMobile 'mobile'}}'
+    {{with-branding this.model.brand}}
+    data-analytics-scope='preprints detail page'
+>
+    <div local-class='header-container'>
+        <div local-class='preprint-title-container'>
+            <h1>{{this.model.preprint.title}}</h1>
+            {{#unless this.model.preprint.isWithdrawn}}
+                <div class='edit-preprint-button'>
+                    {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
+                        <OsfLink
+                            data-test-edit-preprint-button
+                            data-analytics-name='Edit preprint button'
+                            local-class='btn btn-primary'
+                            @href={{concat '/' this.model.preprint.id '/edit'}}
+                        >
+                            {{this.editButtonLabel}}
+
+                        </OsfLink>
+                    {{/if}}
+                    <br>
+                </div>
+            {{/unless}}
+        </div>
+        <div local-class='preprint-author-container'>
+            <h5 local-class='view-authors'>
+                <div local-class='detail-header-label'>
+                    <strong>{{t 'preprints.detail.header.authors_label'}}</strong>
+                </div>
+                <ContributorList
+                    @model={{this.model.preprint}}
+                    @shouldTruncate={{false}}
+                    @shouldLinkUsers={{true}}
+                />
+            </h5>
+        </div>
+        <Preprints::-Components::PreprintAuthorAssertions
+            @preprint={{this.model.preprint}}
+            @provider={{this.model.provider}}
+            @documentType={{this.model.provider.documentType.singular}}
+        />
+    </div>
+    {{#if (or this.showStatusBanner this.isWithdrawn)}}
+        <Preprints::-Components::PreprintStatusBanner @submission={{this.model.preprint}} />
+    {{/if}}
+    <div local-class='data-container'>
+        {{#if this.model.preprint.isWithdrawn}}
+            <Preprints::-Components::PreprintTombstone
+                @preprint={{this.model.preprint}}
+                @provider={{this.model.provider}}
+                @subjects={{this.model.subjects}} />
+        {{else}}
+            <div local-class='data-container-left {{if this.fullScreenMFR 'expanded' 'collapsed'}}'>
+                {{#if this.model.preprint.isPreprintOrphan}}
+                    <Alert
+                        @type='warning'
+                        @dismissible={{false}}
+                        @visible={{true}}
+                    >
+                        {{t 'preprints.detail.orphan_preprint'}}
+                    </Alert>
+                {{else}}
+                    {{#if this.model.preprint.public}}
+                        <Preprints::-Components::PreprintFileRender
+                            @provider={{this.model.provider}}
+                            @preprint={{this.model.preprint}}
+                            @primaryFile={{this.model.primaryFile}}
+                        ></Preprints::-Components::PreprintFileRender>
+                        <div local-class='file-description-container'>
+                            <div local-class='file-description'>
+                                <div>{{t this.dateLabel}}: {{moment-format this.model.preprint.dateCreated 'MMMM DD, YYYY'}}</div>
+                                {{#unless this.isMobile}}
+                                    <div> | </div>
+                                {{/unless}}
+                                {{#if this.isWithdrawn}}
+                                    <div>{{t 'preprints.detail.header.withdrawn_on'}}: {{moment-format this.model.preprint.dateWithdrawn 'MMMM DD, YYYY'}}</div>
+                                {{else}}
+                                    <div>{{t 'preprints.detail.header.last_edited'}}: {{moment-format this.model.preprint.dateModified 'MMMM DD, YYYY'}}</div>
+                                {{/if}}
+                            </div>
+                            {{#unless this.isMobile}}
+                                <div local-class='toggle-button'>
+                                    <Button
+                                        data-test-toggle-document
+                                        data-analytics-name='Expand Document'
+                                        {{on 'click' (action this.expandMFR)}}
+                                        aria-label={{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
+                                        @type='default'
+                                    >
+                                        {{if this.fullScreenMFR (t 'preprints.detail.collapse') (t 'preprints.detail.expand')}}
+                                        <FaIcon @icon='chevron-{{if this.fullScreenMFR 'left' 'right'}}' />
+                                    </Button>
+                                </div>
+                            {{/unless}}
+                        </div>
+                    {{else}}
+                        <Alert
+                            @type='warning'
+                            @dismissible={{false}}
+                            @visible={{true}}
+                        >
+                            {{t 'preprints.detail.private_preprint_warning' documentType=this.model.provider.documentType.singular supportEmail='support@osf.io'}}
+                        </Alert>
+                    {{/if}}
+                {{/if}}
+            </div>
+            {{#unless this.fullScreenMFR }}
+                <div local-class='data-container-right'>
+                    <div local-class='download-container'>
+                        <div>
+                            <OsfLink
+                                data-test-download-button
+                                data-analytics-name='downloads'
+                                local-class='btn btn-primary'
+                                @href={{ this.fileDownloadUrl }}
+                            >
+                                {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}
+                            </OsfLink>
+                        </div>
+                        <div>
+                            {{t 'preprints.detail.share.views'}}: {{this.model.preprint.apiMeta.metrics.views}} | {{t 'preprints.detail.share.downloads'}}: {{this.model.preprint.apiMeta.metrics.downloads}}
+                            <EmberTooltip>
+                                {{t 'preprints.detail.share.metrics_disclaimer'}} {{moment-format this.metricsStartDate 'YYYY-MM-DD'}}
+                            </EmberTooltip>
+                        </div>
+                    </div>
+                    <div local-class='plaudit-container'>
+                        <div local-class='plaudit'>
+                            {{#if this.plauditIsReady}}
+                                <Preprints::-Components::PlauditWidget />
+                            {{/if}}
+                        </div>
+                        <SharingIcons
+                            local-class='sharing-icons'
+                            @title={{this.model.preprint.title}}
+                            @description={{this.model.preprint.description}}
+                            @hyperlink='{{this.hyperlink}}'
+                            @showText={{false}}
+                            @facebookAppId={{this.facebookAppId}}
+                            as |links|
+                        >
+                            <div>
+                                {{links.email}}
+                            </div>
+                            <div>
+                                {{links.twitter}}
+                            </div>
+                            <div>
+                                {{links.facebook}}
+                            </div>
+                            <div>
+                                {{links.linkedIn}}
+                            </div>
+                        </SharingIcons>
+                    </div>
+                    <Preprints::-Components::PreprintAbstract @preprint={{this.model.preprint}} />
+                    {{#if this.model.preprint.node.links}}
+                        <div>
+                            <h4>{{t 'preprints.detail.supplemental_materials'}}</h4>
+                            <OsfLink
+                                data-test-supplemental-materials
+                                data-analytics-name='supplemental material'
+                                @href={{this.model.preprint.node.links.html}}
+                            >
+                                {{this.model.preprint.node.links.html}}
+                                <FaIcon @icon='external-link-alt' />
+                            </OsfLink>
+                        </div>
+                    {{/if}}
+                    <Preprints::-Components::PreprintDoi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
+                    {{#if this.model.preprint.articleDoiUrl}}
+                        <div>
+                            <h4>{{t 'preprints.detail.article_doi'}}</h4>
+                            <OsfLink
+                                data-test-article-doi
+                                data-analytics-name='peer review publication doi'
+                                @href={{this.model.preprint.articleDoiUrl}}
+                            >
+                                {{this.model.preprint.articleDoiUrl}}
+                            </OsfLink>
+                        </div>
+                    {{/if}}
+                    <Preprints::-Components::PreprintLicense @preprint={{this.model.preprint}} />
+                    <Preprints::-Components::PreprintDiscipline @subjects={{this.model.subjects}} />
+                    <Preprints::-Components::PreprintTag @preprint={{this.model.preprint}} />
+                    {{#if this.model.preprint.originalPublicationDate}}
+                        <div>
+                            <h4>{{t 'preprints.detail.original_publication_date'}}</h4>
+                            <p>
+                                {{moment-format this.model.preprint.originalPublicationDate 'YYYY-MM-DD'}}
+                            </p>
+                        </div>
+                    {{/if}}
+                    <div>
+                        <h4>{{t 'preprints.detail.citations'}}</h4>
+                        <CitationViewer
+                            @citable={{this.model.preprint}}
+                            @provider={{this.model.provider}}
+                        />
+                    </div>
+                </div>
+            {{/unless}}
+        {{/if}}
+    </div>
+</div>

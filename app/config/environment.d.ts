@@ -18,6 +18,8 @@ export interface KeenConfig {
 }
 
 declare const config: {
+    WATER_BUTLER_ENABLED: boolean;
+    plauditWidgetUrl: string,
     environment: any;
     lintOnBuild: boolean;
     testsEnabled: boolean;
@@ -68,7 +70,9 @@ declare const config: {
         apiVersion: string;
         apiHeaders: { [k: string]: string };
         learnMoreUrl: string;
+        donateUrl: string;
         renderUrl: string;
+        mfrUrl: string;
         addonServiceUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
@@ -78,6 +82,7 @@ declare const config: {
         devMode: boolean;
         cookieDomain: string;
         authenticator: string;
+        metricsStartDate: string;
         cookies: {
             status: string;
             keenUserId: string;

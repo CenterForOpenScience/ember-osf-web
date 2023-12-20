@@ -89,10 +89,12 @@ export interface RelatedLinkMeta {
     id?: string;
     count?: number;
     type?: string;
+    has_highlighted_subjects?: boolean;
 }
 
 export interface NormalLinks extends JSONAPI.Links {
     self?: JSONAPI.Link;
     html?: JSONAPI.Link;
+    iri?: JSONAPI.Link;
 }
 /* eslint-enable camelcase */

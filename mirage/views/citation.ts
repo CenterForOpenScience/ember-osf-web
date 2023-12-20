@@ -20,6 +20,7 @@ export function getCitation(this: HandlerContext, schema: Schema, request: Reque
             id: citationStyleID,
             type: 'citations',
             attributes: {
+                title: citationStyle.title,
                 citation: `Pretend citation for "${citable.title}" in the style "${citationStyle.title}"`,
             },
         },

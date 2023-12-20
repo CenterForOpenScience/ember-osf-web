@@ -6,6 +6,7 @@ import { externalAccountDetail, externalAccountList } from 'ember-osf-web/mirage
 import { nodeAddonDetail, nodeAddonList } from 'ember-osf-web/mirage/views/node-addon';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
+import { addonsList } from './views/addons';
 import { getCitation } from './views/citation';
 import { createCollectionSubmission, getCollectionSubmissions } from './views/collection-submission';
 import { createSubmissionAction } from './views/collection-submission-action';
@@ -53,7 +54,7 @@ import * as userSettings from './views/user-setting';
 import * as addons from './views/addons';
 import * as wb from './views/wb';
 
-const { OSF: { addonServiceUrl, apiUrl, shareBaseUrl } } = config;
+const { OSF: { addonServiceUrl, apiUrl, shareBaseUrl, url: osfUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
@@ -70,6 +71,13 @@ export default function(this: Server) {
     this.get('/index-card-search', cardSearch);
     this.get('/index-value-search', valueSearch);
     // this.get('/index-card/:id', Detail);
+    this.get('/index-card-searches', cardSearch);
+    this.get('/index-value-searches', valueSearch);
+    // this.get('/index-cards/:id', Detail);
+
+    this.urlPrefix = osfUrl;
+    this.namespace = '/api/v1/';
+    this.post('project/:id/boa/submit-job/', () => ({})); // submissions to BoA
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
@@ -84,6 +92,10 @@ export default function(this: Server) {
     osfResource(this, 'external-account', {only: ['index', 'show', 'create']});
 
     osfResource(this, 'file', { only: ['show', 'update'] });
+    osfNestedResource(this, 'file', 'versions', {
+        only: ['index'],
+        path: '/files/:parentID/versions',
+    });
 
     this.get('/guids/:id', guidDetail);
 
@@ -121,6 +133,7 @@ export default function(this: Server) {
     this.get('/nodes/:parentID/addons/', nodeAddonList);
     osfNestedResource(this, 'node', 'nodeAddons', {except: [ 'index', 'show' ]});
 
+    this.get('/nodes/:parentID/addons', addonsList);
     this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
     this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider
     this.get('/nodes/:parentID/files/:fileProviderId/:folderId', folderFilesList); // Node folder detail view
@@ -309,7 +322,96 @@ export default function(this: Server) {
         only: ['index'],
     });
 
-    osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
+    osfResource(this, 'preprint-provider', {
+        path: '/providers/preprints',
+        defaultPageSize: 1000,
+    });
+    osfNestedResource(this, 'preprint-provider', 'highlightedSubjects', {
+        only: ['index'],
+        path: '/providers/preprints/:parentID/subjects/highlighted/',
+        relatedModelName: 'subject',
+    });
+    osfNestedResource(this, 'preprint-provider', 'preprints', {
+        path: '/providers/preprints/:parentID/preprints/',
+        relatedModelName: 'preprint',
+    });
+
+    osfNestedResource(this, 'preprint-provider', 'citationStyles', {
+        only: ['index'],
+        path: '/providers/preprints/:parentID/citation_styles/',
+        relatedModelName: 'citation-style',
+    });
+
+    /**
+     * Preprint Details
+     */
+
+    osfResource(this, 'preprint');
+    osfNestedResource(this, 'preprint', 'contributors', {
+        path: '/preprints/:parentID/contributors/',
+        defaultSortKey: 'index',
+        relatedModelName: 'contributor',
+    });
+    osfNestedResource(this, 'preprint', 'bibliographicContributors', {
+        path: '/preprints/:parentID/bibliographic_contributors/',
+        defaultSortKey: 'index',
+        relatedModelName: 'contributor',
+    });
+    osfNestedResource(this, 'preprint', 'files', {
+        path: '/preprints/:parentID/files/',
+        defaultSortKey: 'index',
+        relatedModelName: 'file',
+    });
+    osfNestedResource(this, 'preprint', 'primaryFile', {
+        path: '/wb/files/:fileID/',
+        defaultSortKey: 'index',
+        relatedModelName: 'file',
+    });
+    osfNestedResource(this, 'preprint', 'subjects', {
+        path: '/preprints/:parentID/subjects/',
+        defaultSortKey: 'index',
+        relatedModelName: 'subject',
+    });
+    osfNestedResource(this, 'preprint', 'identifiers', {
+        path: '/preprints/:parentID/identifiers/',
+        defaultSortKey: 'index',
+        relatedModelName: 'identifier',
+    });
+    this.get('/preprints/:guid/citation/:citationStyleID', getCitation);
+
+    /**
+     * Preprint Review Actions
+     */
+
+    osfNestedResource(this, 'preprint', 'reviewActions', {
+        path: '/preprints/:parentID/review_actions/',
+        defaultSortKey: 'index',
+        relatedModelName: 'review-action',
+    });
+
+    /**
+     * Preprint Requests
+     */
+
+    osfNestedResource(this, 'preprint', 'requests', {
+        path: '/preprints/:parentID/requests/',
+        defaultSortKey: 'index',
+        relatedModelName: 'preprint-request',
+    });
+
+    /**
+     * Preprint Request Actions
+     */
+    osfResource(this, 'preprint-request', {path: '/requests'});
+    osfNestedResource(this, 'preprint-request', 'actions', {
+        path: '/requests/:parentID/actions',
+        relatedModelName: 'preprint-request-action',
+    });
+
+    /**
+     * End Preprint Details
+     */
+
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
     osfNestedResource(this, 'registration-provider', 'moderators', {
         only: ['index', 'show', 'update', 'delete'],

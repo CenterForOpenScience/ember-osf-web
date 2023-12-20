@@ -3,8 +3,8 @@
         <LoadingIndicator @dark={{true}} />
     {{else}}
         {{#each this.loadDefaultCitations.last.value as |citation|}}
-            <h5>{{citation.displayTitle}}</h5>
-            <p data-analytics-scope='{{citation.displayTitle}} citation'>
+            <h5>{{citation.title}}</h5>
+            <p data-analytics-scope='{{citation.title}} citation'>
                 <CopyableText
                     data-test-default-citation={{citation.id}}
                     @text={{citation.citation}}

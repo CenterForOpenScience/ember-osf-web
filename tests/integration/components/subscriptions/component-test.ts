@@ -2,6 +2,7 @@ import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, TestContext } from 'ember-intl/test-support';
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
 import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import { setupRenderingTest } from 'ember-qunit';

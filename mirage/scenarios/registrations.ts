@@ -14,8 +14,6 @@ export function manyProjectRegistrationsScenario(
     server: Server,
     currentUser: ModelInstance<User>,
 ) {
-    server.loadFixtures('citation-styles');
-
     const registrationNode = server.create(
         'node',
         {
@@ -45,7 +43,6 @@ export function registrationScenario(
     currentUser: ModelInstance<User>,
 ) {
     const { defaultProvider } = config;
-    server.loadFixtures('citation-styles');
 
     server.create('registration-provider', {
         id: defaultProvider,

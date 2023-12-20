@@ -1,0 +1,15 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.branded-footer-links {
+    width: 100%;
+    margin: 10px;
+    text-align: center;
+
+    .social > a {
+        margin: 0 4px;
+    }
+
+    .social > a:hover {
+        text-decoration: none;
+    }
+}

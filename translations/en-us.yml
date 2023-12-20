@@ -24,6 +24,8 @@ documentType:
         pluralCapitalized: Theses
         singular: thesis
         singularCapitalized: Thesis
+contact: 
+    email: support@osf.io
 general:
     OSF: OSF
     share: Share
@@ -117,6 +119,7 @@ file_actions_menu:
     error_message: 'Could not copy to clipboard'
     rename: 'Rename'
     rename_aria: 'Open rename link'
+    submit_to_boa: 'Submit to Boa'
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -941,9 +944,7 @@ app_components:
     search_help_modal:
         close: Close
         title: 'Search help'
-        queries: Queries
-        searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>.'
-        helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
+        description: 'OSF Search provides a powerful discovery tool to help you find data, papers, analysis plans, and more content across the research lifecycle. OSF Preprints has some specialized filters, which you can learn more about on our <a href="https://help.osf.io/article/181-search-and-discover-preprints" target="_blank">help guides</a>.'
     search_paginator:
         prev: «
         prev_aria: 'Go to previous page'
@@ -989,6 +990,8 @@ collections:
             volume: Volume
             study_design: 'Study Design'
             school_type: 'School Type'
+            data_type: 'Data Type'
+            disease: Disease
     collections_submission:
         title: Submit
         add_header: 'Add to Collection'
@@ -1042,6 +1045,8 @@ collections:
         volume_label: 'Volume:'
         study_design_label: 'Study Design:'
         school_type_label: 'School Type:'
+        data_type_label: 'Data Type:'
+        disease_label: 'Disease:'
     collection_search_result:
         expand: 'Expand search result'
         collapse: 'Collapse search result'
@@ -1057,6 +1062,8 @@ collections:
             remove_school_type: 'Remove school type'
             remove_study_design: 'Remove study design'
             remove_volume: 'Remove volume'
+            remove_data_type: 'Remove data type'
+            remove_disease: 'Remove disease'
         asOf: 'as of'
         broadenSearch: 'Try broadening your search terms'
         date: Date
@@ -1114,10 +1121,136 @@ collections:
             reject: rejected
             remove: 'removed'
 preprints:
-    osf-title: 'OSF Preprints'
     provider-title: '{name} {pluralizedPreprintWord}'
     discover:
         title: 'Search'
+    title: 'Preprints'
+    detail:
+        abstract: 'Abstract'
+        article_doi: 'Peer-reviewed Publication DOI'
+        citations: 'Citations'
+        collapse: 'Collapse'
+        date_label: 
+            created_on: 'Created'
+            submitted_on: 'Submitted'
+        disciplines: 'Disciplines'
+        expand: 'Expand'
+        header: 
+            last_edited: 'Last edited'
+            authors_label: 'Authors'
+            withdrawn_on: 'Withdrawn'
+        license: 'License'
+        none: 'None'
+        original_publication_date: 'Original publication date'
+        orphan_preprint: 'The user has removed this file.'
+        preprint_doi: '{documentType} DOI'
+        preprint_pending_doi: 'DOI created after {documentType} is made public'
+        preprint_pending_doi_moderation: 'DOI created after moderator approval'
+        preprint_pending_doi_minted: 'DOIs are minted by a third party, and may take up to 24 hours to be registered.'
+        private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
+        project_button: 
+            edit_preprint: 'Edit {documentType}'
+            edit_resubmit_preprint: 'Edit and resubmit'
+        see_less: 'See less'
+        see_more: 'See more'
+        share: 
+            download: 'Download {documentType}'
+            downloads: 'Downloads'
+            download_file: 'Download file'
+            views: 'Views'
+            metrics_disclaimer: 'Metrics collected since:'
+        supplemental_materials: 'Supplemental Materials'
+        tags: 'Tags'
+        reason_for_withdrawal: 'Reason for withdrawal'
+        file_renderer:
+            download_previous_versions: 'Download previous versions'
+            version: 'Version'
+        author-assertions:
+            header_label: 'Author Assertions'
+            describe: 'Describe'
+            available: 
+                yes: 'Yes'
+                no: 'No'
+                available: 'Available'
+                not_applicable: 'Not applicable'
+            conflict_of_interest:
+                title: 'Conflict of Interest'
+                no: 'Author asserted no Conflict of Interest'
+            public_data:
+                linksToData: 'Links to data'
+                title: 'Public Data'
+                no: 'No additional information provided by author.'
+                not_applicable: 'Author asserted there is no data associated with this {documentType}.'
+                description: 'Data refers to raw and/or processed information (quantitative or qualitative) used for the analyses, case studies, and/or descriptive interpretation in the {documentType}. Public data could include data posted to open-access repositories, public archival library collection, or government archive. For data that is available under limited circumstances (e.g., after signing a data sharing agreement), choose the ‘No’ option and use the comment box to explain how others could access the data.'
+            prereg:
+                links: 'Links'
+                title: 'Preregistration'
+                type: 'Type'
+                chooseOne: 'Choose one'
+                no: 'No additional information provided by author.'
+                prereg_designs: 'Study Design'
+                prereg_analysis: 'Analysis Plan'
+                prereg_both: 'Both'
+                not_applicable: 'Author asserted that preregistration was not applicable because no data collection, extraction, or analysis is reported in this {documentType}.'
+                description: 'A preregistration is a description of the research design and/or analysis plan that is created and registered before researchers collected data or before they have seen/interacted with preexisting data. The description should appear in a public registry (e.g., clinicaltrials.gov, OSF, AEA registry).'
+        status_banner:
+            pre_moderation: 'pre-moderation'
+            post_moderation: 'post-moderation'
+            brand_name: 'OSF'
+            loading: 'Loading...'
+            close: 'Close'
+            message: 
+                base: '{name} uses {reviewsWorkflow}. This {documentType}'
+                pending_pre: 'is not publicly available or searchable until approved by a moderator.'
+                pending_post: 'is publicly available and searchable but is subject to removal by a moderator.'  
+                accepted: 'has been accepted by a moderator and is publicly available and searchable.'
+                rejected: 'has been rejected by a moderator and is not publicly available or searchable.'
+                pending_withdrawal: 'This {documentType} has been requested by the authors to be withdrawn. It will still be publicly searchable until the request has been approved.'
+                withdrawn: 'This {documentType} has been withdrawn.'
+                withdrawal_rejected: 'Your request to withdraw this {documentType} from the service has been denied by the moderator.'
+            pending: 'pending'
+            accepted: 'accepted'
+            rejected: 'rejected'
+            pending_withdrawal: 'pending withdrawal'
+            withdrawal_rejected: 'withdrawal rejected'
+            feedback: 
+                moderator_feedback: 'Moderator feedback'
+                moderator: 'Moderator'
+                base: 'This {documentType}'
+    header:
+        osf_preprints: 'OSF Preprints'
+        search_placeholder: 'Search {placeholder} ...'
+        search_button: 'Perform search'
+        search_label: 'Search'
+        search_help: 'Search help'
+        powered_by: 'Powered by OSF Preprints'
+        or: 'or'
+        submit_label: 'Submit a preprint'
+        example: 'See an example'
+        authors_label: 
+    subjects:
+        heading:
+            provider: 'Browse by provider'
+            hasHighlightedSubjects: 'Browse by featured subjects'
+            noHighlightedSubjects: 'Browse by subjects'
+        links:
+            seeAllSubjects: 'See all subjects available'
+    services:
+        top:
+            heading: '{documentType} Services'
+            paragraph: 'Leading {documentType} service providers use this open source infrastructure to support their communities.'
+        bottom:
+            contact: 'Contact us'
+            p1: 'Create your own branded {documentType} servers backed by the OSF.'
+            div: 
+                line1: 'Check out the'
+                linkText1: 'open source code'
+                line2: 'and our'
+                linkText2: 'public roadmap'
+                line3: '. Input welcome!'
+        advisory: 
+            heading: 'Advisory Group'
+            paragraph: 'Our advisory group includes leaders in preprints and scholarly communication'
 registries:
     header:
         osf_registrations: 'OSF Registrations'
@@ -2229,6 +2362,13 @@ osf-components:
             delete_success: '{itemCount, plural, one {# item} other {# items}} deleted successfully'
             deleting: 'Deleting {itemCount, plural, one {# item} other {# items}}'
             retry: 'retry delete'
+        submit_to_boa: 'Submit file to Boa?'
+        boa_dataset_select_placeholder: 'Select a dataset'
+        confirm_submit_to_boa: 'Are you sure you want to submit "{fileName}" to Boa?'
+        confirm_submit_to_boa_yes: 'Submit'
+        submit_to_boa_fail: 'Unable to submit "{fileName}" to Boa. Please try again later. Contact <a href="mailto:support@osf.io">support@osf.io</a> if the problem persists'
+        submit_to_boa_success: 'Successfully submitted "{fileName}" to Boa. You will be notified by email when the job is done.'
+        boa_dataset_spiel: 'Please select a dataset to run the query against:'
         help_modal:
             heading: 'Using the OSF Files Browser'
             providers: 'See All Files in a Provider'

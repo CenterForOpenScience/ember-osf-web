@@ -2,6 +2,7 @@ import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 import AddonModel from 'ember-osf-web/models/addon';
 
+import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import User from 'ember-osf-web/models/user';
@@ -50,8 +51,19 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     const filesNode = server.create('node', {
         id: 'file5',
         title: 'With some files',
+        boaEnabled: true,
         currentUserPermissions: [Permission.Read, Permission.Write, Permission.Admin],
     }, 'withFiles', 'withStorage', 'withContributors', 'withAffiliatedInstitutions', 'withDoi', 'withLinkedByNodes');
+    const filesNodeOsfStorage = filesNode.files.models.filter(
+        (provider: ModelInstance<FileProviderModel>) => provider.name === 'osfstorage',
+    )[0] as ModelInstance<FileProviderModel>;
+    server.create('file', {
+        id: 'snake',
+        name: 'snake.boa',
+        checkout: currentUser.id,
+        target: filesNode,
+        parentFolder: filesNodeOsfStorage.rootFolder,
+    });
     server.create('contributor', {
         node: filesNode,
         users: currentUser,

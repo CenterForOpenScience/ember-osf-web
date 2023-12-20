@@ -36,7 +36,7 @@ export default class ResolveGuid extends Route {
         return {
             file: 'guid-file',
             node: 'guid-node',
-            preprint: 'guid-preprint',
+            preprint: 'preprints.detail',
             registration: this.features.isEnabled(routes['registries.overview'])
                 ? 'registries.overview'
                 : 'guid-registration',
@@ -75,7 +75,14 @@ export default class ResolveGuid extends Route {
                 throw new Error(`Unknown GUID referentType: ${guid.referentType}`);
             }
 
-            expanded = this.generateURL(this.routeMap[guid.referentType], params.guid);
+            if (guid.referentType === 'preprint') {
+                const preprint = await this.store.findRecord('preprint', params.guid);
+                const providerId = preprint.belongsTo('provider').id();
+                expanded = this.generateURL(this.routeMap['preprint'], providerId, params.guid);
+            } else {
+                expanded = this.generateURL(this.routeMap[guid.referentType], params.guid);
+            }
+
         }
 
         let url = expanded;
