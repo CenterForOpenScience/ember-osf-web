@@ -5,14 +5,18 @@ import faker from 'faker';
 
 export default Factory.extend<CedarMetadataRecordModel>({
     metadata() {
-        return {
+        const metadata = {
             name: faker.lorem.word(),
             templates: [
                 buildData(),
-                buildData(),
-                buildData(),
             ],
         };
+
+        for(let index = 0; index < faker.random.number({min: 1, max: 9, precision: 1}); index++) {
+            metadata.templates.push(buildData());
+        }
+
+        return metadata;
     },
 
     isPublished() {
