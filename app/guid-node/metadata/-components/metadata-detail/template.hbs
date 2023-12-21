@@ -1,7 +1,7 @@
-<div local-class='metadata-detail-container {{if this.isMobile 'mobile'}}'>
+<div local-class='metadata-detail-container'>
     <div local-class='header-container'>
         <div local-class='header'>
-            {{this.cedarMetadataRecord.metadata.name}}
+            {{@cedarMetadataRecord.metadata.name}}
         </div>
         <FaIcon @icon='question-circle' />
         <EmberPopover
@@ -15,7 +15,7 @@
             </div>
         </EmberPopover>
     </div>
-    {{#each this.cedarMetadataRecord.metadata.data as |data| }}
+    {{#each @cedarMetadataRecord.metadata.data as |data| }}
         <div local-class='detail-container'>
             <div local-class='key-container'>
                 <div local-class='key'>
