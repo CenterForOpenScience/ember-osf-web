@@ -1,0 +1,15 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.metadata-detail-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &.mobile {
+        .metadata-detail-container {
+            width: 100%;
+        }
+    }
+}
