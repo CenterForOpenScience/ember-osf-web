@@ -1,3 +1,35 @@
 <div local-class='metadata-detail-container {{if this.isMobile 'mobile'}}'>
-    {{this.cedarMetadataRecord.metadata.name}}
+    <div local-class='header-container'>
+        <div local-class='header'>
+            {{this.cedarMetadataRecord.metadata.name}}
+        </div>
+        <FaIcon @icon='question-circle' />
+        <EmberPopover
+            @side='bottom'
+            @event='hover'
+            @popperContainer='body'
+        >
+            <div local-class='popover-format'>
+                <h3>{{t 'metadata.detail.popover.header'}}</h3>
+                {{t 'metadata.detail.popover.content'}}
+            </div>
+        </EmberPopover>
+    </div>
+    {{#each this.cedarMetadataRecord.metadata.data as |data| }}
+        <div local-class='detail-container'>
+            <div local-class='key-container'>
+                <div local-class='key'>
+                    {{data.key}}
+                </div>
+                {{#if data.required}}
+                    <div local-class='required'>
+                        *
+                    </div>
+                {{/if}}
+            </div>
+            <div>
+                {{data.value}}
+            </div>
+        </div>
+    {{/each}}
 </div>

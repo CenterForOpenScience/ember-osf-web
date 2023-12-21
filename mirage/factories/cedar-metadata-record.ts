@@ -7,6 +7,54 @@ export default Factory.extend<CedarMetadataRecordModel>({
     metadata() {
         return {
             name: faker.lorem.word(),
+            data: [
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+
+                }),
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+                }),
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+                }),
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+                }),
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+                }),
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+                }),
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+                }),
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+                }),
+                Object({
+                    key: faker.lorem.words(3),
+                    value: faker.lorem.sentence(50),
+                    required: faker.random.boolean(),
+                }),
+            ],
         };
     },
 
