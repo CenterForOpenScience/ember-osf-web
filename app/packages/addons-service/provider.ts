@@ -61,7 +61,6 @@ export default class Provider {
     async createAccountForNodeAddon() {
         const account = this.store.createRecord('authorized-storage-account', {
             externalUserId: this.currentUser.user?.id,
-            externalUserDisplayName: this.currentUser.user?.fullName,
             scopes: [],
             defaultRootFolder: '',
             storageProvider: this.provider,
