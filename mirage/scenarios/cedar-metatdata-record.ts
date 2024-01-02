@@ -14,11 +14,19 @@ export function cedarMetadataRecordsScenario(
 
     threeCedarMetadataRecords(server);
 
+    twelveCedarMetadataRecords(server);
+
+}
+
+function noCedarMetadataRecords(server: Server) {
+    server.create('node', {
+        id: '0-cedar-records',
+    });
 }
 
 function threeCedarMetadataRecords(server: Server) {
     const newNode = server.create('node', {
-        id: 'three-cedar-metadata-records',
+        id: '3-cedar-records',
     });
 
     const cedarMetadataRecords = server.createList('cedar-metadata-record', 3);
@@ -28,9 +36,14 @@ function threeCedarMetadataRecords(server: Server) {
     });
 }
 
+function twelveCedarMetadataRecords(server: Server) {
+    const newNode = server.create('node', {
+        id: '12-cedar-records',
+    });
 
-function noCedarMetadataRecords(server: Server) {
-    server.create('node', {
-        id: 'no-cedar-metadata-records',
+    const cedarMetadataRecords = server.createList('cedar-metadata-record', 12);
+
+    newNode.update({
+        cedarMetadataRecords,
     });
 }

@@ -31,11 +31,13 @@
                 </NodeMetadataManager>
             </div>
         </tab.tabPanel>
-        <tab.tabPanel>
-            <div local-class='metadata-pane' data-test-registrations-pane>
-                {{ t 'cedar.editor.save-button' }}
-            </div>
-        </tab.tabPanel>
+        {{#each this.templates as |template| }}
+            <tab.tabPanel>
+                <GuidNode::Metadata::-Components::MetadataDetail
+                    @cedarMetadataRecord={{template}}
+                ></GuidNode::Metadata::-Components::MetadataDetail>
+            </tab.tabPanel>
+        {{/each}}
     </AriaTabs>
     {{#if this.showTabs}}
         <div local-class='more-options'>

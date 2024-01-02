@@ -216,6 +216,10 @@ metadata:
     add-schema: 'Add Community Metadata Schemas'
     see-more: 'Click to see more metadata options'
     see-less: 'Click to see less metadata options'
+    detail:
+        popover:
+            header: 'This is a default header'
+            content: 'This is a default content'
 cedar:
     editor:
         save-button: 'Save'
