@@ -9,7 +9,7 @@ import { dashboardScenario } from './dashboard';
 import { forksScenario } from './forks';
 import { meetingsScenario } from './meetings';
 import { preprintsScenario } from './preprints';
-import { cedarScenario } from './cedar';
+import { cedarMetadataRecordsScenario } from './cedar-metatdata-record';
 import { manyProjectRegistrationsScenario, registrationScenario } from './registrations';
 import { settingsScenario } from './settings';
 
@@ -63,6 +63,6 @@ export default function(server: Server) {
     }
 
     if (mirageScenarios.includes('cedar')) {
-        cedarScenario(server, currentUser);
+        cedarMetadataRecordsScenario(server, currentUser);
     }
 }

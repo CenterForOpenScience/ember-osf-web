@@ -122,6 +122,7 @@ export default function(this: Server) {
         defaultSortKey: 'index',
     });
     osfNestedResource(this, 'node', 'forks', { only: ['index'] });
+    osfNestedResource(this, 'node', 'cedarMetadataRecords', { only: ['index'] });
     this.post('/nodes/:id/forks', createFork);
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedByNodes', { only: ['index'] });

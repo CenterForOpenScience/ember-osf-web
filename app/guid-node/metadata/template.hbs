@@ -1,9 +1,34 @@
-<div local-class='container'>
-    <NodeMetadataManager @node={{this.model.taskInstance.value}} as |manager|>
-        {{#if manager.isGatheringData}}
-            <LoadingIndicator @dark={{true}} />
-        {{else}}
-            <NodeMetadataForm @manager={{manager}} />
-        {{/if}}
-    </NodeMetadataManager>
+<div local-class='metadata-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='header-container'>
+        <div local-class='header'>
+            <h2 data-test-metadata-header>
+                {{t 'metadata.header'}}
+            </h2>
+        </div>
+        <div local-class='actions'>
+            <div local-class='download spacer'>
+                <div local-class='spacer'>
+                    <FaIcon @icon='download' />
+                </div>
+                <div>
+                    {{t 'metadata.download'}}
+                </div>
+            </div>
+            <div local-class='add-schema'>
+                <div local-class='spacer'>
+                    <FaIcon @icon='plus' />
+                </div>
+                <div>
+                    {{t 'metadata.add-schema'}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div local-class='metadata-tab-container'>
+        <GuidNode::Metadata::-Components::MetadataTabs
+            @guidNode={{this.model.guidNode}}
+            @templates={{this.model.templates}}
+        ></GuidNode::Metadata::-Components::MetadataTabs>
+    </div>
 </div>
+

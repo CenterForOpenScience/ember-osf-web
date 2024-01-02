@@ -209,6 +209,13 @@ dashboard:
         registries: 'OSF Registries'
         preprints: 'OSF Preprints'
         institutions: 'OSF Institutions'
+metadata:
+    main-tab: 'OSF'
+    header: 'Metadata'
+    download: 'Download'
+    add-schema: 'Add Community Metadata Schemas'
+    see-more: 'Click to see more metadata options'
+    see-less: 'Click to see less metadata options'
 cedar:
     editor:
         save-button: 'Save'
@@ -2016,7 +2023,6 @@ osf-components:
         modification-date: 'Date modified'
         registration-date: 'Date registered'
         withdrawal-date: 'Date withdrawn'
-        metadata-header: 'Metadata'
         resource-information: 'Resource Information'
         resource-information-help: 'More information about resource information'
         contributors: 'Contributors'
