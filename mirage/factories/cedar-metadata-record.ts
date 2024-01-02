@@ -24,6 +24,6 @@ declare module 'ember-cli-mirage/types/registries/model' {
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        'cedar-metadata-record': CedarMetadataRecordModel;
+        'cedarMetadataRecords': CedarMetadataRecordModel;
     } // eslint-disable-line semi
 }

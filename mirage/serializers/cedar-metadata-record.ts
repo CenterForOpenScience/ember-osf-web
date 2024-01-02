@@ -7,7 +7,7 @@ const { OSF: { apiUrl } } = config;
 export default class CedarMetadataRecordMirageSerializer extends ApplicationSerializer<CedarMetadataRecordModel> {
     buildNormalLinks(model: ModelInstance<CedarMetadataRecordModel>) {
         return {
-            self: `${apiUrl}/v2/cedar_metadata_records/${model.id}/`,
+            self: `${apiUrl}/_/cedar_metadata_records/${model.id}/`,
         };
     }
 }
