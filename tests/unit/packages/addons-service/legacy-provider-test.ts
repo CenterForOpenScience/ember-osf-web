@@ -67,7 +67,6 @@ module('Unit | Packages | addons-service | legacy-provider', hooks => {
     });
 
     test('It caches the node addon', async function(assert) {
-        server.namespace = 'v2';
         this.owner.register('service:current-user', CurrentUserStub);
         const currentUser = this.owner.lookup('service:current-user');
 

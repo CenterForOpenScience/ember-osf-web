@@ -58,7 +58,9 @@ export default class GuidFile extends Route {
         };
         this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
         this.headTagsService.collectHeadTags();
-        await taskFor(model.target.get('getEnabledAddons')).perform();
+        if(!model.target.get('isRegistration')) {
+            await taskFor(model.target.get('getEnabledAddons')).perform();
+        }
         blocker.done();
     }
 
