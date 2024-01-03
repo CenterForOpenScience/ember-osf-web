@@ -46,6 +46,8 @@ export function createCollectionSubmission(this: HandlerContext, schema: Schema)
         volume,
         schoolType,
         studyDesign,
+        dataType,
+        disease,
     } = attrs;
     const userId = schema.roots.first().currentUserId;
     const currentUser = schema.users.find(userId!);
@@ -61,6 +63,8 @@ export function createCollectionSubmission(this: HandlerContext, schema: Schema)
         volume,
         schoolType,
         studyDesign,
+        dataType,
+        disease,
         guid: guidModel,
         collection: collectionModel,
         creator: currentUser,
@@ -78,6 +82,8 @@ export function createCollectionSubmission(this: HandlerContext, schema: Schema)
         volume,
         schoolType,
         studyDesign,
+        dataType,
+        disease,
     });
 
     schema.collectionSubmissionActions.create({

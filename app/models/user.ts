@@ -54,6 +54,7 @@ const Validations = buildValidations({
 });
 
 export interface UserLinks extends OsfLinks {
+    html: Link;
     profile_image: Link; // eslint-disable-line camelcase
 }
 

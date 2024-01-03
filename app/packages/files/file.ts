@@ -154,6 +154,14 @@ export default abstract class File {
         );
     }
 
+    get isBoaFile() {
+        return this.fileModel.name.endsWith('.boa');
+    }
+
+    get providerIsOsfstorage() {
+        return this.fileModel.provider === 'osfstorage';
+    }
+
     async createFolder(newFolderName: string) {
         if (this.fileModel.isFolder) {
             await this.fileModel.createFolder(newFolderName);

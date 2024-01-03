@@ -21,7 +21,12 @@
                     ({{t 'general.version'}}: {{this.viewedVersion}})
                 {{/if}}
             </h2>
-            <FileActionsMenu @item={{this.model}} @onDelete={{this.onDelete}} @allowRename={{false}} />
+            <FileActionsMenu
+                @item={{this.model}}
+                @onDelete={{this.onDelete}}
+                @allowRename={{false}}
+                @addonsEnabled={{this.model.fileModel.target.addonsEnabled}}
+            />
         </div>
     </:header>
     <:body>

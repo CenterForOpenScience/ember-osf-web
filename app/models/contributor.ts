@@ -3,6 +3,7 @@ import { not } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 
 import DraftRegistrationModel from './draft-registration';
+import PreprintModel from './preprint';
 import NodeModel from './node';
 import OsfModel, { Permission } from './osf-model';
 import UserModel from './user';
@@ -52,6 +53,9 @@ export default class ContributorModel extends OsfModel.extend(Validations) {
 
     @belongsTo('node', { inverse: 'contributors', polymorphic: true })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
+
+    @belongsTo('preprint', { inverse: 'contributors'})
+    preprint!: AsyncBelongsTo<PreprintModel> & PreprintModel;
 
     @belongsTo('draft-registration', { inverse: 'contributors' })
     draftRegistration!: AsyncBelongsTo<DraftRegistrationModel> & DraftRegistrationModel;

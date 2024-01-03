@@ -6,6 +6,7 @@ import { FileReference } from 'ember-osf-web/packages/registration-schema';
 import getHref from 'ember-osf-web/utils/get-href';
 import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 
+import PreprintModel from 'ember-osf-web/models/preprint';
 import AbstractNodeModel from './abstract-node';
 import BaseFileItem, { BaseFileLinks } from './base-file-item';
 import CommentModel from './comment';
@@ -57,8 +58,9 @@ export default class FileModel extends BaseFileItem {
     @hasMany('comment', { inverse: null })
     comments!: AsyncHasMany<CommentModel>;
 
-    @belongsTo('abstract-node', { polymorphic: true })
-    target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
+    @belongsTo('osf-model', { polymorphic: true })
+    // eslint-disable-next-line max-len
+    target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<PreprintModel> & PreprintModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
 
     @hasMany('cedar-metadata-record', { inverse: null })
     cedarMetadataRecords!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;

@@ -227,7 +227,7 @@ as |layout|>
             <LoadingIndicator @size='large' @dark={{true}} />
         {{else}}
             {{#each this.searchResults as |item|}}
-                <SearchResultCard @result={{item}} @provider={{@provider}} />
+                <SearchResultCard @result={{item}} @provider={{@provider}} @institution={{@institution}} />
             {{else}}
                 <div local-class='no-results'>
                     <p data-test-search-page-no-results>{{t 'search.no-results'}}</p>

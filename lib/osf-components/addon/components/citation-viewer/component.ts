@@ -5,9 +5,11 @@ import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask, task, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import CitationStyleModel from 'ember-osf-web/models/citation-style';
 import CitationStyle from 'ember-osf-web/models/citation-style';
 import Node from 'ember-osf-web/models/node';
 import Preprint from 'ember-osf-web/models/preprint';
+import ProviderModel from 'ember-osf-web/models/provider';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import fixSpecialChars from 'ember-osf-web/utils/fix-special-char';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
@@ -18,18 +20,18 @@ import template from './template';
 
 interface DefaultCitation {
     id: string;
-    displayTitle: string;
+    title: string;
     citation?: string;
 }
 
 const defaultCitations: DefaultCitation[] = [
-    { id: 'apa', displayTitle: 'APA' },
-    { id: 'modern-language-association', displayTitle: 'MLA' },
-    { id: 'chicago-author-date', displayTitle: 'Chicago' },
+    { id: 'apa', title: 'APA' },
+    { id: 'modern-language-association', title: 'MLA' },
+    { id: 'chicago-author-date', title: 'Chicago' },
 ];
 
 function citationUrl(citable: Node | Preprint, citationStyleId: string) {
-    const relatedHref = getRelatedHref(citable.links.relationships!.citation);
+    const relatedHref = getRelatedHref(citable?.links.relationships!.citation);
 
     if (!relatedHref) {
         throw Error('Error getting citation URL');
@@ -45,6 +47,9 @@ function citationUrl(citable: Node | Preprint, citationStyleId: string) {
 export default class CitationViewer extends Component {
     // Required parameter
     citable!: Node | Preprint;
+
+    // Optional parameter
+    provider?: ProviderModel;
 
     // Private properties
     @service store!: Store;
@@ -67,13 +72,21 @@ export default class CitationViewer extends Component {
     @task({ on: 'init' })
     @waitFor
     async loadDefaultCitations() {
+        let citations: CitationStyleModel[] | DefaultCitation[] = [];
+        if (this.provider) {
+            citations = (await this.provider.citationStyles).toArray();
+        }
+        if (citations.length === 0) {
+            citations = defaultCitations;
+        }
         const responses: SingleResourceDocument[] = await all(
-            defaultCitations.map(
+            citations.map(
                 c => this.currentUser.authenticatedAJAX({ url: citationUrl(this.citable, c.id) }),
             ),
         );
         return responses.map((r, i) => ({
-            ...defaultCitations[i],
+            ...citations[i],
+            title: citations[i].title,
             citation: typeof r.data.attributes!.citation === 'string'
                 ? fixSpecialChars(r.data.attributes!.citation)
                 : r.data.attributes!.citation,

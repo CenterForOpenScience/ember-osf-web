@@ -23,7 +23,7 @@ import template from './template';
 
 type ObjectType = 'collection' | 'preprint' | 'registration';
 
-const osfURL = config.OSF.url;
+const { url: osfURL, donateUrl } = config.OSF;
 
 @layout(template, styles)
 @tagName('')
@@ -43,6 +43,7 @@ export default class BrandedNavbar extends Component {
     campaign = `${this.theme.id}-collections`;
 
     myProjectsUrl = serviceLinks.myProjects;
+    donateUrl = donateUrl;
 
     get reviewUrl() {
         return `${osfURL}reviews`;

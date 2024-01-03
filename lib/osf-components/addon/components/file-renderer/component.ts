@@ -9,7 +9,7 @@ import { tracked } from 'tracked-built-ins';
 
 import template from './template';
 
-const { OSF: { renderUrl } } = config;
+const { OSF: { renderUrl, mfrUrl } } = config;
 
 interface Params {
     direct?: '';
@@ -46,6 +46,7 @@ export default class FileRenderer extends Component {
     height = '100%';
     allowfullscreen = true;
     version?: number;
+    allowCommenting = false;
     @tracked isLoading = true;
 
     @computed('download', 'params', 'version')
@@ -64,12 +65,17 @@ export default class FileRenderer extends Component {
     }
 
     @computed('downloadUrl', 'isLoading')
-    get mfrUrl(): string {
+    get getMfrUrl(): string {
         // Waiting until the iframe is loaded then changing the URL avoids a race condition in the MFR iframe
         // This is most apparent in 3D files
         const urlWithParams = new URL(renderUrl);
         urlWithParams.searchParams.set('url', this.downloadUrl);
-        return this.isLoading ? '' : urlWithParams.toString();
+        if (config.WATER_BUTLER_ENABLED) {
+            return this.isLoading ? '' : urlWithParams.toString();
+        } else {
+            return this.isLoading ? '' : this.downloadUrl;
+
+        }
     }
 
     didReceiveAttrs(): void {
@@ -81,6 +87,28 @@ export default class FileRenderer extends Component {
         if (this.isLoading) {
             // Run in next runloop to avoid double rendering
             next(this, () => this.set('isLoading', false));
+        }
+    }
+
+    private mfrOrigin(): string {
+        const urlParts = mfrUrl.split('/');
+        if (urlParts.length < 3) {
+            // if unable to extract mfr origin, just return config mfrUrl
+            return mfrUrl;
+        }
+
+        return `${urlParts[0]}//${urlParts[2]}`;
+    }
+
+    didRender() {
+        if (this.allowCommenting) {
+            const iframeElement = window.document.getElementsByTagName('iframe')[0];
+            iframeElement.addEventListener('load', () => {
+                iframeElement.contentWindow?.postMessage(
+                    {type: 'startHypothesis', parentUrl: window.location.toString()},
+                    this.mfrOrigin(),
+                );
+            });
         }
     }
 }

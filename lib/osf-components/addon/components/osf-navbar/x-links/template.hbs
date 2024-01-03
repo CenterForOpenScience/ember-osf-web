@@ -23,7 +23,7 @@
         onClicked=this.onLinkClicked
     )
     donate=(component 'osf-navbar/x-links/hyper-link'
-        'https://cos.io/donate'
+        this.donateURL
         analyticsLabel='Donate'
         classNames='navbar-donate-button'
         tagName='li'

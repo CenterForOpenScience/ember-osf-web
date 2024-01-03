@@ -15,9 +15,15 @@ type MirageContributor = Contributor & { attrs: ContributorAttrs };
 
 export default class ContributorSerializer extends ApplicationSerializer<MirageContributor> {
     buildNormalLinks(model: ModelInstance<MirageContributor>) {
-        const url = model.node
-            ? `${apiUrl}/v2/nodes/${model.node.id}/contributors/${model.id}`
-            : `${apiUrl}/v2/draft_registrations/${model.draftRegistration.id}/contributors/${model.id}`;
+        let url = '';
+        if(model.node) {
+            url = `${apiUrl}/v2/nodes/${model.node.id}/contributors/${model.id}`;
+        } else if (model.preprint) {
+            url = `${apiUrl}/v2/preprints/${model.preprint.id}/contributors/${model.id}`;
+        } else  {
+            url = `${apiUrl}/v2/draft_registrations/${model.draftRegistration.id}/contributors/${model.id}`;
+        }
+
         return {
             self: url,
         };

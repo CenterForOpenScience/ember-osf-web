@@ -84,7 +84,13 @@
             local-class='FileList__item__options'
         >
             {{#unless @manager.selectedFiles}}
-                <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} @allowRename={{true}} />
+                <FileActionsMenu
+                    @item={{@item}}
+                    @onDelete={{@manager.reload}}
+                    @manager={{@manager}}
+                    @allowRename={{true}}
+                    @addonsEnabled={{@manager.targetNode.addonsEnabled}}
+                />
             {{/unless}}
         </div>
     </li>

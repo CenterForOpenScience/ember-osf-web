@@ -80,6 +80,14 @@ export default Factory.extend<MirageCollectionSubmission>({
             const schoolType = faker.random.arrayElement(collectionSubmission.collection.schoolTypeChoices);
             collectionSubmission.update({ schoolType });
         }
+        if (!collectionSubmission.dataType) {
+            const dataType = faker.random.arrayElement(collectionSubmission.collection.dataTypeChoices);
+            collectionSubmission.update({ dataType });
+        }
+        if (!collectionSubmission.disease) {
+            const disease = faker.random.arrayElement(collectionSubmission.collection.diseaseChoices);
+            collectionSubmission.update({ disease });
+        }
         /**
          * Autogenerate the necessary collection submission action business
          * logic

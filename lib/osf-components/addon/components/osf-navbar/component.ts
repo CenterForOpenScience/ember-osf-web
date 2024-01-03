@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-osf-web/config/environment';
 import Media from 'ember-responsive';
 import Session from 'ember-simple-auth/services/session';
 import { tracked } from 'tracked-built-ins';
@@ -12,8 +11,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 import styles from './styles';
 import template from './template';
-
-const osfURL = config.OSF.url;
 
 export enum OSFService {
     HOME = 'HOME',
@@ -25,13 +22,12 @@ export enum OSFService {
 
 interface ServiceLink {
     name: string;
-    route?: string;
-    href?: string;
+    route: string;
 }
 
 export const OSF_SERVICES: ServiceLink[] = [
     { name: OSFService.HOME, route: 'home' },
-    { name: OSFService.PREPRINTS, href: `${osfURL}preprints/` },
+    { name: OSFService.PREPRINTS, route: 'preprints'},
     { name: OSFService.REGISTRIES, route: 'registries' },
     { name: OSFService.MEETINGS, route: 'meetings' },
     { name: OSFService.INSTITUTIONS, route: 'institutions' },
@@ -57,9 +53,6 @@ export default class OsfNavbar extends Component {
         const { currentRouteName } = this.router;
         if (activeService === OSFService.HOME && currentRouteName) {
             for (const osfService of OSF_SERVICES) {
-                if (!osfService.route) {
-                    continue;
-                }
                 const routeRegExp = new RegExp(`^${osfService.route}($|\\.)`);
                 if (routeRegExp.test(currentRouteName)) {
                     activeService = osfService.name as OSFService;
