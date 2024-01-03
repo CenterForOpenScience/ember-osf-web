@@ -21,7 +21,6 @@ export function process(
 
 export function filter(model: ModelInstance, request: Request) {
     const filterRegex = /^filter\[((?:\w+(?:\.\w+)*,?)+)\](?:\[([a-z]+)\])?/;
-
     return Object.entries(request.queryParams)
         .filter(([key]) => filterRegex.test(key))
         .every(([key, val]) => {

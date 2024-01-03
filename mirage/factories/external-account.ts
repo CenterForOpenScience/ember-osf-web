@@ -1,7 +1,7 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import ExternalAccountsModel from 'ember-osf-web/models/external-accounts';
+import ExternalAccountsModel from 'ember-osf-web/models/external-account';
 
 export default Factory.extend<ExternalAccountsModel>({
     profileUrl: faker.internet.url,
