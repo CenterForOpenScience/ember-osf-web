@@ -6,7 +6,6 @@ import { externalAccountDetail, externalAccountList } from 'ember-osf-web/mirage
 import { nodeAddonDetail, nodeAddonList } from 'ember-osf-web/mirage/views/node-addon';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
-import { addonsList } from './views/addons';
 import { getCitation } from './views/citation';
 import { createCollectionSubmission, getCollectionSubmissions } from './views/collection-submission';
 import { createSubmissionAction } from './views/collection-submission-action';
@@ -129,11 +128,14 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,
     });
+    osfNestedResource(this, 'node', 'nodeAddons', {
+        only: [ 'create', 'update', 'delete' ],
+        path: '/nodes/:parentID/addons',
+        relatedModelName: 'node-addon',
+    });
     this.get('/nodes/:parentID/addons/:id', nodeAddonDetail);
     this.get('/nodes/:parentID/addons/', nodeAddonList);
-    osfNestedResource(this, 'node', 'nodeAddons', {except: [ 'index', 'show' ]});
 
-    this.get('/nodes/:parentID/addons', addonsList);
     this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
     this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider
     this.get('/nodes/:parentID/files/:fileProviderId/:folderId', folderFilesList); // Node folder detail view

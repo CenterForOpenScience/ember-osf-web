@@ -1,6 +1,6 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
-import ExternalAccountsModel from 'ember-osf-web/models/external-accounts';
+import ExternalAccountsModel from 'ember-osf-web/models/external-account';
 import NodeModel from 'ember-osf-web/models/node';
 
 import OsfModel from './osf-model';

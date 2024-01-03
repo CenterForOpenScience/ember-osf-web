@@ -1,6 +1,6 @@
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
 
-import ExternalAccountsModel from 'ember-osf-web/models/external-accounts';
+import ExternalAccountsModel from 'ember-osf-web/models/external-account';
 import { process } from './utils';
 
 export function externalAccountDetail(this: HandlerContext, schema: Schema, request: Request) {
@@ -21,12 +21,12 @@ export function externalAccountList(this: HandlerContext, schema: Schema, reques
         .find(request.params.userID)['userAddons']
         .models;
     const externalAccounts = userAddons.length ? userAddons[0].externalAccounts.models : null;
+
     if (externalAccounts) {
-        externalAccounts
+        const serializedExternalAccounts = externalAccounts
             .filter( (item: ModelInstance<ExternalAccountsModel>) => item.provider.id === request.params.addonID )
             .map((model: ModelInstance<ExternalAccountsModel>) => this.serialize(model).data);
-
-        const json = process(schema, request, this, externalAccounts, { defaultSortKey: 'id' });
+        const json = process(schema, request, this, serializedExternalAccounts, { defaultSortKey: 'id' });
         return json;
     }
     return {};

@@ -19,16 +19,18 @@ export function nodeAddonDetail(this: HandlerContext, schema: Schema, request: R
 }
 
 export function nodeAddonList(this: HandlerContext, schema: Schema, request: Request) {
-    const nodeAddons = schema.nodes
-        .find(request.params.parentID)['nodeAddons']
-        .models
-        .filter((m: ModelInstance<NodeAddonModel>) => filter(m, request))
+    const nodes = schema.nodes;
+    const foundNodeAddons = nodes.find(request.params.parentID)['nodeAddons'];
+    const foundNodeAddonModels = foundNodeAddons.models;
+    const filteredNodeAddonModels = foundNodeAddonModels
+        .filter((m: ModelInstance) => filter(m, request));
+    const mappedNodeAddonModels = filteredNodeAddonModels
         .map((model: ModelInstance<NodeAddonModel>) => {
             model.configured = Boolean(model.folderPath);
             return model;
         })
         .map((model: ModelInstance<NodeAddonModel>) => this.serialize(model).data);
 
-    const json = process(schema, request, this, nodeAddons, { defaultSortKey: 'last_logged' });
+    const json = process(schema, request, this, mappedNodeAddonModels, { defaultSortKey: 'last_logged' });
     return json;
 }
