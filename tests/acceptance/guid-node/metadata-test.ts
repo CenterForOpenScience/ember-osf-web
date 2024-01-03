@@ -26,7 +26,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         const metadataRecord = await this.owner.lookup('service:store')
             .findRecord('custom-item-metadata-record', node.id);
         assert.equal(currentURL(), url, `We are on ${url}`);
-        assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
+        assert.equal(currentRouteName(), 'guid-node.metadata.index', 'We are at guid-node.metadata.index');
         assert.dom('[data-test-display-resource-language]')
             .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
@@ -67,7 +67,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         const metadataRecord = await this.owner.lookup('service:store')
             .findRecord('custom-item-metadata-record', node.id);
         assert.equal(currentURL(), url, `We are on ${url}`);
-        assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
+        assert.equal(currentRouteName(), 'guid-node.metadata.index', 'We are at guid-node.metadata.index');
         assert.dom('[data-test-display-resource-language]')
             .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
@@ -107,7 +107,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         const metadataRecord = await this.owner.lookup('service:store')
             .findRecord('custom-item-metadata-record', node.id);
         assert.equal(currentURL(), url, `We are on ${url}`);
-        assert.equal(currentRouteName(), 'guid-node.metadata', 'We are at guid-node.metadata');
+        assert.equal(currentRouteName(), 'guid-node.metadata.index', 'We are at guid-node.metadata.index');
         assert.dom('[data-test-display-resource-language]')
             .containsText(languageFromLanguageCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')
