@@ -21,6 +21,7 @@ export default function(server: Server) {
     server.loadFixtures('schema-blocks');
     server.loadFixtures('registration-schemas');
     server.loadFixtures('regions');
+    server.loadFixtures('cedar-metadata-templates');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
     // server.loadFixtures('registration-providers');

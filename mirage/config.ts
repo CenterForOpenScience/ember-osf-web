@@ -134,6 +134,7 @@ export default function(this: Server) {
         relatedModelName: 'contributor',
         defaultSortKey: 'index',
     });
+
     osfNestedResource(this, 'node', 'forks', { only: ['index'] });
     osfNestedResource(this, 'node', 'cedarMetadataRecords', { only: ['index'] });
     this.post('/nodes/:id/forks', createFork);
@@ -488,6 +489,8 @@ export default function(this: Server) {
 
     // Private namespace
     this.namespace = '/_';
+
+    osfResource(this, 'cedar-metadata-template');
 
     this.get('/banners/current/', () => ({
         data: {
