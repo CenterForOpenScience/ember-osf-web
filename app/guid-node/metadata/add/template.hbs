@@ -1,34 +1,23 @@
-<div local-class='metadata-container {{if this.isMobile 'mobile'}}'>
-    {{t 'metadata.download'}}
-    {{!-- <div local-class='header-container'>
+<div local-class='metadata-add-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='header-container'>
         <div local-class='header'>
-            <h2 data-test-metadata-header>
+            <h2 data-test-metadata-add-header>
+                {{t 'metadata.add-flow.select-metadata-schema'}}    
             </h2>
         </div>
-        <div local-class='actions'>
-            <div local-class='download spacer'>
-                <div local-class='spacer'>
-                    <FaIcon @icon='download' />
-                </div>
-                <div>
-                    {{t 'metadata.download'}}
-                </div>
-            </div>
-            <div local-class='add-schema'>
-                <div local-class='spacer'>
-                    <FaIcon @icon='plus' />
-                </div>
-                <div>
-                    {{t 'metadata.add-schema'}}
-                </div>
-            </div>
+        <div local-class='explanation' data-test-metadata-add-explanation>
+            {{t 'metadata.add-flow.explanation' supportEmail=this.supportEmail htmlSafe=true }}    
+        </div>
+        <div local-class='available-schemas' data-test-metadata-add-available-schemas>
+            {{t 'metadata.add-flow.available-schemas' }}
         </div>
     </div>
-    <div local-class='metadata-tab-container'>
-        <GuidNode::Metadata::-Components::MetadataTabs
-            @guidNode={{this.model.guidNode}}
-            @templates={{this.model.templates}}
-        ></GuidNode::Metadata::-Components::MetadataTabs>
-    </div> --}}
+    <div local-class='template-container'>
+        {{#each this.model.templates as |template|}}
+            <GuidNode::Metadata::-Components::MetadataSelect
+                @template={{template}}
+            ></GuidNode::Metadata::-Components::MetadataSelect>
+        {{/each}}
+    </div>
 </div>
 
