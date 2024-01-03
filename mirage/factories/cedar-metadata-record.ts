@@ -6,7 +6,7 @@ import faker from 'faker';
 export default Factory.extend<CedarMetadataRecordModel>({
     metadata() {
         const metadata = {
-            name: faker.lorem.word(),
+            name: faker.lorem.words(faker.random.number({min: 1, max: 6, precision: 1})),
             templates: [
                 buildData(),
             ],

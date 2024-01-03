@@ -72,7 +72,10 @@ Router.map(function() {
         this.route('files', function() {
             this.route('provider', { path: '/:providerId' });
         });
-        this.route('metadata');
+        this.route('metadata', function() {
+            this.route('index', {path: '/'});
+            this.route('add');
+        });
         this.route('registrations');
         this.route('drafts', { path: '/drafts/:draftId' }, function() {
             this.route('register');
