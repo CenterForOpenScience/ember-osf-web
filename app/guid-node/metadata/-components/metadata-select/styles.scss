@@ -1,0 +1,45 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.metadata-select-container {
+    margin-right: 30px;
+    margin-bottom: 30px;
+    padding: 20px;
+    width: calc(400px - 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid $color-border-gray-darker;
+
+    .title {
+        width: 100%;
+        font-weight: bold;
+        height: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .description {
+        width: 100%;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        height: 75px;
+        text-align: center;
+    }
+
+    .action {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 35px;
+    }
+
+    &.mobile {
+        margin-right: 0;
+    }
+}
