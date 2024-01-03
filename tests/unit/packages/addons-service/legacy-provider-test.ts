@@ -14,7 +14,6 @@ module('Unit | Packages | addons-service | legacy-provider', hooks => {
     setupTest(hooks);
     setupMirage(hooks);
     test('It works', async function(assert) {
-        server.namespace = 'v2';
         this.owner.register('service:current-user', CurrentUserStub);
         const currentUser = this.owner.lookup('service:current-user');
 

@@ -1,4 +1,5 @@
 import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
+import { task } from 'ember-concurrency';
 import { buildValidations, validator } from 'ember-cp-validations';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
@@ -173,6 +174,11 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
             RegistrationReviewStates.Initial,
             RegistrationReviewStates.Pending,
         ].includes(this.reviewsState) && !this.withdrawn && !this.archiving;
+    }
+
+    @task
+    async getEnabledAddons() {
+        this.set('addonsEnabled', []);
     }
 }
 
