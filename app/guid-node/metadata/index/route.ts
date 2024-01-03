@@ -11,7 +11,9 @@ export default class MetadataRoute extends Route {
     async model() {
         const guidNode = await this.modelFor('guid-node').taskInstance;
 
-        const templates = await guidNode.queryHasMany('cedarMetadataRecords');
+        const templates = await guidNode.queryHasMany('cedarMetadataRecords', {
+            'page[size]': 20,
+        });
 
         return {
             guidNode,
