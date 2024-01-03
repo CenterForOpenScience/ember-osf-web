@@ -1,8 +1,8 @@
 <div local-class='withdrawn-container'>
     {{#if @preprint.withdrawalJustification}}
-        <div>
+        <div data-test-withdrawal-justification>
             <h4>{{t 'preprints.detail.reason_for_withdrawal'}}</h4>
-            <p>
+            <p data-test-justification>
                 {{@preprint.withdrawalJustification}}
             </p>
         </div>
