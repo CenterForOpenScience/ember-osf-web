@@ -1,0 +1,36 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.metadata-cedar-container {
+    margin-right: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .header-container {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .action-container {
+        width: 100%;
+        height: 100px;
+        margin-bottom: 30px;
+    }
+
+    .cedar-container {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .return-container {
+        width: 100%;
+    }
+
+
+    &.mobile {
+        margin-right: 0;
+    }
+}

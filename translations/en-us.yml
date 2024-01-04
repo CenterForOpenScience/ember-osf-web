@@ -221,9 +221,11 @@ metadata:
     see-less: 'Click to see less metadata options'
     add-flow:
         select-metadata-schema: 'Select a Metadata Schema'
+        select-different-metadata-schema: 'Select a different schema'
         explanation: 'OSF has partnered with CEDAR to provide more ways to annotate your research with domain-specific metadata schemas. If a schema is missing, let us know at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
         available-schemas: 'Available Schemas from CEDAR'
         select: 'Select'
+        add-title: '{schemaName} Schema'
     detail:
         popover:
             header: 'This is a default header'

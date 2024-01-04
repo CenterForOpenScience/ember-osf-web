@@ -22,7 +22,11 @@
             {{/each}}
         </div>
     {{else}}
-        {{t 'metadata.add-flow.available-schemas' }}
+        {{this.model.guidNode.id}}
+        <GuidNode::Metadata::-Components::MetadataCedar
+            @template={{this.selectedTemplate}}
+            @closeCedarEditor={{this.closeCedarEditor}}
+        ></GuidNode::Metadata::-Components::MetadataCedar>
     {{/if}}
 </div>
 
