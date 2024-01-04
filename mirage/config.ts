@@ -490,7 +490,7 @@ export default function(this: Server) {
     // Private namespace
     this.namespace = '/_';
 
-    osfResource(this, 'cedar-metadata-template');
+    osfResource(this, 'cedar-metadata-template', {only: ['index', 'show'] });
 
     this.get('/banners/current/', () => ({
         data: {
