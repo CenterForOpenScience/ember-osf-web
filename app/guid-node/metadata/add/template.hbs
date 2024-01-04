@@ -1,23 +1,28 @@
 <div local-class='metadata-add-container {{if this.isMobile 'mobile'}}'>
-    <div local-class='header-container'>
-        <div local-class='header'>
-            <h2 data-test-metadata-add-header>
-                {{t 'metadata.add-flow.select-metadata-schema'}}    
-            </h2>
+    {{#if this.displaySelectionOptions}}
+        <div local-class='header-container'>
+            <div local-class='header'>
+                <h2 data-test-metadata-add-header>
+                    {{t 'metadata.add-flow.select-metadata-schema'}}    
+                </h2>
+            </div>
+            <div local-class='explanation' data-test-metadata-add-explanation>
+                {{t 'metadata.add-flow.explanation' supportEmail=this.supportEmail htmlSafe=true }}    
+            </div>
+            <div local-class='available-schemas' data-test-metadata-add-available-schemas>
+                {{t 'metadata.add-flow.available-schemas' }}
+            </div>
         </div>
-        <div local-class='explanation' data-test-metadata-add-explanation>
-            {{t 'metadata.add-flow.explanation' supportEmail=this.supportEmail htmlSafe=true }}    
+        <div local-class='template-container'>
+            {{#each this.model.templates as |template|}}
+                <GuidNode::Metadata::-Components::MetadataSelect
+                    @template={{template}}
+                    @selectTemplate={{this.selectTemplate}}
+                ></GuidNode::Metadata::-Components::MetadataSelect>
+            {{/each}}
         </div>
-        <div local-class='available-schemas' data-test-metadata-add-available-schemas>
-            {{t 'metadata.add-flow.available-schemas' }}
-        </div>
-    </div>
-    <div local-class='template-container'>
-        {{#each this.model.templates as |template|}}
-            <GuidNode::Metadata::-Components::MetadataSelect
-                @template={{template}}
-            />
-        {{/each}}
-    </div>
+    {{else}}
+        {{t 'metadata.add-flow.available-schemas' }}
+    {{/if}}
 </div>
 

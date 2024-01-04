@@ -15,7 +15,7 @@ const cedarMetadataTemplates: Array<Partial<CedarMetadataTemplateModel>> = [
     {
         id: '3',
         schemaName: 'OSF Registries - 2',
-        cedarId: 'abc-123',
+        cedarId: 'def-456',
         active: true,
         template: Object({
             description: 'A template description may or may not exist on the cedar template object',
@@ -25,7 +25,7 @@ const cedarMetadataTemplates: Array<Partial<CedarMetadataTemplateModel>> = [
     {
         id: '1',
         schemaName: 'A - OSF Registries - 2',
-        cedarId: 'abc-123',
+        cedarId: 'ghi-789',
         active: true,
         template: Object({
             description: 'A template description may or may not exist on the cedar template object',
