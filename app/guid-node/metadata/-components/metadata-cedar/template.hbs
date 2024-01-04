@@ -1,0 +1,23 @@
+<div local-class='metadata-cedar-container {{if this.isMobile 'mobile'}}'>
+    <div local-class='header-container'>
+        <h2 data-test-schema-name>
+            {{t 'metadata.add-flow.add-title' schemaName=@template.schemaName }}
+        </h2>
+    </div>
+    <div local-class='action-container'></div>
+    <div local-class='cedar-container'>
+        <CedarMetadataEditor
+            @templateObject={{@template.cedarId}}
+        />
+    </div>
+    <div local-class='return-container'>
+        <Button
+            data-test-select-button
+            aria-label= {{ t 'metadata.add-flow-select' }}
+            data-analytics-name='Select metadata'
+            {{on 'click' @closeCedarEditor }}
+        >
+            {{ t 'metadata.add-flow.select-different-metadata-schema' }}
+        </Button>
+    </div>
+</div>
