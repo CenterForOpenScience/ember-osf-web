@@ -16,6 +16,18 @@ export default class NodeAddonModel extends OsfModel {
 
     @belongsTo('external-account', { inverse: null })
     externalAccount!: AsyncBelongsTo<ExternalAccountsModel> & ExternalAccountsModel;
+
+    get externalUserId() {
+        return this.externalAccount?.get('user').get('id');
+    }
+
+    get externalUserDisplayName() {
+        return this.externalAccount?.get('displayName');
+    }
+
+    get rootFolder() {
+        return this.folderId || this.folderPath;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
