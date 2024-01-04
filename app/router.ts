@@ -78,6 +78,7 @@ Router.map(function() {
             this.route('register');
         });
         this.route('addons', function() {
+            this.route('index', { path: '/' });
             this.route('addon', { path: '/:addonId' }, function() {
                 this.route('terms');
                 this.route('account');
