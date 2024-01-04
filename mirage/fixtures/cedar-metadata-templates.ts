@@ -35,16 +35,3 @@ const cedarMetadataTemplates: Array<Partial<CedarMetadataTemplateModel>> = [
 ];
 
 export default cedarMetadataTemplates as CedarMetadataTemplateModel[];
-
-declare module 'ember-cli-mirage/types/registries/model' {
-    export default interface MirageModelRegistry {
-        'cedar-metadata-template': CedarMetadataTemplateModel;
-    } // eslint-disable-line semi
-}
-
-declare module 'ember-cli-mirage/types/registries/schema' {
-    export default interface MirageSchemaRegistry {
-        'cedar-metadata-templates': CedarMetadataTemplateModel;
-    } // eslint-disable-line semi
-}
-

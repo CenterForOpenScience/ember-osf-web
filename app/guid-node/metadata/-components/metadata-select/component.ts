@@ -5,7 +5,7 @@ import CedarMetadataTemplateModel from 'ember-osf-web/models/cedar-metadata-temp
 import { action } from '@ember/object';
 
 interface TabArgs {
-    template: [CedarMetadataTemplateModel];
+    template: CedarMetadataTemplateModel;
 }
 
 

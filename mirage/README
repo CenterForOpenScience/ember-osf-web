@@ -24,3 +24,4 @@ Helpful hints for mirage
   ## MirageSchemaRegistry
     ### the attribute should be singular and hyphenated?
   ## all fixtures need to be loaded in the mirage/scenarioes/default.ts file
+    ### fixtures should only be loaded once, so use caution when loading fixtures in a specific/non-default scenario
