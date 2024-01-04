@@ -1,0 +1,30 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.cedar-add-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .cedar-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 30px;
+
+        .cedar-editor {
+            width: 100%;
+        }
+    }
+
+    .action-container {
+        width: calc(100% - 45px);
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}

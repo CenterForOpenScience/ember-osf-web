@@ -1,13 +1,20 @@
-<div>
-    <cedar-embeddable-editor
-        config={{this.cedarConfig}}
-        templateObject={{@templateObject}}
-        instanceObject={{@instanceObject}}
-    >
-    </cedar-embeddable-editor>
-    <Button
-        {{on 'click' this.save}}
-    >
-        {{ t 'cedar.editor.save-button' }}
-    </Button>
+<div local-class='cedar-add-container'>
+    <div local-class='cedar-container'>
+        <cedar-embeddable-editor
+            local-class='cedar-editor'
+            config={{this.cedarConfig}}
+            templateObject={{@templateObject}}
+            instanceObject={{@instanceObject}}
+        />
+    </div>
+    <div local-class='action-container'>
+        <Button
+            data-test-save-button
+            aria-label= {{ t 'cedar.editor.save-button' }}
+            data-analytics-name='Save cedar metadata'
+            {{on 'click' this.save}}
+        >
+            {{ t 'cedar.editor.save-button' }}
+        </Button>
+    </div>
 </div>
