@@ -38,8 +38,9 @@
         justify-content: flex-end;
         align-items: center;
     }
+    
+    :global(.template-card) {
+        margin: 0 !important;
+    }
 }
 
-:global(.template-card) {
-    margin: 0 !important;
-}

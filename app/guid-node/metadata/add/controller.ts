@@ -19,8 +19,6 @@ export default class GuidMetadataAdd extends Controller {
     @action
     selectTemplate(cedarMetadataTemplate: CedarMetadataTemplateModel): void {
         this.displaySelectionOptions = false;
-
-        // eslint-disable-next-line max-len
         this.selectedTemplate = cedarMetadataTemplate;
     }
 
