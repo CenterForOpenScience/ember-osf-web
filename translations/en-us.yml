@@ -213,6 +213,7 @@ dashboard:
         preprints: 'OSF Preprints'
         institutions: 'OSF Institutions'
 metadata:
+    tab-title: 'Metadata'
     main-tab: 'OSF'
     header: 'Metadata'
     download: 'Download'
@@ -225,7 +226,8 @@ metadata:
         explanation: 'OSF has partnered with CEDAR to provide more ways to annotate your research with domain-specific metadata schemas. If a schema is missing, let us know at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
         available-schemas: 'Available Schemas from CEDAR'
         select: 'Select'
-        add-title: '{schemaName} Schema'
+        tab-title-select: 'Select Schema'
+        tab-title-add: 'Add'
     detail:
         popover:
             header: 'This is a default header'
