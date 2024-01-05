@@ -14,7 +14,7 @@ export default class GuidMetadataAdd extends Controller {
     supportEmail = config.support.supportEmail;
 
     @tracked displaySelectionOptions = true;
-    @tracked selectedTemplate = undefined;
+    @tracked selectedTemplate?: CedarMetadataTemplateModel;
 
     @action
     selectTemplate(cedarId: string): void {
