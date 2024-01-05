@@ -33,7 +33,7 @@ export default class LicensePicker extends Component {
 
     showText = false;
     licensesAcceptable!: QueryHasManyResult<License>;
-    helpLink = 'https://help.osf.io/';
+    licenseHelpLink = 'https://help.osf.io/article/148-licensing';
 
     @alias('theme.provider') provider!: Provider;
     @alias('form.changeset.license') selected!: License;
