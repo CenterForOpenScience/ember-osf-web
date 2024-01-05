@@ -32,6 +32,34 @@ declare const config: {
     assetsPrefix: string;
     sentryDSN: string | null;
     googleTagManagerId: string | null;
+    cedarConfig: {
+        ceeConfig: {
+            showTemplateUpload: boolean,
+            showDataSaver: boolean,
+            showSampleTemplateLinks: boolean,
+        },
+        editorConfig: {
+            sampleTemplateLocationPrefix: string,
+            loadSampleTemplateName: string,
+            expandedSampleTemplateLinks: boolean,
+            showTemplateRenderingRepresentation: boolean,
+            showMultiInstanceInfo: boolean,
+            expandedInstanceDataFull: boolean,
+            expandedInstanceDataCore: boolean,
+            expandedMultiInstanceInfo: boolean,
+            expandedTemplateRenderingRepresentation: boolean,
+            showInstanceDataFull: boolean,
+            showTemplateSourceData: boolean,
+            expandedTemplateSourceData: boolean,
+            collapseStaticComponents: boolean,
+            showStaticText: boolean,
+            showInstanceDataCore: boolean,
+            showHeader: boolean,
+            showFooter: boolean,
+            showInstanceDataFull: boolean,
+            showTemplateSourceData: boolean,
+        },
+    }
     sentryOptions: {
         release?: string;
         ignoreErrors: string[];

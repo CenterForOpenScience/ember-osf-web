@@ -17,7 +17,7 @@ export default class MetadataTabs extends Component<TabArgs> {
     @service media!: Media;
     @service analytics!: Analytics;
 
-    guidNode= this.args.guidNode;
+    guidNode = this.args.guidNode;
     templates = this.args.templates;
 
     @tracked showTabs = false;
