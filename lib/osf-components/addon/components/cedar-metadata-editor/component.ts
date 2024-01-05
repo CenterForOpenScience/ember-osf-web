@@ -12,25 +12,27 @@ interface Args {
 export default class CedarMetadataEditor extends Component<Args> {
 
     config = {
+        /*
         sampleTemplateLocationPrefix: 'http://localhost:4240/cedar-embeddable-editor-sample-templates/',
         loadSampleTemplateName: '01',
         expandedSampleTemplateLinks: true,
-        showTemplateRenderingRepresentation: true,
-        showInstanceDataCore: true,
+        */
+        showTemplateRenderingRepresentation: false,
+        showInstanceDataCore: false,
+        showMultiInstanceInfo: false,
+        expandedInstanceDataFull: false,
         expandedInstanceDataCore: false,
-        showMultiInstanceInfo: true,
         expandedMultiInstanceInfo: false,
         expandedTemplateRenderingRepresentation: false,
         showInstanceDataFull: false,
-        expandedInstanceDataFull: false,
-        showTemplateSourceData: true,
+        showTemplateSourceData: false,
         expandedTemplateSourceData: false,
-        showHeader: true,
-        showFooter: true,
+        collapseStaticComponents: false,
+        showHeader: false,
+        showFooter: false,
+        showStaticText: false,
         defaultLanguage: 'en',
         fallbackLanguage: 'en',
-        collapseStaticComponents: false,
-        showStaticText: true,
     };
 
     @action

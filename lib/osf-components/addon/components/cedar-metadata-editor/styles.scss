@@ -17,14 +17,29 @@
 
         .cedar-editor {
             width: 100%;
+
+            h1 {
+                font-size: 24px;
+                font-weight: bold;
+                margin-top: 5px;
+            }
+
+            h2 {
+                display: none;
+            }
+
         }
     }
 
     .action-container {
-        width: calc(100% - 45px);
+        width: calc(100% - 85px);
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
         align-items: center;
     }
+}
+
+:global(.template-card) {
+    margin: 0 !important;
 }
