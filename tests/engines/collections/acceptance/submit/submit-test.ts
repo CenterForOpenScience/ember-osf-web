@@ -185,6 +185,22 @@ module('Collections | Acceptance | submit', hooks => {
             throw new Error('could not find study design option');
         }
 
+        await untrackedClick('[data-test-metadata-field="data_type_label"] .ember-power-select-trigger');
+        const firstDataTypeOption = document.querySelector('.ember-power-select-option');
+        if (firstDataTypeOption) {
+            await untrackedClick(firstDataTypeOption);
+        } else {
+            throw new Error('could not find data type option');
+        }
+
+        await untrackedClick('[data-test-metadata-field="disease_label"] .ember-power-select-trigger');
+        const firstDiseaseOption = document.querySelector('.ember-power-select-option');
+        if (firstDiseaseOption) {
+            await untrackedClick(firstDiseaseOption);
+        } else {
+            throw new Error('could not find disease option');
+        }
+
         assert.dom('[data-test-collection-metadata] [data-test-submit-section-continue]')
             .isNotDisabled('metadata continue is not disabled');
         await untrackedClick('[data-test-collection-metadata] [data-test-submit-section-continue]');
@@ -233,6 +249,8 @@ module('Collections | Acceptance | submit', hooks => {
             programAreaChoices: [],
             studyDesignChoices: [],
             schoolTypeChoices: [],
+            dataTypeChoices: [],
+            diseaseChoices: [],
         });
         const nodeAlreadyAdded = server.create('node', {
             title: 'Node to be added to collection',

@@ -73,6 +73,8 @@ export default class Discover extends Controller {
                     ['volume', 'volume'],
                     ['study-design', 'study-design'],
                     ['school-type', 'school-type'],
+                    ['data-type', 'data-type'],
+                    ['disease', 'disease'],
                 ]
         ).map(([key, component, options = {}]: [string, string, any]) => ({
             key,
@@ -105,6 +107,8 @@ export default class Discover extends Controller {
     volume = '';
     studyDesign = '';
     schoolType = '';
+    dataType = '';
+    disease = '';
 
     // Pass in the list of queryParams for this component
     queryParams = [

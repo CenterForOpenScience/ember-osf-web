@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [24.01.0] - 2024-01-05
+### Added
+- Support for Disease and Data Type CollectionProvider metadata
+- data-test-* tags for Preprints Selenium tests
+
 ## [23.15.0] - 2023-11-10
 ### Added
 - Preprint detail and landing page rewrite

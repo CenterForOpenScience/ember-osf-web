@@ -24,6 +24,8 @@ export default Factory.extend<MirageCollection>({
     programAreaChoices: [faker.lorem.word(), faker.lorem.word()],
     studyDesignChoices: [faker.lorem.word(), faker.lorem.word()],
     schoolTypeChoices: [faker.lorem.word(), faker.lorem.word()],
+    dataTypeChoices: [faker.lorem.word(), faker.lorem.word()],
+    diseaseChoices: [faker.lorem.word(), faker.lorem.word()],
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

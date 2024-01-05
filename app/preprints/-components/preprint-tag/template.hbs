@@ -1,9 +1,11 @@
 <div>
     <h4>{{t 'preprints.detail.tags'}}</h4>
     {{#if @preprint.tags.length}}
-        {{#each @preprint.tags as |tag|}}
-            <span local-class='badge'>{{tag}}</span>
-        {{/each}}
+        <span data-test-tags>
+            {{#each @preprint.tags as |tag|}}
+                <span local-class='badge'>{{tag}}</span>
+            {{/each}}
+        </span>
     {{else}}
         {{t 'preprints.detail.none'}}
     {{/if}}

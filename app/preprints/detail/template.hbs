@@ -5,10 +5,11 @@
     local-class='preprints-details-page-container {{if this.isMobile 'mobile'}}'
     {{with-branding this.model.brand}}
     data-analytics-scope='preprints detail page'
+    data-test-preprint-header
 >
     <div local-class='header-container'>
         <div local-class='preprint-title-container'>
-            <h1>{{this.model.preprint.title}}</h1>
+            <h1 data-test-preprint-title>{{this.model.preprint.title}}</h1>
             {{#unless this.model.preprint.isWithdrawn}}
                 <div class='edit-preprint-button'>
                     {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
@@ -122,7 +123,14 @@
                             </OsfLink>
                         </div>
                         <div>
-                            {{t 'preprints.detail.share.views'}}: {{this.model.preprint.apiMeta.metrics.views}} | {{t 'preprints.detail.share.downloads'}}: {{this.model.preprint.apiMeta.metrics.downloads}}
+                            <span data-test-view-count-label>
+                                {{t 'preprints.detail.share.views'}}: 
+                            </span>
+                            <span data-test-view-count> {{this.model.preprint.apiMeta.metrics.views}} </span> | 
+                            <span data-test-download-count-label>
+                                {{t 'preprints.detail.share.downloads'}}: 
+                            </span>
+                            <span data-test-download-count>{{this.model.preprint.apiMeta.metrics.downloads}}</span>
                             <EmberTooltip>
                                 {{t 'preprints.detail.share.metrics_disclaimer'}} {{moment-format this.metricsStartDate 'YYYY-MM-DD'}}
                             </EmberTooltip>

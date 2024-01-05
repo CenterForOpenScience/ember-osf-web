@@ -990,6 +990,8 @@ collections:
             volume: Volume
             study_design: 'Study Design'
             school_type: 'School Type'
+            data_type: 'Data Type'
+            disease: Disease
     collections_submission:
         title: Submit
         add_header: 'Add to Collection'
@@ -1043,6 +1045,8 @@ collections:
         volume_label: 'Volume:'
         study_design_label: 'Study Design:'
         school_type_label: 'School Type:'
+        data_type_label: 'Data Type:'
+        disease_label: 'Disease:'
     collection_search_result:
         expand: 'Expand search result'
         collapse: 'Collapse search result'
@@ -1058,6 +1062,8 @@ collections:
             remove_school_type: 'Remove school type'
             remove_study_design: 'Remove study design'
             remove_volume: 'Remove volume'
+            remove_data_type: 'Remove data type'
+            remove_disease: 'Remove disease'
         asOf: 'as of'
         broadenSearch: 'Try broadening your search terms'
         date: Date
