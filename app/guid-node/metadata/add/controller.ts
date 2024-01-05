@@ -17,17 +17,11 @@ export default class GuidMetadataAdd extends Controller {
     @tracked selectedTemplate?: CedarMetadataTemplateModel;
 
     @action
-    selectTemplate(cedarId: string): void {
+    selectTemplate(cedarMetadataTemplate: CedarMetadataTemplateModel): void {
         this.displaySelectionOptions = false;
 
         // eslint-disable-next-line max-len
-        const selectedTemplate = this.model.templates.filter((template: CedarMetadataTemplateModel) =>  cedarId === template.cedarId);
-
-        if (selectedTemplate) {
-            this.selectedTemplate = selectedTemplate.pop();
-        } else {
-            this.router.transitionTo('not-found', `${this.model.guidNode.id}/metadata`);
-        }
+        this.selectedTemplate = cedarMetadataTemplate;
     }
 
     @action
