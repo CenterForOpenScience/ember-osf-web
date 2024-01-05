@@ -1,0 +1,10 @@
+<AddonsService::Manager
+    @node={{this.model}}
+    as |manager|
+>
+    <div local-class='addon-cards-wrapper'>
+        {{#each manager.addonProviders as |addon|}}
+            <AddonCard @addon={{addon}} @manager={{manager}} />
+        {{/each}}
+    </div>
+</AddonsService::Manager>
