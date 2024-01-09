@@ -33,11 +33,15 @@ declare const config: {
     sentryDSN: string | null;
     googleTagManagerId: string | null;
     cedarConfig: {
-        ceeConfig: {
-            showTemplateUpload: boolean,
-            showDataSaver: boolean,
+        viewerConfig: {
+            showHeader: boolean,
+            showFooter: boolean,
+            expandedSampleTemplateLinks: boolean,
             showSampleTemplateLinks: boolean,
-        },
+            defaultLanguage: string,
+            showTemplateData: boolean,
+            showInstanceData: boolean,
+        }
         editorConfig: {
             sampleTemplateLocationPrefix: string,
             loadSampleTemplateName: string,

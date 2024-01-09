@@ -19,14 +19,16 @@ const {
     BACKEND: backend = 'local',
     CAS_URL: casUrl = 'http://192.168.168.167:8080',
     CEDAR_CONFIG: cedarConfig = {
-        ceeConfig: {
-            showTemplateUpload: false,
-            showDataSaver: false,
+        viewerConfig: {
+            showHeader: false,
+            showFooter: false,
+            expandedSampleTemplateLinks: false,
             showSampleTemplateLinks: false,
+            defaultLanguage: 'en',
+            showTemplateData: false,
+            showInstanceData: false,
         },
         editorConfig: {
-            sampleTemplateLocationPrefix: 'http://localhost:4240/cedar-embeddable-editor-sample-templates/',
-            loadSampleTemplateName: '01',
             expandedSampleTemplateLinks: true,
             showTemplateRenderingRepresentation: false,
             showMultiInstanceInfo: false,
@@ -40,7 +42,6 @@ const {
             showInstanceDataCore: false,
             showHeader: false,
             showFooter: false,
-
             // These are required to be false
             showInstanceDataFull: false,
             showTemplateSourceData: false,
