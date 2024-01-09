@@ -1,0 +1,25 @@
+{
+  "App": {
+    "Title": "CEDAR Artifact Viewer",
+    "Maintained": "CEDAR is maintained by the Stanford Center for Biomedical Informatics Research.",
+    "Contact": "Contact CEDAR"
+  },
+  "Generic": {
+    "Copy": "Copy"
+  },
+  "Extra": {
+    "SampleTemplate": {
+      "Title": "Sample templates",
+      "Select": "Select template",
+      "Find": "Find template...",
+      "FindNoMatch": "No matching templates found"
+    },
+    "JsonLD": {
+      "Instance": "JSON-LD - Instance"
+    },
+    "JsonSchemaTemplate": "JSON Schema - Template"
+  },
+  "Process": {
+    "Initializing": "CEDAR Artifact Viewer initializing..."
+  }
+}

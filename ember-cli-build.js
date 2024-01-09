@@ -114,5 +114,6 @@ module.exports = function(defaults) {
 
     app.import('node_modules/wicg-inert/dist/inert.min.js');
     app.import('node_modules/cedar-embeddable-editor/cedar-embeddable-editor.js');
+    app.import('node_modules/cedar-artifact-viewer/cedar-artifact-viewer.js');
     return app.toTree();
 };
