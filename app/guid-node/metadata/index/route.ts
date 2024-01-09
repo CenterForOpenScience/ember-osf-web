@@ -9,15 +9,22 @@ export default class MetadataRoute extends Route {
     @service router!: RouterService;
 
     async model() {
-        const guidNode = await this.modelFor('guid-node').taskInstance;
+        const params = this.modelFor('guid-node.metadata');
 
-        const templates = await guidNode.queryHasMany('cedarMetadataRecords', {
+        const records = await params.guidNode.queryHasMany('cedarMetadataRecords', {
             'page[size]': 20,
         });
 
+        // This is for prototyping to get a working view to the mirage server
+        // This will be removed before production
+        // Brian - 2024-01-09
+        for(const item of records) {
+            await item.template;
+        }
+
         return {
-            guidNode,
-            templates,
+            guidNode: params.guidNode,
+            records,
         };
     }
 }

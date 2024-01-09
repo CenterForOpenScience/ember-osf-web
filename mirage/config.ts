@@ -137,6 +137,7 @@ export default function(this: Server) {
 
     osfNestedResource(this, 'node', 'forks', { only: ['index'] });
     osfNestedResource(this, 'node', 'cedarMetadataRecords', { only: ['index'] });
+
     this.post('/nodes/:id/forks', createFork);
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedByNodes', { only: ['index'] });
@@ -491,6 +492,7 @@ export default function(this: Server) {
     this.namespace = '/_';
 
     osfResource(this, 'cedar-metadata-template', {only: ['index', 'show'] });
+    osfResource(this, 'cedar-metadata-record', {only: ['index', 'show', 'update', 'create'] });
 
     this.get('/banners/current/', () => ({
         data: {
