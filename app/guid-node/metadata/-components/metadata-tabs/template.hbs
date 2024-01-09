@@ -16,8 +16,8 @@
             {{did-insert this.didRenderList}}
         >
             <tablist.tab>{{t 'metadata.main-tab'}}</tablist.tab>
-            {{#each this.templates as |template| }}
-                <tablist.tab>{{template.metadata.name}}</tablist.tab>
+            {{#each this.records as |record| }}
+                <tablist.tab>{{record.template.schemaName}}</tablist.tab>
             {{/each}}
         </tab.tabList>
         <tab.tabPanel>
@@ -31,11 +31,12 @@
                 </NodeMetadataManager>
             </div>
         </tab.tabPanel>
-        {{#each this.templates as |template| }}
+        {{#each this.records as |record| }}
             <tab.tabPanel>
-                <GuidNode::Metadata::-Components::MetadataDetail
-                    @cedarMetadataRecord={{template}}
-                ></GuidNode::Metadata::-Components::MetadataDetail>
+                <CedarMetadataRenderer
+                    @instanceObject={{record.metadata}}
+                    @templateObject={{record.template.template}}
+                />
             </tab.tabPanel>
         {{/each}}
     </AriaTabs>

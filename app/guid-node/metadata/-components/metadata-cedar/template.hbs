@@ -1,7 +1,9 @@
 <div local-class='metadata-cedar-container'>
     <div local-class='cedar-container'>
         <CedarMetadataEditor
-            @templateObject={{@template.template}}
+            @cedarMetadataTemplate={{@template}}
+            @target={{@target}}
+            @edit={{@edit}}
         />
     </div>
     <div local-class='return-container'>

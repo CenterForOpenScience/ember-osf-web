@@ -26,6 +26,8 @@
     {{else}}
         <GuidNode::Metadata::-Components::MetadataCedar
             @template={{this.selectedTemplate}}
+            @target={{this.model.target}}
+            @edit={{false}}
             @closeCedarEditor={{this.closeCedarEditor}}
         ></GuidNode::Metadata::-Components::MetadataCedar>
     {{/if}}
