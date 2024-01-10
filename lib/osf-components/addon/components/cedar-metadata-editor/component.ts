@@ -3,6 +3,7 @@ import Store from '@ember-data/store';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import config from 'ember-osf-web/config/environment';
+import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 
 const { cedarConfig } = config;
 
@@ -21,14 +22,18 @@ export default class CedarMetadataEditor extends Component<Args> {
     @action
     save() {
         const cee = document.querySelector('cedar-embeddable-editor');
-        const record = this.store.createRecord('cedar-metadata-record');
-        // eslint-disable-next-line
-        // @ts-ignore
-        record.metadata = cee.currentMetadata;
-        if (!this.args.edit) {
+        let record: CedarMetadataRecordModel;
+        if (this.args.edit) {
+            record = this.args.instanceObject;
+        } else {
+            record = this.store.createRecord('cedar-metadata-record');
             record.template = this.args.cedarMetadataTemplate;
             record.target = this.args.target;
         }
+
+        // eslint-disable-next-line
+        // @ts-ignore
+        record.metadata = cee.currentMetadata;
         record.save();
     }
 }

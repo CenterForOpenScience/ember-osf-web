@@ -4,11 +4,11 @@ import config from 'ember-osf-web/config/environment';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 const { OSF: { apiUrl } } = config;
 
-export interface PolymorphicTargetRelationship {
-    type: 'nodes' | 'files' | 'registrations';
+interface PolymorphicTargetRelationship {
+    type: 'nodes' | 'node' | 'file' | 'files' | 'registration' | 'registrations';
 }
 
-export interface MirageCedarMetadataRecordModel extends CedarMetadataRecordModel {
+interface MirageCedarMetadataRecordModel extends CedarMetadataRecordModel {
     targetId: PolymorphicTargetRelationship;
 }
 
@@ -31,10 +31,7 @@ export default class CedarMetadataRecordMirageSerializer extends ApplicationSeri
             },
         };
 
-        // console.log('type', model.targetId.type);
-
-        if (model.targetId.type === 'nodes') {
-            // console.log('node');
+        if ( model.targetId.type === 'nodes'  || model.targetId.type === 'node') {
             relationships['target'] = {
                 data: {
                     id: model.target.id,
@@ -47,8 +44,7 @@ export default class CedarMetadataRecordMirageSerializer extends ApplicationSeri
                     },
                 },
             };
-        } else if (model.targetId.type === 'files') {
-            // console.log('file');
+        } else if (model.targetId.type === 'files' || model.targetId.type === 'file') {
             relationships['target'] = {
                 data: {
                     id: model.target.id,
@@ -62,7 +58,6 @@ export default class CedarMetadataRecordMirageSerializer extends ApplicationSeri
                 },
             };
         } else {
-            // console.log('else', model.targetId.type);
             relationships['target'] = {
                 data: {
                     id: model.target.id,
