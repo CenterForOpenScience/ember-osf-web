@@ -16,8 +16,8 @@
             {{did-insert this.didRenderList}}
         >
             <tablist.tab>{{t 'metadata.main-tab'}}</tablist.tab>
-            {{#each this.records as |record| }}
-                <tablist.tab>{{record.template.schemaName}}</tablist.tab>
+            {{#each this.cedarMetadataRecords as |cedarMetadataRecord| }}
+                <tablist.tab>{{cedarMetadataRecord.template.schemaName}}</tablist.tab>
             {{/each}}
         </tab.tabList>
         <tab.tabPanel>
@@ -31,11 +31,11 @@
                 </NodeMetadataManager>
             </div>
         </tab.tabPanel>
-        {{#each this.records as |record| }}
+        {{#each this.cedarMetadataRecords as |cedarMetadataRecord| }}
             <tab.tabPanel>
                 <CedarMetadataRenderer
-                    @instanceObject={{record.metadata}}
-                    @templateObject={{record.template.template}}
+                    @instanceObject={{cedarMetadataRecord.metadata}}
+                    @templateObject={{cedarMetadataRecord.template.template}}
                 />
             </tab.tabPanel>
         {{/each}}

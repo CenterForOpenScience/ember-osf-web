@@ -4,13 +4,16 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import config from 'ember-osf-web/config/environment';
 import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
+import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
+import FileModel from 'ember-osf-web/models/file';
+import CedarMetadataTemplateModel from 'ember-osf-web/models/cedar-metadata-template';
 
 const { cedarConfig } = config;
 
 interface Args {
-    instanceObject: any;
-    cedarMetadataTemplate: any;
-    target: any;
+    cedarMetadataRecord: CedarMetadataRecordModel;
+    cedarMetadataTemplate: CedarMetadataTemplateModel;
+    target: AbstractNodeModel | FileModel;
     edit: boolean;
 }
 
@@ -20,11 +23,11 @@ export default class CedarMetadataEditor extends Component<Args> {
     cedarConfig = cedarConfig.editorConfig;
 
     @action
-    save() {
+    async save() {
         const cee = document.querySelector('cedar-embeddable-editor');
         let record: CedarMetadataRecordModel;
         if (this.args.edit) {
-            record = this.args.instanceObject;
+            record = this.args.cedarMetadataRecord;
         } else {
             record = this.store.createRecord('cedar-metadata-record');
             record.template = this.args.cedarMetadataTemplate;
@@ -34,6 +37,10 @@ export default class CedarMetadataEditor extends Component<Args> {
         // eslint-disable-next-line
         // @ts-ignore
         record.metadata = cee.currentMetadata;
-        record.save();
+        await record.save().then(() => {
+            alert('this is for Futa - $5 - now saved');
+        }).catch((error: any) => {
+            alert(error.message);
+        });
     }
 }

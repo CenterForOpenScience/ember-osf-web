@@ -11,20 +11,20 @@ export default class MetadataRoute extends Route {
     async model() {
         const params = this.modelFor('guid-node.metadata');
 
-        const records = await params.guidNode.queryHasMany('cedarMetadataRecords', {
+        const cedarMetadataRecords = await params.guidNode.queryHasMany('cedarMetadataRecords', {
             'page[size]': 20,
         });
 
         // This is for prototyping to get a working view to the mirage server
         // This will be removed before production
         // Brian - 2024-01-09
-        for(const item of records) {
+        for(const item of cedarMetadataRecords) {
             await item.template;
         }
 
         return {
             guidNode: params.guidNode,
-            records,
+            cedarMetadataRecords,
         };
     }
 }
