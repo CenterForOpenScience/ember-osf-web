@@ -37,10 +37,6 @@ export default class CedarMetadataEditor extends Component<Args> {
         // eslint-disable-next-line
         // @ts-ignore
         record.metadata = cee.currentMetadata;
-        await record.save().then(() => {
-            alert('this is for Futa - $5 - now saved');
-        }).catch((error: any) => {
-            alert(error.message);
-        });
+        await record.save();
     }
 }
