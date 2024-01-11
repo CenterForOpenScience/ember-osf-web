@@ -16,10 +16,10 @@ export default class CedarMetadataRecordModel extends OsfModel {
     @attr('boolean') isPublished!: boolean;
 
     @belongsTo('cedar-metadata-template', { inverse: null })
-    template!: AsyncBelongsTo<CedarMetadataTemplateModel> & CedarMetadataTemplateModel;
+    template!: AsyncBelongsTo<CedarMetadataTemplateModel> | CedarMetadataTemplateModel;
 
     @belongsTo('osf-model', { polymorphic: true })
-    target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<FileModel> & FileModel);
+    target!: (AsyncBelongsTo<AbstractNodeModel> | AbstractNodeModel) | (AsyncBelongsTo<FileModel> | FileModel);
 }
 
 declare module 'ember-data/types/registries/model' {

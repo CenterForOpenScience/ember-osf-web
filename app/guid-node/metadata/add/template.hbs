@@ -24,12 +24,12 @@
             {{/each}}
         </div>
     {{else}}
-        <GuidNode::Metadata::-Components::MetadataCedar
-            @template={{this.selectedTemplate}}
+        <GuidNode::Metadata::-Components::CedarMetadataEditView
+            @cedarMetadataTemplate={{this.selectedTemplate}}
             @target={{this.model.target}}
             @edit={{false}}
             @closeCedarEditor={{this.closeCedarEditor}}
-        ></GuidNode::Metadata::-Components::MetadataCedar>
+        />
     {{/if}}
 </div>
 

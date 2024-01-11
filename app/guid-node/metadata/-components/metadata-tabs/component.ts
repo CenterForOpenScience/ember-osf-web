@@ -9,7 +9,7 @@ import NodeModel from 'ember-osf-web/models/node';
 
 interface TabArgs {
     guidNode: NodeModel;
-    records: [CedarMetadataRecordModel];
+    cedarMetadataRecords: [CedarMetadataRecordModel];
 }
 
 
@@ -18,7 +18,7 @@ export default class MetadataTabs extends Component<TabArgs> {
     @service analytics!: Analytics;
 
     guidNode = this.args.guidNode;
-    records = this.args.records;
+    cedarMetadataRecords = this.args.cedarMetadataRecords;
 
     @tracked showTabs = false;
     @tracked showMore = false;
