@@ -9,7 +9,7 @@ import NodeModel from 'ember-osf-web/models/node';
 
 interface TabArgs {
     guidNode: NodeModel;
-    cedarMetadataRecords: [CedarMetadataRecordModel];
+    cedarMetadataRecords: CedarMetadataRecordModel[];
 }
 
 
