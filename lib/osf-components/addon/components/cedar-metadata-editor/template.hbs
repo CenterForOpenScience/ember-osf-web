@@ -1,8 +1,10 @@
 <div local-class='cedar-add-container'>
-    <div local-class='saving-container'>
-        <LoadingIndicator @dark={{true}}/>
-        {{t 'metadata.add-flow.saving'}}
-    </div>
+    {{#if this.save.isRunning}} 
+        <div local-class='saving-container'>
+            <LoadingIndicator @dark={{true}}/>
+            {{t 'metadata.add-flow.saving'}}
+        </div>
+    {{/if}}
     <div local-class='cedar-container'>
         <cedar-embeddable-editor
             local-class='cedar-editor'
@@ -17,7 +19,7 @@
             data-test-save-button
             data-analytics-name='Save cedar metadata'
             disabled={{this.save.isRunning}}
-            {{on 'click' (perform this.save)}}
+            {{on 'click' this.save}}
         >
             {{ t 'cedar.editor.save-button' }}
         </Button>

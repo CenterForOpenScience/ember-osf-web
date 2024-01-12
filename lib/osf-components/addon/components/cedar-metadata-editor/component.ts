@@ -42,6 +42,8 @@ export default class CedarMetadataEditor extends Component<Args> {
         // @ts-ignore
         record.metadata = cee.currentMetadata;
         await record.save();
-        this.router.transitionTo('guid-node.metadata', this.args.target.id);
+        // eslint-disable-next-line no-debugger
+        debugger;
+        this.router.transitionTo('guid-node.metadata', this.args.target.id, record.id);
     }
 }

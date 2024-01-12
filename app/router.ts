@@ -73,6 +73,7 @@ Router.map(function() {
             this.route('provider', { path: '/:providerId' });
         });
         this.route('metadata', function() {
+            this.route('index', {path: '/:record_id'});
             this.route('index', {path: '/'});
             this.route('add');
         });
