@@ -1,5 +1,5 @@
-<div local-class='cedar-add-container'>
-    {{#if this.save.isRunning}}
+<div local-class='cedar-metadata-add-container'>
+    {{#if this.save.isRunning}} 
         <div local-class='saving-container'>
             <LoadingIndicator @dark={{true}}/>
             {{t 'metadata.add-flow.saving'}}
@@ -10,7 +10,7 @@
             local-class='cedar-editor'
             config={{this.cedarConfig}}
             templateObject={{@cedarMetadataTemplate.template}}
-            instanceObject={{@instanceObject}}
+            instanceObject={{@cedarMetadataRecord}}
         />
     </div>
     <div local-class='action-container'>

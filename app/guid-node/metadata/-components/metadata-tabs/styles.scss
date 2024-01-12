@@ -51,6 +51,12 @@
         .tab-list {
             overflow: hidden;
 
+            .draft {
+                color: $brand-danger;
+                font-weight: bold;
+            }
+
+
             li {
                 display: block;
                 position: relative;

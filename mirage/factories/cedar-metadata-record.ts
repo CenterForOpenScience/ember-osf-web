@@ -1,10 +1,13 @@
-import { Factory, ModelInstance } from 'ember-cli-mirage';
+import { Factory, ModelInstance, trait, Trait } from 'ember-cli-mirage';
 import { biosampleRecord } from 'ember-osf-web/mirage/fixtures/cedar-records/cedar-record.biosample';
 import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 import CedarMetadataTemplateModel from 'ember-osf-web/models/cedar-metadata-template';
 
+interface CedarMetadataRecordTraits {
+    isDraft: Trait;
+}
 
-export default Factory.extend<CedarMetadataRecordModel>({
+export default Factory.extend<CedarMetadataRecordModel & CedarMetadataRecordTraits>({
     metadata() {
         return biosampleRecord;
     },
@@ -21,6 +24,14 @@ export default Factory.extend<CedarMetadataRecordModel>({
     isPublished() {
         return true;
     },
+
+    isDraft: trait({
+        afterCreate(record) {
+            record.update({
+                isPublished: false,
+            });
+        },
+    }),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
