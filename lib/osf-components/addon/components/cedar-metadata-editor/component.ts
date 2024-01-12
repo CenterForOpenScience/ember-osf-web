@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import Store from '@ember-data/store';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -7,6 +6,9 @@ import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import FileModel from 'ember-osf-web/models/file';
 import CedarMetadataTemplateModel from 'ember-osf-web/models/cedar-metadata-template';
+import RouterService from '@ember/routing/router-service';
+import { task } from 'ember-concurrency';
+import { waitFor } from '@ember/test-waiters';
 
 const { cedarConfig } = config;
 
@@ -19,10 +21,12 @@ interface Args {
 
 export default class CedarMetadataEditor extends Component<Args> {
     @service store!: Store;
+    @service router!: RouterService;
 
     cedarConfig = cedarConfig.editorConfig;
 
-    @action
+    @task
+    @waitFor
     async save() {
         const cee = document.querySelector('cedar-embeddable-editor');
         let record: CedarMetadataRecordModel;
@@ -38,5 +42,6 @@ export default class CedarMetadataEditor extends Component<Args> {
         // @ts-ignore
         record.metadata = cee.currentMetadata;
         await record.save();
+        this.router.transitionTo('guid-node.metadata', this.args.target.id);
     }
 }
