@@ -236,6 +236,8 @@ metadata:
 cedar:
     editor:
         save-button: 'Save'
+    renderer:
+        draft: 'Draft'
 search:
     page-title: 'Search'
     index-card:

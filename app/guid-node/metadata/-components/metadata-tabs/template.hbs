@@ -17,7 +17,11 @@
         >
             <tablist.tab>{{t 'metadata.main-tab'}}</tablist.tab>
             {{#each this.cedarMetadataRecords as |cedarMetadataRecord| }}
-                <tablist.tab>{{cedarMetadataRecord.template.schemaName}}</tablist.tab>
+                <tablist.tab>
+                    <span local-class='{{unless cedarMetadataRecord.isPublished 'draft'}}'>
+                        {{cedarMetadataRecord.template.schemaName}}
+                    </span> 
+                </tablist.tab>
             {{/each}}
         </tab.tabList>
         <tab.tabPanel>
@@ -34,8 +38,8 @@
         {{#each this.cedarMetadataRecords as |cedarMetadataRecord| }}
             <tab.tabPanel>
                 <CedarMetadataRenderer
-                    @instanceObject={{cedarMetadataRecord.metadata}}
-                    @templateObject={{cedarMetadataRecord.template.template}}
+                    @cedarMetadataRecord={{cedarMetadataRecord}}
+                    @cedarMetadataTemplate={{cedarMetadataRecord.template}}
                 />
             </tab.tabPanel>
         {{/each}}
