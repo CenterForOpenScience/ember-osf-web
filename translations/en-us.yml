@@ -228,6 +228,7 @@ metadata:
         select: 'Select'
         tab-title-select: 'Select Schema'
         tab-title-add: 'Add'
+        saving: 'Saving Template'
     detail:
         popover:
             header: 'This is a default header'
