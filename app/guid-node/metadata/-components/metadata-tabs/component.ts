@@ -5,6 +5,7 @@ import Media from 'ember-responsive';
 import { tracked } from '@glimmer/tracking';
 import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 import NodeModel from 'ember-osf-web/models/node';
+import Analytics from 'ember-osf-web/services/analytics';
 
 interface TabArgs {
     guidNode: NodeModel;
@@ -15,6 +16,7 @@ interface TabArgs {
 
 export default class MetadataTabs extends Component<TabArgs> {
     @service media!: Media;
+    @service analytics!: Analytics;
 
     guidNode = this.args.guidNode;
     cedarMetadataRecords = this.args.cedarMetadataRecords;
@@ -27,6 +29,9 @@ export default class MetadataTabs extends Component<TabArgs> {
     @action
     changeTab(activeId: number) {
         this.activeId = activeId;
+        if (activeId === 0) {
+            this.analytics.click('tab', 'Metadata tab - Change tab to: OSF');
+        }
     }
 
     get isMobile() {
