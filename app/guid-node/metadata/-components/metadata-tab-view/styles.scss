@@ -1,0 +1,10 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.draft {
+    color: lighten($brand-danger, 25%);
+
+    &.dark {
+        color: $brand-danger;
+        font-weight: bold;
+    }
+}

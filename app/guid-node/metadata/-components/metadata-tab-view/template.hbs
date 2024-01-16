@@ -1,0 +1,7 @@
+{{#if this.cedarMetadataRecord.isPublished}}
+    {{this.cedarMetadataRecord.template.schemaName}}
+{{else}}
+    <span local-class='draft {{if this.isActive 'dark'}}'>
+        {{this.cedarMetadataRecord.template.schemaName}} ({{t 'cedar.renderer.draft'}}) 
+    </span> 
+{{/if}}
