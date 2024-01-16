@@ -16,7 +16,6 @@ interface TabArgs {
 
 export default class MetadataTabs extends Component<TabArgs> {
     @service media!: Media;
-    @service analytics!: Analytics;
 
     guidNode = this.args.guidNode;
     cedarMetadataRecords = this.args.cedarMetadataRecords;
@@ -29,9 +28,6 @@ export default class MetadataTabs extends Component<TabArgs> {
     @action
     changeTab(activeId: number) {
         this.activeId = activeId;
-        if (activeId === 0) {
-            this.analytics.click('tab', 'Metadata tab - Change tab to: OSF');
-        }
     }
 
     get isMobile() {
