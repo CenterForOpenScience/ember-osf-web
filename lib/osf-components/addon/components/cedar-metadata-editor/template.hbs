@@ -1,5 +1,5 @@
 <div local-class='cedar-add-container'>
-    {{#if this.save.isRunning}} 
+    {{#if this.save.isRunning}}
         <div local-class='saving-container'>
             <LoadingIndicator @dark={{true}}/>
             {{t 'metadata.add-flow.saving'}}
@@ -19,7 +19,7 @@
             data-test-save-button
             data-analytics-name='Save cedar metadata'
             disabled={{this.save.isRunning}}
-            {{on 'click' this.save}}
+            {{on 'click' (perform this.save)}}
         >
             {{ t 'cedar.editor.save-button' }}
         </Button>
