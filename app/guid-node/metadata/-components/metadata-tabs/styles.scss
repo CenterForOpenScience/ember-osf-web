@@ -18,6 +18,7 @@
 
     .tabs {
         width: 100%;
+        cursor: pointer;
 
         &.hidden {
             width: calc(100% - 25px);
@@ -52,8 +53,12 @@
             overflow: hidden;
 
             .draft {
-                color: $brand-danger;
-                font-weight: bold;
+                color: lighten($brand-danger, 25%);
+
+                &.dark {
+                    color: $brand-danger;
+                    font-weight: bold;
+                }
             }
 
 

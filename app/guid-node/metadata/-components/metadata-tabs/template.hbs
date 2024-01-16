@@ -1,7 +1,7 @@
 <div local-class='metadata-tab-container {{if this.isMobile 'mobile'}}'>
     <AriaTabs
         data-analytics-scope='Metadata Tab'
-        @defaultIndex={{0}}
+        @defaultIndex={{this.defaultIndex}}
         @onSelect={{action this.changeTab}}
         local-class='tabs
             {{if this.showTabs 'hidden'}}
@@ -16,11 +16,13 @@
             {{did-insert this.didRenderList}}
         >
             <tablist.tab>{{t 'metadata.main-tab'}}</tablist.tab>
-            {{#each this.cedarMetadataRecords as |cedarMetadataRecord| }}
+            {{#each this.cedarMetadataRecords as |cedarMetadataRecord index| }}
                 <tablist.tab>
-                    <span local-class='{{unless cedarMetadataRecord.isPublished 'draft'}}'>
-                        {{cedarMetadataRecord.template.schemaName}}
-                    </span> 
+                    <GuidNode::Metadata::-Components::MetadataTabView
+                        @cedarMetadataRecord={{cedarMetadataRecord}}
+                        @id={{index}}
+                        @activeId={{this.activeId}}
+                    />
                 </tablist.tab>
             {{/each}}
         </tab.tabList>

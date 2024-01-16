@@ -238,6 +238,7 @@ cedar:
         save-button: 'Save'
     renderer:
         draft: 'Draft'
+        draft-explanation: "This metdata has a stats of 'Draft' and is not publicly viewable. To 'Publish' this metadata please fill in all required fields and resubmit the data."
 search:
     page-title: 'Search'
     index-card:
