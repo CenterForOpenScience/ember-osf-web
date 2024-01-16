@@ -1,9 +1,11 @@
 <div local-class='cedar-metadata-renderer-container'>
-    {{#if this.isDraft}}
-        <div local-class='draft-container'>
+    <div local-class='draft-container {{if this.isDraft 'draft'}}'>
+        {{#if this.isDraft}}
             {{t 'cedar.renderer.draft-explanation'}}
-        </div>
-    {{/if}}
+        {{else}}
+            {{t 'cedar.renderer.published-explanation'}}
+        {{/if}}
+    </div>
     <div local-class='renderer-container'>
         <cedar-artifact-viewer
             config={{this.config}}

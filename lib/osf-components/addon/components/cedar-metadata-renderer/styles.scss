@@ -13,8 +13,11 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
-        color: $brand-danger;
         font-weight: bold;
+
+        &.draft {
+            color: $brand-danger;
+        }
     }
 
     .renderer-container {
