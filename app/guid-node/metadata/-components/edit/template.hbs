@@ -1,0 +1,19 @@
+<div local-class='metadata-cedar-container'>
+    <div local-class='cedar-container'>
+        <CedarMetadataEditor
+            @cedarMetadataTemplate={{this.model.record.template}}
+            @cedarMetadataRecord={{this.model.record}}
+            @target={{this.model.target}}
+            @edit={{true}}
+        />
+    </div>
+    <div local-class='return-container'>
+        <Button
+            data-test-select-button
+            data-analytics-name='Select metadata'
+            {{on 'click' @closeCedarEditor }}
+        >
+            {{ t 'metadata.add-flow.select-different-metadata-schema' }}
+        </Button>
+    </div>
+</div>
