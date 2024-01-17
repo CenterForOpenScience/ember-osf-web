@@ -1,10 +1,21 @@
 <div local-class='cedar-metadata-renderer-container'>
-    <div local-class='draft-container {{if this.isDraft 'draft'}}'>
-        {{#if this.isDraft}}
-            {{t 'cedar.renderer.draft-explanation'}}
-        {{else}}
-            {{t 'cedar.renderer.published-explanation'}}
-        {{/if}}
+    <div local-class='action-container'>
+        <div local-class='explanation-container {{if this.isDraft 'draft'}}'>
+            {{#if this.isDraft}}
+                {{t 'cedar.renderer.draft-explanation'}}
+            {{else}}
+                {{t 'cedar.renderer.published-explanation'}}
+            {{/if}}
+        </div>
+        <div local-class='button-container'>
+            <Button
+                data-test-edit-button
+                data-analytics-name='Edit metadata'
+                {{!-- {{on 'click' (fn @selectTemplate @template) }} --}}
+            >
+                {{ t 'metadata.add-flow.edit' }}
+            </Button>
+        </div>
     </div>
     <div local-class='renderer-container'>
         <cedar-artifact-viewer
