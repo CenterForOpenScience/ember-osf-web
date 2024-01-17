@@ -75,6 +75,7 @@ Router.map(function() {
         this.route('metadata', function() {
             this.route('index', { path: '/'});
             this.route('detail', { path: '/:recordId' });
+            this.route('edit', { path: '/edit/:recordId' });
             this.route('add');
         });
         this.route('registrations');
