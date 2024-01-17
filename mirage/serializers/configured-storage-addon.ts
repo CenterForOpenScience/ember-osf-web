@@ -17,7 +17,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal_users/${model.accountOwnerId}/`,
+                        href: `${addonServiceAPIUrl}internal-users/${model.accountOwnerId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'accountOwner'),
                     },
                 },
@@ -25,7 +25,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             authorizedResource: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal_resources/${model.authorizedResourceId}/`,
+                        href: `${addonServiceAPIUrl}internal-resources/${model.authorizedResourceId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'authorizedResource'),
                     },
                 },
@@ -33,7 +33,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
             baseAccount: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}authorized_storage_accounts/${model.baseAccountId}/`,
+                        href: `${addonServiceAPIUrl}authorized-storage-accounts/${model.baseAccountId}/`,
                         meta: this.buildRelatedLinkMeta(model, 'baseAccount'),
                     },
                 },
@@ -43,7 +43,7 @@ export default class ConfiguredStorageAddonSerializer extends ApplicationSeriali
 
     buildNormalLinks(model: ModelInstance<ConfiguredStorageAddonModel>) {
         return {
-            self: `${addonServiceAPIUrl}configured_storage_addons/${model.id}/`,
+            self: `${addonServiceAPIUrl}configured-storage-addons/${model.id}/`,
         };
     }
 }

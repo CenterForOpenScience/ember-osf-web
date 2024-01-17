@@ -1,7 +1,10 @@
 import { getOwner, setOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
 import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 import NodeModel from 'ember-osf-web/models/node';
 import CurrentUserService from 'ember-osf-web/services/current-user';
@@ -16,11 +19,11 @@ export default class Provider {
     @tracked serviceNode?: InternalResourceModel;
 
     currentUser: CurrentUserService;
-    internalUser!: InternalUserModel;
+    @tracked internalUser!: InternalUserModel;
     provider: ExternalStorageServiceModel;
 
-    configuredStorageAddon?: ConfiguredStorageAddonModel;
-    authorizedStorageAccount?: AuthorizedStorageAccountModel;
+    @tracked configuredStorageAddon?: ConfiguredStorageAddonModel;
+    @tracked authorizedStorageAccount?: AuthorizedStorageAccountModel;
 
 
     @service store!: Store;
@@ -29,20 +32,31 @@ export default class Provider {
         setOwner(this, getOwner(node));
         this.node = node;
         this.currentUser = currentUser;
-        this.getInternalUser();
-        this.getInternalResource();
-        this.getConfiguredStorageAddon();
         this.provider = provider;
     }
 
+    @task
+    @waitFor
+    async initialize() {
+        await taskFor(this.getInternalUser).perform();
+        await taskFor(this.getInternalResource).perform();
+        await taskFor(this.getConfiguredStorageAddon).perform();
+    }
+
+    @task
+    @waitFor
     async getInternalUser() {
         this.internalUser = await this.store.findRecord('internal-user', this.currentUser.user?.id);
     }
 
+    @task
+    @waitFor
     async getInternalResource() {
         this.serviceNode = await this.store.findRecord('internal-resource', this.node.id);
     }
 
+    @task
+    @waitFor
     async getConfiguredStorageAddon() {
         if (this.serviceNode) {
             const configuredStorageAddons = await this.serviceNode.get('configuredStorageAddons');
@@ -58,6 +72,8 @@ export default class Provider {
         return await this.internalUser.authorizedStorageAccounts;
     }
 
+    @task
+    @waitFor
     async createAccountForNodeAddon() {
         const account = this.store.createRecord('authorized-storage-account', {
             externalUserId: this.currentUser.user?.id,
@@ -67,8 +83,19 @@ export default class Provider {
             configuringUser: this.internalUser,
         });
         await account.save();
+        return account;
     }
 
+    @task
+    @waitFor
+    async setNodeAddonCredentials(account: AuthorizedStorageAccountModel) {
+        if (this.configuredStorageAddon) {
+            this.configuredStorageAddon.set('baseAccount', account);
+        }
+    }
+
+    @task
+    @waitFor
     async disableProjectAddon() {
         if (this.configuredStorageAddon) {
             await this.configuredStorageAddon.destroyRecord();
@@ -80,15 +107,11 @@ export default class Provider {
         return;
     }
 
-    setNodeAddonCredentials(account: AuthorizedStorageAccountModel) {
-        if (this.configuredStorageAddon) {
-            this.configuredStorageAddon.set('baseAccount', account);
-        }
-    }
-
+    @task
+    @waitFor
     async setRootFolder(newRootFolder: string) {
         if (this.configuredStorageAddon) {
-            this.configuredStorageAddon.set('rootFolder', newRootFolder);
+            this.configuredStorageAddon.rootFolder = newRootFolder;
             await this.configuredStorageAddon.save();
         }
     }
