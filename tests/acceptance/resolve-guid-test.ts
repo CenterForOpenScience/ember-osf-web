@@ -106,7 +106,7 @@ module('Acceptance | resolve-guid', hooks => {
 
             await visit(`/${node.id}/metadata`);
 
-            routingAssertions(assert, '--node', `/${node.id}/metadata`, 'guid-node.metadata.index');
+            routingAssertions(assert, '--node', `/${node.id}/metadata/osf`, 'guid-node.metadata.index');
         });
     });
 
