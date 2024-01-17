@@ -104,9 +104,9 @@ module('Acceptance | resolve-guid', hooks => {
         test('Metadata', async function(assert) {
             const node = server.create('node');
 
-            await visit(`/${node.id}/metadata`);
+            await visit(`/${node.id}/metadata/osf`);
 
-            routingAssertions(assert, '--node', `/${node.id}/metadata/osf`, 'guid-node.metadata.index');
+            routingAssertions(assert, '--node', `/${node.id}/metadata/osf`, 'guid-node.metadata.detail');
         });
     });
 
