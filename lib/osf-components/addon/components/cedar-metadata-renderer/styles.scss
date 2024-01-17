@@ -5,16 +5,36 @@
     justify-content: flex-start;
     align-items: flex-start;
 
-    .draft-container {
+    .action-container {
         width: 100%;
+        height: 50px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
         font-weight: bold;
 
-        &.draft {
-            color: $brand-danger;
+        .explanation-container {
+            width: calc(100% - 200px);
+            height: 50px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            &.draft {
+                color: $brand-danger;
+            }
+        }
+        
+        .button-container {
+            width: 200px;
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
         }
     }
 
@@ -26,4 +46,3 @@
         align-items: flex-start;
     }
 }
-
