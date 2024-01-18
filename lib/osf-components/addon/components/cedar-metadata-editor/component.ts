@@ -33,7 +33,7 @@ export default class CedarMetadataEditor extends Component<Args> {
     isEdit = this.args.cedarMetadataRecord ? true : false;
 
     @action
-    addMetadata(): void {
+    injectMetadata(): void {
         if (this.args.cedarMetadataRecord) {
             const cee = document.querySelector('cedar-embeddable-editor');
             // eslint-disable-next-line
