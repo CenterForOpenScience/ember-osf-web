@@ -5,7 +5,6 @@ import Media from 'ember-responsive';
 import { tracked } from '@glimmer/tracking';
 import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 import NodeModel from 'ember-osf-web/models/node';
-import Analytics from 'ember-osf-web/services/analytics';
 
 interface TabArgs {
     guidNode: NodeModel;
