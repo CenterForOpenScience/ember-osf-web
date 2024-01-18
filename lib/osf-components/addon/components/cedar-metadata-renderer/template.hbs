@@ -11,17 +11,26 @@
             <Button
                 data-test-edit-button
                 data-analytics-name='Edit metadata'
-                {{!-- {{on 'click' (fn @selectTemplate @template) }} --}}
+                {{on 'click' this.edit }}
             >
                 {{ t 'metadata.add-flow.edit' }}
             </Button>
         </div>
     </div>
-    <div local-class='renderer-container'>
-        <cedar-artifact-viewer
-            config={{this.config}}
-            instanceObject={{@cedarMetadataRecord.metadata}}
-            templateObject={{@cedarMetadataTemplate.template}}
+    {{#if this.isShowEditor}}
+        <CedarMetadataEditor
+            @cedarMetadataRecord={{@cedarMetadataRecord}}
+            @cedarMetadataTemplate={{@cedarMetadataRecord.template}}
+            @target={{this.target}}
+            @edit={{true}}
         />
-    </div>
+    {{else}}    
+        <div local-class='renderer-container'>
+            <cedar-artifact-viewer
+                config={{this.viewerConfig}}
+                instanceObject={{@cedarMetadataRecord.metadata}}
+                templateObject={{@cedarMetadataRecord.template.template}}
+            />
+        </div>
+    {{/if}}
 </div>

@@ -9,6 +9,7 @@ import CedarMetadataTemplateModel from 'ember-osf-web/models/cedar-metadata-temp
 import RouterService from '@ember/routing/router-service';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
+import { action } from '@ember/object';
 
 const { cedarConfig } = config;
 
@@ -24,6 +25,14 @@ export default class CedarMetadataEditor extends Component<Args> {
     @service router!: RouterService;
 
     cedarConfig = cedarConfig.editorConfig;
+
+    @action
+    addMetadata(): void {
+        const cee = document.querySelector('cedar-embeddable-editor');
+        // eslint-disable-next-line
+        // @ts-ignore
+        cee.instanceObject = this.args.cedarMetadataRecord.metadata;
+    }
 
     @task
     @waitFor
