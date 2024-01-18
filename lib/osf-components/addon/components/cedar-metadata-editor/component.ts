@@ -17,10 +17,10 @@ import captureException from 'ember-osf-web/utils/capture-exception';
 const { cedarConfig } = config;
 
 interface Args {
-    cedarMetadataRecord: CedarMetadataRecordModel;
+    cedarMetadataRecord?: CedarMetadataRecordModel;
     cedarMetadataTemplate: CedarMetadataTemplateModel;
     target: AbstractNodeModel | FileModel;
-    displayArtifactViewer: () => {};
+    displayArtifactViewer?: () => {};
 }
 
 export default class CedarMetadataEditor extends Component<Args> {
@@ -43,8 +43,10 @@ export default class CedarMetadataEditor extends Component<Args> {
     }
 
     @action
-    async cancel() {
-        this.args.displayArtifactViewer();
+    cancel() {
+        if (this.args.displayArtifactViewer) {
+            this.args.displayArtifactViewer();
+        }
     }
 
     @task
@@ -53,7 +55,7 @@ export default class CedarMetadataEditor extends Component<Args> {
         const cee = document.querySelector('cedar-embeddable-editor');
         let record: CedarMetadataRecordModel;
         if (this.isEdit) {
-            record = this.args.cedarMetadataRecord;
+            record = this.args.cedarMetadataRecord || {} as CedarMetadataRecordModel;
         } else {
             record = this.store.createRecord('cedar-metadata-record');
             record.template = this.args.cedarMetadataTemplate;
