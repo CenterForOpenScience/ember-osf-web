@@ -1,9 +1,11 @@
-import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
-import Provider from 'ember-osf-web/packages/addons-service/provider';
+import { settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 import { taskFor } from 'ember-concurrency-ts';
+import { setupTest } from 'ember-qunit';
+import { module, test } from 'qunit';
+
+import Provider from 'ember-osf-web/packages/addons-service/provider';
+import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 
 module('Unit | Packages | addons-service | provider', function(hooks) {
     setupTest(hooks);
@@ -51,7 +53,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         assert.notOk(provider.serviceNode, 'Provider serviceNode is not set before initialize');
         assert.notOk(provider.configuredStorageAddon, 'Provider configuredStorageAddon is not set before initialize');
 
-        await taskFor(provider.initialize).perform();
+        await settled();
 
         assert.equal(provider.internalUser.id, currentUser.user.id, 'Provider internalUser is set after initialize');
         assert.equal(provider.serviceNode?.id, node.id, 'Provider serviceNode is set after initialize');
@@ -96,17 +98,17 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         });
 
         const provider = new Provider(externalStorageService, currentUser, node);
-        await taskFor(provider.initialize).perform();
+        await settled();
 
         const account = await taskFor(provider.createAccountForNodeAddon).perform();
-        assert.notOk(provider.configuredStorageAddon?.baseAccount, 'Base account is not set');
         await taskFor(provider.setNodeAddonCredentials).perform(account);
-        assert.equal(provider.configuredStorageAddon?.baseAccount?.id, account.id, 'Base account is set');
+        assert.equal(provider.configuredStorageAddon?.baseAccount?.get('id'), account.id, 'Base account is set');
         assert.equal(provider.configuredStorageAddon?.rootFolder, '/', 'Root folder is default');
+
         await taskFor(provider.setRootFolder).perform('/groot/');
         assert.equal(provider.configuredStorageAddon?.rootFolder, '/groot/', 'Root folder is set');
 
         await taskFor(provider.disableProjectAddon).perform();
-        assert.equal(provider.configuredStorageAddon, undefined, 'Project addon is disabled');
+        assert.notOk(provider.configuredStorageAddon, 'Project addon is disabled');
     });
 });

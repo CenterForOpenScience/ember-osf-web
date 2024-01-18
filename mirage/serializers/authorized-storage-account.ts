@@ -3,25 +3,30 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import AuthorizedStorageAccount from 'ember-osf-web/models/authorized-storage-account';
 
-import ApplicationSerializer from './application';
+import AddonServiceSerializer from './addon-service-serializer';
 
-export default class AuthorizedStorageAccountSerializer extends ApplicationSerializer<AuthorizedStorageAccount> {
-    buildRelationships(model: ModelInstance<AuthorizedStorageAccount>) {
+interface MirageAuthorizedStorageAccount extends ModelInstance<AuthorizedStorageAccount> {
+    configuringUserId: string;
+    storageProviderId: string;
+}
+
+export default class AuthorizedStorageAccountSerializer extends AddonServiceSerializer {
+    buildRelationships(model: MirageAuthorizedStorageAccount) {
         return {
             configuringUser: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal-users/${model.configuringUser.id}/`,
-                        meta: this.buildRelatedLinkMeta(model, 'configuringUser'),
+                        href: `${addonServiceAPIUrl}internal-users/${model.configuringUserId}/`,
                     },
                 },
             },
-        };
-    }
-
-    buildNormalLinks(model: ModelInstance<AuthorizedStorageAccount>) {
-        return {
-            self: `${addonServiceAPIUrl}authorized-storage-accounts/${model.id}/`,
+            storageProvider: {
+                links: {
+                    related: {
+                        href: `${addonServiceAPIUrl}external-storage-services/${model.storageProviderId}/`,
+                    },
+                },
+            },
         };
     }
 }

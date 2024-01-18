@@ -3,16 +3,15 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import InternalUserModel from 'ember-osf-web/models/internal-user';
 
-import ApplicationSerializer from './application';
+import AddonServiceSerializer from './addon-service-serializer';
 
-export default class InternalUserSerializer extends ApplicationSerializer<InternalUserModel> {
+export default class InternalUserSerializer extends AddonServiceSerializer {
     buildRelationships(model: ModelInstance<InternalUserModel>) {
         return {
             authorizedStorageAccounts: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}internal-users/${model.id}/authorized-storage-accounts/`,
-                        meta: this.buildRelatedLinkMeta(model, 'authorizedStorageAccounts'),
                     },
                 },
             },
@@ -20,16 +19,9 @@ export default class InternalUserSerializer extends ApplicationSerializer<Intern
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}internal-users/${model.id}/configured-resources/`,
-                        meta: this.buildRelatedLinkMeta(model, 'configuredResources'),
                     },
                 },
             },
-        };
-    }
-
-    buildNormalLinks(model: ModelInstance<InternalUserModel>) {
-        return {
-            self: `${addonServiceAPIUrl}internal-users/${model.id}/`,
         };
     }
 }

@@ -101,6 +101,7 @@ export default class Provider {
     async disableProjectAddon() {
         if (this.configuredStorageAddon) {
             await this.configuredStorageAddon.destroyRecord();
+            this.configuredStorageAddon = undefined;
         }
     }
 
