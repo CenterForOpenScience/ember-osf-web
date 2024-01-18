@@ -17,17 +17,7 @@ export default class MetadataTabView extends Component<TabViewArgs> {
 
     cedarMetadataRecord = this.args.cedarMetadataRecord;
 
-    private logAnalytics(): void {
-        // eslint-disable-next-line max-len
-        this.analytics.click('tab', `Metadata tab - Change tab to: ${this.cedarMetadataRecord.template.get('schemaName')}`);
-    }
-
     get isActive(): boolean {
-        if (this.args.id+ 1 === this.args.activeId) {
-            this.logAnalytics();
-            return true;
-        } else {
-            return false;
-        }
+        return this.args.id + 1 === this.args.activeId;
     }
 }

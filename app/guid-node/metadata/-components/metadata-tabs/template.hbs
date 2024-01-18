@@ -17,7 +17,9 @@
         >
             <tablist.tab>{{t 'metadata.main-tab'}}</tablist.tab>
             {{#each this.cedarMetadataRecords as |cedarMetadataRecord index| }}
-                <tablist.tab>
+                <tablist.tab
+                    data-analytics-name='changed to: {{cedarMetadataRecord.template.schemaName}}'
+                >
                     <GuidNode::Metadata::-Components::MetadataTabView
                         @cedarMetadataRecord={{cedarMetadataRecord}}
                         @id={{index}}
