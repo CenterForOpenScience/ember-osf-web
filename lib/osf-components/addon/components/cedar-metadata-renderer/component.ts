@@ -25,4 +25,9 @@ export default class CedarMetadataRenderer extends Component<Args> {
     public edit(): void {
         this.isShowEditor = true;
     }
+
+    @action
+    public displayArtifactViewer(): void {
+        this.isShowEditor = false;
+    }
 }

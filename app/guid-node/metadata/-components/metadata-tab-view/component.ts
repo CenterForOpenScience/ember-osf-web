@@ -10,7 +10,6 @@ interface TabViewArgs {
     activeId: number;
 }
 
-
 export default class MetadataTabView extends Component<TabViewArgs> {
     @service media!: Media;
     @service analytics!: Analytics;

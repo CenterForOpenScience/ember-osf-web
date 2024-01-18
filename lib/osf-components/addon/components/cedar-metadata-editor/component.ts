@@ -17,7 +17,7 @@ interface Args {
     cedarMetadataRecord: CedarMetadataRecordModel;
     cedarMetadataTemplate: CedarMetadataTemplateModel;
     target: AbstractNodeModel | FileModel;
-    edit: boolean;
+    displayArtifactViewer: () => {};
 }
 
 export default class CedarMetadataEditor extends Component<Args> {
@@ -28,10 +28,12 @@ export default class CedarMetadataEditor extends Component<Args> {
 
     @action
     addMetadata(): void {
-        const cee = document.querySelector('cedar-embeddable-editor');
-        // eslint-disable-next-line
-        // @ts-ignore
-        cee.instanceObject = this.args.cedarMetadataRecord.metadata;
+        if (this.args.cedarMetadataRecord) {
+            const cee = document.querySelector('cedar-embeddable-editor');
+            // eslint-disable-next-line
+            // @ts-ignore
+            cee.instanceObject = this.args.cedarMetadataRecord.metadata;
+        }
     }
 
     @task
@@ -39,7 +41,8 @@ export default class CedarMetadataEditor extends Component<Args> {
     async save() {
         const cee = document.querySelector('cedar-embeddable-editor');
         let record: CedarMetadataRecordModel;
-        if (this.args.edit) {
+        const isEdit = this.args.cedarMetadataRecord ? true : false;
+        if (isEdit) {
             record = this.args.cedarMetadataRecord;
         } else {
             record = this.store.createRecord('cedar-metadata-record');
@@ -51,6 +54,10 @@ export default class CedarMetadataEditor extends Component<Args> {
         // @ts-ignore
         record.metadata = cee.currentMetadata;
         await record.save();
-        this.router.transitionTo('guid-node.metadata.detail', record.id);
+        if (isEdit) {
+            this.args.displayArtifactViewer();
+        } else {
+            this.router.transitionTo('guid-node.metadata.detail', record.id);
+        }
     }
 }
