@@ -7,7 +7,7 @@
     {{/if}}
     <div local-class='cedar-container'>
         <cedar-embeddable-editor
-            {{did-insert this.addMetadata}}
+            {{did-insert this.injectMetadata}}
             local-class='cedar-editor'
             config={{this.cedarConfig}}
             templateObject={{@cedarMetadataTemplate.template}}
