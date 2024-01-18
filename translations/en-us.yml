@@ -238,8 +238,8 @@ cedar:
         save-button: 'Save'
     renderer:
         draft: 'Draft'
-        draft-explanation: "This metdata has a status of 'Draft' and is not publicly viewable. To 'Publish' this metadata please fill in all required fields and resubmit the data."
-        published-explanation: "This metdata has a status of 'Published' and is publicly viewable."
+        draft-explanation: "This metadata has a status of 'Draft' and is not publicly viewable. To 'Publish' this metadata please fill in all required fields and resubmit the data."
+        published-explanation: "This metadata has a status of 'Published' and is publicly viewable."
 search:
     page-title: 'Search'
     index-card:
