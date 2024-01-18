@@ -51,7 +51,7 @@ export default class CedarMetadataEditor extends Component<Args> {
 
     @task
     @waitFor
-    async save() {
+    save() {
         const cee = document.querySelector('cedar-embeddable-editor');
         let record: CedarMetadataRecordModel;
         if (this.isEdit) {
@@ -65,7 +65,7 @@ export default class CedarMetadataEditor extends Component<Args> {
         // eslint-disable-next-line
         // @ts-ignore
         record.metadata = cee.currentMetadata;
-        await record.save().then(() => {
+        record.save().then(() => {
             // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
             this.isEdit && this.args.displayArtifactViewer ?  this.args.displayArtifactViewer() : this.router.transitionTo('guid-node.metadata.detail', record.id);
         }).catch((error: Error) => {
