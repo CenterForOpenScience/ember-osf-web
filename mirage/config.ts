@@ -535,7 +535,7 @@ export default function(this: Server) {
     this.resource('internal-users', { only: ['show'] });
     this.get('/internal-users/:userGuid/authorized-storage-accounts/', addons.internalUserAuthorizedStorageAccountList);
     this.resource('internal-resources', { only: ['show'] });
-    this.get('/internal-resources/:nodeGuid/configured-storage-addons/',
+    this.get('/internal-resources/:nodeGuid/configured-storage-addons',
         addons.internalResourceConfiguredStorageAddonList);
     this.resource('authorized-storage-accounts', { only: ['show', 'update', 'create'] });
     this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });

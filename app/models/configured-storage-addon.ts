@@ -11,7 +11,7 @@ export default class ConfiguredStorageAddonModel extends OsfModel {
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstring') rootFolder!: string;
 
-    @belongsTo('external-storage-service')
+    @belongsTo('external-storage-service', { inverse: null })
     storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
 
     @belongsTo('internal-user', { inverse: 'configuredResources' })

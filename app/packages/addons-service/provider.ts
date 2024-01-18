@@ -33,6 +33,7 @@ export default class Provider {
         this.node = node;
         this.currentUser = currentUser;
         this.provider = provider;
+        taskFor(this.initialize).perform();
     }
 
     @task
@@ -59,9 +60,10 @@ export default class Provider {
     @waitFor
     async getConfiguredStorageAddon() {
         if (this.serviceNode) {
-            const configuredStorageAddons = await this.serviceNode.get('configuredStorageAddons');
-            configuredStorageAddons.forEach((configuredAddon: ConfiguredStorageAddonModel) => {
-                if (configuredAddon.storageProvider.id === this.provider.id) {
+            const configuredStorageAddons = await this.serviceNode.configuredStorageAddons;
+            configuredStorageAddons.forEach(async (configuredAddon: ConfiguredStorageAddonModel) => {
+                const storageProvider = await configuredAddon.get('storageProvider');
+                if (storageProvider.id === this.provider.id) {
                     this.configuredStorageAddon = configuredAddon;
                 }
             });

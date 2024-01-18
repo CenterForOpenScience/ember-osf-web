@@ -61,6 +61,7 @@ export function internalResourceConfiguredStorageAddonList(this: HandlerContext,
     const configuredStorageAddons = internalResource.attrs.configuredStorageAddonIds.map(
         (id: string) => schema.configuredStorageAddons.find(id),
     );
-    const processed = process(schema, request, this, configuredStorageAddons);
+    const data = configuredStorageAddons.map((addon: ModelInstance) => this.serialize(addon).data);
+    const processed = process(schema, request, this, data);
     return processed;
 }
