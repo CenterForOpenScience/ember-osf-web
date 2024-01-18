@@ -10,6 +10,9 @@ import RouterService from '@ember/routing/router-service';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import { action } from '@ember/object';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 const { cedarConfig } = config;
 
@@ -21,6 +24,8 @@ interface Args {
 }
 
 export default class CedarMetadataEditor extends Component<Args> {
+    @service toast!: Toast;
+    @service intl!: Intl;
     @service store!: Store;
     @service router!: RouterService;
 
@@ -53,11 +58,14 @@ export default class CedarMetadataEditor extends Component<Args> {
         // eslint-disable-next-line
         // @ts-ignore
         record.metadata = cee.currentMetadata;
-        await record.save();
-        if (isEdit) {
-            this.args.displayArtifactViewer();
-        } else {
-            this.router.transitionTo('guid-node.metadata.detail', record.id);
-        }
+        await record.save().then(() => {
+            // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
+            isEdit ?  this.args.displayArtifactViewer() : this.router.transitionTo('guid-node.metadata.detail', record.id);
+        }).catch((error: Error) => {
+            captureException(error);
+            this.toast.error(this.intl.t('cedar.editor.error'));
+        });
+
+
     }
 }
