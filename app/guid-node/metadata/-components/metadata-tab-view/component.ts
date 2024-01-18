@@ -15,8 +15,6 @@ export default class MetadataTabView extends Component<TabViewArgs> {
     @service media!: Media;
     @service analytics!: Analytics;
 
-    cedarMetadataRecord = this.args.cedarMetadataRecord;
-
     get isActive(): boolean {
         return this.args.id + 1 === this.args.activeId;
     }
