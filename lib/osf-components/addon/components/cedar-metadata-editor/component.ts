@@ -30,6 +30,7 @@ export default class CedarMetadataEditor extends Component<Args> {
     @service router!: RouterService;
 
     cedarConfig = cedarConfig.editorConfig;
+    isEdit = this.args.cedarMetadataRecord ? true : false;
 
     @action
     addMetadata(): void {
@@ -41,13 +42,17 @@ export default class CedarMetadataEditor extends Component<Args> {
         }
     }
 
+    @action
+    async cancel() {
+        this.args.displayArtifactViewer();
+    }
+
     @task
     @waitFor
     async save() {
         const cee = document.querySelector('cedar-embeddable-editor');
         let record: CedarMetadataRecordModel;
-        const isEdit = this.args.cedarMetadataRecord ? true : false;
-        if (isEdit) {
+        if (this.isEdit) {
             record = this.args.cedarMetadataRecord;
         } else {
             record = this.store.createRecord('cedar-metadata-record');
@@ -60,7 +65,7 @@ export default class CedarMetadataEditor extends Component<Args> {
         record.metadata = cee.currentMetadata;
         await record.save().then(() => {
             // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
-            isEdit ?  this.args.displayArtifactViewer() : this.router.transitionTo('guid-node.metadata.detail', record.id);
+            this.isEdit ?  this.args.displayArtifactViewer() : this.router.transitionTo('guid-node.metadata.detail', record.id);
         }).catch((error: Error) => {
             captureException(error);
             this.toast.error(this.intl.t('cedar.editor.error'));
