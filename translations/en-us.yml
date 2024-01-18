@@ -237,6 +237,7 @@ metadata:
 cedar:
     editor:
         save-button: 'Save'
+        cancel-button: 'Cancel'
         error: 'Save Failed. Please try again.'
     renderer:
         draft: 'Draft'
