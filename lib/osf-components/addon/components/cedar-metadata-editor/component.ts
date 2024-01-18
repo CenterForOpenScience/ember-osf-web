@@ -55,7 +55,7 @@ export default class CedarMetadataEditor extends Component<Args> {
         const cee = document.querySelector('cedar-embeddable-editor');
         let record: CedarMetadataRecordModel;
         if (this.isEdit) {
-            record = this.args.cedarMetadataRecord || {} as CedarMetadataRecordModel;
+            record = this.args.cedarMetadataRecord!;
         } else {
             record = this.store.createRecord('cedar-metadata-record');
             record.template = this.args.cedarMetadataTemplate;
@@ -67,7 +67,7 @@ export default class CedarMetadataEditor extends Component<Args> {
         record.metadata = cee.currentMetadata;
         await record.save().then(() => {
             // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
-            this.isEdit ?  this.args.displayArtifactViewer() : this.router.transitionTo('guid-node.metadata.detail', record.id);
+            this.isEdit && this.args.displayArtifactViewer ?  this.args.displayArtifactViewer() : this.router.transitionTo('guid-node.metadata.detail', record.id);
         }).catch((error: Error) => {
             captureException(error);
             this.toast.error(this.intl.t('cedar.editor.error'));
