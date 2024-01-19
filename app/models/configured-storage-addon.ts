@@ -14,7 +14,7 @@ export default class ConfiguredStorageAddonModel extends OsfModel {
     @belongsTo('external-storage-service', { inverse: null })
     storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
 
-    @belongsTo('internal-user')
+    @belongsTo('internal-user', { inverse: null })
     accountOwner!: AsyncBelongsTo<InternalUserModel> & InternalUserModel;
 
     @belongsTo('internal-resource', { inverse: 'configuredStorageAddons' })

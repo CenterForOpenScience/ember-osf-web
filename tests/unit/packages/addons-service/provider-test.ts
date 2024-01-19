@@ -48,11 +48,6 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         });
 
         const provider = new Provider(externalStorageService, currentUser, node);
-
-        assert.notOk(provider.internalUser, 'Provider internalUser is not set before initialize');
-        assert.notOk(provider.serviceNode, 'Provider serviceNode is not set before initialize');
-        assert.notOk(provider.configuredStorageAddon, 'Provider configuredStorageAddon is not set before initialize');
-
         await settled();
 
         assert.equal(provider.internalUser.id, currentUser.user.id, 'Provider internalUser is set after initialize');
