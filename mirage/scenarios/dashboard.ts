@@ -108,13 +108,14 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     const boxAccount = server.create('authorized-storage-account', {
         externalUserId: currentUser.id,
         externalUserDisplayName: currentUser.fullName,
-        defaultRootFolder: '/',
+        defaultRootFolder: '/root/',
         scopes: ['write'], // TODO: This should be a from an enum?
         storageProvider: boxAddon,
         configuringUser: addonUser,
     });
 
     server.create('configured-storage-addon', {
+        rootFolder: '/woot/',
         storageProvider: boxAddon,
         accountOwner: addonUser,
         authorizedResource: addonFile5,

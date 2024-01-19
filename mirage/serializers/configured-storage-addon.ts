@@ -3,47 +3,46 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
-import ApplicationSerializer from './application';
+import AddonServiceSerializer from './addon-service-serializer';
 
 interface MirageConfiguredStorageAddon extends ConfiguredStorageAddonModel {
     accountOwnerId: string;
     authorizedResourceId: string;
     baseAccountId: string;
+    storageProviderId: string;
 }
 
-export default class ConfiguredStorageAddonSerializer extends ApplicationSerializer<MirageConfiguredStorageAddon> {
+export default class ConfiguredStorageAddonSerializer extends AddonServiceSerializer {
     buildRelationships(model: ModelInstance<MirageConfiguredStorageAddon>) {
         return {
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal_users/${model.accountOwnerId}/`,
-                        meta: this.buildRelatedLinkMeta(model, 'accountOwner'),
+                        href: `${addonServiceAPIUrl}internal-users/${model.accountOwnerId}/`,
                     },
                 },
             },
             authorizedResource: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal_resources/${model.authorizedResourceId}/`,
-                        meta: this.buildRelatedLinkMeta(model, 'authorizedResource'),
+                        href: `${addonServiceAPIUrl}internal-resources/${model.authorizedResourceId}/`,
                     },
                 },
             },
             baseAccount: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}authorized_storage_accounts/${model.baseAccountId}/`,
-                        meta: this.buildRelatedLinkMeta(model, 'baseAccount'),
+                        href: `${addonServiceAPIUrl}authorized-storage-accounts/${model.baseAccountId}/`,
                     },
                 },
             },
-        };
-    }
-
-    buildNormalLinks(model: ModelInstance<ConfiguredStorageAddonModel>) {
-        return {
-            self: `${addonServiceAPIUrl}configured_storage_addons/${model.id}/`,
+            storageProvider: {
+                links: {
+                    related: {
+                        href: `${addonServiceAPIUrl}external-storage-services/${model.storageProviderId}/`,
+                    },
+                },
+            },
         };
     }
 }

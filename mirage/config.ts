@@ -535,8 +535,10 @@ export default function(this: Server) {
     this.resource('internal-users', { only: ['show'] });
     this.get('/internal-users/:userGuid/authorized-storage-accounts/', addons.internalUserAuthorizedStorageAccountList);
     this.resource('internal-resources', { only: ['show'] });
-    this.resource('authorized-storage-accounts', { only: ['show', 'update'] });
-    this.resource('configured-storage-addons', { only: ['show', 'update'] });
+    this.get('/internal-resources/:nodeGuid/configured-storage-addons',
+        addons.internalResourceConfiguredStorageAddonList);
+    this.resource('authorized-storage-accounts', { only: ['show', 'update', 'create'] });
+    this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
 
     // Reset API url and namespace to use v2 endpoints for tests
     this.urlPrefix = apiUrl;

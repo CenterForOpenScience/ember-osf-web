@@ -54,3 +54,14 @@ export function internalUserAuthorizedStorageAccountList(this: HandlerContext, s
     const data = authorizedStorageAccounts.map((account: ModelInstance) => this.serialize(account).data);
     return process(schema, request, this, data);
 }
+
+export function internalResourceConfiguredStorageAddonList(this: HandlerContext, schema: Schema, request: Request) {
+    const { nodeGuid } = request.params;
+    const internalResource = schema.internalResources.find(nodeGuid);
+    const configuredStorageAddons = internalResource.attrs.configuredStorageAddonIds.map(
+        (id: string) => schema.configuredStorageAddons.find(id),
+    );
+    const data = configuredStorageAddons.map((addon: ModelInstance) => this.serialize(addon).data);
+    const processed = process(schema, request, this, data);
+    return processed;
+}
