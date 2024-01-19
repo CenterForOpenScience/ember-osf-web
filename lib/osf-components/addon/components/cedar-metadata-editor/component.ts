@@ -7,13 +7,12 @@ import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import FileModel from 'ember-osf-web/models/file';
 import CedarMetadataTemplateModel from 'ember-osf-web/models/cedar-metadata-template';
 import RouterService from '@ember/routing/router-service';
-import { task } from 'ember-concurrency';
+import { task} from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import { action } from '@ember/object';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import captureException from 'ember-osf-web/utils/capture-exception';
-import { tracked } from '@glimmer/tracking';
 
 const { cedarConfig } = config;
 
@@ -32,7 +31,6 @@ export default class CedarMetadataEditor extends Component<Args> {
 
     cedarConfig = cedarConfig.editorConfig;
     isEdit = this.args.cedarMetadataRecord ? true : false;
-    @tracked isPersisting = false;
 
     @action
     injectMetadata(): void {
@@ -53,33 +51,30 @@ export default class CedarMetadataEditor extends Component<Args> {
 
     @task
     @waitFor
-    save() {
-        if (!this.isPersisting) {
-            this.isPersisting = true;
-
-            const cee = document.querySelector('cedar-embeddable-editor');
-            let record: CedarMetadataRecordModel;
-            if (this.isEdit) {
-                record = this.args.cedarMetadataRecord!;
-            } else {
-                record = this.store.createRecord('cedar-metadata-record');
-                record.template = this.args.cedarMetadataTemplate;
-                record.target = this.args.target;
-            }
-
-            // eslint-disable-next-line
-            // @ts-ignore
-            record.metadata = cee.currentMetadata;
-            record.save().then(() => {
-                // eslint-disable-next-line max-len, @typescript-eslint/no-unused-expressions
-                this.isEdit && this.args.displayArtifactViewer ?  this.args.displayArtifactViewer() : this.router.transitionTo('guid-node.metadata.detail', record.id);
-            }).catch((error: Error) => {
-                this.isPersisting = false;
-                captureException(error);
-                this.toast.error(this.intl.t('cedar.editor.error'));
-            });
+    async save() {
+        const cee = document.querySelector('cedar-embeddable-editor');
+        let record: CedarMetadataRecordModel;
+        if (this.isEdit) {
+            record = this.args.cedarMetadataRecord!;
+        } else {
+            record = this.store.createRecord('cedar-metadata-record');
+            record.template = this.args.cedarMetadataTemplate;
+            record.target = this.args.target;
         }
 
-
+        // eslint-disable-next-line
+        // @ts-ignore
+        record.metadata = cee.currentMetadata;
+        try {
+            await record.save();
+            if ( this.isEdit && this.args.displayArtifactViewer) {
+                this.args.displayArtifactViewer();
+            } else {
+                await this.router.transitionTo('guid-node.metadata.detail', record.id);
+            }
+        } catch(error) {
+            captureException(error);
+            this.toast.error(this.intl.t('cedar.editor.error'));
+        }
     }
 }

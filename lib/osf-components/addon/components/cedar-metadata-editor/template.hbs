@@ -1,5 +1,5 @@
 <div local-class='cedar-metadata-add-container'>
-    {{#if this.isPersisting}} 
+    {{#if this.save.isRunning}}
         <div local-class='saving-container'>
             <LoadingIndicator @dark={{true}}/>
             {{t 'metadata.add-flow.saving'}}
@@ -18,8 +18,7 @@
             <div local-class='cancel-button-container'>
                 <Button
                     data-test-cancel-button
-                    data-analytics-name='Cancel cedar metadata'
-                    disabled={{this.save.isRunning}}
+                    data-analytics-name='Cancel cedar metadata edit'
                     {{on 'click' this.cancel}}
                 >
                     {{ t 'cedar.editor.cancel-button' }}
@@ -31,7 +30,7 @@
             local-class='btn btn-success'
             data-test-save-button
             data-analytics-name='Save cedar metadata'
-            disabled={{this.isPersisting}}
+            disabled={{this.save.isRunning}}
             {{on 'click' (perform this.save)}}
         >
             {{ t 'cedar.editor.save-button' }}
