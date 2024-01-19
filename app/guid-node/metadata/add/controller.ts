@@ -17,7 +17,7 @@ export default class GuidMetadataAdd extends Controller {
 
     @tracked displaySelectionOptions = true;
     @tracked selectedTemplate?: CedarMetadataTemplateModel;
-    @tracked tabTitle = this.intl.t('metadata.add-flow.select');
+    @tracked tabTitle = this.getTabTitle();
 
     @action
     selectTemplate(cedarMetadataTemplate: CedarMetadataTemplateModel): void {
@@ -33,10 +33,14 @@ export default class GuidMetadataAdd extends Controller {
         this.updateTitle();
     }
 
-    private updateTitle(): void {
+    private getTabTitle(): string {
         // eslint-disable-next-line max-len
         const translation = this.displaySelectionOptions ? 'metadata.add-flow.tab-title-select' : 'metadata.add-flow.tab-title-add';
-        this.tabTitle = this.intl.t(translation);
+        return `${this.intl.t('metadata.tab-title')} | ${this.intl.t(translation)}`;
+    }
+
+    private updateTitle(): void {
+        this.tabTitle = this.getTabTitle();
     }
 
     get isMobile() {
