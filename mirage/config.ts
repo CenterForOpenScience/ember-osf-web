@@ -2,7 +2,6 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
 import { addonServiceNamespace } from 'ember-osf-web/adapters/addon-service';
-import { nodeAddonDetail, nodeAddonList } from 'ember-osf-web/mirage/views/node-addon';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
@@ -127,13 +126,6 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,
     });
-    osfNestedResource(this, 'node', 'nodeAddons', {
-        only: [ 'create', 'update', 'delete' ],
-        path: '/nodes/:parentID/addons',
-        relatedModelName: 'node-addon',
-    });
-    this.get('/nodes/:parentID/addons/:id', nodeAddonDetail);
-    this.get('/nodes/:parentID/addons/', nodeAddonList);
 
     this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
     this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider
