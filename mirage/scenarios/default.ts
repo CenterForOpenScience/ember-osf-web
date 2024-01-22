@@ -10,8 +10,10 @@ import { forksScenario } from './forks';
 import { meetingsScenario } from './meetings';
 import { preprintsScenario } from './preprints';
 import { cedarMetadataRecordsScenario } from './cedar-metatdata-record';
-import { manyProjectRegistrationsScenario, registrationScenario } from './registrations';
+import { registrationFullScenario as registrationsFullScenario } from './registrations.full';
 import { settingsScenario } from './settings';
+import { registrationsLiteScenario } from './registrations.lite';
+import { registrationsManyProjectsScenario} from './registrations.many-projects';
 
 const {
     mirageScenarios,
@@ -45,8 +47,14 @@ export default function(server: Server) {
     if (mirageScenarios.includes('dashboard')) {
         dashboardScenario(server, currentUser);
     }
-    if (mirageScenarios.includes('registrations')) {
-        registrationScenario(server, currentUser);
+    if (mirageScenarios.includes('registrations::lite')) {
+        registrationsLiteScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('registrations::full')) {
+        registrationsFullScenario(server, currentUser);
+    }
+    if (mirageScenarios.includes('registrations::many-projects')) {
+        registrationsManyProjectsScenario(server, currentUser);
     }
     if (mirageScenarios.includes('collections')) {
         collectionScenario(server, currentUser);
@@ -60,9 +68,6 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('meetings')) {
         meetingsScenario(server);
-    }
-    if (mirageScenarios.includes('manyProjectRegistrations')) {
-        manyProjectRegistrationsScenario(server, currentUser);
     }
     if (mirageScenarios.includes('preprints')) {
         preprintsScenario(server, currentUser);
