@@ -80,7 +80,6 @@ export default class Provider {
         const account = this.store.createRecord('authorized-storage-account', {
             externalUserId: this.currentUser.user?.id,
             scopes: [],
-            defaultRootFolder: '',
             storageProvider: this.provider,
             configuringUser: this.internalUser,
         });
