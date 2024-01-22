@@ -6,7 +6,6 @@ import ResourceModel from 'ember-osf-web/models/resource';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
-import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 
 import CommentModel from './comment';
 import ContributorModel from './contributor';
@@ -146,9 +145,6 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
 
     @hasMany('registration', { inverse: 'parent' })
     children!: AsyncHasMany<RegistrationModel>;
-
-    @hasMany('cedar-metadata-record', { inverse: null })
-    cedarMetadataRecords!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: AsyncHasMany<InstitutionModel> | InstitutionModel[];

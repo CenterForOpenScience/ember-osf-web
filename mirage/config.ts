@@ -216,6 +216,9 @@ export default function(this: Server) {
     });
     osfNestedResource(this, 'registration', 'forks', { only: ['index'] });
     this.post('/registrations/:id/forks', createRegistrationFork);
+
+    osfNestedResource(this, 'registration', 'cedarMetadataRecords', { only: ['index'] });
+
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
     osfToManyRelationship(this, 'registration', 'affiliatedInstitutions', {

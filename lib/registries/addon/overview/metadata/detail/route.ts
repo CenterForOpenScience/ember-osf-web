@@ -10,9 +10,9 @@ export default class MetadataDetailRoute extends Route {
     @service router!: RouterService;
 
     async model(params: { recordId: string}) {
+        let defaultIndex = 0;
         const overviewModel = this.modelFor('overview');
         const target = await overviewModel.taskInstance;
-        let defaultIndex = 0;
         const cedarMetadataRecords = await target.queryHasMany('cedarMetadataRecords', {
             'page[size]': 20,
         });

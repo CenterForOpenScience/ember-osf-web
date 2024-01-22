@@ -62,6 +62,13 @@ function createDecafRegistration(server: Server, currentUser: ModelInstance<User
         hasSupplements: false,
     }, 'withContributors', 'withReviewActions', 'withFiles');
 
+    const cedarMetadataRecords = server.createList('cedar-metadata-record', 2);
+    cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
+
+    decaf.update({
+        cedarMetadataRecords,
+    });
+
     server.create('contributor', { users: currentUser, node: decaf });
     server.create('contributor', { node: decaf }, 'unregistered');
 }
