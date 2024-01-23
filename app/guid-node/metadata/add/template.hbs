@@ -16,18 +16,19 @@
         </div>
         <div local-class='template-container'>
             {{#each this.model.templates as |template|}}
-                <GuidNode::Metadata::-Components::MetadataSelect
+                <Metadata::MetadataSelect
                     @template={{template}}
                     @selectTemplate={{this.selectTemplate}}
                     @isMobile={{this.isMobile}}
-                ></GuidNode::Metadata::-Components::MetadataSelect>
+                />
             {{/each}}
         </div>
     {{else}}
-        <GuidNode::Metadata::-Components::CedarMetadataEditView
+        <Metadata::CedarMetadataEditView
             @cedarMetadataTemplate={{this.selectedTemplate}}
             @target={{this.model.target}}
             @closeCedarEditor={{this.closeCedarEditor}}
+            @redirectRoute='guid-node.metadata.detail'
         />
     {{/if}}
 </div>
