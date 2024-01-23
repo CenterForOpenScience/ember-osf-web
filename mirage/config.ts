@@ -2,6 +2,7 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
 import { addonServiceNamespace } from 'ember-osf-web/adapters/addon-service';
+import { addonsList } from 'ember-osf-web/mirage/views/addon';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
@@ -126,6 +127,7 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,
     });
+    this.get('/nodes/:parentID/addons/', addonsList);
 
     this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
     this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider

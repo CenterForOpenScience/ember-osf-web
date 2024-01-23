@@ -22,7 +22,6 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
-    server.loadFixtures('addons');
     server.loadFixtures('external-storage-services');
     // server.loadFixtures('registration-providers');
 

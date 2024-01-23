@@ -67,6 +67,7 @@ module('Integration | Component | addon-card', hooks => {
             },
             disableProjectAddon: sinon.stub(),
             nodeAddon: { configured: true },
+            configuredStorageAddon: { id: 'testaddon' },
         };
         this.set('addon', addonObj);
         this.set('manager', {
