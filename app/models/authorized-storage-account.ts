@@ -8,7 +8,6 @@ export default class AuthorizedStorageAccountModel extends OsfModel {
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstringarray') scopes!: string[];
-    @attr('fixstring') defaultRootFolder!: string;
 
     @belongsTo('external-storage-service')
     storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;

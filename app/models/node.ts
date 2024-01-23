@@ -15,7 +15,6 @@ import { waitFor } from '@ember/test-waiters';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
-import NodeAddonModel from 'ember-osf-web/models/node-addon';
 import CitationModel from './citation';
 import CommentModel from './comment';
 import ContributorModel from './contributor';
@@ -193,9 +192,6 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
 
     @hasMany('subject', { inverse: null, async: false })
     subjects!: SubjectModel[];
-
-    @hasMany('node-addon', { inverse: 'node' })
-    nodeAddons!: AsyncHasMany<NodeAddonModel>;
 
     // These are only computeds because maintaining separate flag values on
     // different classes would be a headache TODO: Improve.

@@ -8,10 +8,8 @@ import { taskFor } from 'ember-concurrency-ts';
 
 import InternalResourceModel from 'ember-osf-web/models/internal-resource';
 import NodeModel from 'ember-osf-web/models/node';
-import LegacyProvider from 'ember-osf-web/packages/addons-service/legacy-provider';
 import Provider from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import NodeAddonModel from 'ember-osf-web/models/node-addon';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
 interface Args {
@@ -25,7 +23,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     node = this.args.node;
     @tracked addonServiceNode?: InternalResourceModel;
 
-    @tracked addonProviders: Array<LegacyProvider | Provider> = [];
+    @tracked addonProviders: Provider[] = [];
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -52,44 +50,22 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @task
     @waitFor
     async getAddonProviders() {
-        const legacyProviders: LegacyProvider[] = await taskFor(this.legacyProviders).perform();
         const serviceStorageProviders: Provider[] = await taskFor(this.serviceStorageProviders).perform();
 
-        const providers = [...legacyProviders, ...serviceStorageProviders]
-            .sort(this.providerSorter);
-        this.addonProviders = providers;
+        serviceStorageProviders.sort(this.providerSorter);
+        this.addonProviders = serviceStorageProviders;
     }
 
     providerSorter(a: Provider, b: Provider) {
         return a.provider.name.localeCompare(b.provider.name);
     }
 
-    get projectEnabledAddons(): Array<NodeAddonModel | ConfiguredStorageAddonModel> {
-        const legacyAddons = this.legacyProjectEnabledAddons();
-        const serviceAddons = this.serviceProjectEnabledAddons();
-        return [...legacyAddons, ...serviceAddons];
-    }
-
-    // V2 API Methods
-
-    @task
-    @waitFor
-    async legacyProviders() {
-        const addons = (await this.store.findAll('addon')).toArray();
-        const legacyAddons = [] as LegacyProvider[];
-        for (const addon of addons) {
-            legacyAddons.addObject(new LegacyProvider(addon, this.currentUser, this.node));
-        }
-        return legacyAddons;
+    get projectEnabledAddons(): ConfiguredStorageAddonModel[] {
+        return this.serviceProjectEnabledAddons();
     }
 
     get isLoading() {
         return taskFor(this.getAddonProviders).isRunning;
-    }
-
-    legacyProjectEnabledAddons() {
-        // TODO: This will probably have to be abstracted out in the same way Providers are
-        return this.node.nodeAddons.toArray();
     }
 
     // Service API Methods
