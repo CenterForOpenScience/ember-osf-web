@@ -153,7 +153,7 @@ module('Acceptance | resolve-guid', hooks => {
 
                 await visit(`/${reg.id}`);
 
-                routingAssertions(assert, '--registries', `/${reg.id}`, 'registries.overview.index');
+                routingAssertions(assert, '--registries', `/${reg.id}/metadata/osf`, 'registries.overview.index');
             });
 
             test('Forks', async function(assert) {
