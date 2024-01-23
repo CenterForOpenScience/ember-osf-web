@@ -153,7 +153,7 @@ module('Acceptance | resolve-guid', hooks => {
 
                 await visit(`/${reg.id}`);
 
-                routingAssertions(assert, '--registries', `/${reg.id}/metadata/osf`, 'registries.overview.index');
+                routingAssertions(assert, '--registries', `/${reg.id}`, 'registries.overview.index');
             });
 
             test('Forks', async function(assert) {
@@ -177,9 +177,10 @@ module('Acceptance | resolve-guid', hooks => {
             test('Metadata', async function(assert) {
                 const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
-                await visit(`/${reg.id}/metadata`);
+                await visit(`/${reg.id}/metadata/osf`);
 
-                routingAssertions(assert, '--registries', `/${reg.id}/metadata`, 'registries.overview.metadata');
+                routingAssertions(assert, '--registries', `/${reg.id}/metadata/osf`,
+                    'registries.overview.metadata.detail');
             });
         });
     });
