@@ -1,0 +1,17 @@
+<div local-class='metadata-select-container {{if @isMobile 'mobile'}}'>
+    <div local-class='title' data-test-select-title>
+        {{ @template.schemaName }}
+    </div>
+    <div local-class='description' data-test-select-description>
+        {{ @template.template.description}}
+    </div>
+    <div local-class='action'>
+        <Button
+            data-test-select-button
+            data-analytics-name='Select metadata'
+            {{on 'click' (fn @selectTemplate @template) }}
+        >
+            {{ t 'metadata.add-flow.select' }}
+        </Button>
+    </div>
+</div>
