@@ -9166,14 +9166,14 @@ ccount@^1.0.0:
   integrity sha512-vlNK021QdI7PNeiUh/lKkC/mNHHfV0m/Ad5JoI0TYtlBnJAslM/JIkm/tGC88bkLIwO6OQ5uV6ztS6kVAtCDlg==
 
 cedar-artifact-viewer@^0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/cedar-artifact-viewer/-/cedar-artifact-viewer-0.9.3.tgz#1105571ebf12f905c4fb236b924584f48d11f803"
-  integrity sha512-X2Pb4yvcNjlwzksLMRHBZzcSrbUovZWxr89Ck71f7jNx9RLobogCCR776FkOPDaDOaZAgBLEUkQ9tkUjo8AwKg==
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/cedar-artifact-viewer/-/cedar-artifact-viewer-0.9.5.tgz#0679b8cff2a2be96c0ef9ac8cc567327aba6e2e6"
+  integrity sha512-o23pXLrLBB6ZgZZW79SaE+c41CEGSASZ9YC0qKd8BK8b2EmLwiH18dEQv5pXYSxKKo3Ue7WdnyLoRNEZ+yo9mQ==
 
 cedar-embeddable-editor@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/cedar-embeddable-editor/-/cedar-embeddable-editor-1.0.4.tgz#52c504dbd4ea2ecf9275cc73f35a7f4ad21b61c9"
-  integrity sha512-c28w2920u/3Hvk+3CtvV9v3twf7Q1o3ZXZHhPzigwYBUly22KFi+vZ3m7kvSceKjsVCH7P1IWkCYp0KG/UD8oQ==
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/cedar-embeddable-editor/-/cedar-embeddable-editor-1.0.12.tgz#49640b897ba47ad498097d07589760e5e3a0027f"
+  integrity sha512-iTlUWjEGvIl2NUpr1hDScWr4LwzMJNvL8BO5jKPJFUvhQDnoeW1oWIc+AF7UgA7ILrjlOlK7ygX1a2Lx2qFgGQ==
 
 chai-as-promised@^6.0.0:
   version "6.0.0"
