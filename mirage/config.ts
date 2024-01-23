@@ -2,7 +2,7 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
 import { addonServiceNamespace } from 'ember-osf-web/adapters/addon-service';
-import { addonsList } from 'ember-osf-web/mirage/views/addon';
+import { addonsList } from 'ember-osf-web/mirage/views/addons';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
