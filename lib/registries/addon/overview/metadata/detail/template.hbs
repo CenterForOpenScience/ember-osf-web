@@ -23,7 +23,7 @@
                     <OsfLink
                         data-test-add-cedar-schema
                         data-analytics-name='Add metadata schema'
-                        @route='guid-node.metadata.add'
+                        @route='registries.overview.metadata.add'
                         @models={{array this.model.target.id}}
                     >
                         {{t 'metadata.add-schema'}}
@@ -33,11 +33,10 @@
         </div>
     </div>
     <div local-class='metadata-tab-container'>
-        {{t 'metadata.add-schema'}}
-        {{!-- <GuidNode::Metadata::-Components::MetadataTabs
+        <Metadata::MetadataTabs
             @guidNode={{this.model.target}}
             @cedarMetadataRecords={{this.model.cedarMetadataRecords}}
             @defaultIndex={{this.model.defaultIndex}}
-        ></GuidNode::Metadata::-Components::MetadataTabs> --}}
+        ></Metadata::MetadataTabs>
     </div>
 </div>

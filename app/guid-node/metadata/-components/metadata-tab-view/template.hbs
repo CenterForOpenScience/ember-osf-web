@@ -1,7 +1,0 @@
-{{#if @cedarMetadataRecord.isPublished}}
-    {{@cedarMetadataRecord.template.schemaName}}
-{{else}}
-    <span local-class='draft {{if this.isActive 'dark'}}'>
-        {{@cedarMetadataRecord.template.schemaName}} ({{t 'cedar.renderer.draft'}}) 
-    </span> 
-{{/if}}

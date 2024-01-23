@@ -19,6 +19,7 @@ const { cedarConfig } = config;
 interface Args {
     cedarMetadataRecord?: CedarMetadataRecordModel;
     cedarMetadataTemplate: CedarMetadataTemplateModel;
+    redirectRoute: string;
     target: AbstractNodeModel | FileModel;
     displayArtifactViewer?: () => {};
 }
@@ -70,7 +71,7 @@ export default class CedarMetadataEditor extends Component<Args> {
             if ( this.isEdit && this.args.displayArtifactViewer) {
                 this.args.displayArtifactViewer();
             } else {
-                await this.router.transitionTo('guid-node.metadata.detail', record.id);
+                await this.router.transitionTo(this.args.redirectRoute, record.id);
             }
         } catch(error) {
             captureException(error);
