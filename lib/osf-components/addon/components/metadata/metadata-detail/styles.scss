@@ -34,25 +34,23 @@
     }
 
     &.mobile {
-        .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 10px;
+
+        .header {
+            width: 100%;
+        }
+
+        .actions {
             flex-direction: column;
             align-items: flex-start;
-            margin-bottom: 10px;
+            justify-content: flex-start;
+            width: 100%;
 
-            .header {
-                width: 100%;
-            }
-
-            .actions {
-                flex-direction: column;
-                align-items: flex-start;
-                justify-content: flex-start;
-                width: 100%;
-
-                .download,
-                .add-schema {
-                    margin-top: 5px;
-                }
+            .download,
+            .add-schema {
+                margin-top: 5px;
             }
         }
     }
