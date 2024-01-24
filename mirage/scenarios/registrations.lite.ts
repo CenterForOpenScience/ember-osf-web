@@ -24,9 +24,9 @@ export function registrationsLiteScenario(
 }
 
 /**
- * createBeefsRegistration
+ * createDecafRegistration
  *
- * @description Create the Beefs Registration
+ * @description Create the Decaf Registration
  *
  * @param server The server param
  * @param currentUser The current User
