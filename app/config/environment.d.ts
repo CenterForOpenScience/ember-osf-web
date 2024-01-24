@@ -159,6 +159,7 @@ declare const config: {
             homePageHeroTextVersionB: string;
         };
         storageI18n: string;
+        gravyWaffle: string;
         enableInactiveSchemas: string;
         registrationFilesPage: string;
         verifyEmailModals: string;
