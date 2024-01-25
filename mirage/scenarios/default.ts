@@ -74,6 +74,6 @@ export default function(server: Server) {
     }
 
     if (mirageScenarios.includes('cedar')) {
-        cedarMetadataRecordsScenario(server, currentUser);
+        cedarMetadataRecordsScenario(server);
     }
 }

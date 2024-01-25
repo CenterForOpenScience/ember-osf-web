@@ -66,7 +66,13 @@ export default class GuidFile extends Route {
         const { guid } = params;
         try {
             const file = await this.store.findRecord('file', guid, {include: 'target'});
+
+
             this.metadata = await this.store.findRecord('custom-file-metadata-record', guid);
+
+            await file.queryHasMany('cedarMetadataRecords', {
+                'page[size]': 20,
+            });
 
             const target = await file.target as unknown as RegistrationModel;
             if (target.withdrawn === true) {

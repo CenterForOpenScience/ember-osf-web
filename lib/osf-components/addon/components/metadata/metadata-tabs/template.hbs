@@ -30,13 +30,19 @@
         </tab.tabList>
         <tab.tabPanel>
             <div local-class='metadata-pane' data-test-registrations-pane>
-                <NodeMetadataManager @node={{this.guidNode}} as |manager|>
-                    {{#if manager.isGatheringData}}
-                        <LoadingIndicator @dark={{true}} />
-                    {{else}}
-                        <NodeMetadataForm @manager={{manager}} />
-                    {{/if}}
-                </NodeMetadataManager>
+                {{#if @displayFileMetadata}}
+                    <Metadata::FileMetadataLayout 
+                        @isMobile={{this.isMobile}}
+                        @file={{this.guidNode}}
+                    />
+                {{else}}
+                    <NodeMetadataManager @node={{this.guidNode}} as |manager|>
+                        {{#if manager.isGatheringData}}
+                            <LoadingIndicator @dark={{true}} />
+                        {{else}}
+                        {{/if}}
+                    </NodeMetadataManager>
+                {{/if}}
             </div>
         </tab.tabPanel>
         {{#each this.cedarMetadataRecords as |cedarMetadataRecord| }}

@@ -19,6 +19,14 @@ export default class FileSerializer extends ApplicationSerializer<MirageFile> {
                     },
                 },
             },
+            cedarMetadataRecords: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/files/${model.id}/cedar_metadata_records/`,
+                        meta: this.buildRelatedLinkMeta(model, 'cedarMetadataRecords'),
+                    },
+                },
+            },
         };
 
         if (model.targetId && model.targetId.id) {

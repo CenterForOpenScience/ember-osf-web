@@ -62,7 +62,7 @@ export default class FileModel extends BaseFileItem {
     // eslint-disable-next-line max-len
     target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<PreprintModel> & PreprintModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
 
-    @hasMany('cedar-metadata-record', { inverse: null })
+    @hasMany('cedar-metadata-record', { inverse: 'target'})
     cedarMetadataRecords!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     // BaseFileItem override
