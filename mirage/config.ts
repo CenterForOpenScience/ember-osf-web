@@ -89,6 +89,7 @@ export default function(this: Server) {
         only: ['index'],
         path: '/files/:parentID/versions',
     });
+    osfNestedResource(this, 'file', 'cedarMetadataRecords', { only: ['index'] });
 
     this.get('/guids/:id', guidDetail);
 

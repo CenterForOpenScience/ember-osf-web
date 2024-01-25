@@ -55,6 +55,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     const filesNodeOsfStorage = filesNode.files.models.filter(
         (provider: ModelInstance<FileProviderModel>) => provider.name === 'osfstorage',
     )[0] as ModelInstance<FileProviderModel>;
+
     server.create('file', {
         id: 'snake',
         name: 'snake.boa',
@@ -62,6 +63,22 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         target: filesNode,
         parentFolder: filesNodeOsfStorage.rootFolder,
     });
+
+    const cedarFileNode = server.create('file', {
+        id: 'cedar-metadata-file',
+        name: 'cedar metadata file',
+        checkout: currentUser.id,
+        target: filesNode,
+        parentFolder: filesNodeOsfStorage.rootFolder,
+    });
+
+    const cedarMetadataRecords = server.createList('cedar-metadata-record', 2);
+    cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
+
+    cedarFileNode.update({
+        cedarMetadataRecords,
+    });
+
     server.create('contributor', {
         node: filesNode,
         users: currentUser,

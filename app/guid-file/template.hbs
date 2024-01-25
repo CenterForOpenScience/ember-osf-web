@@ -71,10 +71,15 @@
             </div>
         {{/if}}
         {{#if this.metadataOpened}}
-            <GuidFile::-Components::FileMetadataLayout 
-                @isMobile={{this.isMobile}}
-                @file={{this.model.fileModel}}
-            />
+            {{this.model.cedarMetadataRecords}}
+            <div local-class='metadata-tab-container'>
+                <Metadata::MetadataTabs
+                    @guidNode={{this.model.fileModel}}
+                    @cedarMetadataRecords={{this.model.fileModel.cedarMetadataRecords }}
+                    @defaultIndex={{0}}
+                    @displayFileMetadata={{true}}
+                />
+            </div>
         {{/if}}
     </:right>
     <:rightButtons>

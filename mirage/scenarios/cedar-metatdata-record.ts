@@ -1,14 +1,9 @@
-import { ModelInstance, Server } from 'ember-cli-mirage';
-import User from 'ember-osf-web/models/user';
+import { Server } from 'ember-cli-mirage';
 
 /* eslint-disable-next-line */
 export function cedarMetadataRecordsScenario(
     /* eslint-disable-next-line */
-    server: Server,
-    /* eslint-disable-next-line */
-    currentUser: ModelInstance<User>,
-/* eslint-disable-next-line */
-) { 
+    server: Server) { 
 
     noCedarMetadataRecords(server);
 
