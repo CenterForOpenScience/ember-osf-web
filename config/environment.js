@@ -255,6 +255,7 @@ module.exports = function(environment) {
                 'settings.developer-apps.index': 'ember_user_settings_apps_page',
                 'settings.developer-apps.create': 'ember_user_settings_apps_page',
                 'settings.developer-apps.edit': 'ember_user_settings_apps_page',
+                'settings.addons': 'gravy_waffle',
                 register: 'ember_auth_register',
                 'registries.overview': 'ember_registries_detail_page',
                 'registries.overview.index': 'ember_registries_detail_page',
@@ -277,6 +278,7 @@ module.exports = function(environment) {
                 institutions: 'institutions_nav_bar',
             },
             storageI18n: 'storage_i18n',
+            gravyWaffle: 'gravy_waffle',
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
             ABTesting: {
