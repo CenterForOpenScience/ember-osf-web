@@ -18,7 +18,7 @@ export default class CedarMetadataRecordModel extends OsfModel {
     @belongsTo('cedar-metadata-template', { inverse: null })
     template!: AsyncBelongsTo<CedarMetadataTemplateModel> | CedarMetadataTemplateModel;
 
-    @belongsTo('osf-model', { polymorphic: true })
+    @belongsTo('base-file-item', { inverse: 'cedarMetadataRecords' , polymorphic: true })
     target!: (AsyncBelongsTo<AbstractNodeModel> | AbstractNodeModel) | (AsyncBelongsTo<FileModel> | FileModel);
 }
 

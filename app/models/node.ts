@@ -7,7 +7,6 @@ import { htmlSafe } from '@ember/template';
 import { tracked } from '@glimmer/tracking';
 import { buildValidations, validator } from 'ember-cp-validations';
 import Intl from 'ember-intl/services/intl';
-import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 
 import config from 'ember-osf-web/config/environment';
 import { task } from 'ember-concurrency';
@@ -166,9 +165,6 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
 
     @hasMany('node', { inverse: 'forkedFrom', polymorphic: true })
     forks!: AsyncHasMany<NodeModel>;
-
-    @hasMany('cedar-metadata-record', { inverse: 'target'})
-    cedarMetadataRecords!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     @belongsTo('node', { inverse: 'forks', polymorphic: true })
     forkedFrom!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<RegistrationModel> & RegistrationModel);

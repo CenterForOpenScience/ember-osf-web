@@ -4,7 +4,6 @@ import { Link } from 'jsonapi-typescript';
 
 import { FileReference } from 'ember-osf-web/packages/registration-schema';
 import getHref from 'ember-osf-web/utils/get-href';
-import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 
 import PreprintModel from 'ember-osf-web/models/preprint';
 import AbstractNodeModel from './abstract-node';
@@ -61,9 +60,6 @@ export default class FileModel extends BaseFileItem {
     @belongsTo('osf-model', { polymorphic: true })
     // eslint-disable-next-line max-len
     target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<PreprintModel> & PreprintModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
-
-    @hasMany('cedar-metadata-record', { inverse: 'target'})
-    cedarMetadataRecords!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     // BaseFileItem override
     isFileModel = true;
