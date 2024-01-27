@@ -8,7 +8,7 @@
 
     .action-container {
         width: 100%;
-        height: 50px;
+        min-height: 50px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -17,7 +17,7 @@
 
         .explanation-container {
             width: calc(100% - 200px);
-            height: 50px;
+            min-height: 50px;
             font-weight: bold;
             display: flex;
             flex-direction: row;
@@ -36,8 +36,30 @@
             flex-direction: row;
             justify-content: flex-end;
             align-items: center;
+
+            svg {
+                height: 1.5em;
+            }
         }
     }
+
+    &.fileMetadata {
+        width: calc(100% - 40px);
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 40px;
+
+        .action-container {
+            .explanation-container {
+                width: calc(100% - 50px);
+            }
+            
+            .button-container {
+                width: 50px;
+            }
+        }
+    }
+
 
     .renderer-container {
         width: 100%;
@@ -45,5 +67,19 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
+
+        .artifact-viewer {
+            width: 100%;
+        }
+    }
+
+    :global(.template-card) {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    :global(.mat-tree-node) {
+        width: 100% !important;
+        max-width: 100% !important;
     }
 }

@@ -1,4 +1,4 @@
-<div local-class='cedar-metadata-renderer-container'>
+<div local-class='cedar-metadata-renderer-container {{if @displayFileMetadata 'fileMetadata'}}'>
     {{#if this.isShowEditor}}
         <CedarMetadataEditor
             @cedarMetadataRecord={{@cedarMetadataRecord}}
@@ -21,12 +21,17 @@
                     data-analytics-name='Edit metadata'
                     {{on 'click' this.edit }}
                 >
-                    {{ t 'metadata.add-flow.edit' }}
+                    {{#if @displayFileMetadata}}
+                        <FaIcon @icon='pencil-alt' />
+                    {{else}}
+                        {{ t 'metadata.add-flow.edit' }}
+                    {{/if}}
                 </Button>
             </div>
         </div>
         <div local-class='renderer-container'>
             <cedar-artifact-viewer
+                local-class='artifact-viewer'
                 config={{this.viewerConfig}}
                 instanceObject={{@cedarMetadataRecord.metadata}}
                 templateObject={{@cedarMetadataRecord.template.template}}

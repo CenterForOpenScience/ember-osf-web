@@ -9,12 +9,13 @@ import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record
 
 interface Args {
     cedarMetadataRecord: CedarMetadataRecordModel;
+    displayFileMetadata: Boolean;
 }
 
 export default class CedarMetadataRenderer extends Component<Args> {
-    viewerConfig = config.cedarConfig.viewerConfig;
     @service router!: RouterService;
 
+    viewerConfig = config.cedarConfig.viewerConfig;
     @tracked isShowEditor = false;
 
     public get isDraft(): boolean {
