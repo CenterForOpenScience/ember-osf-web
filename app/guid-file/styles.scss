@@ -79,3 +79,11 @@
         margin-bottom: 20px;
     }
 }
+
+.metadata-tab-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
