@@ -1,18 +1,20 @@
-<div local-class='header-container {{if @isMobile 'mobile'}}'>
+<div local-class='header-container {{if @isMobile 'mobile'}} {{if @displayFileMetadata 'file-metadata'}}'>
     <div local-class='header'>
         <h2 data-test-metadata-header>
             {{t 'metadata.header'}}
         </h2>
     </div>
     <div local-class='actions'>
-        <div local-class='download spacer'>
-            <div local-class='spacer'>
-                <FaIcon @icon='download' />
+        {{#unless @displayFileMetadata}}
+            <div local-class='download spacer'>
+                <div local-class='spacer'>
+                    <FaIcon @icon='download' />
+                </div>
+                <div>
+                    {{t 'metadata.download'}}
+                </div>
             </div>
-            <div>
-                {{t 'metadata.download'}}
-            </div>
-        </div>
+        {{/unless}}
         <div local-class='add-schema'>
             <div local-class='spacer'>
                 <FaIcon @icon='plus' />
@@ -24,7 +26,16 @@
                     @route={{@route}}
                     @models={{array @target.id}}
                 >
-                    {{t 'metadata.add-schema'}}
+                    {{#if @displayFileMetadata}}
+                        {{t 'file-detail.add-schema'}}
+                        <EmberTooltip
+                            @side='right'
+                        >
+                            {{t 'file-detail.add-schema-tooltip'}}
+                        </EmberTooltip>
+                    {{else}}
+                        {{t 'metadata.add-schema'}}
+                    {{/if}}
                 </OsfLink>
             </div>
         </div>

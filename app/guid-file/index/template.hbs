@@ -3,31 +3,12 @@
     @isMobile={{this.media.isMobile}}
 >
     <:header>
-        <h3 local-class='project-link-header'>
-            <OsfLink
-                data-test-project-link
-                data-analytics-name='Linked project'
-                local-class='project-link'
-                @route={{if (eq this.model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
-                @models={{array this.model.fileModel.target.id}}
-            >
-                {{this.model.fileModel.target.title}}
-            </OsfLink>
-        </h3>
-        <div local-class='flex-container-row'>
-            <h2 data-test-filename>
-                {{this.model.displayName}}
-                {{#if this.viewedVersion}}
-                    ({{t 'general.version'}}: {{this.viewedVersion}})
-                {{/if}}
-            </h2>
-            <FileActionsMenu
-                @item={{this.model}}
-                @onDelete={{this.onDelete}}
-                @allowRename={{false}}
-                @addonsEnabled={{this.model.fileModel.target.addonsEnabled}}
-            />
-        </div>
+        <GuidFile::-Components::FileHeader
+            @model={{this.model}}
+            @viewedVersion={{this.viewedVersion}}
+            @onDelete={{this.onDelete}}
+            @displayFileActions={{true}}
+        />
     </:header>
     <:body>
         <div data-test-file-renderer id='mfrIframeParent' local-class='file-renderer'>
@@ -71,6 +52,12 @@
             </div>
         {{/if}}
         {{#if this.metadataOpened}}
+            <Metadata::MetadataDetail
+                @isMobile={{this.isMobile}}
+                @route='guid-file.metadata.add'
+                @target={{this.model.fileModel}}
+                @displayFileMetadata={{true}}
+            />
             <div local-class='metadata-tab-container'>
                 <Metadata::MetadataTabs
                     @guidNode={{this.model.fileModel}}
