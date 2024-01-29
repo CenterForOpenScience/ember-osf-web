@@ -123,14 +123,24 @@
                     />
                 {{/if}}
                 {{#if this.model.taskInstance.value.userHasWritePermission}}
-                    <leftNav.link
-                        data-test-addons-link
-                        data-analytics-name='Add-ons'
-                        @route='guid-node.addons'
-                        @models={{array this.model.taskInstance.value.id}}
-                        @icon='database'
-                        @label={{t 'node.left_nav.add-ons'}}
-                    />
+                    {{#if (feature-flag 'gravy_waffle')}}
+                        <leftNav.link
+                            data-test-addons-link
+                            data-analytics-name='Add-ons'
+                            @route='guid-node.addons'
+                            @models={{array this.model.taskInstance.value.id}}
+                            @icon='database'
+                            @label={{t 'node.left_nav.add-ons'}}
+                        />
+                    {{else}}
+                        <leftNav.link
+                            data-test-addons-link
+                            data-analytics-name='Add-ons'
+                            @href='/{{this.model.taskInstance.value.id}}/addons/'
+                            @icon='database'
+                            @label={{t 'node.left_nav.add-ons'}}
+                        />
+                    {{/if}}
                 {{/if}}
                 {{#if this.model.taskInstance.value.userHasReadPermission}}
                     <leftNav.link
