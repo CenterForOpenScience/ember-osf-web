@@ -1,0 +1,22 @@
+{{page-title this.tabTitle}}
+<div local-class='metadata-add-container {{if this.isMobile 'mobile'}}'>
+    <GuidFile::-Components::FileHeader
+        @model={{this.model.target}}
+        @displayFileActions={{false}}
+    />
+    {{#if this.displaySelectionOptions}}
+        <Metadata::MetadataAdd
+            @templates={{this.model.templates}}
+            @selectTemplate={{this.selectTemplate}}
+            @isMobile={{this.isMobile}}
+        />
+    {{else}}
+        <Metadata::CedarMetadataEditView
+            @cedarMetadataTemplate={{this.selectedTemplate}}
+            @target={{this.model.target.fileModel}}
+            @closeCedarEditor={{this.closeCedarEditor}}
+            @redirectRoute='guid-file'
+        />
+    {{/if}}
+</div>
+

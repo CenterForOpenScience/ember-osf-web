@@ -1,0 +1,27 @@
+<h3 local-class='project-link-header'>
+    <OsfLink
+        data-test-project-link
+        data-analytics-name='Linked project'
+        local-class='project-link'
+        @route={{if (eq @model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
+        @models={{array @model.fileModel.target.id}}
+    >
+        {{@model.fileModel.target.title}}
+    </OsfLink>
+</h3>
+<div local-class='flex-container-row'>
+    <h2 data-test-filename>
+        {{@model.displayName}}
+        {{#if @viewedVersion}}
+            ({{t 'general.version'}}: {{@viewedVersion}})
+        {{/if}}
+    </h2>
+    {{#if @displayFileActions}}
+        <FileActionsMenu
+            @item={{@model}}
+            @onDelete={{@onDelete}}
+            @allowRename={{false}}
+            @addonsEnabled={{@model.fileModel.target.addonsEnabled}}
+        />
+    {{/if}}
+</div>

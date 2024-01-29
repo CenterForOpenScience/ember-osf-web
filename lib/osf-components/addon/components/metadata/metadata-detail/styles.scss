@@ -8,6 +8,13 @@
     justify-content: flex-start;
     margin-bottom: 30px;
 
+    &.file-metadata {
+        width: calc(100% - 40px);
+        margin-right: 20px;
+        margin-left: 20px;
+        margin-bottom: 10px;
+    } 
+
     .header {
         width: calc(100% - 500px);
     }

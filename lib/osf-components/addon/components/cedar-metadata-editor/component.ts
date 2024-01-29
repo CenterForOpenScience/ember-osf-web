@@ -71,7 +71,11 @@ export default class CedarMetadataEditor extends Component<Args> {
             if ( this.isEdit && this.args.displayArtifactViewer) {
                 this.args.displayArtifactViewer();
             } else {
-                await this.router.transitionTo(this.args.redirectRoute, record.id);
+                if ( this.args.redirectRoute === 'guid-file') {
+                    await this.router.transitionTo(this.args.redirectRoute);
+                } else {
+                    await this.router.transitionTo(this.args.redirectRoute, record.id);
+                }
             }
         } catch(error) {
             captureException(error);

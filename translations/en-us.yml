@@ -144,6 +144,8 @@ file-detail:
     close-tags: 'Close tags'
     close-metadata: 'Close metadata'
     view-metadata: 'View metadata'
+    add-schema: 'Add Schema'
+    add-schema-tooltip: 'Add a Cedar Metadata schema to this file.'
     tags: 'Tags:'
     mfr-iframe-title: 'Rendering of document'
     file-metadata: 'File Metadata'
