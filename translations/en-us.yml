@@ -144,8 +144,6 @@ file-detail:
     close-tags: 'Close tags'
     close-metadata: 'Close metadata'
     view-metadata: 'View metadata'
-    add-schema: 'Add Schema'
-    add-schema-tooltip: 'Add a Cedar Metadata schema to this file.'
     tags: 'Tags:'
     mfr-iframe-title: 'Rendering of document'
     file-metadata: 'File Metadata'
@@ -173,6 +171,10 @@ file-detail:
     modification-date: 'Date modified'
     registration-date: 'Date registered'
     withdrawal-date: 'Date withdrawn'
+    metadata:
+        add-schema: 'Add Schema'
+        add-schema-tooltip: 'Add a Cedar Metadata schema to this file.'
+        return-to-file: 'Return to {fileName}'
     resource-help-dialog:
         heading: 'About file resource information'
         write-permission: 'The resource information section allows you to describe what kind of material you are sharing in a human and machine readable format. Indexes and search engines can use the resource types to filter results, increasing discoverability for works with completed metadata. For example, indicating that your resource type is “Dataset” will allow your work to be displayed in other indexes and repositories that specialize in data in addition to the OSF.<br><br>On this page you can describe the resource type of this individual file. You can also describe the resources within your entire {parentNodeType} on the {parentNodeType} metadata page.<br><br>OSF enables the <a href="https://support.datacite.org/v1.3/docs/what-are-the-resource-types-for-datacite-dois">Datacite Resource Types</a>. More information is available on our <a href="https://help.osf.io/article/570-resource-types-in-osf">help guides</a>.'

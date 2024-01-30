@@ -34,7 +34,8 @@ export default class MetadataTabs extends Component<TabArgs> {
 
     @action
     didRenderList(element: HTMLElement): boolean {
-        this.showTabs = element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+        this.showTabs = element.scrollHeight > (element.clientHeight - 30) ||
+            element.scrollWidth > (element.clientWidth - 30);
         return true;
     }
 
