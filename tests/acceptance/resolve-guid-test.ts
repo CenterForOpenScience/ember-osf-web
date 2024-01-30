@@ -52,7 +52,7 @@ module('Acceptance | resolve-guid', hooks => {
 
             await visit(`/${file.id}`);
 
-            routingAssertions(assert, '--file', `/${file.id}`, 'guid-file');
+            routingAssertions(assert, '--file', `/${file.id}`, 'guid-file.index');
         });
     });
 
