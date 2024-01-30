@@ -35,7 +35,7 @@
                             local-class='btn btn-success btn-lg'
                             @href={{concat this.theme.pathPrefix 'submit'}}
                         >
-                            {{t 'preprints.header.submit_label' documentType=this.theme.provider.content.documentType}}
+                            {{t 'preprints.header.submit_label' documentType=this.theme.provider.documentType.singular}}
                         </OsfLink>
                         <div local-class='example-container'>
                             <OsfLink
