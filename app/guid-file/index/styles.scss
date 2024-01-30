@@ -23,6 +23,24 @@
     }
 }
 
+
+.file-header-container {
+    margin: 30px;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-width: 330px;
+
+    &.mobile {
+        margin-top: 0;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 0;
+    }
+}
+
 .file-renderer {
     height: 90vh;
     margin-bottom: 15px;

@@ -1,6 +1,8 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
 .file-header-container {
+    width: 100%;
+    
     .flex-container-row {
         width: 100%;
         display: flex;
@@ -10,14 +12,14 @@
 
         h2 {
             height: 40px;
-            width: 70vw;
+            width: 70%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
         .return-container {
-            width: 30vw;
+            width: 30%;
             height: 70px;
             display: flex;
             flex-direction: row;

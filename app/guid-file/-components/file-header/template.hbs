@@ -17,15 +17,15 @@
                 ({{t 'general.version'}}: {{@viewedVersion}})
             {{/if}}
         </h2>
-        {{#if @displayFileActions}}
-            <FileActionsMenu
-                @item={{@model}}
-                @onDelete={{@onDelete}}
-                @allowRename={{false}}
-                @addonsEnabled={{@model.fileModel.target.addonsEnabled}}
-            />
-        {{else}}
-            <div local-class='return-container'>
+        <div local-class='return-container'>
+            {{#if @displayFileActions}}
+                <FileActionsMenu
+                    @item={{@model}}
+                    @onDelete={{@onDelete}}
+                    @allowRename={{false}}
+                    @addonsEnabled={{@model.fileModel.target.addonsEnabled}}
+                />
+            {{else}}
                 <OsfLink
                     data-test-return-to-metadata
                     data-analytics-name='Return from cedar metadata selction'
@@ -34,7 +34,7 @@
                 >
                     {{ t 'file-detail.metadata.return-to-file' fileName=@model.displayName}}
                 </OsfLink>
-            </div>
-        {{/if}}
+            {{/if}}
+        </div>
     </div>
 </div>

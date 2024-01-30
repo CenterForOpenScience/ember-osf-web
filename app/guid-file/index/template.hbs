@@ -3,13 +3,15 @@
     @isMobile={{this.media.isMobile}}
 >
     <:header>
-        <GuidFile::-Components::FileHeader
-            @model={{this.model}}
-            @viewedVersion={{this.viewedVersion}}
-            @onDelete={{this.onDelete}}
-            @displayFileActions={{true}}
-            @isMobile={{this.media.isMobile}}
-        />
+        <div local-class='file-header-container {{if this.media.isMobile 'mobile'}}'>
+            <GuidFile::-Components::FileHeader
+                @model={{this.model}}
+                @viewedVersion={{this.viewedVersion}}
+                @onDelete={{this.onDelete}}
+                @displayFileActions={{true}}
+                @isMobile={{this.media.isMobile}}
+            />
+        </div>
     </:header>
     <:body>
         <div data-test-file-renderer id='mfrIframeParent' local-class='file-renderer'>
