@@ -1,4 +1,5 @@
 import { getOwner, setOwner } from '@ember/application';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -24,9 +25,18 @@ export default class Provider {
 
     @tracked configuredStorageAddon?: ConfiguredStorageAddonModel;
     @tracked authorizedStorageAccount?: AuthorizedStorageAccountModel;
-
+    @tracked hasAcceptedTerms = false;
 
     @service store!: Store;
+
+    get isConfigured() {
+        return Boolean(this.configuredStorageAddon);
+    }
+
+    @action
+    acceptTerms() {
+        this.hasAcceptedTerms = true;
+    }
 
     constructor(provider: any, currentUser: CurrentUserService, node: NodeModel) {
         setOwner(this, getOwner(node));
@@ -47,13 +57,23 @@ export default class Provider {
     @task
     @waitFor
     async getInternalUser() {
-        this.internalUser = await this.store.findRecord('internal-user', this.currentUser.user?.id);
+        const internalUser = this.store.peekRecord('internal-user', this.currentUser.user?.id);
+        if (internalUser) {
+            this.internalUser = internalUser;
+        } else {
+            this.internalUser = await this.store.findRecord('internal-user', this.currentUser.user?.id);
+        }
     }
 
     @task
     @waitFor
     async getInternalResource() {
-        this.serviceNode = await this.store.findRecord('internal-resource', this.node.id);
+        const serviceNode = this.store.peekRecord('internal-resource', this.node.id);
+        if (serviceNode) {
+            this.serviceNode = serviceNode;
+        } else {
+            this.serviceNode = await this.store.findRecord('internal-resource', this.node.id);
+        }
     }
 
     @task
