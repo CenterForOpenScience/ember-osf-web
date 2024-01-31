@@ -27,15 +27,6 @@
             <LoadingIndicator @dark={{true}} />
         {{/if}}
 
-        <div local-class='small help-link'>
-            <OsfLink
-                @target='_blank'
-                @rel='noopener noreferrer'
-                @href={{this.helpLink}}>
-                {{t 'app_components.license_picker.faq'}}
-            </OsfLink>
-        </div>
-
         {{#if (and @manager.selectedLicense @manager.selectedLicense.requiredFields)}}
             <form.custom
                 local-class='AdditionalFields'
