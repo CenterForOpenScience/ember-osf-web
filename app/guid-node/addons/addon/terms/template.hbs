@@ -3,3 +3,13 @@
 {{!-- "This add-on connects your OSF project to an external service. Use of this service is bound by its terms and conditions. The OSF is not responsible for the service or for your use thereof." --}}
 
 {{t 'addons.terms.heading' providerName='placeholder'}}
+<Button
+    {{on 'click' this.cancel}}
+>
+    {{t 'general.cancel'}}
+</Button>
+<Button
+    {{on 'click' this.acceptTerms}}
+>
+    {{t 'general.confirm'}}
+</Button>
