@@ -10,6 +10,7 @@
             {{did-insert this.injectMetadata}}
             local-class='cedar-editor'
             config={{this.cedarConfig}}
+            {{ on 'change' (action this.changed) }} 
             templateObject={{@cedarMetadataTemplate.template}}
         />
     </div>
@@ -33,7 +34,14 @@
             disabled={{this.save.isRunning}}
             {{on 'click' (perform this.save)}}
         >
-            {{ t 'cedar.editor.save-button' }}
+            {{ this.buttonText }}
+            {{#unless this.isValid}}
+                <EmberTooltip
+                    @side='right'
+                >
+                    {{t 'cedar.editor.save-draft-button-tooltip'}}
+                </EmberTooltip>
+            {{/unless}}
         </Button>
     </div>
 </div>

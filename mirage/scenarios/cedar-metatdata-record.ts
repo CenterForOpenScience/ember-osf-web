@@ -24,8 +24,9 @@ function threeCedarMetadataRecords(server: Server) {
         id: '3-cedar-records',
     });
 
-    const cedarMetadataRecords = server.createList('cedar-metadata-record', 2);
+    const cedarMetadataRecords = server.createList('cedar-metadata-record', 1);
     cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
+    cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isTesting'));
 
     newNode.update({
         cedarMetadataRecords,
@@ -36,11 +37,11 @@ function twelveCedarMetadataRecords(server: Server) {
     const newNode = server.create('node', {
         id: '12-cedar-records',
     });
-
-    const cedarMetadataRecords = server.createList('cedar-metadata-record', 9);
+    const cedarMetadataRecords = server.createList('cedar-metadata-record', 8);
     cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
     cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
     cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
+    cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isTesting'));
 
     newNode.update({
         cedarMetadataRecords,

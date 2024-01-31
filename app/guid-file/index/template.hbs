@@ -5,7 +5,7 @@
     <:header>
         <div local-class='file-header-container {{if this.media.isMobile 'mobile'}}'>
             <GuidFile::-Components::FileHeader
-                @model={{this.model}}
+                @model={{this.model.file}}
                 @viewedVersion={{this.viewedVersion}}
                 @onDelete={{this.onDelete}}
                 @displayFileActions={{true}}
@@ -16,7 +16,7 @@
     <:body>
         <div data-test-file-renderer id='mfrIframeParent' local-class='file-renderer'>
             <FileRenderer
-                @download={{this.model.links.download}}
+                @download={{this.model.file.links.download}}
                 @version={{this.viewedVersion}}
             />
         </div>
@@ -27,13 +27,13 @@
                 <h2 local-class='file-detail-right-section-heading'>{{t 'general.revisions'}}</h2>
                 <ol local-class='file-detail-revision-list' reversed>
                     <hr aria-hidden='true'>
-                    {{#if this.model.getRevisions.isRunning}}
+                    {{#if this.model.file.getRevisions.isRunning}}
                         <LoadingIndicator @dark={{true}} />
                     {{else}}
-                        {{#each this.model.waterButlerRevisions as |version|}}
+                        {{#each this.model.file.waterButlerRevisions as |version|}}
                             <FileVersion
                                 @version={{version}}
-                                @downloadUrl={{this.model.links.download}}
+                                @downloadUrl={{this.model.file.links.download}}
                                 @changeVersion={{this.changeVersion}}
                             />
                             <hr aria-hidden='true'>
@@ -48,8 +48,8 @@
             <div local-class='right-container'>
                 <h2>{{t 'general.tags'}}</h2>
                 <TagsWidget
-                    @taggable={{this.model.fileModel}}
-                    @readOnly={{not this.model.userCanEditMetadata}}
+                    @taggable={{this.model.file.fileModel}}
+                    @readOnly={{not this.model.file.userCanEditMetadata}}
                     @inline={{true}}
                 />
             </div>
@@ -58,13 +58,13 @@
             <Metadata::MetadataDetail
                 @isMobile={{this.isMobile}}
                 @route='guid-file.metadata.add'
-                @target={{this.model.fileModel}}
+                @target={{this.model.file.fileModel}}
                 @displayFileMetadata={{true}}
             />
             <div local-class='metadata-tab-container'>
                 <Metadata::MetadataTabs
-                    @guidNode={{this.model.fileModel}}
-                    @cedarMetadataRecords={{this.model.fileModel.cedarMetadataRecords }}
+                    @target={{this.model.file.fileModel}}
+                    @cedarMetadataRecords={{this.model.cedarMetadataRecords }}
                     @defaultIndex={{0}}
                     @displayFileMetadata={{true}}
                 />
@@ -93,7 +93,7 @@
         >
             <FaIcon @icon='info-circle' @fixedWidth={{true}}/>
         </Button>
-        {{#if this.model.shouldShowRevisions}}
+        {{#if this.model.file.shouldShowRevisions}}
             <Button
                 aria-label={{if this.revisionsOpened (t 'file-detail.close-revisions') (t 'file-detail.view-revisions')}}
                 data-test-versions-button
@@ -105,7 +105,7 @@
                 <FaIcon @icon='history' @fixedWidth={{true}}/>
             </Button>
         {{/if}}
-        {{#if this.model.shouldShowTags}}
+        {{#if this.model.file.shouldShowTags}}
             <Button
                 aria-label={{if this.tagsOpened (t 'file-detail.close-tags') (t 'file-detail.view-tags')}}
                 data-test-tags-button

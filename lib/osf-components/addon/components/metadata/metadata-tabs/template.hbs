@@ -33,10 +33,10 @@
                 {{#if @displayFileMetadata}}
                     <Metadata::FileMetadataLayout 
                         @isMobile={{this.isMobile}}
-                        @file={{this.guidNode}}
+                        @file={{this.target}}
                     />
                 {{else}}
-                    <NodeMetadataManager @node={{this.guidNode}} as |manager|>
+                    <NodeMetadataManager @node={{this.target}} as |manager|>
                         {{#if manager.isGatheringData}}
                             <LoadingIndicator @dark={{true}} />
                         {{else}}

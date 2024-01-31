@@ -240,7 +240,9 @@ metadata:
             content: 'This is a default content'
 cedar:
     editor:
-        save-button: 'Save'
+        save-draft-button: 'Save Draft'
+        save-draft-button-tooltip: 'The metadata record has required fields that have not been filled in. You may save this metadata record as a draft. It will not be visible to any non-admin users.'
+        publish-button: 'Publish'
         cancel-button: 'Cancel'
         error: 'Save Failed. Please try again.'
     renderer:
