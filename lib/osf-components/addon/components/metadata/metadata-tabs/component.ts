@@ -16,6 +16,7 @@ export default class MetadataTabs extends Component<TabArgs> {
     @service media!: Media;
 
     target = this.args.target;
+
     cedarMetadataRecords = this.args.cedarMetadataRecords;
     defaultIndex = this.args.defaultIndex || 0;
     @tracked activeId = this.defaultIndex;

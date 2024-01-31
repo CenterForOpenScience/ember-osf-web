@@ -1,4 +1,5 @@
 import { Server } from 'ember-cli-mirage';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 /* eslint-disable-next-line */
 export function cedarMetadataRecordsScenario(
@@ -16,12 +17,14 @@ export function cedarMetadataRecordsScenario(
 function noCedarMetadataRecords(server: Server) {
     server.create('node', {
         id: '0-cedar-records',
+        currentUserPermissions: [Permission.Read, Permission.Admin, Permission.Write],
     });
 }
 
 function threeCedarMetadataRecords(server: Server) {
     const newNode = server.create('node', {
         id: '3-cedar-records',
+        currentUserPermissions: [Permission.Read],
     });
 
     const cedarMetadataRecords = server.createList('cedar-metadata-record', 1);
@@ -36,6 +39,7 @@ function threeCedarMetadataRecords(server: Server) {
 function twelveCedarMetadataRecords(server: Server) {
     const newNode = server.create('node', {
         id: '12-cedar-records',
+        currentUserPermissions: [Permission.Read, Permission.Admin, Permission.Write],
     });
     const cedarMetadataRecords = server.createList('cedar-metadata-record', 8);
     cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));

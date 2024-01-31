@@ -1,4 +1,4 @@
-<div local-class='header-container {{if @isMobile 'mobile'}} {{if @displayFileMetadata 'file-metadata'}}'>
+<div local-class='header-container {{if this.isMobile 'mobile'}} {{if @displayFileMetadata 'file-metadata'}}'>
     <div local-class='header'>
         <h2 data-test-metadata-header>
             {{t 'metadata.header'}}
@@ -16,28 +16,30 @@
             </div>
         {{/unless}}
         <div local-class='add-schema'>
-            <div local-class='spacer'>
-                <FaIcon @icon='plus' />
-            </div>
-            <div>
-                <OsfLink
-                    data-test-add-cedar-schema
-                    data-analytics-name='Add metadata schema'
-                    @route={{@route}}
-                    @models={{array @target.id}}
-                >
-                    {{#if @displayFileMetadata}}
-                        {{t 'file-detail.metadata.add-schema'}}
-                        <EmberTooltip
-                            @side='right'
-                        >
-                            {{t 'file-detail.metadata.add-schema-tooltip'}}
-                        </EmberTooltip>
-                    {{else}}
-                        {{t 'metadata.add-schema'}}
-                    {{/if}}
-                </OsfLink>
-            </div>
+            {{#if this.hasWritePermission}}
+                <div local-class='spacer'>
+                    <FaIcon @icon='plus' />
+                </div>
+                <div>
+                    <OsfLink
+                        data-test-add-cedar-schema
+                        data-analytics-name='Add metadata schema'
+                        @route={{@route}}
+                        @models={{array @target.id}}
+                    >
+                        {{#if @displayFileMetadata}}
+                            {{t 'file-detail.metadata.add-schema'}}
+                            <EmberTooltip
+                                @side='right'
+                            >
+                                {{t 'file-detail.metadata.add-schema-tooltip'}}
+                            </EmberTooltip>
+                        {{else}}
+                            {{t 'metadata.add-schema'}}
+                        {{/if}}
+                    </OsfLink>
+                </div>
+            {{/if}}
         </div>
     </div>
 </div>
