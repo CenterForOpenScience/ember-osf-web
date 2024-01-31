@@ -6,16 +6,16 @@
             @displayArtifactViewer={{this.displayArtifactViewer}}
         />
     {{else}}    
-        <div local-class='action-container'>
-            <div local-class='explanation-container {{if this.isDraft 'draft'}}'>
-                {{#if this.isDraft}}
-                    {{t 'cedar.renderer.draft-explanation'}}
-                {{else}}
-                    {{t 'cedar.renderer.published-explanation'}}
-                {{/if}}
-            </div>
-            <div local-class='button-container'>
-                {{#if this.hasWritePermission}}
+        {{#if this.hasWritePermission}}
+            <div local-class='action-container'>
+                <div local-class='explanation-container {{if this.isDraft 'draft'}}'>
+                    {{#if this.isDraft}}
+                        {{t 'cedar.renderer.draft-explanation'}}
+                    {{else}}
+                        {{t 'cedar.renderer.published-explanation'}}
+                    {{/if}}
+                </div>
+                <div local-class='button-container'>
                     <Button
                         data-test-edit-button
                         data-analytics-name='Edit metadata'
@@ -27,9 +27,9 @@
                             {{ t 'metadata.add-flow.edit' }}
                         {{/if}}
                     </Button>
-                {{/if}}
+                </div>
             </div>
-        </div>
+        {{/if}}
         <div local-class='renderer-container'>
             <cedar-artifact-viewer
                 local-class='artifact-viewer'
