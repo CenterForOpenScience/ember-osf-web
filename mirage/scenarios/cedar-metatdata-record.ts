@@ -27,8 +27,8 @@ function threeCedarMetadataRecords(server: Server) {
         currentUserPermissions: [Permission.Read],
     });
 
-    const cedarMetadataRecords = server.createList('cedar-metadata-record', 1);
-    cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
+    const cedarMetadataRecords = server.createList('cedar-metadata-record', 2);
+    // cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
     cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isTesting'));
 
     newNode.update({
