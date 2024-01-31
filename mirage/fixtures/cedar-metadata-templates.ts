@@ -60,7 +60,7 @@ const cedarMetadataTemplates: Array<Partial<CedarMetadataTemplateModel>> = [
     },
     {
         id: '7',
-        schemaName: 'TESTING',
+        schemaName: 'Validation Test',
         cedarId: 'https://repo.metadatacenter.org/template-fields/2b0906ae-2761-4a4c-b85c-78c9275426f6',
         active: true,
         template: testingTemplate,

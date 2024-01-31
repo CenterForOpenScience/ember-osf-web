@@ -119,8 +119,7 @@ function create3CedarMetadataFile(server: Server, currentUser: ModelInstance<Use
         parentFolder: filesNodeOsfStorage.rootFolder,
     });
 
-    const cedarMetadataRecords = server.createList('cedar-metadata-record', 1);
-    cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
+    const cedarMetadataRecords = server.createList('cedar-metadata-record', 2);
     cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isTesting'));
 
     cedarFileNode.update({
