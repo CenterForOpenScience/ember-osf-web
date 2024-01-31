@@ -1,7 +1,6 @@
 {{page-title (t 'metadata.tab-title')}}
 <div local-class='metadata-container {{if this.isMobile 'mobile'}}'>
     <Metadata::MetadataDetail
-        @isMobile={{this.isMobile}}
         @route='guid-node.metadata.add'
         @target={{this.model.target}}
     />

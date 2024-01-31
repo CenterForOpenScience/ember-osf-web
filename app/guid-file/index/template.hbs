@@ -56,7 +56,6 @@
         {{/if}}
         {{#if this.metadataOpened}}
             <Metadata::MetadataDetail
-                @isMobile={{this.isMobile}}
                 @route='guid-file.metadata.add'
                 @target={{this.model.file.fileModel}}
                 @displayFileMetadata={{true}}

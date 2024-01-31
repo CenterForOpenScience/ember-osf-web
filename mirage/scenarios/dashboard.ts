@@ -75,7 +75,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     });
 
     create0CedarMetadataFile(server, currentUser, filesNode, filesNodeOsfStorage);
-    create3CedarMetadataFile(server, currentUser, filesNode, filesNodeOsfStorage);
+    create3CedarMetadataFile(server, currentUser);
     create12CedarMetadataFile(server, currentUser, filesNode, filesNodeOsfStorage);
 
     // NOTE: Some institutions are already created by this point
@@ -98,8 +98,19 @@ function create0CedarMetadataFile(server: Server, currentUser: ModelInstance<Use
 }
 
 
-function create3CedarMetadataFile(server: Server, currentUser: ModelInstance<User>,
-    filesNode: ModelInstance<NodeModel & MirageNode>, filesNodeOsfStorage: ModelInstance<FileProviderModel>): void {
+function create3CedarMetadataFile(server: Server, currentUser: ModelInstance<User>): void {
+
+    const filesNode = server.create('node', {
+        id: 'read-only',
+        title: 'Read-only user and non-admin',
+        boaEnabled: true,
+        currentUserPermissions: [Permission.Read],
+    }, 'withFiles', 'withStorage', 'withContributors', 'withAffiliatedInstitutions', 'withDoi', 'withLinkedByNodes');
+
+    const filesNodeOsfStorage = filesNode.files.models.filter(
+        (provider: ModelInstance<FileProviderModel>) => provider.name === 'osfstorage',
+    )[0] as ModelInstance<FileProviderModel>;
+
     const cedarFileNode = server.create('file', {
         id: '3-cedar-metadata-file',
         name: 'cedar metadata file',

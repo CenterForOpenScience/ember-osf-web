@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import config from 'ember-osf-web/config/environment';
 import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
+import NodeModel from 'ember-osf-web/models/node';
 
 
 interface Args {
@@ -17,6 +18,15 @@ export default class CedarMetadataRenderer extends Component<Args> {
 
     viewerConfig = config.cedarConfig.viewerConfig;
     @tracked isShowEditor = false;
+
+    public get hasWritePermission(): boolean {
+        const node = this.args.cedarMetadataRecord.target as NodeModel;
+        if (node.get('modelName') === 'file') {
+            return (node as any).get('target').get('userHasWritePermission');
+        } else {
+            return node.get('userHasWritePermission');
+        }
+    }
 
     public get isDraft(): boolean {
         return !this.args.cedarMetadataRecord.isPublished;

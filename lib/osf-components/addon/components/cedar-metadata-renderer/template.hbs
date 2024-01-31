@@ -3,7 +3,6 @@
         <CedarMetadataEditor
             @cedarMetadataRecord={{@cedarMetadataRecord}}
             @cedarMetadataTemplate={{@cedarMetadataRecord.template}}
-            @target={{this.target}}
             @displayArtifactViewer={{this.displayArtifactViewer}}
         />
     {{else}}    
@@ -16,17 +15,19 @@
                 {{/if}}
             </div>
             <div local-class='button-container'>
-                <Button
-                    data-test-edit-button
-                    data-analytics-name='Edit metadata'
-                    {{on 'click' this.edit }}
-                >
-                    {{#if @displayFileMetadata}}
-                        <FaIcon @icon='pencil-alt' />
-                    {{else}}
-                        {{ t 'metadata.add-flow.edit' }}
-                    {{/if}}
-                </Button>
+                {{#if this.hasWritePermission}}
+                    <Button
+                        data-test-edit-button
+                        data-analytics-name='Edit metadata'
+                        {{on 'click' this.edit }}
+                    >
+                        {{#if @displayFileMetadata}}
+                            <FaIcon @icon='pencil-alt' />
+                        {{else}}
+                            {{ t 'metadata.add-flow.edit' }}
+                        {{/if}}
+                    </Button>
+                {{/if}}
             </div>
         </div>
         <div local-class='renderer-container'>
