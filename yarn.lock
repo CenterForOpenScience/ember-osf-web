@@ -9170,10 +9170,10 @@ cedar-artifact-viewer@^0.9.3:
   resolved "https://registry.yarnpkg.com/cedar-artifact-viewer/-/cedar-artifact-viewer-0.9.5.tgz#0679b8cff2a2be96c0ef9ac8cc567327aba6e2e6"
   integrity sha512-o23pXLrLBB6ZgZZW79SaE+c41CEGSASZ9YC0qKd8BK8b2EmLwiH18dEQv5pXYSxKKo3Ue7WdnyLoRNEZ+yo9mQ==
 
-cedar-embeddable-editor@^1.0.4:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/cedar-embeddable-editor/-/cedar-embeddable-editor-1.0.12.tgz#49640b897ba47ad498097d07589760e5e3a0027f"
-  integrity sha512-iTlUWjEGvIl2NUpr1hDScWr4LwzMJNvL8BO5jKPJFUvhQDnoeW1oWIc+AF7UgA7ILrjlOlK7ygX1a2Lx2qFgGQ==
+cedar-embeddable-editor@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/cedar-embeddable-editor/-/cedar-embeddable-editor-1.0.14.tgz#15d8d45bda24e031ed027efd17e2512531a3d7db"
+  integrity sha512-JMm/M6zDvTpUyxz661/iYauy3mPc9iTLfPMYpfwmeQfB1jc0NKuIbOM9PJHo0eBhKhF52lMTh+QOoj7gYexrcg==
 
 chai-as-promised@^6.0.0:
   version "6.0.0"

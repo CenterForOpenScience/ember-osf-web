@@ -7,7 +7,7 @@ import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record
 import NodeModel from 'ember-osf-web/models/node';
 
 interface TabArgs {
-    guidNode: NodeModel;
+    target: NodeModel;
     cedarMetadataRecords: CedarMetadataRecordModel[];
     defaultIndex: number;
 }
@@ -15,7 +15,7 @@ interface TabArgs {
 export default class MetadataTabs extends Component<TabArgs> {
     @service media!: Media;
 
-    guidNode = this.args.guidNode;
+    target = this.args.target;
     cedarMetadataRecords = this.args.cedarMetadataRecords;
     defaultIndex = this.args.defaultIndex || 0;
     @tracked activeId = this.defaultIndex;
@@ -34,8 +34,8 @@ export default class MetadataTabs extends Component<TabArgs> {
 
     @action
     didRenderList(element: HTMLElement): boolean {
-        this.showTabs = element.scrollHeight > (element.clientHeight - 30) ||
-            element.scrollWidth > (element.clientWidth - 30);
+        this.showTabs = element.scrollHeight > element.clientHeight ||
+            element.scrollWidth > element.clientWidth;
         return true;
     }
 

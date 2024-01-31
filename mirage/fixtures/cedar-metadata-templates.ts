@@ -6,6 +6,7 @@ import { licenseTemplate } from './cedar-templates/cedar-template.license';
 import { radxTemplate } from './cedar-templates/cedar-template.radx';
 import { bibframeTemplate } from './cedar-templates/cedar-template.bibframe';
 import { healTemplate } from './cedar-templates/cedar-template.heal';
+import { testingTemplate } from './cedar-templates/cedar-template.testing';
 
 
 const cedarMetadataTemplates: Array<Partial<CedarMetadataTemplateModel>> = [
@@ -55,6 +56,14 @@ const cedarMetadataTemplates: Array<Partial<CedarMetadataTemplateModel>> = [
         cedarId: 'https://repo.metadatacenter.net/template-fields/6214d1f3-9667-492c-9d87-8ce5e7b65960',
         active: true,
         template: bibframeTemplate,
+        templateVersion: 1,
+    },
+    {
+        id: '7',
+        schemaName: 'TESTING',
+        cedarId: 'https://repo.metadatacenter.org/template-fields/2b0906ae-2761-4a4c-b85c-78c9275426f6',
+        active: true,
+        template: testingTemplate,
         templateVersion: 1,
     },
 ];
