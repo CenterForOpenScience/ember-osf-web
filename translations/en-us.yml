@@ -38,6 +38,8 @@ general:
     edit: Edit
     cancel: Cancel
     add: Add
+    confirm: Confirm
+    authorize: Authorize
     ok: OK
     apply: Apply
     revisions: Revisions
@@ -212,6 +214,17 @@ dashboard:
         registries: 'OSF Registries'
         preprints: 'OSF Preprints'
         institutions: 'OSF Institutions'
+
+addons:
+    heading: 'Add-ons'
+    terms:
+        heading: '{providerName} Terms'
+    login:
+        heading: 'Log in to {providerName}'
+    confirm:
+        heading: 'Confirm {providerName} Account'
+    configure:
+        heading: 'Configure {providerName}'
 
 search:
     page-title: 'Search'
