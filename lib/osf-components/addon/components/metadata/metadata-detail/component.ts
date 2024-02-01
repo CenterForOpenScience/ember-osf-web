@@ -13,11 +13,11 @@ export default class MetadataDetails extends Component<DetailArgs> {
     @service media!: Media;
 
     public get hasWritePermission(): boolean {
-        const node = this.args.target as NodeModel;
-        if (node.get('modelName') === 'file') {
-            return (node as any).get('target').get('userHasWritePermission');
+        const target = this.args.target as NodeModel;
+        if (target.get('modelName') === 'file') {
+            return (target as any).get('target').get('userHasWritePermission');
         } else {
-            return node.get('userHasWritePermission');
+            return target.get('userHasWritePermission');
         }
     }
 
