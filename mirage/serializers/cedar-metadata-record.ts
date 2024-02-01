@@ -16,6 +16,7 @@ export default class CedarMetadataRecordMirageSerializer extends ApplicationSeri
     buildNormalLinks(model: ModelInstance<MirageCedarMetadataRecordModel>) {
         return {
             self: `${apiUrl}/_/cedar_metadata_records/${model.id}/`,
+            metadataDownload: `${apiUrl}/_/cedar_metadata_records/${model.id}/metadata_download/`,
         };
     }
 

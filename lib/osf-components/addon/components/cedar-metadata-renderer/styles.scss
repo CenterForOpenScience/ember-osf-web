@@ -6,6 +6,7 @@
     justify-content: flex-start;
     align-items: flex-start;
 
+
     .action-container {
         width: 100%;
         min-height: 50px;
@@ -16,7 +17,7 @@
         font-weight: bold;
 
         .explanation-container {
-            width: calc(100% - 200px);
+            width: calc(100% - 300px);
             min-height: 50px;
             font-weight: bold;
             display: flex;
@@ -30,12 +31,16 @@
         }
         
         .button-container {
-            width: 200px;
+            width: 300px;
             height: 50px;
             display: flex;
             flex-direction: row;
             justify-content: flex-end;
             align-items: center;
+
+            .spacer {
+                margin-right: 10px;
+            }
 
             svg {
                 height: 1.5em;
@@ -51,11 +56,11 @@
 
         .action-container {
             .explanation-container {
-                width: calc(100% - 50px);
+                width: calc(100% - 10px);
             }
             
             .button-container {
-                width: 50px;
+                width: 100px;
             }
         }
     }
