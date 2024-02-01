@@ -220,7 +220,7 @@ metadata:
     tab-title: 'Metadata'
     main-tab: 'OSF'
     header: 'Metadata'
-    download: 'Download'
+    download: 'Download Metadata Record'
     add-schema: 'Add Community Metadata Schemas'
     see-more: 'Click to see more metadata options'
     see-less: 'Click to see less metadata options'
@@ -245,6 +245,7 @@ cedar:
         publish-button: 'Publish'
         cancel-button: 'Cancel'
         error: 'Save Failed. Please try again.'
+        edit-tooltip: 'Edit the metadata record.'
     renderer:
         draft: 'Draft'
         draft-explanation: "This metadata has a status of 'Draft' and is not publicly viewable. To 'Publish' this metadata please fill in all required fields and resubmit the data."

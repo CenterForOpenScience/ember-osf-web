@@ -16,6 +16,31 @@
                     {{/if}}
                 </div>
                 <div local-class='button-container'>
+                    <OsfLink
+                        data-test-download-icon
+                        local-class='spacer'
+                        aria-label={{t 'metadata.download'}}
+                        @href={{@cedarMetadataRecord.links.metadataDownload}}
+                        @target='_blank'
+                    >
+                        <FaIcon @icon='download' />
+                        <EmberTooltip
+                            @side='right'
+                        >
+                            {{t 'metadata.download'}}
+                        </EmberTooltip>
+                    </OsfLink>
+                    {{#unless @displayFileMetadata}}
+                        <OsfLink
+                            local-class='spacer'
+                            data-test-download-button
+                            aria-label={{t 'metadata.download'}}
+                            @href={{@cedarMetadataRecord.links.metadataDownload}}
+                            @target='_blank'
+                        >
+                            {{t 'general.download'}}
+                        </OsfLink>
+                    {{/unless}}
                     <Button
                         data-test-edit-button
                         data-analytics-name='Edit metadata'
@@ -23,6 +48,11 @@
                     >
                         {{#if @displayFileMetadata}}
                             <FaIcon @icon='pencil-alt' />
+                            <EmberTooltip
+                                @side='right'
+                            >
+                                {{t 'cedar.editor.edit-tooltip'}}
+                            </EmberTooltip>
                         {{else}}
                             {{ t 'metadata.add-flow.edit' }}
                         {{/if}}

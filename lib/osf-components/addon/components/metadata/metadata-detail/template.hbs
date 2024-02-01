@@ -5,16 +5,6 @@
         </h2>
     </div>
     <div local-class='actions'>
-        {{#unless @displayFileMetadata}}
-            <div local-class='download spacer'>
-                <div local-class='spacer'>
-                    <FaIcon @icon='download' />
-                </div>
-                <div>
-                    {{t 'metadata.download'}}
-                </div>
-            </div>
-        {{/unless}}
         <div local-class='add-schema'>
             {{#if this.hasWritePermission}}
                 <div local-class='spacer'>
