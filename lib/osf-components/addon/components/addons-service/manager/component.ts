@@ -14,6 +14,13 @@ import Provider from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
+enum PageMode {
+    TERMS = 'terms',
+    ACCOUNT_SELECT = 'accountSelect',
+    CONFIRM = 'confirm',
+    CONFIGURE = 'configure',
+}
+
 interface Args {
     node: NodeModel;
 }
@@ -28,56 +35,43 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @tracked addonProviders: Provider[] = [];
 
-    @tracked showTerms = false;
-    @tracked showAccountSetup = false;
-    @tracked showConfirm = false;
-    @tracked showConfigure = false;
+    pageModes = PageMode;
+    @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
+
 
     @action
     configureProvider(provider: Provider) {
         this.cancelSetup();
         this.selectedProvider = provider;
-        this.showConfigure = true;
+        this.pageMode = PageMode.CONFIGURE;
     }
 
     @action
     beginAccountSetup(provider: Provider) {
         this.cancelSetup();
-        this.showTerms = true;
+        this.pageMode = PageMode.TERMS;
         this.selectedProvider = provider;
     }
 
     @action
     acceptTerms() {
-        this.showAccountSetup = true;
-        this.showTerms = false;
-        this.showConfirm = false;
-        this.showConfigure = false;
+        this.pageMode = PageMode.ACCOUNT_SELECT;
     }
 
     @action
     authorizeSelectedAccount() {
-        this.showConfirm = true;
-        this.showTerms = false;
-        this.showAccountSetup = false;
-        this.showConfigure = false;
+        this.pageMode = PageMode.CONFIRM;
     }
 
     @action
     confirmAccountSetup() {
-        this.showConfigure = true;
-        this.showTerms = false;
-        this.showAccountSetup = false;
-        this.showConfirm = false;
+        this.pageMode = PageMode.CONFIGURE;
     }
 
     @action
     cancelSetup() {
-        this.showTerms = false;
-        this.showAccountSetup = false;
-        this.showConfirm = false;
-        this.showConfigure = false;
+        this.pageMode = PageMode.LIST;
         this.selectedProvider = undefined;
     }
 
@@ -132,18 +126,23 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     get headingText() {
         const providerName = this.selectedProvider?.provider.name;
-        let heading = this.intl.t('addons.heading');
-        if (this.showTerms) {
+        let heading;
+        switch (this.pageMode) {
+        case PageMode.TERMS:
             heading = this.intl.t('addons.terms.heading', { providerName });
-        }
-        if (this.showAccountSetup) {
+            break;
+        case PageMode.ACCOUNT_SELECT:
             heading = this.intl.t('addons.accountSelect.heading', { providerName });
-        }
-        if (this.showConfirm) {
+            break;
+        case PageMode.CONFIRM:
             heading = this.intl.t('addons.confirm.heading', { providerName });
-        }
-        if (this.showConfigure) {
+            break;
+        case PageMode.CONFIGURE:
             heading = this.intl.t('addons.configure.heading', { providerName });
+            break;
+        default:
+            heading = this.intl.t('addons.heading');
+            break;
         }
         return heading;
     }
