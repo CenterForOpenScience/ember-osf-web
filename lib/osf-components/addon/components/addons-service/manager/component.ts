@@ -35,7 +35,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @tracked addonProviders: Provider[] = [];
 
-    pageModes = PageMode;
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
 
