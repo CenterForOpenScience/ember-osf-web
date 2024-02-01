@@ -1,10 +1,55 @@
+{{page-title (t 'addons.heading')}}
 <AddonsService::Manager
     @node={{this.model}}
     as |manager|
 >
-    <div local-class='addon-cards-wrapper'>
-        {{#each manager.addonProviders as |addon|}}
-            <AddonCard @addon={{addon}} @manager={{manager}} />
-        {{/each}}
-    </div>
+    <h3>{{manager.headingText}}</h3>
+    {{#if manager.selectedProvider}}
+        {{#let manager.selectedProvider as |provider|}}
+            <div local-class='back-button'>
+                <Button
+                    @layout='fake-link'
+                    {{on 'click' manager.cancelSetup}}
+                >
+                    {{t 'general.back'}}
+                </Button>
+            </div>
+            <Button
+                {{on 'click' manager.cancelSetup}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            {{#if (eq manager.pageMode 'terms')}}
+                <Button
+                    {{on 'click' manager.acceptTerms}}
+                >
+                    {{t 'general.confirm'}}
+                </Button>
+            {{else if (eq manager.pageMode 'accountSelect')}}
+                <Button
+                    {{on 'click' manager.authorizeSelectedAccount}}
+                >
+                    {{t 'general.authorize'}}
+                </Button>
+            {{else if (eq manager.pageMode 'confirm')}}
+                <Button
+                    {{on 'click' manager.confirmAccountSetup}}
+                >
+                    {{t 'general.confirm'}}
+                </Button>
+            {{else if (eq manager.pageMode 'configure')}}
+                <Button
+                    {{on 'click' (fn manager.save provider)}}
+                >
+                    {{t 'general.save'}}
+                </Button>
+            {{/if}}
+        {{/let}}
+    {{else}}
+        <div local-class='addon-cards-wrapper'>
+            {{#each manager.addonProviders as |addon|}}
+                <AddonCard @addon={{addon}} @manager={{manager}} />
+            {{/each}}
+        </div>
+    {{/if}}
 </AddonsService::Manager>

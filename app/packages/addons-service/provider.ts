@@ -25,8 +25,11 @@ export default class Provider {
     @tracked configuredStorageAddon?: ConfiguredStorageAddonModel;
     @tracked authorizedStorageAccount?: AuthorizedStorageAccountModel;
 
-
     @service store!: Store;
+
+    get isConfigured() {
+        return Boolean(this.configuredStorageAddon);
+    }
 
     constructor(provider: any, currentUser: CurrentUserService, node: NodeModel) {
         setOwner(this, getOwner(node));
@@ -47,13 +50,23 @@ export default class Provider {
     @task
     @waitFor
     async getInternalUser() {
-        this.internalUser = await this.store.findRecord('internal-user', this.currentUser.user?.id);
+        const internalUser = this.store.peekRecord('internal-user', this.currentUser.user?.id);
+        if (internalUser) {
+            this.internalUser = internalUser;
+        } else {
+            this.internalUser = await this.store.findRecord('internal-user', this.currentUser.user?.id);
+        }
     }
 
     @task
     @waitFor
     async getInternalResource() {
-        this.serviceNode = await this.store.findRecord('internal-resource', this.node.id);
+        const serviceNode = this.store.peekRecord('internal-resource', this.node.id);
+        if (serviceNode) {
+            this.serviceNode = serviceNode;
+        } else {
+            this.serviceNode = await this.store.findRecord('internal-resource', this.node.id);
+        }
     }
 
     @task

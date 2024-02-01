@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { render, TestContext } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { click } from 'ember-osf-web/tests/helpers';
 import { setupRenderingTest } from 'ember-qunit';
@@ -17,14 +17,20 @@ class RouterStub extends Service {
     }
 }
 
+interface ThisTestContext extends TestContext {
+    manager: any;
+    addon: any;
+}
+
+
 module('Integration | Component | addon-card', hooks => {
     setupRenderingTest(hooks);
     setupIntl(hooks);
 
-    test('it renders: not enabled', async function(assert) {
+    test('it renders: not enabled', async function(this: ThisTestContext, assert) {
         this.owner.unregister('service:router');
         this.owner.register('service:router', RouterStub);
-        this.set('addon', {
+        this.addon = {
             provider: {
                 id: 'box',
                 name: 'Test Addon',
@@ -32,11 +38,13 @@ module('Integration | Component | addon-card', hooks => {
             },
             disableProjectAddon: sinon.stub(),
             nodeAddon: { configured: false },
-        });
-        this.set('manager', {
+        };
+        this.manager ={
             node: { id: 'testnode' },
             projectEnabledAddons: [],
-        });
+            beginAccountSetup: sinon.stub(),
+            configureProvider: sinon.stub(),
+        };
 
         await render(hbs`
 <AddonCard
@@ -54,9 +62,11 @@ module('Integration | Component | addon-card', hooks => {
         assert.dom('[data-test-addon-card-configure]').doesNotExist();
         assert.dom('[data-test-addon-card-disable]').doesNotExist();
         assert.dom('[data-test-addon-card-enable]').exists();
+        await click('[data-test-addon-card-enable]');
+        assert.ok(this.manager.beginAccountSetup.calledOnce);
     });
 
-    test('it renders: enabled', async function(assert) {
+    test('it renders: enabled', async function(this: ThisTestContext, assert) {
         this.owner.unregister('service:router');
         this.owner.register('service:router', RouterStub);
         const addonObj = {
@@ -69,11 +79,13 @@ module('Integration | Component | addon-card', hooks => {
             nodeAddon: { configured: true },
             configuredStorageAddon: { id: 'testaddon' },
         };
-        this.set('addon', addonObj);
-        this.set('manager', {
+        this.addon = addonObj;
+        this.manager = {
             node: { id: 'testnode' },
-            projectEnabledAddons: [addonObj],
-        });
+            projectEnabledAddons: [],
+            beginAccountSetup: sinon.stub(),
+            configureProvider: sinon.stub(),
+        };
 
         await render(hbs`
 <AddonCard
@@ -92,6 +104,8 @@ module('Integration | Component | addon-card', hooks => {
         assert.dom('[data-test-addon-card-disable]').exists();
         assert.dom('[data-test-addon-card-enable]').doesNotExist();
 
+        await click('[data-test-addon-card-configure]');
+        assert.ok(this.manager.configureProvider.calledOnce);
         await click('[data-test-addon-card-disable]');
         assert.dom('[data-test-addon-disable-modal-disable]').exists();
         assert.dom('#osf-dialog-heading').hasText('Disable Add-on');
