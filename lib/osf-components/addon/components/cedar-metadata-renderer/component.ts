@@ -20,11 +20,11 @@ export default class CedarMetadataRenderer extends Component<Args> {
     @tracked isShowEditor = false;
 
     public get hasWritePermission(): boolean {
-        const node = this.args.cedarMetadataRecord.target as NodeModel;
-        if (node.get('modelName') === 'file') {
-            return (node as any).get('target').get('userHasWritePermission');
+        const target = this.args.cedarMetadataRecord.target as NodeModel;
+        if (target.get('modelName') === 'file') {
+            return (target as any).get('target').get('userHasWritePermission');
         } else {
-            return node.get('userHasWritePermission');
+            return target.get('userHasWritePermission');
         }
     }
 
