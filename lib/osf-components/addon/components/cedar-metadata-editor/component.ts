@@ -44,12 +44,12 @@ export default class CedarMetadataEditor extends Component<Args> {
             // eslint-disable-next-line
             // @ts-ignore
             this.cedarEmbeddableEditor.instanceObject = this.args.cedarMetadataRecord.metadata;
-            this.changed();
+            this.validateCedarMetadata();
         }
     }
 
     @action
-    changed() {
+    validateCedarMetadata() {
         // eslint-disable-next-line
         // @ts-ignore
         const report = this.cedarEmbeddableEditor.dataQualityReport;
@@ -72,7 +72,7 @@ export default class CedarMetadataEditor extends Component<Args> {
     async save() {
         // This is because you can clear a field without it changing
         // The form can change from valid to invalid
-        this.changed();
+        this.validateCedarMetadata();
         let record: CedarMetadataRecordModel;
         if (this.isEdit) {
             record = this.args.cedarMetadataRecord!;

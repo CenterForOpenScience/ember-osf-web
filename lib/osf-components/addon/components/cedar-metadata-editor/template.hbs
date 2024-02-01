@@ -10,7 +10,7 @@
             {{did-insert this.injectMetadata}}
             local-class='cedar-editor'
             config={{this.cedarConfig}}
-            {{ on 'change' (action this.changed) }} 
+            {{ on 'change' (action this.validateCedarMetadata) }} 
             templateObject={{@cedarMetadataTemplate.template}}
         />
     </div>
