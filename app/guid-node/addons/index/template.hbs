@@ -19,25 +19,25 @@
             >
                 {{t 'general.cancel'}}
             </Button>
-            {{#if (eq manager.pageMode (get manager.pageModes 'TERMS'))}}
+            {{#if (eq manager.pageMode 'terms')}}
                 <Button
                     {{on 'click' manager.acceptTerms}}
                 >
                     {{t 'general.confirm'}}
                 </Button>
-            {{else if (eq manager.pageMode (get manager.pageModes 'ACCOUNT_SELECT'))}}
+            {{else if (eq manager.pageMode 'accountSelect')}}
                 <Button
                     {{on 'click' manager.authorizeSelectedAccount}}
                 >
                     {{t 'general.authorize'}}
                 </Button>
-            {{else if (eq manager.pageMode (get manager.pageModes 'CONFIRM'))}}
+            {{else if (eq manager.pageMode 'confirm')}}
                 <Button
                     {{on 'click' manager.confirmAccountSetup}}
                 >
                     {{t 'general.confirm'}}
                 </Button>
-            {{else if (eq manager.pageMode (get manager.pageModes 'CONFIGURE'))}}
+            {{else if (eq manager.pageMode 'configure')}}
                 <Button
                     {{on 'click' (fn manager.save provider)}}
                 >
