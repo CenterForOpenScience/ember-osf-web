@@ -19,6 +19,8 @@
     <div local-class='buttons-wrapper'>
         {{#if this.addonIsConfigured}}
             <Button
+                data-test-addon-card-configure
+                data-analytics-name='Configure'
                 {{on 'click' (fn @manager.configureProvider @addon)}}
             >
                 {{t 'osf-components.addon-card.configure'}}
@@ -33,6 +35,8 @@
             </Button>
         {{else}}
             <Button
+                data-test-addon-card-enable
+                data-analytics-name='Enable'
                 {{on 'click' (fn @manager.beginAccountSetup @addon)}}
             >
                 {{t 'osf-components.addon-card.enable'}}
