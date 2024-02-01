@@ -1,5 +1,4 @@
 import { getOwner, setOwner } from '@ember/application';
-import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -25,17 +24,11 @@ export default class Provider {
 
     @tracked configuredStorageAddon?: ConfiguredStorageAddonModel;
     @tracked authorizedStorageAccount?: AuthorizedStorageAccountModel;
-    @tracked hasAcceptedTerms = false;
 
     @service store!: Store;
 
     get isConfigured() {
         return Boolean(this.configuredStorageAddon);
-    }
-
-    @action
-    acceptTerms() {
-        this.hasAcceptedTerms = true;
     }
 
     constructor(provider: any, currentUser: CurrentUserService, node: NodeModel) {
