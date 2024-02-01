@@ -18,15 +18,11 @@
     
     <div local-class='buttons-wrapper'>
         {{#if this.addonIsConfigured}}
-            <OsfLink
-                data-test-addon-card-configure
-                data-analytics-name='Configure'
-                local-class='button-looking-links configure'
-                @route='guid-node.addons.addon.configure'
-                @models={{array @manager.node.id @addon.provider.id}}
+            <Button
+                {{on 'click' (fn @manager.configureProvider @addon)}}
             >
                 {{t 'osf-components.addon-card.configure'}}
-            </OsfLink>
+            </Button>
             <Button
                 data-test-addon-card-disable
                 data-analytics-name='Disable'
@@ -36,15 +32,11 @@
                 {{t 'osf-components.addon-card.disable'}}
             </Button>
         {{else}}
-            <OsfLink
-                data-test-addon-card-enable
-                data-analytics-name='Enable'
-                local-class='button-looking-links enable'
-                @route='guid-node.addons.addon.terms'
-                @models={{array @manager.node.id @addon.provider.id}}
+            <Button
+                {{on 'click' (fn @manager.beginAccountSetup @addon)}}
             >
                 {{t 'osf-components.addon-card.enable'}}
-            </OsfLink>
+            </Button>
         {{/if}}
     </div>
 </div>

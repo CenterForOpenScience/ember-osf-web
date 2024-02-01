@@ -219,8 +219,8 @@ addons:
     heading: 'Add-ons'
     terms:
         heading: '{providerName} Terms'
-    login:
-        heading: 'Log in to {providerName}'
+    accountSelect:
+        heading: 'Log in to {providerName} or select an account'
     confirm:
         heading: 'Confirm {providerName} Account'
     configure:
