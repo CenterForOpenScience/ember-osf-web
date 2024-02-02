@@ -31,9 +31,9 @@ export default class GuidMetadataAdd extends Controller {
     }
 
     get tabTitle(): string {
-        // eslint-disable-next-line max-len
-        const translation = this.displaySelectionOptions ? 'metadata.add-flow.tab-title-select' : 'metadata.add-flow.tab-title-add';
-        return `${this.intl.t('metadata.tab-title')} | ${this.intl.t(translation)}`;
+        const translation = this.displaySelectionOptions ? 'metadata.add-flow.tab-title-select' :
+            'metadata.add-flow.tab-title-add';
+        return this.intl.t(translation);
     }
 
     get isMobile() {
