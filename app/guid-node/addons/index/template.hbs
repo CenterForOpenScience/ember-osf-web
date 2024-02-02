@@ -1,55 +1,103 @@
 {{page-title (t 'addons.heading')}}
-<AddonsService::Manager
-    @node={{this.model}}
-    as |manager|
->
-    <h3>{{manager.headingText}}</h3>
-    {{#if manager.selectedProvider}}
-        {{#let manager.selectedProvider as |provider|}}
-            <div local-class='back-button'>
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' manager.cancelSetup}}
+
+<div local-class='addon-page-wrapper'>
+    <AddonsService::Manager
+        @node={{this.model}}
+        as |manager|
+    >
+        <h3 local-class='page-heading'>{{manager.headingText}}</h3>
+        {{#if manager.selectedProvider}}
+            {{#let manager.selectedProvider as |provider|}}
+                <div
+                    data-test-addon={{provider.provider.name}}
+                    data-analytics-scope='Addon - {{provider.provider.name}}'
                 >
-                    {{t 'general.back'}}
-                </Button>
+                    <div local-class='back-button'>
+                        <Button
+                            data-test-addon-back-button
+                            data-analytics-name='Back'
+                            @layout='fake-link'
+                            {{on 'click' manager.cancelSetup}}
+                        >
+                            {{t 'general.back'}}
+                        </Button>
+                    </div>
+                    <Button
+                        data-test-addon-cancel-button
+                        data-analytics-name='Cancel'
+                        {{on 'click' manager.cancelSetup}}
+                    >
+                        {{t 'general.cancel'}}
+                    </Button>
+                    {{#if (eq manager.pageMode 'terms')}}
+                        <Button
+                            data-test-addon-accept-terms-button
+                            data-analytics-name='Accept Terms'
+                            {{on 'click' manager.acceptTerms}}
+                        >
+                            {{t 'general.confirm'}}
+                        </Button>
+                    {{else if (eq manager.pageMode 'accountSelect')}}
+                        <Button
+                            data-test-addon-authorize-button
+                            data-analytics-name='Authorize'
+                            {{on 'click' manager.authorizeSelectedAccount}}
+                        >
+                            {{t 'general.authorize'}}
+                        </Button>
+                    {{else if (eq manager.pageMode 'confirm')}}
+                        <Button
+                            data-test-addon-confirm-setup-button
+                            data-analytics-name='Confirm Setup'
+                            {{on 'click' manager.confirmAccountSetup}}
+                        >
+                            {{t 'general.confirm'}}
+                        </Button>
+                    {{else if (eq manager.pageMode 'configure')}}
+                        <Button
+                            data-test-addon-save-button
+                            data-analytics-name='Save'
+                            {{on 'click' (fn manager.save provider)}}
+                        >
+                            {{t 'general.save'}}
+                        </Button>
+                    {{/if}}
+                </div>
+            {{/let}}
+        {{else}}
+            {{t 'addons.list.sync-details-1'}}
+            {{t 'addons.list.sync-details-2'}}
+            <div local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'>
+                <div
+                    data-analytics-scope='Addon List Filter'
+                    local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+                >
+                    <Input
+                        data-test-addon-list-filter-input
+                        placeholder='{{t 'addons.list.filter-placeholder'}}'
+                        @type='text'
+                        @value={{manager.filterText}}
+                    />
+                    {{#each manager.possibleFilterTypes as |type|}}
+                        <Button
+                            data-test-addon-list-filter={{type}}
+                            data-analytics-name={{t (concat 'addons.list.filter.' type)}}
+                            local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                            @layout='fake-link'
+                            {{on 'click' (fn manager.filterByAddonType type)}}
+                        >
+                            {{t (concat 'addons.list.filter.' type)}}
+                        </Button>
+                    {{/each}}
+                </div>
+                <div local-class='addon-cards-wrapper'>
+                    {{#each manager.filteredAddonProviders as |addon|}}
+                        <AddonCard @addon={{addon}} @manager={{manager}} />
+                    {{else}}
+                        {{t 'addons.list.no-results' htmlSafe=true}}
+                    {{/each}}
+                </div>
             </div>
-            <Button
-                {{on 'click' manager.cancelSetup}}
-            >
-                {{t 'general.cancel'}}
-            </Button>
-            {{#if (eq manager.pageMode 'terms')}}
-                <Button
-                    {{on 'click' manager.acceptTerms}}
-                >
-                    {{t 'general.confirm'}}
-                </Button>
-            {{else if (eq manager.pageMode 'accountSelect')}}
-                <Button
-                    {{on 'click' manager.authorizeSelectedAccount}}
-                >
-                    {{t 'general.authorize'}}
-                </Button>
-            {{else if (eq manager.pageMode 'confirm')}}
-                <Button
-                    {{on 'click' manager.confirmAccountSetup}}
-                >
-                    {{t 'general.confirm'}}
-                </Button>
-            {{else if (eq manager.pageMode 'configure')}}
-                <Button
-                    {{on 'click' (fn manager.save provider)}}
-                >
-                    {{t 'general.save'}}
-                </Button>
-            {{/if}}
-        {{/let}}
-    {{else}}
-        <div local-class='addon-cards-wrapper'>
-            {{#each manager.addonProviders as |addon|}}
-                <AddonCard @addon={{addon}} @manager={{manager}} />
-            {{/each}}
-        </div>
-    {{/if}}
-</AddonsService::Manager>
+        {{/if}}
+    </AddonsService::Manager>
+</div>

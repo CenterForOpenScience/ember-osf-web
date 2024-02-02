@@ -21,6 +21,15 @@ enum PageMode {
     CONFIGURE = 'configure',
 }
 
+enum FilterTypes {
+    STORAGE = 'additional-storage',
+    CITATION_MANAGER = 'citation-manager',
+    CLOUD_COMPUTING = 'cloud-computing',
+    DMP = 'dmp',
+    ELECTRONIC_LAB_NOTEBOOK = 'electronic-lab-notebook',
+    PRESERVATION = 'preservation',
+}
+
 interface Args {
     node: NodeModel;
 }
@@ -33,11 +42,40 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     node = this.args.node;
     @tracked addonServiceNode?: InternalResourceModel;
 
-    @tracked addonProviders: Provider[] = [];
+    possibleFilterTypes = Object.values(FilterTypes);
+    @tracked filterText = '';
+    @tracked activeFilterType: FilterTypes = FilterTypes.STORAGE;
+    @tracked storageProviders: Provider[] = [];
+    @tracked allAddonProviders: Provider[] = [];
 
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
 
+    @action
+    filterByAddonType(type: FilterTypes) {
+        this.activeFilterType = type;
+    }
+
+    get filteredAddonProviders() {
+        let possibleProviders: any[] = [];
+        switch (this.activeFilterType) {
+        case FilterTypes.STORAGE:
+            possibleProviders = this.storageProviders;
+            break;
+        case FilterTypes.CITATION_MANAGER:
+        case FilterTypes.CLOUD_COMPUTING:
+        case FilterTypes.DMP:
+        case FilterTypes.ELECTRONIC_LAB_NOTEBOOK:
+        case FilterTypes.PRESERVATION:
+            possibleProviders = [];
+            break;
+        }
+        const textFilteredAddons = possibleProviders.filter(
+            (provider: any) => provider.provider.name.toLowerCase().includes(this.filterText.toLowerCase()),
+        );
+
+        return textFilteredAddons;
+    }
 
     @action
     configureProvider(provider: Provider) {
@@ -70,7 +108,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     cancelSetup() {
-        this.pageMode = PageMode.LIST;
+        this.pageMode = undefined;
         this.selectedProvider = undefined;
     }
 
@@ -106,9 +144,11 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async getAddonProviders() {
         const serviceStorageProviders: Provider[] = await taskFor(this.serviceStorageProviders).perform();
-
-        serviceStorageProviders.sort(this.providerSorter);
-        this.addonProviders = serviceStorageProviders;
+        this.storageProviders = serviceStorageProviders;
+        // Get other provider types here, eventually
+        const allProviders = [...serviceStorageProviders];
+        allProviders.sort(this.providerSorter);
+        this.allAddonProviders = allProviders;
     }
 
     providerSorter(a: Provider, b: Provider) {
