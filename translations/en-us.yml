@@ -217,6 +217,16 @@ dashboard:
 
 addons:
     heading: 'Add-ons'
+    list:
+        sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.' 
+        sync-details-2: 'To manage all add-ons connected to your account, visit your profile settings.'
+        filter-placeholder: 'Filter add-ons'
+        filter:
+            all: 'All'
+            additional-storage: 'Additional Storage'
+            citation-manager: 'Citation Manager'
+            cloud-computing: 'Cloud Computing'
+        no-results: 'No results found'
     terms:
         heading: '{providerName} Terms'
     accountSelect:

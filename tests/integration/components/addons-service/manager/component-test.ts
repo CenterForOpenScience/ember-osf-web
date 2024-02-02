@@ -9,6 +9,7 @@ module('Integration | Component | addons-service | manager', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
 
+    // TODO: Add test for filtering
     test('it loads', async function(assert) {
         server.loadFixtures('external-storage-services');
         this.owner.register('service:current-user', CurrentUserStub);
@@ -29,7 +30,7 @@ module('Integration | Component | addons-service | manager', hooks => {
     {{#if manager.isLoading}}
         <span data-test-loading>Loading...</span>
     {{/if}}
-    {{#each manager.addonProviders as |provider index|}}
+    {{#each manager.filteredAddonProviders as |provider index|}}
         <span data-test-provider>{{provider.provider.name}}</span>
     {{/each}}
 </AddonsService::Manager>
