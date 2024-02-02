@@ -1,6 +1,6 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
+import AddonServiceSerializer from './addon-service-serializer';
 
-export default class ConfiguredStorageAddonSerializer extends JSONAPISerializer {
+export default class ConfiguredStorageAddonSerializer extends AddonServiceSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {

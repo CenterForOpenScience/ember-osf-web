@@ -1,10 +1,10 @@
 import AddonServiceSerializer from './addon-service-serializer';
 
-export default class InternalUserSerializer extends AddonServiceSerializer {
+export default class CitationServiceSerializer extends AddonServiceSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'internal-user': InternalUserSerializer;
+        'citation-service': CitationServiceSerializer;
     } // eslint-disable-line semi
 }
