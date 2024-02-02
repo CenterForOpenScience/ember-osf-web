@@ -6,8 +6,8 @@
             @displayArtifactViewer={{this.displayArtifactViewer}}
         />
     {{else}}    
-        {{#if this.hasWritePermission}}
-            <div local-class='action-container'>
+        <div local-class='action-container'>
+            {{#if this.hasWritePermission}}
                 <div local-class='explanation-container {{if this.isDraft 'draft'}}'>
                     {{#if this.isDraft}}
                         {{t 'cedar.renderer.draft-explanation'}}
@@ -15,36 +15,32 @@
                         {{t 'cedar.renderer.published-explanation'}}
                     {{/if}}
                 </div>
-                <div local-class='button-container'>
-                    <OsfLink
-                        data-test-download-icon
-                        local-class='spacer'
-                        aria-label={{t 'metadata.download'}}
-                        @href={{@cedarMetadataRecord.links.metadataDownload}}
-                        @target='_blank'
-                    >
-                        <FaIcon @icon='download' />
+            {{/if}}
+            <div local-class='button-container'>
+                <OsfLink
+                    data-test-download-icon
+                    local-class='spacer'
+                    aria-label={{t 'metadata.download'}}
+                    @href={{@cedarMetadataRecord.links.metadataDownload}}
+                    @target='_blank'
+                >
+                    <FaIcon @icon='download' />
+                    {{#if @displayFileMetadata}}
                         <EmberTooltip
                             @side='right'
                         >
                             {{t 'metadata.download'}}
                         </EmberTooltip>
-                    </OsfLink>
-                    {{#unless @displayFileMetadata}}
-                        <OsfLink
-                            local-class='spacer'
-                            data-test-download-button
-                            aria-label={{t 'metadata.download'}}
-                            @href={{@cedarMetadataRecord.links.metadataDownload}}
-                            @target='_blank'
-                        >
-                            {{t 'general.download'}}
-                        </OsfLink>
-                    {{/unless}}
+                    {{else}}
+                        {{t 'general.download'}}
+                    {{/if}}
+                </OsfLink>
+                {{#if this.hasWritePermission}}
                     <Button
                         data-test-edit-button
                         data-analytics-name='Edit metadata'
                         {{on 'click' this.edit }}
+                        @layout={{if @displayFileMetadata 'fake-link' 'medium'}}
                     >
                         {{#if @displayFileMetadata}}
                             <FaIcon @icon='pencil-alt' />
@@ -57,9 +53,9 @@
                             {{ t 'metadata.add-flow.edit' }}
                         {{/if}}
                     </Button>
-                </div>
+                {{/if}}
             </div>
-        {{/if}}
+        </div>
         <div local-class='renderer-container'>
             <cedar-artifact-viewer
                 local-class='artifact-viewer'

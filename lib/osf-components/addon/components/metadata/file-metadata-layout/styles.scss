@@ -38,9 +38,11 @@
     .edit-download-buttons {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        margin-right: 1vw;
-        grid-gap: 2vw;
+        justify-content: flex-end;
+
+        .spacer {
+            margin-right: 10px;
+        }
 
         a,
         button {
