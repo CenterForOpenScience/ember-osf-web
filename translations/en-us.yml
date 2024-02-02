@@ -226,10 +226,7 @@ addons:
             additional-storage: 'Additional Storage'
             citation-manager: 'Citation Manager'
             cloud-computing: 'Cloud Computing'
-            dmp: DMP
-            electronic-lab-notebook: 'Electronic Lab Notebook'
-            preservation: 'Preservation'
-        no-results: '&#128575; womp womp &#128575;'
+        no-results: 'No results found'
     terms:
         heading: '{providerName} Terms'
     accountSelect:

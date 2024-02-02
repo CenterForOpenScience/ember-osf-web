@@ -25,9 +25,6 @@ enum FilterTypes {
     STORAGE = 'additional-storage',
     CITATION_MANAGER = 'citation-manager',
     CLOUD_COMPUTING = 'cloud-computing',
-    DMP = 'dmp',
-    ELECTRONIC_LAB_NOTEBOOK = 'electronic-lab-notebook',
-    PRESERVATION = 'preservation',
 }
 
 interface Args {
@@ -64,9 +61,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             break;
         case FilterTypes.CITATION_MANAGER:
         case FilterTypes.CLOUD_COMPUTING:
-        case FilterTypes.DMP:
-        case FilterTypes.ELECTRONIC_LAB_NOTEBOOK:
-        case FilterTypes.PRESERVATION:
             possibleProviders = [];
             break;
         }

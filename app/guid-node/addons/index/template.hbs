@@ -94,7 +94,7 @@
                     {{#each manager.filteredAddonProviders as |addon|}}
                         <AddonCard @addon={{addon}} @manager={{manager}} />
                     {{else}}
-                        {{t 'addons.list.no-results' htmlSafe=true}}
+                        {{t 'addons.list.no-results'}}
                     {{/each}}
                 </div>
             </div>
