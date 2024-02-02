@@ -43,7 +43,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked filterText = '';
     @tracked activeFilterType: FilterTypes = FilterTypes.STORAGE;
     @tracked storageProviders: Provider[] = [];
-    @tracked allAddonProviders: Provider[] = [];
 
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
@@ -138,11 +137,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async getAddonProviders() {
         const serviceStorageProviders: Provider[] = await taskFor(this.serviceStorageProviders).perform();
-        this.storageProviders = serviceStorageProviders;
+        this.storageProviders = serviceStorageProviders.sort(this.providerSorter);
         // Get other provider types here, eventually
-        const allProviders = [...serviceStorageProviders];
-        allProviders.sort(this.providerSorter);
-        this.allAddonProviders = allProviders;
     }
 
     providerSorter(a: Provider, b: Provider) {
