@@ -3,6 +3,7 @@
         <LoadingIndicator @dark={{true}} />
     </div>
 {{else}}
+    {{page-title this.model.taskInstance.value.title}}
     <OsfLayout
         @backgroundClass='{{local-class 'ContentBackground'}}'
         as |layout|
