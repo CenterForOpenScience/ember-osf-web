@@ -137,6 +137,7 @@ maintenance:
     line2: 'Thank you for your patience.'
     title: 'Notice:'
 file-detail:
+    tab-title: 'File'
     view-revisions: 'View revisions'
     close-revisions: 'Close revisions'
     no-revisions: 'Revisions not available'

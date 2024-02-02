@@ -5,7 +5,19 @@
                 {{t 'file-detail.file-metadata'}}
             </h2>
             <div local-class='edit-download-buttons'>
+
                 {{#unless manager.inEditMode}}
+                    {{#unless manager.isAnonymous}}
+                        <OsfLink
+                            data-test-download-button
+                            aria-label={{t 'general.download'}}
+                            @href={{manager.metadataDownloadUrl}}
+                            @target='_blank'
+                            local-class='spacer'
+                        >
+                            <FaIcon @icon='download' />
+                        </OsfLink>
+                    {{/unless}}
                     {{#if manager.userCanEdit}}
                         <Button
                             data-test-edit-metadata-button
@@ -17,16 +29,6 @@
                             <FaIcon @icon='pencil-alt' />
                         </Button>
                     {{/if}}
-                    {{#unless manager.isAnonymous}}
-                        <OsfLink
-                            data-test-download-button
-                            aria-label={{t 'general.download'}}
-                            @href={{manager.metadataDownloadUrl}}
-                            @target='_blank'
-                        >
-                            <FaIcon @icon='download' />
-                        </OsfLink>
-                    {{/unless}}
                 {{/unless}}
             </div>
         </div>
