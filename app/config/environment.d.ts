@@ -62,6 +62,7 @@ declare const config: {
             showFooter: boolean,
             showInstanceDataFull: boolean,
             showTemplateSourceData: boolean,
+            terminologyIntegratedSearchUrl: string,
         },
     }
     sentryOptions: {
