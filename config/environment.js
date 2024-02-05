@@ -42,6 +42,7 @@ const {
             showInstanceDataCore: false,
             showHeader: false,
             showFooter: false,
+            terminologyIntegratedSearchUrl: 'https://terminology.metadatacenter.org/bioportal/integrated-search',
             // These are required to be false
             showInstanceDataFull: false,
             showTemplateSourceData: false,
