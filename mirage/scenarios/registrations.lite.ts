@@ -64,6 +64,7 @@ function createDecafRegistration(server: Server, currentUser: ModelInstance<User
 
     const cedarMetadataRecords = server.createList('cedar-metadata-record', 2);
     cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isDraft'));
+    cedarMetadataRecords.push(server.create('cedar-metadata-record', 'isTesting'));
 
     decaf.update({
         cedarMetadataRecords,

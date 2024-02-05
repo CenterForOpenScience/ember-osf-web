@@ -246,6 +246,7 @@ cedar:
         cancel-button: 'Cancel'
         error: 'Save Failed. Please try again.'
         edit-tooltip: 'Edit the metadata record.'
+        share: 'Copy url to clipboard to share.'
     renderer:
         draft: 'Draft'
         draft-explanation: "This metadata has a status of 'Draft' and is not publicly viewable. To 'Publish' this metadata please fill in all required fields and resubmit the data."

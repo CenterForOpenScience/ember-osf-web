@@ -7,6 +7,7 @@ import config from 'ember-osf-web/config/environment';
 import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 import NodeModel from 'ember-osf-web/models/node';
 
+const { OSF: { url: baseURL } } = config;
 
 interface Args {
     cedarMetadataRecord: CedarMetadataRecordModel;
@@ -30,6 +31,11 @@ export default class CedarMetadataRenderer extends Component<Args> {
 
     public get isDraft(): boolean {
         return !this.args.cedarMetadataRecord.isPublished;
+    }
+
+    public get buildCopyLink(): string {
+        const target = this.args.cedarMetadataRecord.target as NodeModel;
+        return `${baseURL}${target.get('id')}/metadata/${this.args.cedarMetadataRecord.id}`;
     }
 
     @action
