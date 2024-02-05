@@ -17,19 +17,21 @@
                 </div>
             {{/if}}
             <div local-class='button-container'>
-                <CopyButton
-                    data-test-share-icon
-                    @clipboardText={{this.buildCopyLink}}
-                    local-class='spacer'
-                    aria-label={{t 'cedar.editor.share'}}
-                >
-                    <FaIcon @icon='share-alt' />
-                    <EmberTooltip
-                        @side='right'
+                {{#unless @displayFileMetadata}}
+                    <CopyButton
+                        data-test-share-icon
+                        @clipboardText={{this.buildCopyLink}}
+                        local-class='spacer'
+                        aria-label={{t 'cedar.editor.share'}}
                     >
-                        {{t 'cedar.editor.share'}}
-                    </EmberTooltip>
-                </CopyButton>
+                        <FaIcon @icon='share-alt' />
+                        <EmberTooltip
+                            @side='right'
+                        >
+                            {{t 'cedar.editor.share'}}
+                        </EmberTooltip>
+                    </CopyButton>
+                {{/unless}}
                 <OsfLink
                     data-test-download-icon
                     local-class='spacer'
