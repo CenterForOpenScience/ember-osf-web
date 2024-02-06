@@ -225,9 +225,9 @@ metadata:
     see-more: 'Click to see more metadata options'
     see-less: 'Click to see less metadata options'
     add-flow:
-        select-metadata-schema: 'Select a Metadata Schema'
+        select-metadata-schema: 'Select a Metadata Template'
         select-different-metadata-schema: 'Select a different schema'
-        explanation: 'OSF has partnered with CEDAR to provide more ways to annotate your research with domain-specific metadata schemas. If a schema is missing, let us know at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+        explanation: 'OSF has partnered with CEDAR <a target="_new" href="https://metadatacenter.org/">https://metadatacenter.org</a> to provide more ways to annotate your research with domain or community-specific metadata records.  If you would like to request the addition of a new metadata template, contact us at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
         available-schemas: 'Available Schemas from CEDAR'
         select: 'Select'
         tab-title-select: 'Select Schema'
