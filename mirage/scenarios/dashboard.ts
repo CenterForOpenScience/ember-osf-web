@@ -102,7 +102,7 @@ function create3CedarMetadataFile(server: Server, currentUser: ModelInstance<Use
 
     const filesNode = server.create('node', {
         id: 'read-only',
-        title: 'Read-only user and non-admin',
+        title: 'Read-only user and non-admin and a super long name to see if there is overflow into the right nav area',
         boaEnabled: true,
         currentUserPermissions: [Permission.Read],
     }, 'withFiles', 'withStorage', 'withContributors', 'withAffiliatedInstitutions', 'withDoi', 'withLinkedByNodes');
@@ -113,7 +113,8 @@ function create3CedarMetadataFile(server: Server, currentUser: ModelInstance<Use
 
     const cedarFileNode = server.create('file', {
         id: '3-cedar-metadata-file',
-        name: 'cedar metadata file',
+        // eslint-disable-next-line max-len
+        name: 'Cedar Metadata File on a read-only user and non-admin with a super long name to see if there is overflow in the right nav area',
         checkout: currentUser.id,
         target: filesNode,
         parentFolder: filesNodeOsfStorage.rootFolder,

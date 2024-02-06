@@ -38,6 +38,8 @@
 
 
     &.mobile {
+        padding: 0;
+
         .flex-container-row {
             padding: 0;
             flex-direction: column;

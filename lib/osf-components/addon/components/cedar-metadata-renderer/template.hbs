@@ -17,6 +17,21 @@
                 </div>
             {{/if}}
             <div local-class='button-container'>
+                {{#unless @displayFileMetadata}}
+                    <CopyButton
+                        data-test-share-icon
+                        @clipboardText={{this.buildCopyLink}}
+                        local-class='spacer'
+                        aria-label={{t 'cedar.editor.share'}}
+                    >
+                        <FaIcon @icon='share-alt' />
+                        <EmberTooltip
+                            @side='right'
+                        >
+                            {{t 'cedar.editor.share'}}
+                        </EmberTooltip>
+                    </CopyButton>
+                {{/unless}}
                 <OsfLink
                     data-test-download-icon
                     local-class='spacer'
@@ -25,15 +40,11 @@
                     @target='_blank'
                 >
                     <FaIcon @icon='download' />
-                    {{#if @displayFileMetadata}}
-                        <EmberTooltip
-                            @side='right'
-                        >
-                            {{t 'metadata.download'}}
-                        </EmberTooltip>
-                    {{else}}
-                        {{t 'general.download'}}
-                    {{/if}}
+                    <EmberTooltip
+                        @side='right'
+                    >
+                        {{t 'metadata.download'}}
+                    </EmberTooltip>
                 </OsfLink>
                 {{#if this.hasWritePermission}}
                     <Button

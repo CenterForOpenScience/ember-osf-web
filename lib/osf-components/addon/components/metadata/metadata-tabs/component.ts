@@ -10,6 +10,7 @@ interface TabArgs {
     target: NodeModel;
     cedarMetadataRecords: CedarMetadataRecordModel[];
     defaultIndex: number;
+    displayFileMetadata: boolean;
 }
 
 export default class MetadataTabs extends Component<TabArgs> {
@@ -24,9 +25,28 @@ export default class MetadataTabs extends Component<TabArgs> {
     @tracked showTabs = false;
     @tracked showMore = false;
 
+    constructor(owner: unknown, args: TabArgs) {
+        super(owner, args);
+        this.replaceHistory();
+    }
+
+    private replaceHistory(): void {
+        if (!this.args.displayFileMetadata) {
+            if (this.activeId < 1) {
+                window.history.replaceState( {} , '',
+                    `/${this.target.id}/metadata` );
+            } else {
+                const cedarMetadataRecord = this.cedarMetadataRecords[this.activeId - 1];
+                window.history.replaceState( {} , '',
+                    `/${this.target.id}/metadata/${cedarMetadataRecord.id}` );
+            }
+        }
+    }
+
     @action
     changeTab(activeId: number) {
         this.activeId = activeId;
+        this.replaceHistory();
     }
 
     get isMobile() {

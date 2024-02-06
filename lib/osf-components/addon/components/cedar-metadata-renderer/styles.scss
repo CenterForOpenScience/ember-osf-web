@@ -39,7 +39,11 @@
             align-items: center;
 
             .spacer {
+                color: $color-link-dark;
                 margin-right: 10px;
+                border: 0;
+                background-color: inherit;
+                cursor: pointer;
             }
 
             svg {
@@ -56,11 +60,11 @@
 
         .action-container {
             .explanation-container {
-                width: calc(100% - 10px);
+                width: calc(100% - 115px);
             }
             
             .button-container {
-                width: 100px;
+                width: 115px;
             }
         }
     }
