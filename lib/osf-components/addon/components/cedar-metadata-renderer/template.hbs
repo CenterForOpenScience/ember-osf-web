@@ -5,7 +5,7 @@
             @cedarMetadataTemplate={{@cedarMetadataRecord.template}}
             @displayArtifactViewer={{this.displayArtifactViewer}}
         />
-    {{else}}    
+    {{else}}
         <div local-class='action-container'>
             {{#if this.hasWritePermission}}
                 <div local-class='explanation-container {{if this.isDraft 'draft'}}'>
@@ -17,7 +17,7 @@
                 </div>
             {{/if}}
             <div local-class='button-container'>
-                <OsfLink
+                {{!-- <OsfLink
                     data-test-download-icon
                     local-class='spacer'
                     aria-label={{t 'metadata.download'}}
@@ -34,7 +34,7 @@
                     {{else}}
                         {{t 'general.download'}}
                     {{/if}}
-                </OsfLink>
+                </OsfLink> --}}
                 {{#if this.hasWritePermission}}
                     <Button
                         data-test-edit-button
