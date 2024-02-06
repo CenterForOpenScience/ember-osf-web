@@ -1,5 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -29,10 +30,11 @@ module('Integration | Component | addons-service | manager', hooks => {
 >
     {{#if manager.currentListIsLoading}}
         <span data-test-loading>Loading...</span>
+    {{else}}
+        {{#each manager.filteredAddonProviders as |provider index|}}
+            <span data-test-provider>{{provider.provider.name}}</span>
+        {{/each}}
     {{/if}}
-    {{#each manager.filteredAddonProviders as |provider index|}}
-        <span data-test-provider>{{provider.provider.name}}</span>
-    {{/each}}
 </AddonsService::Manager>
         `);
         assert.dom('[data-test-loading]').doesNotExist('Done loading');
