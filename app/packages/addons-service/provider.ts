@@ -24,6 +24,7 @@ export default class Provider {
 
     @tracked configuredStorageAddon?: ConfiguredStorageAddonModel;
     @tracked authorizedStorageAccount?: AuthorizedStorageAccountModel;
+    @tracked authorizedStorageAccounts?: AuthorizedStorageAccountModel[];
 
     @service store!: Store;
 
@@ -73,12 +74,21 @@ export default class Provider {
     @waitFor
     async getConfiguredStorageAddon() {
         if (this.serviceNode) {
-            const configuredStorageAddons = await this.serviceNode.configuredStorageAddons;
-            configuredStorageAddons.forEach(async (configuredAddon: ConfiguredStorageAddonModel) => {
-                const storageProvider = await configuredAddon.get('storageProvider');
-                if (storageProvider.id === this.provider.id) {
-                    this.configuredStorageAddon = configuredAddon;
-                }
+            const configuredStorageAddons = await this.serviceNode.queryHasMany('configuredStorageAddons', {
+                'filter[storageProvider]': this.provider.id,
+            });
+            if(configuredStorageAddons.length > 0){
+                this.configuredStorageAddon = configuredStorageAddons[0];
+            }
+        }
+    }
+
+    @task
+    @waitFor
+    async getAuthorizedStorageAccounts() {
+        if (this.internalUser){
+            this.authorizedStorageAccounts = await this.internalUser.queryHasMany('authorizedStorageAccounts', {
+                'filter[storageProvider]': this.provider.id,
             });
         }
     }

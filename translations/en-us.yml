@@ -231,6 +231,8 @@ addons:
         heading: '{providerName} Terms'
     accountSelect:
         heading: 'Log in to {providerName} or select an account'
+        new-account: 'Setup new account'
+        existing-account: 'Choose existing account'
     confirm:
         heading: 'Confirm {providerName} Account'
     configure:

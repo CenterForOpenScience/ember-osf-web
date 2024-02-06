@@ -16,7 +16,9 @@ import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage
 
 enum PageMode {
     TERMS = 'terms',
+    NEW_OR_EXISTING_ACCOUNT = 'newOrExistingAccount',
     ACCOUNT_SELECT = 'accountSelect',
+    ACCOUNT_CREATE = 'accountCreate',
     CONFIRM = 'confirm',
     CONFIGURE = 'configure',
 }
@@ -85,8 +87,23 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     @action
-    acceptTerms() {
+    async acceptTerms() {
+        await taskFor(this.selectedProvider!.getAuthorizedStorageAccounts).perform();
+        if(this.selectedProvider!.authorizedStorageAccounts!.length > 0){
+            this.pageMode = PageMode.NEW_OR_EXISTING_ACCOUNT;
+        } else {
+            this.pageMode = PageMode.ACCOUNT_CREATE;
+        }
+    }
+
+    @action
+    chooseExistingAccount() {
         this.pageMode = PageMode.ACCOUNT_SELECT;
+    }
+
+    @action
+    createNewAccount() {
+        this.pageMode = PageMode.ACCOUNT_CREATE;
     }
 
     @action
@@ -160,8 +177,14 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         case PageMode.TERMS:
             heading = this.intl.t('addons.terms.heading', { providerName });
             break;
-        case PageMode.ACCOUNT_SELECT:
+        case PageMode.NEW_OR_EXISTING_ACCOUNT:
             heading = this.intl.t('addons.accountSelect.heading', { providerName });
+            break;
+        case PageMode.ACCOUNT_CREATE:
+            heading = this.intl.t('addons.accountSelect.new-account');
+            break;
+        case PageMode.ACCOUNT_SELECT:
+            heading = this.intl.t('addons.accountSelect.existing-account');
             break;
         case PageMode.CONFIRM:
             heading = this.intl.t('addons.confirm.heading', { providerName });

@@ -37,7 +37,36 @@
                         >
                             {{t 'general.confirm'}}
                         </Button>
+                    {{else if (eq manager.pageMode 'newOrExistingAccount')}}
+                        <Button
+                            data-test-addon-existing-account-button
+                            data-analytics-name='Choose existing account'
+                            {{on 'click' manager.chooseExistingAccount}}
+                        >
+                            {{t 'addons.accountSelect.existing-account'}}
+                        </Button>
+                        <Button
+                            data-test-addon-new-account-button
+                            data-analytics-name='Create new account'
+                            {{on 'click' manager.createNewAccount}}
+                        >
+                            {{t 'addons.accountSelect.new-account'}}
+                        </Button>
                     {{else if (eq manager.pageMode 'accountSelect')}}
+                        <ul>
+                            {{#each provider.authorizedStorageAccounts as |account| }}
+                                <li>{{account.externalUserDisplayName}}</li>
+                            {{/each}}
+                        </ul>
+                        <Button
+                            data-test-addon-authorize-button
+                            data-analytics-name='Authorize'
+                            {{on 'click' manager.authorizeSelectedAccount}}
+                        >
+                            {{t 'general.authorize'}}
+                        </Button>
+                    {{else if (eq manager.pageMode 'accountCreate')}}
+                        
                         <Button
                             data-test-addon-authorize-button
                             data-analytics-name='Authorize'
