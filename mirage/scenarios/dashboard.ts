@@ -71,7 +71,10 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     });
 
     // Box using Addons Service
-    const boxAddon = server.schema.externalStorageServices.find('box') as ModelInstance<ExternalStorageServiceModel>;
+    const boxAddon = server.schema.externalStorageServices
+        .find('box') as ModelInstance<ExternalStorageServiceModel>;
+    const dropboxAddon = server.schema.externalStorageServices
+        .find('dropbox') as ModelInstance<ExternalStorageServiceModel>;
     const addonUser = server.create('internal-user', { id: currentUser.id });
     const addonFile5 = server.create('internal-resource', { id: filesNode.id });
     addonUser.update({
@@ -83,6 +86,14 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         externalUserDisplayName: currentUser.fullName,
         scopes: ['write'], // TODO: This should be a from an enum?
         storageProvider: boxAddon,
+        configuringUser: addonUser,
+    });
+
+    server.create('authorized-storage-account', {
+        externalUserId: currentUser.id,
+        externalUserDisplayName: currentUser.fullName,
+        scopes: ['write'], // TODO: This should be a from an enum?
+        storageProvider: dropboxAddon,
         configuringUser: addonUser,
     });
 

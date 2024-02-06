@@ -36,7 +36,7 @@ module('Integration | Component | addons-service | manager', hooks => {
 </AddonsService::Manager>
         `);
         assert.dom('[data-test-loading]').doesNotExist('Done loading');
-        assert.dom('[data-test-provider]').exists({ count: 1 }, 'Has providers');
+        assert.dom('[data-test-provider]').exists({ count: 3 }, 'Has providers');
         assert.dom('[data-test-provider]').hasText('Box', 'Has loaded Box');
     });
 });
