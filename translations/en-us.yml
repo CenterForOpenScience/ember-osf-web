@@ -229,8 +229,11 @@ addons:
         no-results: 'No results found'
     terms:
         heading: '{providerName} Terms'
+        accepting: 'Accepting terms…'
     accountSelect:
         heading: 'Log in to {providerName} or select an account'
+        new-account: 'Setup new account'
+        existing-account: 'Choose existing account'
     confirm:
         heading: 'Confirm {providerName} Account'
     configure:

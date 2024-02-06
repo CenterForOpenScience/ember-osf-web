@@ -2,7 +2,7 @@ import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage
 
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
-import { process } from './utils';
+import { filter, process } from './utils';
 
 // This is the handler for the unofficial node/addons endpoint
 // It is only being used by the file-action-menu component to determine if a node has the BoA addon enabled
@@ -51,7 +51,8 @@ export function internalUserAuthorizedStorageAccountList(this: HandlerContext, s
     const authorizedStorageAccounts = internalUser.attrs.authorizedStorageAccountIds.map(
         (id: string) => schema.authorizedStorageAccounts.find(id),
     );
-    const data = authorizedStorageAccounts.map((account: ModelInstance) => this.serialize(account).data);
+    const filteredStorageAccounts = authorizedStorageAccounts.filter((addon: ModelInstance) => filter(addon, request));
+    const data = filteredStorageAccounts.map((account: ModelInstance) => this.serialize(account).data);
     return process(schema, request, this, data);
 }
 
@@ -61,7 +62,8 @@ export function internalResourceConfiguredStorageAddonList(this: HandlerContext,
     const configuredStorageAddons = internalResource.attrs.configuredStorageAddonIds.map(
         (id: string) => schema.configuredStorageAddons.find(id),
     );
-    const data = configuredStorageAddons.map((addon: ModelInstance) => this.serialize(addon).data);
+    const filteredStorageAddons = configuredStorageAddons.filter((addon: ModelInstance) => filter(addon, request));
+    const data = filteredStorageAddons.map((addon: ModelInstance) => this.serialize(addon).data);
     const processed = process(schema, request, this, data);
     return processed;
 }
