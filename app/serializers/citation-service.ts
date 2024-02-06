@@ -1,6 +1,6 @@
-import AddonServiceSerializer from './addon-service-serializer';
+import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default class CitationServiceSerializer extends AddonServiceSerializer {
+export default class CitationServiceSerializer extends JSONAPISerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {

@@ -27,7 +27,7 @@ module('Integration | Component | addons-service | manager', hooks => {
     @node={{this.node}}
     as |manager|
 >
-    {{#if manager.isLoading}}
+    {{#if manager.currentListIsLoading}}
         <span data-test-loading>Loading...</span>
     {{/if}}
     {{#each manager.filteredAddonProviders as |provider index|}}
