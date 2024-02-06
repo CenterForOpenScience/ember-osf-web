@@ -23,6 +23,8 @@ export default function(server: Server) {
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
     server.loadFixtures('external-storage-services');
+    server.loadFixtures('cloud-computing-services');
+    server.loadFixtures('citation-services');
     // server.loadFixtures('registration-providers');
 
     // load citations for preprints, registrations, or manyProjectRegistrations

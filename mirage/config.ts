@@ -519,6 +519,8 @@ export default function(this: Server) {
     this.urlPrefix = addonServiceUrl;
     this.namespace = addonServiceNamespace;
     this.resource('external-storage-services', { only: ['index', 'show'] });
+    this.resource('citation-services', { only: ['index', 'show'] });
+    this.resource('cloud-computing-services', { only: ['index', 'show'] });
     this.resource('internal-users', { only: ['show'] });
     this.get('/internal-users/:userGuid/authorized-storage-accounts/', addons.internalUserAuthorizedStorageAccountList);
     this.resource('internal-resources', { only: ['show'] });

@@ -1,10 +1,10 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default class AuthorizedStorageAccountSerializer extends JSONAPISerializer {
+export default class CitationServiceSerializer extends JSONAPISerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'authorized-storage-account': AuthorizedStorageAccountSerializer;
+        'citation-service': CitationServiceSerializer;
     } // eslint-disable-line semi
 }

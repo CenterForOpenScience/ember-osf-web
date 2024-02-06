@@ -4,14 +4,6 @@ import { JSONAPISerializer, ModelInstance, Request } from 'ember-cli-mirage';
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 
 export default class AddonServiceSerializer extends JSONAPISerializer {
-    keyForAttribute(attr: string) {
-        return dasherize(attr);
-    }
-
-    keyForRelationship(key: string) {
-        return dasherize(key);
-    }
-
     buildNormalLinks(model: ModelInstance) {
         return {
             self: `${addonServiceAPIUrl}${model.modelName}/${model.id}/`,
