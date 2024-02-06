@@ -9,7 +9,7 @@ export default class GuidMetadataAddRoute extends Route {
 
     async model() {
         const target = this.modelFor('guid-file');
-        const templates = await this.store.findAll('cedar-metadata-template', {
+        const templates = await this.store.query('cedar-metadata-template', {
             adapterOptions: { sort: 'schema_name' },
         });
 

@@ -3,7 +3,11 @@
         {{ @template.schemaName }}
     </div>
     <div local-class='description' data-test-select-description>
-        {{ @template.template.description}}
+        {{#if @template.template.schema:description}}
+            {{ @template.template.schema:description }}
+        {{else}}
+            {{ @template.template.description}}
+        {{/if}}
     </div>
     <div local-class='action'>
         <Button

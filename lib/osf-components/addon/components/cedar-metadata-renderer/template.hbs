@@ -5,7 +5,7 @@
             @cedarMetadataTemplate={{@cedarMetadataRecord.template}}
             @displayArtifactViewer={{this.displayArtifactViewer}}
         />
-    {{else}}    
+    {{else}}
         <div local-class='action-container'>
             {{#if this.hasWritePermission}}
                 <div local-class='explanation-container {{if this.isDraft 'draft'}}'>
@@ -21,7 +21,7 @@
                     data-test-download-icon
                     local-class='spacer'
                     aria-label={{t 'metadata.download'}}
-                    @href={{@cedarMetadataRecord.links.metadataDownload}}
+                    @href={{@cedarMetadataRecord.links.metadata_download}}
                     @target='_blank'
                 >
                     <FaIcon @icon='download' />
