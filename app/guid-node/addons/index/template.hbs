@@ -91,11 +91,15 @@
                     {{/each}}
                 </div>
                 <div local-class='addon-cards-wrapper'>
-                    {{#each manager.filteredAddonProviders as |addon|}}
-                        <AddonCard @addon={{addon}} @manager={{manager}} />
+                    {{#if manager.currentListIsLoading}}
+                        <LoadingIndicator @dark={{true}} />
                     {{else}}
-                        {{t 'addons.list.no-results'}}
-                    {{/each}}
+                        {{#each manager.filteredAddonProviders as |addon|}}
+                            <AddonCard @addon={{addon}} @manager={{manager}} />
+                        {{else}}
+                            {{t 'addons.list.no-results'}}
+                        {{/each}}
+                    {{/if}}
                 </div>
             </div>
         {{/if}}

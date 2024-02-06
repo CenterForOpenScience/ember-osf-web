@@ -1,10 +1,11 @@
+import EmberArray, { A } from '@ember/array';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
+import { Task, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 
@@ -13,6 +14,12 @@ import NodeModel from 'ember-osf-web/models/node';
 import Provider from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+
+interface FilterSpecificObject {
+    modelName: string;
+    task: Task<any, any>;
+    list: EmberArray<Provider>;
+}
 
 enum PageMode {
     TERMS = 'terms',
@@ -40,9 +47,25 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked addonServiceNode?: InternalResourceModel;
 
     possibleFilterTypes = Object.values(FilterTypes);
+    filterTypeMapper: Record<FilterTypes, FilterSpecificObject> = {
+        [FilterTypes.STORAGE]: {
+            modelName: 'external-storage-service',
+            task: taskFor(this.getStorageAddonProviders),
+            list: A([]),
+        },
+        [FilterTypes.CITATION_MANAGER]: {
+            modelName: 'citation-service',
+            task: taskFor(this.getCitationAddonProviders),
+            list: A([]),
+        },
+        [FilterTypes.CLOUD_COMPUTING]: {
+            modelName: 'cloud-computing-service',
+            task: taskFor(this.getCloudComputingProviders),
+            list: A([]),
+        },
+    };
     @tracked filterText = '';
     @tracked activeFilterType: FilterTypes = FilterTypes.STORAGE;
-    @tracked storageProviders: Provider[] = [];
 
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
@@ -50,24 +73,25 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @action
     filterByAddonType(type: FilterTypes) {
         this.activeFilterType = type;
+        const activeFilterObject = this.filterTypeMapper[type];
+        if (activeFilterObject.list.length === 0) {
+            activeFilterObject.task.perform();
+        }
     }
 
     get filteredAddonProviders() {
-        let possibleProviders: any[] = [];
-        switch (this.activeFilterType) {
-        case FilterTypes.STORAGE:
-            possibleProviders = this.storageProviders;
-            break;
-        case FilterTypes.CITATION_MANAGER:
-        case FilterTypes.CLOUD_COMPUTING:
-            possibleProviders = [];
-            break;
-        }
+        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        const possibleProviders = activeFilterObject.list;
         const textFilteredAddons = possibleProviders.filter(
             (provider: any) => provider.provider.name.toLowerCase().includes(this.filterText.toLowerCase()),
         );
 
         return textFilteredAddons;
+    }
+
+    get currentListIsLoading() {
+        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        return activeFilterObject.task.isRunning;
     }
 
     @action
@@ -114,7 +138,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         taskFor(this.getStorageServiceNode).perform();
-        taskFor(this.getAddonProviders).perform();
+        taskFor(this.getStorageAddonProviders).perform();
         taskFor(this.getConfiguredAddonProviders).perform();
     }
 
@@ -135,10 +159,29 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async getAddonProviders() {
-        const serviceStorageProviders: Provider[] = await taskFor(this.serviceStorageProviders).perform();
-        this.storageProviders = serviceStorageProviders.sort(this.providerSorter);
-        // Get other provider types here, eventually
+    async getStorageAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.STORAGE];
+        const serviceStorageProviders: Provider[] =
+            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
+        activeFilterObject.list = serviceStorageProviders.sort(this.providerSorter);
+    }
+
+    @task
+    @waitFor
+    async getCloudComputingProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
+        const cloudComputingProviders: Provider[] =
+            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
+        activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
+    }
+
+    @task
+    @waitFor
+    async getCitationAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
+        const serviceCloudComputingProviders: Provider[] =
+            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
+        activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
     }
 
     providerSorter(a: Provider, b: Provider) {
@@ -147,10 +190,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     get projectEnabledAddons(): ConfiguredStorageAddonModel[] {
         return this.serviceProjectEnabledAddons();
-    }
-
-    get isLoading() {
-        return taskFor(this.getAddonProviders).isRunning;
     }
 
     get headingText() {
@@ -180,10 +219,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async serviceStorageProviders() {
-        const serviceStorageProviders = (await this.store.findAll('external-storage-service')).toArray();
+    async getExternalProviders(providerType: string) {
+        const serviceProviderModels = (await this.store.findAll(providerType)).toArray();
         const serviceProviders = [] as Provider[];
-        for (const provider of serviceStorageProviders) {
+        for (const provider of serviceProviderModels) {
             serviceProviders.addObject(new Provider(provider, this.currentUser, this.node));
         }
         return serviceProviders;
