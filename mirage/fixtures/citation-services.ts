@@ -5,9 +5,4 @@ export default [
         name: 'Zotero',
         iconUri: 'https://zbib.org/static/favicon.ico',
     },
-    {
-        id: 'yotero',
-        name: 'Yotero',
-        iconUri: 'https://zbib.org/static/favicon.ico',
-    },
 ];
