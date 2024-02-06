@@ -1,3 +1,5 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
 .container {
     display: flex;
     flex-direction: row;
@@ -5,14 +7,23 @@
 }
 
 .main-column {
-    flex-grow: 3;
     z-index: 1;
+    width: 70%;
+
+    &.mobile {
+        width: 100%;
+    }
+
+    &.is-closed {
+        flex: 1;
+        width: calc(100% - 72px);
+    }
 
     h3 {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        max-width: 70vw;
+        width: 70%;
     }
 }
 
@@ -22,7 +33,8 @@
     flex-basis: 300px;
     flex-direction: column;
     flex-grow: 1;
-    width: 28vw;
+    width: calc(30% - 72px);
+    min-width: 400px;
 
     &.is-closed {
         display: none;
@@ -30,17 +42,19 @@
 }
 
 .right-buttons {
-    @media (max-width: 767px) {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        border-top: 1px solid #ddd;
-    }
     flex-grow: 0;
     display: flex;
     flex-direction: column;
     border-left: 1px solid #ddd;
     z-index: 1;
+    width: 72px;
+    min-width: 72px;
+
+    &.mobile {
+        flex-direction: row;
+        width: 100%;
+        margin-bottom: 10px;
+    }
 }
 
 .slide-in {

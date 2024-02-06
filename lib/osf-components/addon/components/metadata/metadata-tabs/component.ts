@@ -10,6 +10,7 @@ interface TabArgs {
     target: NodeModel;
     cedarMetadataRecords: CedarMetadataRecordModel[];
     defaultIndex: number;
+    displayFileMetadata: boolean;
 }
 
 export default class MetadataTabs extends Component<TabArgs> {
@@ -30,13 +31,15 @@ export default class MetadataTabs extends Component<TabArgs> {
     }
 
     private replaceHistory(): void {
-        if (this.activeId < 1) {
-            window.history.replaceState( {} , '',
-                `/${this.target.id}/metadata` );
-        } else {
-            const cedarMetadataRecord = this.cedarMetadataRecords[this.activeId - 1];
-            window.history.replaceState( {} , '',
-                `/${this.target.id}/metadata/${cedarMetadataRecord.id}` );
+        if (!this.args.displayFileMetadata) {
+            if (this.activeId < 1) {
+                window.history.replaceState( {} , '',
+                    `/${this.target.id}/metadata` );
+            } else {
+                const cedarMetadataRecord = this.cedarMetadataRecords[this.activeId - 1];
+                window.history.replaceState( {} , '',
+                    `/${this.target.id}/metadata/${cedarMetadataRecord.id}` );
+            }
         }
     }
 
