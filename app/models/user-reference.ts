@@ -4,7 +4,7 @@ import AuthorizedStorageAccountModel from './authorized-storage-account';
 import ResourceReferenceModel from './resource-reference';
 import OsfModel from './osf-model';
 
-export default class InternalUserModel extends OsfModel {
+export default class UserReferenceModel extends OsfModel {
     @hasMany('authorized-storage-account', { inverse: 'configuringUser' })
     authorizedStorageAccounts!: AsyncHasMany<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel[];
 
@@ -14,6 +14,6 @@ export default class InternalUserModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'internal-user': InternalUserModel;
+        'user-reference': UserReferenceModel;
     } // eslint-disable-line semi
 }

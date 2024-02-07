@@ -1,18 +1,18 @@
 import { Factory } from 'ember-cli-mirage';
 
-import InternalUserModel from 'ember-osf-web/models/internal-user';
+import UserReferenceModel from 'ember-osf-web/models/user-reference';
 
-export default Factory.extend<InternalUserModel>({
+export default Factory.extend<UserReferenceModel>({
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        'internal-user': InternalUserModel;
+        'user-reference': UserReferenceModel;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        internalUser: InternalUserModel;
+        userReference: UserReferenceModel;
     } // eslint-disable-line semi
 }

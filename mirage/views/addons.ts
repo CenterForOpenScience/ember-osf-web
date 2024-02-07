@@ -45,10 +45,10 @@ export function addonsList(this: HandlerContext, schema: Schema, request: Reques
     });
 }
 
-export function internalUserAuthorizedStorageAccountList(this: HandlerContext, schema: Schema, request: Request) {
+export function userReferenceAuthorizedStorageAccountList(this: HandlerContext, schema: Schema, request: Request) {
     const { userGuid } = request.params;
-    const internalUser = schema.internalUsers.find(userGuid);
-    const authorizedStorageAccounts = internalUser.attrs.authorizedStorageAccountIds.map(
+    const userReference = schema.userReferences.find(userGuid);
+    const authorizedStorageAccounts = userReference.attrs.authorizedStorageAccountIds.map(
         (id: string) => schema.authorizedStorageAccounts.find(id),
     );
     const filteredStorageAccounts = authorizedStorageAccounts.filter((addon: ModelInstance) => filter(addon, request));

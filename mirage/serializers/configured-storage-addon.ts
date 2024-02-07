@@ -18,7 +18,7 @@ export default class ConfiguredStorageAddonSerializer extends AddonServiceSerial
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal-users/${model.accountOwnerId}/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
             },

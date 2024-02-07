@@ -521,8 +521,9 @@ export default function(this: Server) {
     this.resource('external-storage-services', { only: ['index', 'show'] });
     this.resource('citation-services', { only: ['index', 'show'] });
     this.resource('cloud-computing-services', { only: ['index', 'show'] });
-    this.resource('internal-users', { only: ['show'] });
-    this.get('/internal-users/:userGuid/authorized-storage-accounts/', addons.internalUserAuthorizedStorageAccountList);
+    this.resource('user-references', { only: ['show'] });
+    this.get('/user-references/:userGuid/authorized-storage-accounts/',
+        addons.userReferenceAuthorizedStorageAccountList);
     this.resource('resource-references', { only: ['show'] });
     this.get('/resource-references/:nodeGuid/configured-storage-addons',
         addons.resourceReferenceConfiguredStorageAddonList);

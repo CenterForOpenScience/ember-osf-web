@@ -24,7 +24,7 @@ module('Integration | Component | addons-service | manager', hooks => {
         const node = await store.findRecord('node', mirageNode.id);
         server.create('resource-reference',
             { id: mirageNode.id, configuredStorageAddons: [] });
-        server.create('internal-user', { id: user.id });
+        server.create('user-reference', { id: user.id });
         this.set('node', node);
         await render(hbs`
 <AddonsService::Manager
