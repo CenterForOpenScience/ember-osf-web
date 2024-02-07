@@ -34,7 +34,7 @@ export default class MetadataTabs extends Component<TabArgs> {
         if (!this.args.displayFileMetadata) {
             if (this.activeId < 1) {
                 window.history.replaceState( {} , '',
-                    `/${this.target.id}/metadata` );
+                    `/${this.target.id}/metadata/osf` );
             } else {
                 const cedarMetadataRecord = this.cedarMetadataRecords[this.activeId - 1];
                 window.history.replaceState( {} , '',
