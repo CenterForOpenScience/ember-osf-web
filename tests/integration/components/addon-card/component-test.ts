@@ -75,7 +75,7 @@ module('Integration | Component | addon-card', hooks => {
                 name: 'Test Addon',
                 iconUri: 'https://some.url/from/addons/service/box.png',
             },
-            disableProjectAddon: sinon.stub(),
+            disableProjectAddon: { perform: sinon.stub() },
             nodeAddon: { configured: true },
             configuredStorageAddon: { id: 'testaddon' },
         };
@@ -111,6 +111,6 @@ module('Integration | Component | addon-card', hooks => {
         assert.dom('#osf-dialog-heading').hasText('Disable Add-on');
         assert.dom('[data-test-dialog] main').containsText('Are you sure you want to disable this add-on?');
         await click('[data-test-addon-disable-modal-disable]');
-        assert.ok(addonObj.disableProjectAddon.calledOnce);
+        assert.ok(addonObj.disableProjectAddon.perform.calledOnce);
     });
 });
