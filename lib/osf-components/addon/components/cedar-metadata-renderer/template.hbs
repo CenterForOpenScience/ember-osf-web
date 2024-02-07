@@ -1,4 +1,7 @@
-<div local-class='cedar-metadata-renderer-container {{if @displayFileMetadata 'file-metadata'}}'>
+<div local-class='cedar-metadata-renderer-container
+    {{if @displayFileMetadata 'file-metadata'}}
+    {{if this.isMobile 'mobile'}}
+    '>
     {{#if this.isShowEditor}}
         <CedarMetadataEditor
             @cedarMetadataRecord={{@cedarMetadataRecord}}

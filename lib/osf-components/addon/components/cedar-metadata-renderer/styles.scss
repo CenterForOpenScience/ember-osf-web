@@ -91,4 +91,18 @@
         width: 100% !important;
         max-width: 100% !important;
     }
+
+    &.mobile {
+        .action-container {
+            flex-direction: column;
+
+            .explanation-container {
+                width: 100%;
+            }
+
+            .button-container {
+                width: 100%;
+            }
+        }
+    }
 }
