@@ -14,6 +14,7 @@ import NodeModel from 'ember-osf-web/models/node';
 import Provider from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -71,6 +72,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
+    @tracked selectedAccount?: AuthorizedStorageAccountModel;
 
     @action
     filterByAddonType(type: FilterTypes) {
@@ -135,8 +137,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.pageMode = PageMode.CONFIRM;
     }
 
-    @action
-    confirmAccountSetup() {
+    @task
+    @waitFor
+    async confirmAccountSetup() {
+        if (this.selectedProvider && this.selectedAccount) {
+            await taskFor(this.selectedProvider.createConfiguredStorageAddon).perform();
+        }
         this.pageMode = PageMode.CONFIGURE;
     }
 
@@ -144,12 +150,18 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     cancelSetup() {
         this.pageMode = undefined;
         this.selectedProvider = undefined;
+        this.selectedAccount = undefined;
     }
 
     @action
     save() {
         this.cancelSetup();
         // TODO: Actually save the provider
+    }
+
+    @action
+    selectAccount(account: AuthorizedStorageAccountModel) {
+        this.selectedAccount = account;
     }
 
     constructor(owner: unknown, args: Args) {

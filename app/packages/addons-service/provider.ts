@@ -112,6 +112,23 @@ export default class Provider {
 
     @task
     @waitFor
+    async createConfiguredStorageAddon() {
+        if (!this.configuredStorageAddon) {
+            const configuredStorageAddon = this.store.createRecord('configured-storage-addon', {
+                externalUserId: this.currentUser.user?.id,
+                externalUserDisplayName: this.currentUser.user?.fullName,
+                rootFolder: '',
+                storageProvider: this.provider,
+                accountOwner: this.userReference,
+                authorizedResource: this.serviceNode,
+            });
+            await configuredStorageAddon.save();
+            this.configuredStorageAddon = configuredStorageAddon;
+        }
+    }
+
+    @task
+    @waitFor
     async setNodeAddonCredentials(account: AuthorizedStorageAccountModel) {
         if (this.configuredStorageAddon) {
             this.configuredStorageAddon.set('baseAccount', account);
