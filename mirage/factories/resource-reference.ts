@@ -1,18 +1,18 @@
 import { Factory } from 'ember-cli-mirage';
 
-import InternalResourceModel from 'ember-osf-web/models/internal-resource';
+import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 
-export default Factory.extend<InternalResourceModel>({
+export default Factory.extend<ResourceReferenceModel>({
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        'internal-resource': InternalResourceModel;
+        'resource-reference': ResourceReferenceModel;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        internalResource: InternalResourceModel;
+        resourceReference: ResourceReferenceModel;
     } // eslint-disable-line semi
 }

@@ -76,7 +76,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     const dropboxAddon = server.schema.externalStorageServices
         .find('dropbox') as ModelInstance<ExternalStorageServiceModel>;
     const addonUser = server.create('internal-user', { id: currentUser.id });
-    const addonFile5 = server.create('internal-resource', { id: filesNode.id });
+    const addonFile5 = server.create('resource-reference', { id: filesNode.id });
     addonUser.update({
         configuredResources: [addonFile5],
     });

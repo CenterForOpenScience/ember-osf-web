@@ -9,14 +9,14 @@ import { taskFor } from 'ember-concurrency-ts';
 import NodeModel from 'ember-osf-web/models/node';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import InternalUserModel from 'ember-osf-web/models/internal-user';
-import InternalResourceModel from 'ember-osf-web/models/internal-resource';
+import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 
 export default class Provider {
     @tracked node: NodeModel;
-    @tracked serviceNode?: InternalResourceModel;
+    @tracked serviceNode?: ResourceReferenceModel;
 
     currentUser: CurrentUserService;
     @tracked internalUser!: InternalUserModel;
@@ -44,7 +44,7 @@ export default class Provider {
     @waitFor
     async initialize() {
         await taskFor(this.getInternalUser).perform();
-        await taskFor(this.getInternalResource).perform();
+        await taskFor(this.getResourceReference).perform();
         await taskFor(this.getConfiguredStorageAddon).perform();
     }
 
@@ -61,12 +61,12 @@ export default class Provider {
 
     @task
     @waitFor
-    async getInternalResource() {
-        const serviceNode = this.store.peekRecord('internal-resource', this.node.id);
+    async getResourceReference() {
+        const serviceNode = this.store.peekRecord('resource-reference', this.node.id);
         if (serviceNode) {
             this.serviceNode = serviceNode;
         } else {
-            this.serviceNode = await this.store.findRecord('internal-resource', this.node.id);
+            this.serviceNode = await this.store.findRecord('resource-reference', this.node.id);
         }
     }
 

@@ -1,7 +1,7 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import AuthorizedStorageAccountModel from './authorized-storage-account';
-import InternalResourceModel from './internal-resource';
+import ResourceReferenceModel from './resource-reference';
 import InternalUserModel from './internal-user';
 import OsfModel from './osf-model';
 import ExternalStorageServiceModel from './external-storage-service';
@@ -17,8 +17,8 @@ export default class ConfiguredStorageAddonModel extends OsfModel {
     @belongsTo('internal-user', { inverse: null })
     accountOwner!: AsyncBelongsTo<InternalUserModel> & InternalUserModel;
 
-    @belongsTo('internal-resource', { inverse: 'configuredStorageAddons' })
-    authorizedResource!: AsyncBelongsTo<InternalResourceModel> & InternalResourceModel;
+    @belongsTo('resource-reference', { inverse: 'configuredStorageAddons' })
+    authorizedResource!: AsyncBelongsTo<ResourceReferenceModel> & ResourceReferenceModel;
 
     @belongsTo('authorized-storage-account')
     baseAccount!: AsyncBelongsTo<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel;

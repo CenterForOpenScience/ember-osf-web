@@ -22,7 +22,7 @@ module('Integration | Component | addons-service | manager', hooks => {
         const user = server.create('user', { id: 'user' });
         this.owner.lookup('service:current-user').setProperties({ testUser: user, currentUserId: user.id });
         const node = await store.findRecord('node', mirageNode.id);
-        server.create('internal-resource',
+        server.create('resource-reference',
             { id: mirageNode.id, configuredStorageAddons: [] });
         server.create('internal-user', { id: user.id });
         this.set('node', node);

@@ -29,12 +29,12 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             id: 'bropdox',
             name: 'Bropdox',
         });
-        const internalResource = server.create('internal-resource', {
+        const resourceReference = server.create('resource-reference', {
             id: node.id,
         });
         const internalUser = server.create('internal-user', {
             id: user.id,
-            configuredResources: [internalResource],
+            configuredResources: [resourceReference],
             authorizedStorageAccounts: [],
         });
 
@@ -44,7 +44,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             rootFolder: '/rooty-tooty/',
             storageProvider: externalStorageService,
             accountOwner: internalUser,
-            authorizedResource: internalResource,
+            authorizedResource: resourceReference,
         });
 
         const provider = new Provider(externalStorageService, currentUser, node);
@@ -74,12 +74,12 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             id: 'bropdox',
             name: 'Bropdox',
         });
-        const internalResource = server.create('internal-resource', {
+        const resourceReference = server.create('resource-reference', {
             id: node.id,
         });
         const internalUser = server.create('internal-user', {
             id: user.id,
-            configuredResources: [internalResource],
+            configuredResources: [resourceReference],
             authorizedStorageAccounts: [],
         });
 
@@ -89,7 +89,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             rootFolder: '/',
             storageProvider: externalStorageService,
             accountOwner: internalUser,
-            authorizedResource: internalResource,
+            authorizedResource: resourceReference,
         });
 
         const provider = new Provider(externalStorageService, currentUser, node);

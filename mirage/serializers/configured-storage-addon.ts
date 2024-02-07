@@ -25,7 +25,7 @@ export default class ConfiguredStorageAddonSerializer extends AddonServiceSerial
             authorizedResource: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal-resources/${model.authorizedResourceId}/`,
+                        href: `${addonServiceAPIUrl}resource-references/${model.authorizedResourceId}/`,
                     },
                 },
             },

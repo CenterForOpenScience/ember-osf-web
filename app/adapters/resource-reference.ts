@@ -1,10 +1,10 @@
 import AddonServiceAdapter from './addon-service';
 
-export default class InternalResourceAdapter extends AddonServiceAdapter {
+export default class ResourceReferenceAdapter extends AddonServiceAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'internal-resource': InternalResourceAdapter;
+        'resource-reference': ResourceReferenceAdapter;
     } // eslint-disable-line semi
 }
