@@ -172,8 +172,8 @@ file-detail:
     registration-date: 'Date registered'
     withdrawal-date: 'Date withdrawn'
     metadata:
-        add-schema: 'Add Record'
-        add-schema-tooltip: 'Add a Cedar Metadata schema to this file.'
+        add-record: 'Add Record'
+        add-record-tooltip: 'Add a Cedar Metadata schema to this file.'
         return-to-file: 'Return to {fileName}'
     resource-help-dialog:
         heading: 'About file resource information'
@@ -221,14 +221,14 @@ metadata:
     main-tab: 'OSF'
     header: 'Metadata'
     download: 'Download Metadata Record'
-    add-schema: 'Add Community Metadata Records'
+    add-record: 'Add Community Metadata Records'
     see-more: 'Click to see more metadata options'
     see-less: 'Click to see less metadata options'
     add-flow:
         select-metadata-template: 'Select a Metadata Template'
         select-different-metadata-template: 'Select a different template'
         explanation: 'OSF has partnered with <a target="_new" href="https://metadatacenter.org/">CEDAR</a> to provide more ways to annotate your research with domain or community-specific metadata records.  If you would like to request the addition of a new metadata template, contact us at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
-        available-schemas: 'Available Templates from CEDAR'
+        available-templates: 'Available Templates from CEDAR'
         select: 'Select'
         tab-title-select: 'Select Record'
         tab-title-add: 'Add'
