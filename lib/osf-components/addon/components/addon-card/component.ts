@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { taskFor } from 'ember-concurrency-ts';
 
 import Provider from 'ember-osf-web/packages/addons-service/provider';
 import AddonsServiceManagerComponent from 'osf-components/components/addons-service/manager/component';
@@ -19,9 +20,9 @@ export default class AddonsCardComponent extends Component<Args> {
     }
 
     @action
-    disableAddon() {
+    async disableAddon() {
         const { addon } = this.args;
-        addon.disableProjectAddon();
+        await taskFor(addon.disableProjectAddon).perform();
     }
 
     get assetLogo() {
