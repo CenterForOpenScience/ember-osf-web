@@ -29,12 +29,12 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             id: 'bropdox',
             name: 'Bropdox',
         });
-        const internalResource = server.create('internal-resource', {
+        const resourceReference = server.create('resource-reference', {
             id: node.id,
         });
-        const internalUser = server.create('internal-user', {
+        const userReference = server.create('user-reference', {
             id: user.id,
-            configuredResources: [internalResource],
+            configuredResources: [resourceReference],
             authorizedStorageAccounts: [],
         });
 
@@ -43,14 +43,14 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             externalUserDisplayName: user.fullName,
             rootFolder: '/rooty-tooty/',
             storageProvider: externalStorageService,
-            accountOwner: internalUser,
-            authorizedResource: internalResource,
+            accountOwner: userReference,
+            authorizedResource: resourceReference,
         });
 
         const provider = new Provider(externalStorageService, currentUser, node);
         await settled();
 
-        assert.equal(provider.internalUser.id, currentUser.user.id, 'Provider internalUser is set after initialize');
+        assert.equal(provider.userReference.id, currentUser.user.id, 'Provider userReference is set after initialize');
         assert.equal(provider.serviceNode?.id, node.id, 'Provider serviceNode is set after initialize');
         assert.ok(provider.configuredStorageAddon,
             'Provider configuredStorageAddon is set after initialize');
@@ -74,12 +74,12 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             id: 'bropdox',
             name: 'Bropdox',
         });
-        const internalResource = server.create('internal-resource', {
+        const resourceReference = server.create('resource-reference', {
             id: node.id,
         });
-        const internalUser = server.create('internal-user', {
+        const userReference = server.create('user-reference', {
             id: user.id,
-            configuredResources: [internalResource],
+            configuredResources: [resourceReference],
             authorizedStorageAccounts: [],
         });
 
@@ -88,8 +88,8 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             externalUserDisplayName: user.fullName,
             rootFolder: '/',
             storageProvider: externalStorageService,
-            accountOwner: internalUser,
-            authorizedResource: internalResource,
+            accountOwner: userReference,
+            authorizedResource: resourceReference,
         });
 
         const provider = new Provider(externalStorageService, currentUser, node);

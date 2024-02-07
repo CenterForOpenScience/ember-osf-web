@@ -18,14 +18,14 @@ export default class ConfiguredStorageAddonSerializer extends AddonServiceSerial
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal-users/${model.accountOwnerId}/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
             },
             authorizedResource: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal-resources/${model.authorizedResourceId}/`,
+                        href: `${addonServiceAPIUrl}resource-references/${model.authorizedResourceId}/`,
                     },
                 },
             },

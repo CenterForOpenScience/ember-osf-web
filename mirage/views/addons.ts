@@ -45,10 +45,10 @@ export function addonsList(this: HandlerContext, schema: Schema, request: Reques
     });
 }
 
-export function internalUserAuthorizedStorageAccountList(this: HandlerContext, schema: Schema, request: Request) {
+export function userReferenceAuthorizedStorageAccountList(this: HandlerContext, schema: Schema, request: Request) {
     const { userGuid } = request.params;
-    const internalUser = schema.internalUsers.find(userGuid);
-    const authorizedStorageAccounts = internalUser.attrs.authorizedStorageAccountIds.map(
+    const userReference = schema.userReferences.find(userGuid);
+    const authorizedStorageAccounts = userReference.attrs.authorizedStorageAccountIds.map(
         (id: string) => schema.authorizedStorageAccounts.find(id),
     );
     const filteredStorageAccounts = authorizedStorageAccounts.filter((addon: ModelInstance) => filter(addon, request));
@@ -56,10 +56,10 @@ export function internalUserAuthorizedStorageAccountList(this: HandlerContext, s
     return process(schema, request, this, data);
 }
 
-export function internalResourceConfiguredStorageAddonList(this: HandlerContext, schema: Schema, request: Request) {
+export function resourceReferenceConfiguredStorageAddonList(this: HandlerContext, schema: Schema, request: Request) {
     const { nodeGuid } = request.params;
-    const internalResource = schema.internalResources.find(nodeGuid);
-    const configuredStorageAddons = internalResource.attrs.configuredStorageAddonIds.map(
+    const resourceReference = schema.resourceReferences.find(nodeGuid);
+    const configuredStorageAddons = resourceReference.attrs.configuredStorageAddonIds.map(
         (id: string) => schema.configuredStorageAddons.find(id),
     );
     const filteredStorageAddons = configuredStorageAddons.filter((addon: ModelInstance) => filter(addon, request));

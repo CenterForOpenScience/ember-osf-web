@@ -16,7 +16,7 @@ export default class AuthorizedStorageAccountSerializer extends AddonServiceSeri
             configuringUser: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}internal-users/${model.configuringUserId}/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.configuringUserId}/`,
                     },
                 },
             },

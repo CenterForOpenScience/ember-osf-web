@@ -9,7 +9,7 @@ import { Task, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 
-import InternalResourceModel from 'ember-osf-web/models/internal-resource';
+import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import NodeModel from 'ember-osf-web/models/node';
 import Provider from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
@@ -46,7 +46,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @service intl!: IntlService;
 
     node = this.args.node;
-    @tracked addonServiceNode?: InternalResourceModel;
+    @tracked addonServiceNode?: ResourceReferenceModel;
 
     possibleFilterTypes = Object.values(FilterTypes);
     filterTypeMapper: Record<FilterTypes, FilterSpecificObject> = {
@@ -162,7 +162,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @task
     @waitFor
     async getStorageServiceNode() {
-        this.addonServiceNode = await this.store.findRecord('internal-resource', this.node.id);
+        this.addonServiceNode = await this.store.findRecord('resource-reference', this.node.id);
     }
 
     @task

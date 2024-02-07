@@ -1,7 +1,7 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import ExternalStorageServiceModel from './external-storage-service';
-import InternalUserModel from './internal-user';
+import UserReferenceModel from './user-reference';
 import OsfModel from './osf-model';
 
 export default class AuthorizedStorageAccountModel extends OsfModel {
@@ -12,8 +12,8 @@ export default class AuthorizedStorageAccountModel extends OsfModel {
     @belongsTo('external-storage-service')
     storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
 
-    @belongsTo('internal-user', { inverse: 'authorizedStorageAccounts' })
-    configuringUser!: AsyncBelongsTo<InternalUserModel> & InternalUserModel;
+    @belongsTo('user-reference', { inverse: 'authorizedStorageAccounts' })
+    configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 }
 
 declare module 'ember-data/types/registries/model' {
