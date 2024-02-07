@@ -6,6 +6,8 @@ import { tracked } from '@glimmer/tracking';
 import config from 'ember-osf-web/config/environment';
 import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 import NodeModel from 'ember-osf-web/models/node';
+import Media from 'ember-responsive';
+
 
 const { OSF: { url: baseURL } } = config;
 
@@ -16,6 +18,7 @@ interface Args {
 
 export default class CedarMetadataRenderer extends Component<Args> {
     @service router!: RouterService;
+    @service media!: Media;
 
     viewerConfig = config.cedarConfig.viewerConfig;
     @tracked isShowEditor = false;
@@ -46,5 +49,9 @@ export default class CedarMetadataRenderer extends Component<Args> {
     @action
     public displayArtifactViewer(): void {
         this.isShowEditor = false;
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 }
