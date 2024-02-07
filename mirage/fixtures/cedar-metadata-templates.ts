@@ -52,7 +52,7 @@ const cedarMetadataTemplates: Array<Partial<CedarMetadataTemplateModel>> = [
     },
     {
         id: '5',
-        schemaName: 'BIBFRAME AUDIO WORK',
+        schemaName: 'BIBFRAME AUDIO WORK AND NOW IT IS A REALLY LONG TITLE FOR TESTING',
         cedarId: 'https://repo.metadatacenter.net/template-fields/6214d1f3-9667-492c-9d87-8ce5e7b65960',
         active: true,
         template: bibframeTemplate,
