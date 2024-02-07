@@ -25,13 +25,13 @@ export default class MetadataAdd extends Component<AddArgs> {
     }
 
     @action
-    public async cancel(): Promise<void> {
+    public cancel(): void {
         if (this.args.target.modelName === 'node') {
-            await this.router.transitionTo('guid-node.metadata', this.args.target.id);
+            this.router.transitionTo('guid-node.metadata', this.args.target.id);
         } else if (this.args.target.modelName === 'registration') {
-            await this.router.transitionTo('registries.overview.metadata', this.args.target.id);
+            this.router.transitionTo('registries.overview.metadata', this.args.target.id);
         } else {
-            await this.router.transitionTo('guid-file', this.args.target.id);
+            this.router.transitionTo('guid-file', this.args.target.id);
         }
     }
 }
