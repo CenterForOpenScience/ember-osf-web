@@ -71,7 +71,8 @@
                 data-test-addon-disable-modal-disable
                 data-analytics-name='Disable'
                 @type='destroy'
-                {{on 'click' (queue this.disableAddon dialog.close)}}
+                disabled={{this.disableAddon.isRunning}}
+                {{on 'click' (perform this.disableAddon)}}
             >
                 {{t 'osf-components.addon-card.disable'}}
             </Button>

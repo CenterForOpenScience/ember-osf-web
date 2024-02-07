@@ -1,6 +1,8 @@
 import { action } from '@ember/object';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
 import Provider from 'ember-osf-web/packages/addons-service/provider';
@@ -19,10 +21,12 @@ export default class AddonsCardComponent extends Component<Args> {
         this.deleteModalOpen = false;
     }
 
-    @action
+    @task
+    @waitFor
     async disableAddon() {
         const { addon } = this.args;
         await taskFor(addon.disableProjectAddon).perform();
+        this.closeDeleteModal();
     }
 
     get assetLogo() {
