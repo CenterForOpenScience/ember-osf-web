@@ -1,5 +1,13 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
+.cancel-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .header-container {
     width: 100%;
     display: flex;
@@ -38,4 +46,12 @@
     justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
+}
+
+.action-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
 }
