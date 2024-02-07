@@ -36,7 +36,6 @@
         }
     }
 
-
     &.mobile {
         padding: 0;
 
@@ -51,6 +50,9 @@
                 justify-content: flex-start;
             }
 
+            h2 {
+                margin-top: 0;
+            }
         } 
 
         .project-link-header {

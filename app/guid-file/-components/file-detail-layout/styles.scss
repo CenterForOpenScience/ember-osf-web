@@ -9,6 +9,7 @@
 .main-column {
     z-index: 1;
     width: 70%;
+    min-width: 300px;
 
     &.mobile {
         width: 100%;
