@@ -2,39 +2,36 @@ import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
-
 
 export default class MetadataDetailRoute extends Route {
     @service store!: Store;
     @service router!: RouterService;
 
     async model(params: { recordId: string}) {
-        const guidNode = this.modelFor('guid-node');
-        const target = await guidNode.taskInstance;
+        const model = this.modelFor('guid-node.metadata');
+        // const target = await guidNode.taskInstance;
         let defaultIndex = 0;
+
+        /*
         const cedarMetadataRecords = await target.queryHasMany('cedarMetadataRecords', {
+            // embed: 'template',
             'page[size]': 20,
         });
-
-        // This is for prototyping to get a working view to the mirage server
-        // This will be removed before production
-        // Brian - 2024-01-09
-        for(const item of cedarMetadataRecords) {
-            await item.template;
-        }
+        */
 
         if (params.recordId) {
-            cedarMetadataRecords.map((cedarMetadataRecord: CedarMetadataRecordModel, index: number) => {
+            let index = 1;
+            for(const cedarMetadataRecord of model.cedarMetadataRecords) {
+                // ((await cedarMetadataRecord.template) as CedarMetadataTemplateModel).recordCreated = true;
                 if (cedarMetadataRecord.id === params.recordId) {
-                    defaultIndex = index + 1;
+                    defaultIndex = index++;
                 }
-            });
+            }
         }
 
         return {
-            target,
-            cedarMetadataRecords,
+            target: model.target,
+            cedarMetadataRecords: model.cedarMetadataRecords,
             defaultIndex,
         };
     }

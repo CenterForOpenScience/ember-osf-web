@@ -234,6 +234,7 @@ metadata:
         tab-title-add: 'Add'
         saving: 'Saving Record'
         edit: 'Edit Record'
+        template-exists: 'This template already exists'
 cedar:
     editor:
         save-draft-button: 'Save Draft'
