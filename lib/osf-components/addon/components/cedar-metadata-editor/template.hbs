@@ -15,33 +15,46 @@
         />
     </div>
     <div local-class='action-container'>
-        {{#if this.isEdit}}
-            <div local-class='cancel-button-container'>
+        {{#unless this.isEdit}}
+            <div local-class='different-template-container'>
                 <Button
-                    data-test-cancel-button
-                    data-analytics-name='Cancel cedar metadata edit'
-                    {{on 'click' this.cancel}}
+                    data-test-select-button
+                    data-analytics-name='Select metadata'
+                    {{on 'click' @closeCedarEditor }}
                 >
-                    {{ t 'cedar.editor.cancel-button' }}
+                    {{ t 'metadata.add-flow.select-different-metadata-template' }}
                 </Button>
             </div>
-        {{/if}}
+        {{/unless}}
+        <div local-class='cedar-action-container'>
+            {{#if this.isEdit}}
+                <div local-class='cancel-button-container'>
+                    <Button
+                        data-test-cancel-button
+                        data-analytics-name='Cancel cedar metadata edit'
+                        {{on 'click' this.cancel}}
+                    >
+                        {{ t 'cedar.editor.cancel-button' }}
+                    </Button>
+                </div>
+            {{/if}}
 
-        <Button
-            local-class='btn btn-success'
-            data-test-save-button
-            data-analytics-name='Save cedar metadata'
-            disabled={{this.save.isRunning}}
-            {{on 'click' (perform this.save)}}
-        >
-            {{ this.buttonText }}
-            {{#unless this.isValid}}
-                <EmberTooltip
-                    @side='right'
-                >
-                    {{t 'cedar.editor.save-draft-button-tooltip'}}
-                </EmberTooltip>
-            {{/unless}}
-        </Button>
+            <Button
+                local-class='btn btn-success'
+                data-test-save-button
+                data-analytics-name='Save cedar metadata'
+                disabled={{this.save.isRunning}}
+                {{on 'click' (perform this.save)}}
+            >
+                {{ this.buttonText }}
+                {{#unless this.isValid}}
+                    <EmberTooltip
+                        @side='right'
+                    >
+                        {{t 'cedar.editor.save-draft-button-tooltip'}}
+                    </EmberTooltip>
+                {{/unless}}
+            </Button>
+        </div>
     </div>
 </div>

@@ -22,6 +22,7 @@ interface Args {
     cedarMetadataTemplate: CedarMetadataTemplateModel;
     redirectRoute: string;
     target: AbstractNodeModel | FileModel;
+    closeCedarEditor: () => {};
     displayArtifactViewer?: () => {};
 }
 
