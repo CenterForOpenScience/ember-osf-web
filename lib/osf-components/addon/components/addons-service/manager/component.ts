@@ -139,9 +139,9 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async confirmAccountSetup() {
+    async confirmAccountSetup(account: AuthorizedStorageAccountModel) {
         if (this.selectedProvider && this.selectedAccount) {
-            await taskFor(this.selectedProvider.createConfiguredStorageAddon).perform();
+            await taskFor(this.selectedProvider.createConfiguredStorageAddon).perform(account);
         }
         this.pageMode = PageMode.CONFIGURE;
     }

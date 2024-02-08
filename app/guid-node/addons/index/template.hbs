@@ -93,7 +93,7 @@
                                 data-test-addon-confirm-setup-button
                                 data-analytics-name='Confirm Setup'
                                 disabled={{manager.confirmAccountSetup.isRunning}}
-                                {{on 'click' (perform manager.confirmAccountSetup)}}
+                                {{on 'click' (perform manager.confirmAccountSetup manager.selectedAccount)}}
                             >
                                 {{if manager.confirmAccountSetup.isRunning (t 'addons.confirm.authorizing') (t 'general.confirm')}}
                             </Button>

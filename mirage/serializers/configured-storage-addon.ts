@@ -5,7 +5,7 @@ import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage
 
 import AddonServiceSerializer from './addon-service-serializer';
 
-interface MirageConfiguredStorageAddon extends ConfiguredStorageAddonModel {
+export interface MirageConfiguredStorageAddon extends ConfiguredStorageAddonModel {
     accountOwnerId: string;
     authorizedResourceId: string;
     baseAccountId: string;
