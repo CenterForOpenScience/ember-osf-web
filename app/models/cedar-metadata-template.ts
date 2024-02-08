@@ -15,14 +15,10 @@ export default class CedarMetadataTemplateModel extends OsfModel {
     @attr('object') template!: any;
     @attr('number') templateVersion!: number;
 
-    @tracked _recordCreated!: boolean;
-
-    set recordCreated(isCreated: boolean) {
-        this._recordCreated = isCreated;
-    }
+    @tracked recordCreated!: boolean;
 
     get canSelect() {
-        return !this._recordCreated;
+        return !this.recordCreated;
     }
 }
 

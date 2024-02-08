@@ -19,7 +19,9 @@ export default class GuidMetadataAddRoute extends Route {
         });
 
         for(const cedarMetadataRecord of cedarMetadataRecords) {
-            ((await cedarMetadataRecord.template) as CedarMetadataTemplateModel).recordCreated = true;
+            const template = await cedarMetadataRecord.template as CedarMetadataTemplateModel;
+            template.recordCreated = true;
+            cedarMetadataRecord.templateName = template.schemaName;
         }
 
         return {
