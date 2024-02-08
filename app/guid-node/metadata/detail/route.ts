@@ -8,21 +8,12 @@ export default class MetadataDetailRoute extends Route {
     @service router!: RouterService;
 
     async model(params: { recordId: string}) {
-        const model = this.modelFor('guid-node.metadata');
-        // const target = await guidNode.taskInstance;
+        const parentModel = this.modelFor('guid-node.metadata');
         let defaultIndex = 0;
-
-        /*
-        const cedarMetadataRecords = await target.queryHasMany('cedarMetadataRecords', {
-            // embed: 'template',
-            'page[size]': 20,
-        });
-        */
 
         if (params.recordId) {
             let index = 1;
-            for(const cedarMetadataRecord of model.cedarMetadataRecords) {
-                // ((await cedarMetadataRecord.template) as CedarMetadataTemplateModel).recordCreated = true;
+            for(const cedarMetadataRecord of parentModel.cedarMetadataRecords) {
                 if (cedarMetadataRecord.id === params.recordId) {
                     defaultIndex = index++;
                 }
@@ -30,8 +21,8 @@ export default class MetadataDetailRoute extends Route {
         }
 
         return {
-            target: model.target,
-            cedarMetadataRecords: model.cedarMetadataRecords,
+            target: parentModel.target,
+            cedarMetadataRecords: parentModel.cedarMetadataRecords,
             defaultIndex,
         };
     }

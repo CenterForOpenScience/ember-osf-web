@@ -2,7 +2,6 @@ import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 
 
 export default class MetadataDetailRoute extends Route {
@@ -11,30 +10,20 @@ export default class MetadataDetailRoute extends Route {
 
     async model(params: { recordId: string}) {
         let defaultIndex = 0;
-        const overviewModel = this.modelFor('overview');
-        const target = await overviewModel.taskInstance;
-        const cedarMetadataRecords = await target.queryHasMany('cedarMetadataRecords', {
-            'page[size]': 20,
-        });
-
-        // This is for prototyping to get a working view to the mirage server
-        // This will be removed before production
-        // Brian - 2024-01-09
-        for(const item of cedarMetadataRecords) {
-            await item.template;
-        }
+        const parentModel = this.modelFor('overview.metadata');
 
         if (params.recordId) {
-            cedarMetadataRecords.map((cedarMetadataRecord: CedarMetadataRecordModel, index: number) => {
+            let index = 1;
+            for(const cedarMetadataRecord of parentModel.cedarMetadataRecords) {
                 if (cedarMetadataRecord.id === params.recordId) {
-                    defaultIndex = index + 1;
+                    defaultIndex = index++;
                 }
-            });
+            }
         }
 
         return {
-            target,
-            cedarMetadataRecords,
+            target: parentModel.target,
+            cedarMetadataRecords: parentModel.cedarMetadataRecords,
             defaultIndex,
         };
     }
