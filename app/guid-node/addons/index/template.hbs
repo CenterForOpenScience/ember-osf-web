@@ -22,13 +22,6 @@
                             {{t 'general.back'}}
                         </Button>
                     </div>
-                    <Button
-                        data-test-addon-cancel-button
-                        data-analytics-name='Cancel'
-                        {{on 'click' manager.cancelSetup}}
-                    >
-                        {{t 'general.cancel'}}
-                    </Button>
                     {{#if (eq manager.pageMode 'terms')}}
                         <Button
                             data-test-addon-accept-terms-button
@@ -58,20 +51,33 @@
                             {{t 'addons.accountSelect.new-account'}}
                         </Button>
                     {{else if (eq manager.pageMode 'accountSelect')}}
-                        <ul>
+                        <fieldset>
                             {{#each provider.authorizedStorageAccounts as |account| }}
-                                <li>{{account.externalUserDisplayName}}</li>
+                                <div local-class='account-select'>
+                                    <label>
+                                        <Input
+                                            name='account-select'
+                                            @value={{account.id}}
+                                            @type='radio'
+                                            @checked={{eq manager.selectedAccount.id account.id}}
+                                            {{on 'change' (fn manager.selectAccount account)}}
+                                        />
+                                        {{account.externalUserDisplayName}}
+                                    </label>
+                                </div>
+                            {{else}}
+                                {{t 'addons.accountSelect.no-accounts'}}
                             {{/each}}
-                        </ul>
+                        </fieldset>
                         <Button
                             data-test-addon-authorize-button
                             data-analytics-name='Authorize'
+                            disabled={{not manager.selectedAccount.id}}
                             {{on 'click' manager.authorizeSelectedAccount}}
                         >
                             {{t 'general.authorize'}}
                         </Button>
                     {{else if (eq manager.pageMode 'accountCreate')}}
-                        
                         <Button
                             data-test-addon-authorize-button
                             data-analytics-name='Authorize'
@@ -80,13 +86,18 @@
                             {{t 'general.authorize'}}
                         </Button>
                     {{else if (eq manager.pageMode 'confirm')}}
-                        <Button
-                            data-test-addon-confirm-setup-button
-                            data-analytics-name='Confirm Setup'
-                            {{on 'click' manager.confirmAccountSetup}}
-                        >
-                            {{t 'general.confirm'}}
-                        </Button>
+                        {{t 'addons.confirm.verify'}}
+                        {{manager.selectedAccount.externalUserDisplayName}}
+                        <div>
+                            <Button
+                                data-test-addon-confirm-setup-button
+                                data-analytics-name='Confirm Setup'
+                                disabled={{manager.confirmAccountSetup.isRunning}}
+                                {{on 'click' (perform manager.confirmAccountSetup manager.selectedAccount)}}
+                            >
+                                {{if manager.confirmAccountSetup.isRunning (t 'addons.confirm.authorizing') (t 'general.confirm')}}
+                            </Button>
+                        </div>
                     {{else if (eq manager.pageMode 'configure')}}
                         <Button
                             data-test-addon-save-button

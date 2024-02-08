@@ -1,7 +1,9 @@
-import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 
+import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
+import { MirageConfiguredStorageAddon } from '../serializers/configured-storage-addon';
 import { filter, process } from './utils';
 
 // This is the handler for the unofficial node/addons endpoint
@@ -66,4 +68,19 @@ export function resourceReferenceConfiguredStorageAddonList(this: HandlerContext
     const data = filteredStorageAddons.map((addon: ModelInstance) => this.serialize(addon).data);
     const processed = process(schema, request, this, data);
     return processed;
+}
+
+export function createConfiguredStorageAddon(this: HandlerContext, schema: Schema) {
+    const attrs =
+        this.normalizedRequestAttrs('configured-storage-addon') as NormalizedRequestAttrs<MirageConfiguredStorageAddon>;
+    const configuredStorageAddon = schema.configuredStorageAddons.create(attrs);
+
+    const baseAccount = schema.authorizedStorageAccounts
+        .find(attrs.baseAccountId) as ModelInstance<AuthorizedStorageAccountModel>;
+    configuredStorageAddon.update({
+        externalUserId: baseAccount.externalUserId,
+        externalUserDisplayName: baseAccount.externalUserDisplayName,
+    });
+
+    return configuredStorageAddon;
 }

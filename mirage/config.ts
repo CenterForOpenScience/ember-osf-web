@@ -529,6 +529,7 @@ export default function(this: Server) {
         addons.resourceReferenceConfiguredStorageAddonList);
     this.resource('authorized-storage-accounts', { only: ['show', 'update', 'create'] });
     this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
+    this.post('configured-storage-addons', addons.createConfiguredStorageAddon);
 
     // Reset API url and namespace to use v2 endpoints for tests
     this.urlPrefix = apiUrl;
