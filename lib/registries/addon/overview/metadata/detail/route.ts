@@ -13,11 +13,12 @@ export default class MetadataDetailRoute extends Route {
         const parentModel = this.modelFor('overview.metadata');
 
         if (params.recordId) {
-            let index = 1;
+            let index = 0;
             for(const cedarMetadataRecord of parentModel.cedarMetadataRecords) {
                 if (cedarMetadataRecord.id === params.recordId) {
-                    defaultIndex = index++;
+                    defaultIndex = index + 1;
                 }
+                index++;
             }
         }
 

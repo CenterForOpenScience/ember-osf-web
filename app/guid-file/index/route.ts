@@ -2,35 +2,24 @@ import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
+import CedarMetadataTemplateModel from 'ember-osf-web/models/cedar-metadata-template';
 
 
 export default class MetadataDetailRoute extends Route {
     @service store!: Store;
     @service router!: RouterService;
 
-    async model(params: { recordId: string}) {
+    async model() {
         const file = this.modelFor('guid-file');
-        let defaultIndex = 0;
+        const defaultIndex = 0;
         const cedarMetadataRecords = await file.fileModel.queryHasMany('cedarMetadataRecords', {
             'page[size]': 20,
         });
 
-        // This is for prototyping to get a working view to the mirage server
-        // This will be removed before production
-        // Brian - 2024-01-09
-        for(const item of cedarMetadataRecords) {
-            await item.template;
-        }
 
-        if (params.recordId) {
-            cedarMetadataRecords.map((cedarMetadataRecord: CedarMetadataRecordModel, index: number) => {
-                if (cedarMetadataRecord.id === params.recordId) {
-                    defaultIndex = index + 1;
-                }
-            });
+        for(const cedarMetadataRecord of cedarMetadataRecords) {
+            ((await cedarMetadataRecord.template) as CedarMetadataTemplateModel).recordCreated = true;
         }
-
         return {
             file,
             cedarMetadataRecords,
