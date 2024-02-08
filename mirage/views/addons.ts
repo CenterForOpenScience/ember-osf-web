@@ -1,4 +1,4 @@
-import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, Request, Response, Schema } from 'ember-cli-mirage';
 
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
@@ -66,4 +66,20 @@ export function resourceReferenceConfiguredStorageAddonList(this: HandlerContext
     const data = filteredStorageAddons.map((addon: ModelInstance) => this.serialize(addon).data);
     const processed = process(schema, request, this, data);
     return processed;
+}
+
+export function createConfiguredStorageAddon(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs('configured-storage-addon');
+    const configuredStorageAddon = schema.configuredStorageAddons.create(attrs);
+
+    const { currentUser } = schema.roots.first();
+    if (!currentUser) {
+        return new Response(401, {}, { errors: [{ detail: 'Unauthorized' }] });
+    }
+    configuredStorageAddon.update({
+        externalUserId: currentUser.id,
+        externalUserDisplayName: currentUser.fullName,
+    });
+
+    return configuredStorageAddon;
 }

@@ -115,8 +115,6 @@ export default class Provider {
     async createConfiguredStorageAddon() {
         if (!this.configuredStorageAddon) {
             const configuredStorageAddon = this.store.createRecord('configured-storage-addon', {
-                externalUserId: this.currentUser.user?.id,
-                externalUserDisplayName: this.currentUser.user?.fullName,
                 rootFolder: '',
                 storageProvider: this.provider,
                 accountOwner: this.userReference,
