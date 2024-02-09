@@ -2,6 +2,7 @@ import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 import CedarMetadataTemplateModel from 'ember-osf-web/models/cedar-metadata-template';
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import FileModel from 'ember-osf-web/models/file';
+import { tracked } from '@glimmer/tracking';
 
 import OsfModel from './osf-model';
 
@@ -14,6 +15,8 @@ import OsfModel from './osf-model';
 export default class CedarMetadataRecordModel extends OsfModel {
     @attr('object') metadata!: any;
     @attr('boolean') isPublished!: boolean;
+
+    @tracked templateName!: string;
 
     @belongsTo('cedar-metadata-template', { inverse: null })
     template!: AsyncBelongsTo<CedarMetadataTemplateModel> | CedarMetadataTemplateModel;

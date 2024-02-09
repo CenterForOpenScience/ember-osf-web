@@ -13,9 +13,19 @@
         <Button
             data-test-select-button
             data-analytics-name='Select metadata'
+            disabled= {{not @template.canSelect}}
             {{on 'click' (fn @selectTemplate @template) }}
         >
             {{ t 'metadata.add-flow.select' }}
         </Button>
+
+        {{#unless @template.canSelect}}
+            <EmberTooltip
+                @autoPlacement={{true}}
+                @targetId={{this.elementId}}
+            >
+                {{t 'metadata.add-flow.template-exists'}}
+            </EmberTooltip>
+        {{/unless}}
     </div>
 </div>

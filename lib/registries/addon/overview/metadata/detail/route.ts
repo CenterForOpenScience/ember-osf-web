@@ -10,31 +10,33 @@ export default class MetadataDetailRoute extends Route {
     @service router!: RouterService;
 
     async model(params: { recordId: string}) {
+        const parentModel = this.modelFor('overview.metadata');
         let defaultIndex = 0;
-        const overviewModel = this.modelFor('overview');
-        const target = await overviewModel.taskInstance;
-        const cedarMetadataRecords = await target.queryHasMany('cedarMetadataRecords', {
-            'page[size]': 20,
-        });
 
-        // This is for prototyping to get a working view to the mirage server
-        // This will be removed before production
-        // Brian - 2024-01-09
-        for(const item of cedarMetadataRecords) {
-            await item.template;
-        }
+        parentModel.cedarMetadataRecords.sort(
+            (a: CedarMetadataRecordModel, b: CedarMetadataRecordModel) =>
+                a.templateName > b.templateName ? 1 : -1,
+        );
 
         if (params.recordId) {
-            cedarMetadataRecords.map((cedarMetadataRecord: CedarMetadataRecordModel, index: number) => {
+            let index = 0;
+            for(const cedarMetadataRecord of parentModel.cedarMetadataRecords) {
                 if (cedarMetadataRecord.id === params.recordId) {
                     defaultIndex = index + 1;
                 }
-            });
+                index++;
+            }
+        }
+
+        if (defaultIndex > 0) {
+            const selected = parentModel.cedarMetadataRecords.splice(defaultIndex - 1, 1);
+            parentModel.cedarMetadataRecords.unshift(selected[0]);
+            defaultIndex = 1;
         }
 
         return {
-            target,
-            cedarMetadataRecords,
+            target: parentModel.target,
+            cedarMetadataRecords: parentModel.cedarMetadataRecords,
             defaultIndex,
         };
     }

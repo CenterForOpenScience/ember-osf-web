@@ -29,6 +29,7 @@ const {
             showInstanceData: false,
         },
         editorConfig: {
+            defaultLanguage: 'en',
             expandedSampleTemplateLinks: true,
             showTemplateRenderingRepresentation: false,
             showMultiInstanceInfo: false,

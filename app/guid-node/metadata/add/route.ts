@@ -8,13 +8,13 @@ export default class GuidMetadataAddRoute extends Route {
     @service store!: Store;
 
     async model() {
-        const target = await this.modelFor('guid-node.metadata').taskInstance;
+        const parentModel = await this.modelFor('guid-node.metadata');
         const templates = await this.store.query('cedar-metadata-template', {
             adapterOptions: { sort: 'schema_name' },
         });
 
         return {
-            target,
+            target: parentModel.target,
             templates,
         };
     }
