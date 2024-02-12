@@ -1,8 +1,7 @@
 .draft {
-    color: lighten($brand-danger, 25%);
+    color: $brand-danger;
 
     &.dark {
-        color: $brand-danger;
         font-weight: bold;
     }
 }
