@@ -53,6 +53,7 @@
                     <Button
                         data-test-edit-button
                         data-analytics-name='Edit metadata'
+                        aria-label={{ t 'metadata.add-flow.edit' }}
                         {{on 'click' this.edit }}
                         @layout={{if @displayFileMetadata 'fake-link' 'medium'}}
                     >
