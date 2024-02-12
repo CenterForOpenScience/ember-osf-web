@@ -31,7 +31,7 @@ enum PageMode {
     CONFIGURE = 'configure',
 }
 
-enum FilterTypes {
+export enum FilterTypes {
     STORAGE = 'additional-storage',
     CITATION_MANAGER = 'citation-manager',
     CLOUD_COMPUTING = 'cloud-computing',
