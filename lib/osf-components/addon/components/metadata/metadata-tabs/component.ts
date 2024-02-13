@@ -53,6 +53,10 @@ export default class MetadataTabs extends Component<TabArgs> {
         return this.media.isMobile;
     }
 
+    get isActive() {
+        return this.activeId === 0;
+    }
+
     @action
     didRenderList(element: HTMLElement): boolean {
         this.showTabs = element.scrollHeight > element.clientHeight ||

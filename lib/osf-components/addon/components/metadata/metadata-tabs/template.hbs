@@ -15,7 +15,11 @@
 
             {{did-insert this.didRenderList}}
         >
-            <tablist.tab>{{t 'metadata.main-tab'}}</tablist.tab>
+            <tablist.tab>
+                <span local-class='{{if this.isActive 'dark'}}'>
+                    {{t 'metadata.main-tab'}}
+                </span>
+            </tablist.tab>
             {{#each this.cedarMetadataRecords as |cedarMetadataRecord index| }}
                 <tablist.tab
                     data-analytics-name='changed to: {{cedarMetadataRecord.templateName }}'
