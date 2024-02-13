@@ -35,6 +35,5 @@ export default class RegistriesLicensePicker extends Component {
 
     shouldShowButtons = false;
     showText = false;
-    helpLink = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
     registration!: BufferedChangeset | Registration;
 }

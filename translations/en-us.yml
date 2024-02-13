@@ -1260,9 +1260,8 @@ preprints:
         search_help: 'Search help'
         powered_by: 'Powered by OSF Preprints'
         or: 'or'
-        submit_label: 'Submit a preprint'
+        submit_label: 'Submit a {documentType}'
         example: 'See an example'
-        authors_label: 
     subjects:
         heading:
             provider: 'Browse by provider'
@@ -1575,7 +1574,7 @@ registries:
             save: 'Save'
             clear_all: 'Clear all'
         add_license: 'Add license'
-        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing" target="_blank" rel="noopener noreferrer">article on licenses</a>.'
+        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/article/148-licensing" target="_blank" rel="noopener noreferrer">help guide</a>.'
         affiliated_institutions: 'Affiliated institutions'
         category: Category
         choose_license: 'Choose a License'
