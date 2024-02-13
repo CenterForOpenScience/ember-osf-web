@@ -15,7 +15,7 @@ export default class MetadataDetailRoute extends Route {
         let defaultIndex = 0;
 
         const cedarMetadataRecords = await parentModel.target.queryHasMany('cedarMetadataRecords', {
-            // embed: 'template',
+            embed: 'template',
             'page[size]': 20,
         });
 

@@ -15,7 +15,7 @@ export default class GuidMetadataAddRoute extends Route {
         });
 
         const cedarMetadataRecords = await parentModel.target.queryHasMany('cedarMetadataRecords', {
-            // embed: 'template',
+            embed: 'template',
             'page[size]': 20,
         });
 
