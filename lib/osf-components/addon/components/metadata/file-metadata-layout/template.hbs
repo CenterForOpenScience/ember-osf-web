@@ -16,11 +16,7 @@
                             local-class='spacer'
                         >
                             <FaIcon @icon='download' />
-                            <EmberTooltip
-                                @side='right'
-                            >
-                                {{t 'general.download'}}
-                            </EmberTooltip>
+                            <EmberTooltip @side='right' >{{t 'general.download'}}</EmberTooltip>
                         </OsfLink>
                     {{/unless}}
                     {{#if manager.userCanEdit}}
@@ -32,11 +28,7 @@
                             {{on 'click' manager.edit}}
                         >
                             <FaIcon @icon='pencil-alt' />
-                            <EmberTooltip
-                                @side='right'
-                            >
-                                {{t 'general.edit'}}
-                            </EmberTooltip>
+                            <EmberTooltip @side='right'>{{t 'general.edit'}}</EmberTooltip>
                         </Button>
                     {{/if}}
                 {{/unless}}

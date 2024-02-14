@@ -20,12 +20,7 @@
         </Button>
 
         {{#unless @template.canSelect}}
-            <EmberTooltip
-                @autoPlacement={{true}}
-                @targetId={{this.elementId}}
-            >
-                {{t 'metadata.add-flow.template-exists'}}
-            </EmberTooltip>
+            <EmberTooltip @autoPlacement={{true}} @targetId={{this.elementId}} > {{t 'metadata.add-flow.template-exists'}} </EmberTooltip>
         {{/unless}}
     </div>
 </div>

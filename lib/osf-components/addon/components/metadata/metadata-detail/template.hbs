@@ -19,11 +19,7 @@
                     >
                         {{#if @displayFileMetadata}}
                             {{t 'file-detail.metadata.add-record'}}
-                            <EmberTooltip
-                                @side='right'
-                            >
-                                {{t 'file-detail.metadata.add-record-tooltip'}}
-                            </EmberTooltip>
+                            <EmberTooltip @side='right' >{{t 'file-detail.metadata.add-record-tooltip'}} </EmberTooltip>
                         {{else}}
                             {{t 'metadata.add-record'}}
                         {{/if}}
