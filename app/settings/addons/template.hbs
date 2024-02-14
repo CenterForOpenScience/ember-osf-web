@@ -1,0 +1,16 @@
+<AddonsService::UserAddonsManager
+    @user={{this.currentUser.user}}
+    as |manager|
+>
+    {{#if manager.currentListIsLoading}}
+        <LoadingIndicator @dark={{true}} />
+    {{else}}
+        {{#each manager.filteredAddonProviders as |provider|}}
+            <div>
+                {{provider.name}}
+            </div>
+        {{else}}
+            {{t 'addons.list.no-results'}}
+        {{/each}}
+    {{/if}}
+</AddonsService::UserAddonsManager>
