@@ -60,6 +60,10 @@
             .cancel-button-container {
                 margin-right: 20px;
             }
+
+            :global(.tooltip) {
+                white-space: normal;
+            }
         }
 
 
@@ -94,4 +98,3 @@
         max-width: 100% !important;
     }
 }
-

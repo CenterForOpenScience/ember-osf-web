@@ -49,6 +49,10 @@
             svg {
                 height: 1.5em;
             }
+
+            :global(.tooltip) {
+                white-space: normal;
+            }
         }
     }
 
