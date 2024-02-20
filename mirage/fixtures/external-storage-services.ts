@@ -3,6 +3,7 @@ export default [
     {
         id: 'box',
         name: 'Box',
+        authUri: 'https://www.box.com/api/oauth2/authorize',
         readOnly: false,
         supportsCopy: true,
         supportsUserSpecificRootFolder: true,
@@ -14,6 +15,7 @@ export default [
     {
         id: 'dropbox',
         name: 'Dropbox',
+        authUri: 'https://www.dropbox.com/oauth2/authorize',
         readOnly: false,
         supportsCopy: true,
         supportsUserSpecificRootFolder: true,

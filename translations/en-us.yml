@@ -235,6 +235,13 @@ addons:
         no-accounts: 'No accounts available'
         new-account: 'Setup new account'
         existing-account: 'Choose existing account'
+    accountCreate:
+        username-label: 'Username'
+        password-label: 'Password'
+        username-placeholder: 'Username'
+        password-placeholder: 'Password'
+        oauth-description: 'Use OAuth to connect your {providerName} account'
+        oauth-link: 'Connect with {providerName}'
     confirm:
         heading: 'Confirm {providerName} Account'
         verify: 'Authorize the following account:'

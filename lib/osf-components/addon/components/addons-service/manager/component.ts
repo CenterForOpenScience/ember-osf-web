@@ -73,6 +73,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
     @tracked selectedAccount?: AuthorizedStorageAccountModel;
+    @tracked username?: string;
+    @tracked password?: string;
 
     @action
     filterByAddonType(type: FilterTypes) {
@@ -135,6 +137,16 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @action
     authorizeSelectedAccount() {
         this.pageMode = PageMode.CONFIRM;
+    }
+
+    @task
+    @waitFor
+    async connectAccount() {
+        if (this.selectedProvider) {
+            const newAccount = await taskFor(this.selectedProvider.createAccountForNodeAddon).perform();
+            await taskFor(this.selectedProvider.createConfiguredStorageAddon).perform(newAccount);
+        }
+        this.pageMode = PageMode.CONFIGURE;
     }
 
     @task
