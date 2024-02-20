@@ -34,7 +34,7 @@ export default abstract class GuidRoute extends Route {
             });
         } catch (e) {
             // To do custom error handling, add an error() action to the route that subclasses GuidRoute.
-            transition.send('error', e);
+            transition.send(false, 'error', e);
         }
 
         blocker.done();
