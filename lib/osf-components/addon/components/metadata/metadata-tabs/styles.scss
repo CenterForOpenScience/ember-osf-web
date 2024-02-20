@@ -19,7 +19,6 @@
 
     .tabs {
         width: 100%;
-        cursor: pointer;
 
         &.hidden {
             width: calc(100% - 25px);
@@ -58,6 +57,7 @@
             }
 
             li {
+                cursor: pointer;
                 display: block;
                 position: relative;
                 margin-bottom: -1px;
