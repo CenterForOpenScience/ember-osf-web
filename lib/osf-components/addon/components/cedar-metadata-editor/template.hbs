@@ -12,7 +12,7 @@
             local-class='cedar-editor'
             config={{this.cedarConfig}}
             {{ on 'change' (action this.validateCedarMetadata) }}
-            {{ on 'mouseover' (action this.validateCedarMetadata) }}
+            {{ on 'pointerover' (action this.validateCedarMetadata) }}
             {{ on 'keyup' (action this.validateCedarMetadata) }}
             templateObject={{@cedarMetadataTemplate.template}}
         />
