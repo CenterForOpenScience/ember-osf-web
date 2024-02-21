@@ -1,0 +1,41 @@
+{{#if this.verifyingCredentials.isRunning}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    {{#if this.useOauth}}
+        {{!-- TODO: need clientId, callback and other fields to actually make this work --}}
+        <div local-class='oauth-wrapper'>
+            {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}
+            <a
+                data-test-addon-oauth-link
+                data-analytics-name='OAuth'
+                href={{@provider.oauthUrl}}
+                target='_blank'
+                rel='noopener noreferrer'
+            >
+                {{t 'addons.accountCreate.oauth-link' providerName=@provider.name}}
+            </a>
+        </div>
+    {{else}}
+        <form>
+            {{#each this.inputFields as |field|}}
+                <label local-class='auth-text-input-label'>
+                    {{field.labelText}}
+                    <Input
+                        @type={{field.inputType}}
+                        @value={{field.inputValue}}
+                        @placeholder={{field.inputPlaceholder}}
+                        autocomplete={{field.autocomplete}}
+                    />
+                </label>
+            {{/each}}
+            <Button
+                data-test-addon-connect-account-button
+                data-analytics-name='Connect Account'
+                disabled={{@manager.connectAccount.isRunning}}
+                {{on 'click' (perform @manager.connectAccount)}}
+            >
+                {{t 'general.authorize'}}
+            </Button>
+        </form>
+    {{/if}}
+{{/if}}

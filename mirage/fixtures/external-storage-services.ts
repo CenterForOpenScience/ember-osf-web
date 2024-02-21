@@ -1,8 +1,10 @@
 // TODO: needs iconUri and authUri
+import { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
 export default [
     {
         id: 'box',
         name: 'Box',
+        credentialsFormat: CredentialsFormat.OAUTH2,
         authUri: 'https://www.box.com/api/oauth2/authorize',
         readOnly: false,
         supportsCopy: true,
@@ -13,9 +15,22 @@ export default [
         maxUploadMb: 5,
     },
     {
+        id: 'dataverse',
+        name: 'Dataverse',
+        credentialsFormat: CredentialsFormat.REPO_TOKEN,
+        readOnly: false,
+        supportsCopy: true,
+        supportsUserSpecificRootFolder: true,
+        supportsFileVersioning: true,
+        supportsBulkDownload: true,
+        maxConcurrentDownloads: 1,
+        maxUploadMb: 5,
+    },
+    {
         id: 'dropbox',
         name: 'Dropbox',
         authUri: 'https://www.dropbox.com/oauth2/authorize',
+        credentialsFormat: CredentialsFormat.OAUTH2,
         readOnly: false,
         supportsCopy: true,
         supportsUserSpecificRootFolder: true,
@@ -27,10 +42,23 @@ export default [
     {
         id: 'onedrive',
         name: 'OneDrive',
+        credentialsFormat: CredentialsFormat.OAUTH2,
         readOnly: true,
         supportsCopy: false,
         supportsUserSpecificRootFolder: true,
         supportsFileVersioning: false,
+        supportsBulkDownload: true,
+        maxConcurrentDownloads: 1,
+        maxUploadMb: 5,
+    },
+    {
+        id: 'owncloud',
+        name: 'ownCloud',
+        credentialsFormat: CredentialsFormat.USERNAME_PASSWORD,
+        readOnly: false,
+        supportsCopy: true,
+        supportsUserSpecificRootFolder: true,
+        supportsFileVersioning: true,
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,

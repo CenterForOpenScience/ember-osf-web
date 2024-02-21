@@ -240,6 +240,10 @@ addons:
         password-label: 'Password'
         username-placeholder: 'Username'
         password-placeholder: 'Password'
+        token-label: 'API Token'
+        token-placeholder: 'API Token'
+        secret-key-label: 'Secret Key'
+        secret-key-placeholder: 'Secret Key'
         oauth-description: 'Use OAuth to connect your {providerName} account'
         oauth-link: 'Connect with {providerName}'
     confirm:

@@ -78,49 +78,11 @@
                             {{t 'general.authorize'}}
                         </Button>
                     {{else if (eq manager.pageMode 'accountCreate')}}
-                        {{!-- Check selectedProvider's auth type (credentials/keys/token/etc) --}}
-                        <form>
-                            <label local-class='auth-text-input-label'>
-                                {{t 'addons.accountCreate.username-label'}}
-                                <Input
-                                    autocomplete='username'
-                                    @type='text'
-                                    @placeholder={{t 'addons.accountCreate.username-placeholder'}}
-                                    @value={{manager.username}}
-                                />
-                            </label>
-                            <label local-class='auth-text-input-label'>
-                                {{t 'addons.accountCreate.password-label'}}
-                                <Input
-                                    autocomplete='current-password'
-                                    @type='password'
-                                    @placeholder={{t 'addons.accountCreate.password-placeholder'}}
-                                    @value={{manager.password}}
-                                />
-                            </label>
-                            <Button
-                                data-test-addon-connect-account-button
-                                data-analytics-name='Connect Account'
-                                disabled={{manager.connectAccount.isRunning}}
-                                {{on 'click' (perform manager.connectAccount)}}
-                            >
-                                {{t 'general.authorize'}}
-                            </Button>
-                        </form>
-                        {{!-- Link for OAuth --}}
-                        {{!-- TODO: need clientId, callback and other fields to actually make this work --}}
-                        <div>
-                            {{t 'addons.accountCreate.oauth-description' providerName=provider.provider.name}}
-                            <a
-                                data-test-addon-oauth-link
-                                data-analytics-name='OAuth'
-                                href={{provider.oauthUrl}}
-                                target='_blank'
-                                rel='noopener noreferrer'
-                            >
-                                {{t 'addons.accountCreate.oauth-link' providerName=provider.provider.name}}
-                            </a>
-                        </div>
+                        <AddonsService::AccountSetupManager
+                            @provider={{provider.provider}}
+                            @manager={{manager}}
+                            @onConnect={{manager.connectAccount}}
+                        />
                     {{else if (eq manager.pageMode 'confirm')}}
                         {{t 'addons.confirm.verify'}}
                         {{manager.selectedAccount.externalUserDisplayName}}

@@ -73,8 +73,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
     @tracked selectedAccount?: AuthorizedStorageAccountModel;
-    @tracked username?: string;
-    @tracked password?: string;
+    @tracked credentialsObject = {
+        username: '',
+        password: '',
+        token: '',
+        key: '',
+    };
 
     @action
     filterByAddonType(type: FilterTypes) {

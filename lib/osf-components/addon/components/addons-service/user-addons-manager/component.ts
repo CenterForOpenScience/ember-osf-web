@@ -59,6 +59,12 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @tracked selectedProvider?: Provider;
     @tracked selectedAccount?: AuthorizedStorageAccountModel;
+    @tracked credentialsObject = {
+        username: '',
+        password: '',
+        token: '',
+        key: '',
+    };
 
 
     get filteredAddonProviders() {
