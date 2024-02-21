@@ -14,7 +14,7 @@ export default class ExternalStorageServiceModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('fixstring') iconUri!: string;
     @attr('fixstring') authUri!: string;
-    @attr('fixstring') credentialsFormat!: CredentialsFormat;
+    @attr('string') credentialsFormat!: CredentialsFormat;
     // TODO: combine these boolean scopes into a single array of strings from some enum
     @attr('boolean') readOnly!: boolean;
     @attr('boolean') supportsCopy!: boolean;
