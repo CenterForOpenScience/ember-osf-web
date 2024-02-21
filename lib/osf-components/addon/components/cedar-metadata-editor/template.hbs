@@ -6,11 +6,14 @@
         </div>
     {{/if}}
     <div local-class='cedar-container'>
+        {{!-- template-lint-disable no-invalid-interactive --}}
         <cedar-embeddable-editor
             {{did-insert this.injectMetadata}}
             local-class='cedar-editor'
             config={{this.cedarConfig}}
-            {{ on 'change' (action this.validateCedarMetadata) }} 
+            {{ on 'change' (action this.validateCedarMetadata) }}
+            {{ on 'pointerover' (action this.validateCedarMetadata) }}
+            {{ on 'keyup' (action this.validateCedarMetadata) }}
             templateObject={{@cedarMetadataTemplate.template}}
         />
     </div>
