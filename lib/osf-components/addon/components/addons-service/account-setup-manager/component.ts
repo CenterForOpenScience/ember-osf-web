@@ -8,6 +8,16 @@ import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/mo
 import AddonsServiceManagerComponent from 'ember-osf-web/components/addons-service/manager/component';
 import UserAddonsManagerComponent from 'ember-osf-web/components/addons-service/user-addons-manager/component';
 
+// TODO: Get this from GravyValet??
+const repoOptionsObject: Record<string, string[]> = {
+    dataverse: [
+        'dataverse.harvard.edu',
+        'dataverse.lib.virginia.edu',
+    ],
+    gitlab: [
+        'https://gitlab.com',
+    ],
+};
 interface InputFieldObject {
     labelText: string;
     inputType: string;
@@ -34,38 +44,28 @@ export default class AccountSetupManagerComponent extends Component<Args> {
     }
 
     otherRepoLabel = this.intl.t('addons.accountCreate.other-repo-label');
-    repoOptionsObject: Record<string, any> = {
-        dataverse: {
-            options: [
-                'dataverse.harvard.edu',
-                'dataverse.lib.virginia.edu',
-                this.otherRepoLabel,
-            ],
-            dropdownLabel: this.intl.t('addons.accountCreate.dataverse-repo-label'),
-            dropdownPlaceholder: this.intl.t('addons.accountCreate.dataverse-repo-placeholder'),
-            textInputPlaceholder: this.intl.t('addons.accountCreate.dataverse-repo-other-placeholder'),
-            textInputPostText: this.intl.t('addons.accountCreate.dataverse-repo-other-post-text'),
-        },
-        gitlab: {
-            options: [
-                'https://gitlab.com',
-                this.otherRepoLabel,
-            ],
-            dropdownLabel: this.intl.t('addons.accountCreate.gitlab-repo-label'),
-            dropdownPlaceholder: this.intl.t('addons.accountCreate.gitlab-repo-placeholder'),
-            textInputPlaceholder: this.intl.t('addons.accountCreate.gitlab-repo-other-placeholder'),
-            textInputPostText: this.intl.t('addons.accountCreate.gitlab-repo-other-post-text'),
-        },
-    };
 
     get showRepoOptions() {
         const { provider } = this.args;
-        return provider.credentialsFormat === CredentialsFormat.REPO_TOKEN &&
-            Boolean(this.repoOptionsObject[provider.id]);
+        return provider.credentialsFormat === CredentialsFormat.REPO_TOKEN;
+    }
+
+    get repoOptions() {
+        const repoSpecificOptions = repoOptionsObject[this.args.provider.id] || [];
+        return [...repoSpecificOptions, this.otherRepoLabel];
     }
 
     get otherRepoSelected() {
         return this.selectedRepo === this.otherRepoLabel;
+    }
+
+    get repoOtherPostText() {
+        if (this.args.provider.id === 'dataverse') {
+            return this.intl.t('addons.accountCreate.dataverse-repo-other-post-text');
+        } else if (this.args.provider.id === 'gitlab') {
+            return this.intl.t('addons.accountCreate.gitlab-repo-other-post-text');
+        }
+        return '';
     }
 
     @action

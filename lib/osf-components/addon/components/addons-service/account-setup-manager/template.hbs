@@ -18,33 +18,32 @@
     {{else}}
         <form>
             {{#if this.showRepoOptions}}
-                {{#let (get this.repoOptionsObject @provider.id) as |repoOptions|}}
-                    <label>
-                        {{get repoOptions 'dropdownLabel'}}
-                        <PowerSelect
-                            @options={{get repoOptions 'options'}}
-                            @selected={{this.selectedRepo}}
-                            @onChange={{this.onRepoChange}}
-                            @placeholder={{get repoOptions 'dropdownPlaceholder'}}
-                            as |selected|
-                        >
-                            {{selected}}
-                        </PowerSelect>
-                    </label>
-                    {{#if this.otherRepoSelected}}
-                        <Input
-                            local-class='auth-text-input-label'
-                            @value={{this.otherRepo}}
-                            @placeholder={{get repoOptions 'textInputPlaceholder'}}
-                            {{on 'keyup' this.onOtherRepoChange}}
-                        />
-                        {{#if (get repoOptions 'textInputPostText')}}
-                            <p>
-                                {{get repoOptions 'textInputPostText'}}
-                            </p>
-                        {{/if}}
+                <label>
+                    {{t 'addons.accountCreate.repo-label'}}
+                    <PowerSelect
+                        local-class='repo-select'
+                        @options={{this.repoOptions}}
+                        @selected={{this.selectedRepo}}
+                        @onChange={{this.onRepoChange}}
+                        @placeholder={{t 'addons.accountCreate.repo-placeholder'}}
+                        as |selected|
+                    >
+                        {{selected}}
+                    </PowerSelect>
+                </label>
+                {{#if this.otherRepoSelected}}
+                    <Input
+                        local-class='auth-text-input-label'
+                        @value={{this.otherRepo}}
+                        @placeholder={{t 'addons.accountCreate.repo-other-placeholder'}}
+                        {{on 'keyup' this.onOtherRepoChange}}
+                    />
+                    {{#if this.repoOtherPostText}}
+                        <p>
+                            {{this.repoOtherPostText}}
+                        </p>
                     {{/if}}
-                {{/let}}
+                {{/if}}
             {{/if}}
             {{#each this.inputFields as |field|}}
                 <label local-class='auth-text-input-label'>
