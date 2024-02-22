@@ -1,0 +1,53 @@
+<div local-class='right-container {{if @isMobile 'mobile'}}' data-test-metadata-tab>
+    <FileMetadataManager @file={{@file}} as |manager|>
+        <div local-class='metadata-title-edit-download'>
+            <h2 local-class='metadata-heading' data-test-metadata-header>
+                {{t 'file-detail.file-metadata'}}
+            </h2>
+            <div local-class='edit-download-buttons'>
+
+                {{#unless manager.inEditMode}}
+                    {{#unless manager.isAnonymous}}
+                        <OsfLink
+                            data-test-download-button
+                            aria-label={{t 'general.download'}}
+                            @href={{manager.metadataDownloadUrl}}
+                            @target='_blank'
+                            local-class='spacer'
+                        >
+                            <FaIcon @icon='download' />
+                            <EmberTooltip
+                                @side='right'
+                            >
+                                {{t 'general.download'}}
+                            </EmberTooltip>
+                        </OsfLink>
+                    {{/unless}}
+                    {{#if manager.userCanEdit}}
+                        <Button
+                            data-test-edit-metadata-button
+                            aria-label={{t 'general.edit'}}
+                            data-analytics-name='Edit metadata'
+                            @layout='fake-link'
+                            {{on 'click' manager.edit}}
+                        >
+                            <FaIcon @icon='pencil-alt' />
+                            <EmberTooltip
+                                @side='right'
+                            >
+                                {{t 'general.edit'}}
+                            </EmberTooltip>
+                        </Button>
+                    {{/if}}
+                {{/unless}}
+            </div>
+        </div>
+        {{#if manager.isGatheringData}}
+            <LoadingIndicator @dark={{true}} />
+        {{else}}
+            <FileMetadataForm
+                @manager={{manager}}
+            />
+        {{/if}}
+    </FileMetadataManager>
+</div>

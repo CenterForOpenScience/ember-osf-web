@@ -1,0 +1,40 @@
+<div local-class='file-header-container {{if @isMobile 'mobile'}}'>
+    <h3 local-class='project-link-header'>
+        <OsfLink
+            data-test-project-link
+            data-analytics-name='Linked project'
+            local-class='project-link'
+            @route={{if (eq @model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
+            @models={{array @model.fileModel.target.id}}
+        >
+            {{@model.fileModel.target.title}}
+        </OsfLink>
+    </h3>
+    <div local-class='flex-container-row'>
+        <h2 data-test-filename>
+            {{@model.displayName}}
+            {{#if @viewedVersion}}
+                ({{t 'general.version'}}: {{@viewedVersion}})
+            {{/if}}
+        </h2>
+        <div local-class='return-container'>
+            {{#if @displayFileActions}}
+                <FileActionsMenu
+                    @item={{@model}}
+                    @onDelete={{@onDelete}}
+                    @allowRename={{false}}
+                    @addonsEnabled={{@model.fileModel.target.addonsEnabled}}
+                />
+            {{else}}
+                <OsfLink
+                    data-test-return-to-metadata
+                    data-analytics-name='Return from cedar metadata template selection'
+                    @route='guid-file.index'
+                    @models={{array @model.fileModel.id}}
+                >
+                    {{ t 'file-detail.metadata.return-to-file' fileName=@model.displayName}}
+                </OsfLink>
+            {{/if}}
+        </div>
+    </div>
+</div>

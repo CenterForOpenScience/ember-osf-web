@@ -40,8 +40,8 @@ export default class GuidFile extends Controller {
 
     @action
     toggleRevisions() {
-        if (!this.model.waterButlerRevisions) {
-            taskFor(this.model.getRevisions).perform();
+        if (!this.model.file.waterButlerRevisions) {
+            taskFor(this.model.file.getRevisions).perform();
         }
         if (this.isMobile) {
             this.revisionsOpened = true;
@@ -113,6 +113,6 @@ export default class GuidFile extends Controller {
 
     @action
     onDelete() {
-        this.router.transitionTo('guid-node.files', this.model.fileModel.target.get('id'));
+        this.router.transitionTo('guid-node.files', this.model.file.fileModel.target.get('id'));
     }
 }

@@ -141,6 +141,14 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            cedarMetadataRecords: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/cedar_metadata_records/`,
+                        meta: this.buildRelatedLinkMeta(model, 'cedarMetadataRecords'),
+                    },
+                },
+            },
             schemaResponses: {
                 links: {
                     related: {

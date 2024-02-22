@@ -1,4 +1,4 @@
-import { attr } from '@ember-data/model';
+import { AsyncBelongsTo, attr, hasMany } from '@ember-data/model';
 import { assert } from '@ember/debug';
 import { computed } from '@ember/object';
 import { or } from '@ember/object/computed';
@@ -6,6 +6,7 @@ import { Link } from 'jsonapi-typescript';
 
 import getHref from 'ember-osf-web/utils/get-href';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
+import CedarMetadataRecordModel from 'ember-osf-web/models/cedar-metadata-record';
 import OsfModel, { OsfLinks } from './osf-model';
 
 export enum FileItemKinds {
@@ -27,6 +28,9 @@ export interface BaseFileLinks extends OsfLinks {
 export default class BaseFileItem extends OsfModel {
     @attr() links!: BaseFileLinks;
     @attr('fixstring') kind?: FileItemKinds;
+
+    @hasMany('cedar-metadata-record', { inverse: 'target'})
+    cedarMetadataRecords!: AsyncBelongsTo<CedarMetadataRecordModel> & CedarMetadataRecordModel;
 
     // Override in subclasses to set `true` when appropriate
     isNode = false;

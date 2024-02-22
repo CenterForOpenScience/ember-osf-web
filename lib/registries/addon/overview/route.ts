@@ -150,7 +150,8 @@ export default class Overview extends GuidRoute {
 
     @action
     error(error: Error, _: unknown) {
-        this.replaceWith('page-not-found', notFoundURL(this.router.currentURL));
+        this.replaceWith('page-not-found',
+            notFoundURL(this.router.currentURL ? this.router.currentURL : window.location.pathname));
         captureException(error);
     }
 }

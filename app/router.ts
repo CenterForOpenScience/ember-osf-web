@@ -64,7 +64,12 @@ Router.map(function() {
         this.mount('registries', { path: '--registries' });
     }
 
-    this.route('guid-file', { path: '--file/:guid' });
+    this.route('guid-file', { path: '--file/:guid' }, function() {
+        this.route('index', { path: '/'});
+        this.route('metadata', function() {
+            this.route('add');
+        });
+    });
 
     this.route('guid-node', { path: '--node/:guid' }, function() {
         this.mount('analytics-page', { as: 'analytics' });
@@ -72,7 +77,11 @@ Router.map(function() {
         this.route('files', function() {
             this.route('provider', { path: '/:providerId' });
         });
-        this.route('metadata');
+        this.route('metadata', function() {
+            this.route('index', { path: '/'});
+            this.route('detail', { path: '/:recordId' });
+            this.route('add');
+        });
         this.route('registrations');
         this.route('drafts', { path: '/drafts/:draftId' }, function() {
             this.route('register');

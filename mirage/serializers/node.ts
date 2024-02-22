@@ -66,6 +66,14 @@ export default class NodeSerializer extends ApplicationSerializer<MirageNode> {
                     },
                 },
             },
+            cedarMetadataRecords: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.id}/cedar_metadata_records/`,
+                        meta: this.buildRelatedLinkMeta(model, 'cedarMetadataRecords'),
+                    },
+                },
+            },
             children: {
                 links: {
                     related: {

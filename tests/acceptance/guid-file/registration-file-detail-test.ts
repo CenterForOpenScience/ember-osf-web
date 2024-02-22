@@ -142,7 +142,7 @@ module('Acceptance | guid file | registration files', hooks => {
             'SVG info-circle is correct.');
 
         // File metadata
-        assert.dom('[data-test-metadata-header]').hasText('File Metadata',
+        assert.dom('[data-test-metadata-header]').hasText('Metadata',
             'File metadata header is properly set.');
         // Title
         assert.dom('[data-test-file-title-label]').hasText('Title',
