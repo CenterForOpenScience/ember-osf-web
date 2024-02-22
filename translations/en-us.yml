@@ -244,6 +244,7 @@ addons:
         username-placeholder: 'Username'
         password-placeholder: 'Password'
         owncloud-password-post-text: 'These credentials will be encrypted. However, we strongly encourage using a <a href="https://doc.owncloud.com/#managing-devices">Device (or App) Password</a>.'
+        boa-password-post-text: 'These credentials will be encrypted.'
         api-token-label: 'API Token'
         api-token-placeholder: 'API Token'
         personal-access-token-label: 'Personal Access Token'

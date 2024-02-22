@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -33,29 +34,54 @@ export default class AccountSetupManagerComponent extends Component<Args> {
     }
 
     otherRepoLabel = this.intl.t('addons.accountCreate.other-repo-label');
-    dataverseRepoOptions = [
-        'dataverse.harvard.edu',
-        'dataverse.lib.virginia.edu',
-        this.otherRepoLabel,
-    ];
-    gitlabRepoOptions = [
-        'https://gitlab.com',
-        this.otherRepoLabel,
-    ];
+    repoOptionsObject: Record<string, any> = {
+        dataverse: {
+            options: [
+                'dataverse.harvard.edu',
+                'dataverse.lib.virginia.edu',
+                this.otherRepoLabel,
+            ],
+            dropdownLabel: this.intl.t('addons.accountCreate.dataverse-repo-label'),
+            dropdownPlaceholder: this.intl.t('addons.accountCreate.dataverse-repo-placeholder'),
+            textInputPlaceholder: this.intl.t('addons.accountCreate.dataverse-repo-other-placeholder'),
+            textInputPostText: this.intl.t('addons.accountCreate.dataverse-repo-other-post-text'),
+        },
+        gitlab: {
+            options: [
+                'https://gitlab.com',
+                this.otherRepoLabel,
+            ],
+            dropdownLabel: this.intl.t('addons.accountCreate.gitlab-repo-label'),
+            dropdownPlaceholder: this.intl.t('addons.accountCreate.gitlab-repo-placeholder'),
+            textInputPlaceholder: this.intl.t('addons.accountCreate.gitlab-repo-other-placeholder'),
+            textInputPostText: this.intl.t('addons.accountCreate.gitlab-repo-other-post-text'),
+        },
+    };
 
-    get showDataverseRepoOptions() {
+    get showRepoOptions() {
         const { provider } = this.args;
-        return provider.id === 'dataverse' && provider.credentialsFormat === CredentialsFormat.REPO_TOKEN;
-    }
-
-
-    get showGitlabRepoOptions() {
-        const { provider } = this.args;
-        return provider.id === 'gitlab' && provider.credentialsFormat === CredentialsFormat.REPO_TOKEN;
+        return provider.credentialsFormat === CredentialsFormat.REPO_TOKEN &&
+            Boolean(this.repoOptionsObject[provider.id]);
     }
 
     get otherRepoSelected() {
         return this.selectedRepo === this.otherRepoLabel;
+    }
+
+    @action
+    onRepoChange(newRepo: string) {
+        const { credentialsObject } = this.args.manager;
+        this.selectedRepo = newRepo;
+        if (this.otherRepoSelected) {
+            credentialsObject.repo = this.otherRepo;
+        } else {
+            credentialsObject.repo = newRepo;
+        }
+    }
+
+    @action
+    onOtherRepoChange() {
+        this.args.manager.credentialsObject.repo = this.otherRepo;
     }
 
     get inputFields(): InputFieldObject[] {
@@ -76,6 +102,26 @@ export default class AccountSetupManagerComponent extends Component<Args> {
                     inputValue: credentials.url,
                     postText: urlPostText,
                 },
+                {
+                    labelText: t('addons.accountCreate.username-label'),
+                    inputType: 'text',
+                    inputPlaceholder: t('addons.accountCreate.username-placeholder'),
+                    inputValue: credentials.username,
+                    autocomplete: 'username',
+                },
+                {
+                    labelText: t('addons.accountCreate.password-label'),
+                    inputType: 'password',
+                    inputPlaceholder: t('addons.accountCreate.password-placeholder'),
+                    inputValue: credentials.password,
+                    autocomplete: 'current-password',
+                    postText: passwordPostText,
+                },
+            ];
+        }
+        case CredentialsFormat.USERNAME_PASSWORD: {
+            const passwordPostText = t('addons.accountCreate.boa-password-post-text');
+            return [
                 {
                     labelText: t('addons.accountCreate.username-label'),
                     inputType: 'text',

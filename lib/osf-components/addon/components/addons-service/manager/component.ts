@@ -80,6 +80,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         token: '',
         accessKey: '',
         secretKey: '',
+        repo: '',
     };
 
     @action

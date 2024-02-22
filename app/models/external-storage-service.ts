@@ -6,6 +6,7 @@ export enum CredentialsFormat {
     OAUTH = 'oauth',
     OAUTH2 = 'oauth2',
     URL_USERNAME_PASSWORD = 'url_username_password',
+    USERNAME_PASSWORD = 'username_password',
     REPO_TOKEN = 'repo_token',
     ACCESS_SECRET_KEYS = 'access_secret_keys',
 }

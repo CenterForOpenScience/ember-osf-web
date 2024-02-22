@@ -66,6 +66,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         token: '',
         accessKey: '',
         secretKey: '',
+        repo: '',
     };
 
 
