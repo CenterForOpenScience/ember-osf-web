@@ -54,7 +54,7 @@ module('Integration | Component | addons-service | manager', hooks => {
 
         // Default view: storage providers
         assert.dom('[data-test-loading]').doesNotExist('Done loading');
-        assert.dom('[data-test-provider]').exists({ count: 5 }, 'Has providers');
+        assert.dom('[data-test-provider]').exists({ count: 7 }, 'Has providers');
         assert.dom('[data-test-provider="Box"]').hasText('Box', 'Has loaded Box');
         assert.dom('[data-test-provider="Zotero"]').doesNotExist('No citation service shown');
         assert.dom('[data-test-provider="Boa"]').doesNotExist('No cloud computing service shown');
@@ -62,7 +62,7 @@ module('Integration | Component | addons-service | manager', hooks => {
         assert.dom('[data-test-provider]').exists({ count: 1 }, 'Has filtered providers');
         assert.dom('[data-test-provider]').hasText('OneDrive', 'Filtered down to just OneDrive');
         await fillIn('input', '');
-        assert.dom('[data-test-provider]').exists({ count: 5 }, 'Filter removed');
+        assert.dom('[data-test-provider]').exists({ count: 7 }, 'Filter removed');
 
         // Filter by citation manager
         await click('[data-test-filter=citation-manager]');
