@@ -92,8 +92,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
         case CredentialsFormat.URL_USERNAME_PASSWORD: {
             const urlPostText = provider.id === 'owncloud' ?
                 t('addons.accountCreate.owncloud-url-post-text', { htmlSafe: true }) : '';
-            const passwordPostText = provider.id === 'owncloud' ?
-                t('addons.accountCreate.owncloud-password-post-text', { htmlSafe: true }) : '';
+            const passwordPostText = t('addons.accountCreate.password-post-text');
             return [
                 {
                     labelText: t('addons.accountCreate.url-label'),
@@ -120,7 +119,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
             ];
         }
         case CredentialsFormat.USERNAME_PASSWORD: {
-            const passwordPostText = t('addons.accountCreate.boa-password-post-text');
+            const passwordPostText = t('addons.accountCreate.password-post-text');
             return [
                 {
                     labelText: t('addons.accountCreate.username-label'),
