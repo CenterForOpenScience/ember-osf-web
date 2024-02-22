@@ -78,13 +78,11 @@
                             {{t 'general.authorize'}}
                         </Button>
                     {{else if (eq manager.pageMode 'accountCreate')}}
-                        <Button
-                            data-test-addon-authorize-button
-                            data-analytics-name='Authorize'
-                            {{on 'click' manager.authorizeSelectedAccount}}
-                        >
-                            {{t 'general.authorize'}}
-                        </Button>
+                        <AddonsService::AccountSetupManager
+                            @provider={{provider.provider}}
+                            @manager={{manager}}
+                            @onConnect={{manager.connectAccount}}
+                        />
                     {{else if (eq manager.pageMode 'confirm')}}
                         {{t 'addons.confirm.verify'}}
                         {{manager.selectedAccount.externalUserDisplayName}}
