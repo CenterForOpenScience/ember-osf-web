@@ -48,6 +48,9 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     isPreprintOrphan: false,
 
     description: faker.lorem.sentence(),
+    dateCreated: new Date('2018-05-05T14:49:27.746938Z'),
+    dateModified: new Date('2018-07-02T11:51:07.837747Z'),
+    datePublished: new Date('2018-05-05T14:54:01.681202Z'),
 
     licenseRecord: {
         copyright_holders: [
@@ -137,9 +140,6 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
             subjects,
             files: [file],
             primaryFile: file,
-            date_created: new Date('2018-05-05T14:49:27.746938Z'),
-            date_modified: new Date('2018-07-02T11:51:07.837747Z'),
-            date_published: new Date('2018-05-05T14:54:01.681202Z'),
             node,
         });
     },

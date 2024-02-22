@@ -119,7 +119,7 @@ export default class PreprintsDetail extends Route {
             const metaTagsData = {
                 title: preprint.title,
                 description: preprint.description,
-                publishedDate: moment(preprint.dateRegistered).format('YYYY-MM-DD'),
+                publishedDate: moment(preprint.datePublished).format('YYYY-MM-DD'),
                 modifiedDate: moment(preprint.dateModified).format('YYYY-MM-DD'),
                 identifier: preprint.id,
                 url: pathJoin(config.OSF.url, preprint.id),
