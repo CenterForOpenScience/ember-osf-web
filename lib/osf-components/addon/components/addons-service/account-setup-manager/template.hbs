@@ -17,6 +17,51 @@
         </div>
     {{else}}
         <form>
+            {{#if this.showDataverseRepoOptions}}
+                <label>
+                    {{t 'addons.accountCreate.dataverse-repo-label'}}
+                    <PowerSelect
+                        @options={{this.dataverseRepoOptions}}
+                        @selected={{this.selectedRepo}}
+                        @placeholder={{t 'addons.accountCreate.dataverse-repo-placeholder'}}
+                        as |selected|
+                    >
+                        {{selected}}
+                    </PowerSelect>
+                </label>
+                {{#if this.otherRepoSelected}}
+                    <Input
+                        local-class='auth-text-input-label'
+                        @value={{this.otherRepo}}
+                        @placeholder={{t 'addons.accountCreate.dataverse-repo-other-placeholder'}}
+                    />
+                    <p>
+                        {{t 'addons.accountCreate.dataverse-repo-other-post-text'}}
+                    </p>
+                {{/if}}
+            {{else if this.showGitlabRepoOptions}}
+                <label>
+                    {{t 'addons.accountCreate.gitlab-repo-label'}}
+                    <PowerSelect
+                        @options={{this.gitlabRepoOptions}}
+                        @selected={{this.selectedRepo}}
+                        @placeholder={{t 'addons.accountCreate.gitlab-repo-placeholder'}}
+                        as |selected|
+                    >
+                        {{selected}}
+                    </PowerSelect>
+                </label>
+                {{#if this.otherRepoSelected}}
+                    <Input
+                        local-class='auth-text-input-label'
+                        @value={{this.otherRepo}}
+                        @placeholder={{t 'addons.accountCreate.gitlab-repo-other-placeholder'}}
+                    />
+                    <p>
+                        {{t 'addons.accountCreate.gitlab-repo-other-post-text'}}
+                    </p>
+                {{/if}}
+            {{/if}}
             {{#each this.inputFields as |field|}}
                 <label local-class='auth-text-input-label'>
                     {{field.labelText}}
@@ -27,6 +72,7 @@
                         autocomplete={{field.autocomplete}}
                     />
                 </label>
+                {{field.postText}}
             {{/each}}
             <Button
                 data-test-addon-connect-account-button

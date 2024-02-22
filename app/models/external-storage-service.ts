@@ -5,9 +5,9 @@ import OsfModel from './osf-model';
 export enum CredentialsFormat {
     OAUTH = 'oauth',
     OAUTH2 = 'oauth2',
-    USERNAME_PASSWORD = 'username_password',
+    URL_USERNAME_PASSWORD = 'url_username_password',
     REPO_TOKEN = 'repo_token',
-    SECRET_KEY = 'secret_key',
+    ACCESS_SECRET_KEYS = 'access_secret_keys',
 }
 
 export default class ExternalStorageServiceModel extends OsfModel {
