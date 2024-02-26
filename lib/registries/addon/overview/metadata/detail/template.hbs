@@ -1,0 +1,13 @@
+<div local-class='metadata-container {{if this.isMobile 'mobile'}}'>
+    <Metadata::MetadataDetail
+        @route='registries.overview.metadata.add'
+        @target={{this.model.target}}
+    />
+    <div local-class='metadata-tab-container'>
+        <Metadata::MetadataTabs
+            @target={{this.model.target}}
+            @cedarMetadataRecords={{this.model.cedarMetadataRecords}}
+            @defaultIndex={{this.model.defaultIndex}}
+        />
+    </div>
+</div>

@@ -52,7 +52,7 @@ module('Acceptance | resolve-guid', hooks => {
 
             await visit(`/${file.id}`);
 
-            routingAssertions(assert, '--file', `/${file.id}`, 'guid-file');
+            routingAssertions(assert, '--file', `/${file.id}`, 'guid-file.index');
         });
     });
 
@@ -104,9 +104,9 @@ module('Acceptance | resolve-guid', hooks => {
         test('Metadata', async function(assert) {
             const node = server.create('node');
 
-            await visit(`/${node.id}/metadata`);
+            await visit(`/${node.id}/metadata/osf`);
 
-            routingAssertions(assert, '--node', `/${node.id}/metadata`, 'guid-node.metadata');
+            routingAssertions(assert, '--node', `/${node.id}/metadata/osf`, 'guid-node.metadata.detail');
         });
     });
 
@@ -177,9 +177,10 @@ module('Acceptance | resolve-guid', hooks => {
             test('Metadata', async function(assert) {
                 const reg = server.create('registration', { currentUserPermissions: [Permission.Admin] });
 
-                await visit(`/${reg.id}/metadata`);
+                await visit(`/${reg.id}/metadata/osf`);
 
-                routingAssertions(assert, '--registries', `/${reg.id}/metadata`, 'registries.overview.metadata');
+                routingAssertions(assert, '--registries', `/${reg.id}/metadata/osf`,
+                    'registries.overview.metadata.detail');
             });
         });
     });

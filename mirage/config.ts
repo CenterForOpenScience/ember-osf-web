@@ -89,6 +89,7 @@ export default function(this: Server) {
         only: ['index'],
         path: '/files/:parentID/versions',
     });
+    osfNestedResource(this, 'file', 'cedarMetadataRecords', { only: ['index'] });
 
     this.get('/guids/:id', guidDetail);
 
@@ -134,7 +135,10 @@ export default function(this: Server) {
         relatedModelName: 'contributor',
         defaultSortKey: 'index',
     });
+
     osfNestedResource(this, 'node', 'forks', { only: ['index'] });
+    osfNestedResource(this, 'node', 'cedarMetadataRecords', { only: ['index'] });
+
     this.post('/nodes/:id/forks', createFork);
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedByNodes', { only: ['index'] });
@@ -213,6 +217,9 @@ export default function(this: Server) {
     });
     osfNestedResource(this, 'registration', 'forks', { only: ['index'] });
     this.post('/registrations/:id/forks', createRegistrationFork);
+
+    osfNestedResource(this, 'registration', 'cedarMetadataRecords', { only: ['index'] });
+
     osfNestedResource(this, 'registration', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'registration', 'linkedRegistrations', { only: ['index'] });
     osfToManyRelationship(this, 'registration', 'affiliatedInstitutions', {
@@ -487,6 +494,9 @@ export default function(this: Server) {
 
     // Private namespace
     this.namespace = '/_';
+
+    osfResource(this, 'cedar-metadata-template', {only: ['index', 'show'] });
+    osfResource(this, 'cedar-metadata-record', {only: ['index', 'show', 'update', 'create'] });
 
     this.get('/banners/current/', () => ({
         data: {

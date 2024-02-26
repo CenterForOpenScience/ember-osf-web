@@ -1,0 +1,89 @@
+<div local-class='metadata-tab-container {{if this.isMobile 'mobile'}}'>
+    <AriaTabs
+        data-analytics-scope='Metadata Tab'
+        @defaultIndex={{this.defaultIndex}}
+        @onSelect={{action this.changeTab}}
+        local-class='tabs
+            {{if this.showTabs 'hidden'}}
+        '
+        as |tab|
+    >
+        <tab.tabList
+            local-class='tab-list {{if this.showMore 'showMore'}}'
+            id='tab-list'
+            as |tablist|
+
+            {{did-insert this.didRenderList}}
+        >
+            <tablist.tab>
+                <span local-class='{{if this.isActive 'dark'}}'>
+                    {{t 'metadata.main-tab'}}
+                </span>
+            </tablist.tab>
+            {{#each this.cedarMetadataRecords as |cedarMetadataRecord index| }}
+                <tablist.tab
+                    data-analytics-name='changed to: {{cedarMetadataRecord.templateName }}'
+                >
+                    <Metadata::MetadataTabView
+                        @cedarMetadataRecord={{cedarMetadataRecord}}
+                        @id={{index}}
+                        @activeId={{this.activeId}}
+                    />
+                </tablist.tab>
+            {{/each}}
+        </tab.tabList>
+        <tab.tabPanel>
+            <div local-class='metadata-pane' data-test-registrations-pane>
+                {{#if @displayFileMetadata}}
+                    <Metadata::FileMetadataLayout 
+                        @isMobile={{this.isMobile}}
+                        @file={{this.target}}
+                    />
+                {{else}}
+                    <NodeMetadataManager @node={{this.target}} as |manager|>
+                        {{#if manager.isGatheringData}}
+                            <LoadingIndicator @dark={{true}} />
+                        {{else}}
+                            <NodeMetadataForm @manager={{manager}}/>
+                        {{/if}}
+                    </NodeMetadataManager>
+                {{/if}}
+            </div>
+        </tab.tabPanel>
+        {{#each this.cedarMetadataRecords as |cedarMetadataRecord| }}
+            <tab.tabPanel>
+                <CedarMetadataRenderer
+                    @cedarMetadataRecord={{cedarMetadataRecord}}
+                    @displayFileMetadata={{@displayFileMetadata}}
+                />
+            </tab.tabPanel>
+        {{/each}}
+    </AriaTabs>
+    {{#if this.showTabs}}
+        <div local-class='more-options'>
+            {{#if this.showMore}}
+                <FaIcon @icon='minus' 
+                    data-test-show-less
+                    aria-label={{t 'metadata.see-less'}}
+                    {{on 'click' (action this.clickIcon)}}
+                />
+                <EmberTooltip
+                    @side='right'
+                >
+                    {{t 'metadata.see-less'}}
+                </EmberTooltip>
+            {{else}}
+                <FaIcon @icon='plus' 
+                    data-test-show-more
+                    aria-label={{t 'metadata.see-more'}}
+                    {{on 'click' (action this.clickIcon)}}
+                />
+                <EmberTooltip
+                    @side='right'
+                >
+                    {{t 'metadata.see-more'}}
+                </EmberTooltip>
+            {{/if}}
+        </div>
+    {{/if}}
+</div>

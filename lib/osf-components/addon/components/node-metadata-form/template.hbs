@@ -1,7 +1,4 @@
 <div local-class='container'>
-    <h2>
-        {{t 'osf-components.node-metadata-form.metadata-header'}}
-    </h2>
     <FormControls @changeset={{@manager.nodeChangeset}} as |form|>
         {{#if @manager.isEditingDescription}}
             <div local-class='edit-metadata-description'>

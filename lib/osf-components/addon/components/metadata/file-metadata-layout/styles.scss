@@ -1,0 +1,61 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.right-container {
+    display: inline-flex;
+    flex-direction: column;
+    height: 95%;
+    margin: 0 20px 20px;
+
+    &.mobile {
+        width: 90vw;
+    }
+
+    h2 {
+        font-size: 31.5px;
+        font-weight: 300;
+        line-height: 1.1;
+        margin-bottom: 20px;
+    }
+
+
+    .metadata-heading {
+        margin-bottom: 0;
+    }
+
+    .metadata-title-edit-download {
+        align-items: baseline;
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: space-between;
+        white-space: nowrap;
+        width: 100%;
+
+        svg {
+            height: 1.5em;
+        }
+    }
+
+    .edit-download-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+
+        .spacer {
+            margin-right: 10px;
+        }
+
+        a,
+        button {
+            padding: 0.7vw 1.1vw;
+        }
+
+        button:active,
+        button:focus,
+        button:hover,
+        a:active,
+        a:focus,
+        a:hover {
+            background: #efefef;
+        }
+    }
+}

@@ -1,0 +1,120 @@
+<GuidFile::-Components::FileDetailLayout
+    @rightColumnClosed={{this.rightColumnClosed}}
+    @isMobile={{this.media.isMobile}}
+>
+    <:header>
+        <div local-class='file-header-container {{if this.media.isMobile 'mobile'}}'>
+            <GuidFile::-Components::FileHeader
+                @model={{this.model.file}}
+                @viewedVersion={{this.viewedVersion}}
+                @onDelete={{this.onDelete}}
+                @displayFileActions={{true}}
+                @isMobile={{this.media.isMobile}}
+            />
+        </div>
+    </:header>
+    <:body>
+        <div data-test-file-renderer id='mfrIframeParent' local-class='file-renderer'>
+            <FileRenderer
+                @download={{this.model.file.links.download}}
+                @version={{this.viewedVersion}}
+            />
+        </div>
+    </:body>
+    <:right>
+        {{#if this.revisionsOpened}}
+            <section data-test-revisions-tab local-class='file-detail-revisions'>
+                <h2 local-class='file-detail-right-section-heading'>{{t 'general.revisions'}}</h2>
+                <ol local-class='file-detail-revision-list' reversed>
+                    <hr aria-hidden='true'>
+                    {{#if this.model.file.getRevisions.isRunning}}
+                        <LoadingIndicator @dark={{true}} />
+                    {{else}}
+                        {{#each this.model.file.waterButlerRevisions as |version|}}
+                            <FileVersion
+                                @version={{version}}
+                                @downloadUrl={{this.model.file.links.download}}
+                                @changeVersion={{this.changeVersion}}
+                            />
+                            <hr aria-hidden='true'>
+                        {{else}}
+                            {{t 'file-detail.no-revisions'}}
+                        {{/each}}
+                    {{/if}}
+                </ol>
+            </section>
+        {{/if}}
+        {{#if this.tagsOpened}}
+            <div local-class='right-container'>
+                <h2>{{t 'general.tags'}}</h2>
+                <TagsWidget
+                    @taggable={{this.model.file.fileModel}}
+                    @readOnly={{not this.model.file.userCanEditMetadata}}
+                    @inline={{true}}
+                />
+            </div>
+        {{/if}}
+        {{#if this.metadataOpened}}
+            <Metadata::MetadataDetail
+                @route='guid-file.metadata.add'
+                @target={{this.model.file.fileModel}}
+                @displayFileMetadata={{true}}
+            />
+            <div local-class='metadata-tab-container'>
+                <Metadata::MetadataTabs
+                    @target={{this.model.file.fileModel}}
+                    @cedarMetadataRecords={{this.model.cedarMetadataRecords }}
+                    @defaultIndex={{0}}
+                    @displayFileMetadata={{true}}
+                />
+            </div>
+        {{/if}}
+    </:right>
+    <:rightButtons>
+        {{#if this.media.isMobile}}
+            <Button
+                data-test-file-renderer-button
+                data-analytics-name='File renderer button'
+                local-class='slide-buttons {{if this.rightColumnClosed 'active'}}'
+                @layout='large'
+                {{on 'click' this.toggleFileRenderer}}
+            >
+                <FaIcon @icon='file-alt' @fixedWidth={{true}}/>
+            </Button>
+        {{/if}}
+        <Button
+            aria-label={{if this.metadataOpened (t 'file-detail.close-metadata') (t 'file-detail.view-metadata')}}
+            data-test-metadata-button
+            data-analytics-name='Metadata button'
+            local-class='slide-buttons {{if this.metadataOpened 'active'}}'
+            @layout='large'
+            {{on 'click' this.toggleMetadata}}
+        >
+            <FaIcon @icon='info-circle' @fixedWidth={{true}}/>
+        </Button>
+        {{#if this.model.file.shouldShowRevisions}}
+            <Button
+                aria-label={{if this.revisionsOpened (t 'file-detail.close-revisions') (t 'file-detail.view-revisions')}}
+                data-test-versions-button
+                data-analytics-name='Versions button'
+                local-class='slide-buttons {{if this.revisionsOpened 'active'}}'
+                @layout='large'
+                {{on 'click' this.toggleRevisions}}
+            >
+                <FaIcon @icon='history' @fixedWidth={{true}}/>
+            </Button>
+        {{/if}}
+        {{#if this.model.file.shouldShowTags}}
+            <Button
+                aria-label={{if this.tagsOpened (t 'file-detail.close-tags') (t 'file-detail.view-tags')}}
+                data-test-tags-button
+                data-analytics-name='Tags button'
+                local-class='slide-buttons {{if this.tagsOpened 'active'}}'
+                @layout='large'
+                {{on 'click' this.toggleTags}}
+            >
+                <FaIcon @icon='tags' @fixedWidth={{true}}/>
+            </Button>
+        {{/if}}
+    </:rightButtons>
+</GuidFile::-Components::FileDetailLayout>

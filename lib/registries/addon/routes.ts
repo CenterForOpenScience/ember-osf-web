@@ -44,7 +44,11 @@ export default buildRoutes(function() {
         this.route('resources');
         this.route('forks');
         this.route('links');
-        this.route('metadata');
+        this.route('metadata', function() {
+            this.route('index', { path: '/'});
+            this.route('detail', { path: '/:recordId' });
+            this.route('add');
+        });
     });
 
 

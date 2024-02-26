@@ -22,7 +22,7 @@ export default abstract class GuidRoute extends Route {
 
     @task
     @waitFor
-    async getModel(guid: string) {
+    async getModel(guid: string, transition: any) {
         const blocker = this.ready.getBlocker();
 
         let model;
@@ -34,7 +34,7 @@ export default abstract class GuidRoute extends Route {
             });
         } catch (e) {
             // To do custom error handling, add an error() action to the route that subclasses GuidRoute.
-            this.send('error', e);
+            transition.send(false, 'error', e);
         }
 
         blocker.done();
@@ -52,10 +52,10 @@ export default abstract class GuidRoute extends Route {
         return [];
     }
 
-    model(params: { guid: string }) {
+    model(params: { guid: string }, transition: any) {
         return {
             guid: params.guid,
-            taskInstance: taskFor(this.getModel).perform(params.guid),
+            taskInstance: taskFor(this.getModel).perform(params.guid, transition),
             task: this.getModel,
         };
     }

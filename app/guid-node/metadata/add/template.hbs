@@ -1,0 +1,18 @@
+{{page-title this.tabTitle}}
+<div local-class='metadata-add-container {{if this.isMobile 'mobile'}}'>
+    {{#if this.displaySelectionOptions}}
+        <Metadata::MetadataAdd
+            @templates={{this.model.templates}}
+            @selectTemplate={{this.selectTemplate}}
+            @target={{this.model.target}}
+        />
+    {{else}}
+        <CedarMetadataEditor
+            @cedarMetadataTemplate={{this.selectedTemplate}}
+            @target={{this.model.target}}
+            @closeCedarEditor={{this.closeCedarEditor}}
+            @redirectRoute='guid-node.metadata.detail'
+        />
+    {{/if}}
+</div>
+

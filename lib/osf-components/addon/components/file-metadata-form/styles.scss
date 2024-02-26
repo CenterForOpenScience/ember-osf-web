@@ -1,0 +1,38 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.node-type-heading {
+    border-top: 2px solid #ddd;
+    border-top: 2px solid rgb(221, 221, 221);
+    padding-top: 30px;
+
+    .affiliated-institutions {
+        margin-top: 14px;
+    }
+}
+
+
+.metadata-form-and-buttons {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 20px;
+    height: 100%;
+    justify-content: flex-start;
+
+    .edit-metadata-form {
+        display: inline-flex;
+        flex-direction: column;
+        max-width: 100%;
+
+        .placeholder {
+            color: #555;
+        }
+    }
+
+    .edit-metadata-save-cancel-buttons {
+        display: inline-flex;
+        flex-direction: row;
+        font-size: 14px;
+        grid-gap: 1vw;
+        justify-content: flex-end;
+    }
+}

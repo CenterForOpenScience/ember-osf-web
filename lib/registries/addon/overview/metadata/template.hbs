@@ -1,7 +1,2 @@
-<NodeMetadataManager @node={{this.model.taskInstance.value}} as |manager|>
-    {{#if manager.isGatheringData}}
-        <LoadingIndicator @dark={{true}} />
-    {{else}}
-        <NodeMetadataForm @manager={{manager}} />
-    {{/if}}
-</NodeMetadataManager>
+{{page-title (t 'metadata.tab-title')}}
+{{ outlet }}

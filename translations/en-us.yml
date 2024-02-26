@@ -171,6 +171,10 @@ file-detail:
     modification-date: 'Date modified'
     registration-date: 'Date registered'
     withdrawal-date: 'Date withdrawn'
+    metadata:
+        add-record: 'Add Record'
+        add-record-tooltip: 'Add a Cedar Metadata schema to this file.'
+        return-to-file: 'Return to {fileName}'
     resource-help-dialog:
         heading: 'About file resource information'
         write-permission: 'The resource information section allows you to describe what kind of material you are sharing in a human and machine readable format. Indexes and search engines can use the resource types to filter results, increasing discoverability for works with completed metadata. For example, indicating that your resource type is “Dataset” will allow your work to be displayed in other indexes and repositories that specialize in data in addition to the OSF.<br><br>On this page you can describe the resource type of this individual file. You can also describe the resources within your entire {parentNodeType} on the {parentNodeType} metadata page.<br><br>OSF enables the <a href="https://support.datacite.org/v1.3/docs/what-are-the-resource-types-for-datacite-dois">Datacite Resource Types</a>. More information is available on our <a href="https://help.osf.io/article/570-resource-types-in-osf">help guides</a>.'
@@ -212,7 +216,38 @@ dashboard:
         registries: 'OSF Registries'
         preprints: 'OSF Preprints'
         institutions: 'OSF Institutions'
-
+metadata:
+    tab-title: 'Metadata'
+    main-tab: 'OSF'
+    header: 'Metadata'
+    download: 'Download Metadata Record'
+    add-record: 'Add Community Metadata Records'
+    see-more: 'Click to see more metadata options'
+    see-less: 'Click to see less metadata options'
+    add-flow:
+        select-metadata-template: 'Select a Metadata Template'
+        select-different-metadata-template: 'Select a different template'
+        explanation: 'OSF has partnered with <a target="_new" href="https://metadatacenter.org/">CEDAR</a> to provide more ways to annotate your research with domain or community-specific metadata records.  If you would like to request the addition of a new metadata template, contact us at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+        available-templates: 'Available Templates from CEDAR'
+        select: 'Select'
+        tab-title-select: 'Select Record'
+        tab-title-add: 'Add'
+        saving: 'Saving Record'
+        edit: 'Edit Record'
+        template-exists: 'You have already added a record with this template'
+cedar:
+    editor:
+        save-draft-button: 'Save Draft'
+        save-draft-button-tooltip: 'The metadata record has required fields that have not been filled in. You may save this metadata record as a draft. It will not be visible to any non-admin users.'
+        publish-button: 'Publish'
+        cancel-button: 'Cancel'
+        error: 'Save Failed. Please try again.'
+        edit-tooltip: 'Edit the metadata record.'
+        share: 'Copy url to clipboard to share.'
+    renderer:
+        draft: 'Draft'
+        draft-explanation: "This metadata has a status of 'Draft' and is not publicly viewable. To 'Publish' this metadata please fill in all required fields and resubmit the data."
+        published-explanation: "This metadata has a status of 'Published' and is publicly viewable."
 search:
     page-title: 'Search'
     index-card:
@@ -2146,7 +2181,6 @@ osf-components:
         modification-date: 'Date modified'
         registration-date: 'Date registered'
         withdrawal-date: 'Date withdrawn'
-        metadata-header: 'Metadata'
         resource-information: 'Resource Information'
         resource-information-help: 'More information about resource information'
         contributors: 'Contributors'
