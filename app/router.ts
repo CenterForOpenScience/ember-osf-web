@@ -67,7 +67,7 @@ Router.map(function() {
     this.route('guid-file', { path: '--file/:guid' }, function() {
         this.route('index', { path: '/'});
         this.route('metadata', function() {
-            this.route('add');
+            // this.route('add');
         });
     });
 
@@ -80,7 +80,7 @@ Router.map(function() {
         this.route('metadata', function() {
             this.route('index', { path: '/'});
             this.route('detail', { path: '/:recordId' });
-            this.route('add');
+            // this.route('add');
         });
         this.route('registrations');
         this.route('drafts', { path: '/drafts/:draftId' }, function() {
