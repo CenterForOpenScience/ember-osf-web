@@ -17,19 +17,16 @@ $page-height: 1000px;
     .flow-status-container {
         height: $page-height;
         width: $side-container-width;
-        // border: 1px solid red;
     }
 
     .flow-input-container {
         height: $page-height;
         width: $middle-container-width;
-        // border: 1px solid red;
     }
 
     .flow-action-container {
         height: $page-height;
         width: $side-container-width;
-        // border: 1px solid red;
     }
 
     &.mobile {

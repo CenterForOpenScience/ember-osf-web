@@ -1,5 +1,12 @@
 <div local-class='preprint-state-machine-container  {{if this.isMobile 'mobile'}}'>
-    <div local-class='flow-status-container'></div>
-    <div local-class='flow-input-container'></div>
-    <div local-class='flow-action-container'></div>
+    <div local-class='flow-status-container'>
+        <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow />
+    </div>
+    <div local-class='flow-input-container'>
+        {{t 'preprints.submit.step-one.title'}}
+
+    </div>
+    <div local-class='flow-action-container'>
+        <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow />
+    </div>
 </div>
