@@ -1,0 +1,14 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+$side-container-width: 205px;
+$page-height: 1000px;
+
+.action-flow-container {
+    height: $page-height;
+    width: $side-container-width;
+    border-left: 1px solid $color-border-gray-darker;
+
+    &.mobile {
+        height: fit-content;
+    }
+}

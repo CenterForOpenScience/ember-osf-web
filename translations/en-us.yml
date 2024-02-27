@@ -1162,6 +1162,12 @@ preprints:
     title: 'Preprints'
     submit:
         title: 'Submit New'
+        step-one:
+            title: 'Title and File'
+        status-flow:
+            step-one: 'Title and File'
+        action-flow:
+            next: 'Next'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
