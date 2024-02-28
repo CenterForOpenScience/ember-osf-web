@@ -1161,8 +1161,11 @@ preprints:
         title: 'Search'
     title: 'Preprints'
     select:
-        title: 'Select Providers'
-        toy_text: 'I am expect to see this text'
+        page_title: 'Select Providers'
+        title: 'New Preprints'
+        heading: 'Select a preprint service'
+        paragraph: 'A preprint is a version of a scholarly or scientific paper that is posted online before it has undergone formal peer review and published in a scientific journal. <a href={link}>Learn More.</a>.'
+        create_button: 'Create Preprint'
     submit:
         title: 'Submit New'
     detail:
