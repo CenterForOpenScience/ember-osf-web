@@ -18,7 +18,6 @@ export default class PreprintSubmitRoute extends Route {
     buildRouteInfoMetadata() {
         return {
             osfMetrics: {
-                isSearch: true,
                 providerId: this.theme.id,
             },
         };
@@ -34,7 +33,7 @@ export default class PreprintSubmitRoute extends Route {
             };
         } catch (e) {
 
-            this.router.transitionTo('not-found', `preprints/${args.provider_id}/discover`);
+            this.router.transitionTo('not-found', `preprints/${args.provider_id}/submit`);
             return null;
         }
     }
