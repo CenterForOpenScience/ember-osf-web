@@ -1,11 +1,13 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
-import Media from 'ember-responsive';
 
-export default class StatusFlow extends Component{
-    @service media!: Media;
 
-    get isMobile() {
-        return this.media.isMobile;
-    }
+/**
+ * The Submit Args
+ */
+interface StatusFlowArgs {
+    statusFlowIndex: number;
+}
+
+export default class StatusFlow extends Component<StatusFlowArgs>{
+    statusFlowIndex = this.args.statusFlowIndex;
 }
