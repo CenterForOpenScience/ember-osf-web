@@ -1,4 +1,4 @@
-<div local-class='preprint-state-machine-container  {{if this.isMobile 'mobile'}}'>
+<div local-class='preprint-state-machine-container  {{if (is-mobile) 'mobile'}}'>
     <div local-class='flow-status-container'>
         <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow />
     </div>
