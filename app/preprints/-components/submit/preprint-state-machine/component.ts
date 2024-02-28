@@ -23,8 +23,9 @@ export default class PreprintStateMachine extends Component<SubmitArgs>{
     @service router!: RouterService;
 
     provider = this.args.provider;
+    displayAuthorAssertions = true;
     preprint: PreprintModel;
-    @tracked statusFlowIndex = 0;
+    @tracked statusFlowIndex = 2;
 
     constructor(owner: unknown, args: SubmitArgs) {
         super(owner, args);

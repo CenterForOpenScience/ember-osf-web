@@ -1165,7 +1165,11 @@ preprints:
         step-one:
             title: 'Title and File'
         status-flow:
-            step-one: 'Title and File'
+            step-title-and-file: 'Title and File'
+            step-metadata: 'Metadata'
+            step-author-assertions: 'Author Assertions'
+            step-supplements: 'Supplements'
+            step-review: 'Review'
         action-flow:
             next: 'Next'
     detail:
