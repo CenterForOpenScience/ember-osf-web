@@ -1160,6 +1160,9 @@ preprints:
     discover:
         title: 'Search'
     title: 'Preprints'
+    select:
+        title: 'Select Providers'
+        toy_text: 'I am expect to see this text'
     submit:
         title: 'Submit New'
     detail:
