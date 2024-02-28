@@ -1,3 +1,28 @@
 <div local-class='status-flow-container  {{if this.isMobile 'mobile'}}'>
-    {{ t 'preprints.submit.status-flow.step-one'}}
+    {{this.statusFlowIndex}}
+    {{#if this.isDisplayTitleAndFile}}
+        <div local-class='status-container' data-test-title-and-file>
+            {{ t 'preprints.submit.status-flow.step-title-and-file'}}
+        </div>
+    {{/if}}
+    {{#if this.isDisplayMetadata}}
+        <div local-class='status-container' data-test-metadata>
+            {{ t 'preprints.submit.status-flow.step-metadata'}}
+        </div>
+    {{/if}}
+    {{#if this.isDisplayAuthorAssertions}}
+        <div local-class='status-container' data-test-author-assertions>
+            {{ t 'preprints.submit.status-flow.step-author-assertions'}}
+        </div>
+    {{/if}}
+    {{#if this.isDisplaySupplements}}
+        <div local-class='status-container' data-test-supplements>
+            {{ t 'preprints.submit.status-flow.step-supplements'}}
+        </div>
+    {{/if}}
+    {{#if this.isDisplayReview}}
+        <div local-class='status-container' data-test-review>
+            {{ t 'preprints.submit.status-flow.step-review'}}
+        </div>
+    {{/if}}
 </div>
