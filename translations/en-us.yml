@@ -1160,6 +1160,8 @@ preprints:
     discover:
         title: 'Search'
     title: 'Preprints'
+    submit:
+        title: 'Submit New'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
