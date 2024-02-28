@@ -25,7 +25,7 @@ export default class PreprintStateMachine extends Component<SubmitArgs>{
     provider = this.args.provider;
     displayAuthorAssertions = true;
     preprint: PreprintModel;
-    @tracked statusFlowIndex = 2;
+    @tracked statusFlowIndex = 1;
 
     constructor(owner: unknown, args: SubmitArgs) {
         super(owner, args);
