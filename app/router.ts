@@ -32,6 +32,7 @@ Router.map(function() {
         this.route('discover', { path: '/:provider_id/discover' });
         this.route('detail', { path: '/:provider_id/:guid' });
         this.route('submit', { path: '/:provider_id/submit' });
+        this.route('select');
     });
 
 
