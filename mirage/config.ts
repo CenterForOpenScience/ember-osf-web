@@ -527,7 +527,7 @@ export default function(this: Server) {
     this.resource('resource-references', { only: ['show'] });
     this.get('/resource-references/:nodeGuid/configured-storage-addons',
         addons.resourceReferenceConfiguredStorageAddonList);
-    this.resource('authorized-storage-accounts', { only: ['show', 'update', 'create'] });
+    this.resource('authorized-storage-accounts', { except: ['index'] });
     this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
     this.post('configured-storage-addons', addons.createConfiguredStorageAddon);
 

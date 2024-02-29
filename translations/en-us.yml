@@ -227,6 +227,8 @@ addons:
             citation-manager: 'Citation Manager'
             cloud-computing: 'Cloud Computing'
         no-results: 'No results found'
+        no-authorized-accounts: 'No authorized accounts'
+        disconnect: 'Disconnect Account'
     terms:
         heading: '{providerName} Terms'
         accepting: 'Accepting terms…'

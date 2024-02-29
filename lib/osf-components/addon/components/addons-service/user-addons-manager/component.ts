@@ -1,4 +1,5 @@
 import EmberArray, { A } from '@ember/array';
+import { notifyPropertyChange } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -7,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import Provider from 'ember-osf-web/packages/addons-service/provider';
@@ -17,6 +19,7 @@ import UserModel from 'ember-osf-web/models/user';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import CloudComputingServiceModel from 'ember-osf-web/models/cloud-computing-service';
 import CitationServiceModel from 'ember-osf-web/models/citation-service';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import { FilterTypes } from '../manager/component';
 
@@ -30,29 +33,30 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @service store!: Store;
     @service currentUser!: CurrentUserService;
     @service intl!: IntlService;
+    @service toast!: Toast;
 
     user = this.args.user;
     @tracked userReference?: UserReferenceModel;
 
-    filterTypeMapper = {
+    @tracked filterTypeMapper = {
         [FilterTypes.STORAGE]: {
             modelName: 'external-storage-service',
             userRelationshipName: 'authorizedStorageAccounts',
             fetchProvidersTask: taskFor(this.getStorageAddonProviders),
             list: A([]) as EmberArray<AllProviderTypes>,
-            authorizedAccounts: A([]) as EmberArray<AuthorizedStorageAccountModel>,
+            authorizedAccounts: [] as AuthorizedStorageAccountModel[],
         },
         [FilterTypes.CITATION_MANAGER]: {
             modelName: 'citation-service',
             fetchProvidersTask: taskFor(this.getCitationAddonProviders),
             list: A([]) as EmberArray<AllProviderTypes>,
-            // TODO: add authorizedAccounts for citation manager
+            authorizedAccounts: [] as AuthorizedStorageAccountModel[], // TODO: add type
         },
         [FilterTypes.CLOUD_COMPUTING]: {
             modelName: 'cloud-service',
             fetchProvidersTask: taskFor(this.getCloudComputingProviders),
             list: A([]) as EmberArray<AllProviderTypes>,
-            // TODO: add authorizedAccounts for cloud computing
+            authorizedAccounts: [] as AuthorizedStorageAccountModel[], // TODO: add type
         },
     };
     @tracked activeFilterType = FilterTypes.STORAGE;
@@ -69,6 +73,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
         repo: '',
     };
 
+    get currentTypeAuthorizedAccounts() {
+        return this.filterTypeMapper[this.activeFilterType].authorizedAccounts;
+    }
 
     get filteredAddonProviders() {
         return this.filterTypeMapper[this.activeFilterType].list;
@@ -82,9 +89,16 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        taskFor(this.getUserReference).perform();
-        taskFor(this.getStorageAddonProviders).perform();
-        taskFor(this.getAuthorizedStorageAccounts).perform();
+        taskFor(this.initialize).perform();
+    }
+
+
+    @task
+    @waitFor
+    async initialize() {
+        await taskFor(this.getUserReference).perform();
+        await taskFor(this.getAuthorizedStorageAccounts).perform();
+        await taskFor(this.getStorageAddonProviders).perform();
     }
 
     @task
@@ -103,6 +117,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         if (userReference) {
             const accounts = (await userReference.authorizedStorageAccounts).toArray();
             mappedObject.authorizedAccounts = accounts;
+            notifyPropertyChange(this, 'filterTypeMapper');
         }
     }
 
@@ -143,5 +158,18 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async getExternalProviders(providerType: string) {
         const serviceProviderModels: AllProviderTypes[] = (await this.store.findAll(providerType)).toArray();
         return serviceProviderModels;
+    }
+
+    @task
+    @waitFor
+    async disconnectAddon(account: AuthorizedStorageAccountModel) {
+        try {
+            const { authorizedAccounts } = this.filterTypeMapper[this.activeFilterType];
+            await account.destroyRecord();
+            authorizedAccounts.removeObject(account);
+        } catch (e) {
+            captureException(e);
+            this.toast.error(getApiErrorMessage(e));
+        }
     }
 }
