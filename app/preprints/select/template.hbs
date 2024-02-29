@@ -1,13 +1,11 @@
 {{page-title (t 'preprints.select.page_title')}}
 
-<div>{{t 'preprints.select.title'}}</div>
-
-<div>{{t 'preprints.select.heading'}}</div>
-
-<div>{{t 'preprints.select.paragraph' link='' htmlSafe=true}}</div>
-
-{{#each this.model.allProviders as |provider| }}
-    <div>{{provider.name}}</div>
-{{/each}}
-
-<div>{{t 'preprints.select.create_button'}}</div>
+<div local-class='select-page-container'>
+    <div local-class='header-container'>
+        {{!-- placehodler for header component --}}
+    </div>
+    <div local-class='select-preprints-provider-container'>
+        {{!-- placehodler for select prerpint provider component --}}
+        {{!-- {{this.model.allProviders}} --}}
+    </div>
+</div>
