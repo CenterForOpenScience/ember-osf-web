@@ -13,4 +13,23 @@
             {{t 'addons.list.no-results'}}
         {{/each}}
     {{/if}}
+
+    <ul local-class='configured-addons-wrapper'>
+        {{#each manager.currentTypeAuthorizedAccounts as |account|}}
+            <li>
+                {{account.storageProvider.name}}
+                {{account.externalUserDisplayName}}
+                <Button
+                    @type='destroy'
+                    @disabled={{manager.disconnectAddon.isRunning}}
+                    local-class='disconnect-button'
+                    {{on 'click' (perform manager.disconnectAddon account)}}
+                >
+                    {{t 'addons.list.disconnect'}}
+                </Button>
+            </li>
+        {{else}}
+            <li>{{t 'addons.list.no-authorized-accounts'}}</li>
+        {{/each}}
+    </ul>
 </AddonsService::UserAddonsManager>
