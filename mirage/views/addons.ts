@@ -1,8 +1,12 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 
+import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
+import AuthorizedCloudComputingAccountModel from 'ember-osf-web/models/authorized-cloud-computing-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
+import { MirageConfiguredCloudComputingAddon } from '../serializers/configured-cloud-computing-addon';
+import { MirageConfiguredCitationServiceAddon } from '../serializers/configured-citation-service-addon';
 import { MirageConfiguredStorageAddon } from '../serializers/configured-storage-addon';
 import { filter, process } from './utils';
 
@@ -110,4 +114,36 @@ export function createConfiguredStorageAddon(this: HandlerContext, schema: Schem
     });
 
     return configuredStorageAddon;
+}
+
+export function createConfiguredCitationServiceAddon(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs(
+        'configured-citation-service-addon',
+    ) as NormalizedRequestAttrs<MirageConfiguredCitationServiceAddon>;
+    const configuredCitationServiceAddon = schema.configuredCitationServiceAddons.create(attrs);
+
+    const baseAccount = schema.authorizedCitationServiceAccounts
+        .find(attrs.baseAccountId) as ModelInstance<AuthorizedCitationServiceAccountModel>;
+    configuredCitationServiceAddon.update({
+        externalUserId: baseAccount.externalUserId,
+        externalUserDisplayName: baseAccount.externalUserDisplayName,
+    });
+
+    return configuredCitationServiceAddon;
+}
+
+export function createConfiguredCloudComputingAddon(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs(
+        'configured-cloud-computing-addon',
+    ) as NormalizedRequestAttrs<MirageConfiguredCloudComputingAddon>;
+    const configuredCloudComputingAddon = schema.configuredCloudComputingAddons.create(attrs);
+
+    const baseAccount = schema.authorizedCloudComputingAccounts
+        .find(attrs.baseAccountId) as ModelInstance<AuthorizedCloudComputingAccountModel>;
+    configuredCloudComputingAddon.update({
+        externalUserId: baseAccount.externalUserId,
+        externalUserDisplayName: baseAccount.externalUserDisplayName,
+    });
+
+    return configuredCloudComputingAddon;
 }

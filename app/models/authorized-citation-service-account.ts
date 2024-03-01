@@ -4,7 +4,7 @@ import CitationServiceModel from './citation-service';
 import UserReferenceModel from './user-reference';
 import OsfModel from './osf-model';
 
-export default class AuthorizedStorageAccountModel extends OsfModel {
+export default class AuthorizedCitationServiceAccountModel extends OsfModel {
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstringarray') scopes!: string[];
@@ -18,6 +18,6 @@ export default class AuthorizedStorageAccountModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'authorized-citation-service-account': AuthorizedStorageAccountModel;
+        'authorized-citation-service-account': AuthorizedCitationServiceAccountModel;
     } // eslint-disable-line semi
 }

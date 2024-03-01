@@ -532,8 +532,14 @@ export default function(this: Server) {
     this.get('/resource-references/:nodeGuid/configured-storage-addons',
         addons.resourceReferenceConfiguredStorageAddonList);
     this.resource('authorized-storage-accounts', { except: ['index'] });
+    this.resource('authorized-citation-service-accounts', { except: ['index'] });
+    this.resource('authorized-cloud-computing-accounts', { except: ['index'] });
     this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
+    this.resource('configured-citation-service-addons', { only: ['show', 'update', 'delete'] });
+    this.resource('configured-cloud-computing-addons', { only: ['show', 'update', 'delete'] });
     this.post('configured-storage-addons', addons.createConfiguredStorageAddon);
+    this.post('configured-citation-service-addons', addons.createConfiguredCitationServiceAddon);
+    this.post('configured-cloud-computing-addons', addons.createConfiguredCloudComputingAddon);
 
     // Reset API url and namespace to use v2 endpoints for tests
     this.urlPrefix = apiUrl;
