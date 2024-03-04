@@ -15,6 +15,20 @@ export default class UserReferenceSerializer extends AddonServiceSerializer {
                     },
                 },
             },
+            authorizedCitationServiceAccounts: {
+                links: {
+                    related: {
+                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-citation-service-accounts/`,
+                    },
+                },
+            },
+            authorizedCloudComputingAccounts: {
+                links: {
+                    related: {
+                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-cloud-computing-accounts/`,
+                    },
+                },
+            },
             configuredResources: {
                 links: {
                     related: {

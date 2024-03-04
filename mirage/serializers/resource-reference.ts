@@ -14,6 +14,20 @@ export default class ResourceReferenceSerializer extends AddonServiceSerializer 
                     },
                 },
             },
+            configuredCitationServiceAddons: {
+                links: {
+                    related: {
+                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-citation-service-addons`,
+                    },
+                },
+            },
+            configuredCloudComputingAddons: {
+                links: {
+                    related: {
+                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-cloud-computing-addons`,
+                    },
+                },
+            },
         };
     }
 }
