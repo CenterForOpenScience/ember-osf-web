@@ -1,5 +1,5 @@
 import EmberArray, { A } from '@ember/array';
-import { notifyPropertyChange } from '@ember/object';
+import { action, notifyPropertyChange } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -38,6 +38,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     user = this.args.user;
     @tracked userReference?: UserReferenceModel;
 
+    possibleFilterTypes = Object.values(FilterTypes);
     @tracked filterTypeMapper = {
         [FilterTypes.STORAGE]: {
             modelName: 'external-storage-service',
@@ -53,12 +54,13 @@ export default class UserAddonManagerComponent extends Component<Args> {
             authorizedAccounts: [] as AuthorizedStorageAccountModel[], // TODO: add type
         },
         [FilterTypes.CLOUD_COMPUTING]: {
-            modelName: 'cloud-service',
+            modelName: 'cloud-computing-service',
             fetchProvidersTask: taskFor(this.getCloudComputingProviders),
             list: A([]) as EmberArray<AllProviderTypes>,
             authorizedAccounts: [] as AuthorizedStorageAccountModel[], // TODO: add type
         },
     };
+    @tracked filterText = '';
     @tracked activeFilterType = FilterTypes.STORAGE;
 
     @tracked selectedProvider?: Provider;
@@ -73,12 +75,26 @@ export default class UserAddonManagerComponent extends Component<Args> {
         repo: '',
     };
 
+    @action
+    filterByAddonType(type: FilterTypes) {
+        this.activeFilterType = type;
+        const activeFilterObject = this.filterTypeMapper[type];
+        if (activeFilterObject.list.length === 0) {
+            activeFilterObject.fetchProvidersTask.perform();
+        }
+    }
+
     get currentTypeAuthorizedAccounts() {
         return this.filterTypeMapper[this.activeFilterType].authorizedAccounts;
     }
 
     get filteredAddonProviders() {
-        return this.filterTypeMapper[this.activeFilterType].list;
+        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        const possibleProviders = activeFilterObject.list;
+        const textFilteredAddons = possibleProviders.filter(
+            (provider: any) => provider.name.toLowerCase().includes(this.filterText.toLowerCase()),
+        );
+        return textFilteredAddons;
     }
 
     get currentListIsLoading() {
