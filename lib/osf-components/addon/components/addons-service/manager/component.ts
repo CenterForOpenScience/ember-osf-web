@@ -193,7 +193,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @task
     @waitFor
     async getStorageServiceNode() {
-        this.addonServiceNode = await this.store.findRecord('resource-reference', this.node.id);
+        const references = await this.store.query('resource-reference', {
+            filter: {'resource-uri': encodeURI(this.node.links.iri as string)},
+        });
+        if(references) {
+            this.addonServiceNode = references[0];
+        }
     }
 
     @task

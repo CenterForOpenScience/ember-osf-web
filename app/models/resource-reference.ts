@@ -1,4 +1,4 @@
-import { AsyncHasMany, hasMany } from '@ember-data/model';
+import { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
 import OsfModel from './osf-model';
 import ConfiguredStorageAddonModel from './configured-storage-addon';
@@ -6,6 +6,9 @@ import ConfiguredCitationServiceAddonModel from './configured-citation-service-a
 import ConfiguredCloudComputingAddonModel from './configured-cloud-computing-addon';
 
 export default class ResourceReferenceModel extends OsfModel {
+
+    @attr('fixstring') resourceUri!: string;
+
     @hasMany('configured-storage-addon', { inverse: 'authorizedResource' })
     configuredStorageAddons!: AsyncHasMany<ConfiguredStorageAddonModel> & ConfiguredStorageAddonModel[];
 
