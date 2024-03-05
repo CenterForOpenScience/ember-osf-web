@@ -34,7 +34,7 @@ export default class FileProviderList extends Component<InputArgs> {
             filter: {resource_uri: encodeURI(this.args.node.links.iri as string)},
         });
 
-        if (_ref) {
+        if (_ref.toArray().length > 0) {
             this.configuredStorageAddons = await _ref.toArray()[0].configuredStorageAddons;
         }
     }

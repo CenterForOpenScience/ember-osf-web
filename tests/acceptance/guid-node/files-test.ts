@@ -11,6 +11,7 @@ import NodeModel from 'ember-osf-web/models/node';
 import FileModel from 'ember-osf-web/models/file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 
 interface GuidNodeTestContext extends TestContext {
     node: ModelInstance<NodeModel>;
@@ -132,10 +133,22 @@ module('Acceptance | guid-node/files', hooks => {
     });
 
     test('Switching providers', async function(this: GuidNodeTestContext, assert) {
+        const bitbucketAddon = server.schema.externalStorageServices
+            .find('bitbucket') as ModelInstance<ExternalStorageServiceModel>;
         server.create('file-provider', {
             provider: 'bitbucket',
             name: 'bitbucket',
             target: this.node,
+        });
+        server.create('resource-reference', { id: this.node.id });
+        const addonFile = server.create('resource-reference', { id: this.node.id });
+        server.create('configured-storage-addon', {
+            id: 'bitbucket',
+            name: 'bitbucket',
+            displayName: 'Bitbucket',
+            rootFolder: '/woot/',
+            storageProvider: bitbucketAddon,
+            authorizedResource: addonFile,
         });
         await visit(`/${this.node.id}/files`);
         assert.dom('[data-test-files-provider-link="bitbucket"').exists('Bitbucket shown');
