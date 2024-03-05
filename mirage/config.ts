@@ -528,6 +528,7 @@ export default function(this: Server) {
         addons.userAuthorizedCitationServiceAccountList);
     this.get('/user-references/:userGuid/authorized-cloud-computing-accounts/',
         addons.userAuthorizedCloudComputingAccountList);
+    this.get('/resource-references/', addons.resourceReferencesList);
     this.resource('resource-references', { only: ['show'] });
     this.get('/resource-references/:nodeGuid/configured-storage-addons',
         addons.resourceReferenceConfiguredStorageAddonList);

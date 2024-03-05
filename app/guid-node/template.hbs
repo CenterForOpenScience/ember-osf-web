@@ -50,38 +50,7 @@
                 @label={{t 'node.left_nav.files'}}
             />
             {{#if this.onFilesRoute}}
-                <div
-                    data-test-file-providers-list
-                    local-class='FileProvidersList'
-                >
-                    {{#each this.model.taskInstance.value.files as |provider|}}
-                        <div local-class='FileProvider'>
-                            <OsfLink
-                                data-test-files-provider-link={{provider.name}}
-                                data-analytics-name={{concat 'Files - ' provider.name}} 
-                                @route='guid-node.files.provider'
-                                @models={{array this.model.taskInstance.value.id provider.name}}
-                            >
-                                {{t (concat 'osf-components.file-browser.storage_providers.' provider.name)}}
-                            </OsfLink>
-                            {{#if (eq provider.name 'osfstorage')}}
-                                <span>
-                                    <FaIcon
-                                        local-class='FileProviderIcon'
-                                        @icon='globe'
-                                    >
-                                    </FaIcon>
-                                    <EmberTooltip
-                                        @side='right'
-                                    >
-                                        {{t 'osf-components.file-browser.storage_location'}}
-                                        {{this.model.taskInstance.value.region.name}}
-                                    </EmberTooltip>
-                                </span>
-                            {{/if}}
-                        </div>
-                    {{/each}}
-                </div>
+                <FileProviderMenu @node={{this.model.taskInstance.value}} />
             {{/if}}
             {{#if this.model.taskInstance.value.wikiEnabled }}
                 <leftNav.link

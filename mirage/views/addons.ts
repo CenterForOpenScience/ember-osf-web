@@ -101,6 +101,14 @@ export function resourceReferenceConfiguredStorageAddonList(this: HandlerContext
     return processed;
 }
 
+export function resourceReferencesList(this: HandlerContext, schema: Schema, request: Request) {
+    const resourceReferences = schema.resourceReferences.all().models;
+    const filteredresourceReferences = resourceReferences.filter((addon: ModelInstance) => filter(addon, request));
+    const data = filteredresourceReferences.map((addon: ModelInstance) => this.serialize(addon).data);
+    const processed = process(schema, request, this, data);
+    return processed;
+}
+
 export function createConfiguredStorageAddon(this: HandlerContext, schema: Schema) {
     const attrs =
         this.normalizedRequestAttrs('configured-storage-addon') as NormalizedRequestAttrs<MirageConfiguredStorageAddon>;

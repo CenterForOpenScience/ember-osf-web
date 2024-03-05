@@ -7,6 +7,8 @@ import OsfModel from './osf-model';
 import ExternalStorageServiceModel from './external-storage-service';
 
 export default class ConfiguredStorageAddonModel extends OsfModel {
+    @attr('string') name!: string;
+    @attr('string') displayName!: string;
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstring') rootFolder!: string;
