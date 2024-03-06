@@ -143,16 +143,15 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.STORAGE];
         const serviceStorageProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalStorageServiceModel[];
-        const sortedList = serviceStorageProviders.sort(this.providerSorter);
-        activeFilterObject.list = sortedList;
+        activeFilterObject.list = serviceStorageProviders.sort(this.providerSorter);
     }
 
     @task
     @waitFor
     async getCloudComputingProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
-        const cloudComputingProviders: CloudComputingServiceModel[] =
-            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
+        const cloudComputingProviders = await taskFor(this.getExternalProviders)
+            .perform(activeFilterObject.modelName) as CloudComputingServiceModel[];
         activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
     }
 
@@ -160,9 +159,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @waitFor
     async getCitationAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
-        const serviceCloudComputingProviders: CitationServiceModel[] =
-            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
-        activeFilterObject.list = A(serviceCloudComputingProviders.sort(this.providerSorter));
+        const serviceCloudComputingProviders = await taskFor(this.getExternalProviders)
+            .perform(activeFilterObject.modelName) as CitationServiceModel[];
+        activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
     }
 
     providerSorter(a: AllProviderTypes, b: AllProviderTypes) {
