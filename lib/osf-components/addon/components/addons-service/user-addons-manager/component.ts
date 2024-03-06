@@ -11,7 +11,7 @@ import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
-import Provider from 'ember-osf-web/packages/addons-service/provider';
+import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
@@ -24,12 +24,6 @@ import CitationServiceModel from 'ember-osf-web/models/citation-service';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import { FilterTypes } from '../manager/component';
-
-type AllProviderTypes = ExternalStorageServiceModel | CloudComputingServiceModel | CitationServiceModel;
-type AllAuthorizedAccountTypes =
-    AuthorizedStorageAccountModel |
-    AuthorizedCitationServiceAccountModel |
-    AuthorizedCloudComputingAccount;
 
 interface Args {
     user: UserModel;
