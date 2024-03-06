@@ -34,6 +34,6 @@ export default class AddonsCardComponent extends Component<Args> {
     }
 
     get addonIsConfigured() {
-        return this.args.addon.configuredStorageAddon;
+        return this.args.addon.isConfigured;
     }
 }

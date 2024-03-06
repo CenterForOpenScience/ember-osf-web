@@ -1,5 +1,5 @@
 import EmberArray, { A } from '@ember/array';
-import { notifyPropertyChange } from '@ember/object';
+import { action, notifyPropertyChange } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -11,9 +11,11 @@ import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
-import Provider from 'ember-osf-web/packages/addons-service/provider';
+import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
+import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
+import AuthorizedCloudComputingAccount from 'ember-osf-web/models/authorized-cloud-computing-account';
 import UserModel from 'ember-osf-web/models/user';
 
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
@@ -22,8 +24,6 @@ import CitationServiceModel from 'ember-osf-web/models/citation-service';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import { FilterTypes } from '../manager/component';
-
-type AllProviderTypes = ExternalStorageServiceModel | CloudComputingServiceModel | CitationServiceModel;
 
 interface Args {
     user: UserModel;
@@ -38,31 +38,33 @@ export default class UserAddonManagerComponent extends Component<Args> {
     user = this.args.user;
     @tracked userReference?: UserReferenceModel;
 
+    possibleFilterTypes = Object.values(FilterTypes);
     @tracked filterTypeMapper = {
         [FilterTypes.STORAGE]: {
             modelName: 'external-storage-service',
             userRelationshipName: 'authorizedStorageAccounts',
             fetchProvidersTask: taskFor(this.getStorageAddonProviders),
-            list: A([]) as EmberArray<AllProviderTypes>,
+            list: A([]) as EmberArray<ExternalStorageServiceModel>,
             authorizedAccounts: [] as AuthorizedStorageAccountModel[],
         },
         [FilterTypes.CITATION_MANAGER]: {
             modelName: 'citation-service',
             fetchProvidersTask: taskFor(this.getCitationAddonProviders),
-            list: A([]) as EmberArray<AllProviderTypes>,
-            authorizedAccounts: [] as AuthorizedStorageAccountModel[], // TODO: add type
+            list: A([]) as EmberArray<CitationServiceModel>,
+            authorizedAccounts: [] as AuthorizedCitationServiceAccountModel[],
         },
         [FilterTypes.CLOUD_COMPUTING]: {
-            modelName: 'cloud-service',
+            modelName: 'cloud-computing-service',
             fetchProvidersTask: taskFor(this.getCloudComputingProviders),
-            list: A([]) as EmberArray<AllProviderTypes>,
-            authorizedAccounts: [] as AuthorizedStorageAccountModel[], // TODO: add type
+            list: A([]) as EmberArray<CloudComputingServiceModel>,
+            authorizedAccounts: [] as AuthorizedCloudComputingAccount[],
         },
     };
+    @tracked filterText = '';
     @tracked activeFilterType = FilterTypes.STORAGE;
 
     @tracked selectedProvider?: Provider;
-    @tracked selectedAccount?: AuthorizedStorageAccountModel;
+    @tracked selectedAccount?: AllAuthorizedAccountTypes;
     @tracked credentialsObject = {
         url: '',
         username: '',
@@ -73,12 +75,26 @@ export default class UserAddonManagerComponent extends Component<Args> {
         repo: '',
     };
 
+    @action
+    filterByAddonType(type: FilterTypes) {
+        this.activeFilterType = type;
+        const activeFilterObject = this.filterTypeMapper[type];
+        if (activeFilterObject.list.length === 0) {
+            activeFilterObject.fetchProvidersTask.perform();
+        }
+    }
+
     get currentTypeAuthorizedAccounts() {
         return this.filterTypeMapper[this.activeFilterType].authorizedAccounts;
     }
 
     get filteredAddonProviders() {
-        return this.filterTypeMapper[this.activeFilterType].list;
+        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        const possibleProviders = activeFilterObject.list;
+        const textFilteredAddons = possibleProviders.filter(
+            (provider: any) => provider.name.toLowerCase().includes(this.filterText.toLowerCase()),
+        );
+        return textFilteredAddons;
     }
 
     get currentListIsLoading() {
@@ -125,18 +141,17 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @waitFor
     async getStorageAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.STORAGE];
-        const serviceStorageProviders: AllProviderTypes[] =
-            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
-        const sortedList = serviceStorageProviders.sort(this.providerSorter);
-        activeFilterObject.list = sortedList;
+        const serviceStorageProviders = await taskFor(this.getExternalProviders)
+            .perform(activeFilterObject.modelName) as ExternalStorageServiceModel[];
+        activeFilterObject.list = serviceStorageProviders.sort(this.providerSorter);
     }
 
     @task
     @waitFor
     async getCloudComputingProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
-        const cloudComputingProviders: AllProviderTypes[] =
-            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
+        const cloudComputingProviders = await taskFor(this.getExternalProviders)
+            .perform(activeFilterObject.modelName) as CloudComputingServiceModel[];
         activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
     }
 
@@ -144,9 +159,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @waitFor
     async getCitationAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
-        const serviceCloudComputingProviders: AllProviderTypes[] =
-            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
-        activeFilterObject.list = A(serviceCloudComputingProviders.sort(this.providerSorter));
+        const serviceCloudComputingProviders = await taskFor(this.getExternalProviders)
+            .perform(activeFilterObject.modelName) as CitationServiceModel[];
+        activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
     }
 
     providerSorter(a: AllProviderTypes, b: AllProviderTypes) {
@@ -162,9 +177,10 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async disconnectAddon(account: AuthorizedStorageAccountModel) {
+    async disconnectAddon(account: AllAuthorizedAccountTypes) {
         try {
-            const { authorizedAccounts } = this.filterTypeMapper[this.activeFilterType];
+            const authorizedAccounts = this.filterTypeMapper[this.activeFilterType]
+                .authorizedAccounts as AllAuthorizedAccountTypes[];
             await account.destroyRecord();
             authorizedAccounts.removeObject(account);
         } catch (e) {

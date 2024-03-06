@@ -3,6 +3,39 @@
     flex-direction: column;
 }
 
+.addons-list-wrapper {
+    display: flex;
+    margin-top: 20px;
+
+    &.mobile {
+        flex-wrap: wrap;
+    }
+}
+
+.filter-wrapper {
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+
+    &.mobile {
+        max-width: 100%;
+        width: 100%;
+        margin-right: 20px;
+    }
+}
+
+.filter-button {
+    width: 100%;
+    height: 40px;
+    text-align: left;
+    padding: 0 10px;
+
+    &.active {
+        background-color: #f0f0f0;
+    }
+}
+
 .disconnect-button {
     float: right;
 }

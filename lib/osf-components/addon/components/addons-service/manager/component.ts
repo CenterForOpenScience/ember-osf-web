@@ -11,7 +11,7 @@ import IntlService from 'ember-intl/services/intl';
 
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import NodeModel from 'ember-osf-web/models/node';
-import Provider from 'ember-osf-web/packages/addons-service/provider';
+import Provider, { AllAuthorizedAccountTypes } from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
@@ -72,7 +72,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
-    @tracked selectedAccount?: AuthorizedStorageAccountModel;
+    @tracked selectedAccount?: AllAuthorizedAccountTypes;
     @tracked credentialsObject = {
         url: '',
         username: '',
@@ -123,8 +123,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     async acceptTerms() {
-        await taskFor(this.selectedProvider!.getAuthorizedStorageAccounts).perform();
-        if(this.selectedProvider!.authorizedStorageAccounts!.length > 0){
+        await taskFor(this.selectedProvider!.providerMap!.getAuthorizedAccounts).perform();
+        if(this.selectedProvider!.authorizedAccounts!.length > 0){
             this.pageMode = PageMode.NEW_OR_EXISTING_ACCOUNT;
         } else {
             this.pageMode = PageMode.ACCOUNT_CREATE;
@@ -185,14 +185,14 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        taskFor(this.getStorageServiceNode).perform();
+        taskFor(this.getServiceNode).perform();
         taskFor(this.getStorageAddonProviders).perform();
         taskFor(this.getConfiguredAddonProviders).perform();
     }
 
     @task
     @waitFor
-    async getStorageServiceNode() {
+    async getServiceNode() {
         const references = await this.store.query('resource-reference', {
             filter: {'resource-uri': encodeURI(this.node.links.iri as string)},
         });
@@ -205,7 +205,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async getConfiguredAddonProviders() {
         if (this.addonServiceNode) {
-            return await this.addonServiceNode.get('configuredStorageAddons');
+            await this.addonServiceNode.get('configuredStorageAddons');
         }
         return [];
     }
@@ -216,7 +216,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.STORAGE];
         const serviceStorageProviders: Provider[] =
             await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
-        activeFilterObject.list = serviceStorageProviders.sort(this.providerSorter);
+        activeFilterObject.list = A(serviceStorageProviders.sort(this.providerSorter));
     }
 
     @task

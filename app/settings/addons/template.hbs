@@ -5,13 +5,39 @@
     {{#if manager.currentListIsLoading}}
         <LoadingIndicator @dark={{true}} />
     {{else}}
-        {{#each manager.filteredAddonProviders as |provider|}}
-            <div>
-                {{provider.name}}
+        <div local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'>
+            <div
+                data-analytics-scope='Addon List Filter'
+                local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+            >
+                <Input
+                    data-test-user-addon-list-filter-input
+                    placeholder={{t 'addons.list.filter-placeholder'}}
+                    @type='text'
+                    @value={{manager.filterText}}
+                />
+                {{#each manager.possibleFilterTypes as |type|}}
+                    <Button
+                        data-test-user-addon-list-filter={{type}}
+                        data-analytics-name={{t (concat 'addons.list.filter.' type)}}
+                        local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                        @layout='fake-link'
+                        {{on 'click' (fn manager.filterByAddonType type)}}
+                    >
+                        {{t (concat 'addons.list.filter.' type)}}
+                    </Button>
+                {{/each}}
             </div>
-        {{else}}
-            {{t 'addons.list.no-results'}}
-        {{/each}}
+            <div>
+                {{#each manager.filteredAddonProviders as |provider|}}
+                    <div>
+                        {{provider.name}}
+                    </div>
+                {{else}}
+                    {{t 'addons.list.no-results'}}
+                {{/each}}
+            </div>
+        </div>
     {{/if}}
 
     <ul local-class='configured-addons-wrapper'>

@@ -27,9 +27,9 @@
                             data-test-addon-accept-terms-button
                             data-analytics-name='Accept Terms'
                             {{on 'click' manager.acceptTerms}}
-                            disabled={{provider.getAuthorizedStorageAccounts.isRunning}}
+                            disabled={{provider.getAuthorizedAccounts.isRunning}}
                         >
-                            {{#if provider.getAuthorizedStorageAccounts.isRunning}}
+                            {{#if provider.getAuthorizedAccounts.isRunning}}
                                 {{t 'addons.terms.accepting'}}
                             {{else}}
                                 {{t 'general.confirm'}}
@@ -52,7 +52,7 @@
                         </Button>
                     {{else if (eq manager.pageMode 'accountSelect')}}
                         <fieldset>
-                            {{#each provider.authorizedStorageAccounts as |account| }}
+                            {{#each provider.authorizedAccounts as |account| }}
                                 <div local-class='account-select'>
                                     <label>
                                         <Input
