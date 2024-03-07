@@ -1,12 +1,27 @@
 {{page-title (t 'preprints.submit.title')}}
 
-<div local-class='submit-page-container {{if this.isMobile 'mobile'}}'>
-    <div local-class='header-container'>
-        {{!-- header place holder --}}
-        {{!-- Header Container for {{this.model.provider.id}} --}}
+{{!-- <div local-class='submit-page-container {{if this.isMobile 'mobile'}}'> --}}
+    {{!-- <div local-class='header-container'>
+        header place holder
+        Header Container for {{this.model.provider.id}}
     </div>
     <div local-class='state-machine-container'>
         <Preprints::-Components::Submit::PreprintStateMachine />
-    </div>
-</div>
+    </div> --}}
+
+    {{!-- <OsfLayout @backgroundClass={{local-class 'bg-class'}} as |layout|> --}}
+<OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
+    <layout.heading local-class='heading-container'>
+        {{!-- Heading --}}
+    </layout.heading>
+    <layout.left local-class='left-container'>
+        {{!-- Left column --}}
+    </layout.left>
+    <layout.main local-class='main-container'>
+        {{!-- Main --}}
+    </layout.main>
+    <layout.right local-class='right-container'>
+        {{!-- Right column --}}
+    </layout.right>
+</OsfLayout>
 
