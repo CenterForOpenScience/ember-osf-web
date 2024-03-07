@@ -1,24 +1,24 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-.submit-page-container {
-    width: 100%;
+.heading-container {
+    padding: 30px 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: $color-text-white;
+    background: url('assets/images/preprints/preprints-detail-header-overlay.png') top center $color-bg-color-grey;
+}
 
-    .header-container {
-        padding: 30px 0;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: $color-text-white;
-        background: url('assets/images/preprints/preprints-detail-header-overlay.png') top center $color-bg-color-grey;
+.submit-page-container {
+    /*
+    .left-container,
+    .right-container {
+        // border: 1px solid red;
     }
+    */
 
-    .state-machine-container {
+    .main-container {
         background-color: $color-bg-gray-lighter;
         padding: 15px 0;
         width: 100%;
