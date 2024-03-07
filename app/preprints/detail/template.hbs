@@ -9,7 +9,7 @@
 >
     <div local-class='header-container'>
         <div local-class='preprint-title-container'>
-            <h1 data-test-preprint-title>{{this.model.preprint.title}}</h1>
+            <h1 data-test-preprint-title>{{this.displayTitle}}</h1>
             {{#unless this.model.preprint.isWithdrawn}}
                 <div class='edit-preprint-button'>
                     {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
