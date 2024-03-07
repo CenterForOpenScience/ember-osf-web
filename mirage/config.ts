@@ -542,6 +542,10 @@ export default function(this: Server) {
     this.resource('resource-references', { only: ['show'] });
     this.get('/resource-references/:nodeGuid/configured-storage-addons',
         addons.resourceReferenceConfiguredStorageAddonList);
+    this.get('/resource-references/:nodeGuid/configured-citation-service-addons',
+        addons.resourceConfiguredCitationServiceAddonList);
+    this.get('/resource-references/:nodeGuid/configured-cloud-computing-addons',
+        addons.resourceConfiguredCloudComputingAddonList);
     this.resource('authorized-storage-accounts', { except: ['index'] });
     this.resource('authorized-citation-service-accounts', { except: ['index'] });
     this.resource('authorized-cloud-computing-accounts', { except: ['index'] });

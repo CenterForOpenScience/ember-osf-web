@@ -97,7 +97,7 @@ export default class Provider {
     async initialize() {
         await taskFor(this.getUserReference).perform();
         await taskFor(this.getResourceReference).perform();
-        await taskFor(this.getConfiguredStorageAddon).perform();
+        await taskFor(this.providerMap!.getConfiguredAddon).perform();
     }
 
     @task

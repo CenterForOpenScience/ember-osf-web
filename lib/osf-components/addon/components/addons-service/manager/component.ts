@@ -156,6 +156,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.pageMode = PageMode.CONFIGURE;
     }
 
+    @action
+    onCredentialsInput(event: Event) {
+        const input = event.target as HTMLInputElement;
+        this.credentialsObject[input.name] = input.value;
+    }
+
     @task
     @waitFor
     async confirmAccountSetup(account: AuthorizedStorageAccountModel) {
@@ -187,7 +193,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         super(owner, args);
         taskFor(this.getServiceNode).perform();
         taskFor(this.getStorageAddonProviders).perform();
-        taskFor(this.getConfiguredAddonProviders).perform();
     }
 
     @task
@@ -203,20 +208,15 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async getConfiguredAddonProviders() {
-        if (this.addonServiceNode) {
-            await this.addonServiceNode.get('configuredStorageAddons');
-        }
-        return [];
-    }
-
-    @task
-    @waitFor
     async getStorageAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.STORAGE];
         const serviceStorageProviders: Provider[] =
             await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
         activeFilterObject.list = A(serviceStorageProviders.sort(this.providerSorter));
+
+        if (this.addonServiceNode) {
+            await this.addonServiceNode.get('configuredStorageAddons');
+        }
     }
 
     @task
@@ -226,6 +226,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const cloudComputingProviders: Provider[] =
             await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
         activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
+
+        if (this.addonServiceNode) {
+            await this.addonServiceNode.get('configuredCloudComputingAddons');
+        }
     }
 
     @task
@@ -235,6 +239,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const serviceCloudComputingProviders: Provider[] =
             await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
         activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
+
+        if (this.addonServiceNode) {
+            await this.addonServiceNode.get('configuredCitationServiceAddons');
+        }
     }
 
     providerSorter(a: Provider, b: Provider) {

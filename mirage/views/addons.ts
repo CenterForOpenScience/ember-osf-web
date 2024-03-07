@@ -54,7 +54,11 @@ export function addonsList(this: HandlerContext, schema: Schema, request: Reques
 export function userReferenceAuthorizedStorageAccountList(this: HandlerContext, schema: Schema, request: Request) {
     const { userGuid } = request.params;
     const userReference = schema.userReferences.find(userGuid);
-    const authorizedStorageAccounts = userReference.attrs.authorizedStorageAccountIds.map(
+    const { authorizedStorageAccountIds } = userReference.attrs;
+    if (!authorizedStorageAccountIds) {
+        return process(schema, request, this, []);
+    }
+    const authorizedStorageAccounts = authorizedStorageAccountIds.map(
         (id: string) => schema.authorizedStorageAccounts.find(id),
     );
     const filteredStorageAccounts = authorizedStorageAccounts.filter((addon: ModelInstance) => filter(addon, request));
@@ -65,7 +69,11 @@ export function userReferenceAuthorizedStorageAccountList(this: HandlerContext, 
 export function userAuthorizedCitationServiceAccountList(this: HandlerContext, schema: Schema, request: Request) {
     const { userGuid } = request.params;
     const userReference = schema.userReferences.find(userGuid);
-    const authorizedCitationAccounts = userReference.attrs.authorizedCitationServiceAccountIds.map(
+    const { authorizedCitationServiceAccountIds } = userReference.attrs;
+    if (!authorizedCitationServiceAccountIds) {
+        return process(schema, request, this, []);
+    }
+    const authorizedCitationAccounts = authorizedCitationServiceAccountIds.map(
         (id: string) => schema.authorizedCitationServiceAccounts.find(id),
     );
     const filteredCitationAccounts = authorizedCitationAccounts.filter(
@@ -78,7 +86,11 @@ export function userAuthorizedCitationServiceAccountList(this: HandlerContext, s
 export function userAuthorizedCloudComputingAccountList(this: HandlerContext, schema: Schema, request: Request) {
     const { userGuid } = request.params;
     const userReference = schema.userReferences.find(userGuid);
-    const authorizedCloudComputingAccounts = userReference.attrs.authorizedCloudComputingAccountIds.map(
+    const { authorizedCloudComputingAccountIds } = userReference.attrs;
+    if (!authorizedCloudComputingAccountIds) {
+        return process(schema, request, this, []);
+    }
+    const authorizedCloudComputingAccounts = authorizedCloudComputingAccountIds.map(
         (id: string) => schema.authorizedCloudComputingAccounts.find(id),
     );
     const filteredCitationAccounts = authorizedCloudComputingAccounts.filter(
@@ -92,11 +104,48 @@ export function userAuthorizedCloudComputingAccountList(this: HandlerContext, sc
 export function resourceReferenceConfiguredStorageAddonList(this: HandlerContext, schema: Schema, request: Request) {
     const { nodeGuid } = request.params;
     const resourceReference = schema.resourceReferences.find(nodeGuid);
-    const configuredStorageAddons = resourceReference.attrs.configuredStorageAddonIds.map(
+    const { configuredStorageAddonIds } = resourceReference.attrs;
+    if (!configuredStorageAddonIds) {
+        return process(schema, request, this, []);
+    }
+    const configuredStorageAddons = configuredStorageAddonIds.map(
         (id: string) => schema.configuredStorageAddons.find(id),
     );
     const filteredStorageAddons = configuredStorageAddons.filter((addon: ModelInstance) => filter(addon, request));
     const data = filteredStorageAddons.map((addon: ModelInstance) => this.serialize(addon).data);
+    const processed = process(schema, request, this, data);
+    return processed;
+}
+
+export function resourceConfiguredCitationServiceAddonList(this: HandlerContext, schema: Schema, request: Request) {
+    const { nodeGuid } = request.params;
+    const resourceReference = schema.resourceReferences.find(nodeGuid);
+    const { configuredCitationServiceAddonIds } = resourceReference.attrs;
+    if (!configuredCitationServiceAddonIds) {
+        return process(schema, request, this, []);
+    }
+    const configuredCitationAddons = configuredCitationServiceAddonIds.map(
+        (id: string) => schema.configuredCitationServiceAddons.find(id),
+    );
+    const filteredCitationAddons = configuredCitationAddons.filter((addon: ModelInstance) => filter(addon, request));
+    const data = filteredCitationAddons.map((addon: ModelInstance) => this.serialize(addon).data);
+    const processed = process(schema, request, this, data);
+    return processed;
+}
+
+export function resourceConfiguredCloudComputingAddonList(this: HandlerContext, schema: Schema, request: Request) {
+    const { nodeGuid } = request.params;
+    const resourceReference = schema.resourceReferences.find(nodeGuid);
+    const { configuredCloudComputingAddonIds } = resourceReference.attrs;
+    if (!configuredCloudComputingAddonIds) {
+        return process(schema, request, this, []);
+    }
+    const configuredCloudComputingAddons = configuredCloudComputingAddonIds.map(
+        (id: string) => schema.configuredCloudComputingAddons.find(id),
+    );
+    const filteredCloudComputingAddons = configuredCloudComputingAddons
+        .filter((addon: ModelInstance) => filter(addon, request));
+    const data = filteredCloudComputingAddons.map((addon: ModelInstance) => this.serialize(addon).data);
     const processed = process(schema, request, this, data);
     return processed;
 }

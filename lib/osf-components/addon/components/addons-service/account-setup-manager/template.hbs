@@ -49,9 +49,11 @@
                 <label local-class='auth-text-input-label'>
                     {{field.labelText}}
                     <Input
+                        name={{field.name}}
                         @type={{field.inputType}}
                         @value={{field.inputValue}}
                         @placeholder={{field.inputPlaceholder}}
+                        {{on 'keyup' @onInput}}
                         autocomplete={{field.autocomplete}}
                     />
                 </label>
