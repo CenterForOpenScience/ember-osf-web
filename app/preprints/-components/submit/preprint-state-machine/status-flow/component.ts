@@ -1,30 +1,34 @@
 import Component from '@glimmer/component';
+import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
 /**
  * The Submit Args
  */
 interface StatusFlowArgs {
-    statusFlowIndex: number;
-    displayAuthorAssertions: boolean;
+    manager: PreprintStateMachine;
 }
 
 export default class StatusFlow extends Component<StatusFlowArgs>{
-    statusFlowIndex = this.args.statusFlowIndex;
-    displayAuthorAssertions = this.args.displayAuthorAssertions;
+    statusFlowIndex = this.args.manager.statusFlowIndex;
+    displayAuthorAssertions = this.args.manager.displayAuthorAssertions;
 
-    public get isDisplayTitleAndFile(): boolean {
+    public get isTitleAndFileSelected(): boolean {
         return this.statusFlowIndex === 1;
     }
 
-    public get isDisplayMetadata(): boolean {
+    public get isMetadataSelected(): boolean {
         return this.statusFlowIndex === 2;
     }
 
     public get isDisplayAuthorAssertions(): boolean {
+        return this.displayAuthorAssertions;
+    }
+
+    public get isAuthorAssertionsSelected(): boolean {
         return this.statusFlowIndex === 3 && this.displayAuthorAssertions;
     }
 
-    public get isDisplaySupplements(): boolean {
+    public get isSupplementsSelected(): boolean {
         if (this.displayAuthorAssertions && this.statusFlowIndex === 4) {
             return true;
         } else if (!this.displayAuthorAssertions && this.statusFlowIndex === 3) {
@@ -34,7 +38,7 @@ export default class StatusFlow extends Component<StatusFlowArgs>{
         }
     }
 
-    public get isDisplayReview(): boolean {
+    public get isReviewSelected(): boolean {
         if (this.displayAuthorAssertions && this.statusFlowIndex === 5) {
             return true;
         } else if (!this.displayAuthorAssertions && this.statusFlowIndex === 4) {

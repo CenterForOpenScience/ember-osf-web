@@ -24,8 +24,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     },
     {
         id: 'thesiscommons',
-        name: 'Thesis Commons',
-        preprintWord: 'thesis',
+        name: 'Thesis Commons', preprintWord: 'thesis',
         assets: randomAssets(2),
         // eslint-disable-next-line max-len
         footerLinks: '<p style="text-align: center;">LawArXiv:&nbsp;<a href="mailto:support+lawarxiv@osf.io">Support&nbsp;</a>|&nbsp;<a href="mailto:contact+lawarxiv@osf.io">Contact&nbsp;</a>|&nbsp;<a href="https://twitter.com/lawarxiv" target="_blank" title="LawArXiv on Twitter"><span class="fa fa-twitter fa-2x" style="vertical-align: middle;">&nbsp;</span></a></p>\n <p>LawrXiv is a trademark of Cornell University, used under license. This license should not be understood to indicate endorsement of content on LawArXiv by Cornell University or arXiv.</p>',
