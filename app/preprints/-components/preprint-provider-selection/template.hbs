@@ -4,7 +4,9 @@
     <div>{{t 'preprints.select.paragraph' link=this.learnMoreUrl htmlSafe=true}}</div>
 
     {{#each this.allProviders as |provider| }}
-        <div>{{provider.name}}</div>
+        <div >
+            <Preprints::-Components::PreprintProviderDisplay @provider={{provider}} />
+        </div>
     {{/each}}
 
     <div>{{t 'preprints.select.create_button'}}</div>
