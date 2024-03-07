@@ -5,7 +5,8 @@
         {{!-- placehodler for header component --}}
     </div>
     <div local-class='select-preprints-provider-container'>
-        {{!-- placehodler for select prerpint provider component --}}
-        {{!-- {{this.model.allProviders}} --}}
+        <Preprints::-Components::PreprintProviderSelection
+            @allProviders={{this.model.allProviders}}
+        />
     </div>
 </div>

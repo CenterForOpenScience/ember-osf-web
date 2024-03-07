@@ -1,0 +1,11 @@
+<div>
+    <div>{{t 'preprints.select.heading'}}</div>
+
+    <div>{{t 'preprints.select.paragraph' link=this.learnMoreUrl htmlSafe=true}}</div>
+
+    {{#each this.allProviders as |provider| }}
+        <div>{{provider.name}}</div>
+    {{/each}}
+
+    <div>{{t 'preprints.select.create_button'}}</div>
+</div>
