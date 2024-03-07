@@ -1161,7 +1161,8 @@ preprints:
         title: 'Search'
     title: 'Preprints'
     submit:
-        title: 'Submit New'
+        title-submit: 'New {documentType}'
+        title-edit: 'Edit {documentType}'
         step-one:
             title: 'Title and File'
         status-flow:

@@ -30,7 +30,9 @@ export default class PreprintStateMachine extends Component<SubmitArgs>{
     constructor(owner: unknown, args: SubmitArgs) {
         super(owner, args);
 
-        this.preprint = this.store.createRecord('cedar-metadata-record');
+        this.preprint = this.store.createRecord('preprint', {
+            provider: this.provider,
+        });
     }
 
     /**

@@ -1,27 +1,19 @@
 <div local-class='status-flow-container  {{if this.isMobile 'mobile'}}'>
-    {{#if this.isDisplayTitleAndFile}}
-        <div local-class='status-container' data-test-title-and-file>
-            {{ t 'preprints.submit.status-flow.step-title-and-file'}}
-        </div>
-    {{/if}}
-    {{#if this.isDisplayMetadata}}
-        <div local-class='status-container' data-test-metadata>
-            {{ t 'preprints.submit.status-flow.step-metadata'}}
-        </div>
-    {{/if}}
+    <div local-class='status-container {{if this.isTitleAndFileSelected 'selected'}}' data-test-title-and-file>
+        {{ t 'preprints.submit.status-flow.step-title-and-file'}}
+    </div>
+    <div local-class='status-container {{if this.isMetadataSelected 'selected'}}' data-test-metadata>
+        {{ t 'preprints.submit.status-flow.step-metadata'}}
+    </div>
     {{#if this.isDisplayAuthorAssertions}}
-        <div local-class='status-container' data-test-author-assertions>
+        <div local-class='status-container {{if this.isAuthorAssertionsSelected 'selected'}}' data-test-author-assertions>
             {{ t 'preprints.submit.status-flow.step-author-assertions'}}
         </div>
     {{/if}}
-    {{#if this.isDisplaySupplements}}
-        <div local-class='status-container' data-test-supplements>
-            {{ t 'preprints.submit.status-flow.step-supplements'}}
-        </div>
-    {{/if}}
-    {{#if this.isDisplayReview}}
-        <div local-class='status-container' data-test-review>
-            {{ t 'preprints.submit.status-flow.step-review'}}
-        </div>
-    {{/if}}
+    <div local-class='status-container {{if this.isSupplementsSelected 'selected'}}' data-test-supplements>
+        {{ t 'preprints.submit.status-flow.step-supplements'}}
+    </div>
+    <div local-class='status-container {{if this.isReviewSelected 'selected'}}' data-test-review>
+        {{ t 'preprints.submit.status-flow.step-review'}}
+    </div>
 </div>

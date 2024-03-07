@@ -30,6 +30,7 @@ export default class PreprintSubmitRoute extends Route {
             this.theme.id = args.provider_id;
             return {
                 provider,
+                brand: provider.brand.content,
             };
         } catch (e) {
 
