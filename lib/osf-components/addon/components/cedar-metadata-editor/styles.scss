@@ -1,0 +1,100 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.cedar-metadata-add-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .saving-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cedar-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 30px;
+
+        .cedar-editor {
+            width: 100%;
+
+            h1 {
+                font-size: 24px;
+                font-weight: bold;
+                margin-top: 5px;
+            }
+
+            h2 {
+                display: none;
+            }
+
+        }
+    }
+
+    .action-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .different-template-container {
+            width: 250px;
+        }
+
+        .cedar-action-container {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+
+            .cancel-button-container {
+                margin-right: 20px;
+            }
+
+            :global(.tooltip) {
+                white-space: normal;
+            }
+        }
+
+
+        .btn {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857;
+            user-select: none;
+            vertical-align: middle;
+            color: $color-text-white;
+        }
+
+        .btn-success {
+            background-color: #357935;
+            border-color: #2d672d;
+        }
+    }
+    
+    :global(.template-card) {
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}

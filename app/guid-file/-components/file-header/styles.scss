@@ -1,0 +1,64 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.file-header-container {
+    width: 100%;
+    
+    .flex-container-row {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 0 20px 20px;
+
+        h2 {
+            height: 40px;
+            width: 70%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .return-container {
+            width: 30%;
+            height: 70px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center; 
+        }
+    }
+
+    .project-link-header {
+        padding-bottom: 5px;
+
+        .project-link {
+            margin: 20px;
+        }
+    }
+
+    &.mobile {
+        padding: 0;
+
+        .flex-container-row {
+            padding: 0;
+            flex-direction: column;
+
+            h2,
+            .return-container {
+                width: 100%;
+                height: fit-content;
+                justify-content: flex-start;
+            }
+
+            h2 {
+                margin-top: 0;
+            }
+        } 
+
+        .project-link-header {
+            .project-link {
+                margin: 0;
+            }
+        }
+    }
+}

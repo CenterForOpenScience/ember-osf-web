@@ -1,0 +1,36 @@
+{{#if this.cancel.isRunning}}
+    <div local-class='loading-container'>
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    <div local-class='header-container {{if this.isMobile 'mobile'}}'>
+        <div local-class='header'>
+            <h2 data-test-metadata-add-header>
+                {{t 'metadata.add-flow.select-metadata-template'}}    
+            </h2>
+        </div>
+        <div local-class='explanation' data-test-metadata-add-explanation>
+            {{t 'metadata.add-flow.explanation' supportEmail=this.supportEmail htmlSafe=true }}    
+        </div>
+        <div local-class='available-templates' data-test-metadata-add-available-templates>
+            {{t 'metadata.add-flow.available-templates' }}
+        </div>
+    </div>
+    <div local-class='template-container'>
+        {{#each @templates as |template|}}
+            <Metadata::MetadataSelect
+                @template={{template}}
+                @selectTemplate={{@selectTemplate}}
+                @isMobile={{this.isMobile}}
+            />
+        {{/each}}
+    </div>
+    <div local-class='action-container'>
+        <Button
+            {{on 'click' (perform this.cancel)}}
+            disabled={{this.cancel.isRunning}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+    </div>
+{{/if}}

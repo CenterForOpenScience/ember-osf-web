@@ -1,0 +1,112 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+.cedar-metadata-renderer-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+
+    .action-container {
+        width: 100%;
+        min-height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-start;
+        font-weight: bold;
+
+        .explanation-container {
+            width: calc(100% - 300px);
+            min-height: 50px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            &.draft {
+                color: $brand-danger;
+            }
+        }
+        
+        .button-container {
+            width: 300px;
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+
+            .spacer {
+                color: $color-link-dark;
+                margin-right: 10px;
+                border: 0;
+                background-color: inherit;
+                cursor: pointer;
+            }
+
+            svg {
+                height: 1.5em;
+            }
+
+            :global(.tooltip) {
+                white-space: normal;
+            }
+        }
+    }
+
+    &.file-metadata {
+        width: calc(100% - 40px);
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 40px;
+
+        .action-container {
+            .explanation-container {
+                width: calc(100% - 115px);
+            }
+            
+            .button-container {
+                width: 115px;
+            }
+        }
+    }
+
+
+    .renderer-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .artifact-viewer {
+            width: 100%;
+        }
+    }
+
+    :global(.template-card) {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    :global(.mat-tree-node) {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    &.mobile {
+        .action-container {
+            flex-direction: column;
+
+            .explanation-container {
+                width: 100%;
+            }
+
+            .button-container {
+                width: 100%;
+            }
+        }
+    }
+}

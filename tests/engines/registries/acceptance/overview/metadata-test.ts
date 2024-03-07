@@ -31,7 +31,8 @@ module('Registries | Acceptance | overview/metadata', hooks => {
         const metadataRecord = await this.owner.lookup('service:store')
             .findRecord('custom-item-metadata-record', node.id);
         assert.equal(currentURL(), url, `We are on ${url}`);
-        assert.equal(currentRouteName(), 'registries.overview.metadata', 'We are at registries.overview.metadata');
+        assert.equal(currentRouteName(), 'registries.overview.metadata.detail',
+            'We are at registries.overview.metadata.detail');
         assert.dom('[data-test-display-resource-language]')
             .containsText(languageFromCode(metadataRecord.language), 'Language is correct');
         assert.dom('[data-test-display-resource-type-general]')

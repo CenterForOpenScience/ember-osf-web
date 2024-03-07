@@ -92,6 +92,8 @@ function buildOSF(
         id: 'osf-approved',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
         currentUserPermissions: [],
+        datePublished: new Date('2016-12-25T16:00:00.000000Z'),
+        dateModified: new Date('2016-12-31T16:00:00.000000Z'),
         doi: '10.30822/artk.v1i1.79',
         reviewsState: ReviewsState.ACCEPTED,
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,

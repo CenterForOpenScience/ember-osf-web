@@ -1,0 +1,27 @@
+Helpful hints for mirage
+
+# mirage/config.ts file Routes
+  ## must be grouped withing the correct namespace and urlPrefix
+  ## osfResource should be singlular
+  ## osfNestedResource 
+    ### the parent resource name should match the osfResource name
+    ### the relationshipName should follow the singular/plural form on the app/model
+  ## the :parentID should be capitalized
+
+# any component router.ts file
+  ## resource name in a `findAll` should match the singluar/plural form of the osfResource
+  ## relationshipName name in a `queryHasMany` should match the singluar/plural form of the osfNestedResource
+
+# mirage/serializers file
+  ## buildNormalLinks `self` should match the url request
+  ## buildRelationships
+    ### attributes should match the singular/plural form on the app/model
+
+# mirage/fixtures file
+  ## plural file names
+  ## MirageModelRegistry
+    ### the attribute should be singular and hyphenated?
+  ## MirageSchemaRegistry
+    ### the attribute should be singular and hyphenated?
+  ## all fixtures need to be loaded in the mirage/scenarioes/default.ts file
+    ### fixtures should only be loaded once, so use caution when loading fixtures in a specific/non-default scenario

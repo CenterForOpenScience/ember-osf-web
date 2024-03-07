@@ -1,0 +1,63 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.header-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 30px;
+
+    &.file-metadata {
+        width: calc(100% - 40px);
+        margin-right: 20px;
+        margin-left: 20px;
+        margin-bottom: 10px;
+    } 
+
+    .header {
+        width: calc(100% - 500px);
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        width: 500px;
+
+        .add-schema {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            width: fit-content;
+        }
+
+        .spacer {
+            margin-right: 10px;
+        }
+    }
+
+    &.mobile {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 10px;
+
+        .header {
+            width: 100%;
+        }
+
+        .actions {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            width: 100%;
+
+            .download,
+            .add-schema {
+                margin-top: 5px;
+            }
+        }
+    }
+}

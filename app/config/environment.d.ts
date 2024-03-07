@@ -21,6 +21,7 @@ declare const config: {
     WATER_BUTLER_ENABLED: boolean;
     plauditWidgetUrl: string,
     environment: any;
+    cedarConfig: any;
     lintOnBuild: boolean;
     testsEnabled: boolean;
     sourcemapsEnabled: boolean;
@@ -31,6 +32,39 @@ declare const config: {
     assetsPrefix: string;
     sentryDSN: string | null;
     googleTagManagerId: string | null;
+    cedarConfig: {
+        viewerConfig: {
+            showHeader: boolean,
+            showFooter: boolean,
+            expandedSampleTemplateLinks: boolean,
+            showSampleTemplateLinks: boolean,
+            defaultLanguage: string,
+            showTemplateData: boolean,
+            showInstanceData: boolean,
+        }
+        editorConfig: {
+            sampleTemplateLocationPrefix: string,
+            loadSampleTemplateName: string,
+            expandedSampleTemplateLinks: boolean,
+            showTemplateRenderingRepresentation: boolean,
+            showMultiInstanceInfo: boolean,
+            expandedInstanceDataFull: boolean,
+            expandedInstanceDataCore: boolean,
+            expandedMultiInstanceInfo: boolean,
+            expandedTemplateRenderingRepresentation: boolean,
+            showInstanceDataFull: boolean,
+            showTemplateSourceData: boolean,
+            expandedTemplateSourceData: boolean,
+            collapseStaticComponents: boolean,
+            showStaticText: boolean,
+            showInstanceDataCore: boolean,
+            showHeader: boolean,
+            showFooter: boolean,
+            showInstanceDataFull: boolean,
+            showTemplateSourceData: boolean,
+            terminologyIntegratedSearchUrl: string,
+        },
+    }
     sentryOptions: {
         release?: string;
         ignoreErrors: string[];

@@ -1,0 +1,83 @@
+<div local-class='cedar-metadata-renderer-container
+    {{if @displayFileMetadata 'file-metadata'}}
+    {{if this.isMobile 'mobile'}}
+    '>
+    {{#if this.isShowEditor}}
+        <CedarMetadataEditor
+            @cedarMetadataRecord={{@cedarMetadataRecord}}
+            @cedarMetadataTemplate={{@cedarMetadataRecord.template}}
+            @displayArtifactViewer={{this.displayArtifactViewer}}
+        />
+    {{else}}
+        <div local-class='action-container'>
+            {{#if this.hasWritePermission}}
+                <div local-class='explanation-container {{if this.isDraft 'draft'}}'>
+                    {{#if this.isDraft}}
+                        {{t 'cedar.renderer.draft-explanation'}}
+                    {{else}}
+                        {{t 'cedar.renderer.published-explanation'}}
+                    {{/if}}
+                </div>
+            {{/if}}
+            <div local-class='button-container'>
+                {{#unless @displayFileMetadata}}
+                    <CopyButton
+                        data-test-share-icon
+                        @clipboardText={{this.buildCopyLink}}
+                        local-class='spacer'
+                        aria-label={{t 'cedar.editor.share'}}
+                    >
+                        <FaIcon @icon='share-alt' />
+                        <EmberTooltip
+                            @side='right'
+                        >
+                            {{t 'cedar.editor.share'}}
+                        </EmberTooltip>
+                    </CopyButton>
+                {{/unless}}
+                <OsfLink
+                    data-test-download-icon
+                    local-class='spacer'
+                    aria-label={{t 'metadata.download'}}
+                    @href={{@cedarMetadataRecord.links.metadata_download}}
+                    @target='_blank'
+                >
+                    <FaIcon @icon='download' />
+                    <EmberTooltip
+                        @side='right'
+                    >
+                        {{t 'metadata.download'}}
+                    </EmberTooltip>
+                </OsfLink>
+                {{#if this.hasWritePermission}}
+                    <Button
+                        data-test-edit-button
+                        data-analytics-name='Edit metadata'
+                        aria-label={{ t 'metadata.add-flow.edit' }}
+                        {{on 'click' this.edit }}
+                        @layout={{if @displayFileMetadata 'fake-link' 'medium'}}
+                    >
+                        {{#if @displayFileMetadata}}
+                            <FaIcon @icon='pencil-alt' />
+                            <EmberTooltip
+                                @side='right'
+                            >
+                                {{t 'cedar.editor.edit-tooltip'}}
+                            </EmberTooltip>
+                        {{else}}
+                            {{ t 'metadata.add-flow.edit' }}
+                        {{/if}}
+                    </Button>
+                {{/if}}
+            </div>
+        </div>
+        <div local-class='renderer-container'>
+            <cedar-artifact-viewer
+                local-class='artifact-viewer'
+                config={{this.viewerConfig}}
+                instanceObject={{@cedarMetadataRecord.metadata}}
+                templateObject={{@cedarMetadataRecord.template.template}}
+            />
+        </div>
+    {{/if}}
+</div>

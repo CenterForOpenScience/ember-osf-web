@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [24.03.0] - 2024-02-26
+### Added
+- Integrate Cedar Embeddable Editor for adding and editing metadata
+
 ## [24.02.0] - 2024-01-30
 ### Changed
 - Update help links for licenses on draft registrations
@@ -1972,6 +1976,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[24.03.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.03.0
 [24.02.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.02.0
 [24.01.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.01.0
 [23.15.3]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/23.15.3
