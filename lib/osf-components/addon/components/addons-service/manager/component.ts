@@ -150,8 +150,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async connectAccount() {
         if (this.selectedProvider) {
-            const newAccount = await taskFor(this.selectedProvider.createAccountForNodeAddon).perform();
-            await taskFor(this.selectedProvider.createConfiguredStorageAddon).perform(newAccount);
+            const newAccount = await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon).perform();
+            await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
         }
         this.pageMode = PageMode.CONFIGURE;
     }

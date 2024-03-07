@@ -36,6 +36,7 @@ interface ProviderTypeMapper {
     getConfiguredAddon: Task<any, any>;
     getAuthorizedAccounts: Task<any, any>;
     createAccountForNodeAddon: Task<any, any>;
+    createConfiguredAddon: Task<any, any>;
 }
 
 
@@ -52,17 +53,20 @@ export default class Provider {
         externalStorageService: {
             getConfiguredAddon: taskFor(this.getConfiguredStorageAddon),
             getAuthorizedAccounts: taskFor(this.getAuthorizedStorageAccounts),
-            createAccountForNodeAddon: taskFor(this.createAccountForNodeAddon),
+            createAccountForNodeAddon: taskFor(this.createAuthorizedStorageAccount),
+            createConfiguredAddon: taskFor(this.createConfiguredStorageAddon),
         },
         cloudComputingService: {
             getConfiguredAddon: taskFor(this.getConfiguredCloudComputingAddon),
             getAuthorizedAccounts: taskFor(this.getAuthorizedCloudComputingAccounts),
-            createAccountForNodeAddon: taskFor(this.createAccountForNodeAddon),
+            createAccountForNodeAddon: taskFor(this.createAuthorizedCloudComputingAccount),
+            createConfiguredAddon: taskFor(this.createConfiguredCloudComputingAddon),
         },
         citationService: {
             getConfiguredAddon: taskFor(this.getConfiguredCitationServiceAddon),
             getAuthorizedAccounts: taskFor(this.getAuthorizedCitationServiceAccounts),
-            createAccountForNodeAddon: taskFor(this.createAccountForNodeAddon),
+            createAccountForNodeAddon: taskFor(this.createAuthorizedCitationServiceAccount),
+            createConfiguredAddon: taskFor(this.createConfiguredCitationAddon),
         },
     };
 
@@ -193,10 +197,29 @@ export default class Provider {
         return await this.userReference.authorizedStorageAccounts;
     }
 
+
     @task
     @waitFor
-    async createAccountForNodeAddon() {
-        const account = this.store.createRecord('authorized-storage-account', {
+    async createAuthorizedStorageAccount() {
+        return await taskFor(this.createAccountForNodeAddon).perform('authorized-storage-account');
+    }
+
+    @task
+    @waitFor
+    async createAuthorizedCitationServiceAccount() {
+        return await taskFor(this.createAccountForNodeAddon).perform('authorized-citation-service-account');
+    }
+
+    @task
+    @waitFor
+    async createAuthorizedCloudComputingAccount() {
+        return await taskFor(this.createAccountForNodeAddon).perform('authorized-cloud-computing-account');
+    }
+
+    @task
+    @waitFor
+    async createAccountForNodeAddon(authorizedAccountType: string) {
+        const account = this.store.createRecord(authorizedAccountType, {
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             storageProvider: this.provider,
