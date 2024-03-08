@@ -117,7 +117,7 @@ export default class PreprintsDetail extends Route {
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
             const metaTagsData = {
-                title: preprint.title,
+                title: preprint.isWithdrawn ? `Withdrawn: ${preprint.title}` : preprint.title,
                 description: preprint.description,
                 publishedDate: moment(preprint.datePublished).format('YYYY-MM-DD'),
                 modifiedDate: moment(preprint.dateModified).format('YYYY-MM-DD'),
