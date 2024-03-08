@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
 /**
- * The Submit Args
+ * The Status Flow Args
  */
 interface StatusFlowArgs {
     manager: PreprintStateMachine;

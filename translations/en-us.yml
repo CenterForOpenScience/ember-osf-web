@@ -1173,6 +1173,9 @@ preprints:
             step-review: 'Review'
         action-flow:
             next: 'Next'
+            delete: 'Delete'
+            caution: 'Caution'
+            caution-statement: 'Only one person at a time is able to edit a preprint draft. Be sure to coordinate with any other contributors.'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
