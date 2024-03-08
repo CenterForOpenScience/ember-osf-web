@@ -119,11 +119,12 @@ export default class PreprintsDetail extends Route {
             const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
+            const preprintTitle = preprint.isWithdrawn ?
+                this.intl.t('preprints.detail.withdrawn_title', { title: preprint.title }) :
+                preprint.title;
+
             const metaTagsData = {
-                title: this.intl.t(
-                    `preprints.detail.${preprint.isWithdrawn ? 'withdrawn_title' : 'title'}`,
-                    { title: preprint.title },
-                ),
+                title: preprintTitle,
                 description: preprint.description,
                 publishedDate: moment(preprint.datePublished).format('YYYY-MM-DD'),
                 modifiedDate: moment(preprint.dateModified).format('YYYY-MM-DD'),
