@@ -9,8 +9,19 @@ interface StatusFlowArgs {
 }
 
 export default class StatusFlow extends Component<StatusFlowArgs>{
-    statusFlowIndex = this.args.manager.statusFlowIndex;
-    displayAuthorAssertions = this.args.manager.displayAuthorAssertions;
+    /**
+     * Simple getter to reduce typing
+     */
+    private get displayAuthorAssertions(): boolean {
+        return this.args.manager.displayAuthorAssertions;
+    }
+
+    /**
+     * Simple getter to reduce typing
+     */
+    private get statusFlowIndex(): number {
+        return this.args.manager.statusFlowIndex;
+    }
 
     public get isTitleAndFileSelected(): boolean {
         return this.statusFlowIndex === 1;

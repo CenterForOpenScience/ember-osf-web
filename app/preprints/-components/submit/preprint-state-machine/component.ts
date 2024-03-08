@@ -7,6 +7,7 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import RouterService from '@ember/routing/router-service';
 import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
 /**
  * The State Machine Args
@@ -58,6 +59,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     /**
      * Callback for the action-flow component
      */
+    @action
     public onNext(): void {
         this.statusFlowIndex++;
     }
