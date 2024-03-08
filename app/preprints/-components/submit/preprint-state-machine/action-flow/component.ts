@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
@@ -17,6 +18,7 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
     /**
      * Calls the state machine next method
      */
+    @action
     public onNext(): void {
         this.manager.onNext();
     }
@@ -24,6 +26,7 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
     /**
      * Calls the state machine delete method
      */
+    @action
     public onDelete(): void {
         this.manager.onDelete();
     }
