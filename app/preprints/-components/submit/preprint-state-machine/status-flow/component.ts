@@ -27,6 +27,10 @@ export default class StatusFlow extends Component<StatusFlowArgs>{
         return this.statusFlowIndex === 1;
     }
 
+    public get isTitleAndFileFinished(): boolean {
+        return this.isFinished(1);
+    }
+
     public get isMetadataSelected(): boolean {
         return this.statusFlowIndex === 2;
     }
@@ -37,6 +41,18 @@ export default class StatusFlow extends Component<StatusFlowArgs>{
 
     public get isAuthorAssertionsSelected(): boolean {
         return this.statusFlowIndex === 3 && this.displayAuthorAssertions;
+    }
+
+    private isFinished(index: number): boolean {
+        if (this.displayAuthorAssertions && this.statusFlowIndex > 3) {
+            return true;
+        } else if (!this.displayAuthorAssertions && this.statusFlowIndex > 2) {
+            return true;
+        } else if (this.statusFlowIndex > index) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public get isSupplementsSelected(): boolean {

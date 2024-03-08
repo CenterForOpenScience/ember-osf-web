@@ -17,6 +17,10 @@
         justify-content: flex-start;
         background-color: $color-bg-white;
 
+        &.finished {
+            color: $brand-success;
+        }
+
         &.selected {
             width: 193px;
             margin-right: -1px;
