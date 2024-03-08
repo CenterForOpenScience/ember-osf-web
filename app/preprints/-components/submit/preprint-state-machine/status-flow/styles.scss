@@ -1,11 +1,31 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
 .status-flow-container {
-    border-right: 1px solid $color-border-gray-darker;
+    width: 205px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
 
-    .selected {
-        font-weight: bold;
+    .status-container {
+        width: 192px;
+        height: 40px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: $color-bg-white;
+
+        &.selected {
+            width: 193px;
+            margin-right: -1px;
+            font-weight: bold;
+            border: 1px solid $color-border-gray-darker;
+            border-right: 0;
+        }
     }
+
 
     &.mobile {
         height: fit-content;

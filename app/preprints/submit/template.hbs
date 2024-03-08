@@ -4,12 +4,14 @@
     <Preprints::-Components::Submit::PreprintStateMachine 
         @provider={{this.model.provider}}
     as |manager|>
-        <layout.heading local-class='heading-container'
+        <layout.heading local-class='header-container'
          {{with-branding this.model.brand}}
         >
-            {{t 'preprints.submit.title-submit'
-                documentType = this.model.provider.documentType.singularCapitalized
-            }}
+            <div local-class='header'>
+                {{t 'preprints.submit.title-submit'
+                    documentType = this.model.provider.documentType.singularCapitalized
+                }}
+            </div>
         </layout.heading>
         <layout.left local-class='left-container'>
             <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
