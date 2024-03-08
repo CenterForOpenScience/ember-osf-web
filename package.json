@@ -198,7 +198,7 @@
     "ember-sinon": "^5.0.0",
     "ember-sinon-qunit": "^6.0.0",
     "ember-sortable": "^5.0.0",
-    "ember-source": "~3.28.12",
+    "ember-source": "~3.28.8",
     "ember-tag-input": "^3.1.0",
     "ember-template-compiler": "^1.9.0-alpha",
     "ember-template-lint": "^3.15.0",

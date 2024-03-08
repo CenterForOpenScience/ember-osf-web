@@ -17,7 +17,9 @@ import Ready from 'ember-osf-web/services/ready';
 import Theme from 'ember-osf-web/services/theme';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import Intl from 'ember-intl/services/intl';
 import PrePrintsDetailController from './controller';
+
 
 /**
  * @module ember-preprints
@@ -40,6 +42,7 @@ export default class PreprintsDetail extends Route {
     @service currentUser!: CurrentUser;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
+    @service intl!: Intl;
 
     headTags?: HeadTagDef[];
 
@@ -117,7 +120,10 @@ export default class PreprintsDetail extends Route {
             const image = 'engines-dist/registries/assets/img/osf-sharing.png';
 
             const metaTagsData = {
-                title: preprint.isWithdrawn ? `Withdrawn: ${preprint.title}` : preprint.title,
+                title: this.intl.t(
+                    `preprints.detail.${preprint.isWithdrawn ? 'withdrawn_title' : 'title'}`,
+                    { title: preprint.title },
+                ),
                 description: preprint.description,
                 publishedDate: moment(preprint.datePublished).format('YYYY-MM-DD'),
                 modifiedDate: moment(preprint.dateModified).format('YYYY-MM-DD'),
