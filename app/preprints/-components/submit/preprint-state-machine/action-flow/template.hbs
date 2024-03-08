@@ -1,3 +1,31 @@
 <div local-class='action-flow-container  {{if (is-mobile) 'mobile'}}'>
-    {{ t 'preprints.submit.action-flow.next'}}
+    <div local-class='button-container'>
+        <Button
+            data-test-next-button
+            data-analytics-name='Next button'
+            {{on 'click' this.manager.onNext}}
+            local-class='btn'
+            class='btn btn-primary btn-large'
+        >
+            {{ t 'preprints.submit.action-flow.next'}}
+            <FaIcon @icon='arrow-right' />
+        </Button>
+
+        <Button
+            data-test-delete-button
+            data-analytics-name='Delete button'
+            {{on 'click' this.onDelete}}
+            local-class='btn'
+            class='btn btn-destroy btn-large'
+        >
+            {{ t 'preprints.submit.action-flow.delete'}}
+        </Button>
+    </div>
+    <div local-class='caution-container'>
+        <div local-class='icon-container'>
+            <FaIcon local-class='fav-icon' @icon='exclamation-circle' />
+            {{ t 'preprints.submit.action-flow.caution'}}
+        </div>
+        {{ t 'preprints.submit.action-flow.caution-statement'}}
+    </div>
 </div>

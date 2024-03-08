@@ -9,16 +9,16 @@ import RouterService from '@ember/routing/router-service';
 import { tracked } from '@glimmer/tracking';
 
 /**
- * The Submit Args
+ * The State Machine Args
  */
-interface SubmitArgs {
+interface StateMachineArgs {
     provider: PreprintProviderModel;
 }
 
 /**
  * The Preprint State Machine
  */
-export default class PreprintStateMachine extends Component<SubmitArgs>{
+export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service store!: Store;
     @service router!: RouterService;
 
@@ -27,7 +27,7 @@ export default class PreprintStateMachine extends Component<SubmitArgs>{
     preprint: PreprintModel;
     @tracked statusFlowIndex = 1;
 
-    constructor(owner: unknown, args: SubmitArgs) {
+    constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
 
         this.preprint = this.store.createRecord('preprint', {
@@ -40,7 +40,7 @@ export default class PreprintStateMachine extends Component<SubmitArgs>{
      */
     @task
     @waitFor
-    public async onCancel(): Promise<void> {
+    public async onDelete(): Promise<void> {
         this.preprint.deleteRecord();
         await this.router.transitionTo('preprints.index', this.provider.id);
     }
@@ -53,5 +53,12 @@ export default class PreprintStateMachine extends Component<SubmitArgs>{
     public async onSave(): Promise<void> {
         await this.preprint.save();
         await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id );
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    public onNext(): void {
+        this.statusFlowIndex++;
     }
 }

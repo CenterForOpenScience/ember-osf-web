@@ -22,7 +22,9 @@
             />
         </layout.main>
         <layout.right local-class='right-container'>
-            <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow />
+            <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow
+                @manager={{manager}}
+             />
         </layout.right>
     </Preprints::-Components::Submit::PreprintStateMachine>
 </OsfLayout>

@@ -1,4 +1,4 @@
-<div local-class='status-flow-container  {{if this.isMobile 'mobile'}}'>
+<div local-class='status-flow-container  {{if (is-mobile) 'mobile'}}'>
     <div local-class='status-container {{if this.isTitleAndFileSelected 'selected'}}' data-test-title-and-file>
         {{ t 'preprints.submit.status-flow.step-title-and-file'}}
     </div>

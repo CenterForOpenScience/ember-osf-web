@@ -1,11 +1,30 @@
 import Component from '@glimmer/component';
-import { inject as service } from '@ember/service';
-import Media from 'ember-responsive';
+import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
-export default class ActionFlow extends Component{
-    @service media!: Media;
+/**
+ * The Action Flow Args
+ */
+interface ActionFlowArgs {
+    manager: PreprintStateMachine;
+}
 
-    get isMobile() {
-        return this.media.isMobile;
+/**
+ * The Action Flow Component
+ */
+export default class ActionFlow extends Component<ActionFlowArgs>{
+    manager = this.args.manager;
+
+    /**
+     * Calls the state machine next method
+     */
+    public onNext(): void {
+        this.manager.onNext();
+    }
+
+    /**
+     * Calls the state machine delete method
+     */
+    public onDelete(): void {
+        this.manager.onDelete();
     }
 }
