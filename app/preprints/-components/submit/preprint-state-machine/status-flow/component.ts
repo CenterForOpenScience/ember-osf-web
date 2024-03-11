@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
+import { action } from '@ember/object';
 
 /**
  * The Status Flow Args
@@ -31,7 +32,19 @@ export default class StatusFlow extends Component<StatusFlowArgs>{
         return this.isFinished(1);
     }
 
+    public get isTitleAndFileDisabled(): boolean {
+        return this.statusFlowIndex === 1;
+    }
+
     public get isMetadataSelected(): boolean {
+        return this.statusFlowIndex === 2;
+    }
+
+    public get isMetadataFinished(): boolean {
+        return this.isFinished(2);
+    }
+
+    public get isMetadataDisabled(): boolean {
         return this.statusFlowIndex === 2;
     }
 
@@ -43,12 +56,16 @@ export default class StatusFlow extends Component<StatusFlowArgs>{
         return this.statusFlowIndex === 3 && this.displayAuthorAssertions;
     }
 
-    private isFinished(index: number): boolean {
+    public get isAuthorAssertionsFinished(): boolean {
+        return this.isFinished();
+    }
+
+    private isFinished(index?: number): boolean {
         if (this.displayAuthorAssertions && this.statusFlowIndex > 3) {
             return true;
         } else if (!this.displayAuthorAssertions && this.statusFlowIndex > 2) {
             return true;
-        } else if (this.statusFlowIndex > index) {
+        } else if (this.statusFlowIndex > index!) {
             return true;
         } else {
             return false;
@@ -65,6 +82,10 @@ export default class StatusFlow extends Component<StatusFlowArgs>{
         }
     }
 
+    public get isSupplementsFinished(): boolean {
+        return this.isFinished();
+    }
+
     public get isReviewSelected(): boolean {
         if (this.displayAuthorAssertions && this.statusFlowIndex === 5) {
             return true;
@@ -73,5 +94,23 @@ export default class StatusFlow extends Component<StatusFlowArgs>{
         } else {
             return false;
         }
+    }
+
+    @action
+    public onClickMetadata(): void {
+        if (this.statusFlowIndex > 2) {
+            this.onClickStep(2);
+        }
+    }
+
+    @action
+    public onClickTitleAndFile(): void {
+        if (this.statusFlowIndex > 1) {
+            this.onClickStep(1);
+        }
+    }
+
+    private onClickStep(index: number): void {
+        this.args.manager.onClickStep(index);
     }
 }
