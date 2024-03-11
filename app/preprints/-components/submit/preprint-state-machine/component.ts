@@ -63,4 +63,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public onNext(): void {
         this.statusFlowIndex++;
     }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @action
+    public onClickStep(index: number): void {
+        this.statusFlowIndex = index;
+    }
 }
