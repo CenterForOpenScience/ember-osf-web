@@ -4,6 +4,16 @@ import ExternalStorageServiceModel from './external-storage-service';
 import UserReferenceModel from './user-reference';
 import OsfModel from './osf-model';
 
+export interface AddonCredentialFields {
+    url: string;
+    username: string;
+    password: string;
+    token: string;
+    accessKey: string;
+    secretKey: string;
+    repo: string;
+}
+
 export default class AuthorizedStorageAccountModel extends OsfModel {
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;

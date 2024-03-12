@@ -8,13 +8,15 @@ import { tracked } from '@glimmer/tracking';
 import { Task, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import NodeModel from 'ember-osf-web/models/node';
 import Provider, { AllAuthorizedAccountTypes } from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
-import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
+import AuthorizedStorageAccountModel, { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -45,6 +47,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @service store!: Store;
     @service currentUser!: CurrentUserService;
     @service intl!: IntlService;
+    @service toast!: Toast;
 
     node = this.args.node;
     @tracked addonServiceNode?: ResourceReferenceModel;
@@ -73,7 +76,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
     @tracked selectedAccount?: AllAuthorizedAccountTypes;
-    @tracked credentialsObject = {
+    @tracked credentialsObject: AddonCredentialFields = {
         url: '',
         username: '',
         password: '',
@@ -149,17 +152,24 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @task
     @waitFor
     async connectAccount() {
-        if (this.selectedProvider) {
-            const newAccount = await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon).perform();
-            await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
+        try {
+            if (this.selectedProvider) {
+                const newAccount = await taskFor(this.selectedProvider.providerMap!
+                    .createAccountForNodeAddon).perform(this.credentialsObject);
+                await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
+            }
+            this.pageMode = PageMode.CONFIGURE;
+        } catch (e) {
+            const errorMessage = this.intl.t('addons.accountCreate.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
-        this.pageMode = PageMode.CONFIGURE;
     }
 
     @action
     onCredentialsInput(event: Event) {
         const input = event.target as HTMLInputElement;
-        this.credentialsObject[input.name] = input.value;
+        this.credentialsObject[(input.name as keyof AddonCredentialFields)] = input.value;
     }
 
     @task

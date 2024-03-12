@@ -3,8 +3,8 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import IntlService from 'ember-intl/services/intl';
-
 import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
+import { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
 import AddonsServiceManagerComponent from 'ember-osf-web/components/addons-service/manager/component';
 import UserAddonsManagerComponent from 'ember-osf-web/components/addons-service/user-addons-manager/component';
 
@@ -19,7 +19,7 @@ const repoOptionsObject: Record<string, string[]> = {
     ],
 };
 interface InputFieldObject {
-    name: string;
+    name: keyof AddonCredentialFields;
     labelText: string;
     inputType: string;
     inputPlaceholder: string;

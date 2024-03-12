@@ -177,6 +177,15 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
+    async connectAccount() {
+        if (this.selectedProvider) {
+            const newAccount = await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon).perform();
+            await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
+        }
+    }
+
+    @task
+    @waitFor
     async disconnectAddon(account: AllAuthorizedAccountTypes) {
         try {
             const authorizedAccounts = this.filterTypeMapper[this.activeFilterType]

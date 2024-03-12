@@ -15,7 +15,7 @@ import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import ConfiguredCitationServiceAddonModel from 'ember-osf-web/models/configured-citation-service-addon';
 import ConfiguredCloudComputingAddonModel from 'ember-osf-web/models/configured-cloud-computing-addon';
-import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
+import AuthorizedStorageAccountModel, {AddonCredentialFields} from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
 import AuthorizedCloudComputingAccount from 'ember-osf-web/models/authorized-cloud-computing-account';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
@@ -200,26 +200,30 @@ export default class Provider {
 
     @task
     @waitFor
-    async createAuthorizedStorageAccount() {
-        return await taskFor(this.createAccountForNodeAddon).perform('authorized-storage-account');
+    async createAuthorizedStorageAccount(credentials: AddonCredentialFields) {
+        return await taskFor(this.createAccountForNodeAddon)
+            .perform('authorized-storage-account', credentials);
     }
 
     @task
     @waitFor
-    async createAuthorizedCitationServiceAccount() {
-        return await taskFor(this.createAccountForNodeAddon).perform('authorized-citation-service-account');
+    async createAuthorizedCitationServiceAccount(credentials: AddonCredentialFields) {
+        return await taskFor(this.createAccountForNodeAddon)
+            .perform('authorized-citation-service-account', credentials);
     }
 
     @task
     @waitFor
-    async createAuthorizedCloudComputingAccount() {
-        return await taskFor(this.createAccountForNodeAddon).perform('authorized-cloud-computing-account');
+    async createAuthorizedCloudComputingAccount(credentials: AddonCredentialFields) {
+        return await taskFor(this.createAccountForNodeAddon)
+            .perform('authorized-cloud-computing-account', credentials);
     }
 
     @task
     @waitFor
-    async createAccountForNodeAddon(authorizedAccountType: string) {
+    async createAccountForNodeAddon(authorizedAccountType: string, credentials: AddonCredentialFields) {
         const account = this.store.createRecord(authorizedAccountType, {
+            credentials,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             storageProvider: this.provider,
