@@ -1,0 +1,7 @@
+<div local-class='provider-container {{if (is-mobile) 'mobile'}}'>
+    <div local-class='image-container'>
+        <img local-class='image' src={{this.provider.assets.square_color_no_transparent}} alt={{this.headerText}} />
+    </div>
+    <div local-class='name-container'>{{this.provider.name}}</div>
+    <div local-class='description-container'>{{html-safe this.provider.description}}</div>
+</div>

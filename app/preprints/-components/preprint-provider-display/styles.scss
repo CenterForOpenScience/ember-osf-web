@@ -1,0 +1,47 @@
+.provider-container {
+    width: 250px;
+    height: 150px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid $color-border-gray;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    .image-container {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .image {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    .name-container {
+        width: 100%;
+        margin-top: 5px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .description-container {
+        width: 100%;
+        margin-top: 5px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &:hover {
+        border-color: $color-border-blue-dark;
+        background-color: $color-bg-gray-blue-light;
+    }
+}
