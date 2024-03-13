@@ -1844,9 +1844,15 @@ registries:
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
         pending_moderation: 'No registrations found with updates pending'
+<<<<<<< HEAD
         embargoEndDate: 'Embargoed Registration'
         EmbargoEndPrefix: 'with an end date of'
         public: 'Public Registration'
+=======
+        embargoEndDate: 'Embargoed Registrations'
+        EmbargoEndPrefix: 'with an end date of'
+        public: 'Public Registrations'
+>>>>>>> bc907ea39 (ENG-5093 Improve Visibility of Embargoed Registrations on Registration Card)
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
