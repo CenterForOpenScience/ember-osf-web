@@ -1,12 +1,12 @@
 {{page-title (t 'preprints.select.page_title')}}
 
 <div local-class='select-page-container {{if (is-mobile) 'mobile'}}'>
+    {{!-- placehodler for header component --}}
+    {{!-- local-class 'header-container' and 'header' will be replaced by the component's own local-class --}}
     <div local-class='header-container'>
-        {{!-- placehodler for header component --}}
+        <div local-class='header-clamp-width-container'>
+            <p local-class='header'>{{t 'preprints.select.title'}}</p>
+        </div>
     </div>
-    <div local-class='select-preprints-provider-container'>
-        <Preprints::-Components::PreprintProviderSelection
-            @allProviders={{this.model.allProviders}}
-        />
-    </div>
+    <Preprints::-Components::PreprintProviderSelection @allProviders={{this.model.allProviders}} />
 </div>

@@ -1,3 +1,7 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+@import 'app/styles/layout';
+
 .select-page-container {
     width: 100%;
     display: flex;
@@ -11,18 +15,17 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        color: $color-text-white;
+        align-items: flex-start;
         background: url('assets/images/default-brand/bg-dark.jpg') top center $color-bg-color-grey;
-    }
 
-    .select-preprints-provider-container {
-        background-color: $color-bg-gray-lighter;
-        padding: 15px 0;
-        width: 100%;
-        flex-direction: column;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        .header-clamp-width-container {
+            @include clamp-width;
+
+            .header {
+                margin: 5px 10px;
+                font-size: 48px;
+                color: $color-text-white;
+            }
+        }
     }
 }

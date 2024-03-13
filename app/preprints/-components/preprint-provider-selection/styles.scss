@@ -6,6 +6,7 @@
     @include clamp-width;
     width: 100%;
     display: flex;
+    padding: 15px 0;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -59,6 +60,7 @@
             font-size: 16px;
             font-weight: bold;
             color: $color-text-white;
+            border-style: hidden;
 
             &:hover {
                 background-color: $color-bg-blue-highlight;
