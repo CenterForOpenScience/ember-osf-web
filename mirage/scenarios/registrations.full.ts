@@ -133,11 +133,19 @@ function createEgapRegistrationProvider(server: Server, currentUser: ModelInstan
     server.create('moderator', { id: currentUser.id, user: currentUser, provider: egap }, 'asAdmin');
     server.createList('moderator', 5, { provider: egap });
 
-    server.createList('registration', 12, {
+    // server.createList('registration', 12, {
+    //     reviewsState: RegistrationReviewStates.Pending,
+    //     provider: egap,
+    // });
+    server.create('registration', { id: 'embargo-test', title: 'Embargo Tests', provider: egap }, 'isEmbargo');
+    server.create('registration', {
+        id: 'pending-embargo',
+        title: 'Pending Embargo',
         reviewsState: RegistrationReviewStates.Pending,
+        revisionState: RevisionReviewStates.Approved,
+        embargoEndDate: new Date(2024,0,0),
         provider: egap,
     });
-
     return egap;
 }
 
