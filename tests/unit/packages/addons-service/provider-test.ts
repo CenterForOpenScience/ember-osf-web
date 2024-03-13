@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 import Provider from 'ember-osf-web/packages/addons-service/provider';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import {AddonCredentialFields} from 'ember-osf-web/models/authorized-storage-account';
 
 module('Unit | Packages | addons-service | provider', function(hooks) {
     setupTest(hooks);
@@ -26,7 +27,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             currentUserPermissions: [ 'read', 'write', 'admin' ],
         });
         // Make the addons service stuff
-        const externalStorageService = server.create('external-storage-service', {
+        const mirageExternalStorageService = server.create('external-storage-service', {
             id: 'bropdox',
             name: 'Bropdox',
         });
@@ -44,10 +45,12 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             externalUserId: user.id,
             externalUserDisplayName: user.fullName,
             rootFolder: '/rooty-tooty/',
-            storageProvider: externalStorageService,
+            storageProvider: mirageExternalStorageService,
             accountOwner: userReference,
             authorizedResource: resourceReference,
         });
+        const externalStorageService = await this.owner.lookup('service:store')
+            .findRecord('external-storage-service', mirageExternalStorageService.id);
 
         const provider = new Provider(externalStorageService, currentUser, node);
         await settled();
@@ -72,7 +75,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             currentUserPermissions: [ 'read', 'write', 'admin' ],
         });
         // Make the addons service stuff
-        const externalStorageService = server.create('external-storage-service', {
+        const mirageExternalStorageService = server.create('external-storage-service', {
             id: 'bropdox',
             name: 'Bropdox',
         });
@@ -90,15 +93,18 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             externalUserId: user.id,
             externalUserDisplayName: user.fullName,
             rootFolder: '/',
-            storageProvider: externalStorageService,
+            storageProvider: mirageExternalStorageService,
             accountOwner: userReference,
             authorizedResource: resourceReference,
         });
+        const externalStorageService = await this.owner.lookup('service:store')
+            .findRecord('external-storage-service', mirageExternalStorageService.id);
 
         const provider = new Provider(externalStorageService, currentUser, node);
         await settled();
 
-        const account = await taskFor(provider.createAccountForNodeAddon).perform();
+        const account = await taskFor(provider.createAccountForNodeAddon)
+            .perform('authorized-storage-account', {} as AddonCredentialFields);
         await taskFor(provider.setNodeAddonCredentials).perform(account);
         assert.equal((provider.configuredAddon as ConfiguredStorageAddonModel)
             .baseAccount?.get('id'), account.id, 'Base account is set');
