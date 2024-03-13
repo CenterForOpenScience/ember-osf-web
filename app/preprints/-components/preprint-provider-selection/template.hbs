@@ -1,11 +1,20 @@
-<div>
-    <div>{{t 'preprints.select.heading'}}</div>
+<div local-class='provider-selection-container {{if (is-mobile) 'mobile'}}'>
 
-    <div>{{t 'preprints.select.paragraph' link=this.learnMoreUrl htmlSafe=true}}</div>
+    <div local-class='heading-container'>
+        <h1 local-class='heading'>{{t 'preprints.select.heading'}}</h1>
+    </div>
 
-    {{#each this.allProviders as |provider| }}
-        <div>{{provider.name}}</div>
-    {{/each}}
+    <div local-class='paragraph-container'>
+        <p local-class='paragraph'>{{t 'preprints.select.paragraph' link=this.learnMoreUrl htmlSafe=true}}</p>
+    </div>
 
-    <div>{{t 'preprints.select.create_button'}}</div>
+    <div local-class='provider-list-container'>
+        {{#each this.allProviders as |provider| }}
+            <Preprints::-Components::PreprintProviderDisplay @provider={{provider}} />
+        {{/each}}
+    </div>
+
+    <div local-class='create-button-container'>
+        <button local-class='create-button' type='button'>{{t 'preprints.select.create_button'}}</button>
+    </div>
 </div>
