@@ -8,5 +8,10 @@ interface StatusFlowArgs {
     manager: PreprintStateMachine;
 }
 
-// eslint-disable-next-line ember/no-empty-glimmer-component-classes
-export default class StatusFlow extends Component<StatusFlowArgs>{ }
+export default class StatusFlow extends Component<StatusFlowArgs> {
+
+    public get displayAuthorAssertions(): boolean {
+        return this.args.manager.displayAuthorAssertions;
+    }
+
+}
