@@ -19,4 +19,9 @@
             @manager={{@manager}}
         />
     {{/if}}
+    {{#if this.isReviewActive}}
+        <Preprints::-Components::Submit::Review
+            @manager={{@manager}}
+        />
+    {{/if}}
 </div>

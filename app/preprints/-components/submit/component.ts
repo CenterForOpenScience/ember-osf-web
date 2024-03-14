@@ -29,6 +29,10 @@ export default class Submit extends Component<SubmitArgs>{
         return this.isSelected(PreprintStatusTypeEnum.supplements);
     }
 
+    public get isReviewActive(): boolean {
+        return this.isSelected(PreprintStatusTypeEnum.review);
+    }
+
     private isSelected(type: string): boolean {
         return this.args.manager.isSelected(type);
     }
