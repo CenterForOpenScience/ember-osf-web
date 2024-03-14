@@ -1,11 +1,9 @@
-// TODO: needs iconUri and authUri
 import { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
 export default [
     {
         id: 'box',
         name: 'Box',
         credentialsFormat: CredentialsFormat.OAUTH2,
-        authUri: 'https://www.box.com/api/oauth2/authorize',
         readOnly: false,
         supportsCopy: true,
         supportsUserSpecificRootFolder: true,
@@ -13,6 +11,10 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
+        links: {
+            auth: 'https://www.box.com/',
+            icon: 'https://www.box.com/favicon.ico',
+        },
     },
     {
         id: 'dataverse',
@@ -25,11 +27,13 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
+        links: {
+            icon: 'https://dataverse.org/favicon.ico',
+        },
     },
     {
         id: 'dropbox',
         name: 'Dropbox',
-        authUri: 'https://www.dropbox.com/oauth2/authorize',
         credentialsFormat: CredentialsFormat.OAUTH2,
         readOnly: false,
         supportsCopy: true,
@@ -38,6 +42,10 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
+        links: {
+            auth: 'https://www.dropbox.com/',
+            icon: 'https://www.dropbox.com/favicon.ico',
+        },
     },
     {
         id: 'gitlab',
@@ -50,6 +58,9 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
+        links: {
+            icon: 'https://gitlab.com/favicon.ico',
+        },
     },
     {
         id: 'onedrive',
@@ -62,6 +73,10 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
+        links: {
+            auth: 'https://onedrive.live.com/',
+            icon: 'https://onedrive.live.com/favicon.ico',
+        },
     },
     {
         id: 'owncloud',
@@ -74,6 +89,9 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
+        links: {
+            icon: 'https://owncloud.com/favicon.ico',
+        },
     },
     {
         id: 's3',
@@ -86,5 +104,9 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
+        links: {
+            auth: 'https://aws.amazon.com/',
+            icon: 'https://aws.amazon.com/favicon.ico',
+        },
     },
 ];

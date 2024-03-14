@@ -34,7 +34,9 @@ module('Integration | Component | addon-card', hooks => {
             provider: {
                 id: 'box',
                 name: 'Test Addon',
-                iconUri: 'https://some.url/from/addons/service/box.png',
+                links: {
+                    icon: 'https://some.url/from/addons/service/box.png',
+                },
             },
             disableProjectAddon: sinon.stub(),
             nodeAddon: { configured: false },
@@ -73,7 +75,9 @@ module('Integration | Component | addon-card', hooks => {
             provider: {
                 id: 'box',
                 name: 'Test Addon',
-                iconUri: 'https://some.url/from/addons/service/box.png',
+                links: {
+                    icon: 'https://some.url/from/addons/service/box.png',
+                },
             },
             disableProjectAddon: { perform: sinon.stub() },
             nodeAddon: { configured: true },
