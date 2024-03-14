@@ -17,7 +17,7 @@ export default class Submit extends Component<SubmitArgs>{
         return this.isSelected(PreprintStatusTypeEnum.titleAndFile);
     }
 
-    public get isMetadataActice(): boolean {
+    public get isMetadataActive(): boolean {
         return this.isSelected(PreprintStatusTypeEnum.metadata);
     }
 
