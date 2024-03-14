@@ -19,7 +19,10 @@ export default class Submit extends Component<SubmitArgs>{
 
     public get isTitleAndFileActive(): boolean {
         return this.isSelected(PreprintStatusTypeEnum.titleAndFile);
+    }
 
+    public get isMetadataActice(): boolean {
+        return this.isSelected(PreprintStatusTypeEnum.metadata);
     }
 
     private isSelected(type: string): boolean {

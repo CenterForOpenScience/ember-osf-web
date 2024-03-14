@@ -4,4 +4,9 @@
             @manager={{@manager}}
         />
     {{/if}}
+    {{#if this.isMetadataActive}}
+        <Preprints::-Components::Submit::Metadata
+            @manager={{@manager}}
+        />
+    {{/if}}
 </div>
