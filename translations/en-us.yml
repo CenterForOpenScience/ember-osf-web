@@ -1846,7 +1846,7 @@ registries:
         pending_moderation: 'No registrations found with updates pending'
         embargoEndDate: 'Embargoed Registration'
         EmbargoEndPrefix: 'with an end date of'
-        public: 'Public Registrations'
+        public: 'Public Registration'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'

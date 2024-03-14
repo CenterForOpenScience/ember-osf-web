@@ -32,7 +32,7 @@
                     </OsfLink>
                 {{/if}}
             </h3>
-            {{#if @registration.embargoEndDate}}
+            {{#if (and @registration.embargoEndDate (not (eq @registration.reviewsState 'withdrawn')))}}
                 <div local-class='embargoStatus'>
                     <span>{{t 'registries.registrationList.embargoEndDate'}}</span>
                     <span> 
@@ -40,8 +40,8 @@
                         {{format-date @registration.embargoEndDate}}
                     </span>
                 </div>
-            {{else}}
-                <span>{{t 'registries.registrationist.public'}}</span>
+            {{else if (and (not (eq @registration.reviewsState 'withdrawn')))}}
+                <span>{{t 'registries.registrationList.public'}}</span>
             {{/if}}
             {{#if (eq @state 'pending_moderation')}}
                 <ReviewActionsList @revision={{this.latestRevision}} />
