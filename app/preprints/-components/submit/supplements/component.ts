@@ -2,17 +2,17 @@ import Component from '@glimmer/component';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
 /**
- * The Metadata Args
+ * The Supplements Args
  */
-interface MetadataArgs {
+interface SupplementsArgs {
     manager: PreprintStateMachine;
 }
 
 /**
- * The Metadata Component
+ * The Supplements Component
  */
-export default class Metadata extends Component<MetadataArgs>{
-    constructor(owner: unknown, args: MetadataArgs) {
+export default class Supplements extends Component<SupplementsArgs>{
+    constructor(owner: unknown, args: SupplementsArgs) {
         super(owner, args);
     }
 }

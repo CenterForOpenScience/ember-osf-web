@@ -14,4 +14,9 @@
             @manager={{@manager}}
         />
     {{/if}}
+    {{#if this.isSupplementsActive}}
+        <Preprints::-Components::Submit::Supplements
+            @manager={{@manager}}
+        />
+    {{/if}}
 </div>
