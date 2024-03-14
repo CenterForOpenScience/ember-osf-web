@@ -1,12 +1,12 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 
-import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
+import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
 import { MirageConfiguredComputingAddon } from '../serializers/configured-computing-addon';
-import { MirageConfiguredCitationServiceAddon } from '../serializers/configured-citation-service-addon';
+import { MirageConfiguredCitationAddon } from '../serializers/configured-citation-addon';
 import { MirageConfiguredStorageAddon } from '../serializers/configured-storage-addon';
 import { filter, process } from './utils';
 
@@ -66,15 +66,15 @@ export function userReferenceAuthorizedStorageAccountList(this: HandlerContext, 
     return process(schema, request, this, data);
 }
 
-export function userAuthorizedCitationServiceAccountList(this: HandlerContext, schema: Schema, request: Request) {
+export function userAuthorizedCitationAccountList(this: HandlerContext, schema: Schema, request: Request) {
     const { userGuid } = request.params;
     const userReference = schema.userReferences.find(userGuid);
-    const { authorizedCitationServiceAccountIds } = userReference.attrs;
-    if (!authorizedCitationServiceAccountIds) {
+    const { authorizedCitationAccountIds } = userReference.attrs;
+    if (!authorizedCitationAccountIds) {
         return process(schema, request, this, []);
     }
-    const authorizedCitationAccounts = authorizedCitationServiceAccountIds.map(
-        (id: string) => schema.authorizedCitationServiceAccounts.find(id),
+    const authorizedCitationAccounts = authorizedCitationAccountIds.map(
+        (id: string) => schema.authorizedCitationAccounts.find(id),
     );
     const filteredCitationAccounts = authorizedCitationAccounts.filter(
         (addon: ModelInstance) => filter(addon, request),
@@ -117,15 +117,15 @@ export function resourceReferenceConfiguredStorageAddonList(this: HandlerContext
     return processed;
 }
 
-export function resourceConfiguredCitationServiceAddonList(this: HandlerContext, schema: Schema, request: Request) {
+export function resourceConfiguredCitationAddonList(this: HandlerContext, schema: Schema, request: Request) {
     const { nodeGuid } = request.params;
     const resourceReference = schema.resourceReferences.find(nodeGuid);
-    const { configuredCitationServiceAddonIds } = resourceReference.attrs;
-    if (!configuredCitationServiceAddonIds) {
+    const { configuredCitationAddonIds } = resourceReference.attrs;
+    if (!configuredCitationAddonIds) {
         return process(schema, request, this, []);
     }
-    const configuredCitationAddons = configuredCitationServiceAddonIds.map(
-        (id: string) => schema.configuredCitationServiceAddons.find(id),
+    const configuredCitationAddons = configuredCitationAddonIds.map(
+        (id: string) => schema.configuredCitationAddons.find(id),
     );
     const filteredCitationAddons = configuredCitationAddons.filter((addon: ModelInstance) => filter(addon, request));
     const data = filteredCitationAddons.map((addon: ModelInstance) => this.serialize(addon).data);
@@ -173,20 +173,20 @@ export function createConfiguredStorageAddon(this: HandlerContext, schema: Schem
     return configuredStorageAddon;
 }
 
-export function createConfiguredCitationServiceAddon(this: HandlerContext, schema: Schema) {
+export function createConfiguredCitationAddon(this: HandlerContext, schema: Schema) {
     const attrs = this.normalizedRequestAttrs(
-        'configured-citation-service-addon',
-    ) as NormalizedRequestAttrs<MirageConfiguredCitationServiceAddon>;
-    const configuredCitationServiceAddon = schema.configuredCitationServiceAddons.create(attrs);
+        'configured-citation-addon',
+    ) as NormalizedRequestAttrs<MirageConfiguredCitationAddon>;
+    const configuredCitationAddon = schema.configuredCitationAddons.create(attrs);
 
-    const baseAccount = schema.authorizedCitationServiceAccounts
-        .find(attrs.baseAccountId) as ModelInstance<AuthorizedCitationServiceAccountModel>;
-    configuredCitationServiceAddon.update({
+    const baseAccount = schema.authorizedCitationAccounts
+        .find(attrs.baseAccountId) as ModelInstance<AuthorizedCitationAccountModel>;
+    configuredCitationAddon.update({
         externalUserId: baseAccount.externalUserId,
         externalUserDisplayName: baseAccount.externalUserDisplayName,
     });
 
-    return configuredCitationServiceAddon;
+    return configuredCitationAddon;
 }
 
 export function createConfiguredComputingAddon(this: HandlerContext, schema: Schema) {

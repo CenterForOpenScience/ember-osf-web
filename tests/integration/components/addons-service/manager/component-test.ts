@@ -14,7 +14,7 @@ module('Integration | Component | addons-service | manager', hooks => {
 
     test('it loads and filters', async function(assert) {
         server.loadFixtures('external-storage-services');
-        server.loadFixtures('citation-services');
+        server.loadFixtures('external-citation-services');
         server.loadFixtures('external-computing-services');
         this.owner.register('service:current-user', CurrentUserStub);
         const store = this.owner.lookup('service:store');

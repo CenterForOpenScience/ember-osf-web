@@ -13,23 +13,26 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
-import ConfiguredCitationServiceAddonModel from 'ember-osf-web/models/configured-citation-service-addon';
+import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
 import AuthorizedStorageAccountModel, {AddonCredentialFields} from 'ember-osf-web/models/authorized-storage-account';
-import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
+import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
-import CitationServiceModel from 'ember-osf-web/models/citation-service';
+import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 
-export type AllProviderTypes = ExternalStorageServiceModel | ExternalComputingServiceModel | CitationServiceModel;
+export type AllProviderTypes =
+    ExternalStorageServiceModel |
+    ExternalComputingServiceModel |
+    ExternalCitationServiceModel;
 export type AllAuthorizedAccountTypes =
     AuthorizedStorageAccountModel |
-    AuthorizedCitationServiceAccountModel |
+    AuthorizedCitationAccountModel |
     AuthorizedComputingAccount;
 export type AllConfiguredAddonTypes =
     ConfiguredStorageAddonModel |
-    ConfiguredCitationServiceAddonModel |
+    ConfiguredCitationAddonModel |
     ConfiguredComputingAddonModel;
 
 interface ProviderTypeMapper {
@@ -62,10 +65,10 @@ export default class Provider {
             createAccountForNodeAddon: taskFor(this.createAuthorizedComputingAccount),
             createConfiguredAddon: taskFor(this.createConfiguredComputingAddon),
         },
-        citationService: {
-            getConfiguredAddon: taskFor(this.getConfiguredCitationServiceAddon),
-            getAuthorizedAccounts: taskFor(this.getAuthorizedCitationServiceAccounts),
-            createAccountForNodeAddon: taskFor(this.createAuthorizedCitationServiceAccount),
+        externalCitationService: {
+            getConfiguredAddon: taskFor(this.getConfiguredCitationAddon),
+            getAuthorizedAccounts: taskFor(this.getAuthorizedCitationAccounts),
+            createAccountForNodeAddon: taskFor(this.createAuthorizedCitationAccount),
             createConfiguredAddon: taskFor(this.createConfiguredCitationAddon),
         },
     };
@@ -90,8 +93,8 @@ export default class Provider {
             this.providerMap = this.providerTypeMapper.externalStorageService;
         } else if (provider instanceof ExternalComputingServiceModel) {
             this.providerMap = this.providerTypeMapper.externalComputingService;
-        } else if (provider instanceof CitationServiceModel) {
-            this.providerMap = this.providerTypeMapper.citationService;
+        } else if (provider instanceof ExternalCitationServiceModel) {
+            this.providerMap = this.providerTypeMapper.externalCitationService;
         }
         taskFor(this.initialize).perform();
     }
@@ -136,9 +139,9 @@ export default class Provider {
 
     @task
     @waitFor
-    async getConfiguredCitationServiceAddon() {
+    async getConfiguredCitationAddon() {
         if (this.serviceNode) {
-            await taskFor(this.getConfiguredAddon).perform('configuredCitationServiceAddons');
+            await taskFor(this.getConfiguredAddon).perform('configuredCitationAddons');
         }
     }
 
@@ -173,9 +176,9 @@ export default class Provider {
 
     @task
     @waitFor
-    async getAuthorizedCitationServiceAccounts() {
-        await taskFor(this.getAuthorizedAccounts).perform('authorizedCitationServiceAccounts',
-            { 'filter[citationService]': this.provider.id });
+    async getAuthorizedCitationAccounts() {
+        await taskFor(this.getAuthorizedAccounts).perform('authorizedCitationAccounts',
+            { 'filter[externalCitationService]': this.provider.id });
     }
 
     @task
@@ -207,9 +210,9 @@ export default class Provider {
 
     @task
     @waitFor
-    async createAuthorizedCitationServiceAccount(credentials: AddonCredentialFields) {
+    async createAuthorizedCitationAccount(credentials: AddonCredentialFields) {
         return await taskFor(this.createAccountForNodeAddon)
-            .perform('authorized-citation-service-account', credentials);
+            .perform('authorized-citation-account', credentials);
     }
 
     @task
@@ -251,9 +254,9 @@ export default class Provider {
 
     @task
     @waitFor
-    async createConfiguredCitationAddon(account: AuthorizedCitationServiceAccountModel) {
+    async createConfiguredCitationAddon(account: AuthorizedCitationAccountModel) {
         if (!this.configuredAddon) {
-            const configuredCitationAddon = this.store.createRecord('configured-citation-service-addon', {
+            const configuredCitationAddon = this.store.createRecord('configured-citation-addon', {
                 storageProvider: this.provider,
                 accountOwner: this.userReference,
                 authorizedResource: this.serviceNode,

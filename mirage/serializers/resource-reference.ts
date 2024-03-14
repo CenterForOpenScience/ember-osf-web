@@ -14,10 +14,10 @@ export default class ResourceReferenceSerializer extends AddonServiceSerializer 
                     },
                 },
             },
-            configuredCitationServiceAddons: {
+            configuredCitationAddons: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-citation-service-addons`,
+                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-citation-addons`,
                     },
                 },
             },

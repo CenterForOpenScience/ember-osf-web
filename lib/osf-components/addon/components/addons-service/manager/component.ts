@@ -60,7 +60,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             list: A([]),
         },
         [FilterTypes.CITATION_MANAGER]: {
-            modelName: 'citation-service',
+            modelName: 'external-citation-service',
             task: taskFor(this.getCitationAddonProviders),
             list: A([]),
         },
@@ -251,7 +251,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
 
         if (this.addonServiceNode) {
-            await this.addonServiceNode.get('configuredCitationServiceAddons');
+            await this.addonServiceNode.get('configuredCitationAddons');
         }
     }
 

@@ -15,10 +15,10 @@ export default class UserReferenceSerializer extends AddonServiceSerializer {
                     },
                 },
             },
-            authorizedCitationServiceAccounts: {
+            authorizedCitationAccounts: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-citation-service-accounts/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-citation-accounts/`,
                     },
                 },
             },

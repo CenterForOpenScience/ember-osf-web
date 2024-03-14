@@ -3,7 +3,7 @@ import { attr } from '@ember-data/model';
 import OsfModel from './osf-model';
 import { CredentialsFormat, ExternalServiceLinks } from './external-storage-service';
 
-export default class CitationServiceModel extends OsfModel {
+export default class ExternalCitationServiceModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('links') links!: ExternalServiceLinks;
     @attr('string') credentialsFormat!: CredentialsFormat;
@@ -12,6 +12,6 @@ export default class CitationServiceModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'citation-service': CitationServiceModel;
+        'external-citation-service': ExternalCitationServiceModel;
     } // eslint-disable-line semi
 }

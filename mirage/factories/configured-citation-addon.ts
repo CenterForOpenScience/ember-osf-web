@@ -1,22 +1,21 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import AuthorizedCitationServiceAccount from 'ember-osf-web/models/authorized-citation-service-account';
+import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 
-export default Factory.extend<AuthorizedCitationServiceAccount>({
+export default Factory.extend<ConfiguredCitationAddonModel>({
     externalUserId: faker.random.uuid(),
     externalUserDisplayName: faker.name.findName(),
-    scopes: [],
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        'authorized-citation-service-account': AuthorizedCitationServiceAccount;
+        'configured-citation-addon': ConfiguredCitationAddonModel;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        authorizedCitationServiceAccount: AuthorizedCitationServiceAccount;
+        configuredCitationAddon: ConfiguredCitationAddonModel;
     } // eslint-disable-line semi
 }

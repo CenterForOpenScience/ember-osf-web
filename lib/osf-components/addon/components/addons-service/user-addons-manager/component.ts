@@ -14,13 +14,13 @@ import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
-import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
+import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
 import UserModel from 'ember-osf-web/models/user';
 
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
-import CitationServiceModel from 'ember-osf-web/models/citation-service';
+import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import { FilterTypes } from '../manager/component';
@@ -48,10 +48,10 @@ export default class UserAddonManagerComponent extends Component<Args> {
             authorizedAccounts: [] as AuthorizedStorageAccountModel[],
         },
         [FilterTypes.CITATION_MANAGER]: {
-            modelName: 'citation-service',
+            modelName: 'external-citation-service',
             fetchProvidersTask: taskFor(this.getCitationAddonProviders),
-            list: A([]) as EmberArray<CitationServiceModel>,
-            authorizedAccounts: [] as AuthorizedCitationServiceAccountModel[],
+            list: A([]) as EmberArray<ExternalCitationServiceModel>,
+            authorizedAccounts: [] as AuthorizedCitationAccountModel[],
         },
         [FilterTypes.CLOUD_COMPUTING]: {
             modelName: 'external-computing-service',
@@ -160,7 +160,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async getCitationAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
         const serviceCloudComputingProviders = await taskFor(this.getExternalProviders)
-            .perform(activeFilterObject.modelName) as CitationServiceModel[];
+            .perform(activeFilterObject.modelName) as ExternalCitationServiceModel[];
         activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
     }
 

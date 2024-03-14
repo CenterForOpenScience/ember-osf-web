@@ -1,17 +1,17 @@
 import { ModelInstance } from 'ember-cli-mirage';
 
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
-import AuthorizedCitationServiceAccount from 'ember-osf-web/models/authorized-citation-service-account';
+import AuthorizedCitationAccount from 'ember-osf-web/models/authorized-citation-account';
 
 import AddonServiceSerializer from './addon-service-serializer';
 
-interface MirageAuthorizedCitationServiceAccount extends ModelInstance<AuthorizedCitationServiceAccount> {
+interface MirageAuthorizedCitationAccount extends ModelInstance<AuthorizedCitationAccount> {
     configuringUserId: string;
     storageProviderId: string;
 }
 
-export default class AuthorizedCitationServiceAccountSerializer extends AddonServiceSerializer {
-    buildRelationships(model: MirageAuthorizedCitationServiceAccount) {
+export default class AuthorizedCitationAccountSerializer extends AddonServiceSerializer {
+    buildRelationships(model: MirageAuthorizedCitationAccount) {
         return {
             configuringUser: {
                 links: {
@@ -20,10 +20,10 @@ export default class AuthorizedCitationServiceAccountSerializer extends AddonSer
                     },
                 },
             },
-            citationService: {
+            externalCitationService: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}citation-services/${model.storageProviderId}/`,
+                        href: `${addonServiceAPIUrl}external-citation-services/${model.storageProviderId}/`,
                     },
                 },
             },
