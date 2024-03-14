@@ -53,7 +53,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onDelete(): Promise<void> {
-        this.preprint.deleteRecord();
+        await this.preprint.deleteRecord();
         await this.router.transitionTo('preprints.index', this.provider.id);
     }
 
@@ -202,9 +202,9 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
 
     @action
     public isFinished(type: string): boolean {
-        if (this.displayAuthorAssertions && this.statusFlowIndex > 3) {
+        if (this.displayAuthorAssertions && this.statusFlowIndex > this.getTypeIndex(type)) {
             return true;
-        } else if (!this.displayAuthorAssertions && this.statusFlowIndex > 2) {
+        } else if (!this.displayAuthorAssertions && this.statusFlowIndex > this.getTypeIndex(type)) {
             return true;
         } else if (this.statusFlowIndex > this.getTypeIndex(type)) {
             return true;
@@ -228,6 +228,17 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             return this.intl.t('preprints.submit.status-flow.step-review');
         default:
             return '';
+        }
+    }
+
+    @action
+    public getFaIcon(type: string): string {
+        if (this.isSelected(type)) {
+            return 'dot-circle';
+        } else if (this.isFinished(type)) {
+            return 'check-circle';
+        } else {
+            return 'circle';
         }
     }
 

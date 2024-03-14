@@ -40,7 +40,24 @@ export default class StatusFlowDisplay extends Component<StatusFlowDisplayArgs>{
         return this.manager.getAnalytics(this.type);
     }
 
+    public get getFaIcon(): string {
+        return this.args.manager.getFaIcon(this.type);
+    }
+
     public onClick(): void {
         this.args.manager.onClickStep(this.type);
     }
+
+    public get getLinkClass(): string {
+        if (this.isSelected) {
+            return 'selected';
+        } else if (this.isFinished) {
+            return 'finished';
+        } else {
+            return '';
+        }
+
+
+    }
+
 }

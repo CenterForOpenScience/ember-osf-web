@@ -11,19 +11,12 @@
     cursor: pointer;
     z-index: 1;
 
-    &.finished {
-        color: $brand-success;
-    }
-
     &.selected {
         width: 193px;
         margin-right: -1px;
-        font-weight: bold;
         border: 1px solid $color-border-gray-darker;
         border-right: 0;
         background-color: $color-bg-white;
-        color: $color-text-black;
-        cursor: default;
     }
 
     .graphics-container {
@@ -34,7 +27,18 @@
         align-items: center;
         justify-content: center;
         background-color: $color-bg-white;
-        color: #333;
+
+        .dot-circle {
+            color: $color-bg-black;
+        }
+        
+        .check-circle {
+            color: $brand-success;
+        }
+
+        .circle {
+            color: $color-bg-gray;
+        };
     }
 
     .link-container {
@@ -46,9 +50,17 @@
         align-items: center;
         justify-content: flex-start;
 
-        .disabled {
-            color: $color-text-black;
+        .btn {
+            font-weight: bold;
+        }
+
+        .finished {
+            color: $brand-success;
+        }
+
+        .selected {
             pointer-events: none;
+            color: $color-text-black;
             cursor: default;
         }
     }

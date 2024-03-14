@@ -1,16 +1,17 @@
 {{#if this.displayStatusType}}
     <div local-class='status-container
-        {{if this.isSelected 'selected'}}
-        {{if this.isFinished 'finished'}}'
+        {{if this.isSelected 'selected'}}'
     >
         <div local-class='graphics-container'>
-            <FaIcon @icon='check-circle'
+            <FaIcon
+                local-class='{{this.getFaIcon}}'
+                @icon='{{this.getFaIcon}}'
                 data-test-icon
              />
         </div>
         <div local-class='link-container'>
             <Button
-                local-class='{{if this.isSelected 'disabled'}}'
+                local-class='btn {{this.getLinkClass}}'
                 @layout='fake-link'
                 data-test-link
                 aria-label={{this.getStatusTitle}}
