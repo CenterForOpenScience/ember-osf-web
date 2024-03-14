@@ -1,81 +1,28 @@
 <div local-class='status-flow-container  {{if (is-mobile) 'mobile'}}'>
     <div local-class='line {{if this.displayAuthorAssertions 'long'}}'/>
-    <div local-class='status-container
-        {{if this.isTitleAndFileSelected 'selected'}}
-        {{if this.isTitleAndFileFinished 'finished'}}'
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getTitleAndFileType}}
         data-test-title-and-file
-    >
-        <div local-class='graphics-container'>
-            <FaIcon @icon='check-circle' />
-        </div>
-        <div local-class='link-container'>
-            <Button
-                local-class='{{if this.isTitleAndFileSelected 'disabled'}}'
-                @layout='fake-link'
-                data-test-goto-metadata-tab
-                aria-label={{t 'preprints.submit.status-flow.step-title-and-file'}}
-                data-analytics-name='Goto title and file tab'
-                disabled={{this.isFileAndTitleDisabled}}
-                {{on 'click' (action this.onClickTitleAndFile)}}
-            >
-                {{ t 'preprints.submit.status-flow.step-title-and-file'}}
-            </Button>   
-        </div>
-    </div>
-    <div local-class='status-container
-        {{if this.isMetadataSelected 'selected'}}
-        {{if this.isMetadataFinished 'finished'}}'
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getMetadataType}}
         data-test-metadata
-        >
-        <div local-class='graphics-container'>
-            <FaIcon @icon='circle' />
-        </div>
-        <div local-class='link-container'>
-            <Button
-                local-class='{{if this.isMetadataSelected 'disabled'}}'
-                @layout='fake-link'
-                data-test-goto-metadata-tab
-                aria-label={{t 'preprints.submit.status-flow.step-metadata'}}
-                data-analytics-name='Goto metadata tab'
-                disabled={{this.isMetadataDisabled}}
-                {{on 'click' (action this.onClickMetadata)}}
-            >
-                {{ t 'preprints.submit.status-flow.step-metadata'}}
-            </Button>   
-        </div>
-    </div>
-    {{#if this.isDisplayAuthorAssertions}}
-        <div local-class='status-container
-            {{if this.isAuthorAssertionsSelected 'selected'}}
-            {{if this.isAuthorAssertionsFinished 'finished'}}'
-            data-test-author-assertions
-        >
-            <div local-class='graphics-container'>
-                <FaIcon @icon='check-circle' />
-            </div>
-            <div local-class='link-container'>
-                {{ t 'preprints.submit.status-flow.step-author-assertions'}}
-            </div>
-        </div>
-    {{/if}}
-    <div local-class='status-container
-        {{if this.isSupplementsSelected 'selected'}}
-        {{if this.isSupplementsFinished 'finished'}}'
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getAuthorAssertionsType}}
+        data-test-author-assertions
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getSupplementsType}}
         data-test-supplements
-    >
-        <div local-class='graphics-container'>
-            <FaIcon @icon='circle' />
-        </div>
-        <div local-class='link-container'>
-            {{ t 'preprints.submit.status-flow.step-supplements'}}
-        </div>
-    </div>
-    <div local-class='status-container {{if this.isReviewSelected 'selected'}}' data-test-review>
-        <div local-class='graphics-container'>
-            <FaIcon @icon='check-circle' />
-        </div>
-        <div local-class='link-container'>
-            {{ t 'preprints.submit.status-flow.step-review'}}
-        </div>
-    </div>
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getReviewType}}
+        data-test-review
+    />
 </div>

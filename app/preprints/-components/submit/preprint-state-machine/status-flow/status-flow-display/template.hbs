@@ -1,0 +1,25 @@
+{{#if this.displayStatusType}}
+    <div local-class='status-container
+        {{if this.isSelected 'selected'}}
+        {{if this.isFinished 'finished'}}'
+    >
+        <div local-class='graphics-container'>
+            <FaIcon @icon='check-circle'
+                data-test-icon
+             />
+        </div>
+        <div local-class='link-container'>
+            <Button
+                local-class='{{if this.isSelected 'disabled'}}'
+                @layout='fake-link'
+                data-test-link
+                aria-label={{this.getStatusTitle}}
+                data-analytics-name={{this.getAnalytics}}
+                disabled={{this.isDisabled}}
+                {{on 'click' (action this.onClick)}}
+            >
+                {{ this.getStatusTitle }}
+            </Button>   
+        </div>
+    </div>
+{{/if}}
