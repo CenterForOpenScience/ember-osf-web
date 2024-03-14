@@ -7,6 +7,8 @@ import ResourceReferenceModel from './resource-reference';
 import UserReferenceModel from './user-reference';
 
 export default class ConfiguredCloudComputingAddonModel extends OsfModel {
+    @attr('string') name!: string;
+    @attr('string') displayName!: string;
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
 

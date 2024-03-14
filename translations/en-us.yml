@@ -266,6 +266,7 @@ addons:
         secret-key-placeholder: 'Secret Key'
         oauth-description: 'Use OAuth to connect your {providerName} account'
         oauth-link: 'Connect with {providerName}'
+        error: 'Error creating account'
     confirm:
         heading: 'Confirm {providerName} Account'
         verify: 'Authorize the following account:'

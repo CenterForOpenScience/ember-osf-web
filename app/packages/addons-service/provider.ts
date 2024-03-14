@@ -15,7 +15,7 @@ import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import ConfiguredCitationServiceAddonModel from 'ember-osf-web/models/configured-citation-service-addon';
 import ConfiguredCloudComputingAddonModel from 'ember-osf-web/models/configured-cloud-computing-addon';
-import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
+import AuthorizedStorageAccountModel, {AddonCredentialFields} from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
 import AuthorizedCloudComputingAccount from 'ember-osf-web/models/authorized-cloud-computing-account';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
@@ -36,6 +36,7 @@ interface ProviderTypeMapper {
     getConfiguredAddon: Task<any, any>;
     getAuthorizedAccounts: Task<any, any>;
     createAccountForNodeAddon: Task<any, any>;
+    createConfiguredAddon: Task<any, any>;
 }
 
 
@@ -52,17 +53,20 @@ export default class Provider {
         externalStorageService: {
             getConfiguredAddon: taskFor(this.getConfiguredStorageAddon),
             getAuthorizedAccounts: taskFor(this.getAuthorizedStorageAccounts),
-            createAccountForNodeAddon: taskFor(this.createAccountForNodeAddon),
+            createAccountForNodeAddon: taskFor(this.createAuthorizedStorageAccount),
+            createConfiguredAddon: taskFor(this.createConfiguredStorageAddon),
         },
         cloudComputingService: {
             getConfiguredAddon: taskFor(this.getConfiguredCloudComputingAddon),
             getAuthorizedAccounts: taskFor(this.getAuthorizedCloudComputingAccounts),
-            createAccountForNodeAddon: taskFor(this.createAccountForNodeAddon),
+            createAccountForNodeAddon: taskFor(this.createAuthorizedCloudComputingAccount),
+            createConfiguredAddon: taskFor(this.createConfiguredCloudComputingAddon),
         },
         citationService: {
             getConfiguredAddon: taskFor(this.getConfiguredCitationServiceAddon),
             getAuthorizedAccounts: taskFor(this.getAuthorizedCitationServiceAccounts),
-            createAccountForNodeAddon: taskFor(this.createAccountForNodeAddon),
+            createAccountForNodeAddon: taskFor(this.createAuthorizedCitationServiceAccount),
+            createConfiguredAddon: taskFor(this.createConfiguredCitationAddon),
         },
     };
 
@@ -97,7 +101,7 @@ export default class Provider {
     async initialize() {
         await taskFor(this.getUserReference).perform();
         await taskFor(this.getResourceReference).perform();
-        await taskFor(this.getConfiguredStorageAddon).perform();
+        await taskFor(this.providerMap!.getConfiguredAddon).perform();
     }
 
     @task
@@ -193,10 +197,33 @@ export default class Provider {
         return await this.userReference.authorizedStorageAccounts;
     }
 
+
     @task
     @waitFor
-    async createAccountForNodeAddon() {
-        const account = this.store.createRecord('authorized-storage-account', {
+    async createAuthorizedStorageAccount(credentials: AddonCredentialFields) {
+        return await taskFor(this.createAccountForNodeAddon)
+            .perform('authorized-storage-account', credentials);
+    }
+
+    @task
+    @waitFor
+    async createAuthorizedCitationServiceAccount(credentials: AddonCredentialFields) {
+        return await taskFor(this.createAccountForNodeAddon)
+            .perform('authorized-citation-service-account', credentials);
+    }
+
+    @task
+    @waitFor
+    async createAuthorizedCloudComputingAccount(credentials: AddonCredentialFields) {
+        return await taskFor(this.createAccountForNodeAddon)
+            .perform('authorized-cloud-computing-account', credentials);
+    }
+
+    @task
+    @waitFor
+    async createAccountForNodeAddon(authorizedAccountType: string, credentials: AddonCredentialFields) {
+        const account = this.store.createRecord(authorizedAccountType, {
+            credentials,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             storageProvider: this.provider,

@@ -3,8 +3,8 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import IntlService from 'ember-intl/services/intl';
-
 import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
+import { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
 import AddonsServiceManagerComponent from 'ember-osf-web/components/addons-service/manager/component';
 import UserAddonsManagerComponent from 'ember-osf-web/components/addons-service/user-addons-manager/component';
 
@@ -19,6 +19,7 @@ const repoOptionsObject: Record<string, string[]> = {
     ],
 };
 interface InputFieldObject {
+    name: keyof AddonCredentialFields;
     labelText: string;
     inputType: string;
     inputPlaceholder: string;
@@ -31,6 +32,7 @@ interface Args {
     onConnect: () => void;
     provider: ExternalStorageServiceModel; // Type?
     manager: AddonsServiceManagerComponent | UserAddonsManagerComponent;
+    onInput: (event: Event) => void;
 }
 
 export default class AccountSetupManagerComponent extends Component<Args> {
@@ -95,6 +97,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
             const passwordPostText = t('addons.accountCreate.password-post-text');
             return [
                 {
+                    name: 'url',
                     labelText: t('addons.accountCreate.url-label'),
                     inputType: 'text',
                     inputPlaceholder: t('addons.accountCreate.url-placeholder'),
@@ -102,6 +105,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
                     postText: urlPostText,
                 },
                 {
+                    name: 'username',
                     labelText: t('addons.accountCreate.username-label'),
                     inputType: 'text',
                     inputPlaceholder: t('addons.accountCreate.username-placeholder'),
@@ -109,6 +113,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
                     autocomplete: 'username',
                 },
                 {
+                    name: 'password',
                     labelText: t('addons.accountCreate.password-label'),
                     inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.password-placeholder'),
@@ -122,6 +127,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
             const passwordPostText = t('addons.accountCreate.password-post-text');
             return [
                 {
+                    name: 'username',
                     labelText: t('addons.accountCreate.username-label'),
                     inputType: 'text',
                     inputPlaceholder: t('addons.accountCreate.username-placeholder'),
@@ -129,6 +135,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
                     autocomplete: 'username',
                 },
                 {
+                    name: 'password',
                     labelText: t('addons.accountCreate.password-label'),
                     inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.password-placeholder'),
@@ -147,6 +154,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
                 t('addons.accountCreate.personal-access-token-placeholder');
             return [
                 {
+                    name: 'token',
                     labelText: label,
                     inputType: 'text',
                     inputPlaceholder: placeholder,
@@ -157,12 +165,14 @@ export default class AccountSetupManagerComponent extends Component<Args> {
         case CredentialsFormat.ACCESS_SECRET_KEYS: {
             return [
                 {
+                    name: 'accessKey',
                     labelText: t('addons.accountCreate.access-key-label'),
                     inputType: 'text',
                     inputPlaceholder: t('addons.accountCreate.access-key-placeholder'),
                     inputValue: credentials.accessKey,
                 },
                 {
+                    name: 'secretKey',
                     labelText: t('addons.accountCreate.secret-key-label'),
                     inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.secret-key-placeholder'),
