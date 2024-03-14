@@ -1,10 +1,10 @@
 import AddonServiceAdapter from './addon-service';
 
-export default class CitationServiceAdapter extends AddonServiceAdapter {
+export default class ExternalComputingServiceAdapter extends AddonServiceAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'citation-service': CitationServiceAdapter;
+        'external-computing-service': ExternalComputingServiceAdapter;
     } // eslint-disable-line semi
 }

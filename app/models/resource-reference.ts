@@ -2,8 +2,8 @@ import { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
 import OsfModel from './osf-model';
 import ConfiguredStorageAddonModel from './configured-storage-addon';
-import ConfiguredCitationServiceAddonModel from './configured-citation-service-addon';
-import ConfiguredCloudComputingAddonModel from './configured-cloud-computing-addon';
+import ConfiguredCitationAddonModel from './configured-citation-addon';
+import ConfiguredComputingAddonModel from './configured-computing-addon';
 
 export default class ResourceReferenceModel extends OsfModel {
 
@@ -12,13 +12,13 @@ export default class ResourceReferenceModel extends OsfModel {
     @hasMany('configured-storage-addon', { inverse: 'authorizedResource' })
     configuredStorageAddons!: AsyncHasMany<ConfiguredStorageAddonModel> & ConfiguredStorageAddonModel[];
 
-    @hasMany('configured-citation-service-addon', { inverse: 'authorizedResource' })
-    configuredCitationServiceAddons!: AsyncHasMany<ConfiguredCitationServiceAddonModel>
-        & ConfiguredCitationServiceAddonModel[];
+    @hasMany('configured-citation-addon', { inverse: 'authorizedResource' })
+    configuredCitationAddons!: AsyncHasMany<ConfiguredCitationAddonModel>
+        & ConfiguredCitationAddonModel[];
 
-    @hasMany('configured-cloud-computing-addon', { inverse: 'authorizedResource' })
-    configuredCloudComputingAddons!: AsyncHasMany<ConfiguredCloudComputingAddonModel>
-        & ConfiguredCloudComputingAddonModel[];
+    @hasMany('configured-computing-addon', { inverse: 'authorizedResource' })
+    configuredComputingAddons!: AsyncHasMany<ConfiguredComputingAddonModel>
+        & ConfiguredComputingAddonModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

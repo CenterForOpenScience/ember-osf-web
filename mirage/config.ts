@@ -529,32 +529,32 @@ export default function(this: Server) {
     this.urlPrefix = addonServiceUrl;
     this.namespace = addonServiceNamespace;
     this.resource('external-storage-services', { only: ['index', 'show'] });
-    this.resource('citation-services', { only: ['index', 'show'] });
-    this.resource('cloud-computing-services', { only: ['index', 'show'] });
+    this.resource('external-citation-services', { only: ['index', 'show'] });
+    this.resource('external-computing-services', { only: ['index', 'show'] });
     this.resource('user-references', { only: ['show'] });
     this.get('/user-references/:userGuid/authorized-storage-accounts/',
         addons.userReferenceAuthorizedStorageAccountList);
-    this.get('/user-references/:userGuid/authorized-citation-service-accounts/',
-        addons.userAuthorizedCitationServiceAccountList);
-    this.get('/user-references/:userGuid/authorized-cloud-computing-accounts/',
-        addons.userAuthorizedCloudComputingAccountList);
+    this.get('/user-references/:userGuid/authorized-citation-accounts/',
+        addons.userAuthorizedCitationAccountList);
+    this.get('/user-references/:userGuid/authorized-computing-accounts/',
+        addons.userAuthorizedComputingAccountList);
     this.get('/resource-references/', addons.resourceReferencesList);
     this.resource('resource-references', { only: ['show'] });
     this.get('/resource-references/:nodeGuid/configured-storage-addons',
         addons.resourceReferenceConfiguredStorageAddonList);
-    this.get('/resource-references/:nodeGuid/configured-citation-service-addons',
-        addons.resourceConfiguredCitationServiceAddonList);
-    this.get('/resource-references/:nodeGuid/configured-cloud-computing-addons',
-        addons.resourceConfiguredCloudComputingAddonList);
+    this.get('/resource-references/:nodeGuid/configured-citation-addons',
+        addons.resourceConfiguredCitationAddonList);
+    this.get('/resource-references/:nodeGuid/configured-computing-addons',
+        addons.resourceConfiguredComputingAddonList);
     this.resource('authorized-storage-accounts', { except: ['index'] });
-    this.resource('authorized-citation-service-accounts', { except: ['index'] });
-    this.resource('authorized-cloud-computing-accounts', { except: ['index'] });
+    this.resource('authorized-citation-accounts', { except: ['index'] });
+    this.resource('authorized-computing-accounts', { except: ['index'] });
     this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
-    this.resource('configured-citation-service-addons', { only: ['show', 'update', 'delete'] });
-    this.resource('configured-cloud-computing-addons', { only: ['show', 'update', 'delete'] });
+    this.resource('configured-citation-addons', { only: ['show', 'update', 'delete'] });
+    this.resource('configured-computing-addons', { only: ['show', 'update', 'delete'] });
     this.post('configured-storage-addons', addons.createConfiguredStorageAddon);
-    this.post('configured-citation-service-addons', addons.createConfiguredCitationServiceAddon);
-    this.post('configured-cloud-computing-addons', addons.createConfiguredCloudComputingAddon);
+    this.post('configured-citation-addons', addons.createConfiguredCitationAddon);
+    this.post('configured-computing-addons', addons.createConfiguredComputingAddon);
 
     // Reset API url and namespace to use v2 endpoints for tests
     this.urlPrefix = apiUrl;

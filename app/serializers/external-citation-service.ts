@@ -1,7 +1,7 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 import { underscore } from '@ember/string';
 
-export default class CitationServiceSerializer extends JSONAPISerializer {
+export default class ExternalCitationServiceSerializer extends JSONAPISerializer {
     keyForAttribute(key: string) {
         return underscore(key);
     }
@@ -9,6 +9,6 @@ export default class CitationServiceSerializer extends JSONAPISerializer {
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'citation-service': CitationServiceSerializer;
+        'external-citation-service': ExternalCitationServiceSerializer;
     } // eslint-disable-line semi
 }

@@ -1,10 +1,10 @@
 import AddonServiceAdapter from './addon-service';
 
-export default class AuthorizedCitationServiceAccountAdapter extends AddonServiceAdapter {
+export default class AuthorizedCitationAccountAdapter extends AddonServiceAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'authorized-citation-service-account': AuthorizedCitationServiceAccountAdapter;
+        'authorized-citation-account': AuthorizedCitationAccountAdapter;
     } // eslint-disable-line semi
 }

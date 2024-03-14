@@ -1,10 +1,10 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default class ConfiguredCitationServiceAddonSerializer extends JSONAPISerializer {
+export default class ConfiguredCitationAddonSerializer extends JSONAPISerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'configured-citation-service-addon': ConfiguredCitationServiceAddonSerializer;
+        'configured-citation-addon': ConfiguredCitationAddonSerializer;
     } // eslint-disable-line semi
 }
