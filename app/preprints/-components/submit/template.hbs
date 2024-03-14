@@ -9,4 +9,9 @@
             @manager={{@manager}}
         />
     {{/if}}
+    {{#if this.isAuthorAssertionsActive}}
+        <Preprints::-Components::Submit::AuthorAssertions
+            @manager={{@manager}}
+        />
+    {{/if}}
 </div>

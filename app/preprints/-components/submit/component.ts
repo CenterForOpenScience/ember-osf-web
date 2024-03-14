@@ -10,19 +10,19 @@ interface SubmitArgs {
 }
 
 /**
- * The Preprint State Machine
+ * The Submit component
  */
 export default class Submit extends Component<SubmitArgs>{
-    constructor(owner: unknown, args: SubmitArgs) {
-        super(owner, args);
-    }
-
     public get isTitleAndFileActive(): boolean {
         return this.isSelected(PreprintStatusTypeEnum.titleAndFile);
     }
 
     public get isMetadataActice(): boolean {
         return this.isSelected(PreprintStatusTypeEnum.metadata);
+    }
+
+    public get isAuthorAssertionsActive(): boolean {
+        return this.isSelected(PreprintStatusTypeEnum.authorAssertions);
     }
 
     private isSelected(type: string): boolean {
