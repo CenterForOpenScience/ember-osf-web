@@ -65,7 +65,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             list: A([]),
         },
         [FilterTypes.CLOUD_COMPUTING]: {
-            modelName: 'cloud-computing-service',
+            modelName: 'external-computing-service',
             task: taskFor(this.getCloudComputingProviders),
             list: A([]),
         },
@@ -238,7 +238,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
 
         if (this.addonServiceNode) {
-            await this.addonServiceNode.get('configuredCloudComputingAddons');
+            await this.addonServiceNode.get('configuredComputingAddons');
         }
     }
 

@@ -1,10 +1,10 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 
-export default class AuthorizedCloudComputingAccountSerializer extends JSONAPISerializer {
+export default class AuthorizedComputingAccountSerializer extends JSONAPISerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'authorized-cloud-computing-account': AuthorizedCloudComputingAccountSerializer;
+        'authorized-computing-account': AuthorizedComputingAccountSerializer;
     } // eslint-disable-line semi
 }

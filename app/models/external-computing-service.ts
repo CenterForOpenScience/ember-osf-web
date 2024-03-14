@@ -3,7 +3,7 @@ import { attr } from '@ember-data/model';
 import OsfModel from './osf-model';
 import { CredentialsFormat, ExternalServiceLinks } from './external-storage-service';
 
-export default class CloudComputingServiceModel extends OsfModel {
+export default class ExternalComputingServiceModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('links') links!: ExternalServiceLinks;
     @attr('string') credentialsFormat!: CredentialsFormat;
@@ -12,6 +12,6 @@ export default class CloudComputingServiceModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'cloud-computing-service': CloudComputingServiceModel;
+        'external-computing-service': ExternalComputingServiceModel;
     } // eslint-disable-line semi
 }

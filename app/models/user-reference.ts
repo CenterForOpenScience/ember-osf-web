@@ -2,7 +2,7 @@ import { AsyncHasMany, hasMany } from '@ember-data/model';
 
 import AuthorizedStorageAccountModel from './authorized-storage-account';
 import AuthorizedCitationServiceAccount from './authorized-citation-service-account';
-import AuthorizedCloudComputingAccount from './authorized-cloud-computing-account';
+import AuthorizedComputingAccount from './authorized-computing-account';
 import ResourceReferenceModel from './resource-reference';
 import OsfModel from './osf-model';
 
@@ -14,9 +14,9 @@ export default class UserReferenceModel extends OsfModel {
     authorizedCitationServiceAccounts!: AsyncHasMany<AuthorizedCitationServiceAccount> &
         AuthorizedCitationServiceAccount[];
 
-    @hasMany('authorized-cloud-computing-account', { inverse: 'configuringUser' })
-    authorizedCloudComputingAccounts!: AsyncHasMany<AuthorizedCloudComputingAccount>
-        & AuthorizedCloudComputingAccount[];
+    @hasMany('authorized-computing-account', { inverse: 'configuringUser' })
+    authorizedComputingAccounts!: AsyncHasMany<AuthorizedComputingAccount>
+        & AuthorizedComputingAccount[];
 
     @hasMany('resource-reference')
     configuredResources!: AsyncHasMany<ResourceReferenceModel> & ResourceReferenceModel[];

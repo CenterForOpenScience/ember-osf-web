@@ -22,10 +22,10 @@ export default class UserReferenceSerializer extends AddonServiceSerializer {
                     },
                 },
             },
-            authorizedCloudComputingAccounts: {
+            authorizedComputingAccounts: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-cloud-computing-accounts/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-computing-accounts/`,
                     },
                 },
             },

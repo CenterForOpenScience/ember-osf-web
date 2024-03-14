@@ -1,19 +1,19 @@
 import { ModelInstance } from 'ember-cli-mirage';
 
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
-import ConfiguredCloudComputingAddonModel from 'ember-osf-web/models/configured-cloud-computing-addon';
+import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
 
 import AddonServiceSerializer from './addon-service-serializer';
 
-export interface MirageConfiguredCloudComputingAddon extends ConfiguredCloudComputingAddonModel {
+export interface MirageConfiguredComputingAddon extends ConfiguredComputingAddonModel {
     accountOwnerId: string;
     authorizedResourceId: string;
     baseAccountId: string;
-    cloudComputingServiceId: string;
+    externalComputingServiceId: string;
 }
 
-export default class ConfiguredCloudComputingAddonSerializer extends AddonServiceSerializer {
-    buildRelationships(model: ModelInstance<MirageConfiguredCloudComputingAddon>) {
+export default class ConfiguredComputingAddonSerializer extends AddonServiceSerializer {
+    buildRelationships(model: ModelInstance<MirageConfiguredComputingAddon>) {
         return {
             accountOwner: {
                 links: {
@@ -36,10 +36,10 @@ export default class ConfiguredCloudComputingAddonSerializer extends AddonServic
                     },
                 },
             },
-            cloudComputingService: {
+            externalComputingService: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}cloud-computing-services/${model.cloudComputingServiceId}/`,
+                        href: `${addonServiceAPIUrl}external-computing-services/${model.externalComputingServiceId}/`,
                     },
                 },
             },

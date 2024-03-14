@@ -15,11 +15,11 @@ import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-w
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationServiceAccountModel from 'ember-osf-web/models/authorized-citation-service-account';
-import AuthorizedCloudComputingAccount from 'ember-osf-web/models/authorized-cloud-computing-account';
+import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
 import UserModel from 'ember-osf-web/models/user';
 
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
-import CloudComputingServiceModel from 'ember-osf-web/models/cloud-computing-service';
+import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import CitationServiceModel from 'ember-osf-web/models/citation-service';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -54,10 +54,10 @@ export default class UserAddonManagerComponent extends Component<Args> {
             authorizedAccounts: [] as AuthorizedCitationServiceAccountModel[],
         },
         [FilterTypes.CLOUD_COMPUTING]: {
-            modelName: 'cloud-computing-service',
+            modelName: 'external-computing-service',
             fetchProvidersTask: taskFor(this.getCloudComputingProviders),
-            list: A([]) as EmberArray<CloudComputingServiceModel>,
-            authorizedAccounts: [] as AuthorizedCloudComputingAccount[],
+            list: A([]) as EmberArray<ExternalComputingServiceModel>,
+            authorizedAccounts: [] as AuthorizedComputingAccount[],
         },
     };
     @tracked filterText = '';
@@ -151,7 +151,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async getCloudComputingProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
         const cloudComputingProviders = await taskFor(this.getExternalProviders)
-            .perform(activeFilterObject.modelName) as CloudComputingServiceModel[];
+            .perform(activeFilterObject.modelName) as ExternalComputingServiceModel[];
         activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
     }
 

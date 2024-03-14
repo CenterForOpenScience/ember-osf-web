@@ -21,10 +21,10 @@ export default class ResourceReferenceSerializer extends AddonServiceSerializer 
                     },
                 },
             },
-            configuredCloudComputingAddons: {
+            configuredComputingAddons: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-cloud-computing-addons`,
+                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-computing-addons`,
                     },
                 },
             },

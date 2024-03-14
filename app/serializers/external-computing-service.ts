@@ -1,7 +1,7 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 import { underscore } from '@ember/string';
 
-export default class CloudComputingServiceSerializer extends JSONAPISerializer {
+export default class ExternalComputingServiceSerializer extends JSONAPISerializer {
     keyForAttribute(key: string) {
         return underscore(key);
     }
@@ -9,6 +9,6 @@ export default class CloudComputingServiceSerializer extends JSONAPISerializer {
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'cloud-computing-service': CloudComputingServiceSerializer;
+        'external-computing-service': ExternalComputingServiceSerializer;
     } // eslint-disable-line semi
 }

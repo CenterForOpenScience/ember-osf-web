@@ -1,10 +1,10 @@
 import AddonServiceAdapter from './addon-service';
 
-export default class AuthorizedCloudComputingAccountAdapter extends AddonServiceAdapter {
+export default class ConfiguredComputingAddonAdapter extends AddonServiceAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'authorized-cloud-computing-account': AuthorizedCloudComputingAccountAdapter;
+        'configured-computing-addon': ConfiguredComputingAddonAdapter;
     } // eslint-disable-line semi
 }
