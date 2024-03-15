@@ -1,5 +1,5 @@
 <div local-class='status-flow-container  {{if (is-mobile) 'mobile'}}'>
-    <div local-class='line {{if this.displayAuthorAssertions 'long'}}'/>
+    <div local-class='line {{if @manager.displayAuthorAssertions 'long'}}'/>
     <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
         @manager={{@manager}}
         @type={{@manager.getTitleAndFileType}}
