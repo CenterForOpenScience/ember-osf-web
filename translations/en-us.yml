@@ -1165,7 +1165,7 @@ preprints:
         title-edit: 'Edit {documentType}'
         step-one:
             title: 'Title and File'
-        data-analytics: 'Goto {statusType} tab'
+        data-analytics: 'Go to {statusType} tab'
         status-flow:
             step-title-and-file: 'Title and File'
             step-metadata: 'Metadata'
