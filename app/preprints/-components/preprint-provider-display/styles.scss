@@ -44,4 +44,8 @@
         border-color: $color-border-blue-dark;
         background-color: $color-bg-gray-blue-light;
     }
+
+    &.mobile {
+        width: 300px;
+    }
 }

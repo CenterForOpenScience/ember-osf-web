@@ -25,7 +25,15 @@
                 margin: 5px 10px;
                 font-size: 48px;
                 color: $color-text-white;
+
+                &.mobile {
+                    font-size: 36px;
+                }
             }
+        }
+
+        &.mobile {
+            text-align: center;
         }
     }
 }
