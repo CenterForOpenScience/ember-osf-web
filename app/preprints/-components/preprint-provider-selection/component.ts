@@ -17,19 +17,19 @@ export default class PreprintProviderSelection extends Component<InputArgs> {
 
     allProviders: PreprintProviderModel[] = this.args.allProviders;
     learnMoreUrl: string = serviceLinks.preprintsSupport;
-    @tracked selected_provider: PreprintProviderModel | undefined;
-    @tracked previous_provider: PreprintProviderModel | undefined;
+    @tracked selectedProvider: PreprintProviderModel | undefined;
+    @tracked previousProvider: PreprintProviderModel | undefined;
 
     @action
     onCreateButtonClick() {
-        if (this.selected_provider !== undefined) {
-            this.router.transitionTo('preprints.submit', this.selected_provider.id);
+        if (this.selectedProvider !== undefined) {
+            this.router.transitionTo('preprints.submit', this.selectedProvider.id);
         }
     }
 
     @action
     updateSelectedProvider(provider: PreprintProviderModel) {
-        this.previous_provider = this.selected_provider;
-        this.selected_provider = provider;
+        this.previousProvider = this.selectedProvider;
+        this.selectedProvider = provider;
     }
 }
