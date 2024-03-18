@@ -1,13 +1,13 @@
 {{page-title (t 'preprints.select.page_title')}}
 
-<div local-class='select-page-container'>
+<div local-class='select-page-container {{if (is-mobile) 'mobile'}}'>
     {{!-- placehodler for header component --}}
     {{!-- local-class 'header-container' and 'header' will be replaced by the component's own local-class --}}
-    <div local-class='header-container {{if (is-mobile) 'mobile'}}'>
+    <div local-class='header-container'>
         <div local-class='header-clamp-width-container'>
             <p
                 data-test-header
-                local-class='header {{if (is-mobile) 'mobile'}}'
+                local-class='header'
             >
                 {{t 'preprints.select.title'}}
             </p>

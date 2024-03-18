@@ -20,11 +20,6 @@
             margin: 5px 10px;
             font-size: 24px;
             font-weight: bold;
-
-            &.mobile {
-                margin: 5px 20px;
-                font-size: 20px;
-            }
         }
     }
 
@@ -36,10 +31,6 @@
             margin: 5px 10px;
             font-size: 16px;
             font-weight: 400;
-
-            &.mobile {
-                margin: 5px 20px;
-            }
         }
     }
 
@@ -51,11 +42,6 @@
         flex-wrap: wrap;
         justify-content: flex-start;
         align-content: flex-start;
-
-        &.mobile {
-            justify-content: center;
-            align-content: center;
-        }
     }
 
     .create-button-container {
@@ -84,5 +70,23 @@
 
     &.mobile {
         min-width: 330px;
+
+        .heading-container {
+            .heading {
+                margin: 5px 20px;
+                font-size: 20px;
+            }
+        }
+
+        .paragraph-container {
+            .paragraph {
+                margin: 5px 20px;
+            }
+        }
+
+        .provider-list-container {
+            justify-content: center;
+            align-content: center;
+        }
     }
 }

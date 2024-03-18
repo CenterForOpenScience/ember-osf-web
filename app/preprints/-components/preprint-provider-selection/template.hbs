@@ -2,7 +2,7 @@
     <div local-class='heading-container'>
         <h1
             data-test-heading
-            local-class='heading {{if (is-mobile) 'mobile'}}'
+            local-class='heading'
         >
             {{t 'preprints.select.heading'}}
         </h1>
@@ -10,12 +10,12 @@
     <div local-class='paragraph-container'>
         <p
             data-test-paragraph
-            local-class='paragraph {{if (is-mobile) 'mobile'}}'
+            local-class='paragraph'
         >
             {{t 'preprints.select.paragraph' link=this.learnMoreUrl htmlSafe=true}}
         </p>
     </div>
-    <div local-class='provider-list-container  {{if (is-mobile) 'mobile'}}'>
+    <div local-class='provider-list-container'>
         {{#each this.allProviders as |provider| }}
             <Preprints::-Components::PreprintProviderDisplay
                 data-test-provider

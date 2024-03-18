@@ -25,15 +25,19 @@
                 margin: 5px 10px;
                 font-size: 48px;
                 color: $color-text-white;
+            }
+        }
+    }
 
-                &.mobile {
+    &.mobile {
+        .header-container {
+            text-align: center;
+
+            .header-clamp-width-container {
+                .header {
                     font-size: 36px;
                 }
             }
-        }
-
-        &.mobile {
-            text-align: center;
         }
     }
 }
