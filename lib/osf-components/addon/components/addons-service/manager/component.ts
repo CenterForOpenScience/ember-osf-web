@@ -158,6 +158,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
                     .createAccountForNodeAddon).perform(this.credentialsObject);
                 await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
             }
+            this.clearCredentials();
             this.pageMode = PageMode.CONFIGURE;
         } catch (e) {
             const errorMessage = this.intl.t('addons.accountCreate.error');
@@ -185,7 +186,21 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     cancelSetup() {
         this.pageMode = undefined;
         this.selectedProvider = undefined;
+        this.clearCredentials();
         this.selectedAccount = undefined;
+    }
+
+    @action
+    clearCredentials() {
+        this.credentialsObject = {
+            url: '',
+            username: '',
+            password: '',
+            token: '',
+            accessKey: '',
+            secretKey: '',
+            repo: '',
+        };
     }
 
     @action
