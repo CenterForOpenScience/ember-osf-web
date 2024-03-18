@@ -12,7 +12,7 @@ export default class AuthorizedComputingAccount extends OsfModel {
     @attr('object') credentials?: AddonCredentialFields; // write-only
 
     @belongsTo('external-computing-service')
-    externalComputingService!: AsyncBelongsTo<ExternalComputingService> & ExternalComputingService;
+    computingService!: AsyncBelongsTo<ExternalComputingService> & ExternalComputingService;
 
     @belongsTo('user-reference', { inverse: 'authorizedComputingAccounts' })
     configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;

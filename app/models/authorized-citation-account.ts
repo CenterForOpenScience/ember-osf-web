@@ -12,7 +12,7 @@ export default class AuthorizedCitationAccountModel extends OsfModel {
     @attr('object') credentials?: AddonCredentialFields; // write-only
 
     @belongsTo('external-citation-service')
-    externalCitationService!: AsyncBelongsTo<ExternalCitationServiceModel> & ExternalCitationServiceModel;
+    citationService!: AsyncBelongsTo<ExternalCitationServiceModel> & ExternalCitationServiceModel;
 
     @belongsTo('user-reference', { inverse: 'authorizedCitationAccounts' })
     configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
