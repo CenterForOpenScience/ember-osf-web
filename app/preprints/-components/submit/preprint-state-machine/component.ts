@@ -33,6 +33,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service store!: Store;
     @service router!: RouterService;
     @service intl!: Intl;
+    titleAndFieldValidation = false;
+    nextButtonIsDisabled = true;
 
     provider = this.args.provider;
     displayAuthorAssertions = true;
@@ -45,6 +47,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         this.preprint = this.store.createRecord('preprint', {
             provider: this.provider,
         });
+
+        // this.preprint.save();
     }
 
     /**
@@ -72,9 +76,22 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      */
     @action
     public onNext(): void {
-        if(this.statusFlowIndex < this.getTypeIndex(PreprintStatusTypeEnum.review)) {
-            this.statusFlowIndex++;
+        this.nextButtonIsDisabled = true;
+        if (!(this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
+            this.titleAndFieldValidation
+        )) {
+            return;
         }
+        this.statusFlowIndex++;
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @action
+    public validateTitleAndFile(): void {
+        this.titleAndFieldValidation = true;
+        this.nextButtonIsDisabled = false;
     }
 
     @action

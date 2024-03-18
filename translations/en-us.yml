@@ -1165,6 +1165,8 @@ preprints:
         title-edit: 'Edit {documentType}'
         step-one:
             title: 'Title and File'
+            title-input: 'Title'
+            description-input: 'Description'
         step-two:
             title: 'Metadata'
         step-three:

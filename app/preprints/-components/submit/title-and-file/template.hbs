@@ -1,3 +1,51 @@
 <div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
-    {{t 'preprints.submit.step-one.title'}}
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-one.title'}}
+    </h3>
+    <div local-class='form-container'>
+        <FormControls
+            @changeset={{this.titleAndFileFormChangeset}}
+            data-test-form
+            as |form|
+        >
+            {{#let (unique-id 'title') as |titleFieldId|}}
+                <label for={{titleFieldId}} id='title'
+                    data-test-title-label
+                >
+                    {{t 'preprints.submit.step-one.title-input'}}
+                    <span local-class='required'>*</span>
+                </label>
+                <form.text
+                    data-test-title-input
+                    @valuePath={{'title'}}
+                    @isRequired={{true}}
+                    {{on 'change' this.validate}}
+                    local-class='input-container'
+                    @placeholder={{t 'preprints.submit.step-one.title-input'}}
+                    @arialabel={{t 'preprints.submit.step-one.title-input'}}
+                    @uniqueID={{titleFieldId}} 
+                />
+            {{/let}}
+            {{#let (unique-id 'description') as |descriptionFieldId|}}
+                <label for={{descriptionFieldId}} id='description'
+                    data-test-description-label
+                >
+                    {{t 'preprints.submit.step-one.description-input'}}
+                    <span local-class='required'>*</span>
+                </label>
+                <form.textarea
+                    data-test-description-input
+                    @valuePath={{'description'}}
+                    @isRequired={{true}}
+                    {{on 'change' this.validate}}
+                    local-class='input-container textarea-container'
+                    @placeholder={{t 'preprints.submit.step-one.description-input'}}
+                    @arialabel={{t 'preprints.submit.step-one.description-input'}}
+                    @uniqueID={{descriptionFieldId}} 
+                />
+            {{/let}}
+        </FormControls>
+    </div>
 </div>

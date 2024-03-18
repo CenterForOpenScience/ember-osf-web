@@ -4,10 +4,31 @@
 .preprint-input-container {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .title {
+        font-weight: bold;
+    }
+
+    .form-container {
+        width: 100%;
+
+        .required {
+            color: $brand-danger;
+        }
+        
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .textarea-container {
+            * > textarea {
+                height: 150px;
+            }
+        }
+    }
 
     &.mobile {
         height: fit-content;
