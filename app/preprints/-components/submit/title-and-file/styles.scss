@@ -10,6 +10,7 @@
 
     .title {
         font-weight: bold;
+        margin-bottom: 20px;
     }
 
     .form-container {
@@ -18,7 +19,7 @@
         .required {
             color: $brand-danger;
         }
-        
+
         .input-container {
             margin-bottom: 20px;
         }
