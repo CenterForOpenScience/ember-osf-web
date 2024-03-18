@@ -25,11 +25,11 @@
 
     .main-container {
         background-color: $color-bg-white;
-        padding: 15px 0;
+        padding: 20px;
         width: 100%;
         flex-direction: column;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;
+        align-items: flex-start;
     }
 }

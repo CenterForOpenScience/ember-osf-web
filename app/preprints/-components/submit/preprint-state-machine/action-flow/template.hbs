@@ -5,6 +5,7 @@
             data-analytics-name='Next button'
             {{on 'click' this.onNext}}
             local-class='btn'
+            @disabled={{@manager.nextButtonIsDisabled}}
             class='btn btn-primary btn-large'
         >
             {{ t 'preprints.submit.action-flow.next'}}
