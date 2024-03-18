@@ -10,11 +10,20 @@
 
     <div local-class='provider-list-container  {{if (is-mobile) 'mobile'}}'>
         {{#each this.allProviders as |provider| }}
-            <Preprints::-Components::PreprintProviderDisplay @provider={{provider}} />
+            <Preprints::-Components::PreprintProviderDisplay
+                @provider={{provider}}
+                @updateSelectedProvider={{this.updateSelectedProvider}}
+            />
         {{/each}}
     </div>
 
     <div local-class='create-button-container'>
-        <button local-class='create-button' type='button'>{{t 'preprints.select.create_button'}}</button>
+        <button
+            local-class='create-button'
+            type='button'
+            {{ on 'click' (action this.onCreateButtonClick) }}
+        >
+            {{t 'preprints.select.create_button'}}
+        </button>
     </div>
 </div>

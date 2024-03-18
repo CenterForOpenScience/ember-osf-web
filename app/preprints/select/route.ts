@@ -1,6 +1,6 @@
-import Store from '@ember-data/store';
-import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import Store from '@ember-data/store';
 
 
 export default class PreprintSelectRoute extends Route {

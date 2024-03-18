@@ -1,4 +1,8 @@
-<div local-class='provider-container {{if (is-mobile) 'mobile'}}'>
+{{!-- template-lint-disable no-invalid-interactive --}}
+<div
+    local-class='provider-container {{if (is-mobile) 'mobile'}}'
+    {{ on 'click' (action this.onProviderSelect) }}
+>
     <div local-class='image-container'>
         <img local-class='image' src={{this.provider.assets.square_color_no_transparent}} alt={{this.headerText}} />
     </div>
