@@ -65,6 +65,10 @@
             &:hover {
                 background-color: $color-bg-blue-highlight;
             }
+
+            &.disabled {
+                background-color: $color-bg-gray;
+            }
         }
     }
 

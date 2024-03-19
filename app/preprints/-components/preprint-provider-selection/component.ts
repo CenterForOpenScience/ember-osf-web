@@ -20,6 +20,10 @@ export default class PreprintProviderSelection extends Component<InputArgs> {
     @tracked selectedProvider: PreprintProviderModel | undefined;
     @tracked selectedProviderId: string | undefined;
 
+    public get isDisabled(): boolean {
+        return this.selectedProvider === undefined;
+    }
+
     @action
     onCreateButtonClick(): void {
         if (this.selectedProvider !== undefined) {
