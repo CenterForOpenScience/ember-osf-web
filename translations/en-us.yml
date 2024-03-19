@@ -24,7 +24,7 @@ documentType:
         pluralCapitalized: Theses
         singular: thesis
         singularCapitalized: Thesis
-contact: 
+contact:
     email: support@osf.io
 general:
     OSF: OSF
@@ -1196,12 +1196,12 @@ preprints:
         article_doi: 'Peer-reviewed Publication DOI'
         citations: 'Citations'
         collapse: 'Collapse'
-        date_label: 
+        date_label:
             created_on: 'Created'
             submitted_on: 'Submitted'
         disciplines: 'Disciplines'
         expand: 'Expand'
-        header: 
+        header:
             last_edited: 'Last edited'
             authors_label: 'Authors'
             withdrawn_on: 'Withdrawn'
@@ -1214,12 +1214,12 @@ preprints:
         preprint_pending_doi_moderation: 'DOI created after moderator approval'
         preprint_pending_doi_minted: 'DOIs are minted by a third party, and may take up to 24 hours to be registered.'
         private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
-        project_button: 
+        project_button:
             edit_preprint: 'Edit {documentType}'
             edit_resubmit_preprint: 'Edit and resubmit'
         see_less: 'See less'
         see_more: 'See more'
-        share: 
+        share:
             download: 'Download {documentType}'
             downloads: 'Downloads'
             download_file: 'Download file'
@@ -1234,7 +1234,7 @@ preprints:
         author-assertions:
             header_label: 'Author Assertions'
             describe: 'Describe'
-            available: 
+            available:
                 yes: 'Yes'
                 no: 'No'
                 available: 'Available'
@@ -1265,10 +1265,10 @@ preprints:
             brand_name: 'OSF'
             loading: 'Loading...'
             close: 'Close'
-            message: 
+            message:
                 base: '{name} uses {reviewsWorkflow}. This {documentType}'
                 pending_pre: 'is not publicly available or searchable until approved by a moderator.'
-                pending_post: 'is publicly available and searchable but is subject to removal by a moderator.'  
+                pending_post: 'is publicly available and searchable but is subject to removal by a moderator.'
                 accepted: 'has been accepted by a moderator and is publicly available and searchable.'
                 rejected: 'has been rejected by a moderator and is not publicly available or searchable.'
                 pending_withdrawal: 'This {documentType} has been requested by the authors to be withdrawn. It will still be publicly searchable until the request has been approved.'
@@ -1279,7 +1279,7 @@ preprints:
             rejected: 'rejected'
             pending_withdrawal: 'pending withdrawal'
             withdrawal_rejected: 'withdrawal rejected'
-            feedback: 
+            feedback:
                 moderator_feedback: 'Moderator feedback'
                 moderator: 'Moderator'
                 base: 'This {documentType}'
@@ -1307,13 +1307,13 @@ preprints:
         bottom:
             contact: 'Contact us'
             p1: 'Create your own branded {documentType} servers backed by the OSF.'
-            div: 
+            div:
                 line1: 'Check out the'
                 linkText1: 'open source code'
                 line2: 'and our'
                 linkText2: 'public roadmap'
                 line3: '. Input welcome!'
-        advisory: 
+        advisory:
             heading: 'Advisory Group'
             paragraph: 'Our advisory group includes leaders in preprints and scholarly communication'
 registries:
