@@ -1,7 +1,7 @@
 {{!-- template-lint-disable no-invalid-interactive --}}
 <div
     data-test-provider-id='{{this.provider.id}}'
-    local-class='provider-container {{if (is-mobile) 'mobile'}} {{if this.isSelected 'is-selected'}}'
+    local-class='provider-container {{if (is-mobile) 'mobile'}} {{if this.isSelected 'selected'}}'
     {{ on 'click' (action this.onProviderSelect) }}
 >
     <div local-class='image-container'>
