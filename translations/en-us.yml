@@ -1844,6 +1844,9 @@ registries:
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
         pending_moderation: 'No registrations found with updates pending'
+        embargoEndDate: 'Embargoed Registration'
+        EmbargoEndPrefix: 'with an end date of'
+        public: 'Public Registration'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
