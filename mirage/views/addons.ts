@@ -275,35 +275,23 @@ export function createAuthorizedComputingAccount(this: HandlerContext, schema: S
 function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFormat: CredentialsFormat) {
     switch (credentialsFormat) {
     case CredentialsFormat.REPO_TOKEN:
-        if (!credentials.token) {
-            throw new Error('Token is required');
-        }
-        if (credentials.token.indexOf('token') < 0) {
-            throw new Error('Invalid token');
+        if (!credentials.token || !credentials.repo) {
+            throw new Error('Token and repo is required');
         }
         break;
     case CredentialsFormat.ACCESS_SECRET_KEYS:
         if (!credentials.accessKey || !credentials.secretKey) {
-            throw new Error('Access key is required');
-        }
-        if (credentials.accessKey.indexOf('key') < 0 || credentials.secretKey.indexOf('key') < 0) {
-            throw new Error('Invalid access key or secret key');
+            throw new Error('Access key and secret key is required');
         }
         break;
     case CredentialsFormat.USERNAME_PASSWORD:
         if (!credentials.username || !credentials.password) {
             throw new Error('Username and password are required');
         }
-        if (credentials.username.indexOf('user') < 0 || credentials.password.indexOf('pass') < 0) {
-            throw new Error('Invalid username or password');
-        }
         break;
     case CredentialsFormat.URL_USERNAME_PASSWORD:
         if (!credentials.url || !credentials.username || !credentials.password) {
             throw new Error('URL, username, and password are required');
-        }
-        if (credentials.username.indexOf('user') < 0 || credentials.password.indexOf('pass') < 0) {
-            throw new Error('Invalid username or password');
         }
         if (credentials.url.indexOf('http') < 0) {
             throw new Error('Invalid URL');
