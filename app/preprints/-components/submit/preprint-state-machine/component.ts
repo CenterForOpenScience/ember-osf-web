@@ -18,7 +18,6 @@ export enum PreprintStatusTypeEnum {
     review = 'review',
 }
 
-
 /**
  * The State Machine Args
  */
@@ -47,8 +46,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         this.preprint = this.store.createRecord('preprint', {
             provider: this.provider,
         });
-
-        // this.preprint.save();
     }
 
     /**
