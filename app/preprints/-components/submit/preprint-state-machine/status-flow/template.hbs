@@ -1,0 +1,28 @@
+<div local-class='status-flow-container  {{if (is-mobile) 'mobile'}}'>
+    <div local-class='line {{if @manager.displayAuthorAssertions 'long'}}'/>
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getTitleAndFileType}}
+        data-test-title-and-file
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getMetadataType}}
+        data-test-metadata
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getAuthorAssertionsType}}
+        data-test-author-assertions
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getSupplementsType}}
+        data-test-supplements
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getReviewType}}
+        data-test-review
+    />
+</div>

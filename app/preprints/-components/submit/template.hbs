@@ -1,0 +1,27 @@
+<div local-class='preprint-state-machine-container  {{if (is-mobile) 'mobile'}}'>
+    {{#if this.isTitleAndFileActive}}
+        <Preprints::-Components::Submit::TitleAndFile
+            @manager={{@manager}}
+        />
+    {{/if}}
+    {{#if this.isMetadataActive}}
+        <Preprints::-Components::Submit::Metadata
+            @manager={{@manager}}
+        />
+    {{/if}}
+    {{#if this.isAuthorAssertionsActive}}
+        <Preprints::-Components::Submit::AuthorAssertions
+            @manager={{@manager}}
+        />
+    {{/if}}
+    {{#if this.isSupplementsActive}}
+        <Preprints::-Components::Submit::Supplements
+            @manager={{@manager}}
+        />
+    {{/if}}
+    {{#if this.isReviewActive}}
+        <Preprints::-Components::Submit::Review
+            @manager={{@manager}}
+        />
+    {{/if}}
+</div>

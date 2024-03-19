@@ -1,12 +1,33 @@
 {{page-title (t 'preprints.submit.title')}}
 
-<div local-class='submit-page-container {{if this.isMobile 'mobile'}}'>
-    <div local-class='header-container'>
-        {{!-- header place holder --}}
-        {{!-- Header Container for {{this.model.provider.id}} --}}
-    </div>
-    <div local-class='state-machine-container'>
-        {{!-- State Machine Container --}}
-    </div>
-</div>
+<OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
+    <Preprints::-Components::Submit::PreprintStateMachine 
+        @provider={{this.model.provider}}
+    as |manager|>
+        <layout.heading local-class='header-container'
+         {{with-branding this.model.brand}}
+        >
+            <div local-class='header'>
+                {{t 'preprints.submit.title-submit'
+                    documentType = this.model.provider.documentType.singularCapitalized
+                }}
+            </div>
+        </layout.heading>
+        <layout.left local-class='left-container'>
+            <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
+                @manager={{manager}}
+            />
+        </layout.left>
+        <layout.main local-class='main-container'>
+            <Preprints::-Components::Submit
+                @manager={{manager}}
+            />
+        </layout.main>
+        <layout.right local-class='right-container'>
+            <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow
+                @manager={{manager}}
+             />
+        </layout.right>
+    </Preprints::-Components::Submit::PreprintStateMachine>
+</OsfLayout>
 

@@ -1167,7 +1167,30 @@ preprints:
         paragraph: 'A preprint is a version of a scholarly or scientific paper that is posted online before it has undergone formal peer review and published in a scientific journal. <a href={link}>Learn More</a>.'
         create_button: 'Create Preprint'
     submit:
-        title: 'Submit New'
+        title-submit: 'New {documentType}'
+        title-edit: 'Edit {documentType}'
+        step-one:
+            title: 'Title and File'
+        step-two:
+            title: 'Metadata'
+        step-three:
+            title: 'Author Assertions'
+        step-four:
+            title: 'Supplements'
+        step-five:
+            title: 'Review'
+        data-analytics: 'Goto {statusType} tab'
+        status-flow:
+            step-title-and-file: 'Title and File'
+            step-metadata: 'Metadata'
+            step-author-assertions: 'Author Assertions'
+            step-supplements: 'Supplements'
+            step-review: 'Review'
+        action-flow:
+            next: 'Next'
+            delete: 'Delete'
+            caution: 'Caution'
+            caution-statement: 'Only one person at a time is able to edit a preprint draft. Be sure to coordinate with any other contributors.'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
