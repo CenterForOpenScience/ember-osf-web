@@ -18,10 +18,16 @@ export default class PreprintProviderSelection extends Component<InputArgs> {
     allProviders: PreprintProviderModel[] = this.args.allProviders;
     learnMoreUrl: string = serviceLinks.preprintsSupport;
     @tracked selectedProvider: PreprintProviderModel | undefined;
-    @tracked selectedProviderId: string | undefined;
 
     public get isDisabled(): boolean {
         return this.selectedProvider === undefined;
+    }
+
+    public get selectedProviderId(): string | undefined {
+        if (this.selectedProvider !== undefined) {
+            return this.selectedProvider.id;
+        }
+        return undefined;
     }
 
     @action
@@ -34,6 +40,5 @@ export default class PreprintProviderSelection extends Component<InputArgs> {
     @action
     updateSelectedProvider(provider: PreprintProviderModel): void {
         this.selectedProvider = provider;
-        this.selectedProviderId = provider.id;
     }
 }

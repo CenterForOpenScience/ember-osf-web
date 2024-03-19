@@ -26,14 +26,14 @@
         {{/each}}
     </div>
     <div local-class='create-button-container'>
-        <button
+        <Button
             data-test-create-preprints
             local-class='create-button {{if this.isDisabled 'disabled'}}'
             disabled={{this.isDisabled}}
-            type='button'
+            @type='create'
             {{ on 'click' (action this.onCreateButtonClick) }}
         >
             {{t 'preprints.select.create_button'}}
-        </button>
+        </Button>
     </div>
 </div>
