@@ -85,6 +85,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         secretKey: '',
         repo: '',
     };
+    @tracked connectAccountError = false;
 
     @action
     filterByAddonType(type: FilterTypes) {
@@ -159,8 +160,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
                 await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
             }
             this.clearCredentials();
+            this.connectAccountError = false;
             this.pageMode = PageMode.CONFIGURE;
         } catch (e) {
+            this.connectAccountError = true;
             const errorMessage = this.intl.t('addons.accountCreate.error');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);

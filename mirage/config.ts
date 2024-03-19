@@ -547,8 +547,11 @@ export default function(this: Server) {
     this.get('/resource-references/:nodeGuid/configured-computing-addons',
         addons.resourceConfiguredComputingAddonList);
     this.resource('authorized-storage-accounts', { except: ['index'] });
+    this.post('authorized-storage-accounts', addons.createAuthorizedStorageAccount);
     this.resource('authorized-citation-accounts', { except: ['index'] });
+    this.post('authorized-citation-accounts', addons.createAuthorizedCitationAccount);
     this.resource('authorized-computing-accounts', { except: ['index'] });
+    this.post('authorized-computing-accounts', addons.createAuthorizedComputingAccount);
     this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
     this.resource('configured-citation-addons', { only: ['show', 'update', 'delete'] });
     this.resource('configured-computing-addons', { only: ['show', 'update', 'delete'] });
