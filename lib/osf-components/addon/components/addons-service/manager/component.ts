@@ -160,7 +160,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
                 await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
             }
             this.clearCredentials();
-            this.connectAccountError = false;
             this.pageMode = PageMode.CONFIGURE;
         } catch (e) {
             this.connectAccountError = true;
@@ -195,6 +194,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     clearCredentials() {
+        this.connectAccountError = false;
         this.credentialsObject = {
             url: '',
             username: '',
