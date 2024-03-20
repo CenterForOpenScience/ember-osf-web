@@ -1169,6 +1169,7 @@ preprints:
             description-input: 'Description'
         step-two:
             title: 'Metadata'
+            publication-doi-input: 'Publication Doi'
         step-three:
             title: 'Author Assertions'
         step-four:
