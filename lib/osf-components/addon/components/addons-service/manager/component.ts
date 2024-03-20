@@ -85,6 +85,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         secretKey: '',
         repo: '',
     };
+    @tracked connectAccountError = false;
 
     @action
     filterByAddonType(type: FilterTypes) {
@@ -161,6 +162,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             this.clearCredentials();
             this.pageMode = PageMode.CONFIGURE;
         } catch (e) {
+            this.connectAccountError = true;
             const errorMessage = this.intl.t('addons.accountCreate.error');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
@@ -192,6 +194,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     clearCredentials() {
+        this.connectAccountError = false;
         this.credentialsObject = {
             url: '',
             username: '',

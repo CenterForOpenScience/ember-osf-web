@@ -59,6 +59,11 @@
                 </label>
                 {{field.postText}}
             {{/each}}
+            {{#if @manager.connectAccountError}}
+                <p local-class='connect-error'>
+                    {{t 'addons.accountCreate.error'}}
+                </p>
+            {{/if}}
             <Button
                 data-test-addon-connect-account-button
                 data-analytics-name='Connect Account'
