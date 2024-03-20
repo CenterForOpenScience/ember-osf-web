@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 import { action } from '@ember/object';
 import { ValidationObject } from 'ember-changeset-validations';
-import { validateFormat} from 'ember-changeset-validations/validators';
+import { validateFormat, validatePresence} from 'ember-changeset-validations/validators';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { DOIRegex } from 'ember-osf-web/utils/doi';
 
@@ -16,7 +16,8 @@ interface MetadataArgs {
 
 interface MetadataForm {
     publicationDoi: string;
-    publicationYear: string;
+    publicationYear: number;
+    publicationCitation: string;
 }
 
 const MetadataFormValidation: ValidationObject<MetadataForm> = {
@@ -33,6 +34,12 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
         ignoreBlank: true,
         regex: /^((?!(0))[0-9]{4})$/,
         type: 'invalid_year_format',
+    }),
+    publicationCitation: validatePresence({
+        presence: false,
+        allowBlank: true,
+        allowNone: true,
+        ignoreBlank: true,
     }),
 
 };

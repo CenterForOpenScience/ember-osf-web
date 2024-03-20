@@ -1171,6 +1171,7 @@ preprints:
             title: 'Metadata'
             publication-doi-input: 'Publication Doi'
             publication-year-input: 'Publication Year'
+            publication-citation-input: 'Publication Citation'
         step-three:
             title: 'Author Assertions'
         step-four:

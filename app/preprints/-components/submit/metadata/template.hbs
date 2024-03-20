@@ -31,6 +31,17 @@
                 local-class='input-container'
                 @placeholder={{t 'preprints.submit.step-two.publication-year-input'}}
             />
+
+            <form.text
+                data-test-publication-citation-input
+                @label={{t 'preprints.submit.step-two.publication-citation-input'}}
+                @ariaLabel={{t 'preprints.submit.step-two.publication-citation-input'}}
+                @valuePath={{'publicationCitation'}}
+                {{on 'change' this.validate}}
+                {{on 'focusout' this.validate}}
+                local-class='input-container'
+                @placeholder={{t 'preprints.submit.step-two.publication-citation-input'}}
+            />
         </FormControls>
     </div>
 </div>
