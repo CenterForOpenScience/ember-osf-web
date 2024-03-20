@@ -11,7 +11,7 @@
             as |form|
         >
             <form.text
-                data-test-title-input
+                data-test-publication-do-input
                 @label={{t 'preprints.submit.step-two.publication-doi-input'}}
                 @ariaLabel={{t 'preprints.submit.step-two.publication-doi-input'}}
                 @valuePath={{'publicationDoi'}}
@@ -19,6 +19,17 @@
                 {{on 'focusout' this.validate}}
                 local-class='input-container'
                 @placeholder={{t 'preprints.submit.step-two.publication-doi-input'}}
+            />
+
+            <form.text
+                data-test-publication-year-input
+                @label={{t 'preprints.submit.step-two.publication-year-input'}}
+                @ariaLabel={{t 'preprints.submit.step-two.publication-year-input'}}
+                @valuePath={{'publicationYear'}}
+                {{on 'change' this.validate}}
+                {{on 'focusout' this.validate}}
+                local-class='input-container'
+                @placeholder={{t 'preprints.submit.step-two.publication-year-input'}}
             />
         </FormControls>
     </div>

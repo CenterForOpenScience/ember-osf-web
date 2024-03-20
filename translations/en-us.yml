@@ -633,7 +633,7 @@ validationErrors:
     missingFileNoProject: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found.'
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
-    year_format: 'Please specify a valid year.'
+    year_format: 'Please specify a valid year format (YYYY).'
     no_updated_responses: 'No changes have been made in this update.'
     moderator_comment: 'Please provide feedback for your decision.'
     license_not_accepted: 'Please select a license that is accepted by this collection.'
@@ -1170,6 +1170,7 @@ preprints:
         step-two:
             title: 'Metadata'
             publication-doi-input: 'Publication Doi'
+            publication-year-input: 'Publication Year'
         step-three:
             title: 'Author Assertions'
         step-four:
