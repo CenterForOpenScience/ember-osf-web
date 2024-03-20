@@ -1,7 +1,7 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import ExternalCitationServiceModel from './external-citation-service';
-import { AddonCredentialFields } from './authorized-storage-account';
+import { AddonCredentialFields, AuthorizedAccountLinks } from './authorized-storage-account';
 import UserReferenceModel from './user-reference';
 import OsfModel from './osf-model';
 
@@ -9,6 +9,7 @@ export default class AuthorizedCitationAccountModel extends OsfModel {
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstringarray') scopes!: string[];
+    @attr('object') links!: AuthorizedAccountLinks;
     @attr('object') credentials?: AddonCredentialFields; // write-only
 
     @belongsTo('external-citation-service')
