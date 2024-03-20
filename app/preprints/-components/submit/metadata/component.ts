@@ -33,7 +33,7 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
         allowNone: true,
         ignoreBlank: true,
         regex: /^((?!(0))[0-9]{4})$/,
-        type: 'invalid_year_format',
+        type: 'year_format',
     }),
     publicationCitation: validatePresence({
         presence: false,
