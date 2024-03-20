@@ -12,12 +12,12 @@ interface TitleAndFileArgs {
     manager: PreprintStateMachine;
 }
 
-interface TitleAndFileFormForms {
+interface TitleAndFileForm {
     title: string;
     description: string;
 }
 
-const TitleAndFileFormValidation: ValidationObject<TitleAndFileFormForms> = {
+const TitleAndFileFormValidation: ValidationObject<TitleAndFileForm> = {
     title: validatePresence({
         presence: true,
         ignoreBlank: true,

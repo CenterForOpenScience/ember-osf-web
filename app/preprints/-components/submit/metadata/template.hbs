@@ -1,3 +1,25 @@
 <div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
-    {{t 'preprints.submit.step-two.title'}}
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-two.title'}}
+    </h3>
+    <div local-class='form-container'>
+        <FormControls
+            @changeset={{this.metadataFormChangeset}}
+            data-test-form
+            as |form|
+        >
+            <form.text
+                data-test-title-input
+                @label={{t 'preprints.submit.step-two.publication-doi-input'}}
+                @ariaLabel={{t 'preprints.submit.step-two.publication-doi-input'}}
+                @valuePath={{'publicationDoi'}}
+                {{on 'change' this.validate}}
+                {{on 'focusout' this.validate}}
+                local-class='input-container'
+                @placeholder={{t 'preprints.submit.step-two.publication-doi-input'}}
+            />
+        </FormControls>
+    </div>
 </div>

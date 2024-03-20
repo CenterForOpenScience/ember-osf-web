@@ -33,6 +33,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service router!: RouterService;
     @service intl!: Intl;
     titleAndFieldValidation = false;
+    metadataValidation = false;
     nextButtonIsDisabled = true;
 
     provider = this.args.provider;
@@ -74,12 +75,17 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public onNext(): void {
         this.nextButtonIsDisabled = true;
-        if (!(this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
+        if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
             this.titleAndFieldValidation
-        )) {
+        ) {
+            this.statusFlowIndex++;
+            return;
+        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
+            this.metadataValidation
+        ) {
+            this.statusFlowIndex++;
             return;
         }
-        this.statusFlowIndex++;
     }
 
     /**
@@ -88,6 +94,15 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public validateTitleAndFile(): void {
         this.titleAndFieldValidation = true;
+        this.nextButtonIsDisabled = false;
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @action
+    public validateMetadata(): void {
+        this.metadataValidation = true;
         this.nextButtonIsDisabled = false;
     }
 
