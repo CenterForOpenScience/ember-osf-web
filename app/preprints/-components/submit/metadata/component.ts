@@ -40,6 +40,7 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
         allowBlank: true,
         allowNone: true,
         ignoreBlank: true,
+        type: 'optional',
     }),
 
 };

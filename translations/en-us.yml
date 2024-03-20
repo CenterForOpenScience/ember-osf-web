@@ -634,6 +634,7 @@ validationErrors:
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
     year_format: 'Please specify a valid year format (YYYY).'
+    optional: ''
     no_updated_responses: 'No changes have been made in this update.'
     moderator_comment: 'Please provide feedback for your decision.'
     license_not_accepted: 'Please select a license that is accepted by this collection.'
