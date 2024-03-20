@@ -16,6 +16,7 @@ interface MetadataArgs {
 
 interface MetadataForm {
     publicationDoi: string;
+    publicationYear: string;
 }
 
 const MetadataFormValidation: ValidationObject<MetadataForm> = {
@@ -26,6 +27,14 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
         regex: DOIRegex,
         type: 'invalid_doi',
     }),
+    publicationYear: validateFormat({
+        allowBlank: true,
+        allowNone: true,
+        ignoreBlank: true,
+        regex: /^((?!(0))[0-9]{4})$/,
+        type: 'invalid_year_format',
+    }),
+
 };
 
 /**
