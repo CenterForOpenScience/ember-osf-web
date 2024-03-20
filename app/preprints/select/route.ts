@@ -7,7 +7,10 @@ export default class PreprintSelectRoute extends Route {
     @service store!: Store;
 
     async model(){
-        const allProviders = await this.store.findAll('preprint-provider', { reload: true });
+        const allProviders = await this.store.findAll('preprint-provider', {
+            adapterOptions: {'filter[allow_submissions]': 'true'},
+            reload: true,
+        });
         return {
             allProviders,
         };
