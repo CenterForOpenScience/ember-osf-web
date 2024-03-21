@@ -8,14 +8,14 @@ import RouterService from '@ember/routing/router-service';
 
 
 interface InputArgs {
-    allProviders: PreprintProviderModel[];
+    submissionProviders: PreprintProviderModel[];
 }
 
 
 export default class PreprintProviderSelection extends Component<InputArgs> {
     @service router!: RouterService;
 
-    allProviders: PreprintProviderModel[] = this.args.allProviders;
+    submissionProviders: PreprintProviderModel[] = this.args.submissionProviders;
     learnMoreUrl: string = serviceLinks.preprintsSupport;
     @tracked selectedProvider?: PreprintProviderModel;
 

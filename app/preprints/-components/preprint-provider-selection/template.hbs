@@ -16,7 +16,7 @@
         </p>
     </div>
     <div local-class='provider-list-container'>
-        {{#each this.allProviders as |provider| }}
+        {{#each this.submissionProviders as |provider| }}
             <Preprints::-Components::PreprintProviderDisplay
                 data-test-provider
                 @provider={{provider}}
