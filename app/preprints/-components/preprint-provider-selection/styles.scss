@@ -1,0 +1,96 @@
+// stylelint-disable max-nesting-depth
+
+@import 'app/styles/layout';
+
+.provider-selection-container {
+    @include clamp-width;
+    width: 100%;
+    display: flex;
+    padding: 15px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-style: normal;
+
+    .heading-container {
+        width: 100%;
+        padding: 15px 0;
+
+        .heading {
+            margin: 5px 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    }
+
+    .paragraph-container {
+        width: 100%;
+        padding: 15px 0;
+
+        .paragraph {
+            margin: 5px 10px;
+            font-size: 16px;
+            font-weight: 400;
+        }
+    }
+
+    .provider-list-container {
+        width: 100%;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+    }
+
+    .create-button-container {
+        width: 100%;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        .create-button {
+            width: 175px;
+            height: 40px;
+            border-radius: 5px;
+            background-color: $color-bg-blue-dark;
+            font-size: 16px;
+            font-weight: bold;
+            color: $color-text-white;
+            border-style: hidden;
+
+            &:hover {
+                background-color: $color-bg-blue-highlight;
+            }
+
+            &.disabled {
+                background-color: $color-bg-gray;
+            }
+        }
+    }
+
+    &.mobile {
+        min-width: 330px;
+
+        .heading-container {
+            .heading {
+                margin: 5px 20px;
+                font-size: 20px;
+            }
+        }
+
+        .paragraph-container {
+            .paragraph {
+                margin: 5px 20px;
+            }
+        }
+
+        .provider-list-container {
+            justify-content: center;
+            align-content: center;
+        }
+    }
+}

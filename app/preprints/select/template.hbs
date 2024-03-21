@@ -1,0 +1,17 @@
+{{page-title (t 'preprints.select.page_title')}}
+
+<div local-class='select-page-container {{if (is-mobile) 'mobile'}}'>
+    {{!-- placehodler for header component --}}
+    {{!-- local-class 'header-container' and 'header' will be replaced by the component's own local-class --}}
+    <div local-class='header-container'>
+        <div local-class='header-clamp-width-container'>
+            <p
+                data-test-header
+                local-class='header'
+            >
+                {{t 'preprints.select.title'}}
+            </p>
+        </div>
+    </div>
+    <Preprints::-Components::PreprintProviderSelection @submissionProviders={{this.model.submissionProviders}} />
+</div>

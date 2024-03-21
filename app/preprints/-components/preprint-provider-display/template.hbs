@@ -1,0 +1,26 @@
+{{!-- template-lint-disable no-invalid-interactive --}}
+<div
+    data-test-provider-id='{{this.provider.id}}'
+    local-class='provider-container {{if (is-mobile) 'mobile'}} {{if this.isSelected 'selected'}}'
+    {{ on 'click' (action this.onProviderSelect) }}
+>
+    <div local-class='image-container'>
+        <img
+            data-test-image
+            local-class='image'
+            src={{this.provider.assets.square_color_no_transparent}}
+            alt={{this.headerText}} />
+    </div>
+    <div
+        data-test-name
+        local-class='name-container'
+    >
+        {{this.provider.name}}
+    </div>
+    <div
+        data-test-description
+        local-class='description-container'
+    >
+        {{html-safe this.provider.description}}
+    </div>
+</div>
