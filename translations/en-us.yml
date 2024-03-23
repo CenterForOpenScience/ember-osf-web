@@ -264,8 +264,9 @@ addons:
         access-key-placeholder: 'Access Key'
         secret-key-label: 'Secret Key'
         secret-key-placeholder: 'Secret Key'
+        oauth-pending: 'Complete the OAuth process in the pop-up window before returning to this page.'
+        oauth-window-blocked: 'The pop-up window was blocked. Please enable pop-ups for this site and try again.'
         oauth-description: 'Use OAuth to connect your {providerName} account'
-        oauth-link: 'Connect with {providerName}'
         error: 'Error creating account'
     confirm:
         heading: 'Confirm {providerName} Account'
