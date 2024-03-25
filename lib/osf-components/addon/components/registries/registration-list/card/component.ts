@@ -10,6 +10,7 @@ import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/model
 import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
+
 const iconMap: Partial<Record<RegistrationReviewStates | RevisionReviewStates.RevisionPendingModeration, string>> = {
     [RegistrationReviewStates.Pending]: 'hourglass',
     [RegistrationReviewStates.Withdrawn]: 'ban',
@@ -31,6 +32,19 @@ export default class RegistrationListCard extends Component<Args> {
 
     get revisionIsPending() {
         return this.args.registration.revisionState === RevisionReviewStates.RevisionPendingModeration;
+    }
+
+    get showPublic() {
+        const reviewsState = this.args.registration.reviewsState;
+        return ![RegistrationReviewStates.Rejected,RegistrationReviewStates.Withdrawn].includes(reviewsState);
+    }
+
+    get showEmbargo() {
+        const reviewsState = this.args.registration.reviewsState;
+        if (this.args.registration.embargoEndDate) {
+            return ![RegistrationReviewStates.Rejected,RegistrationReviewStates.Withdrawn].includes(reviewsState);
+        }
+        return false;
     }
 
     get icon(): string {
