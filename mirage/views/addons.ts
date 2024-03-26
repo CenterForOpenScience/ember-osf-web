@@ -1,4 +1,5 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
+import { timeout } from 'ember-concurrency';
 
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
@@ -7,6 +8,7 @@ import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/mo
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
+import { AllAuthorizedAccountTypes, AllProviderTypes } from 'ember-osf-web/packages/addons-service/provider';
 
 import { MirageConfiguredComputingAddon } from '../serializers/configured-computing-addon';
 import { MirageConfiguredCitationAddon } from '../serializers/configured-citation-addon';
@@ -221,21 +223,26 @@ export function createConfiguredComputingAddon(this: HandlerContext, schema: Sch
     return configuredComputingAddon;
 }
 
-export async function createAuthorizedStorageAccount(this: HandlerContext, schema: Schema) {
+export function createAuthorizedStorageAccount(this: HandlerContext, schema: Schema) {
     const attrs = this.normalizedRequestAttrs(
         'authorized-storage-account',
     ) as NormalizedRequestAttrs<MirageAuthorizedStorageAccount>;
     const externalService = schema.externalStorageServices
         .find(attrs.storageProviderId) as ModelInstance<ExternalStorageServiceModel>;
     try {
-        fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
+        const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
+        const newAuthorizedAccount = schema.authorizedStorageAccounts
+            .create(authorizedAttrs) as ModelInstance<AuthorizedStorageAccountModel>;
+        if (!authorizedAttrs.isAuthorized &&
+            [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
+        }
+        return newAuthorizedAccount;
     } catch (e) {
         return new Response(403, {}, {
             errors: [{ detail: e.message }],
         });
     }
-    attrs.credentials = undefined;
-    return schema.authorizedStorageAccounts.create(attrs);
 }
 
 export function createAuthorizedCitationAccount(this: HandlerContext, schema: Schema) {
@@ -245,14 +252,19 @@ export function createAuthorizedCitationAccount(this: HandlerContext, schema: Sc
     const externalService = schema.externalCitationServices
         .find(attrs.citationServiceId) as ModelInstance<ExternalCitationServiceModel>;
     try {
-        fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
+        const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
+        const newAuthorizedAccount = schema.authorizedCitationAccounts
+            .create(authorizedAttrs) as ModelInstance<AuthorizedCitationAccountModel>;
+        if (!authorizedAttrs.isAuthorized &&
+            [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
+        }
+        return newAuthorizedAccount;
     } catch (e) {
         return new Response(403, {}, {
             errors: [{ detail: e.message }],
         });
     }
-    attrs.credentials = undefined;
-    return schema.authorizedCitationAccounts.create(attrs);
 }
 
 export function createAuthorizedComputingAccount(this: HandlerContext, schema: Schema) {
@@ -262,14 +274,31 @@ export function createAuthorizedComputingAccount(this: HandlerContext, schema: S
     const externalService = schema.externalComputingServices
         .find(attrs.computingServiceId) as ModelInstance<ExternalComputingServiceModel>;
     try {
-        fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
+        const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
+        const newAuthorizedAccount = schema.authorizedComputingAccounts
+            .create(authorizedAttrs) as ModelInstance<AuthorizedComputingAccountModel>;
+        if (!authorizedAttrs.isAuthorized &&
+            [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
+        }
+        return newAuthorizedAccount;
     } catch (e) {
         return new Response(403, {}, {
             errors: [{ detail: e.message }],
         });
     }
+}
+
+function prepareAuthorizedAccountAttrs(
+    attrs: NormalizedRequestAttrs<AllAuthorizedAccountTypes>, externalService: ModelInstance<AllProviderTypes>,
+) {
+    const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
     attrs.credentials = undefined;
-    return schema.authorizedComputingAccounts.create(attrs);
+    // @ts-ignore: authUrl is set by the backend
+    attrs.authUrl = !authorized ? 'https://www.fake.com' : '';
+    // @ts-ignore: isAuthorized is set by the backend
+    attrs.isAuthorized = authorized;
+    return attrs;
 }
 
 function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFormat: CredentialsFormat) {
@@ -297,6 +326,19 @@ function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFor
             throw new Error('Invalid URL');
         }
         break;
-    default: // no-op on OAuth or OAuth2
+    default: // OAuth or OAuth2 should be authorized using the address found in authUrl. Faked below for mirage
+        return false;
     }
+    return true;
+}
+
+async function emulateUserDoingOAuthFlow(authorizedAccount: ModelInstance<AllAuthorizedAccountTypes>, schema: Schema) {
+    await timeout(1000);
+    // eslint-disable-next-line no-console
+    console.log('Mirage addons view: emulateUserDoingOAuthFlow done');
+    const currentUser = schema.roots.first().currentUser;
+    authorizedAccount.update({
+        isAuthorized: true,
+        externalUserDisplayName: currentUser?.fullName,
+    });
 }

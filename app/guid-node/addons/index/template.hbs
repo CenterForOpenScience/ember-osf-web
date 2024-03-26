@@ -62,21 +62,36 @@
                                             @checked={{eq manager.selectedAccount.id account.id}}
                                             {{on 'change' (fn manager.selectAccount account)}}
                                         />
-                                        {{account.externalUserDisplayName}}
+                                        {{#if account.externalUserDisplayName}}
+                                            {{account.externalUserDisplayName}}
+                                        {{else if (not account.isAuthorized)}}
+                                            {{t 'addons.accountSelect.unauthenticated-account'}}
+                                        {{/if}}
                                     </label>
                                 </div>
                             {{else}}
                                 {{t 'addons.accountSelect.no-accounts'}}
                             {{/each}}
                         </fieldset>
-                        <Button
-                            data-test-addon-authorize-button
-                            data-analytics-name='Authorize'
-                            disabled={{not manager.selectedAccount.id}}
-                            {{on 'click' manager.authorizeSelectedAccount}}
-                        >
-                            {{t 'general.authorize'}}
-                        </Button>
+                        {{#if (or (not manager.selectedAccount) manager.selectedAccount.externalUserDisplayName)}}
+                            <Button
+                                data-test-addon-authorize-button
+                                data-analytics-name='Authorize'
+                                disabled={{not manager.selectedAccount.id}}
+                                {{on 'click' manager.authorizeSelectedAccount}}
+                            >
+                                {{t 'general.authorize'}}
+                            </Button>
+                        {{else if (not manager.selectedAccount.isAuthorized)}}
+                            <Button
+                                data-test-addon-authenticate-button
+                                data-analytics-name='Authenticate'
+                                disabled={{not manager.selectedAccount.id}}
+                                {{on 'click' manager.createNewAccount}}
+                            >
+                                {{t 'general.authenticate'}}
+                            </Button>
+                        {{/if}}
                     {{else if (eq manager.pageMode 'accountCreate')}}
                         <AddonsService::AccountSetupManager
                             @provider={{provider.provider}}

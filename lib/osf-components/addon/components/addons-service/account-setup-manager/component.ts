@@ -1,12 +1,18 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
-import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
-import { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
+import Toast from 'ember-toastr/services/toast';
+
 import AddonsServiceManagerComponent from 'ember-osf-web/components/addons-service/manager/component';
 import UserAddonsManagerComponent from 'ember-osf-web/components/addons-service/user-addons-manager/component';
+import { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
+import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
+import { AllAuthorizedAccountTypes } from 'ember-osf-web/packages/addons-service/provider';
 
 // TODO: Get this from GravyValet??
 const repoOptionsObject: Record<string, string[]> = {
@@ -37,9 +43,12 @@ interface Args {
 
 export default class AccountSetupManagerComponent extends Component<Args> {
     @service intl!: IntlService;
+    @service toast!: Toast;
 
     @tracked selectedRepo?: string;
     @tracked otherRepo = '';
+    @tracked account?: AllAuthorizedAccountTypes;
+    @tracked pendingOauth = false;
 
     get useOauth() {
         return [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(this.args.provider.credentialsFormat);
@@ -182,6 +191,29 @@ export default class AccountSetupManagerComponent extends Component<Args> {
         }
         default: // OAUTH, OAUTH2
             return [];
+        }
+    }
+
+    @action
+    onVisibilityChange() {
+        if (document.visibilityState === 'visible') {
+            taskFor(this.args.manager.oauthFlowRefocus).perform(this.account!);
+            this.pendingOauth = false;
+            document.removeEventListener('visibilitychange', this.onVisibilityChange);
+        }
+    }
+    @task
+    @waitFor
+    async startOauthFlow() {
+        this.account = await taskFor(this.args.manager.createAuthorizedAccount).perform();
+        if (this.account) {
+            const oauthWindow = window.open(this.account.authUrl, '_blank');
+            if (oauthWindow) {
+                document.addEventListener('visibilitychange', this.onVisibilityChange);
+                this.pendingOauth = true;
+            } else {
+                this.toast.error(this.intl.t('addons.accountCreate.oauth-window-blocked'));
+            }
         }
     }
 }

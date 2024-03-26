@@ -13,7 +13,6 @@ export enum CredentialsFormat {
 
 export interface ExternalServiceLinks extends OsfLinks {
     icon: string;
-    auth?: string; // Returned when POSTing to /authorized-xyz-accounts
 }
 
 export default class ExternalStorageServiceModel extends OsfModel {
