@@ -235,7 +235,7 @@ export function createAuthorizedStorageAccount(this: HandlerContext, schema: Sch
             .create(authorizedAttrs) as ModelInstance<AuthorizedStorageAccountModel>;
         if (!authorizedAttrs.isAuthorized &&
             [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
-            emulateUserDoingOAuthFlow(newAuthorizedAccount);
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
         }
         return newAuthorizedAccount;
     } catch (e) {
@@ -257,7 +257,7 @@ export function createAuthorizedCitationAccount(this: HandlerContext, schema: Sc
             .create(authorizedAttrs) as ModelInstance<AuthorizedCitationAccountModel>;
         if (!authorizedAttrs.isAuthorized &&
             [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
-            emulateUserDoingOAuthFlow(newAuthorizedAccount);
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
         }
         return newAuthorizedAccount;
     } catch (e) {
@@ -279,7 +279,7 @@ export function createAuthorizedComputingAccount(this: HandlerContext, schema: S
             .create(authorizedAttrs) as ModelInstance<AuthorizedComputingAccountModel>;
         if (!authorizedAttrs.isAuthorized &&
             [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
-            emulateUserDoingOAuthFlow(newAuthorizedAccount);
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
         }
         return newAuthorizedAccount;
     } catch (e) {
@@ -331,9 +331,13 @@ function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFor
     return true;
 }
 
-async function emulateUserDoingOAuthFlow(authorizedAccount: ModelInstance<AllAuthorizedAccountTypes>) {
-    await timeout(2000);
+async function emulateUserDoingOAuthFlow(authorizedAccount: ModelInstance<AllAuthorizedAccountTypes>, schema: Schema) {
+    await timeout(5000);
     // eslint-disable-next-line no-console
-    console.log('Mirage addons view: emulateOAuthFlow done');
-    authorizedAccount.update({ isAuthorized: true });
+    console.log('Mirage addons view: emulateUserDoingOAuthFlow done');
+    const currentUser = schema.roots.first().currentUser;
+    authorizedAccount.update({
+        isAuthorized: true,
+        externalUserDisplayName: currentUser?.fullName,
+    });
 }

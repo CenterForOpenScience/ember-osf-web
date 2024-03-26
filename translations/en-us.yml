@@ -40,6 +40,7 @@ general:
     add: Add
     confirm: Confirm
     authorize: Authorize
+    authenticate: Authenticate
     ok: OK
     apply: Apply
     revisions: Revisions
@@ -266,6 +267,7 @@ addons:
         secret-key-placeholder: 'Secret Key'
         oauth-pending: 'Complete the OAuth process in the pop-up window before returning to this page.'
         oauth-window-blocked: 'The pop-up window was blocked. Please enable pop-ups for this site and try again.'
+        unauthenticated-account: 'Unauthenticated account'
         oauth-description: 'Use OAuth to connect your {providerName} account'
         error: 'Error creating account'
     confirm:

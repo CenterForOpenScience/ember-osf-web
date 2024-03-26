@@ -2,19 +2,22 @@
     <LoadingIndicator @dark={{true}} />
 {{else}}
     {{#if this.useOauth}}
-        {{!-- TODO: need clientId, callback and other fields to actually make this work --}}
-        <div local-class='oauth-wrapper'>
-            {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}
-            <a
-                data-test-addon-oauth-link
-                data-analytics-name='OAuth'
-                href={{@provider.links.auth}}
-                target='_blank'
-                rel='noopener noreferrer'
-            >
-                {{t 'addons.accountCreate.oauth-link' providerName=@provider.name}}
-            </a>
-        </div>
+        {{#if this.pendingOauth}}
+            <p>
+                {{t 'addons.accountCreate.oauth-pending'}}
+            </p>
+        {{else}}
+            <div local-class='oauth-wrapper'>
+                {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}
+                <Button
+                    data-test-addon-oauth-button
+                    data-analytics-name='OAuth'
+                    {{on 'click' (perform this.startOauthFlow)}}
+                >
+                    {{t 'general.authorize'}}
+                </Button>
+            </div>
+        {{/if}}
     {{else}}
         <form>
             {{#if this.showRepoOptions}}

@@ -203,42 +203,55 @@ export default class Provider {
 
     @task
     @waitFor
-    async createAuthorizedStorageAccount(credentials: AddonCredentialFields) {
-        return await taskFor(this.createAccountForNodeAddon)
-            .perform('authorized-storage-account', credentials);
-    }
-
-    @task
-    @waitFor
-    async createAuthorizedCitationAccount(credentials: AddonCredentialFields) {
-        return await taskFor(this.createAccountForNodeAddon)
-            .perform('authorized-citation-account', credentials);
-    }
-
-    @task
-    @waitFor
-    async createAuthorizedComputingAccount(credentials: AddonCredentialFields) {
-        return await taskFor(this.createAccountForNodeAddon)
-            .perform('authorized-computing-account', credentials);
-    }
-
-    @task
-    @waitFor
-    async createAccountForNodeAddon(authorizedAccountType: string, credentials: AddonCredentialFields) {
-        const account = this.store.createRecord(authorizedAccountType, {
+    private async createAuthorizedStorageAccount(credentials: AddonCredentialFields) {
+        const newAccount = this.store.createRecord('authorized-storage-account', {
             credentials,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             storageProvider: this.provider,
             configuringUser: this.userReference,
         });
-        await account.save();
-        return account;
+        await newAccount.save();
+        return newAccount;
     }
 
     @task
     @waitFor
-    async createConfiguredStorageAddon(account: AuthorizedStorageAccountModel) {
+    private async createAuthorizedCitationAccount(credentials: AddonCredentialFields) {
+        const newAccount = this.store.createRecord('authorized-citation-account', {
+            credentials,
+            externalUserId: this.currentUser.user?.id,
+            scopes: [],
+            citationService: this.provider,
+            configuringUser: this.userReference,
+        });
+        await newAccount.save();
+        return newAccount;
+    }
+
+    @task
+    @waitFor
+    private async createAuthorizedComputingAccount(credentials: AddonCredentialFields) {
+        const newAccount = this.store.createRecord('authorized-computing-account', {
+            credentials,
+            externalUserId: this.currentUser.user?.id,
+            scopes: [],
+            computingService: this.provider,
+            configuringUser: this.userReference,
+        });
+        await newAccount.save();
+        return newAccount;
+    }
+
+    @task
+    @waitFor
+    public async createAccountForNodeAddon(credentials: AddonCredentialFields) {
+        return await taskFor(this.providerMap!.createAccountForNodeAddon).perform(credentials);
+    }
+
+    @task
+    @waitFor
+    private async createConfiguredStorageAddon(account: AuthorizedStorageAccountModel) {
         if (!this.configuredAddon) {
             const configuredStorageAddon = this.store.createRecord('configured-storage-addon', {
                 rootFolder: '',
@@ -254,10 +267,10 @@ export default class Provider {
 
     @task
     @waitFor
-    async createConfiguredCitationAddon(account: AuthorizedCitationAccountModel) {
+    private async createConfiguredCitationAddon(account: AuthorizedCitationAccountModel) {
         if (!this.configuredAddon) {
             const configuredCitationAddon = this.store.createRecord('configured-citation-addon', {
-                storageProvider: this.provider,
+                citationService: this.provider,
                 accountOwner: this.userReference,
                 authorizedResource: this.serviceNode,
                 baseAccount: account,
@@ -269,10 +282,10 @@ export default class Provider {
 
     @task
     @waitFor
-    async createConfiguredComputingAddon(account: AuthorizedComputingAccount) {
+    private async createConfiguredComputingAddon(account: AuthorizedComputingAccount) {
         if (!this.configuredAddon) {
             const configuredComputingAddon = this.store.createRecord('configured-computing-addon', {
-                storageProvider: this.provider,
+                computingService: this.provider,
                 accountOwner: this.userReference,
                 authorizedResource: this.serviceNode,
                 baseAccount: account,
@@ -280,6 +293,12 @@ export default class Provider {
             await configuredComputingAddon.save();
             this.configuredAddon = configuredComputingAddon;
         }
+    }
+
+    @task
+    @waitFor
+    public async createConfiguredAddon(account: AllAuthorizedAccountTypes) {
+        return await taskFor(this.providerMap!.createConfiguredAddon).perform(account);
     }
 
     @task
