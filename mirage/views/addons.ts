@@ -293,8 +293,9 @@ function prepareAuthorizedAccountAttrs(
     attrs: NormalizedRequestAttrs<AllAuthorizedAccountTypes>, externalService: ModelInstance<AllProviderTypes>,
 ) {
     const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
-    attrs.links = !authorized ? { auth: 'https://www.fake.com' } : {};
     attrs.credentials = undefined;
+    // @ts-ignore: authUrl is set by the backend
+    attrs.authUrl = !authorized ? 'https://www.fake.com' : '';
     // @ts-ignore: isAuthorized is set by the backend
     attrs.isAuthorized = authorized;
     return attrs;
@@ -325,14 +326,14 @@ function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFor
             throw new Error('Invalid URL');
         }
         break;
-    default: // OAuth or OAuth2 should be authorized using the address found in links.auth. Faked below for mirage
+    default: // OAuth or OAuth2 should be authorized using the address found in authUrl. Faked below for mirage
         return false;
     }
     return true;
 }
 
 async function emulateUserDoingOAuthFlow(authorizedAccount: ModelInstance<AllAuthorizedAccountTypes>, schema: Schema) {
-    await timeout(5000);
+    await timeout(1000);
     // eslint-disable-next-line no-console
     console.log('Mirage addons view: emulateUserDoingOAuthFlow done');
     const currentUser = schema.roots.first().currentUser;

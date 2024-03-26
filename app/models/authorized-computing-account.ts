@@ -1,7 +1,7 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import ExternalComputingService from './external-computing-service';
-import { AddonCredentialFields, AuthorizedAccountLinks } from './authorized-storage-account';
+import { AddonCredentialFields } from './authorized-storage-account';
 import UserReferenceModel from './user-reference';
 import OsfModel from './osf-model';
 
@@ -9,8 +9,8 @@ export default class AuthorizedComputingAccount extends OsfModel {
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstringarray') scopes!: string[];
-    @attr('object') links!: AuthorizedAccountLinks;
     @attr('object') credentials?: AddonCredentialFields; // write-only
+    @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-computing-accounts
     @attr('boolean') readonly isAuthorized!: boolean;
 
     @belongsTo('external-computing-service')

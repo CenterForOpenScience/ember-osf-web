@@ -207,7 +207,7 @@ export default class AccountSetupManagerComponent extends Component<Args> {
     async startOauthFlow() {
         this.account = await taskFor(this.args.manager.createAuthorizedAccount).perform();
         if (this.account) {
-            const oauthWindow = window.open(this.account.links.auth, '_blank');
+            const oauthWindow = window.open(this.account.authUrl, '_blank');
             if (oauthWindow) {
                 document.addEventListener('visibilitychange', this.onVisibilityChange);
                 this.pendingOauth = true;

@@ -1,6 +1,5 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
-import { OsfLinks } from './osf-model';
 import ExternalStorageServiceModel from './external-storage-service';
 import UserReferenceModel from './user-reference';
 import OsfModel from './osf-model';
@@ -15,17 +14,12 @@ export interface AddonCredentialFields {
     repo: string;
 }
 
-export interface AuthorizedAccountLinks extends OsfLinks {
-    auth?: string; // Returned when POSTing to /authorized-xyz-accounts
-}
-
-
 export default class AuthorizedStorageAccountModel extends OsfModel {
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstringarray') scopes!: string[];
-    @attr('object') links!: AuthorizedAccountLinks;
     @attr('object') credentials?: AddonCredentialFields; // write-only
+    @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-storage-accounts
     @attr('boolean') readonly isAuthorized!: boolean;
 
     @belongsTo('external-storage-service')
