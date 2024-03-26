@@ -242,6 +242,7 @@ addons:
         no-accounts: 'No accounts available'
         new-account: 'Setup new account'
         existing-account: 'Choose existing account'
+        unauthenticated-account: 'Unauthenticated account'
     accountCreate:
         url-label: 'Host URL'
         url-placeholder: 'owncloud.example.org'
@@ -267,7 +268,6 @@ addons:
         secret-key-placeholder: 'Secret Key'
         oauth-pending: 'Complete the OAuth process in the new window before returning to this page.'
         oauth-window-blocked: "The OAuth window was blocked. Please disable adblock for this site or check your browser's security setting and try again."
-        unauthenticated-account: 'Unauthenticated account'
         oauth-description: 'Use OAuth to connect your {providerName} account'
         error: 'Error creating account'
     confirm:
