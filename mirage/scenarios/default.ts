@@ -14,6 +14,7 @@ import { registrationFullScenario as registrationsFullScenario } from './registr
 import { settingsScenario } from './settings';
 import { registrationsLiteScenario } from './registrations.lite';
 import { registrationsManyProjectsScenario} from './registrations.many-projects';
+import { userScenario } from './user';
 
 const {
     mirageScenarios,
@@ -42,6 +43,9 @@ export default function(server: Server) {
             'withUnconfirmedEmail',
         ];
     const currentUser = server.create('user', ...userTraits);
+
+    // Add a bunch of users
+    userScenario(server);
 
     // Optional Scenarios
     if (mirageScenarios.includes('dashboard')) {

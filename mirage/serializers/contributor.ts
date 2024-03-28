@@ -31,6 +31,17 @@ export default class ContributorSerializer extends ApplicationSerializer<MirageC
 
     buildRelationships(model: ModelInstance<MirageContributor>) {
         const relationships: SerializedRelationships<MirageContributor> = {};
+        if (model.preprint !== null) {
+            const { preprint } = model;
+            relationships.preprint = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${preprint.id}`,
+                        meta: this.buildRelatedLinkMeta(model, 'preprint'),
+                    },
+                },
+            };
+        }
         if (model.node !== null) {
             const { node } = model;
             relationships.node = {

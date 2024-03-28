@@ -18,11 +18,14 @@ export default class ContributorAdapter extends OsfAdapter {
         if (requestType === 'findRecord') {
             const [objectId, userId] = (id || '').split('-');
             const node = this.store.peekRecord('node', objectId);
+            const preprint = this.store.peekRecord('preprint', objectId);
             const draft = this.store.peekRecord('draft-registration', objectId);
             let baseUrl;
             assert(`"contributorId" must be "objectId-userId": got ${objectId}-${userId}`, Boolean(objectId && userId));
             if (node) {
                 baseUrl = this.buildRelationshipURL((node as any)._internalModel.createSnapshot(), 'contributors');
+            } else if (preprint) {
+                baseUrl = this.buildRelationshipURL((preprint as any)._internalModel.createSnapshot(), 'contributors');
             } else {
                 baseUrl = this.buildRelationshipURL((draft as any)._internalModel.createSnapshot(), 'contributors');
             }
@@ -31,13 +34,21 @@ export default class ContributorAdapter extends OsfAdapter {
 
         if (snapshot && requestType === 'createRecord') {
             const node = snapshot.belongsTo('node');
+            const preprint = snapshot.belongsTo('preprint');
             const draftRegistration = snapshot.belongsTo('draftRegistration');
             const user = snapshot.belongsTo('users');
-            assert('"node" or "draftRegistration" relationship is needed to create a contributor',
-                Boolean(node || draftRegistration));
+            assert('"node" or "draftRegistration" or "preprint" relationship is needed to create a contributor',
+                Boolean(node || draftRegistration || preprint));
             assert('"users" relationship, "email" or "fullName" is needed to create a contributor',
                 Boolean(user || snapshot.attr('email') || snapshot.attr('fullName')));
             let baseUrl;
+
+            if (preprint) {
+                // if node relationship is defined
+                // we post to v2/preprints/<preprint_id>/contributors
+                baseUrl = this.buildRelationshipURL(preprint, 'contributors');
+            }
+
             if (node) {
                 // if node relationship is defined
                 // we post to v2/nodes/<node_id>/contributors

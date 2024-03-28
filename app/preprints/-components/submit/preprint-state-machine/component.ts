@@ -47,7 +47,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         this.preprint = this.store.createRecord('preprint', {
             provider: this.provider,
         });
-
     }
 
     /**
@@ -71,6 +70,16 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     /**
+     * saveOnStep
+     *
+     * @description Abstracted method to save after each step
+     */
+    private async saveOnStep(): Promise<void> {
+        await this.preprint.save();
+        this.statusFlowIndex++;
+    }
+
+    /**
      * Callback for the action-flow component
      */
     @action
@@ -79,13 +88,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
             this.titleAndFieldValidation
         ) {
-            await this.preprint.save();
-            this.statusFlowIndex++;
+            await this.saveOnStep();
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
             this.metadataValidation
         ) {
-            this.statusFlowIndex++;
+            await this.saveOnStep();
             return;
         }
     }
