@@ -1,5 +1,12 @@
 // stylelint-disable selector-no-qualifying-type
-li.active {
+
+
+.item {
     left: 0;
-    display: block;
+    display: none;
+
+    &.active {
+        display: block;
+    }
+
 }
