@@ -1,9 +1,9 @@
 {{page-title (t 'preprints.submit.title')}}
 
-<OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
-    <Preprints::-Components::Submit::PreprintStateMachine 
-        @provider={{this.model.provider}}
-    as |manager|>
+<Preprints::-Components::Submit::PreprintStateMachine 
+    @provider={{this.model.provider}}
+as |manager|>
+    <OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
         <layout.heading local-class='header-container'
          {{with-branding this.model.brand}}
         >
@@ -28,6 +28,6 @@
                 @manager={{manager}}
              />
         </layout.right>
-    </Preprints::-Components::Submit::PreprintStateMachine>
-</OsfLayout>
+    </OsfLayout>
+</Preprints::-Components::Submit::PreprintStateMachine>
 
