@@ -19,6 +19,8 @@ function buildLicenseText(): string {
 export interface PreprintMirageModel extends PreprintModel {
     isPreprintDoi: boolean;
     addLicenseName: boolean;
+    nodeId: number;
+    licenseId: number;
 }
 
 export interface PreprintTraits {

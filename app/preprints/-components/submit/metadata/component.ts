@@ -42,6 +42,12 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
  */
 export default class Metadata extends Component<MetadataArgs>{
     metadataFormChangeset = buildChangeset(this.args.manager.preprint, MetadataFormValidation);
+    showAddContributorWidget = true;
+
+    @action
+    toggleAddContributorWidget() {
+        this.showAddContributorWidget = !this.showAddContributorWidget;
+    }
 
     @action
     public validate(): void {

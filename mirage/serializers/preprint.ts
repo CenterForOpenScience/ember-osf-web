@@ -8,7 +8,7 @@ const { OSF: { apiUrl } } = config;
 export default class PreprintSerializer extends ApplicationSerializer<PreprintMirageModel> {
     buildNormalLinks(model: ModelInstance) {
         return {
-            self: `${apiUrl}/v2/${model.id}/`,
+            self: `${apiUrl}/v2/preprints/${model.id}/`,
             doi: model.doi ?  `https://doi.org/${model.doi}` : null,
             preprint_doi: model.isPreprintDoi ? `https://doi.org/10.31219/osf.io/${model.id}` : null,
         };
@@ -47,7 +47,7 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
             license: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/licenses/${model.license.id}/`,
+                        href: `${apiUrl}/v2/licenses/${model.licenseId}/`,
                         meta: {},
                     },
                 },
@@ -87,8 +87,9 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
             node: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.node.id}`,
-                        meta: this.buildRelatedLinkMeta(model, 'node'),
+                        href: `${apiUrl}/v2/nodes/${model.nodeId}`,
+                        meta: {},
+                        // meta: this.buildRelatedLinkMeta(model, 'node'),
                     },
                 },
             },

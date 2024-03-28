@@ -37,8 +37,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     nextButtonIsDisabled = true;
 
     provider = this.args.provider;
-    displayAuthorAssertions = true;
     preprint: PreprintModel;
+    displayAuthorAssertions = true;
     @tracked statusFlowIndex = 1;
 
     constructor(owner: unknown, args: StateMachineArgs) {
@@ -47,6 +47,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         this.preprint = this.store.createRecord('preprint', {
             provider: this.provider,
         });
+
     }
 
     /**
@@ -73,11 +74,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * Callback for the action-flow component
      */
     @action
-    public onNext(): void {
+    public async onNext(): Promise<void> {
         this.nextButtonIsDisabled = true;
         if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
             this.titleAndFieldValidation
         ) {
+            await this.preprint.save();
             this.statusFlowIndex++;
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&

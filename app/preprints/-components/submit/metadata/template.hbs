@@ -5,6 +5,15 @@
         {{t 'preprints.submit.step-two.title'}}
     </h3>
     <div local-class='form-container'>
+        {{#let (unique-id) 'contributors' as |contributorFieldId|}}
+            <Contributors::Widget
+                @node={{@manager.preprint}}
+                @shouldShowAdd={{this.showAddContributorWidget}}
+                @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
+                @widgetMode={{'editable'}}
+                id={{contributorFieldId}}
+            />
+        {{/let}}
         <FormControls
             @changeset={{this.metadataFormChangeset}}
             data-test-form
