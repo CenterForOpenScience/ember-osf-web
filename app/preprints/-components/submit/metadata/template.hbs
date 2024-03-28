@@ -7,7 +7,7 @@
     <div local-class='form-container'>
         {{#let (unique-id) 'contributors' as |contributorFieldId|}}
             <Contributors::Widget
-                @node={{@manager.preprint}}
+                @preprint={{@manager.preprint}}
                 @shouldShowAdd={{this.showAddContributorWidget}}
                 @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
                 @widgetMode={{'editable'}}
