@@ -37,7 +37,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     nextButtonIsDisabled = true;
 
     provider = this.args.provider;
-    preprint: PreprintModel;
+    @tracked preprint: PreprintModel;
     displayAuthorAssertions = true;
     @tracked statusFlowIndex = 1;
 
