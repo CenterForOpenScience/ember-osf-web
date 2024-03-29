@@ -9,7 +9,7 @@ import { createCollectionSubmission, getCollectionSubmissions } from './views/co
 import { createSubmissionAction } from './views/collection-submission-action';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
-import { addContributor, createBibliographicContributor } from './views/contributor';
+import { addContributor, addPreprintContributor, createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, updateDeveloperApp } from './views/developer-app';
 import { createDraftRegistration } from './views/draft-registration';
 import {
@@ -344,8 +344,11 @@ export default function(this: Server) {
     osfNestedResource(this, 'preprint', 'contributors', {
         path: '/preprints/:parentID/contributors/',
         defaultSortKey: 'index',
-        relatedModelName: 'contributor',
+        except: ['create'],
     });
+
+    this.post('/preprints/:preprintID/contributors/', addPreprintContributor);
+
     osfNestedResource(this, 'preprint', 'bibliographicContributors', {
         path: '/preprints/:parentID/bibliographic_contributors/',
         defaultSortKey: 'index',
