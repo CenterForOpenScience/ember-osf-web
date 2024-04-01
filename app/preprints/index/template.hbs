@@ -67,7 +67,8 @@
                 <OsfLink
                     data-test-see-highlighted-subject example
                     data-analytics-name='See Highlighted Subject Example'
-                    @href='/discover/'
+                    @href={{concat '/preprints/' this.model.provider.id '/discover'}}
+
                 >
                     {{t 'preprints.subjects.links.seeAllSubjects'}}
                 </OsfLink>
