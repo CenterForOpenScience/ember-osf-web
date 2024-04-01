@@ -1,56 +1,88 @@
 <div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
-    <h3 local-class='title'
-        data-test-title
-    >
-        {{t 'preprints.submit.step-two.title'}}
-    </h3>
-    <div local-class='form-container'>
-        {{#let (unique-id) 'contributors' as |contributorFieldId|}}
-            <Contributors::Widget
-                @preprint={{@manager.preprint}}
-                @shouldShowAdd={{this.showAddContributorWidget}}
-                @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
-                @widgetMode={{'editable'}}
-                id={{contributorFieldId}}
-            />
-        {{/let}}
-        <FormControls
-            @changeset={{this.metadataFormChangeset}}
-            data-test-form
-            as |form|
+    {{#if this.loadLicenses.isRunning}}
+        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+    {{else}}
+        <h3 local-class='title'
+            data-test-title
         >
-            <form.text
-                data-test-publication-do-input
-                @label={{t 'preprints.submit.step-two.publication-doi-input'}}
-                @ariaLabel={{t 'preprints.submit.step-two.publication-doi-input'}}
-                @valuePath={{'publicationDoi'}}
-                {{on 'change' this.validate}}
-                {{on 'focusout' this.validate}}
-                local-class='input-container'
-                @placeholder={{t 'preprints.submit.step-two.publication-doi-input'}}
-            />
+            {{t 'preprints.submit.step-two.title'}}
+        </h3>
+        <div local-class='form-container'>
+            <div local-class='input-container'>
+                {{#let (unique-id) 'contributors' as |contributorFieldId|}}
+                    <Contributors::Widget
+                        @preprint={{@manager.preprint}}
+                        @shouldShowAdd={{this.showAddContributorWidget}}
+                        @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
+                        @widgetMode={{'editable'}}
+                        id={{contributorFieldId}}
+                    />
+                {{/let}}
+            </div>
 
-            <form.text
-                data-test-publication-year-input
-                @label={{t 'preprints.submit.step-two.publication-year-input'}}
-                @ariaLabel={{t 'preprints.submit.step-two.publication-year-input'}}
-                @valuePath={{'publicationYear'}}
-                {{on 'change' this.validate}}
-                {{on 'focusout' this.validate}}
-                local-class='input-container'
-                @placeholder={{t 'preprints.submit.step-two.publication-year-input'}}
-            />
+            <FormControls
+                @changeset={{this.metadataFormChangeset}}
+                data-test-form
+                as |form|
+            >
+                {{#let (unique-id 'license') as |licenseId|}}
+                    <label for={{licenseId}}
+                        data-test-license-label
+                    >
+                        {{t 'preprints.submit.step-two.license-input'}}
+                        <span local-class='required'>*</span>
+                    </label>
+                    <p>
+                        {{t 'preprints.submit.step-two.license-description'}}
+                    </p>
+                    <form.select
+                        data-test-publication-do-input
+                        @ariaLabel={{ t 'preprints.submit.step-two.license-placeholder'}}
+                        @valuePath={{'license'}}
+                        @options={{this.licenses}}
+                        {{on 'change' this.validate}}
+                        {{on 'focusout' this.validate}}
+                        local-class='input-container'
+                        @placeholder={{ t 'preprints.submit.step-two.license-placeholder'}}
+                        as |license|
+                    >
+                        {{license.name}}
+                    </form.select>
+                {{/let}}
 
-            <form.text
-                data-test-publication-citation-input
-                @label={{t 'preprints.submit.step-two.publication-citation-input'}}
-                @ariaLabel={{t 'preprints.submit.step-two.publication-citation-input'}}
-                @valuePath={{'publicationCitation'}}
-                {{on 'change' this.validate}}
-                {{on 'focusout' this.validate}}
-                local-class='input-container'
-                @placeholder={{t 'preprints.submit.step-two.publication-citation-input'}}
-            />
-        </FormControls>
-    </div>
+                <form.text
+                    data-test-publication-do-input
+                    @label={{t 'preprints.submit.step-two.publication-doi-input'}}
+                    @ariaLabel={{t 'preprints.submit.step-two.publication-doi-input'}}
+                    @valuePath={{'publicationDoi'}}
+                    {{on 'change' this.validate}}
+                    {{on 'focusout' this.validate}}
+                    local-class='input-container'
+                    @placeholder={{t 'preprints.submit.step-two.publication-doi-input'}}
+                />
+
+                <form.text
+                    data-test-publication-year-input
+                    @label={{t 'preprints.submit.step-two.publication-year-input'}}
+                    @ariaLabel={{t 'preprints.submit.step-two.publication-year-input'}}
+                    @valuePath={{'publicationYear'}}
+                    {{on 'change' this.validate}}
+                    {{on 'focusout' this.validate}}
+                    local-class='input-container'
+                    @placeholder={{t 'preprints.submit.step-two.publication-year-input'}}
+                />
+
+                <form.text
+                    data-test-publication-citation-input
+                    @label={{t 'preprints.submit.step-two.publication-citation-input'}}
+                    @ariaLabel={{t 'preprints.submit.step-two.publication-citation-input'}}
+                    @valuePath={{'publicationCitation'}}
+                    {{on 'change' this.validate}}
+                    {{on 'focusout' this.validate}}
+                    local-class='input-container'
+                    @placeholder={{t 'preprints.submit.step-two.publication-citation-input'}}
+                />
+            </FormControls>
+        </div>
+    {{/if}}
 </div>
