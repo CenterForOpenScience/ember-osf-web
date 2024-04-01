@@ -44,14 +44,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
-            license: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/licenses/${model.licenseId}/`,
-                        meta: {},
-                    },
-                },
-            },
             subjects: {
                 links: {
                     related: {
