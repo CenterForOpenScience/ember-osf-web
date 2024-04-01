@@ -18,6 +18,9 @@ export default class AuthorizedStorageAccountModel extends OsfModel {
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
     @attr('fixstringarray') scopes!: string[];
+    @attr('object') credentials?: AddonCredentialFields; // write-only
+    @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-storage-accounts
+    @attr('boolean') readonly isAuthorized!: boolean;
 
     @belongsTo('external-storage-service')
     storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;

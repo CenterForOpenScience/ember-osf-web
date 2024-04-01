@@ -1,14 +1,32 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
+import { timeout } from 'ember-concurrency';
 
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
-import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
+import AuthorizedStorageAccountModel, { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
+import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
+import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
+import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
+import { AllAuthorizedAccountTypes, AllProviderTypes } from 'ember-osf-web/packages/addons-service/provider';
 
 import { MirageConfiguredComputingAddon } from '../serializers/configured-computing-addon';
 import { MirageConfiguredCitationAddon } from '../serializers/configured-citation-addon';
 import { MirageConfiguredStorageAddon } from '../serializers/configured-storage-addon';
 import { filter, process } from './utils';
+
+interface MirageAuthorizedStorageAccount extends AuthorizedStorageAccountModel {
+    configuringUserId: string;
+    storageProviderId: string;
+}
+interface MirageAuthorizedCitationAccount extends AuthorizedCitationAccountModel {
+    configuringUserId: string;
+    citationServiceId: string;
+}
+interface MirageAuthorizedComputingAccount extends AuthorizedComputingAccountModel {
+    configuringUserId: string;
+    computingServiceId: string;
+}
 
 // This is the handler for the unofficial node/addons endpoint
 // It is only being used by the file-action-menu component to determine if a node has the BoA addon enabled
@@ -203,4 +221,124 @@ export function createConfiguredComputingAddon(this: HandlerContext, schema: Sch
     });
 
     return configuredComputingAddon;
+}
+
+export function createAuthorizedStorageAccount(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs(
+        'authorized-storage-account',
+    ) as NormalizedRequestAttrs<MirageAuthorizedStorageAccount>;
+    const externalService = schema.externalStorageServices
+        .find(attrs.storageProviderId) as ModelInstance<ExternalStorageServiceModel>;
+    try {
+        const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
+        const newAuthorizedAccount = schema.authorizedStorageAccounts
+            .create(authorizedAttrs) as ModelInstance<AuthorizedStorageAccountModel>;
+        if (!authorizedAttrs.isAuthorized &&
+            [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
+        }
+        return newAuthorizedAccount;
+    } catch (e) {
+        return new Response(403, {}, {
+            errors: [{ detail: e.message }],
+        });
+    }
+}
+
+export function createAuthorizedCitationAccount(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs(
+        'authorized-citation-account',
+    ) as NormalizedRequestAttrs<MirageAuthorizedCitationAccount>;
+    const externalService = schema.externalCitationServices
+        .find(attrs.citationServiceId) as ModelInstance<ExternalCitationServiceModel>;
+    try {
+        const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
+        const newAuthorizedAccount = schema.authorizedCitationAccounts
+            .create(authorizedAttrs) as ModelInstance<AuthorizedCitationAccountModel>;
+        if (!authorizedAttrs.isAuthorized &&
+            [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
+        }
+        return newAuthorizedAccount;
+    } catch (e) {
+        return new Response(403, {}, {
+            errors: [{ detail: e.message }],
+        });
+    }
+}
+
+export function createAuthorizedComputingAccount(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs(
+        'authorized-computing-account',
+    ) as NormalizedRequestAttrs<MirageAuthorizedComputingAccount>;
+    const externalService = schema.externalComputingServices
+        .find(attrs.computingServiceId) as ModelInstance<ExternalComputingServiceModel>;
+    try {
+        const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
+        const newAuthorizedAccount = schema.authorizedComputingAccounts
+            .create(authorizedAttrs) as ModelInstance<AuthorizedComputingAccountModel>;
+        if (!authorizedAttrs.isAuthorized &&
+            [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
+            emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
+        }
+        return newAuthorizedAccount;
+    } catch (e) {
+        return new Response(403, {}, {
+            errors: [{ detail: e.message }],
+        });
+    }
+}
+
+function prepareAuthorizedAccountAttrs(
+    attrs: NormalizedRequestAttrs<AllAuthorizedAccountTypes>, externalService: ModelInstance<AllProviderTypes>,
+) {
+    const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
+    attrs.credentials = undefined;
+    // @ts-ignore: authUrl is set by the backend
+    attrs.authUrl = !authorized ? 'https://www.fake.com' : '';
+    // @ts-ignore: isAuthorized is set by the backend
+    attrs.isAuthorized = authorized;
+    return attrs;
+}
+
+function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFormat: CredentialsFormat) {
+    switch (credentialsFormat) {
+    case CredentialsFormat.REPO_TOKEN:
+        if (!credentials.token || !credentials.repo) {
+            throw new Error('Token and repo is required');
+        }
+        break;
+    case CredentialsFormat.ACCESS_SECRET_KEYS:
+        if (!credentials.accessKey || !credentials.secretKey) {
+            throw new Error('Access key and secret key is required');
+        }
+        break;
+    case CredentialsFormat.USERNAME_PASSWORD:
+        if (!credentials.username || !credentials.password) {
+            throw new Error('Username and password are required');
+        }
+        break;
+    case CredentialsFormat.URL_USERNAME_PASSWORD:
+        if (!credentials.url || !credentials.username || !credentials.password) {
+            throw new Error('URL, username, and password are required');
+        }
+        if (credentials.url.indexOf('http') < 0) {
+            throw new Error('Invalid URL');
+        }
+        break;
+    default: // OAuth or OAuth2 should be authorized using the address found in authUrl. Faked below for mirage
+        return false;
+    }
+    return true;
+}
+
+async function emulateUserDoingOAuthFlow(authorizedAccount: ModelInstance<AllAuthorizedAccountTypes>, schema: Schema) {
+    await timeout(1000);
+    // eslint-disable-next-line no-console
+    console.log('Mirage addons view: emulateUserDoingOAuthFlow done');
+    const currentUser = schema.roots.first().currentUser;
+    authorizedAccount.update({
+        isAuthorized: true,
+        externalUserDisplayName: currentUser?.fullName,
+    });
 }

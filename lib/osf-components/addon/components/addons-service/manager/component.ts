@@ -85,6 +85,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         secretKey: '',
         repo: '',
     };
+    @tracked connectAccountError = false;
 
     @action
     filterByAddonType(type: FilterTypes) {
@@ -151,19 +152,51 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
+    async createAuthorizedAccount() {
+        if (this.selectedProvider) {
+            const newAccount = await taskFor(this.selectedProvider.providerMap!
+                .createAccountForNodeAddon).perform(this.credentialsObject);
+            return newAccount;
+        }
+        return undefined;
+    }
+
+    @task
+    @waitFor
+    async createConfiguredAddon(newAccount: AllAuthorizedAccountTypes) {
+        if (this.selectedProvider) {
+            await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
+        }
+    }
+
+    @task
+    @waitFor
     async connectAccount() {
         try {
             if (this.selectedProvider) {
-                const newAccount = await taskFor(this.selectedProvider.providerMap!
-                    .createAccountForNodeAddon).perform(this.credentialsObject);
-                await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
+                const newAccount = await taskFor(this.createAuthorizedAccount).perform();
+                if (newAccount) {
+                    await taskFor(this.createConfiguredAddon).perform(newAccount);
+                    this.clearCredentials();
+                    this.pageMode = PageMode.CONFIGURE;
+                }
             }
-            this.pageMode = PageMode.CONFIGURE;
         } catch (e) {
+            this.connectAccountError = true;
             const errorMessage = this.intl.t('addons.accountCreate.error');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
         }
+    }
+
+    @task
+    @waitFor
+    async oauthFlowRefocus(newAccount: AllAuthorizedAccountTypes) {
+        await newAccount.reload();
+        this.clearCredentials();
+        await taskFor(this.selectedProvider!.providerMap!.getAuthorizedAccounts).perform();
+        this.selectedAccount = undefined;
+        this.chooseExistingAccount();
     }
 
     @action
@@ -174,9 +207,9 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async confirmAccountSetup(account: AuthorizedStorageAccountModel) {
+    async confirmAccountSetup(account: AllAuthorizedAccountTypes) {
         if (this.selectedProvider && this.selectedAccount) {
-            await taskFor(this.selectedProvider.createConfiguredStorageAddon).perform(account);
+            await taskFor(this.selectedProvider.createConfiguredAddon).perform(account);
         }
         this.pageMode = PageMode.CONFIGURE;
     }
@@ -185,7 +218,22 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     cancelSetup() {
         this.pageMode = undefined;
         this.selectedProvider = undefined;
+        this.clearCredentials();
         this.selectedAccount = undefined;
+    }
+
+    @action
+    clearCredentials() {
+        this.connectAccountError = false;
+        this.credentialsObject = {
+            url: '',
+            username: '',
+            password: '',
+            token: '',
+            accessKey: '',
+            secretKey: '',
+            repo: '',
+        };
     }
 
     @action
