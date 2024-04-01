@@ -34,7 +34,7 @@
                     @route='guid-node.files.provider'
                     @models={{array @node.id provider.id}}
                 >
-                    {{t (concat 'osf-components.file-browser.storage_providers.' provider.name)}}
+                    {{provider.displayName}}
                 </OsfLink>
             </div>
         {{/each}}

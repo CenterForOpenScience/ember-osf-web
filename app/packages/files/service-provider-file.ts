@@ -5,32 +5,44 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { tracked } from '@glimmer/tracking';
-import config from 'ember-osf-web/config/environment';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { ErrorDocument } from 'osf-api';
+import ConfiguredStorageAddonModel, { ConnectedCapabilities, ConnectedOparationNames}
+    from 'ember-osf-web/models/configured-storage-addon';
 
-
-export default abstract class ProviderFile {
+export default class ServiceProviderFile {
     @tracked fileModel: FileProviderModel;
+    @tracked configuredStorageAddon: ConfiguredStorageAddonModel;
     @tracked totalFileCount = 0;
-    userCanDownloadAsZip = true;
-    providerHandlesVersioning = true;
+    userCanDownloadAsZip: boolean;
+    providerHandlesVersioning: boolean;
+    canMoveToThisProvider: boolean;
     parallelUploadsLimit = 2;
-    assetsPrefix = config.assetsPrefix;
-
 
     currentUser: CurrentUserService;
     @service intl!: Intl;
     @service toast!: Toast;
 
-    constructor(currentUser: CurrentUserService, fileModel: FileProviderModel) {
+    constructor(
+        currentUser: CurrentUserService,
+        fileModel: FileProviderModel,
+        configuredStorageAddon: ConfiguredStorageAddonModel,
+    ) {
         setOwner(this, getOwner(fileModel));
         this.currentUser = currentUser;
         this.fileModel = fileModel;
+        this.configuredStorageAddon = configuredStorageAddon;
+        this.userCanDownloadAsZip = configuredStorageAddon.connectedOperationNames
+            .includes(ConnectedOparationNames.DownloadAsZip);
+        this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
+            .includes(ConnectedOparationNames.HasRevisions);
+        this.parallelUploadsLimit = configuredStorageAddon.concurrentUploads;
+        this.canMoveToThisProvider = configuredStorageAddon.connectedOperationNames
+            .includes(ConnectedOparationNames.CopyInto);
     }
 
     get id() {
@@ -46,7 +58,10 @@ export default abstract class ProviderFile {
     }
 
     get currentUserPermission(): string {
-        if (this.fileModel.target.get('currentUserPermissions').includes(Permission.Write)) {
+        if (
+            this.fileModel.target.get('currentUserPermissions').includes(Permission.Write) &&
+            this.configuredStorageAddon.connectedCapabilities.includes(ConnectedCapabilities.Update)
+        ) {
             return 'write';
         }
         return 'read';
@@ -62,6 +77,7 @@ export default abstract class ProviderFile {
     get userCanMoveToHere() {
         return (
             this.currentUserPermission === 'write' &&
+            this.canMoveToThisProvider &&
             this.fileModel.target.get('modelName') !== 'registration'
         );
     }
@@ -75,11 +91,11 @@ export default abstract class ProviderFile {
     }
 
     get name() {
-        return this.fileModel.name;
+        return this.configuredStorageAddon.displayName;
     }
 
     get iconLocation() {
-        return `${this.assetsPrefix}assets/images/addons/icons/${this.name}.png`;
+        return this.configuredStorageAddon.iconUrl;
     }
 
     get path() {
@@ -100,7 +116,6 @@ export default abstract class ProviderFile {
     }
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
-        // This is in here just so the manager thinks it's here. It should always be overridden.
         if (this.fileModel.isFolder) {
             const queryResult = await this.fileModel.queryHasMany('files',
                 {
@@ -112,6 +127,7 @@ export default abstract class ProviderFile {
             return queryResult.map(fileModel => Reflect.construct(this.constructor, [
                 this.currentUser,
                 fileModel,
+                this.configuredStorageAddon,
             ]));
         }
         return [];
