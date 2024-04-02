@@ -7,7 +7,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { allSettled, task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import Features from 'ember-feature-flags';
+import Features from 'ember-feature-flags/services/features';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 

@@ -1,5 +1,5 @@
 {{#if @isProvider}}
-    {{#if (and (this.useGravyWaffle) (not (eq @name 'osfstorage')))}}
+    {{#if (and this.useGravyWaffle (not (eq @name 'osfstorage')))}}
         <img
             data-test-provider-icon
             src={{@icon}}
