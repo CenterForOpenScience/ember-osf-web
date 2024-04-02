@@ -282,13 +282,13 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     /**
-     * displayStatusType
+     * shoulddisplayStatusType
      *
      * @description Determines if the status type should be displayed
      *
      * @returns boolean
      */
-    public displayStatusType(type: string): boolean{
+    public shouldDisplayStatusType(type: string): boolean{
         return type === PreprintStatusTypeEnum.authorAssertions ? this.displayAuthorAssertions : true;
     }
 

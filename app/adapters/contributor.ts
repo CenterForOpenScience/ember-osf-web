@@ -44,7 +44,7 @@ export default class ContributorAdapter extends OsfAdapter {
             let baseUrl;
 
             if (preprint) {
-                // if node relationship is defined
+                // if preprint relationship is defined
                 // we post to v2/preprints/<preprint_id>/contributors
                 baseUrl = this.buildRelationshipURL(preprint, 'contributors');
             }

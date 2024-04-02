@@ -9,8 +9,8 @@ import { guid } from '../factories/utils';
 export function createPreprint(this: HandlerContext, schema: Schema) {
     const now = new Date();
     const randomNum = faker.random.number();
-    const registrationGuid = guid('preprint');
-    const id = registrationGuid(randomNum);
+    const preprintGuid = guid('preprint');
+    const id = preprintGuid(randomNum);
 
     const attrs = {
         ...this.normalizedRequestAttrs('preprint'),

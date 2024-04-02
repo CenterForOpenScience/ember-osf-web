@@ -16,8 +16,8 @@ export default class StatusFlowDisplay extends Component<StatusFlowDisplayArgs>{
         return this.args.manager;
     }
 
-    public get displayStatusType(): boolean {
-        return this.manager.displayStatusType(this.type);
+    public get shouldDisplayStatusType(): boolean {
+        return this.manager.shouldDisplayStatusType(this.type);
     }
 
     public get getStatusTitle(): string {
