@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Theme from 'ember-osf-web/services/theme';
+// import { htmlSafe } from '@ember/template';
 
 export default class PreprintSubmitRoute extends Route {
     @service store!: Store;
@@ -31,9 +32,9 @@ export default class PreprintSubmitRoute extends Route {
             return {
                 provider,
                 brand: provider.brand.content,
+                // secondaryBackground: htmlSafe(provider.brand.secondaryColor),
             };
         } catch (e) {
-
             this.router.transitionTo('not-found', `preprints/${args.provider_id}/submit`);
             return null;
         }

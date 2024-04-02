@@ -1,11 +1,15 @@
+{{!-- template-lint-disable no-inline-styles style-concatenation --}}
 {{page-title (t 'preprints.submit.title')}}
 
 <OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
     <Preprints::-Components::Submit::PreprintStateMachine
         @provider={{this.model.provider}}
     as |manager|>
-        <layout.heading local-class='header-container'
-         {{with-branding this.model.brand}}
+        <layout.heading
+            local-class='header-container'
+            style='background: {{this.model.provider.brand.secondaryColor}}'
+            {{!-- style='background: {{this.model.provider.secondaryBackground}}' --}}
+            {{with-branding this.model.brand}}
         >
             <div local-class='header'>
                 {{t 'preprints.submit.title-submit'
