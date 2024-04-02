@@ -70,8 +70,9 @@ export default class Metadata extends Component<MetadataArgs>{
     @task
     @waitFor
     private async loadLicenses()  {
-        this.licenses = await this.store.findAll('license', {
-            sort: '-name',
+        this.licenses = await this.args.manager.provider.queryHasMany('licensesAcceptable', {
+            page: { size: 100 },
+            sort: 'name',
         });
     }
 
