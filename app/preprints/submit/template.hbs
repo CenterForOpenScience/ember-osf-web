@@ -1,7 +1,7 @@
 {{page-title (t 'preprints.submit.title')}}
 
 <OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
-    <Preprints::-Components::Submit::PreprintStateMachine 
+    <Preprints::-Components::Submit::PreprintStateMachine
         @provider={{this.model.provider}}
     as |manager|>
         <layout.heading local-class='header-container'
@@ -30,4 +30,3 @@
         </layout.right>
     </Preprints::-Components::Submit::PreprintStateMachine>
 </OsfLayout>
-
