@@ -47,6 +47,22 @@
                     </form.select>
                 {{/let}}
 
+                <div local-class='input-container'>
+                    {{#let (unique-id) 'tags' as |tagsFieldId|}}
+                        <label for={{tagsFieldId}}
+                            data-test-tags-label
+                        >
+                            {{t 'preprints.submit.step-two.tags-input'}}
+                        </label>
+                        <TagsWidget
+                            @taggable={{@manager.preprint}}
+                            @readOnly={{false}}
+                            @inline={{true}}
+                            id={{tagsFieldId}}
+                        />
+                    {{/let}}
+                </div>
+
                 <form.text
                     data-test-publication-doi-input
                     @label={{t 'preprints.submit.step-two.publication-doi-input'}}

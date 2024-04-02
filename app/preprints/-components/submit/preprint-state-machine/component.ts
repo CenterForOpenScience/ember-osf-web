@@ -47,6 +47,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         this.preprint = this.store.createRecord('preprint', {
             provider: this.provider,
         });
+
+        this.preprint.tags = [] as string[];
     }
 
     /**

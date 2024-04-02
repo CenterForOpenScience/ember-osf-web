@@ -1178,6 +1178,7 @@ preprints:
             license-input: 'License'
             license-description: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this help guide.'
             license-placeholder: 'Select one'
+            tags-input: 'Tags'
             publication-doi-input: 'Publication Doi'
             publication-year-input: 'Publication Year'
             publication-citation-input: 'Publication Citation'

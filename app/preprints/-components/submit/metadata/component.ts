@@ -60,7 +60,6 @@ export default class Metadata extends Component<MetadataArgs>{
     @tracked licenses = [] as LicenseModel[];
     @tracked license!: LicenseModel;
 
-
     constructor(owner: unknown, args: MetadataArgs) {
         super(owner, args);
 
