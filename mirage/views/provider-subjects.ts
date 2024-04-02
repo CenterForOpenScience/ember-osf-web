@@ -1,5 +1,6 @@
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
 import Subject from 'ember-osf-web/models/subject';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import { process } from './utils';
 
 function getFilterOpts(
@@ -46,3 +47,38 @@ export function getProviderSubjects(this: HandlerContext, schema: Schema, reques
         { defaultPageSize: Number(pageSize) },
     );
 }
+
+export function getPreprintProviderSubjects(this: HandlerContext, schema: Schema, request: Request) {
+    const { parentID: providerId } = request.params;
+    const { pageSize } = request.queryParams;
+    const filterOpts = getFilterOpts(request.queryParams);
+
+    const provider = schema.preprintProviders.find(providerId) as ModelInstance<PreprintProviderModel>;
+    const subjects = provider.subjects.models;
+    let filteredSubjects: Array<ModelInstance<Subject>>;
+
+    if (filterOpts.type === 'parent') {
+        if (filterOpts.value === 'null') {
+            filteredSubjects = subjects.filter(
+                (subject: ModelInstance<Subject>) => !subject.parent,
+            );
+        } else {
+            filteredSubjects = subjects.filter(
+                (subject: ModelInstance<Subject>) => subject.parent && (subject.parent.id === filterOpts.value),
+            );
+        }
+    } else {
+        filteredSubjects = subjects.filter(
+            (subject: ModelInstance<Subject>) => subject.text.includes(filterOpts.value),
+        );
+    }
+
+    return process(
+        schema,
+        request,
+        this,
+        filteredSubjects.map(subject => this.serialize(subject).data),
+        { defaultPageSize: Number(pageSize) },
+    );
+}
+

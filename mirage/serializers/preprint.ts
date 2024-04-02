@@ -45,7 +45,12 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                 },
             },
             subjects: {
+
                 links: {
+                    self: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/relationships/subjects/`,
+                        meta: {},
+                    },
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/subjects/`,
                         meta: this.buildRelatedLinkMeta(model, 'subjects'),

@@ -13,6 +13,8 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import LicenseModel from 'ember-osf-web/models/license';
 import { tracked } from '@glimmer/tracking';
+import SubjectModel from 'ember-osf-web/models/subject';
+import { validateSubjects } from 'ember-osf-web/packages/registration-schema/validations';
 
 /**
  * The Metadata Args
@@ -26,6 +28,7 @@ interface MetadataForm {
     publicationYear: number;
     publicationCitation: string;
     license: LicenseModel;
+    subjects: SubjectModel[];
 }
 
 const MetadataFormValidation: ValidationObject<MetadataForm> = {
@@ -48,6 +51,7 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
         ignoreBlank: true,
         type: 'empty',
     }),
+    subjects: validateSubjects(),
 };
 
 /**

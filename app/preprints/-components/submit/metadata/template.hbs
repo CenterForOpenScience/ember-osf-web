@@ -47,6 +47,35 @@
                     </form.select>
                 {{/let}}
 
+
+                <div local-class='input-container'>
+                    {{#let (unique-id) 'subjects' as |subjectsFieldId|}}
+                        <label for={{subjectsFieldId}}
+                            data-test-tags-label
+                        >
+                            {{ t 'preprints.submit.step-two.subjects-input'}}
+                            <span local-class='required'>*</span>
+                        </label>
+                        <Subjects::Manager
+                            @model={{@manager.preprint}}
+                            @provider={{@manager.provider}}
+                            @metadataChangeset={{this.metadataFormChangeset}} 
+                            @doesAutosave={{true}}
+                            id={{subjectsFieldId}}
+                            as |subjectsManager|
+                        >
+                            <Subjects::Widget
+                                @subjectsManager={{subjectsManager}}
+                            />
+                            <ValidationErrors 
+                            @changeset={{this.metadataFormChangeset}} @key='subjects'
+                            @isValidating={{subjectsManager.isSaving}} />
+                        </Subjects::Manager>
+                    {{/let}}
+
+                   
+                </div>
+                
                 <div local-class='input-container'>
                     {{#let (unique-id) 'tags' as |tagsFieldId|}}
                         <label for={{tagsFieldId}}

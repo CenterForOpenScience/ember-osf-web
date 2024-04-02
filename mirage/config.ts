@@ -27,7 +27,7 @@ import { postCountedUsage, getNodeAnalytics } from './views/metrics';
 import { addCollectionModerator, addRegistrationModerator } from './views/moderator';
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
-import { getProviderSubjects } from './views/provider-subjects';
+import { getPreprintProviderSubjects, getProviderSubjects } from './views/provider-subjects';
 import {
     createRegistration,
     forkRegistration,
@@ -335,6 +335,8 @@ export default function(this: Server) {
         relatedModelName: 'preprint',
     });
 
+    this.get('/providers/preprints/:parentID/subjects/', getPreprintProviderSubjects);
+
     osfNestedResource(this, 'preprint-provider', 'citationStyles', {
         only: ['index'],
         path: '/providers/preprints/:parentID/citation_styles/',
@@ -371,11 +373,11 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'file',
     });
-    osfNestedResource(this, 'preprint', 'subjects', {
-        path: '/preprints/:parentID/subjects/',
-        defaultSortKey: 'index',
-        relatedModelName: 'subject',
+
+    osfToManyRelationship(this, 'preprint', 'subjects', {
+        only: ['related', 'self', 'update'],
     });
+
     osfNestedResource(this, 'preprint', 'identifiers', {
         path: '/preprints/:parentID/identifiers/',
         defaultSortKey: 'index',

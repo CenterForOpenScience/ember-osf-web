@@ -19,6 +19,8 @@ export function createPreprint(this: HandlerContext, schema: Schema) {
         dateCreated: now,
         isPublished: false,
         public: false,
+        subjects: [],
+        tags: [] as string[] ,
         currentUserPermission: [Permission.Admin, Permission.Read, Permission.Write],
     };
     const preprint = schema.preprints.create(attrs) as ModelInstance<PreprintModel>;
