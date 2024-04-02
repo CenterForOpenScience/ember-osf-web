@@ -323,6 +323,13 @@ export default function(this: Server) {
         path: '/providers/preprints/:parentID/subjects/highlighted/',
         relatedModelName: 'subject',
     });
+
+    osfNestedResource(this, 'preprint-provider', 'licensesAcceptable', {
+        only: ['index'],
+        path: '/providers/preprints/:parentID/licenses/',
+        relatedModelName: 'license',
+    });
+
     osfNestedResource(this, 'preprint-provider', 'preprints', {
         path: '/providers/preprints/:parentID/preprints/',
         relatedModelName: 'preprint',

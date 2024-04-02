@@ -9,15 +9,12 @@
         </h3>
         <div local-class='form-container'>
             <div local-class='input-container'>
-                {{#let (unique-id) 'contributors' as |contributorFieldId|}}
-                    <Contributors::Widget
-                        @preprint={{@manager.preprint}}
-                        @shouldShowAdd={{this.showAddContributorWidget}}
-                        @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
-                        @widgetMode={{'editable'}}
-                        id={{contributorFieldId}}
-                    />
-                {{/let}}
+                <Contributors::Widget
+                    @preprint={{@manager.preprint}}
+                    @shouldShowAdd={{this.showAddContributorWidget}}
+                    @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
+                    @widgetMode={{'editable'}}
+                />
             </div>
 
             <FormControls
