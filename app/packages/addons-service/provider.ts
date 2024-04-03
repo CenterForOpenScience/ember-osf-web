@@ -44,13 +44,17 @@ interface ProviderTypeMapper {
 
 
 export default class Provider {
-    @tracked node: NodeModel;
+    @tracked node?: NodeModel;
     @tracked serviceNode?: ResourceReferenceModel;
 
     currentUser: CurrentUserService;
-    @tracked userReference!: UserReferenceModel;
+    @tracked userReference?: UserReferenceModel;
     provider: AllProviderTypes;
     providerMap?: ProviderTypeMapper;
+
+    get name() {
+        return this.provider.name;
+    }
 
     providerTypeMapper: Record<string, ProviderTypeMapper>  = {
         externalStorageService: {
@@ -83,8 +87,8 @@ export default class Provider {
         return Boolean(this.configuredAddon);
     }
 
-    constructor(provider: any, currentUser: CurrentUserService, node: NodeModel) {
-        setOwner(this, getOwner(node));
+    constructor(provider: any, currentUser: CurrentUserService, node?: NodeModel) {
+        setOwner(this, getOwner(provider));
         this.node = node;
         this.currentUser = currentUser;
         this.provider = provider;
@@ -121,11 +125,13 @@ export default class Provider {
     @task
     @waitFor
     async getResourceReference() {
-        const serviceNode = this.store.peekRecord('resource-reference', this.node.id);
-        if (serviceNode) {
-            this.serviceNode = serviceNode;
-        } else {
-            this.serviceNode = await this.store.findRecord('resource-reference', this.node.id);
+        if (this.node) {
+            const serviceNode = this.store.peekRecord('resource-reference', this.node.id);
+            if (serviceNode) {
+                this.serviceNode = serviceNode;
+            } else {
+                this.serviceNode = await this.store.findRecord('resource-reference', this.node.id);
+            }
         }
     }
 
@@ -197,7 +203,7 @@ export default class Provider {
     }
 
     async userAddonAccounts() {
-        return await this.userReference.authorizedStorageAccounts;
+        return await this.userReference?.authorizedStorageAccounts;
     }
 
 
