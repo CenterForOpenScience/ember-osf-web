@@ -1,5 +1,6 @@
 import { currentRouteName } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import Features from 'ember-feature-flags';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 import { t } from 'ember-intl/test-support';
@@ -28,6 +29,9 @@ module('Registries | Acceptance | overview.files', hooks => {
     });
 
     test('Files list view', async function(assert) {
+        const features = this.owner.lookup('service:features') as Features;
+        features.disable('gravy_waffle');
+
         const registration = server.create(
             'registration',
             { currentUserPermissions: [Permission.Admin] },
@@ -70,6 +74,9 @@ module('Registries | Acceptance | overview.files', hooks => {
     });
 
     test('No files', async function(assert) {
+        const features = this.owner.lookup('service:features') as Features;
+        features.disable('gravy_waffle');
+
         const registration = server.create('registration');
 
         await visit(`/${registration.id}/files`);

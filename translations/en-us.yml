@@ -2361,6 +2361,7 @@ osf-components:
         select_provider: 'Please select a file provider'
         no_children: 'No children'
         no_folders: 'No files or folders'
+        no_csa: 'Could not find a matching Configured Storage Addon'
         read_only_provider: '- Cannot move or copy to this file provider'
         is_being_moved: '- This folder is being moved'
         is_being_copied: '- This folder is being copied'
@@ -2393,6 +2394,7 @@ osf-components:
         delete_folder: 'Delete folder'
         delete_fail: 'Failed to delete "{fileName}"'
         errors:
+            load_configured_storage_addon: 'Failed to load configured storage addon'
             load_file_list: 'Failed to load files'
             load_file_provider: 'Failed to load the file provider'
             load_file_provider_title: 'Provider error'

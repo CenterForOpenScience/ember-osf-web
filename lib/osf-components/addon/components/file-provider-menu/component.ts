@@ -9,6 +9,7 @@ import { taskFor } from 'ember-concurrency-ts';
 
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import NodeModel from 'ember-osf-web/models/node';
+import Features from 'ember-feature-flags';
 
 interface InputArgs {
     node: NodeModel;
@@ -16,13 +17,14 @@ interface InputArgs {
 
 export default class FileProviderList extends Component<InputArgs> {
     @service store!: Store;
+    @service features!: Features;
 
     @tracked configuredStorageAddons: ConfiguredStorageAddonModel[] = [];
 
 
     constructor(owner: any, args: InputArgs) {
         super(owner, args);
-        if (args.node) {
+        if (args.node && this.features.isEnabled('gravy_waffle')) {
             taskFor(this.configuredStorageProviders).perform();
         }
     }

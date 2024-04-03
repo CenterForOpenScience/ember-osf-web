@@ -7,12 +7,14 @@ import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import User from 'ember-osf-web/models/user';
+import { ConnectedOparationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-storage-addon';
 
 const {
     dashboard: {
         noteworthyNode,
         popularNode,
     },
+    assetsPrefix,
 } = config;
 
 export function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
@@ -68,6 +70,15 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         parentFolder: filesNodeOsfStorage.rootFolder,
     });
 
+    server.create('file-provider', {
+        id: 'box1',
+        name: 'Box',
+        provider: 'box',
+        target: filesNode,
+    });
+    // const boxFiles = server.createList('file', 3, { target: filesNode });
+    // filesNodeBoxStorage.rootFolder.update({ boxFiles });
+
     server.create('contributor', {
         node: filesNode,
         users: currentUser,
@@ -103,14 +114,17 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     });
 
     server.create('configured-storage-addon', {
-        id: 'box',
+        id: 'box1',
         name: 'box',
-        displayName: 'Box',
+        displayName: 'Boxed Data',
         rootFolder: '/woot/',
         storageProvider: boxAddon,
         accountOwner: addonUser,
         authorizedResource: addonFile5,
         baseAccount: boxAccount,
+        connectedCapabilities: [ConnectedCapabilities.Access, ConnectedCapabilities.Update],
+        connectedOperationNames: [ConnectedOparationNames.CopyInto],
+        iconUrl: `${assetsPrefix}assets/images/addons/icons/box.png`,
     });
 
     create0CedarMetadataFile(server, currentUser, filesNode, filesNodeOsfStorage);

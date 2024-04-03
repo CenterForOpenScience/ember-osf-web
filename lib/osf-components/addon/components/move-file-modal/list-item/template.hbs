@@ -24,12 +24,21 @@
         >
             <span local-class='DestinationName'>
                 {{#if @isProvider}}
-                    <img
-                        data-test-provider-icon
-                        src={{concat this.assetPrefix 'assets/images/addons/icons/' @item.name '.png'}}
-                        alt={{t 'osf-components.move_file_modal.icon_alt' provider=(t (concat 'osf-components.file-browser.storage_providers.' @item.name))}}
-                    >
-                    {{t (concat 'osf-components.file-browser.storage_providers.' @item.name)}}
+                    {{#if (and (feature-flag 'gravy_waffle') (not (eq @item.name 'osfstorage')))}}
+                        <img
+                            data-test-provider-icon
+                            src={{@item.iconLocation}}
+                            alt={{t 'osf-components.move_file_modal.icon_alt' provider=@item.name}}
+                        >
+                        {{@item.name}}
+                    {{else}}
+                        <img
+                            data-test-provider-icon
+                            src={{concat this.assetPrefix 'assets/images/addons/icons/' @item.name '.png'}}
+                            alt={{t 'osf-components.move_file_modal.icon_alt' provider=(t (concat 'osf-components.file-browser.storage_providers.' @item.name))}}
+                        >
+                        {{t (concat 'osf-components.file-browser.storage_providers.' @item.name)}}
+                    {{/if}}
                     {{#if this.isReadOnlyProvider}}
                         <span>
                             {{t 'osf-components.move_file_modal.read_only_provider'}}
