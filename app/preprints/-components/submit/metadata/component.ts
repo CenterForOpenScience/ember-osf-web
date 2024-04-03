@@ -88,9 +88,10 @@ export default class Metadata extends Component<MetadataArgs>{
     public validate(): void {
         this.metadataFormChangeset.validate();
         if (this.metadataFormChangeset.isInvalid) {
+            this.args.manager.validateMetadata(false);
             return;
         }
         this.metadataFormChangeset.execute();
-        this.args.manager.validateMetadata();
+        this.args.manager.validateMetadata(true);
     }
 }

@@ -1,6 +1,7 @@
 <div
     data-test-radio-button-group
     local-class='RadioButtonGroup'
+    class={{@class}}
     ...attributes
 >
     {{#each this.options as |option|}}
@@ -13,17 +14,18 @@
                     type='radio'
                     id={{uniqueId}}
                     name={{@valuePath}}
-                    value={{option}}
-                    onclick={{action this.updateChangeset option}}
+                    value={{option.inputValue}}
+                    onclick={{action this.updateChangeset option.inputValue}}
+                    onchange={{@onInput}}
                     disabled={{this.disabled}}
-                    checked={{if (eq (get @changeset @valuePath) option) true false}}
+                    checked={{if (eq (get @changeset @valuePath) option.inputValue) true false}}
                 >
                 <label
                     local-class='RadioLabel'
                     for={{uniqueId}}
                 >
-                    {{option}}
-                    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping option}} />
+                    {{option.displayText}}
+                    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping option.inputValue}} />
                 </label>
             </div>
         {{/let}}

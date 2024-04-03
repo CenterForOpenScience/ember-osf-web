@@ -27,6 +27,8 @@ documentType:
 contact:
     email: support@osf.io
 general:
+    yes: 'Yes'
+    no: 'No'
     OSF: OSF
     share: Share
     embed: Embed
@@ -1185,6 +1187,10 @@ preprints:
             publication-citation-input: 'Publication Citation'
         step-three:
             title: 'Author Assertions'
+            conflict-of-interest-input: 'Conflict of Interest'
+            conflict-of-interest-description: 'The Conflict of Interest (COI) assertion is made on behalf of all the authors listed for this preprint. COIs include: financial involvement in any entity such as honoraria, grants, speaking fees, employment, consultancies, stock ownership, expert testimony, and patents or licenses. COIs can also include non-financial interests such as personal or professional relationships or pre-existing beliefs in the subject matter or materials discussed in this preprint'
+            conflict-of-interest-placeholder: 'Describe'
+            conflict-of-interest-none: 'Author asserted there is no Conflict of Interest with this preprint.'
         step-four:
             title: 'Supplements'
         step-five:

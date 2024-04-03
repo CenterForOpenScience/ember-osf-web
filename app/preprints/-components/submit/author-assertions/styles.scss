@@ -1,15 +1,57 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-
 .preprint-input-container {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .title {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        width: 100%;
+
+        .required {
+            color: $brand-danger;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+
+            &.textarea-container {
+                * > textarea {
+                    height: 75px;
+                }
+            }
+        }
+    }
 
     &.mobile {
         height: fit-content;
+    }
+}
+
+
+:global(.radio-group) {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    div {
+        width: 65px;
+        height: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        label {
+            margin-top: 9px;
+        }
     }
 }

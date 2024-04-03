@@ -34,12 +34,13 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service intl!: Intl;
     titleAndFieldValidation = false;
     metadataValidation = false;
+    authorAssertionValidation = false;
     nextButtonIsDisabled = true;
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
     displayAuthorAssertions = true;
-    @tracked statusFlowIndex = 1;
+    @tracked statusFlowIndex = 3;
 
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
@@ -95,6 +96,11 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         ) {
             await this.saveOnStep();
             return;
+        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.authorAssertions) &&
+            this.authorAssertionValidation
+        ) {
+            await this.saveOnStep();
+            return;
         }
     }
 
@@ -102,18 +108,27 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * Callback for the action-flow component
      */
     @action
-    public validateTitleAndFile(): void {
-        this.titleAndFieldValidation = true;
-        this.nextButtonIsDisabled = false;
+    public validateTitleAndFile(valid: boolean): void {
+        this.titleAndFieldValidation = valid;
+        this.nextButtonIsDisabled = !valid;
     }
 
     /**
      * Callback for the action-flow component
      */
     @action
-    public validateMetadata(): void {
-        this.metadataValidation = true;
-        this.nextButtonIsDisabled = false;
+    public validateMetadata(valid: boolean): void {
+        this.metadataValidation = valid;
+        this.nextButtonIsDisabled = !valid;
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @action
+    public validateAuthorAssertions(valid: boolean): void {
+        this.authorAssertionValidation = valid;
+        this.nextButtonIsDisabled = !valid;
     }
 
     @action

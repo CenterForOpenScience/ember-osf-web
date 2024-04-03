@@ -40,9 +40,10 @@ export default class TitleAndFile extends Component<TitleAndFileArgs>{
     public validate(): void {
         this.titleAndFileFormChangeset.validate();
         if (this.titleAndFileFormChangeset.isInvalid) {
+            this.args.manager.validateTitleAndFile(false);
             return;
         }
         this.titleAndFileFormChangeset.execute();
-        this.args.manager.validateTitleAndFile();
+        this.args.manager.validateTitleAndFile(true);
     }
 }

@@ -1,3 +1,53 @@
 <div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
-    {{t 'preprints.submit.step-three.title'}}
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-three.title'}}
+    </h3>
+    <div local-class='form-container'>
+        <FormControls
+            @changeset={{this.authorAssertionFormChangeset}}
+            data-test-form
+            as |form|
+        >
+
+            <div local-class='input-container'>
+                {{#let (unique-id 'conflictOfInterest') as |conflictOfInterestId|}}
+                    <label for={{conflictOfInterestId}}
+                        data-test-license-label
+                    >
+                        {{t 'preprints.submit.step-three.conflict-of-interest-input'}}
+                        <span local-class='required'>*</span>
+                    </label>
+                    <p>
+                        {{t 'preprints.submit.step-three.conflict-of-interest-description'}}
+                    </p>
+
+                    <form.radioGroup
+                        @id={{conflictOfInterestId}}
+                        @valuePath={{'hasCoi'}}
+                        @class='radio-group'
+                        @isRequired={{true}}
+                        @changeset={{this.authorAssertionFormChangeset}}
+                        @options={{this.optionBlockValues}}
+                        @onInput={{this.updateCoi}}
+                        as |radioGroup|
+                    >
+                        {{radioGroup}}
+                    </form.radioGroup>
+                {{/let}}
+            </div>
+
+            {{#if this.displayCoiStatement}}
+                <form.textarea
+                    data-test-coi-description-input
+                    @disabled={{this.isConflictOfInterestStatementDisabled}}
+                    @valuePath={{'conflictOfInterestStatement'}}
+                    {{on 'change' this.validate}}
+                    local-class='input-container textarea-container'
+                    @placeholder={{t 'preprints.submit.step-three.conflict-of-interest-placeholder'}}
+                />
+            {{/if}}
+        </FormControls>
+    </div>
 </div>
