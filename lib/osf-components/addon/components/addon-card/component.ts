@@ -30,7 +30,7 @@ export default class AddonsCardComponent extends Component<Args> {
     }
 
     get assetLogo() {
-        return this.args.addon.provider.links.icon;
+        return this.args.addon.provider.iconUrl;
     }
 
     get addonIsConfigured() {

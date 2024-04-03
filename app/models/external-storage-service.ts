@@ -1,6 +1,6 @@
 import { attr } from '@ember-data/model';
 
-import OsfModel, { OsfLinks } from './osf-model';
+import OsfModel from './osf-model';
 
 export enum CredentialsFormat {
     OAUTH = 'oauth',
@@ -11,14 +11,10 @@ export enum CredentialsFormat {
     ACCESS_SECRET_KEYS = 'access_secret_keys',
 }
 
-export interface ExternalServiceLinks extends OsfLinks {
-    icon: string;
-}
-
 export default class ExternalStorageServiceModel extends OsfModel {
     @attr('fixstring') name!: string;
-    @attr('object') links!: ExternalServiceLinks;
     @attr('string') credentialsFormat!: CredentialsFormat;
+    @attr('string') iconUrl!: string;
     // TODO: combine these boolean scopes into a single array of strings from some enum
     @attr('boolean') readOnly!: boolean;
     @attr('boolean') supportsCopy!: boolean;
