@@ -100,10 +100,6 @@ export default class PreprintModel extends OsfModel {
         return this.dateWithdrawn !== null;
     }
 
-    get userHasAdminPermission(): boolean{
-        return true;
-    }
-
     @computed('license', 'licenseRecord')
     get licenseText(): string {
         const text = this.license.get('text') || '';
