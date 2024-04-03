@@ -33,7 +33,7 @@
                         {{t 'preprints.submit.step-two.license-description'}}
                     </p>
                     <form.select
-                        data-test-publication-do-input
+                        data-test-license-input
                         @ariaLabel={{ t 'preprints.submit.step-two.license-placeholder'}}
                         @valuePath={{'license'}}
                         @options={{this.licenses}}
@@ -48,7 +48,7 @@
                 {{/let}}
 
                 <form.text
-                    data-test-publication-do-input
+                    data-test-publication-doi-input
                     @label={{t 'preprints.submit.step-two.publication-doi-input'}}
                     @ariaLabel={{t 'preprints.submit.step-two.publication-doi-input'}}
                     @valuePath={{'publicationDoi'}}
