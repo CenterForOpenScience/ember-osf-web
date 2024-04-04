@@ -20,6 +20,8 @@ interface AuthorAssertionsArgs {
 interface AuthorAssertionsForm {
     hasCoi: boolean;
     conflictOfInterestStatement: string;
+    hasDataLinks: boolean;
+    whyNoData: string;
 }
 
 const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
@@ -33,20 +35,31 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         ignoreBlank: true,
         type: 'empty',
     }),
+    hasDataLinks: validatePresence({
+        presence: true,
+        ignoreBlank: true,
+        type: 'empty',
+    }),
+    whyNoData: validatePresence({
+        presence: true,
+        ignoreBlank: true,
+        type: 'empty',
+    }),
 };
 
 /**
  * The Author Assertions Component
  */
-export default class AuthorAssertions extends Component<AuthorAssertionsArgs>{
+export default class PublicData extends Component<AuthorAssertionsArgs>{
     @service intl!: Intl;
     @tracked isConflictOfInterestStatementDisabled = true;
+    @tracked isPublicDataStatementDisabled = true;
     authorAssertionFormChangeset = buildChangeset(
         this.args.manager.preprint,
         AuthorAssertionsFormValidation,
     );
 
-    optionBlockValues = [
+    coiOptionBlockValues = [
         {
             inputValue: true,
             displayText: this.intl.t('general.yes'),

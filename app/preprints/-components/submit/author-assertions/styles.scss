@@ -43,7 +43,8 @@
     align-items: flex-start;
 
     div {
-        width: 65px;
+        width: fit-content;
+        margin-left: 10px;
         height: 30px;
         display: flex;
         flex-direction: row;
