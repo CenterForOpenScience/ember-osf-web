@@ -48,7 +48,7 @@ export default class Provider {
     @tracked serviceNode?: ResourceReferenceModel;
 
     currentUser: CurrentUserService;
-    @tracked userReference?: UserReferenceModel;
+    @tracked userReference!: UserReferenceModel;
     provider: AllProviderTypes;
     providerMap?: ProviderTypeMapper;
 
@@ -197,13 +197,11 @@ export default class Provider {
     @task
     @waitFor
     async getAuthorizedAccounts(accountType: RelationshipsFor<UserReferenceModel>, filter: any) {
-        if (this.userReference){
-            this.authorizedAccounts = await this.userReference.queryHasMany(accountType, filter);
-        }
+        this.authorizedAccounts = await this.userReference.queryHasMany(accountType, filter);
     }
 
     async userAddonAccounts() {
-        return await this.userReference?.authorizedStorageAccounts;
+        return await this.userReference.authorizedStorageAccounts;
     }
 
 

@@ -41,7 +41,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @service toast!: Toast;
 
     user = this.args.user;
-    @tracked userReference?: UserReferenceModel;
+    @tracked userReference!: UserReferenceModel;
 
     possibleFilterTypes = Object.values(FilterTypes);
     @tracked filterTypeMapper = {
@@ -170,11 +170,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async getAuthorizedStorageAccounts() {
         const { userReference } = this;
         const mappedObject = this.filterTypeMapper[FilterTypes.STORAGE];
-        if (userReference) {
-            const accounts = (await userReference.authorizedStorageAccounts).toArray();
-            mappedObject.authorizedAccounts = accounts;
-            notifyPropertyChange(this, 'filterTypeMapper');
-        }
+        const accounts = (await userReference.authorizedStorageAccounts).toArray();
+        mappedObject.authorizedAccounts = accounts;
+        notifyPropertyChange(this, 'filterTypeMapper');
     }
 
     @task
@@ -182,11 +180,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async getAuthorizedCitationAccounts() {
         const { userReference } = this;
         const mappedObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
-        if (userReference) {
-            const accounts = (await userReference.authorizedCitationAccounts).toArray();
-            mappedObject.authorizedAccounts = accounts;
-            notifyPropertyChange(this, 'filterTypeMapper');
-        }
+        const accounts = (await userReference.authorizedCitationAccounts).toArray();
+        mappedObject.authorizedAccounts = accounts;
+        notifyPropertyChange(this, 'filterTypeMapper');
     }
 
     @task
@@ -194,11 +190,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async getAuthorizedComputingAccounts() {
         const { userReference } = this;
         const mappedObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
-        if (userReference) {
-            const accounts = (await userReference.authorizedComputingAccounts).toArray();
-            mappedObject.authorizedAccounts = accounts;
-            notifyPropertyChange(this, 'filterTypeMapper');
-        }
+        const accounts = (await userReference.authorizedComputingAccounts).toArray();
+        mappedObject.authorizedAccounts = accounts;
+        notifyPropertyChange(this, 'filterTypeMapper');
     }
 
     @task
