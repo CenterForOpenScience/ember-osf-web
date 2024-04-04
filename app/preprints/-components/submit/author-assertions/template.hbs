@@ -14,7 +14,11 @@
             <div local-class='input-container'>
                 {{#let (unique-id 'conflictOfInterest') as |conflictOfInterestId|}}
                     <label for={{conflictOfInterestId}}
+<<<<<<< HEAD
                         data-test-coi-label
+=======
+                        data-test-conflict-of-interest-label
+>>>>>>> 2759e39ae (Initial step to add public data)
                     >
                         {{t 'preprints.submit.step-three.conflict-of-interest-input'}}
                         <span local-class='required'>*</span>
@@ -29,8 +33,13 @@
                         @class='radio-group'
                         @isRequired={{true}}
                         @changeset={{this.authorAssertionFormChangeset}}
+<<<<<<< HEAD
                         @options={{this.coiOptions}}
                         @onchange={{this.updateCoi}}
+=======
+                        @options={{this.coiOptionBlockValues}}
+                        @onInput={{this.updateCoi}}
+>>>>>>> 2759e39ae (Initial step to add public data)
                         as |radioGroup|
                     >
                         {{radioGroup}}
@@ -48,6 +57,14 @@
                     @placeholder={{t 'preprints.submit.step-three.conflict-of-interest-placeholder'}}
                 />
             {{/if}}
+
+            <div local-class='input-container'>
+                <Preprints::-Components::Submit::AuthorAssertions::PublicData
+                    @manager={{@manager}}
+                    @changeSet={{this.authorAssertionFormChangeset}}
+                    @validate={{this.validate}}
+                />
+            </div>
 
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::PublicData
