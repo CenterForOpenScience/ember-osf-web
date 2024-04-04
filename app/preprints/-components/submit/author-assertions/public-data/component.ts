@@ -15,6 +15,7 @@ import { PreprintDataLinksEnum } from 'ember-osf-web/models/preprint';
 interface AuthorAssertionsArgs {
     manager: PreprintStateMachine;
     changeSet: BufferedChangeset;
+    validate: () => {};
 }
 
 /**
@@ -70,5 +71,7 @@ export default class AuthorAssertions extends Component<AuthorAssertionsArgs>{
                 this.intl.t('preprints.submit.step-three.public-data-na-placeholder'));
             this.placeholder = this.intl.t('preprints.submit.step-three.public-data-na-placeholder');
         }
+
+        this.args.validate();
     }
 }

@@ -22,7 +22,7 @@
                 @isRequired={{true}}
                 @changeset={{@changeSet}}
                 @options={{this.publicDataOptionBlockValues}}
-                @onInput={{this.updatePubliDataLinks}}
+                @onInput={{this.updatePublicDataLinks}}
                 as |radioGroup|
             >
                 {{radioGroup}}
@@ -39,8 +39,8 @@
             <div local-class='input-container'>
                 <form.textarea
                     data-test-public-data-description-input
-                    @disabled={{this.isPublicDataStatementDisabled}}
-                    @valuePath={{'publicDataStatement'}}
+                    @disabled={{this.isPublicDataWhyNoStatementDisabled}}
+                    @valuePath={{'whyNoData'}}
                     {{on 'change' @validate}}
                     local-class='input-container textarea-container'
                     @placeholder={{this.placeholder}}
