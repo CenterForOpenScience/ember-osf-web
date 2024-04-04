@@ -31,6 +31,8 @@ general:
     no: 'No'
     not-applicable: 'Not Applicable'
     available: 'Available'
+    not-applicable: 'Not Applicable'
+    available: 'Available'
     OSF: OSF
     share: Share
     embed: Embed
