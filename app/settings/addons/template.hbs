@@ -5,57 +5,107 @@
     {{#if manager.currentListIsLoading}}
         <LoadingIndicator @dark={{true}} />
     {{else}}
-        <div local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'>
-            <div
-                data-analytics-scope='Addon List Filter'
-                local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+        {{#if manager.selectedProvider}}
+            <Button
+                data-test-cancel-account-setup
+                data-analytics-name='Cancel Account Setup'
+                local-class='float-right'
+                @layout='fake-link'
+                {{on 'click' manager.cancelAccountSetup}}
             >
-                <Input
-                    data-test-user-addon-list-filter-input
-                    placeholder={{t 'addons.list.filter-placeholder'}}
-                    @type='text'
-                    @value={{manager.filterText}}
-                />
-                {{#each manager.possibleFilterTypes as |type|}}
-                    <Button
-                        data-test-user-addon-list-filter={{type}}
-                        data-analytics-name={{t (concat 'addons.list.filter.' type)}}
-                        local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
-                        @layout='fake-link'
-                        {{on 'click' (fn manager.filterByAddonType type)}}
-                    >
-                        {{t (concat 'addons.list.filter.' type)}}
-                    </Button>
-                {{/each}}
-            </div>
-            <div>
-                {{#each manager.filteredAddonProviders as |provider|}}
-                    <div>
-                        {{provider.name}}
-                    </div>
-                {{else}}
-                    {{t 'addons.list.no-results'}}
-                {{/each}}
-            </div>
-        </div>
-    {{/if}}
-
-    <ul local-class='configured-addons-wrapper'>
-        {{#each manager.currentTypeAuthorizedAccounts as |account|}}
-            <li>
-                {{account.storageProvider.name}}
-                {{account.externalUserDisplayName}}
+                {{t 'general.back'}}
+            </Button>
+            {{#if (eq manager.pageMode 'terms')}}
+                <h3 local-class='page-heading'>
+                    {{t 'addons.terms.heading' providerName=manager.selectedProvider.provider.name}}
+                </h3>
                 <Button
-                    @type='destroy'
-                    @disabled={{manager.disconnectAddon.isRunning}}
-                    local-class='disconnect-button'
-                    {{on 'click' (perform manager.disconnectAddon account)}}
+                    {{on 'click' manager.acceptProviderTerms}}
                 >
-                    {{t 'addons.list.disconnect'}}
+                    {{t 'general.ok'}}
                 </Button>
-            </li>
+            {{else if (eq manager.pageMode 'accountCreate')}}
+                <h3 local-class='page-heading'>
+                    {{t 'addons.accountSelect.new-account'}}
+                </h3>
+                <AddonsService::AccountSetupManager
+                    @provider={{manager.selectedProvider.provider}}
+                    @manager={{manager}}
+                    @onConnect={{manager.connectAccount}}
+                    @onInput={{manager.onCredentialsInput}}
+                />
+            {{/if}}
         {{else}}
-            <li>{{t 'addons.list.no-authorized-accounts'}}</li>
-        {{/each}}
-    </ul>
+            <div
+                data-analytics-scope='Addon List'
+                local-class='addons-list-wrapper'
+            >
+                <div
+                    data-analytics-scope='Addon List Filter'
+                    local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+                >
+                    <Input
+                        data-test-user-addon-list-filter-input
+                        placeholder={{t 'addons.list.filter-placeholder'}}
+                        @type='text'
+                        @value={{manager.filterText}}
+                    />
+                    {{#each manager.possibleFilterTypes as |type|}}
+                        <Button
+                            data-test-user-addon-list-filter={{type}}
+                            data-analytics-name={{t (concat 'addons.list.filter.' type)}}
+                            local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                            @layout='fake-link'
+                            {{on 'click' (fn manager.filterByAddonType type)}}
+                        >
+                            {{t (concat 'addons.list.filter.' type)}}
+                        </Button>
+                    {{/each}}
+                </div>
+                <div
+                    local-class='provider-list-wrapper'
+                >
+                    {{#each manager.filteredAddonProviders as |provider|}}
+                        <div
+                            data-test-provider={{provider.name}}
+                            local-class='provider-list-item'
+                        >
+                            {{provider.name}}
+                            <Button
+                                data-analytics-name='Connect Addon Button {{provider.name}}'
+                                local-class='float-right'
+                                @type='create'
+                                {{on 'click' (fn manager.selectProvider provider)}}
+                            >
+                                {{t 'addons.list.connect'}}
+                            </Button>
+                        </div>
+                    {{else}}
+                        {{t 'addons.list.no-results'}}
+                    {{/each}}
+                </div>
+            </div>
+
+            <ul local-class='configured-addons-wrapper'>
+                {{#each manager.currentTypeAuthorizedAccounts as |account|}}
+                    <li>
+                        {{account.storageProvider.name}}
+                        {{account.externalUserDisplayName}}
+                        <Button
+                            data-test-disconnect-account-button
+                            data-analytics-name='Disconnect Addon Button {{account.storageProvider.name}}'
+                            @type='destroy'
+                            @disabled={{manager.disconnectAddon.isRunning}}
+                            local-class='float-right'
+                            {{on 'click' (perform manager.disconnectAddon account)}}
+                        >
+                            {{t 'addons.list.disconnect'}}
+                        </Button>
+                    </li>
+                {{else}}
+                    <li>{{t 'addons.list.no-authorized-accounts'}}</li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    {{/if}}
 </AddonsService::UserAddonsManager>

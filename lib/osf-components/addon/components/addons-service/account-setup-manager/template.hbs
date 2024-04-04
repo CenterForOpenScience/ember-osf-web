@@ -37,8 +37,8 @@
                 {{#if this.otherRepoSelected}}
                     <Input
                         local-class='auth-text-input-label'
+                        placeholder={{t 'addons.accountCreate.repo-other-placeholder'}}
                         @value={{this.otherRepo}}
-                        @placeholder={{t 'addons.accountCreate.repo-other-placeholder'}}
                         {{on 'keyup' this.onOtherRepoChange}}
                     />
                     {{#if this.repoOtherPostText}}
@@ -53,11 +53,11 @@
                     {{field.labelText}}
                     <Input
                         name={{field.name}}
+                        placeholder={{field.inputPlaceholder}}
+                        autocomplete={{field.autocomplete}}
                         @type={{field.inputType}}
                         @value={{field.inputValue}}
-                        @placeholder={{field.inputPlaceholder}}
                         {{on 'keyup' @onInput}}
-                        autocomplete={{field.autocomplete}}
                     />
                 </label>
                 {{field.postText}}

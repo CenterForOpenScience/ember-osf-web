@@ -11,10 +11,7 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
-        links: {
-            auth: 'https://www.box.com/',
-            icon: 'https://www.box.com/favicon.ico',
-        },
+        iconUrl: 'https://www.box.com/favicon.ico',
     },
     {
         id: 'dataverse',
@@ -27,9 +24,7 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
-        links: {
-            icon: 'https://dataverse.org/favicon.ico',
-        },
+        iconUrl: 'https://dataverse.org/favicon.ico',
     },
     {
         id: 'dropbox',
@@ -42,10 +37,7 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
-        links: {
-            auth: 'https://www.dropbox.com/',
-            icon: 'https://www.dropbox.com/favicon.ico',
-        },
+        iconUrl: 'https://www.dropbox.com/favicon.ico',
     },
     {
         id: 'gitlab',
@@ -58,9 +50,7 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
-        links: {
-            icon: 'https://gitlab.com/favicon.ico',
-        },
+        iconUrl: 'https://gitlab.com/favicon.ico',
     },
     {
         id: 'onedrive',
@@ -73,10 +63,7 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
-        links: {
-            auth: 'https://onedrive.live.com/',
-            icon: 'https://onedrive.live.com/favicon.ico',
-        },
+        icon: 'https://onedrive.live.com/favicon.ico',
     },
     {
         id: 'owncloud',
@@ -89,9 +76,7 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
-        links: {
-            icon: 'https://owncloud.com/favicon.ico',
-        },
+        iconUrl: 'https://owncloud.com/favicon.ico',
     },
     {
         id: 's3',
@@ -104,9 +89,6 @@ export default [
         supportsBulkDownload: true,
         maxConcurrentDownloads: 1,
         maxUploadMb: 5,
-        links: {
-            auth: 'https://aws.amazon.com/',
-            icon: 'https://aws.amazon.com/favicon.ico',
-        },
+        iconUrl: 'https://aws.amazon.com/favicon.ico',
     },
 ];

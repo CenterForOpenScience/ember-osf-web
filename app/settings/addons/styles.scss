@@ -36,6 +36,19 @@
     }
 }
 
-.disconnect-button {
+.provider-list-wrapper {
+    flex-grow: 1;
+}
+
+.provider-list-item {
+    margin: 15px 10px;
+    border-bottom: solid 1px $color-border-gray;
+
+    &:first-child {
+        border-top: solid 1px $color-border-gray;
+    }
+}
+
+.float-right {
     float: right;
 }

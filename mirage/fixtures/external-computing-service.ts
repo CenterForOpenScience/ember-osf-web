@@ -5,8 +5,6 @@ export default [
         id: 'boa',
         name: 'Boa',
         credentialsFormat: CredentialsFormat.USERNAME_PASSWORD,
-        links: {
-            icon: 'https://boa.cs.iastate.edu/img/boa-white.png',
-        },
+        iconUrl: 'https://boa.cs.iastate.edu/img/boa-white.png',
     },
 ];
