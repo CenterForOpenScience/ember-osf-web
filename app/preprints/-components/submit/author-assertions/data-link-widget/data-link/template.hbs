@@ -1,0 +1,16 @@
+<div local-class='form-container'>
+    <FormControls
+        @changeset={{this.dataLinkFormChangeset}}
+        data-test-form
+        as |form|
+    >
+        <form.text
+            data-test-data-link-input
+            @isRequired={{true}}
+            {{on 'focusout' this.onUpdate}}
+            local-class='input-container'
+            @placeholder={{t 'preprints.submit.step-three.public-data-link-placeholder'}}
+            @valuePath={{'value'}}
+        />
+    </FormControls>
+</div>

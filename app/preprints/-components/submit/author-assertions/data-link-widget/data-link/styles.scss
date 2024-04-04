@@ -1,0 +1,19 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.form-container {
+    width: 100%;
+
+    .required {
+        color: $brand-danger;
+    }
+
+    .input-container {
+        margin-top: 20px;
+
+        &.textarea-container {
+            * > textarea {
+                height: 75px;
+            }
+        }
+    }
+}

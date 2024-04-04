@@ -56,15 +56,28 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
             return false;
         }
     }],
-    dataLinks: [(key: string, _newValue: string[], _oldValue: string[], changes: any, _content: any) => {
-        if (changes['hasDataLinks']) {
-            if (changes['hasDataLinks'] === PreprintDataLinksEnum.YES) {
-                return changes[key]?.length > 0;
+    dataLinks: [(_key: string, newValue: string[], _oldValue: string[], changes: any, _content: any) => {
+        if (changes['hasDataLinks'] === PreprintDataLinksEnum.YES) {
+            if (newValue) {
+                let isValid = true;
+                newValue.map((link: string) => {
+                    isValid = isValid && (typeof link === 'string' && link.length > 0);
+                });
+
+                return isValid ? true : {
+                    context: {
+                        type: 'min_subjects',
+                    },
+                };
+            } else {
+                return {
+                    context: {
+                        type: 'min_subjects',
+                    },
+                };
             }
-            return true;
-        } else {
-            return false;
         }
+        return  false;
     }],
 };
 
