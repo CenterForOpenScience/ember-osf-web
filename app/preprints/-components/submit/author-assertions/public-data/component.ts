@@ -10,18 +10,18 @@ import { PreprintDataLinksEnum } from 'ember-osf-web/models/preprint';
 
 
 /**
- * The Author Assertions Args
+ * The Public Data Args
  */
-interface AuthorAssertionsArgs {
+interface PublicDataArgs {
     manager: PreprintStateMachine;
     changeSet: BufferedChangeset;
     validate: () => {};
 }
 
 /**
- * The Author Assertions Component
+ * The Public Data Component
  */
-export default class AuthorAssertions extends Component<AuthorAssertionsArgs>{
+export default class PublicData extends Component<PublicDataArgs>{
     @service intl!: Intl;
     @tracked isPublicDataWhyNoStatementDisabled = true;
     @tracked placeholder!: string;

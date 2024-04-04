@@ -31,7 +31,16 @@
 
         {{#if this.displayPublicDataLinks}}
             <div local-class='input-container'>
-                {{t 'preprints.submit.step-three.public-data-na-placeholder'}}
+                {{#let (unique-id 'dataLink') as |dataLinkId|}}
+                    <form.text
+                        data-test-data-link-input
+                        @isRequired={{true}}
+                        {{on 'change' this.onUpdate}}
+                        local-class='input-container'
+                        @placeholder={{t 'preprints.submit.step-three.public-data-link-placeholder'}}
+                        @uniqueID={{dataLinkId}} 
+                    />
+                {{/let}}
             </div>
         {{/if}}
 
