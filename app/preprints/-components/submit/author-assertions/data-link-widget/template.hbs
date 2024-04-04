@@ -1,0 +1,26 @@
+<div local-class='data-link-container'>
+    {{#each this.links as |link index|}}
+        <div local-class='huh'>
+            {{link}}
+        </div>
+        <div local-class='data-link'>
+            <Preprints::-Components::Submit::AuthorAssertions::DataLinkWidget::DataLink
+                @manager={{@manager}}
+                @update={{this.onUpdate}}
+                @value={{link}}
+                @index={{index}}
+            />
+        </div>
+    {{/each}}
+
+    <Button
+        data-test-add-another-link
+        aria-label={{t 'preprints.submit.step-three.public-data-link-button'}}
+        local-class='add-another-link'
+        @layout='fake-link'
+        {{on 'click' this.addLink}}
+    >
+        <FaIcon @icon='plus' local-class='plus-icon' />
+        {{t 'preprints.submit.step-three.public-data-link-button'}}
+    </Button>
+</div>

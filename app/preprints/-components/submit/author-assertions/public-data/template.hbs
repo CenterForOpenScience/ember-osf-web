@@ -22,7 +22,7 @@
                 @isRequired={{true}}
                 @changeset={{@changeSet}}
                 @options={{this.publicDataOptionBlockValues}}
-                @onInput={{this.updatePublicDataLinks}}
+                @onInput={{this.updatePublicDataOptions}}
                 as |radioGroup|
             >
                 {{radioGroup}}
@@ -31,16 +31,10 @@
 
         {{#if this.displayPublicDataLinks}}
             <div local-class='input-container'>
-                {{#let (unique-id 'dataLink') as |dataLinkId|}}
-                    <form.text
-                        data-test-data-link-input
-                        @isRequired={{true}}
-                        {{on 'change' this.onUpdate}}
-                        local-class='input-container'
-                        @placeholder={{t 'preprints.submit.step-three.public-data-link-placeholder'}}
-                        @uniqueID={{dataLinkId}} 
-                    />
-                {{/let}}
+                <Preprints::-Components::Submit::AuthorAssertions::DataLinkWidget
+                @manager={{@manager}}
+                @update={{this.updatePublicDataLinks}}
+            />
             </div>
         {{/if}}
 
