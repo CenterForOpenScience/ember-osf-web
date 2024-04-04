@@ -22,7 +22,9 @@ interface AuthorAssertionsForm {
     hasCoi: boolean;
     conflictOfInterestStatement: string;
     hasDataLinks: string;
+    hasDataLinks: string;
     whyNoData: string;
+    dataLinks: string[];
     dataLinks: string[];
 }
 
