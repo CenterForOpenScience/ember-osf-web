@@ -8,6 +8,7 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import { tracked } from '@glimmer/tracking';
 import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
+import { PreprintDataLinksEnum } from 'ember-osf-web/models/preprint';
 
 
 /**
@@ -20,8 +21,9 @@ interface AuthorAssertionsArgs {
 interface AuthorAssertionsForm {
     hasCoi: boolean;
     conflictOfInterestStatement: string;
-    hasDataLinks: boolean;
+    hasDataLinks: string;
     whyNoData: string;
+    dataLinks: string[];
 }
 
 const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
@@ -40,11 +42,30 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         ignoreBlank: true,
         type: 'empty',
     }),
-    whyNoData: validatePresence({
-        presence: true,
-        ignoreBlank: true,
-        type: 'empty',
-    }),
+    whyNoData: [(key: string, newValue: string[], oldValue: string[], changes: any, content: any) => {
+        if (changes['hasDataLinks']) {
+            if (changes['hasDataLinks'] !== PreprintDataLinksEnum.YES) {
+                return validatePresence({
+                    presence: true,
+                    ignoreBlank: true,
+                    type: 'empty',
+                })(key, newValue, oldValue, changes, content);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }],
+    dataLinks: [(key: string, _newValue: string[], _oldValue: string[], changes: any, _content: any) => {
+        if (changes['hasDataLinks']) {
+            if (changes['hasDataLinks'] === PreprintDataLinksEnum.YES) {
+                return changes[key]?.length > 0;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }],
 };
 
 /**
