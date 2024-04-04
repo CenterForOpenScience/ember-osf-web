@@ -233,6 +233,7 @@ addons:
             cloud-computing: 'Cloud Computing'
         no-results: 'No results found'
         no-authorized-accounts: 'No authorized accounts'
+        connect: 'Connect new account'
         disconnect: 'Disconnect Account'
     terms:
         heading: '{providerName} Terms'
