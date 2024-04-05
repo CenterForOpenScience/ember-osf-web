@@ -1,19 +1,32 @@
 <div local-class='form-container'>
-    <div local-class='huh'>
-        {{@value}}
-    </div>
     <FormControls
         @changeset={{this.dataLinkFormChangeset}}
         data-test-form
         as |form|
     >
-        <form.text
-            data-test-data-link-input
-            @isRequired={{true}}
-            {{on 'focusout' this.onUpdate}}
-            local-class='input-container'
-            @placeholder={{t 'preprints.submit.step-three.public-data-link-placeholder'}}
-            @valuePath={{'value'}}
-        />
+        <div local-class='input-container'>
+            <form.text
+                data-test-data-link-input
+                @isRequired={{true}}
+                {{on 'focusout' this.onUpdate}}
+                @placeholder={{t 'preprints.submit.step-three.public-data-link-placeholder'}}
+                @valuePath={{'value'}}
+                local-class='input'
+            />
+
+            <div local-class='delete-container'>
+                <Button
+                    data-test-remove-link
+                    aria-label={{t 'preprints.submit.step-three.public-data-link-remove-button'}}
+                    @layout='fake-link'
+                    {{on 'click' this.removeLink}}
+                >
+                    <FaIcon @icon='times' local-class='delete' />
+                    <EmberTooltip>
+                        {{t 'preprints.submit.step-three.public-data-link-remove-button'}}
+                    </EmberTooltip>
+                </Button>
+            </div>
+        </div>
     </FormControls>
 </div>

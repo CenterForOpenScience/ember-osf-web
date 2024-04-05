@@ -2,17 +2,26 @@
 
 .form-container {
     width: 100%;
-
-    .required {
-        color: $brand-danger;
-    }
+    margin-top: 20px;
 
     .input-container {
-        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
 
-        &.textarea-container {
-            * > textarea {
-                height: 75px;
+        .input {
+            width: calc(100% - 50px);
+        }
+
+        .delete-container {
+            display: flex;
+            justify-content: center;
+            width: 50px;
+
+            .delete {
+                color: $brand-danger;
+
             }
         }
     }

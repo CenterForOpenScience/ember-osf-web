@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
@@ -12,7 +11,7 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
  * The Data Link Args
  */
 interface DataLinkArgs {
-    manager: PreprintStateMachine;
+    remove: (__:number) => {};
     update: (_: string, __:number) => {};
     value: string;
     index: number;
@@ -51,6 +50,11 @@ export default class DataLink extends Component<DataLinkArgs>{
             return;
         }
         this.dataLinkFormChangeset.execute();
-        this.args.update(this.dataLinkFormChangeset.get('value'), this.args.index);
+        await this.args.update(this.dataLinkFormChangeset.get('value'), this.args.index);
+    }
+
+    @action
+    public async removeLink(): Promise<void> {
+        await this.args.remove(this.args.index);
     }
 }

@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 import { action, notifyPropertyChange } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
@@ -10,7 +9,6 @@ import { tracked } from '@glimmer/tracking';
  * The Data Link Widget Args
  */
 interface DataLinkWidgetArgs {
-    manager: PreprintStateMachine;
     update: (_: string[]) => {};
 }
 
@@ -24,12 +22,24 @@ export default class DataLinkWidget extends Component<DataLinkWidgetArgs>{
     @action
     public async onUpdate(value: string, index: number): Promise<void> {
         this.links[index] = value;
-        this.args.update(this.links);
+        await this.args.update(this.links);
+        notifyPropertyChange(this, 'links');
     }
 
     @action
     public async addLink(): Promise<void> {
         this.links.push('');
         notifyPropertyChange(this, 'links');
+    }
+
+    @action
+    public async removeLink(index: number): Promise<void> {
+        if (index === 0 && this.links.length === 1) {
+            this.onUpdate('', index);
+        } else {
+            this.links.splice(index, 1);
+            await this.args.update(this.links);
+            notifyPropertyChange(this, 'links');
+        }
     }
 }

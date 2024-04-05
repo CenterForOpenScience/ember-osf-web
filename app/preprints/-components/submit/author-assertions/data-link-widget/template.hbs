@@ -2,7 +2,7 @@
     {{#each this.links as |link index|}}
         <div local-class='data-link'>
             <Preprints::-Components::Submit::AuthorAssertions::DataLinkWidget::DataLink
-                @manager={{@manager}}
+                @remove={{this.removeLink}}
                 @update={{this.onUpdate}}
                 @value={{link}}
                 @index={{index}}
@@ -12,12 +12,12 @@
 
     <Button
         data-test-add-another-link
-        aria-label={{t 'preprints.submit.step-three.public-data-link-button'}}
+        aria-label={{t 'preprints.submit.step-three.public-data-link-add-button'}}
         local-class='add-another-link'
         @layout='fake-link'
         {{on 'click' this.addLink}}
     >
         <FaIcon @icon='plus' local-class='plus-icon' />
-        {{t 'preprints.submit.step-three.public-data-link-button'}}
+        {{t 'preprints.submit.step-three.public-data-link-add-button'}}
     </Button>
 </div>
