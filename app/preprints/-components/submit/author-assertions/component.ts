@@ -64,13 +64,13 @@ export default class AuthorAssertions extends Component<AuthorAssertionsArgs>{
     }
 
     @action
-    public async updateCoi(): Promise<void> {
+    public updateCoi(): void {
         if (this.authorAssertionFormChangeset.get('hasCoi')) {
-            await this.authorAssertionFormChangeset.set('conflictOfInterestStatement', '');
+            this.authorAssertionFormChangeset.set('conflictOfInterestStatement', '');
             this.isConflictOfInterestStatementDisabled = false;
         } else {
             this.isConflictOfInterestStatementDisabled = true;
-            await this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
+            this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
                 this.intl.t('preprints.submit.step-three.conflict-of-interest-none'));
         }
 
