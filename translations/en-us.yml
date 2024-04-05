@@ -1202,6 +1202,15 @@ preprints:
             public-data-link-remove-button: 'Remove link'
             public-data-no-placeholder: 'Describe'
             public-data-na-placeholder: 'Author asserted there is no data associated with this preprint.'
+
+            public-preregistration-input: 'Public Preregistration'
+            public-preregistration-description: '
+            A preregistration is a description of the research design and/or analysis plan that is created and registered before researchers collected data or before they have seen/interacted with preexisting data. The description should appear in a public registry (e.g., clinicaltrials.gov, OSF, AEA registry).'
+            public-preregistration-link-placeholder: 'Link to preregistration'
+            public-preregistration-link-add-button: 'Add another'
+            public-preregistration-link-remove-button: 'Remove link'
+            public-preregistration-no-placeholder: 'Describe'
+            public-preregistration-na-placeholder: 'Author asserted there is no preregistration associated with this preprint.'
         step-four:
             title: 'Supplements'
         step-five:
