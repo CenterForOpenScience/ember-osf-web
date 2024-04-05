@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
@@ -13,7 +12,6 @@ import { RadioButtonOption } from 'osf-components/components/form-controls/radio
  * The Public Data Args
  */
 interface PublicDataArgs {
-    manager: PreprintStateMachine;
     changeSet: BufferedChangeset;
     validate: () => {};
 }

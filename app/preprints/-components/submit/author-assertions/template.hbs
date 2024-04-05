@@ -60,7 +60,13 @@
 
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::PublicData
-                    @manager={{@manager}}
+                    @changeSet={{this.authorAssertionFormChangeset}}
+                    @validate={{this.validate}}
+                />
+            </div>
+
+            <div local-class='input-container'>
+                <Preprints::-Components::Submit::AuthorAssertions::PublicPreregistration
                     @changeSet={{this.authorAssertionFormChangeset}}
                     @validate={{this.validate}}
                 />

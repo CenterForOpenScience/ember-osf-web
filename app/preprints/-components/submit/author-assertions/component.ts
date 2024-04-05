@@ -25,7 +25,9 @@ interface AuthorAssertionsForm {
     hasDataLinks: string;
     whyNoData: string;
     dataLinks: string[];
-    dataLinks: string[];
+    hasPreregLinks: string;
+    whyNoPrereg: string;
+    preregLinks: string[];
 }
 
 const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
@@ -64,11 +66,60 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
                 });
             }
 
-            return isValid ? true : {
-                context: {
+                return isValid ? true : {
+                    context: {
+                        type: 'min_data_links',
+                    },
+                };
+            } else {
+                return {
+                    context: {
+                        type: 'min_data_links',
+                    },
+                };
+            }
+        }
+        return  false;
+    }],
+    hasPreregLinks: validatePresence({
+        presence: true,
+        ignoreBlank: true,
+        type: 'empty',
+    }),
+    whyNoPrereg: [(key: string, newValue: string[], oldValue: string[], changes: any, content: any) => {
+        if (changes['hasPreregLinks']) {
+            if (changes['hasPreregLinks'] !== PreprintPreregLinksEnum.YES) {
+                return validatePresence({
+                    presence: true,
+                    ignoreBlank: true,
                     type: 'empty',
-                },
-            };
+                })(key, newValue, oldValue, changes, content);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }],
+    preregLinks: [(_key: string, newValue: string[], _oldValue: string[], changes: any, _content: any) => {
+        if (changes['hasPreregLinks'] === PreprintPreregLinksEnum.YES) {
+            if (newValue) {
+                let isValid = true;
+                newValue.map((link: string) => {
+                    isValid = isValid && (typeof link === 'string' && link.length > 0);
+                });
+
+                return isValid ? true : {
+                    context: {
+                        type: 'min_prereg_links',
+                    },
+                };
+            } else {
+                return {
+                    context: {
+                        type: 'min_prereg_links',
+                    },
+                };
+            }
         }
         return  true;
     }],

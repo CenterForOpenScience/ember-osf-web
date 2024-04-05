@@ -1,0 +1,55 @@
+<div local-class='form-container'>
+    <FormControls
+        @changeset={{@changeSet}}
+        data-test-form
+        as |form|
+    >
+        {{#let (unique-id 'publicPreregistration') as |publicPreregistrationId|}}
+            <label for={{publicPreregistrationId}}
+                data-test-public-preregistration-label
+            >
+                {{t 'preprints.submit.step-three.public-preregistration-input'}}
+                <span local-class='required'>*</span>
+            </label>
+            <p>
+                {{t 'preprints.submit.step-three.public-preregistration-description'}}
+            </p>
+
+            <form.radioGroup
+                @id={{publicPreregistrationId}}
+                @valuePath={{'hasPreregLinks'}}
+                @class='radio-group'
+                @isRequired={{true}}
+                @changeset={{@changeSet}}
+                @options={{this.publicPreregistrationOptionBlockValues}}
+                @onInput={{this.updatePublicPreregistrationOptions}}
+                as |radioGroup|
+            >
+                {{radioGroup}}
+            </form.radioGroup>
+        {{/let}}
+
+        {{#if this.displayPublicPreregistrationLinks}}
+            {{t 'preprints.submit.step-three.public-preregistration-description'}}
+            {{!-- <div local-class='input-container'>
+                <Preprints::-Components::Submit::AuthorAssertions::PreregistrationLinkWidget
+                @update={{this.updatePublicPreregistrationLinks}}
+            />
+            </div>
+             --}}
+        {{/if}}
+
+        {{#if this.displayPublicPreregistrationWhyNoStatement}}
+            <div local-class='input-container'>
+                <form.textarea
+                    data-test-public-preregistration-description-input
+                    @disabled={{this.isPublicPreregistrationWhyNoStatementDisabled}}
+                    @valuePath={{'whyNoPrereg'}}
+                    {{on 'change' @validate}}
+                    local-class='input-container textarea-container'
+                    @placeholder={{this.placeholder}}
+                />
+            </div>
+        {{/if}}
+    </FormControls>
+</div>
