@@ -50,7 +50,7 @@ export default class BrandedNavbar extends Component {
     }
 
     get submitPreprintUrl() {
-        return this.theme.isProvider ? `${osfURL}preprints/${this.theme.id}/submit/` : `${osfURL}preprints/submit/`;
+        return `${this.theme.pathPrefix}/submit/`;
     }
 
     @alias('theme.provider') provider!: ProviderModel;
