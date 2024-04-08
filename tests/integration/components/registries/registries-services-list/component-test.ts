@@ -328,7 +328,7 @@ module('Integration | Component | registries | registries-services-list', hooks 
                     'The image alt tag is correct.');
         });
 
-    test('the registries services list GFS Consciousness Registry',
+    test('the registries services list GFS Registry',
         async function(
             this: EnginesIntlTestContext,
             assert,
