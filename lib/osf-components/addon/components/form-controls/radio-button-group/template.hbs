@@ -5,30 +5,19 @@
     ...attributes
 >
     {{#each this.options as |option|}}
-        {{#let (unique-id 'radio' option) as |uniqueId|}}
-            <div
-                data-test-radio-input
-                local-class='RadioButton'
+        <div
+            data-test-radio-input
+            local-class='RadioButton'
+        >
+            <FormControls::RadioButtonGroup::RadioButton
+                @changeset={{@changeset}}
+                @onchange={{@onInput}}
+                @valuePath={{@valuePath}}
+                @option={{option}}
+                @disabled={{this.disabled}}
             >
-                <input
-                    type='radio'
-                    id={{uniqueId}}
-                    name={{@valuePath}}
-                    value={{option.inputValue}}
-                    onclick={{action this.updateChangeset option.inputValue}}
-                    onchange={{@onInput}}
-                    disabled={{this.disabled}}
-                    checked={{if (eq (get @changeset @valuePath) option.inputValue) true false}}
-                >
-                <label
-                    local-class='RadioLabel'
-                    for={{uniqueId}}
-                >
-                    {{option.displayText}}
-                    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping option.inputValue}} />
-                </label>
-            </div>
-        {{/let}}
+            </FormControls::RadioButtonGroup::RadioButton>
+        </div>
     {{/each}}
     {{#if @shouldShowMessages}}
         <ValidationErrors
