@@ -91,11 +91,7 @@ export default class Theme extends Service {
         let pathPrefix = '/';
 
         if (!this.isDomain) {
-            pathPrefix += `${this.settings.routePath}/`;
-
-            if (this.isProvider) {
-                pathPrefix += `${this.id}/`;
-            }
+            pathPrefix += `${this.settings.routePath}/${this.id}/`;
         }
 
         return pathPrefix;
