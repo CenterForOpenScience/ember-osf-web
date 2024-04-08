@@ -59,6 +59,15 @@ export default class AuthorAssertions extends Component<AuthorAssertionsArgs>{
         } as SchemaBlock,
     ];
 
+    constructor(owner: unknown, args: AuthorAssertionsArgs) {
+        super(owner, args);
+        if (this.args.manager.preprint.hasCoi === false) {
+            this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
+                this.intl.t('preprints.submit.step-three.conflict-of-interest-none'));
+        }
+
+    }
+
     public get displayCoiStatement(): boolean {
         return this.authorAssertionFormChangeset.get('hasCoi') !== undefined;
     }

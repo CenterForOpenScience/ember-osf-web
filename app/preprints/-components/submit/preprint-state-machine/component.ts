@@ -127,6 +127,9 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      */
     @action
     public validateAuthorAssertions(valid: boolean): void {
+        if (this.preprint.hasCoi === false) {
+            this.preprint.conflictOfInterestStatement = 'null';
+        }
         this.authorAssertionValidation = valid;
         this.nextButtonIsDisabled = !valid;
     }
