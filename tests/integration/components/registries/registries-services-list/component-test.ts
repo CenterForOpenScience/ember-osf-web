@@ -25,7 +25,7 @@ module('Integration | Component | registries | registries-services-list', hooks 
 
         assert.dom('[data-test-registries-list-row-one] > div').exists({count: 4});
 
-        assert.dom('[data-test-registries-list-row-two] > div').exists({count: 3});
+        assert.dom('[data-test-registries-list-row-two] > div').exists({count: 5});
 
         assert.dom('[data-test-registries-list-contact-link]')
             .hasAttribute('href',
@@ -288,4 +288,82 @@ module('Integration | Component | registries | registries-services-list', hooks 
                 'YOUth Study Registrylogo',
                 'The image alt tag is correct.');
     });
+
+    test('the registries services list TWCF Consciousness Registry',
+        async function(
+            this: EnginesIntlTestContext,
+            assert,
+        ) {
+            // Given the component is rendered
+            await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
+
+            // Given I find the node
+            const node = document.querySelector('[data-test-twcf-consciousness-registry]');
+
+            // Then I validate the link
+            assert.dom(node)
+                .hasAttribute('href',
+                    'https://osf.io/registries/twcfconscious',
+                    'The a href link is correct.');
+
+            // And I validate the link aria-label
+            assert.dom(node)
+                .hasAttribute('aria-label',
+                    'TWCF Consciousness Registry',
+                    'The a aria-label is correct.');
+
+            // And I validate the data analytics name
+            assert.dom(node)
+                .hasAttribute('data-analytics-name',
+                    'TWCF Consciousness - Registry',
+                    'The data-analytics-name attribute is correct.');
+
+            // Given I find the image node
+            const imageNode = document.querySelector('[data-test-twcf-consciousness-registry-logo]');
+
+            // And I validate the image alt tag
+            assert.dom(imageNode)
+                .hasAttribute('alt',
+                    'TWCF Consciousness Registrylogo',
+                    'The image alt tag is correct.');
+        });
+
+    test('the registries services list GSF Consciousness Registry',
+        async function(
+            this: EnginesIntlTestContext,
+            assert,
+        ) {
+            // Given the component is rendered
+            await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
+
+            // Given I find the node
+            const node = document.querySelector('[data-test-gsf-registry]');
+
+            // Then I validate the link
+            assert.dom(node)
+                .hasAttribute('href',
+                    'https://osf.io/registries/gfs',
+                    'The a href link is correct.');
+
+            // And I validate the link aria-label
+            assert.dom(node)
+                .hasAttribute('aria-label',
+                    'Global Flourshing Study Registry',
+                    'The a aria-label is correct.');
+
+            // And I validate the data analytics name
+            assert.dom(node)
+                .hasAttribute('data-analytics-name',
+                    'GFS - Registry',
+                    'The data-analytics-name attribute is correct.');
+
+            // Given I find the image node
+            const imageNode = document.querySelector('[data-test-gfs-registry-logo]');
+
+            // And I validate the image alt tag
+            assert.dom(imageNode)
+                .hasAttribute('alt',
+                    'Global Flourishing Study Registrylogo',
+                    'The image alt tag is correct.');
+        });
 });
