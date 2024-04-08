@@ -348,7 +348,7 @@ module('Integration | Component | registries | registries-services-list', hooks 
             // And I validate the link aria-label
             assert.dom(node)
                 .hasAttribute('aria-label',
-                    'Global Flourshing Study Registry',
+                    'Global Flourishing Study Registry',
                     'The a aria-label is correct.');
 
             // And I validate the data analytics name
