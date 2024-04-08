@@ -1549,6 +1549,8 @@ registries:
             rwe: 'Real World Evidence Registry'
             youth: 'YOUth Study Registry'
             prereg: 'Preregistration Challenge'
+            twcfconsciousness: 'TWCF Consciousness Registry'
+            gfs: 'Global Flourishing Study Registry'
             logo: logo
         recent:
             title: 'Browse Registrations'
