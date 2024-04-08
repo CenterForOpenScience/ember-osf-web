@@ -5,7 +5,7 @@ import { BufferedChangeset } from 'ember-changeset/types';
 import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
 /**
- * The Author Assertions Args
+ * The Radio Button Args
  */
 interface RadioButtonArgs{
     option: string | SchemaBlock;
@@ -38,7 +38,6 @@ export default class FormControlRadioButton extends Component<RadioButtonArgs> {
 
     @action
     public updateChangeset(): void {
-        // eslint-disable-next-line ember/no-side-effects
         this.args.changeset.set(this.args.valuePath, this.getValue);
         if (this.args.onchange) {
             this.args.onchange(this.getValue);
