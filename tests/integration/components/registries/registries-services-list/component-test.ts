@@ -328,7 +328,7 @@ module('Integration | Component | registries | registries-services-list', hooks 
                     'The image alt tag is correct.');
         });
 
-    test('the registries services list GSF Consciousness Registry',
+    test('the registries services list GFS Consciousness Registry',
         async function(
             this: EnginesIntlTestContext,
             assert,
@@ -337,7 +337,7 @@ module('Integration | Component | registries | registries-services-list', hooks 
             await render(hbs`<RegistriesServicesList />`, { owner: this.engine });
 
             // Given I find the node
-            const node = document.querySelector('[data-test-gsf-registry]');
+            const node = document.querySelector('[data-test-gfs-registry]');
 
             // Then I validate the link
             assert.dom(node)
