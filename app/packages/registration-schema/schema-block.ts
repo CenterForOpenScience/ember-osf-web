@@ -18,7 +18,6 @@ export interface SchemaBlock {
     blockType?: SchemaBlockType;
     schemaBlockGroupKey?: string;
     registrationResponseKey?: string | null;
-    inputValue?: string | boolean | number;
     displayText?: string;
     helpText?: string;
     exampleText?: string;

@@ -2,13 +2,13 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { BufferedChangeset } from 'ember-changeset/types';
 
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
 
 /**
  * The Radio Button Args
  */
 interface RadioButtonArgs{
-    option: string | SchemaBlock;
+    option: string | RadioButtonOption;
     valuePath: string;
     changeset: BufferedChangeset;
     disabled: boolean;

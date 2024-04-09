@@ -9,6 +9,11 @@ import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import styles from './styles';
 import template from './template';
 
+export interface RadioButtonOption {
+    displayText: string;
+    inputValue: string | boolean | number;
+}
+
 @tagName('')
 @layout(template, styles)
 export default class FormControlRadioButtonGroup extends Component {
