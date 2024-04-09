@@ -8,7 +8,6 @@ export default [
         termsOfService: [
             TermsOfServiceCapabilities.FORKING_PARTIAL,
             TermsOfServiceCapabilities.PERMISSIONS_PARTIAL,
-            TermsOfServiceCapabilities.REGISTERING_PARTIAL,
         ],
         iconUrl: 'https://osf.io/static/addons/mendeley/comicon.png',
     },
@@ -19,7 +18,6 @@ export default [
         termsOfService: [
             TermsOfServiceCapabilities.FORKING_PARTIAL,
             TermsOfServiceCapabilities.PERMISSIONS_PARTIAL,
-            TermsOfServiceCapabilities.REGISTERING_PARTIAL,
         ],
         iconUrl: 'https://zbib.org/static/favicon.ico',
     },

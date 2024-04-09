@@ -19,6 +19,9 @@
                 <h3 local-class='page-heading'>
                     {{t 'addons.terms.heading' providerName=manager.selectedProvider.provider.name}}
                 </h3>
+                <AddonsService::TermsOfService
+                    @provider={{manager.selectedProvider.provider}}
+                />
                 <Button
                     {{on 'click' manager.acceptProviderTerms}}
                 >
