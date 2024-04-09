@@ -11,10 +11,23 @@ export enum CredentialsFormat {
     ACCESS_SECRET_KEYS = 'access_secret_keys',
 }
 
+export enum TermsOfServiceCapabilities {
+    ADD_UPDATE_FILES = 'add_update_files',
+    ADD_UPDATE_FILES_PARTIAL = 'add_update_files_partial',
+    DELETE_FILES = 'delete_files',
+    DELETE_FILES_PARTIAL = 'delete_files_partial',
+    FORKING = 'forking',
+    LOGS = 'logs',
+    PERMISSIONS = 'permissions',
+    REGISTERING = 'registering',
+    FILE_VERSIONS = 'file_versions',
+}
+
 export default class ExternalStorageServiceModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('string') credentialsFormat!: CredentialsFormat;
     @attr('string') iconUrl!: string;
+    @attr('fixstringarray') termsOfService!: TermsOfServiceCapabilities[];
     // TODO: combine these boolean scopes into a single array of strings from some enum
     @attr('boolean') readOnly!: boolean;
     @attr('boolean') supportsCopy!: boolean;
