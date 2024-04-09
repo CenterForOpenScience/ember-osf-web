@@ -23,6 +23,7 @@ export default class FormControlRadioButtonGroup extends Component {
     changeset!: BufferedChangeset;
 
     // Optional params
+    helpTextMapping?: any;
     shouldShowMessages?: boolean;
     disabled = false;
     onchange?: (option: string | number | boolean) => void;

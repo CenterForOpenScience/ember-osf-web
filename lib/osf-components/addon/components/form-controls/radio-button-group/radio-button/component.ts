@@ -12,7 +12,8 @@ interface RadioButtonArgs{
     valuePath: string;
     changeset: BufferedChangeset;
     disabled: boolean;
-    onchange: (_: string | number | boolean) => void;
+    helpTextMapping?: any;
+    onchange?: (_: string | number | boolean) => void;
 }
 
 export default class FormControlRadioButton extends Component<RadioButtonArgs> {
