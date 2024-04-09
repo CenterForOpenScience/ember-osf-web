@@ -1,20 +1,13 @@
-.RadioButtonGroup {
-    padding-left: 10px;
-}
-
 .RadioButton {
     display: flex;
 
-    input {
+    .input {
         flex: 0 0 auto;
     }
 
-    label {
+    .RadioLabel {
         flex: 1 0 0;
         margin-left: 10px;
+        font-weight: 500;
     }
-}
-
-.RadioLabel {
-    font-weight: 500;
 }

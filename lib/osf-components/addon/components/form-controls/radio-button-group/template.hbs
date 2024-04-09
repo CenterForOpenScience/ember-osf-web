@@ -1,29 +1,30 @@
-<div
-    data-test-radio-button-group
-    local-class='RadioButtonGroup'
-    class={{@class}}
-    ...attributes
->
-    {{#each this.options as |option|}}
-        <div
-            data-test-radio-input
-            local-class='RadioButton'
-        >
-            <FormControls::RadioButtonGroup::RadioButton
-                @changeset={{@changeset}}
-                @onchange={{@onchange}}
-                @valuePath={{@valuePath}}
-                @option={{option}}
-                @disabled={{this.disabled}}
-                @helpTextMapping={{@helpTextMapping}}
+<div class='RadioButtonContainer'>
+    <div
+        data-test-radio-button-group
+        local-class='RadioButtonGroup'
+        class={{@class}}
+        ...attributes
+    >
+        {{#each this.options as |option|}}
+            <div
+                data-test-radio-input
             >
-            </FormControls::RadioButtonGroup::RadioButton>
-        </div>
-    {{/each}}
-    {{#if @shouldShowMessages}}
-        <ValidationErrors
-            @changeset={{@changeset}}
-            @key={{@valuePath}}
-        />
-    {{/if}}
+                <FormControls::RadioButtonGroup::RadioButton
+                    @changeset={{@changeset}}
+                    @onchange={{@onchange}}
+                    @valuePath={{@valuePath}}
+                    @option={{option}}
+                    @disabled={{this.disabled}}
+                    @helpTextMapping={{@helpTextMapping}}
+                >
+                </FormControls::RadioButtonGroup::RadioButton>
+            </div>
+        {{/each}}
+        {{#if @shouldShowMessages}}
+            <ValidationErrors
+                @changeset={{@changeset}}
+                @key={{@valuePath}}
+            />
+        {{/if}}
+    </div>
 </div>
