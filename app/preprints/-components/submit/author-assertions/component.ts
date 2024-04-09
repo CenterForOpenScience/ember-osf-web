@@ -6,8 +6,8 @@ import { validatePresence } from 'ember-changeset-validations/validators';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import { tracked } from '@glimmer/tracking';
+import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
 
 
 /**
@@ -48,15 +48,13 @@ export default class AuthorAssertions extends Component<AuthorAssertionsArgs>{
 
     optionBlockValues = [
         {
-            registrationResponseKey: 'hasCoi',
             inputValue: true,
             displayText: this.intl.t('general.yes'),
-        } as SchemaBlock,
+        } as RadioButtonOption,
         {
-            registrationResponseKey: 'hasCoi',
             inputValue: false,
             displayText: this.intl.t('general.no'),
-        } as SchemaBlock,
+        } as RadioButtonOption,
     ];
 
     constructor(owner: unknown, args: AuthorAssertionsArgs) {
