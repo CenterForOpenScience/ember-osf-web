@@ -3,10 +3,10 @@ import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/pre
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import { tracked } from '@glimmer/tracking';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { PreprintDataLinksEnum } from 'ember-osf-web/models/preprint';
+import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
 
 
 /**
@@ -26,22 +26,19 @@ export default class PublicData extends Component<PublicDataArgs>{
     @tracked isPublicDataWhyNoStatementDisabled = true;
     @tracked placeholder!: string;
 
-    publicDataOptionBlockValues = [
+    publicDataOptions = [
         {
-            registrationResponseKey: 'hasDataLinks',
             inputValue: PreprintDataLinksEnum.YES,
             displayText: this.intl.t('general.available'),
-        } as SchemaBlock,
+        } as RadioButtonOption,
         {
-            registrationResponseKey: 'hasDataLinks',
             inputValue: PreprintDataLinksEnum.NO,
             displayText: this.intl.t('general.no'),
-        } as SchemaBlock,
+        } as RadioButtonOption,
         {
-            registrationResponseKey: 'hasDataLinks',
             inputValue: PreprintDataLinksEnum.NOT_APPLICABLE,
             displayText: this.intl.t('general.not-applicable'),
-        } as SchemaBlock,
+        } as RadioButtonOption,
     ];
 
     public get displayPublicDataWhyNoStatement(): boolean {

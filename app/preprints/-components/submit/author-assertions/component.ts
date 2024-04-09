@@ -93,7 +93,7 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
         AuthorAssertionsFormValidation,
     );
 
-    coiOptionBlockValues = [
+    coiOptions= [
         {
             inputValue: true,
             displayText: this.intl.t('general.yes'),
