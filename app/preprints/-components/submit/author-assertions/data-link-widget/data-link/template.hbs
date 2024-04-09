@@ -1,32 +1,37 @@
-<div local-class='form-container'>
-    <FormControls
-        @changeset={{this.dataLinkFormChangeset}}
-        data-test-form
-        as |form|
-    >
-        <div local-class='input-container'>
-            <form.text
-                data-test-data-link-input
-                @isRequired={{true}}
-                {{on 'focusout' this.onUpdate}}
-                @placeholder={{t 'preprints.submit.step-three.public-data-link-placeholder'}}
-                @valuePath={{'value'}}
-                local-class='input'
-            />
+<div local-class='form-container'
+    {{did-insert this.initializeChangeset @index @value}}
+    {{did-update this.initializeChangeset @index @value}}
+>
+    {{#if this.dataLinkFormChangeset}}
+        <FormControls
+            @changeset={{this.dataLinkFormChangeset}}
+            data-test-form
+            as |form|
+        >
+            <div local-class='input-container'>
+                <form.text
+                    data-test-data-link-input
+                    @isRequired={{true}}
+                    {{on 'focusout' this.onUpdate}}
+                    @placeholder={{t 'preprints.submit.step-three.public-data-link-placeholder'}}
+                    @valuePath={{'value'}}
+                    local-class='input'
+                />
 
-            <div local-class='delete-container'>
-                <Button
-                    data-test-remove-link
-                    aria-label={{t 'preprints.submit.step-three.public-data-link-remove-button'}}
-                    @layout='fake-link'
-                    {{on 'click' this.removeLink}}
-                >
-                    <FaIcon @icon='times' local-class='delete' />
-                    <EmberTooltip>
-                        {{t 'preprints.submit.step-three.public-data-link-remove-button'}}
-                    </EmberTooltip>
-                </Button>
+                <div local-class='delete-container'>
+                    <Button
+                        data-test-remove-link
+                        aria-label={{t 'preprints.submit.step-three.public-data-link-remove-button'}}
+                        @layout='fake-link'
+                        {{on 'click' this.removeLink}}
+                    >
+                        <FaIcon @icon='times' local-class='delete' />
+                        <EmberTooltip>
+                            {{t 'preprints.submit.step-three.public-data-link-remove-button'}}
+                        </EmberTooltip>
+                    </Button>
+                </div>
             </div>
-        </div>
-    </FormControls>
+        </FormControls>
+    {{/if}}
 </div>
