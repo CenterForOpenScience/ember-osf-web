@@ -5,6 +5,7 @@ import Intl from 'ember-intl/services/intl';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import { tracked } from '@glimmer/tracking';
 
 
 /**
@@ -36,11 +37,15 @@ const DataLinkFormValidation: ValidationObject<DataLinkForm> = {
 export default class DataLink extends Component<DataLinkArgs>{
     @service intl!: Intl;
 
+    @tracked dataLinkFormChangeset: any = null;
 
-    dataLinkFormChangeset = buildChangeset(
-        {value: this.args.value || undefined},
-        DataLinkFormValidation,
-    );
+    @action
+    initializeChangeset() {
+        this.dataLinkFormChangeset = buildChangeset(
+            {value: this.args.value || undefined},
+            DataLinkFormValidation,
+        );
+    }
 
     @action
     public async onUpdate(): Promise<void> {
