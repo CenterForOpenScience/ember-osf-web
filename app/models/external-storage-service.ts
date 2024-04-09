@@ -17,9 +17,13 @@ export enum TermsOfServiceCapabilities {
     DELETE_FILES = 'delete_files',
     DELETE_FILES_PARTIAL = 'delete_files_partial',
     FORKING = 'forking',
+    FORKING_PARTIAL = 'forking_partial',
     LOGS = 'logs',
+    LOGS_PARTIAL = 'logs_partial',
     PERMISSIONS = 'permissions',
+    PERMISSIONS_PARTIAL = 'permissions_partial',
     REGISTERING = 'registering',
+    REGISTERING_PARTIAL = 'registering_partial',
     FILE_VERSIONS = 'file_versions',
 }
 
