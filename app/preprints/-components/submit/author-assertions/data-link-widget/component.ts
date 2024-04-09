@@ -29,7 +29,6 @@ export default class DataLinkWidget extends Component<DataLinkWidgetArgs>{
     @action
     public async addLink(): Promise<void> {
         this.links.push('');
-        // debugger;
         notifyPropertyChange(this, 'links');
     }
 
