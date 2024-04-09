@@ -21,8 +21,8 @@
                 @class='radio-group'
                 @isRequired={{true}}
                 @changeset={{@changeSet}}
-                @options={{this.publicDataOptionBlockValues}}
-                @onInput={{this.updatePublicDataOptions}}
+                @options={{this.publicDataOption}}
+                @onchange={{this.updatePublicDataOptions}}
                 as |radioGroup|
             >
                 {{radioGroup}}
