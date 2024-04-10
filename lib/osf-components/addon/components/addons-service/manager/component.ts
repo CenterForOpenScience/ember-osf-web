@@ -89,6 +89,9 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     filterByAddonType(type: FilterTypes) {
+        if (this.activeFilterType !== type) {
+            this.filterText = '';
+        }
         this.activeFilterType = type;
         const activeFilterObject = this.filterTypeMapper[type];
         if (activeFilterObject.list.length === 0) {
