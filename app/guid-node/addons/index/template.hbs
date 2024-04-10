@@ -64,7 +64,7 @@
                                         />
                                         {{#if account.externalUserDisplayName}}
                                             {{account.externalUserDisplayName}}
-                                        {{else if (not account.isAuthorized)}}
+                                        {{else if (not account.credentialsAvailable)}}
                                             {{t 'addons.accountSelect.unauthenticated-account'}}
                                         {{/if}}
                                     </label>
@@ -82,7 +82,7 @@
                             >
                                 {{t 'general.authorize'}}
                             </Button>
-                        {{else if (not manager.selectedAccount.isAuthorized)}}
+                        {{else if (not manager.selectedAccount.credentialsAvailable)}}
                             <Button
                                 data-test-addon-authenticate-button
                                 data-analytics-name='Authenticate'
