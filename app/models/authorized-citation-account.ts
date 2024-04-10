@@ -11,7 +11,7 @@ export default class AuthorizedCitationAccountModel extends OsfModel {
     @attr('fixstringarray') scopes!: string[];
     @attr('object') credentials?: AddonCredentialFields; // write-only
     @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-citation-accounts
-    @attr('boolean') readonly isAuthorized!: boolean;
+    @attr('boolean') readonly credentialsAvailable!: boolean;
 
     @belongsTo('external-citation-service')
     citationService!: AsyncBelongsTo<ExternalCitationServiceModel> & ExternalCitationServiceModel;

@@ -11,7 +11,7 @@ export default class AuthorizedComputingAccount extends OsfModel {
     @attr('fixstringarray') scopes!: string[];
     @attr('object') credentials?: AddonCredentialFields; // write-only
     @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-computing-accounts
-    @attr('boolean') readonly isAuthorized!: boolean;
+    @attr('boolean') readonly credentialsAvailable!: boolean;
 
     @belongsTo('external-computing-service')
     computingService!: AsyncBelongsTo<ExternalComputingService> & ExternalComputingService;

@@ -233,7 +233,7 @@ export function createAuthorizedStorageAccount(this: HandlerContext, schema: Sch
         const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
         const newAuthorizedAccount = schema.authorizedStorageAccounts
             .create(authorizedAttrs) as ModelInstance<AuthorizedStorageAccountModel>;
-        if (!authorizedAttrs.isAuthorized &&
+        if (!authorizedAttrs.credentialsAvailable &&
             [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
             emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
         }
@@ -255,7 +255,7 @@ export function createAuthorizedCitationAccount(this: HandlerContext, schema: Sc
         const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
         const newAuthorizedAccount = schema.authorizedCitationAccounts
             .create(authorizedAttrs) as ModelInstance<AuthorizedCitationAccountModel>;
-        if (!authorizedAttrs.isAuthorized &&
+        if (!authorizedAttrs.credentialsAvailable &&
             [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
             emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
         }
@@ -277,7 +277,7 @@ export function createAuthorizedComputingAccount(this: HandlerContext, schema: S
         const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
         const newAuthorizedAccount = schema.authorizedComputingAccounts
             .create(authorizedAttrs) as ModelInstance<AuthorizedComputingAccountModel>;
-        if (!authorizedAttrs.isAuthorized &&
+        if (!authorizedAttrs.credentialsAvailable &&
             [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(externalService.credentialsFormat)) {
             emulateUserDoingOAuthFlow(newAuthorizedAccount, schema);
         }
@@ -296,8 +296,8 @@ function prepareAuthorizedAccountAttrs(
     attrs.credentials = undefined;
     // @ts-ignore: authUrl is set by the backend
     attrs.authUrl = !authorized ? 'https://www.fake.com' : '';
-    // @ts-ignore: isAuthorized is set by the backend
-    attrs.isAuthorized = authorized;
+    // @ts-ignore: credentialsAvailable is set by the backend
+    attrs.credentialsAvailable = authorized;
     return attrs;
 }
 
@@ -338,7 +338,7 @@ async function emulateUserDoingOAuthFlow(authorizedAccount: ModelInstance<AllAut
     console.log('Mirage addons view: emulateUserDoingOAuthFlow done');
     const currentUser = schema.roots.first().currentUser;
     authorizedAccount.update({
-        isAuthorized: true,
+        credentialsAvailable: true,
         externalUserDisplayName: currentUser?.fullName,
     });
 }
