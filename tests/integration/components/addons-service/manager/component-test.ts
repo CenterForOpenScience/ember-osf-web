@@ -54,7 +54,7 @@ module('Integration | Component | addons-service | manager', hooks => {
 
         // Default view: storage providers
         assert.dom('[data-test-loading]').doesNotExist('Done loading');
-        assert.dom('[data-test-provider]').exists({ count: 7 }, 'Has providers');
+        assert.dom('[data-test-provider]').exists({ count: 9 }, 'Has providers');
         assert.dom('[data-test-provider="Box"]').hasText('Box', 'Has loaded Box');
         assert.dom('[data-test-provider="Zotero"]').doesNotExist('No citation service shown');
         assert.dom('[data-test-provider="Boa"]').doesNotExist('No cloud computing service shown');
@@ -62,15 +62,17 @@ module('Integration | Component | addons-service | manager', hooks => {
         assert.dom('[data-test-provider]').exists({ count: 1 }, 'Has filtered providers');
         assert.dom('[data-test-provider]').hasText('OneDrive', 'Filtered down to just OneDrive');
         await fillIn('input', '');
-        assert.dom('[data-test-provider]').exists({ count: 7 }, 'Filter removed');
+        assert.dom('[data-test-provider]').exists({ count: 9 }, 'Filter removed');
 
         // Filter by citation manager
         await click('[data-test-filter=citation-manager]');
-        assert.dom('[data-test-provider]').exists({ count: 1 }, 'Has citation providers');
-        assert.dom('[data-test-provider]').hasText('Zotero', 'Has loaded Zotero');
+        assert.dom('[data-test-provider]').exists({ count: 2 }, 'Has citation providers');
+        assert.dom('[data-test-provider]').hasText('Mendeley', 'Has loaded Mendeley');
         await fillIn('input', 'Bolero');
         assert.dom('[data-test-provider]').doesNotExist('No Bolero');
-        await fillIn('input', '');
+        await fillIn('input', 'Zot');
+        assert.dom('[data-test-provider]').exists({ count: 1 }, 'Has filtered providers');
+        assert.dom('[data-test-provider]').hasText('Zotero', 'Filtered down to just Zotero');
 
         // Filter by cloud computing
         await click('[data-test-filter=cloud-computing]');
