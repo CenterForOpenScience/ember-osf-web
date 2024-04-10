@@ -210,6 +210,7 @@ export default class Provider {
     private async createAuthorizedStorageAccount(credentials: AddonCredentialFields) {
         const newAccount = this.store.createRecord('authorized-storage-account', {
             credentials,
+            apiBaseUrl: (this.provider as ExternalStorageServiceModel).configurableApiRoot ? credentials.url : '',
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             storageProvider: this.provider,
