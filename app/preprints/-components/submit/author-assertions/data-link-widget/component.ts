@@ -20,26 +20,27 @@ export default class DataLinkWidget extends Component<DataLinkWidgetArgs>{
     @tracked links: string[] = [''];
 
     @action
-    public async onUpdate(value: string, index: number): Promise<void> {
+    public onUpdate(value: string, index: number): void {
         this.links[index] = value;
-        await this.args.update(this.links);
+        this.args.update(this.links);
         notifyPropertyChange(this, 'links');
     }
 
     @action
-    public async addLink(): Promise<void> {
+    public addLink(): void {
         this.links.push('');
         notifyPropertyChange(this, 'links');
+        this.args.update(this.links);
     }
 
     @action
-    public async removeLink(index: number): Promise<void> {
+    public removeLink(index: number): void {
         if (index === 0 && this.links.length === 1) {
             this.onUpdate('', index);
         } else {
             this.links.splice(index, 1);
-            await this.args.update(this.links);
-            notifyPropertyChange(this, 'links');
+            this.args.update(this.links);
         }
+        notifyPropertyChange(this, 'links');
     }
 }
