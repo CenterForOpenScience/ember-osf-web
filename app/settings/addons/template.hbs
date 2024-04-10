@@ -16,16 +16,18 @@
                 {{t 'general.back'}}
             </Button>
             {{#if (eq manager.pageMode 'terms')}}
-                <h3 local-class='page-heading'>
+                <h3>
                     {{t 'addons.terms.heading' providerName=manager.selectedProvider.provider.name}}
                 </h3>
                 <AddonsService::TermsOfService
                     @provider={{manager.selectedProvider.provider}}
                 />
                 <Button
+                    local-class='float-right'
+                    @type='primary'
                     {{on 'click' manager.acceptProviderTerms}}
                 >
-                    {{t 'general.ok'}}
+                    {{t 'general.confirm'}}
                 </Button>
             {{else if (eq manager.pageMode 'accountCreate')}}
                 <h3 local-class='page-heading'>

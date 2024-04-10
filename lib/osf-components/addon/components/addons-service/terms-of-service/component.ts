@@ -138,14 +138,18 @@ export default class UserAddonManagerComponent extends Component<Args> {
         return this.applicableCapabilities.map((capability: CapabilityCategory) => {
             const textTranslationChoices = capabilitiesToTextKeyMap[this.baseTranslationKey][capability];
             let textTranslationKey = textTranslationChoices.false;
+            let localClass='danger-bg';
             if (providerCapabilities.includes(capability)) {
                 textTranslationKey = textTranslationChoices.true;
+                localClass = 'success-bg';
             } else if (providerCapabilities.includes((capability + '_partial' as TermsOfServiceCapabilities))) {
                 textTranslationKey = textTranslationChoices.partial;
+                localClass = 'warning-bg';
             }
             return {
                 title: this.intl.t(capabilitiesToLabelKeyMap[capability]),
                 text: textTranslationKey ? this.intl.t(textTranslationKey, { provider: providerName }) : undefined,
+                class: localClass,
             };
         });
     }

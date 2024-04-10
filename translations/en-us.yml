@@ -238,6 +238,13 @@ addons:
     terms:
         heading: '{providerName} Terms'
         accepting: 'Accepting terms…'
+        table-headings:
+            function: 'Function'
+            status: 'Status'
+        footer:
+            generic-label: 'This add-on connects your OSF project to an external service. Use of this service is bound by its terms and conditions. The OSF is not responsible for the service or for your use thereof.'
+            storage-label: 'This add-on allows you to store files using an external service. Files added to this add-on are not stored within the OSF.'
+
         labels:
             add-update-files: 'Add / update files'
             delete-files: 'Delete files'
