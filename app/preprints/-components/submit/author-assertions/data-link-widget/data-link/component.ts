@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import { ValidationObject } from 'ember-changeset-validations';
-import { validatePresence } from 'ember-changeset-validations/validators';
+import { validateFormat} from 'ember-changeset-validations/validators';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from '@glimmer/tracking';
 
@@ -24,10 +24,10 @@ interface DataLinkForm {
 }
 
 const DataLinkFormValidation: ValidationObject<DataLinkForm> = {
-    value: validatePresence({
-        presence: true,
-        ignoreBlank: false,
-        type: 'empty',
+    value: validateFormat({
+        allowBlank: false,
+        type: 'url',
+        translationArgs: { description: 'Invalid Url' },
     }),
 };
 

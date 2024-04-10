@@ -66,13 +66,13 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
 
                 return isValid ? true : {
                     context: {
-                        type: 'min_subjects',
+                        type: 'empty',
                     },
                 };
             } else {
                 return {
                     context: {
-                        type: 'min_subjects',
+                        type: 'empty',
                     },
                 };
             }
