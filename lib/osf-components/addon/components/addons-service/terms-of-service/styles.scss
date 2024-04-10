@@ -6,6 +6,7 @@
     th,
     td {
         text-align: left;
+        word-break: normal;
         border-right: 1px solid $color-border-gray;
         border-bottom: 1px solid $color-border-gray;
         padding: 10px;
