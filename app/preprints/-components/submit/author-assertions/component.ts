@@ -43,46 +43,37 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         type: 'empty',
     }),
     whyNoData: [(key: string, newValue: string[], oldValue: string[], changes: any, content: any) => {
-        if (changes['hasDataLinks']) {
-            if (changes['hasDataLinks'] !== PreprintDataLinksEnum.YES) {
-                return validatePresence({
-                    presence: true,
-                    ignoreBlank: true,
-                    type: 'empty',
-                })(key, newValue, oldValue, changes, content);
-            }
-            return true;
-        } else {
-            return false;
+        if (changes['hasDataLinks'] !== PreprintDataLinksEnum.YES) {
+            return validatePresence({
+                presence: true,
+                ignoreBlank: true,
+                type: 'empty',
+            })(key, newValue, oldValue, changes, content);
         }
+        return true;
     }],
     dataLinks: [(_key: string, newValue: string[], _oldValue: string[], changes: any, _content: any) => {
-        if (changes['hasDataLinks'] === PreprintDataLinksEnum.YES) {
+        if (changes['hasDataLinks'] === PreprintDataLinksEnum.YES || newValue) {
+            let isValid = false;
             if (newValue) {
-                let isValid = true;
+                isValid = true;
                 newValue.map((link: string) => {
                     isValid = isValid && (typeof link === 'string' && link.length > 0);
                 });
-
-                return isValid ? true : {
-                    context: {
-                        type: 'empty',
-                    },
-                };
-            } else {
-                return {
-                    context: {
-                        type: 'empty',
-                    },
-                };
             }
+
+            return isValid ? true : {
+                context: {
+                    type: 'empty',
+                },
+            };
         }
-        return  false;
+        return  true;
     }],
 };
 
 /**
- * The Author Assertions Component
+ * The Public Data Component
  */
 export default class PublicData extends Component<AuthorAssertionsArgs>{
     @service intl!: Intl;

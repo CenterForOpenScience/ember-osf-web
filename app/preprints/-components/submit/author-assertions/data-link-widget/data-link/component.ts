@@ -18,32 +18,30 @@ interface DataLinkArgs {
     index: number;
 }
 
-
 interface DataLinkForm {
     value: string;
 }
-
-const DataLinkFormValidation: ValidationObject<DataLinkForm> = {
-    value: validateFormat({
-        allowBlank: false,
-        type: 'url',
-        translationArgs: { description: 'Invalid Url' },
-    }),
-};
 
 /**
  * The Data Link Component
  */
 export default class DataLink extends Component<DataLinkArgs>{
     @service intl!: Intl;
-
     @tracked dataLinkFormChangeset: any = null;
+
+    dataLinkFormValidation: ValidationObject<DataLinkForm> = {
+        value: validateFormat({
+            allowBlank: false,
+            type: 'url',
+            translationArgs: { description: this.intl.t('validationErrors.description') },
+        }),
+    };
 
     @action
     initializeChangeset() {
         this.dataLinkFormChangeset = buildChangeset(
             {value: this.args.value || undefined},
-            DataLinkFormValidation,
+            this.dataLinkFormValidation,
         );
     }
 
