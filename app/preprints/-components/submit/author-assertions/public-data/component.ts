@@ -52,23 +52,23 @@ export default class PublicData extends Component<PublicDataArgs>{
     }
 
     @action
-    public async updatePublicDataLinks(links: string[]): Promise<void> {
-        await this.args.changeSet.set('dataLinks', links);
+    public updatePublicDataLinks(links: string[]): void {
+        this.args.changeSet.set('dataLinks', links);
         this.args.validate();
     }
 
     @action
-    public async updatePublicDataOptions(): Promise<void> {
+    public updatePublicDataOptions(): void {
         if (this.args.changeSet.get('hasDataLinks') === PreprintDataLinksEnum.YES) {
-            await this.args.changeSet.set('whyNoData', '');
+            this.args.changeSet.set('whyNoData', '');
             this.isPublicDataWhyNoStatementDisabled = false;
         } else if (this.args.changeSet.get('hasDataLinks') === PreprintDataLinksEnum.NO) {
-            await this.args.changeSet.set('whyNoData', '');
+            this.args.changeSet.set('whyNoData', '');
             this.isPublicDataWhyNoStatementDisabled = false;
             this.placeholder = this.intl.t('preprints.submit.step-three.public-data-no-placeholder');
         } else {
             this.isPublicDataWhyNoStatementDisabled = true;
-            await this.args.changeSet.set('whyNoData',
+            this.args.changeSet.set('whyNoData',
                 this.intl.t('preprints.submit.step-three.public-data-na-placeholder'));
             this.placeholder = this.intl.t('preprints.submit.step-three.public-data-na-placeholder');
         }
