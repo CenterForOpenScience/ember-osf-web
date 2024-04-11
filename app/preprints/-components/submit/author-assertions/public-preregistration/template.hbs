@@ -31,6 +31,25 @@
 
         {{#if this.displayPublicPreregistrationLinks}}
             <div local-class='input-container'>
+                <select
+                    onchange={{action 'updatePreregistrationLinkInfo' value='target.value'}}
+                    local-class='select'
+                    class='form-control'
+                >
+                    {{#each this.publicPreregLinkInfoOptions as |infoOption|}}
+                        <option value={{infoOption.key}}>
+                            {{infoOption.value}}
+                        </option>
+                    {{/each}}
+                </select>
+
+                <ValidationErrors
+                    local-class='validation-error'
+                    @changeset={{@changeSet}}
+                    @key={{'preregLinkInfo'}}
+                />
+            </div>
+            <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::DataLinkWidget
                 @update={{this.updatePublicPreregistrationLinks}}
             />

@@ -27,6 +27,7 @@ interface AuthorAssertionsForm {
     hasPreregLinks: string;
     whyNoPrereg: string;
     preregLinks: string[];
+    preregLinkInfo: string[];
 }
 
 const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
@@ -45,7 +46,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         ignoreBlank: true,
         type: 'empty',
     }),
-    whyNoData: [(key: string, newValue: string[], oldValue: string[], changes: any, content: any) => {
+    whyNoData: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
         if (changes['hasDataLinks'] !== PreprintDataLinksEnum.YES) {
             return validatePresence({
                 presence: true,
@@ -79,7 +80,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         ignoreBlank: true,
         type: 'empty',
     }),
-    whyNoPrereg: [(key: string, newValue: string[], oldValue: string[], changes: any, content: any) => {
+    whyNoPrereg: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
         if (changes['hasPreregLinks'] !== PreprintPreregLinksEnum.YES) {
             return validatePresence({
                 presence: true,
@@ -104,6 +105,17 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
                     type: 'empty',
                 },
             };
+        } else {
+            return true;
+        }
+    }],
+    preregLinkInfo: [(key: string, newValue: string[], oldValue: string[], changes: any, content: any) => {
+        if (changes['hasPreregLinks'] === PreprintPreregLinksEnum.YES || newValue) {
+            return validatePresence({
+                presence: true,
+                ignoreBlank: false,
+                type: 'empty',
+            })(key, newValue, oldValue, changes, content);
         } else {
             return true;
         }

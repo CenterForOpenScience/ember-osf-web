@@ -16,6 +16,11 @@ interface PublicPreregistrationArgs {
     validate: () => {};
 }
 
+interface PreregistationLinkInfoOption {
+    key: string;
+    value: string;
+}
+
 /**
  * The Public Preregistration Component
  */
@@ -23,6 +28,26 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     @service intl!: Intl;
     @tracked isPublicPreregistrationWhyNoStatementDisabled = true;
     @tracked placeholder!: string;
+
+    publicPreregLinkInfoOptions = [
+        {
+            key: '',
+            value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-placeholder'),
+        } as PreregistationLinkInfoOption,
+        {
+            key: 'prereg_designs',
+            value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-designs'),
+        } as PreregistationLinkInfoOption,
+        {
+            key: 'prereg_analysis',
+            value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-analysis'),
+        } as PreregistationLinkInfoOption,
+        {
+            key: 'prereg_both',
+            value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-both'),
+        } as PreregistationLinkInfoOption,
+    ];
+
 
     publicPreregistrationOptions = [
         {
@@ -73,6 +98,12 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
             this.placeholder = this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder');
         }
 
+        this.args.validate();
+    }
+
+    @action
+    public updatePreregistrationLinkInfo(linkInfo: PreregistationLinkInfoOption ): void {
+        this.args.changeSet.set('preregLinkInfo', linkInfo);
         this.args.validate();
     }
 }

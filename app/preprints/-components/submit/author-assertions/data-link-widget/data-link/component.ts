@@ -25,7 +25,7 @@ interface DataLinkForm {
 /**
  * The Data Link Component
  */
-export default class PublicPreregistration extends Component<DataLinkArgs>{
+export default class DataLink extends Component<DataLinkArgs>{
     @service intl!: Intl;
     @tracked dataLinkFormChangeset: any = null;
 
