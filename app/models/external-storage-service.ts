@@ -31,14 +31,8 @@ export default class ExternalStorageServiceModel extends OsfModel {
     @attr('fixstring') name!: string;
     @attr('string') credentialsFormat!: CredentialsFormat;
     @attr('string') iconUrl!: string;
-    @attr('fixstringarray') termsOfService!: TermsOfServiceCapabilities[];
+    @attr('array') termsOfService!: TermsOfServiceCapabilities[];
     @attr('boolean') configurableApiRoot!: boolean;
-    // TODO: combine these boolean scopes into a single array of strings from some enum
-    @attr('boolean') readOnly!: boolean;
-    @attr('boolean') supportsCopy!: boolean;
-    @attr('boolean') supportsUserSpecifiedRootFolder!: boolean;
-    @attr('boolean') supportsFileVersioning!: boolean;
-    @attr('boolean') supportsBulkDownload!: boolean;
     @attr('number') maxConcurrentDownloads!: number;
     @attr('number') maxUploadMb!: number;
 }
