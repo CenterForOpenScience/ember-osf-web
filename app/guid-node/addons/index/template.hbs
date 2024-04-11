@@ -5,6 +5,17 @@
         @node={{this.model}}
         as |manager|
     >
+        {{#if manager.selectedProvider}}
+            <Button
+                data-test-addon-back-button
+                data-analytics-name='Back'
+                local-class='float-right'
+                @layout='fake-link'
+                {{on 'click' manager.cancelSetup}}
+            >
+                {{t 'general.back'}}
+            </Button>
+        {{/if}}
         <h3 local-class='page-heading'>{{manager.headingText}}</h3>
         {{#if manager.selectedProvider}}
             {{#let manager.selectedProvider as |provider|}}
@@ -12,20 +23,15 @@
                     data-test-addon={{provider.provider.name}}
                     data-analytics-scope='Addon - {{provider.provider.name}}'
                 >
-                    <div local-class='back-button'>
-                        <Button
-                            data-test-addon-back-button
-                            data-analytics-name='Back'
-                            @layout='fake-link'
-                            {{on 'click' manager.cancelSetup}}
-                        >
-                            {{t 'general.back'}}
-                        </Button>
-                    </div>
                     {{#if (eq manager.pageMode 'terms')}}
+                        <AddonsService::TermsOfService
+                            @provider={{provider.provider}}
+                        />
                         <Button
                             data-test-addon-accept-terms-button
                             data-analytics-name='Accept Terms'
+                            local-class='float-right'
+                            @type='primary'
                             {{on 'click' manager.acceptTerms}}
                             disabled={{provider.getAuthorizedAccounts.isRunning}}
                         >
