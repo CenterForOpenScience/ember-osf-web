@@ -130,10 +130,10 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         if (this.preprint.hasCoi === false) {
             this.preprint.conflictOfInterestStatement = 'null';
         }
-        if (this.preprint.hasDataLinks !== PreprintDataLinksEnum.YES) {
+        if (this.preprint.hasDataLinks === PreprintDataLinksEnum.NOT_APPLICABLE) {
             this.preprint.whyNoData = 'null';
         }
-        if (this.preprint.hasPreregLinks !== PreprintPreregLinksEnum.YES) {
+        if (this.preprint.hasPreregLinks === PreprintPreregLinksEnum.NOT_APPLICABLE) {
             this.preprint.whyNoPrereg = 'null';
         }
         this.authorAssertionValidation = valid;
