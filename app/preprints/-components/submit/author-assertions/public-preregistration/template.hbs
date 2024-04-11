@@ -21,8 +21,8 @@
                 @class='radio-group'
                 @isRequired={{true}}
                 @changeset={{@changeSet}}
-                @options={{this.publicPreregistrationOptionBlockValues}}
-                @onInput={{this.updatePublicPreregistrationOptions}}
+                @options={{this.publicPreregistrationOptions}}
+                @onchange={{this.updatePublicPreregistrationOptions}}
                 as |radioGroup|
             >
                 {{radioGroup}}
@@ -30,13 +30,11 @@
         {{/let}}
 
         {{#if this.displayPublicPreregistrationLinks}}
-            {{t 'preprints.submit.step-three.public-preregistration-description'}}
-            {{!-- <div local-class='input-container'>
-                <Preprints::-Components::Submit::AuthorAssertions::PreregistrationLinkWidget
+            <div local-class='input-container'>
+                <Preprints::-Components::Submit::AuthorAssertions:DataLinkWidget:
                 @update={{this.updatePublicPreregistrationLinks}}
             />
             </div>
-             --}}
         {{/if}}
 
         {{#if this.displayPublicPreregistrationWhyNoStatement}}

@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import PreprintModel from 'ember-osf-web/models/preprint';
+import PreprintModel, { PreprintDataLinksEnum, PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import Store from '@ember-data/store';
 import { inject as service } from '@ember/service';
@@ -129,6 +129,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public validateAuthorAssertions(valid: boolean): void {
         if (this.preprint.hasCoi === false) {
             this.preprint.conflictOfInterestStatement = 'null';
+        }
+        if (this.preprint.hasDataLinks !== PreprintDataLinksEnum.YES) {
+            this.preprint.whyNoData = 'null';
+        }
+        if (this.preprint.hasPreregLinks !== PreprintPreregLinksEnum.YES) {
+            this.preprint.whyNoPrereg = 'null';
         }
         this.authorAssertionValidation = valid;
         this.nextButtonIsDisabled = !valid;
