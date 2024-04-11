@@ -8,7 +8,7 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import { tracked } from '@glimmer/tracking';
 import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
-import { PreprintDataLinksEnum } from 'ember-osf-web/models/preprint';
+import { PreprintDataLinksEnum, PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
 
 
 /**
@@ -21,7 +21,6 @@ interface AuthorAssertionsArgs {
 interface AuthorAssertionsForm {
     hasCoi: boolean;
     conflictOfInterestStatement: string;
-    hasDataLinks: string;
     hasDataLinks: string;
     whyNoData: string;
     dataLinks: string[];
@@ -66,20 +65,18 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
                 });
             }
 
-                return isValid ? true : {
-                    context: {
-                        type: 'min_data_links',
-                    },
-                };
-            } else {
-                return {
-                    context: {
-                        type: 'min_data_links',
-                    },
-                };
-            }
+            return isValid ? true : {
+                context: {
+                    type: 'min_data_links',
+                },
+            };
+        } else {
+            return {
+                context: {
+                    type: 'min_data_links',
+                },
+            };
         }
-        return  false;
     }],
     hasPreregLinks: validatePresence({
         presence: true,
