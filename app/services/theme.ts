@@ -86,7 +86,7 @@ export default class Theme extends Service {
         return this.isProvider && !this.isDomain;
     }
 
-    @computed('id', 'isDomain', 'isProvider', 'settings.routePath')
+    @computed('id', 'isDomain', 'settings.routePath')
     get pathPrefix(): string {
         let pathPrefix = '/';
 
