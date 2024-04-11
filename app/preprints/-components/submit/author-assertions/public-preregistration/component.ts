@@ -2,10 +2,10 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import { tracked } from '@glimmer/tracking';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
+import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
 
 
 /**
@@ -24,22 +24,19 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     @tracked isPublicPreregistrationWhyNoStatementDisabled = true;
     @tracked placeholder!: string;
 
-    publicPreregistrationOptionBlockValues = [
+    publicPreregistrationOptions = [
         {
-            registrationResponseKey: 'hasPreregLinks',
             inputValue: PreprintPreregLinksEnum.YES,
             displayText: this.intl.t('general.available'),
-        } as SchemaBlock,
+        } as RadioButtonOption,
         {
-            registrationResponseKey: 'hasPreregLinks',
             inputValue: PreprintPreregLinksEnum.NO,
             displayText: this.intl.t('general.no'),
-        } as SchemaBlock,
+        } as RadioButtonOption,
         {
-            registrationResponseKey: 'hasPreregLinks',
             inputValue: PreprintPreregLinksEnum.NOT_APPLICABLE,
             displayText: this.intl.t('general.not-applicable'),
-        } as SchemaBlock,
+        } as RadioButtonOption,
     ];
 
     public get displayPublicPreregistrationWhyNoStatement(): boolean {
@@ -55,23 +52,23 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     }
 
     @action
-    public async updatePublicPreregistrationLinks(links: string[]): Promise<void> {
-        await this.args.changeSet.set('preregLinks', links);
+    public updatePublicPreregistrationLinks(links: string[]): void {
+        this.args.changeSet.set('preregLinks', links);
         this.args.validate();
     }
 
     @action
-    public async updatePublicPreregistrationOptions(): Promise<void> {
+    public updatePublicPreregistrationOptions(): void {
         if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.YES) {
-            await this.args.changeSet.set('whyNoPrereg', '');
+            this.args.changeSet.set('whyNoPrereg', '');
             this.isPublicPreregistrationWhyNoStatementDisabled = false;
         } else if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.NO) {
-            await this.args.changeSet.set('whyNoPrereg', '');
+            this.args.changeSet.set('whyNoPrereg', '');
             this.isPublicPreregistrationWhyNoStatementDisabled = false;
             this.placeholder = this.intl.t('preprints.submit.step-three.public-preregistration-no-placeholder');
         } else {
             this.isPublicPreregistrationWhyNoStatementDisabled = true;
-            await this.args.changeSet.set('whyNoPrereg',
+            this.args.changeSet.set('whyNoPrereg',
                 this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder'));
             this.placeholder = this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder');
         }
