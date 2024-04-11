@@ -99,7 +99,8 @@
                             {{/if}}
                             <li>
                                 <OsfLink
-                                    {{!-- Adding data-test and data-analytics? --}}
+                                    data-test-add-a-preprint-branded-navbar
+                                    data-analytics-name='{{this.provider.id}}: add a {{this.provider.preprintWord}} link'
                                     @route='preprints.submit'
                                     @models={{array this.provider}}
                                 >
