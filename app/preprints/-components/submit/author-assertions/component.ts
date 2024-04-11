@@ -109,7 +109,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
             return true;
         }
     }],
-    preregLinkInfo: [(key: string, newValue: string[], oldValue: string[], changes: any, content: any) => {
+    preregLinkInfo: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
         if (changes['hasPreregLinks'] === PreprintPreregLinksEnum.YES || newValue) {
             return validatePresence({
                 presence: true,
