@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import { tracked } from '@glimmer/tracking';
 import { BufferedChangeset } from 'ember-changeset/types';
-import { PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
+import { PreprintPreregLinkInfoEnum, PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
 import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
 
 
@@ -31,19 +31,19 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
 
     publicPreregLinkInfoOptions = [
         {
-            key: '',
+            key:  PreprintPreregLinkInfoEnum.PREREG_EMPTY,
             value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-placeholder'),
         } as PreregistationLinkInfoOption,
         {
-            key: 'prereg_designs',
+            key:  PreprintPreregLinkInfoEnum.PREREG_DESIGNS,
             value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-designs'),
         } as PreregistationLinkInfoOption,
         {
-            key: 'prereg_analysis',
+            key:  PreprintPreregLinkInfoEnum.prereg_analysis,
             value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-analysis'),
         } as PreregistationLinkInfoOption,
         {
-            key: 'prereg_both',
+            key:  PreprintPreregLinkInfoEnum.prereg_both,
             value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-both'),
         } as PreregistationLinkInfoOption,
     ];
@@ -102,7 +102,7 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     }
 
     @action
-    public updatePreregistrationLinkInfo(linkInfo: PreregistationLinkInfoOption ): void {
+    public updatePreregistrationLinkInfo(linkInfo: string): void {
         this.args.changeSet.set('preregLinkInfo', linkInfo);
         this.args.validate();
     }

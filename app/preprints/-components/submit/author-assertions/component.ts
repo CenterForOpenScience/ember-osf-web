@@ -27,7 +27,7 @@ interface AuthorAssertionsForm {
     hasPreregLinks: string;
     whyNoPrereg: string;
     preregLinks: string[];
-    preregLinkInfo: string[];
+    preregLinkInfo: PreprintPreregLinksEnum;
 }
 
 const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
