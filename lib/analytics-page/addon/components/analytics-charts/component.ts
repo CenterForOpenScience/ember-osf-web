@@ -297,10 +297,19 @@ export default class AnalyticsChart extends Component<AnalyticsChartArgs> {
             tidyData = this.fakePopularPageData;
         } else {
             const data: PopularPageDatum[] = this.args.chartsDataTaskInstance.value!.popular_pages as any;
-            tidyData = data.map(datum => ({
-                name: datum.title,
-                count: datum.count,
-            }));
+            const aggregatedResults: { [name: string]: PopularPageDisplay } = {};
+
+            data.forEach(datum => {
+                const cleanTitle = datum.title.replace(/^OSF \| /, ''); // Strip "OSF | " from the title
+                const displayDatum = { name: cleanTitle, count: datum.count };
+
+                if (aggregatedResults[displayDatum.name]) {
+                    aggregatedResults[displayDatum.name].count += displayDatum.count;
+                } else {
+                    aggregatedResults[displayDatum.name] = displayDatum;
+                }
+            });
+            tidyData = Object.values(aggregatedResults).sortBy('count').reverse().slice(0, 10);
         }
         return {
             chartKey: 'popular_pages',

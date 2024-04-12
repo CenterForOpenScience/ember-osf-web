@@ -60,6 +60,10 @@
     margin-bottom: 0;
     font-size: 16px;
     color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
 }
 
 .panel-heading {
