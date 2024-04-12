@@ -39,11 +39,11 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
             value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-designs'),
         } as PreregistationLinkInfoOption,
         {
-            key:  PreprintPreregLinkInfoEnum.prereg_analysis,
+            key:  PreprintPreregLinkInfoEnum.PREREG_ANALYSIS,
             value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-analysis'),
         } as PreregistationLinkInfoOption,
         {
-            key:  PreprintPreregLinkInfoEnum.prereg_both,
+            key:  PreprintPreregLinkInfoEnum.PREREG_BOTH,
             value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-both'),
         } as PreregistationLinkInfoOption,
     ];

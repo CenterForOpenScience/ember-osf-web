@@ -32,8 +32,8 @@ export enum PreprintPreregLinksEnum {
 export enum PreprintPreregLinkInfoEnum {
     PREREG_EMPTY = '',
     PREREG_DESIGNS = 'prereg_designs',
-    prereg_analysis = 'prereg_analysis',
-    prereg_both = 'prereg_both',
+    PREREG_ANALYSIS = 'prereg_analysis',
+    PREREG_BOTH = 'prereg_both',
 }
 
 export default class PreprintModel extends OsfModel {
