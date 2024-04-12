@@ -29,6 +29,13 @@ export enum PreprintPreregLinksEnum {
     NOT_APPLICABLE = 'not_applicable',
 }
 
+export enum PreprintPreregLinkInfoEnum {
+    PREREG_EMPTY = '',
+    PREREG_DESIGNS = 'prereg_designs',
+    prereg_analysis = 'prereg_analysis',
+    prereg_both = 'prereg_both',
+}
+
 export default class PreprintModel extends OsfModel {
     @attr('fixstring') title!: string;
     @attr('date') dateCreated!: Date;
@@ -51,12 +58,12 @@ export default class PreprintModel extends OsfModel {
     @attr('boolean') hasCoi!: boolean;
     @attr('string') hasDataLinks!: PreprintDataLinksEnum;
     @attr('string') hasPreregLinks!: PreprintPreregLinksEnum;
-    @attr('string') conflictOfInterestStatement!: string;
+    @attr('string') conflictOfInterestStatement!: string | null;
     @attr('array') dataLinks!: string[];
     @attr('array') preregLinks!: string[];
-    @attr('string') whyNoData!: string;
-    @attr('string') whyNoPrereg!: string;
-    @attr('string') preregLinkInfo!: string;
+    @attr('string') whyNoData!: string | null;
+    @attr('string') whyNoPrereg!: string | null;
+    @attr('string') preregLinkInfo!: PreprintPreregLinkInfoEnum;
 
     @belongsTo('node', { inverse: 'preprints' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
