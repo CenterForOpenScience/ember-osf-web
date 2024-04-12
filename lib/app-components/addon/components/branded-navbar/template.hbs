@@ -9,7 +9,7 @@
     >
         <div local-class='nav-wrapper'>
             <div class='navbar-header'>
-                <LinkTo 
+                <LinkTo
                     @route={{@brandRoute}}
                     @model={{this.providerId}}
                     class='navbar-brand'
@@ -99,8 +99,10 @@
                             {{/if}}
                             <li>
                                 <OsfLink
-                                    {{!-- TODO Preprint emberization: make this an in-app transition --}}
-                                    @href={{this.submitPreprintUrl}}
+                                    data-test-add-a-preprint-branded-navbar
+                                    data-analytics-name='{{this.provider.id}}: add a {{this.provider.preprintWord}} link'
+                                    @route='preprints.submit'
+                                    @models={{array this.provider}}
                                 >
                                     <span role='button'>{{t 'navbar.add_a_preprint' preprintWord=this.provider.preprintWord}}</span>
                                 </OsfLink>
