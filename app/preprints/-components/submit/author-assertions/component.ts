@@ -47,7 +47,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         type: 'empty',
     }),
     whyNoData: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
-        if (changes['hasDataLinks'] !== PreprintDataLinksEnum.YES) {
+        if (changes['hasDataLinks'] !== PreprintDataLinksEnum.YES)  {
             return validatePresence({
                 presence: true,
                 ignoreBlank: true,
@@ -81,7 +81,9 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         type: 'empty',
     }),
     whyNoPrereg: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
-        if (changes['hasPreregLinks'] !== PreprintPreregLinksEnum.YES) {
+        if (
+            changes['hasPreregLinks'] !== PreprintPreregLinksEnum.YES
+        ) {
             return validatePresence({
                 presence: true,
                 ignoreBlank: true,
@@ -147,6 +149,17 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
 
     constructor(owner: unknown, args: AuthorAssertionsArgs) {
         super(owner, args);
+
+        if(this.args.manager.preprint.hasDataLinks === PreprintDataLinksEnum.NOT_APPLICABLE) {
+            this.authorAssertionFormChangeset.set('whyNoData',
+                this.intl.t('preprints.submit.step-three.public-data-na-placeholder'));
+        }
+
+        if(this.args.manager.preprint.hasPreregLinks === PreprintPreregLinksEnum.NOT_APPLICABLE) {
+            this.authorAssertionFormChangeset.set('whyNoPrereg',
+                this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder'));
+        }
+
         if (this.args.manager.preprint.hasCoi === false) {
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
                 this.intl.t('preprints.submit.step-three.conflict-of-interest-none'));
