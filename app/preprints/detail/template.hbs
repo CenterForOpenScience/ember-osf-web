@@ -17,7 +17,8 @@
                             data-test-edit-preprint-button
                             data-analytics-name='Edit preprint button'
                             local-class='btn btn-primary'
-                            @href={{concat '/' this.model.preprint.id '/edit'}}
+                            @route='preprints.edit'
+                            @models={{array this.provider.id this.model.preprint.id}}
                         >
                             {{this.editButtonLabel}}
 
@@ -124,11 +125,11 @@
                         </div>
                         <div>
                             <span data-test-view-count-label>
-                                {{t 'preprints.detail.share.views'}}: 
+                                {{t 'preprints.detail.share.views'}}:
                             </span>
-                            <span data-test-view-count> {{this.model.preprint.apiMeta.metrics.views}} </span> | 
+                            <span data-test-view-count> {{this.model.preprint.apiMeta.metrics.views}} </span> |
                             <span data-test-download-count-label>
-                                {{t 'preprints.detail.share.downloads'}}: 
+                                {{t 'preprints.detail.share.downloads'}}:
                             </span>
                             <span data-test-download-count>{{this.model.preprint.apiMeta.metrics.downloads}}</span>
                             <EmberTooltip>
