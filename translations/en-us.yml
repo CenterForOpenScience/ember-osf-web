@@ -1193,12 +1193,13 @@ preprints:
             conflict-of-interest-description: 'The Conflict of Interest (COI) assertion is made on behalf of all the authors listed for this preprint. COIs include: financial involvement in any entity such as honoraria, grants, speaking fees, employment, consultancies, stock ownership, expert testimony, and patents or licenses. COIs can also include non-financial interests such as personal or professional relationships or pre-existing beliefs in the subject matter or materials discussed in this preprint'
             conflict-of-interest-placeholder: 'Describe'
             conflict-of-interest-none: 'Author asserted there is no Conflict of Interest with this preprint.'
+
+            public-link-add-button: 'Add another'
+            public-link-remove-button: 'Remove link'
+
             public-data-input: 'Public Data'
             public-data-description: 'Data refers to raw and/or processed information (quantitative or qualitative) used for the analyses, case studies, and/or descriptive interpretation in the preprint. Public data could include data posted to open-access repositories, public archival library collection, or government archive. For data that is available under limited circumstances (e.g., after signing a data sharing agreement), choose the ‘No’ option and use the comment box to explain how others could access the data.'
-
             public-data-link-placeholder: 'Link to data'
-            public-data-link-add-button: 'Add another'
-            public-data-link-remove-button: 'Remove link'
             public-data-no-placeholder: 'Describe'
             public-data-na-placeholder: 'Author asserted there is no data associated with this preprint.'
 
@@ -1206,8 +1207,6 @@ preprints:
             public-preregistration-description: '
             A preregistration is a description of the research design and/or analysis plan that is created and registered before researchers collected data or before they have seen/interacted with preexisting data. The description should appear in a public registry (e.g., clinicaltrials.gov, OSF, AEA registry).'
             public-preregistration-link-placeholder: 'Link to preregistration'
-            public-preregistration-link-add-button: 'Add another'
-            public-preregistration-link-remove-button: 'Remove link'
             public-preregistration-no-placeholder: 'Describe'
             public-preregistration-na-placeholder: 'Author asserted there is no preregistration associated with this preprint.'
 

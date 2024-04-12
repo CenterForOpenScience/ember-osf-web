@@ -11,25 +11,26 @@ import { tracked } from '@glimmer/tracking';
 /**
  * The Data Link Args
  */
-interface DataLinkArgs {
+interface LinkArgs {
     remove: (__:number) => {};
     update: (_: string, __:number) => {};
     value: string;
+    placeholder: string;
     index: number;
 }
 
-interface DataLinkForm {
+interface LinkForm {
     value: string;
 }
 
 /**
  * The Data Link Component
  */
-export default class DataLink extends Component<DataLinkArgs>{
+export default class Link extends Component<LinkArgs>{
     @service intl!: Intl;
-    @tracked dataLinkFormChangeset: any = null;
+    @tracked linkFormChangeset: any = null;
 
-    dataLinkFormValidation: ValidationObject<DataLinkForm> = {
+    linkFormValidation: ValidationObject<LinkForm> = {
         value: validateFormat({
             allowBlank: false,
             type: 'url',
@@ -39,21 +40,21 @@ export default class DataLink extends Component<DataLinkArgs>{
 
     @action
     initializeChangeset() {
-        this.dataLinkFormChangeset = buildChangeset(
+        this.linkFormChangeset = buildChangeset(
             {value: this.args.value || undefined},
-            this.dataLinkFormValidation,
+            this.linkFormValidation,
         );
     }
 
     @action
     public async onUpdate(): Promise<void> {
-        this.dataLinkFormChangeset.validate();
-        if (this.dataLinkFormChangeset.isInvalid) {
+        this.linkFormChangeset.validate();
+        if (this.linkFormChangeset.isInvalid) {
             this.args.update('', this.args.index);
             return;
         }
-        this.dataLinkFormChangeset.execute();
-        await this.args.update(this.dataLinkFormChangeset.get('value'), this.args.index);
+        this.linkFormChangeset.execute();
+        await this.args.update(this.linkFormChangeset.get('value'), this.args.index);
     }
 
     @action

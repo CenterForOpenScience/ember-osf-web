@@ -1,23 +1,24 @@
 <div local-class='data-link-container'>
     {{#each this.links as |link index|}}
         <div local-class='data-link'>
-            <Preprints::-Components::Submit::AuthorAssertions::DataLinkWidget::DataLink
+            <Preprints::-Components::Submit::AuthorAssertions::LinkWidget::Link
                 @remove={{this.removeLink}}
                 @update={{this.onUpdate}}
                 @value={{link}}
                 @index={{index}}
+                @placeholder={{@placeholder}}
             />
         </div>
     {{/each}}
 
     <Button
         data-test-add-another-link
-        aria-label={{t 'preprints.submit.step-three.public-data-link-add-button'}}
+        aria-label={{t 'preprints.submit.step-three.public-link-add-button'}}
         local-class='add-another-link'
         @layout='fake-link'
         {{on 'click' this.addLink}}
     >
         <FaIcon @icon='plus' local-class='plus-icon' />
-        {{t 'preprints.submit.step-three.public-data-link-add-button'}}
+        {{t 'preprints.submit.step-three.public-link-add-button'}}
     </Button>
 </div>
