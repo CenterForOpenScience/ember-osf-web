@@ -31,8 +31,9 @@
 
         {{#if this.displayPublicDataLinks}}
             <div local-class='input-container'>
-                <Preprints::-Components::Submit::AuthorAssertions::DataLinkWidget
+                <Preprints::-Components::Submit::AuthorAssertions::LinkWidget
                 @update={{this.updatePublicDataLinks}}
+                @placeholder= {{t 'preprints.submit.step-three.public-data-link-placeholder'}}
             />
             </div>
         {{/if}}

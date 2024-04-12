@@ -8,14 +8,14 @@ import { tracked } from '@glimmer/tracking';
 /**
  * The Data Link Widget Args
  */
-interface DataLinkWidgetArgs {
+interface LinkWidgetArgs {
     update: (_: string[]) => {};
 }
 
 /**
  * The Data Link Widget Component
  */
-export default class DataLinkWidget extends Component<DataLinkWidgetArgs>{
+export default class LinkWidget extends Component<LinkWidgetArgs>{
     @service intl!: Intl;
     @tracked links: string[] = [''];
 
