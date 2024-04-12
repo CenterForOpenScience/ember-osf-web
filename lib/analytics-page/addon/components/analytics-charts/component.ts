@@ -300,7 +300,7 @@ export default class AnalyticsChart extends Component<AnalyticsChartArgs> {
             const aggregatedResults: { [name: string]: PopularPageDisplay } = {};
 
             data.forEach(datum => {
-                const cleanTitle = datum.title.replace(/^OSF \| /, ''); // Strip "OSF | " from the title
+                const cleanTitle = datum.title.replace(/^OSF \| /, '');
                 const displayDatum = { name: cleanTitle, count: datum.count };
 
                 if (aggregatedResults[displayDatum.name]) {
