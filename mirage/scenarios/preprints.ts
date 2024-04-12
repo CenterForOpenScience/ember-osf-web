@@ -333,7 +333,6 @@ function buildThesisCommons(
 
     const subjects = server.createList('subject', 2);
 
-
     thesisCommons.update({
         highlightedSubjects: subjects,
         subjects,
