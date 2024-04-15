@@ -1218,6 +1218,10 @@ preprints:
             title: 'Supplements'
             description: 'Connect an OSF project to share data, code, protocols, or other supplemental materials.'
             connect-button: 'Connect an existing OSF project'
+            choose-project: 'Choose project'
+            choose-project-line-one-description: 'This will make your project public, if it is not already.'
+            choose-project-line-two-description: 'The projects and components for which you have admin access are listed below.'
+
             create-button: 'Create a new OSF project'
         step-five:
             title: 'Review'
