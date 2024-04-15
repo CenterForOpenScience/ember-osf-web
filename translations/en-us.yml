@@ -1216,6 +1216,9 @@ preprints:
             public-preregistration-link-info-both: 'Both'
         step-four:
             title: 'Supplements'
+            description: 'Connect an OSF project to share data, code, protocols, or other supplemental materials.'
+            connect-button: 'Connect an existing OSF project'
+            create-button: 'Create a new OSF project'
         step-five:
             title: 'Review'
         data-analytics: 'Goto {statusType} tab'
