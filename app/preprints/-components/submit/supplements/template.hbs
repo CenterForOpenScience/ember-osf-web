@@ -1,3 +1,32 @@
 <div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
-    {{t 'preprints.submit.step-four.title'}}
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-four.title'}}
+    </h3>
+    <p>
+        {{t 'preprints.submit.step-four.description'}}
+    </p>
+
+    <div local-class='button-container'>
+        <Button
+            data-test-existing-osf-button
+            data-analytics-name='Connect to an existing OSF preprint'
+            {{on 'click' this.onConnectOsfProject}}
+            local-class='btn-width'
+            class='btn btn-secondary btn-large'
+        >
+            {{t 'preprints.submit.step-four.connect-button'}}
+        </Button>
+
+        <Button
+            data-test-create-osf-button
+            data-analytics-name='Create a new OSF preprint'
+            {{on 'click' this.onCreateOsfProject}}
+            local-class='btn-width'
+            class='btn btn-secondary btn-large'
+        >
+            {{t 'preprints.submit.step-four.create-button'}}
+        </Button>
+    </div>
 </div>

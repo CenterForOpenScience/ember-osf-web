@@ -35,12 +35,13 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     titleAndFieldValidation = false;
     metadataValidation = false;
     authorAssertionValidation = false;
+    supplementValidation = false;
     nextButtonIsDisabled = true;
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
     displayAuthorAssertions = true;
-    @tracked statusFlowIndex = 1;
+    @tracked statusFlowIndex = 4;
 
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
@@ -101,6 +102,11 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         ) {
             await this.saveOnStep();
             return;
+        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.supplements) &&
+            this.supplementValidation
+        ) {
+            await this.saveOnStep();
+            return;
         }
     }
 
@@ -137,6 +143,15 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.preprint.whyNoPrereg = null;
         }
         this.authorAssertionValidation = valid;
+        this.nextButtonIsDisabled = !valid;
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @action
+    public validateSupplements(valid: boolean): void {
+        this.supplementValidation= valid;
         this.nextButtonIsDisabled = !valid;
     }
 
