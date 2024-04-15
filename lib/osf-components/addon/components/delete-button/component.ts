@@ -28,6 +28,7 @@ export default class DeleteButton extends Component {
 
     // Optional arguments
     small = false;
+    secondary = false;
     smallSecondary = false;
     noBackground = false;
     hardConfirm = false;
