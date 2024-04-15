@@ -29,4 +29,23 @@
             {{t 'preprints.submit.step-four.create-button'}}
         </Button>
     </div>
+
+    {{#if this.displayExistingNodeWidget }}
+        <div>
+            <Preprints::-Components::Submit::Supplements::ExistingNodeWidget
+            @selectNode={{@selectNode}}/>
+        </div>
+    {{/if}}
+
+    {{#if this.displayCancelButton}}
+        <div local-class='cancel-button-container'>
+            <Button
+                data-test-cancel-button
+                {{on 'click' this.onCancelProjectAction}}
+                class='btn btn-secondary btn-large'
+            >
+                {{t 'general.cancel'}}
+            </Button>
+        </div>
+    {{/if}}
 </div>
