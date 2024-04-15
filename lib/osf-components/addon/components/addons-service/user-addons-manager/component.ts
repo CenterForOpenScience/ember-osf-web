@@ -47,7 +47,6 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @tracked filterTypeMapper = {
         [FilterTypes.STORAGE]: {
             modelName: 'external-storage-service',
-            userRelationshipName: 'authorizedStorageAccounts',
             fetchProvidersTask: taskFor(this.getStorageAddonProviders),
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedStorageAccounts),
@@ -129,6 +128,16 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @action
     acceptProviderTerms() {
         this.pageMode = UserSettingPageModes.ACCOUNT_CREATE;
+    }
+
+    @action
+    beginAccountSetup(provider: Provider) {
+        this.selectProvider(provider);
+    }
+
+    @action
+    configureProvider() {
+        // TODO: Implement
     }
 
     @action
