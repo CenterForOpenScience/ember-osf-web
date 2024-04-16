@@ -5,10 +5,9 @@ import Component from '@glimmer/component';
  */
 interface DropdownNodeArgs {
     isLoading: boolean;
-    hasMore: false;
+    hasMore: boolean;
     loadMore: () => void;
 }
 
-export default class NodePickerDropdownComponent extends Component<DropdownNodeArgs> {
-    hasMore = this.args.hasMore || false;
-}
+// eslint-disable-next-line ember/no-empty-glimmer-component-classes
+export default class NodePickerDropdownComponent extends Component<DropdownNodeArgs> { }
