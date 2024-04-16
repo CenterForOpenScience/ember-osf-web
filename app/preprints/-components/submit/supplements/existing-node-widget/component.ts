@@ -12,8 +12,20 @@ interface ExistingNodeArgs {
  * The Supplements Component
  */
 export default class PreprintExistingNodeWidget extends Component<ExistingNodeArgs>{
+
+    collection = [];
+
     @action
-    public selectNode(node: Node): void {
+    public projectSelected(node: Node): void {
+        // console.log(node);
         this.args.selectNode(node);
     }
+
+    @action
+    // public isProjectSelectorValid(valid: boolean): void {
+    public isProjectSelectorValid(): void {
+        // console.log(valid);
+    }
+
+
 }
