@@ -15,7 +15,6 @@ export default class PreprintExistingNodeWidget extends Component<ExistingNodeAr
 
     @action
     public projectSelected(node: Node): void {
-        // console.log(node);
         this.args.selectNode(node);
     }
 }
