@@ -9,4 +9,14 @@
         <br>
         {{t 'preprints.submit.step-four.choose-project-line-two-description'}}
     </p>
+
+
+    <div>
+        <NodePicker
+        local-class='item-picker-container'
+        @collection={{this.collection}}
+        @projectSelected={{action this.projectSelected}}
+        @validationChanged={{action (mut this.isProjectSelectorValid)}}
+        />
+    </div>
 </div>
