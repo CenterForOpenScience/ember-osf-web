@@ -14,9 +14,7 @@
     <div>
         <NodePicker
         local-class='item-picker-container'
-        @collection={{this.collection}}
-        @projectSelected={{action this.projectSelected}}
-        @validationChanged={{action (mut this.isProjectSelectorValid)}}
+        @projectSelected={{this.projectSelected}}
         />
     </div>
 </div>
