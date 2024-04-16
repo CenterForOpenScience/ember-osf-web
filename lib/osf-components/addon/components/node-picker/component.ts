@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import Store from '@ember-data/store';
 import { action } from '@ember/object';
-import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, timeout } from 'ember-concurrency';
@@ -20,7 +19,6 @@ function stripAndLower(text: string): string {
  */
 interface NodePickerArgs {
     projectSelected: (value: Node) => void;
-    validationChanged: (isValid: boolean) => void;
 }
 
 export default class NodePicker extends Component<NodePickerArgs> {
@@ -33,8 +31,6 @@ export default class NodePicker extends Component<NodePickerArgs> {
     @tracked hasMore = false;
     @tracked loadingMore = false;
     @tracked items: Node[] = [];
-
-    @bool('selected') isValid!: boolean;
 
     constructor(owner: unknown, args: NodePickerArgs) {
         super(owner, args);
@@ -111,8 +107,6 @@ export default class NodePicker extends Component<NodePickerArgs> {
             this.selected = value;
             this.args.projectSelected(value);
         }
-
-        this.args.validationChanged(this.isValid);
     }
 
     @action
