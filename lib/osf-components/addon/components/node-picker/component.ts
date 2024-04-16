@@ -7,9 +7,9 @@ import { waitFor } from '@ember/test-waiters';
 import { restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
-import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import { tracked } from '@glimmer/tracking';
 
 function stripAndLower(text: string): string {
     return stripDiacritics(text).toLowerCase();
@@ -27,13 +27,12 @@ export default class NodePicker extends Component<NodePickerArgs> {
     @service currentUser!: CurrentUser;
     @service store!: Store;
 
-    collection!: Collection;
     selected: Node | null = null;
     filter = '';
     page = 1;
-    hasMore = false;
-    loadingMore = false;
-    items: Node[] = [];
+    @tracked hasMore = false;
+    @tracked loadingMore = false;
+    @tracked items: Node[] = [];
 
     @bool('selected') isValid!: boolean;
 
@@ -127,12 +126,4 @@ export default class NodePicker extends Component<NodePickerArgs> {
     oninput(this: NodePicker, term: string): true | Promise<Node[]> {
         return !!term || taskFor(this.findNodes).perform();
     }
-
-    /*
-    didReceiveAttrs() {
-        if (!taskFor(this.initialLoad).isRunning && this.collection) {
-            taskFor(this.initialLoad).perform();
-        }
-    }
-    */
 }
