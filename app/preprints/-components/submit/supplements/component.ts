@@ -62,14 +62,13 @@ export default class Supplements extends Component<SupplementsArgs>{
     }
 
     @action
-    public selectNode(node: Node): void {
+    public projectSelected(node: Node): void {
         this.supplementFormChangeset.set('node', node);
         this.validate();
     }
 
     @action
     public validate(): void {
-
         this.supplementFormChangeset.validate();
         if (this.supplementFormChangeset.isInvalid) {
             this.args.manager.validateSupplements(false);
