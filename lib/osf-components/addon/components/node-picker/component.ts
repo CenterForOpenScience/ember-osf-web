@@ -25,7 +25,7 @@ export default class NodePicker extends Component<NodePickerArgs> {
     @service currentUser!: CurrentUser;
     @service store!: Store;
 
-    selected: Node | null = null;
+    @tracked selected: Node | null = null;
     filter = '';
     page = 1;
     @tracked hasMore = false;
