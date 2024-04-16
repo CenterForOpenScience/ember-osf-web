@@ -9,11 +9,8 @@
         <br>
         {{t 'preprints.submit.step-four.choose-project-line-two-description'}}
     </p>
-
-
-    <div>
+    <div local-class='select-preprint-container'>
         <NodePicker
-        local-class='item-picker-container'
         @projectSelected={{this.projectSelected}}
         />
     </div>

@@ -5,7 +5,7 @@ import { action } from '@ember/object';
  * The Existing Node Args
  */
 interface ExistingNodeArgs {
-    selectNode: (_: Node) => {};
+    projectSelected: (_: Node) => {};
 }
 
 /**
@@ -15,6 +15,6 @@ export default class PreprintExistingNodeWidget extends Component<ExistingNodeAr
 
     @action
     public projectSelected(node: Node): void {
-        this.args.selectNode(node);
+        this.args.projectSelected(node);
     }
 }
