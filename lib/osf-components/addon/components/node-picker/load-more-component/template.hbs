@@ -1,11 +1,12 @@
 {{#if @isLoading}}
-    {{t 'collections.collection_item_picker.after_options.loading'}}
+    {{t 'node.projects.load-more.loading'}}
 {{else if @hasMore}}
     <li
         local-class='nobullet ember-power-select-option text-center'
         role='button'
         {{action @loadMore}}
+        data-test-load-more-description
     >
-        {{t 'collections.collection_item_picker.after_options.load_more'}}
+        {{t 'node.projects.load-more.load-more'}}
     </li>
 {{/if}}

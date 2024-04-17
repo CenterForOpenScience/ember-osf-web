@@ -1,13 +1,13 @@
 {{#if this.findNodes.last}}
-    <div data-test-collections-item-picker local-class='form-group'>
+    <div data-test-node-picker local-class='form-group'>
         <PowerSelect
             @renderInPlace={{false}}
             @searchEnabled={{true}}
-            @placeholder={{t 'move_to_project.select_placeholder'}}
+            @placeholder={{t 'node.projects.select-placeholder'}}
             @options={{this.items}}
             @matcher={{this.matcher}}
             @afterOptionsComponent={{component
-                'node-picker/dropdown-component'
+                'node-picker/load-more-component'
                 loadMore=(action 'loadMore')
                 hasMore=this.hasMore
                 isLoading=this.loadingMore
@@ -19,7 +19,7 @@
             @onChange={{action 'valueChanged'}}
             as |item|
         >
-            {{get-ancestor-descriptor item}} <strong data-test-collections-node-title={{item.title}}>{{item.title}}</strong>
+            {{get-ancestor-descriptor item}} <strong data-test-node-picker-title={{item.title}}>{{item.title}}</strong>
         </PowerSelect>
     </div>
 {{else}}
