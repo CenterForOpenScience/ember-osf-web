@@ -3,6 +3,7 @@
         data-test-title
     >
         {{t 'preprints.submit.step-four.title'}}
+        <span local-class='required'>*</span>
     </h3>
     <p>
         {{t 'preprints.submit.step-four.description'}}
@@ -13,6 +14,7 @@
             data-test-existing-osf-button
             data-analytics-name='Connect to an existing OSF preprint'
             {{on 'click' this.onConnectOsfProject}}
+            @layout='large'
             local-class='btn-width'
             class='btn btn-secondary btn-large'
         >
@@ -24,7 +26,7 @@
             data-analytics-name='Create a new OSF preprint'
             {{on 'click' this.onCreateOsfProject}}
             local-class='btn-width'
-            class='btn btn-secondary btn-large'
+            @layout='large'
         >
             {{t 'preprints.submit.step-four.create-button'}}
         </Button>
@@ -42,7 +44,6 @@
             <Button
                 data-test-cancel-button
                 {{on 'click' this.onCancelProjectAction}}
-                class='btn btn-secondary btn-large'
             >
                 {{t 'general.cancel'}}
             </Button>
