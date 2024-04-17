@@ -6,7 +6,8 @@
             {{on 'click' this.onNext}}
             local-class='btn'
             @disabled={{@manager.nextButtonIsDisabled}}
-            class='btn btn-primary btn-large'
+            @layout='large'
+            class='btn-primary'
         >
             {{ t 'preprints.submit.action-flow.next'}}
             <FaIcon @icon='arrow-right' />
@@ -17,7 +18,8 @@
             data-analytics-name='Delete button'
             {{on 'click' this.onDelete}}
             local-class='btn'
-            class='btn btn-destroy btn-large'
+            @layout='large'
+            class='btn-destroy'
         >
             {{ t 'preprints.submit.action-flow.delete'}}
         </Button>
