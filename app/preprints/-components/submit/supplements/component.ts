@@ -31,12 +31,11 @@ const SupplementFormValidation: ValidationObject<SupplementsForm> = {
 export default class Supplements extends Component<SupplementsArgs>{
     @tracked displayExistingNodeWidget = false;
     @tracked displayCreateNodeWidget = false;
-    @tracked displayCancelButton = false;
 
     supplementFormChangeset = buildChangeset(this.args.manager.preprint, SupplementFormValidation);
 
-    private isDisplayCancelButton(): void {
-        this.displayCancelButton = this.displayExistingNodeWidget ||
+    public get isDisplayCancelButton(): boolean {
+        return this.displayExistingNodeWidget ||
         this.displayCreateNodeWidget;
     }
 
@@ -44,21 +43,18 @@ export default class Supplements extends Component<SupplementsArgs>{
     public onCancelProjectAction(): void {
         this.displayExistingNodeWidget = false;
         this.displayCreateNodeWidget = false;
-        this.isDisplayCancelButton();
     }
 
     @action
     public onConnectOsfProject(): void {
         this.displayExistingNodeWidget = true;
         this.displayCreateNodeWidget = false;
-        this.isDisplayCancelButton();
     }
 
     @action
     public onCreateOsfProject(): void {
         this.displayCreateNodeWidget = true;
         this.displayExistingNodeWidget = false;
-        this.isDisplayCancelButton();
     }
 
     @action
