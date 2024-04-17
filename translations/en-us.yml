@@ -27,93 +27,93 @@ documentType:
 contact:
     email: support@osf.io
 general:
-    yes: 'Yes'
-    no: 'No'
-    not-applicable: 'Not Applicable'
+    add: Add
+    and: and
+    api: API
+    apply: Apply
+    asc_paren: (asc)
     available: 'Available'
-    OSF: OSF
-    share: Share
-    embed: Embed
+    back: Back
+    bookmark: Bookmark
+    cancel: Cancel
+    caution: Caution
+    close: Close
+    component: component
+    contributors: Contributors
+    copy: Copy
+    cos: 'Center for Open Science'
+    create: Create
+    date: Date
+    delete: Delete
+    desc_paren: (desc)
+    description: Description
+    done: Done
     download: Download
     download_url: 'Download url'
-    done: Done
-    delete: Delete
-    view: View
+    downloads: Downloads
     edit: Edit
-    cancel: Cancel
-    add: Add
-    ok: OK
-    apply: Apply
-    revisions: Revisions
+    ellipsis: …
+    embed: Embed
+    engineering: 'engineering'
+    filter: Filter
+    help: Help
+    home: Home
+    hosted_on_the_osf: 'Hosted on OSF'
+    last_modified: 'Last modified'
+    loading: Loading...
     md5: MD5
-    date: Date
-    sha2: SHA2
-    title: Title
-    contributors: Contributors
     modified: Modified
-    description: Description
-    create: Create
-    and: and
-    or: or
-    bookmark: Bookmark
     more: more
-    upload: Upload
-    rename: Rename
-    copy: Copy
     move: Move
     name: Name
-    size: Size
-    version: Version
-    downloads: Downloads
-    close: Close
-    back: Back
-    public: Public
-    filter: Filter
-    revert: Revert
-    save: Save
-    ellipsis: …
-    warning: Warning
-    caution: Caution
-    sort_asc: 'Sort ascending'
-    sort_desc: 'Sort descending'
-    last_modified: 'Last modified'
-    sort: Sort
-    asc_paren: (asc)
-    desc_paren: (desc)
-    loading: Loading...
     next: next
-    previous: previous
-    help: Help
-    api: API
-    cos: 'Center for Open Science'
-    home: Home
-    period: .
-    settings: Settings
-    project: project
-    component: component
-    registration: registration
-    hosted_on_the_osf: 'Hosted on OSF'
-    presented_by_osf: 'Presented by OSF'
-    please_confirm: 'Please confirm'
-    required: Required
+    newFeaturePopoverHeading: 'New feature!'
+    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
+    no: 'No'
+    not-applicable: 'Not Applicable'
+    ok: OK
+    or: or
     options: Options
     optional: Optional
     optional_paren: (optional)
-    update: Update
-    user: User
+    period: .
+    please_confirm: 'Please confirm'
+    presented_by_osf: 'Presented by OSF'
+    previous: previous
+    project: project
+    public: Public
+    OSF: OSF
+    other: Other
+    registration: registration
+    rename: Rename
+    required: Required
+    revert: Revert
+    revisions: Revisions
+    save: Save
+    science: 'science'
     services:
         collections: Collections
         institutions: Institutions
         preprints: Preprints
         registries: Registries
-    other: Other
+    settings: Settings
+    sha2: SHA2
+    share: Share
+    sort_asc: 'Sort ascending'
+    sort_desc: 'Sort descending'
+    sort: Sort
+    size: Size
     structured_data:
         json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
-    science: 'science'
-    engineering: 'engineering'
-    newFeaturePopoverHeading: 'New feature!'
-    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
+    title: Title
+    update: Update
+    upload: Upload
+    user: User
+    version: Version
+    view: View
+    warning: Warning
+    yes: 'Yes'
 
 file_actions_menu:
     actions: '{filename} actions'
@@ -746,6 +746,11 @@ node:
         contributors: Contributors
         add-ons: Add-ons
         settings: Settings
+    projects:
+        select-placeholder: 'Click to select project'
+        load-more:
+            loading: Loading…
+            load-more: 'Load More Projects'
     registrations:
         new_registration_modal:
             title: Register
