@@ -37,8 +37,7 @@
                         @ariaLabel={{ t 'preprints.submit.step-two.license-placeholder'}}
                         @valuePath={{'license'}}
                         @options={{this.licenses}}
-                        {{on 'change' this.validate}}
-                        {{on 'focusout' this.validate}}
+                        @onchange={{this.validate}}
                         local-class='input-container'
                         @placeholder={{ t 'preprints.submit.step-two.license-placeholder'}}
                         as |license|
@@ -46,7 +45,6 @@
                         {{license.name}}
                     </form.select>
                 {{/let}}
-
 
                 <div local-class='input-container'>
                     {{#let (unique-id) 'subjects' as |subjectsFieldId|}}
