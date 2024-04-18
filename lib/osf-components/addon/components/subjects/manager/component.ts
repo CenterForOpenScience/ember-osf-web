@@ -56,6 +56,7 @@ export default class SubjectManagerComponent extends Component {
 
     // optional
     metadataChangeset?: BufferedChangeset;
+    onchange?: () => void;
 
     // private
     @service intl!: Intl;
@@ -136,6 +137,11 @@ export default class SubjectManagerComponent extends Component {
             if (this.metadataChangeset) {
                 this.metadataChangeset.validate('subjects');
             }
+
+            if (this.onchange) {
+                this.onchange();
+            }
+
         } catch (e) {
             const errorMessage = this.intl.t('registries.registration_metadata.save_subjects_error');
             captureException(e, { errorMessage });
