@@ -1230,6 +1230,9 @@ preprints:
             create-button: 'Create a new OSF project'
         step-five:
             title: 'Review'
+            select-a-service: 'Select a service'
+            preprint-title: 'Title'
+            description: 'Description'
         data-analytics: 'Goto {statusType} tab'
         status-flow:
             step-title-and-file: 'Title and File'

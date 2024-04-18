@@ -1,13 +1,58 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-
 .preprint-input-container {
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
+
+    .step-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        .title {
+            font-weight: bold;
+        }
+
+        .content-container {
+            width: 100%;
+            margin-top: 20px;
+
+            .title {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .display {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+
+                .image {
+                    width: 30px;
+                    height: 30px;
+                    margin-right: 10px;
+                }
+
+                .text {
+                    height: 30px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: flex-start;
+                }
+            }
+        }
+
+        hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            border: 1px solid $color-border-gray;
+        }
+    }
 
     &.mobile {
         height: fit-content;

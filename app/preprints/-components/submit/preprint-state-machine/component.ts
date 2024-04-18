@@ -151,7 +151,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      */
     @action
     public validateSupplements(valid: boolean): void {
-        this.supplementValidation= valid;
+        this.supplementValidation = valid;
         this.nextButtonIsDisabled = !valid;
     }
 
