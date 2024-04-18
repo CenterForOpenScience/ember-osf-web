@@ -12,7 +12,11 @@ interface ReviewArgs {
  * The Review Component
  */
 export default class Review extends Component<ReviewArgs>{
-    constructor(owner: unknown, args: ReviewArgs) {
-        super(owner, args);
+    preprint = this.args.manager.preprint;
+    provider = this.preprint.provider;
+
+    public get providerLogo(): string | undefined {
+        return this.provider.get('assets')?.square_color_no_transparent;
+
     }
 }
