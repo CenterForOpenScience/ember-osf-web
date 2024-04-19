@@ -22,6 +22,7 @@ export default class Review extends Component<ReviewArgs>{
     @tracked preprint = this.args.manager.preprint;
     @tracked provider?: any;
     @tracked license?: any;
+    @tracked contributors?: any;
     @tracked subjects?: any;
 
     constructor(owner: unknown, args: ReviewArgs) {

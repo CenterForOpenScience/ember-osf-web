@@ -1181,7 +1181,7 @@ preprints:
         step-one:
             title: 'Title and File'
             title-input: 'Title'
-            description-input: 'Description'
+            abstract-input: 'Abstract'
         step-two:
             title: 'Metadata'
             license-input: 'License'
@@ -1232,11 +1232,7 @@ preprints:
             title: 'Review'
             select-a-service: 'Select a service'
             preprint-title: 'Title'
-            description: 'Description'
             contributors: 'Contributors'
-            license: 'License'
-            subject: 'Subject'
-            tags: 'Tags'
             publication-doi: 'Publication DOI'
             publication-year: 'Publication Year'
             publication-citation: 'Publication Citation'

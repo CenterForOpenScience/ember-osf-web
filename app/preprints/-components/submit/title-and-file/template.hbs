@@ -27,21 +27,21 @@
                     @uniqueID={{titleFieldId}} 
                 />
             {{/let}}
-            {{#let (unique-id 'description') as |descriptionFieldId|}}
-                <label for={{descriptionFieldId}}
-                    data-test-description-label
+            {{#let (unique-id 'abstract') as |abstractFieldId|}}
+                <label for={{abstractFieldId}}
+                    data-test-abstract-label
                 >
-                    {{t 'preprints.submit.step-one.description-input'}}
+                    {{t 'preprints.submit.step-one.abstract-input'}}
                     <span local-class='required'>*</span>
                 </label>
                 <form.textarea
-                    data-test-description-input
+                    data-test-abstract-input
                     @valuePath={{'description'}}
                     @isRequired={{true}}
                     {{on 'change' this.validate}}
                     local-class='input-container textarea-container'
-                    @placeholder={{t 'preprints.submit.step-one.description-input'}}
-                    @uniqueID={{descriptionFieldId}} 
+                    @placeholder={{t 'preprints.submit.step-one.abstract-input'}}
+                    @uniqueID={{abstractFieldId}} 
                 />
             {{/let}}
         </FormControls>
