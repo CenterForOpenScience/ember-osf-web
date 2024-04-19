@@ -24,22 +24,22 @@ interface MetadataArgs {
 }
 
 interface MetadataForm {
-    publicationDoi: string;
-    publicationYear: number;
+    doi: string;
+    originalPublicationYear: number;
     publicationCitation: string;
     license: LicenseModel;
     subjects: SubjectModel[];
 }
 
 const MetadataFormValidation: ValidationObject<MetadataForm> = {
-    publicationDoi: validateFormat({
+    doi: validateFormat({
         allowBlank: true,
         allowNone: true,
         ignoreBlank: true,
         regex: DOIRegex,
         type: 'invalid_doi',
     }),
-    publicationYear: validateFormat({
+    originalPublicationYear: validateFormat({
         allowBlank: true,
         allowNone: true,
         ignoreBlank: true,
