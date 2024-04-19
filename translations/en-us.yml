@@ -1233,6 +1233,13 @@ preprints:
             select-a-service: 'Select a service'
             preprint-title: 'Title'
             description: 'Description'
+            contributors: 'Contributors'
+            license: 'License'
+            subject: 'Subject'
+            tags: 'Tags'
+            publication-doi: 'Publication DOI'
+            publication-year: 'Publication Year'
+            publication-citation: 'Publication Citation'
         data-analytics: 'Goto {statusType} tab'
         status-flow:
             step-title-and-file: 'Title and File'

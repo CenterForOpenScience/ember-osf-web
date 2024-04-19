@@ -59,6 +59,7 @@ export default class PreprintModel extends OsfModel {
     @attr('string') hasDataLinks!: PreprintDataLinksEnum;
     @attr('string') hasPreregLinks!: PreprintPreregLinksEnum;
     @attr('string') conflictOfInterestStatement!: string | null;
+    @attr('string') publicationCitation!: string;
     @attr('array') dataLinks!: string[];
     @attr('array') preregLinks!: string[];
     @attr('string') whyNoData!: string | null;

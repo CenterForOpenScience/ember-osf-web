@@ -1,67 +1,117 @@
 <div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
-    <div local-class='step-container'>
-        <h3 local-class='title'
-            data-test-title-step-one
-        >
-            {{t 'preprints.submit.step-one.title'}}
-        </h3>
+    {{#if this.loadPreprint.isRunning}}
+        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+    {{else}} 
+        <div local-class='step-container'>
+            <h3 local-class='title'
+                data-test-title-step-one
+            >
+                {{t 'preprints.submit.step-one.title'}}
+            </h3>
 
-        <div local-class='content-container'>
-            <div local-class='title'>
-                {{t 'preprints.submit.step-five.select-a-service'}}
-            </div>
-            <div local-class='display'>
-                <img
-                    data-test-provider-image
-                    local-class='image'
-                    src={{this.providerLogo}}
-                    alt={{t 'preprints.submit.step-one.title'}}
-                />
-                <div local-class='text'>
-                    {{this.preprint.provider.name}}
+            <div local-class='content-container'>
+                <div local-class='title'>
+                    {{t 'preprints.submit.step-five.select-a-service'}}
+                </div>
+                <div local-class='display'>
+                    <img
+                        data-test-provider-image
+                        local-class='image'
+                        src={{this.providerLogo}}
+                        alt={{t 'preprints.submit.step-one.title'}}
+                    />
+                    <div local-class='text'>
+                        {{this.preprint.provider.name}}
+                    </div>
                 </div>
             </div>
+            <div local-class='content-container'>
+                <h4>
+                    {{t 'preprints.submit.step-five.preprint-title'}}
+                </h4>
+                <div local-class='display'>
+                    {{this.preprint.title}}
+                </div>
+            </div>
+            <div local-class='content-container'>
+                <Preprints::-Components::PreprintAbstract @preprint={{this.preprint}} />
+            </div>
+            <hr>
         </div>
-        <div local-class='content-container'>
-            <div local-class='title'>
-                {{t 'preprints.submit.step-five.preprint-title'}}
+        <div local-class='step-container'>
+            <h3 local-class='title'
+                data-test-title-step-two
+            >
+                {{t 'preprints.submit.step-two.title'}}
+            </h3>
+            <div local-class='content-container'>
+                <div local-class='title'>
+                    {{t 'preprints.submit.step-five.contributors'}}
+                </div>
+                <div local-class='display'>
+                    <ContributorList
+                        @model={{this.preprint}}
+                        @shouldTruncate={{false}}
+                        @shouldLinkUsers={{true}}
+                    />
+                </div>
             </div>
-            <div local-class='display'>
-                {{this.preprint.title}}
+            <div local-class='content-container'>
+                <div local-class='display'>
+                    <Preprints::-Components::PreprintLicense @preprint={{this.preprint}} />
+                </div>
             </div>
+            <div local-class='content-container'>
+                <div local-class='display'>
+                    <Preprints::-Components::PreprintDiscipline @subjects={{this.subjects}} />
+                </div>
+            </div>
+            <div local-class='content-container'>
+                <div local-class='display'>
+                    <Preprints::-Components::PreprintTag @preprint={{this.preprint}} />
+                </div>
+            </div>
+            <div local-class='content-container'>
+                <h4>
+                    {{t 'preprints.submit.step-five.publication-doi'}}
+                </h4>
+                <div local-class='display'>
+                    {{this.preprint.preprintDoiUrl}}
+                </div>
+            </div>
+            <div local-class='content-container'>
+                <h4>
+                    {{t 'preprints.submit.step-five.publication-year'}}
+                </h4>
+                <div local-class='display'>
+                    {{moment-format this.preprint.originalPublicationDate 'YYYY-MM-DD'}}
+                </div>
+            </div>
+            <div local-class='content-container'>
+                <h4>
+                    {{t 'preprints.submit.step-five.publication-citation'}}
+                </h4>
+                <div local-class='display'>
+                    {{this.preprint.publicationCitation}}
+                </div>
+            </div>
+            <hr>
         </div>
-        <div local-class='content-container'>
-            <div local-class='title'>
-                {{t 'preprints.submit.step-five.description'}}
-            </div>
-            <div local-class='display'>
-                {{this.preprint.description}}
-            </div>
+        <div local-class='step-container'>
+            <h3 local-class='title'
+                data-test-title-step-three
+            >
+                {{t 'preprints.submit.step-three.title'}}
+            </h3>
+            <hr />
         </div>
-        <hr>
-    </div>
-    <div local-class='step-container'>
-        <h3 local-class='title'
-            data-test-title-step-two
-        >
-            {{t 'preprints.submit.step-two.title'}}
-        </h3>
-        <hr>
-    </div>
-    <div local-class='step-container'>
-        <h3 local-class='title'
-            data-test-title-step-three
-        >
-            {{t 'preprints.submit.step-three.title'}}
-        </h3>
-        <hr />
-    </div>
-    <div local-class='step-container'>
-        <h3 local-class='title'
-            data-test-title-step-four
-        >
-            {{t 'preprints.submit.step-four.title'}}
-        </h3>
-        <hr>
-    </div>
+        <div local-class='step-container'>
+            <h3 local-class='title'
+                data-test-title-step-four
+            >
+                {{t 'preprints.submit.step-four.title'}}
+            </h3>
+            <hr>
+        </div>
+    {{/if}}
 </div>
