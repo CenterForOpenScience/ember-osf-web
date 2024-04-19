@@ -29,7 +29,16 @@ export function createPreprint(this: HandlerContext, schema: Schema) {
 
     if (userId) {
         const currentUser = schema.users.find(userId);
-        schema.contributors.create({ preprint, users: currentUser, index: 0, permission: Permission.Admin });
+        const contributor = schema.contributors.create({
+            preprint,
+            users: currentUser,
+            index: 0,
+            permission: Permission.Admin,
+            bibliographic: true,
+        });
+
+        preprint.bibliographicContributors.models.push(contributor);
+        preprint.save();
     }
 
     return preprint;

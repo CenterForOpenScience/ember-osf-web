@@ -48,7 +48,8 @@ export function addPreprintContributor(this: HandlerContext, schema: Schema, req
     const attrs = this.normalizedRequestAttrs('contributor');
     const { preprintID } = request.params;
     const preprint = schema.preprints.find(preprintID) as ModelInstance<PreprintModel>;
-    let contributorCreated = null;
+    let contributorCreated;
+
     if (attrs.usersId) {
         // The request comes with an id in the payload
         // That means we are adding an existing OSFUser as a contributor
@@ -71,6 +72,11 @@ export function addPreprintContributor(this: HandlerContext, schema: Schema, req
             users: user,
             preprint,
         });
+    }
+
+    if (contributorCreated!.bibliographic) {
+        preprint.bibliographicContributors.models.pushObject(contributorCreated!);
+        preprint.save();
     }
     return contributorCreated;
 }
