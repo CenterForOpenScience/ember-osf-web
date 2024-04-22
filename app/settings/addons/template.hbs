@@ -48,10 +48,10 @@
                     {{/if}}
                 </div>
             {{else}}
-                <div local-class='tab-wrapper {{if this.isMobile 'mobile'}}'>
+                <div local-class='tab-wrapper {{if (media 'isMobile') 'mobile'}}'>
                     <div
                         data-analytics-scope='Addon List Filter'
-                        local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+                        local-class='filter-wrapper {{if (media 'isMobile') 'mobile'}}'
                     >
                         <Input
                             data-test-user-addon-list-filter-input
@@ -85,7 +85,7 @@
                         <tab.tabPanel
                             data-test-all-addons-tab
                             data-analytics-scope='All addons tab'
-                            local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'
+                            local-class='addons-list-wrapper {{if (media 'isMobile') 'mobile'}}'
                         >
                             <ul local-class='addons-card-wrapper'>
                                 {{#each manager.filteredAddonProviders as |provider|}}
@@ -112,7 +112,7 @@
                         <tab.tabPanel
                             data-test-authorized-accounts-tab
                             data-analytics-scope='Authorized accounts tab'
-                            local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'
+                            local-class='addons-list-wrapper {{if (media 'isMobile') 'mobile'}}'
                         >
                             <ul local-class='configured-addons-wrapper'>
                                 {{#each manager.currentTypeAuthorizedAccounts as |account|}}
