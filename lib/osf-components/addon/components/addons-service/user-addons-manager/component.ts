@@ -28,8 +28,6 @@ import { FilterTypes } from '../manager/component';
 enum UserSettingPageModes {
     TERMS = 'terms',
     ACCOUNT_CREATE = 'accountCreate',
-    CONFIGURE_PROVIDER = 'configureProvider',
-    CONFIGURE_ACCOUNT = 'configureAccount',
 }
 
 interface Args {
@@ -135,30 +133,8 @@ export default class UserAddonManagerComponent extends Component<Args> {
     }
 
     @action
-    configureProviderAccounts(provider: Provider) {
-        this.pageMode = UserSettingPageModes.CONFIGURE_PROVIDER;
-        this.selectedProvider = provider;
-    }
-
-    @action
-    configureAuthorizedAccount(account: AllAuthorizedAccountTypes) {
-        this.pageMode = UserSettingPageModes.CONFIGURE_ACCOUNT;
-        this.selectedAccount = account;
-    }
-
-    @action
     acceptProviderTerms() {
         this.pageMode = UserSettingPageModes.ACCOUNT_CREATE;
-    }
-
-    @action
-    beginAccountSetup(provider: Provider) {
-        this.connectNewProviderAccount(provider);
-    }
-
-    @action
-    configureProvider(_: Provider) {
-        // TODO: Implement
     }
 
     @action

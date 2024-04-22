@@ -45,42 +45,6 @@
                                 @onInput={{manager.onCredentialsInput}}
                             />
                         </div>
-                    {{else if (eq manager.pageMode 'configureProvider')}}
-                        <div data-analytics-scope='Configure Provider'>
-                            <h3>
-                                {{t 'addons.list.authorized-accounts-for-provider' providerName=manager.selectedProvider.provider.name}}
-                            </h3>
-                            <ul local-class='configured-addons-wrapper'>
-                                {{!-- loop through authorized accounts for the selected provider --}}
-                                {{#each (filter-by 'storageProvider.id' manager.selectedProvider.provider.id manager.currentTypeAuthorizedAccounts) as |account|}}
-                                    <li local-class='provider-list-item'>
-                                        <span>
-                                            {{account.storageProvider.name}}
-                                            {{account.externalUserDisplayName}}
-                                        </span>
-                                        <span>
-                                            <Button
-                                                data-test-configure-account
-                                                data-analytics-name='Configure Account Button {{account.storageProvider.name}}'
-                                                {{on 'click' (fn manager.configureAuthorizedAccount account)}}
-                                            >
-                                                {{t 'addons.list.configure'}}
-                                            </Button>
-                                            <DeleteButton
-                                                @secondary={{true}}
-                                                @delete={{perform manager.disconnectAccount account}}
-                                                @buttonLabel={{t 'addons.list.disconnect'}}
-                                                @modalTitle={{t 'osf-components.addon-card.disable-modal-header'}}
-                                                @modalBody={{t 'addons.list.disconnect-confirmation'}}
-                                                @confirmButtonText={{t 'osf-components.addon-card.disable'}}
-                                            />
-                                        </span>
-                                    </li>
-                                {{else}}
-                                    <li local-class='provider-list-item'>{{t 'addons.list.no-authorized-accounts'}}</li>
-                                {{/each}}
-                            </ul>
-                        </div>
                     {{/if}}
                 </div>
             {{else}}
