@@ -225,7 +225,6 @@ addons:
     list:
         authorized-accounts-for-provider: 'Authorized accounts for {providerName}'
         authorized-accounts: 'Authorized accounts'
-        all-authorized-accounts: 'All Authorized Accounts'
         connected-accounts: 'Connected Accounts'
         all-addons: 'All Add-ons'
         sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.' 

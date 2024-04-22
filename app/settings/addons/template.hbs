@@ -48,97 +48,96 @@
                     {{/if}}
                 </div>
             {{else}}
-                <AriaTabs
-                    @defaultIndex={{0}}
-                    local-class='tabs'
-                    as |tab|
-                >
-                    <tab.tabList
-                        local-class='tab-list'
-                        as |tablist|
+                <div local-class='tab-wrapper {{if this.isMobile 'mobile'}}'>
+                    <div
+                        data-analytics-scope='Addon List Filter'
+                        local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
                     >
-                        <tablist.tab data-analytics-name='All Addons Tab'>{{t 'addons.list.all-addons'}}</tablist.tab>
-                        <tablist.tab data-analytics-name='Authorized Accounts Tab'>{{t 'addons.list.authorized-accounts'}}</tablist.tab>
-                    </tab.tabList>
-                    <tab.tabPanel
-                        data-test-all-addons-tab
-                        data-analytics-scope='All addons tab'
-                        local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'
+                        <Input
+                            data-test-user-addon-list-filter-input
+                            placeholder={{t 'addons.list.filter-placeholder'}}
+                            @type='text'
+                            @value={{manager.filterText}}
+                        />
+                        {{#each manager.possibleFilterTypes as |type|}}
+                            <Button
+                                data-test-user-addon-list-filter={{type}}
+                                data-analytics-name={{t (concat 'addons.list.filter.' type)}}
+                                local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                                @layout='fake-link'
+                                {{on 'click' (fn manager.filterByAddonType type)}}
+                            >
+                                {{t (concat 'addons.list.filter.' type)}}
+                            </Button>
+                        {{/each}}
+                    </div>
+                    <AriaTabs
+                        @defaultIndex={{0}}
+                        as |tab|
                     >
-                        <div
-                            data-analytics-scope='Addon List Filter'
-                            local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+                        <tab.tabList
+                            local-class='tab-list'
+                            as |tablist|
                         >
-                            <Input
-                                data-test-user-addon-list-filter-input
-                                placeholder={{t 'addons.list.filter-placeholder'}}
-                                @type='text'
-                                @value={{manager.filterText}}
-                            />
-                            {{#each manager.possibleFilterTypes as |type|}}
-                                <Button
-                                    data-test-user-addon-list-filter={{type}}
-                                    data-analytics-name={{t (concat 'addons.list.filter.' type)}}
-                                    local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
-                                    @layout='fake-link'
-                                    {{on 'click' (fn manager.filterByAddonType type)}}
-                                >
-                                    {{t (concat 'addons.list.filter.' type)}}
-                                </Button>
-                            {{/each}}
-                        </div>
-                        <ul local-class='addons-card-wrapper'>
-                            {{#each manager.filteredAddonProviders as |provider|}}
-                                <li
-                                    data-test-provider={{provider.name}}
-                                    local-class='provider-list-item'
-                                >
-                                    {{provider.name}}
-                                    <span>
-                                        <Button
-                                            data-analytics-name='Connect Addon Button {{provider.name}}'
-                                            @type='create'
-                                            {{on 'click' (fn manager.connectNewProviderAccount provider)}}
-                                        >
-                                            {{t 'general.authorize'}}
-                                        </Button>
-                                    </span>
-                                </li>
-                            {{else}}
-                                <li local-class='provider-list-item'>{{t 'addons.list.no-results'}}</li>
-                            {{/each}}
-                        </ul>
-                    </tab.tabPanel>
-                    <tab.tabPanel
-                        data-test-authorized-accounts-tab
-                        data-analytics-scope='Authorized accounts tab'
-                    >
-                        <h3>
-                            {{t 'addons.list.all-authorized-accounts'}}
-                        </h3>
-                        <ul local-class='configured-addons-wrapper'>
-                            {{#each manager.currentTypeAuthorizedAccounts as |account|}}
-                                <li local-class='provider-list-item'>
-                                    <span>
-                                        {{account.displayName}}
-                                    </span>
-                                    <span>
-                                        <DeleteButton
-                                            @secondary={{true}}
-                                            @delete={{perform manager.disconnectAccount account}}
-                                            @buttonLabel={{t 'addons.list.disconnect'}}
-                                            @modalTitle={{t 'osf-components.addon-card.disable-modal-header'}}
-                                            @modalBody={{t 'addons.list.disconnect-confirmation'}}
-                                            @confirmButtonText={{t 'addons.list.disconnect'}}
-                                        />
-                                    </span>
-                                </li>
-                            {{else}}
-                                <li local-class='provider-list-item'>{{t 'addons.list.no-authorized-accounts'}}</li>
-                            {{/each}}
-                        </ul>
-                    </tab.tabPanel>
-                </AriaTabs>
+                            <tablist.tab data-analytics-name='All Addons Tab'>{{t 'addons.list.all-addons'}}</tablist.tab>
+                            <tablist.tab data-analytics-name='Authorized Accounts Tab'>{{t 'addons.list.authorized-accounts'}}</tablist.tab>
+                        </tab.tabList>
+                        <tab.tabPanel
+                            data-test-all-addons-tab
+                            data-analytics-scope='All addons tab'
+                            local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'
+                        >
+                            <ul local-class='addons-card-wrapper'>
+                                {{#each manager.filteredAddonProviders as |provider|}}
+                                    <li
+                                        data-test-provider={{provider.name}}
+                                        local-class='provider-list-item'
+                                    >
+                                        {{provider.name}}
+                                        <span>
+                                            <Button
+                                                data-analytics-name='Connect Addon Button {{provider.name}}'
+                                                @type='create'
+                                                {{on 'click' (fn manager.connectNewProviderAccount provider)}}
+                                            >
+                                                {{t 'general.authorize'}}
+                                            </Button>
+                                        </span>
+                                    </li>
+                                {{else}}
+                                    <li local-class='provider-list-item'>{{t 'addons.list.no-results'}}</li>
+                                {{/each}}
+                            </ul>
+                        </tab.tabPanel>
+                        <tab.tabPanel
+                            data-test-authorized-accounts-tab
+                            data-analytics-scope='Authorized accounts tab'
+                            local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'
+                        >
+                            <ul local-class='configured-addons-wrapper'>
+                                {{#each manager.currentTypeAuthorizedAccounts as |account|}}
+                                    <li local-class='provider-list-item'>
+                                        <span>
+                                            {{account.displayName}}
+                                        </span>
+                                        <span>
+                                            <DeleteButton
+                                                @secondary={{true}}
+                                                @delete={{perform manager.disconnectAccount account}}
+                                                @buttonLabel={{t 'addons.list.disconnect'}}
+                                                @modalTitle={{t 'osf-components.addon-card.disable-modal-header'}}
+                                                @modalBody={{t 'addons.list.disconnect-confirmation'}}
+                                                @confirmButtonText={{t 'addons.list.disconnect'}}
+                                            />
+                                        </span>
+                                    </li>
+                                {{else}}
+                                    <li local-class='provider-list-item'>{{t 'addons.list.no-authorized-accounts'}}</li>
+                                {{/each}}
+                            </ul>
+                        </tab.tabPanel>
+                    </AriaTabs>
+                </div>
             {{/if}}
         {{/if}}
     </AddonsService::UserAddonsManager>

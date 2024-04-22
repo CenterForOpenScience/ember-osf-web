@@ -1,4 +1,5 @@
 .configured-addons-wrapper {
+    width: 100%;
     display: flex;
     flex-direction: column;
     padding-inline-start: 0;
@@ -6,9 +7,9 @@
 
 .addons-list-wrapper {
     display: flex;
-    margin-top: 20px;
 
     &.mobile {
+        width: 100%;
         flex-direction: column;
         flex-wrap: wrap;
     }
@@ -39,6 +40,7 @@
 }
 
 .addons-card-wrapper {
+    padding-inline-start: 0;
     flex-grow: 1;
     display: flex;
     flex-wrap: wrap;
@@ -60,6 +62,18 @@
 
 .float-right {
     float: right;
+}
+
+.tab-wrapper {
+    display: flex;
+
+    &.mobile {
+        flex-direction: column;
+    }
+
+    :global(.ember-tabs) {
+        flex-grow: 1;
+    }
 }
 
 .tab-list {
