@@ -7,40 +7,82 @@
             <LoadingIndicator @dark={{true}} />
         {{else}}
             {{#if manager.selectedProvider}}
-                <Button
-                    data-test-cancel-account-setup
-                    data-analytics-name='Cancel Account Setup'
-                    local-class='float-right'
-                    @layout='fake-link'
-                    {{on 'click' manager.cancelAccountSetup}}
-                >
-                    {{t 'general.back'}}
-                </Button>
-                {{#if (eq manager.pageMode 'terms')}}
-                    <h3>
-                        {{t 'addons.terms.heading' providerName=manager.selectedProvider.provider.name}}
-                    </h3>
-                    <AddonsService::TermsOfService
-                        @provider={{manager.selectedProvider.provider}}
-                    />
+                <div data-analytics-scope='{{manager.selectedProvider.name}}'>
                     <Button
+                        data-test-cancel-account-setup
+                        data-analytics-name='Cancel Account Setup'
                         local-class='float-right'
-                        @type='primary'
-                        {{on 'click' manager.acceptProviderTerms}}
+                        @layout='fake-link'
+                        {{on 'click' manager.cancelAccountSetup}}
                     >
-                        {{t 'general.confirm'}}
+                        {{t 'general.back'}}
                     </Button>
-                {{else if (eq manager.pageMode 'accountCreate')}}
-                    <h3 local-class='page-heading'>
-                        {{t 'addons.accountSelect.new-account'}}
-                    </h3>
-                    <AddonsService::AccountSetupManager
-                        @provider={{manager.selectedProvider.provider}}
-                        @manager={{manager}}
-                        @onConnect={{manager.connectAccount}}
-                        @onInput={{manager.onCredentialsInput}}
-                    />
-                {{/if}}
+                    {{#if (eq manager.pageMode 'terms')}}
+                        <div data-analytics-scope='Terms'>
+                            <h3>
+                                {{t 'addons.terms.heading' providerName=manager.selectedProvider.provider.name}}
+                            </h3>
+                            <AddonsService::TermsOfService
+                                @provider={{manager.selectedProvider.provider}}
+                            />
+                            <Button
+                                local-class='float-right'
+                                @type='primary'
+                                {{on 'click' manager.acceptProviderTerms}}
+                            >
+                                {{t 'general.confirm'}}
+                            </Button>
+                        </div>
+                    {{else if (eq manager.pageMode 'accountCreate')}}
+                        <div data-analytics-scope='Account Create'>
+                            <h3 local-class='page-heading'>
+                                {{t 'addons.accountSelect.new-account'}}
+                            </h3>
+                            <AddonsService::AccountSetupManager
+                                @provider={{manager.selectedProvider.provider}}
+                                @manager={{manager}}
+                                @onConnect={{manager.connectAccount}}
+                                @onInput={{manager.onCredentialsInput}}
+                            />
+                        </div>
+                    {{else if (eq manager.pageMode 'configureProvider')}}
+                        <div data-analytics-scope='Configure Provider'>
+                            <h3>
+                                {{t 'addons.list.authorized-accounts-for-provider' providerName=manager.selectedProvider.provider.name}}
+                            </h3>
+                            <ul local-class='configured-addons-wrapper'>
+                                {{!-- loop through authorized accounts for the selected provider --}}
+                                {{#each (filter-by 'storageProvider.id' manager.selectedProvider.provider.id manager.currentTypeAuthorizedAccounts) as |account|}}
+                                    <li local-class='provider-list-item'>
+                                        <span>
+                                            {{account.storageProvider.name}}
+                                            {{account.externalUserDisplayName}}
+                                        </span>
+                                        <span>
+                                            <Button
+                                                data-test-configure-account
+                                                data-analytics-name='Configure Account Button {{account.storageProvider.name}}'
+                                                {{on 'click' (fn manager.configureAuthorizedAccount account)}}
+                                            >
+                                                {{t 'addons.list.configure'}}
+                                            </Button>
+                                            <DeleteButton
+                                                @secondary={{true}}
+                                                @delete={{perform manager.disconnectAccount account}}
+                                                @buttonLabel={{t 'addons.list.disconnect'}}
+                                                @modalTitle={{t 'osf-components.addon-card.disable-modal-header'}}
+                                                @modalBody={{t 'addons.list.disconnect-confirmation'}}
+                                                @confirmButtonText={{t 'osf-components.addon-card.disable'}}
+                                            />
+                                        </span>
+                                    </li>
+                                {{else}}
+                                    <li local-class='provider-list-item'>{{t 'addons.list.no-authorized-accounts'}}</li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                    {{/if}}
+                </div>
             {{else}}
                 <AriaTabs
                     @defaultIndex={{0}}
@@ -51,36 +93,79 @@
                         local-class='tab-list'
                         as |tablist|
                     >
-                        <tablist.tab>{{t 'addons.list.connected-accounts'}}</tablist.tab>
-                        <tablist.tab>{{t 'addons.list.all-addons'}}</tablist.tab>
+                        <tablist.tab data-analytics-name='All Addons Tab'>{{t 'addons.list.all-addons'}}</tablist.tab>
+                        <tablist.tab data-analytics-name='Authorized Accounts Tab'>{{t 'addons.list.authorized-accounts'}}</tablist.tab>
                     </tab.tabList>
                     <tab.tabPanel
-                        data-test-configured-addons-tab
-                        data-analytics-scope='Configured addons tab'
+                        data-test-all-addons-tab
+                        data-analytics-scope='All addons tab'
+                        local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'
                     >
-                        {{!-- Some text here explaining this is a list of all the accounts associated with your OSF account? --}}
+                        <div
+                            data-analytics-scope='Addon List Filter'
+                            local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+                        >
+                            <Input
+                                data-test-user-addon-list-filter-input
+                                placeholder={{t 'addons.list.filter-placeholder'}}
+                                @type='text'
+                                @value={{manager.filterText}}
+                            />
+                            {{#each manager.possibleFilterTypes as |type|}}
+                                <Button
+                                    data-test-user-addon-list-filter={{type}}
+                                    data-analytics-name={{t (concat 'addons.list.filter.' type)}}
+                                    local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                                    @layout='fake-link'
+                                    {{on 'click' (fn manager.filterByAddonType type)}}
+                                >
+                                    {{t (concat 'addons.list.filter.' type)}}
+                                </Button>
+                            {{/each}}
+                        </div>
+                        <ul local-class='addons-card-wrapper'>
+                            {{#each manager.filteredAddonProviders as |provider|}}
+                                <li
+                                    data-test-provider={{provider.name}}
+                                    local-class='provider-list-item'
+                                >
+                                    {{provider.name}}
+                                    <span>
+                                        <Button
+                                            data-analytics-name='Connect Addon Button {{provider.name}}'
+                                            @type='create'
+                                            {{on 'click' (fn manager.connectNewProviderAccount provider)}}
+                                        >
+                                            {{t 'general.authorize'}}
+                                        </Button>
+                                    </span>
+                                </li>
+                            {{else}}
+                                <li local-class='provider-list-item'>{{t 'addons.list.no-results'}}</li>
+                            {{/each}}
+                        </ul>
+                    </tab.tabPanel>
+                    <tab.tabPanel
+                        data-test-authorized-accounts-tab
+                        data-analytics-scope='Authorized accounts tab'
+                    >
+                        <h3>
+                            {{t 'addons.list.all-authorized-accounts'}}
+                        </h3>
                         <ul local-class='configured-addons-wrapper'>
                             {{#each manager.currentTypeAuthorizedAccounts as |account|}}
                                 <li local-class='provider-list-item'>
                                     <span>
-                                        {{account.storageProvider.name}}
-                                        {{account.externalUserDisplayName}}
+                                        {{account.displayName}}
                                     </span>
                                     <span>
-                                        <Button
-                                            data-test-configure-account
-                                            data-analytics-name='Configure Addon Button {{account.storageProvider.name}}'
-                                            {{on 'click' (fn manager.configureProvider account)}}
-                                        >
-                                            {{t 'osf-components.addon-card.configure'}}
-                                        </Button>
                                         <DeleteButton
                                             @secondary={{true}}
-                                            @delete={{perform manager.disconnectAddon account}}
+                                            @delete={{perform manager.disconnectAccount account}}
                                             @buttonLabel={{t 'addons.list.disconnect'}}
                                             @modalTitle={{t 'osf-components.addon-card.disable-modal-header'}}
                                             @modalBody={{t 'addons.list.disconnect-confirmation'}}
-                                            @confirmButtonText={{t 'osf-components.addon-card.disable'}}
+                                            @confirmButtonText={{t 'addons.list.disconnect'}}
                                         />
                                     </span>
                                 </li>
@@ -88,60 +173,6 @@
                                 <li local-class='provider-list-item'>{{t 'addons.list.no-authorized-accounts'}}</li>
                             {{/each}}
                         </ul>
-                    </tab.tabPanel>
-                    <tab.tabPanel
-                        data-test-all-addons-tab
-                        data-analytics-scope='All addons tab'
-                    >
-                        {{!-- Some text here explaining this is a list of all the addons you can connect to your OSF account? --}}
-                        <div
-                            data-analytics-scope='Addon List'
-                            local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'
-                        >
-                            <div
-                                data-analytics-scope='Addon List Filter'
-                                local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
-                            >
-                                <Input
-                                    data-test-user-addon-list-filter-input
-                                    placeholder={{t 'addons.list.filter-placeholder'}}
-                                    @type='text'
-                                    @value={{manager.filterText}}
-                                />
-                                {{#each manager.possibleFilterTypes as |type|}}
-                                    <Button
-                                        data-test-user-addon-list-filter={{type}}
-                                        data-analytics-name={{t (concat 'addons.list.filter.' type)}}
-                                        local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
-                                        @layout='fake-link'
-                                        {{on 'click' (fn manager.filterByAddonType type)}}
-                                    >
-                                        {{t (concat 'addons.list.filter.' type)}}
-                                    </Button>
-                                {{/each}}
-                            </div>
-                            <ul local-class='addons-card-wrapper'>
-                                {{#each manager.filteredAddonProviders as |provider|}}
-                                    <li
-                                        data-test-provider={{provider.name}}
-                                        local-class='provider-list-item'
-                                    >
-                                        {{provider.name}}
-                                        <span>
-                                            <Button
-                                                data-analytics-name='Connect Addon Button {{provider.name}}'
-                                                @type='create'
-                                                {{on 'click' (fn manager.selectProvider provider)}}
-                                            >
-                                                {{t 'addons.list.connect'}}
-                                            </Button>
-                                        </span>
-                                    </li>
-                                {{else}}
-                                    <li local-class='provider-list-item'>{{t 'addons.list.no-results'}}</li>
-                                {{/each}}
-                            </ul>
-                        </div>
                     </tab.tabPanel>
                 </AriaTabs>
             {{/if}}

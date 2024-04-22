@@ -28,6 +28,8 @@ import { FilterTypes } from '../manager/component';
 enum UserSettingPageModes {
     TERMS = 'terms',
     ACCOUNT_CREATE = 'accountCreate',
+    CONFIGURE_PROVIDER = 'configureProvider',
+    CONFIGURE_ACCOUNT = 'configureAccount',
 }
 
 interface Args {
@@ -51,6 +53,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedStorageAccounts),
             authorizedAccounts: [] as AuthorizedStorageAccountModel[],
+            authorizedServiceIds: [] as string[],
         },
         [FilterTypes.CITATION_MANAGER]: {
             modelName: 'external-citation-service',
@@ -58,6 +61,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedCitationAccounts),
             authorizedAccounts: [] as AuthorizedCitationAccountModel[],
+            authorizedServiceIds: [] as string[],
         },
         [FilterTypes.CLOUD_COMPUTING]: {
             modelName: 'external-computing-service',
@@ -65,6 +69,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedComputingAccounts),
             authorizedAccounts: [] as AuthorizedComputingAccount[],
+            authorizedServiceIds: [] as string[],
         },
     };
     @tracked filterText = '';
@@ -114,15 +119,31 @@ export default class UserAddonManagerComponent extends Component<Args> {
         return textFilteredAddons;
     }
 
+    get currentTypeAuthorizedServiceIds() {
+        return this.filterTypeMapper[this.activeFilterType].authorizedServiceIds;
+    }
+
     get currentListIsLoading() {
         const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
         return activeFilterObject.fetchProvidersTask.isRunning;
     }
 
     @action
-    selectProvider(provider: Provider) {
+    connectNewProviderAccount(provider: Provider) {
         this.pageMode = UserSettingPageModes.TERMS;
         this.selectedProvider = provider;
+    }
+
+    @action
+    configureProviderAccounts(provider: Provider) {
+        this.pageMode = UserSettingPageModes.CONFIGURE_PROVIDER;
+        this.selectedProvider = provider;
+    }
+
+    @action
+    configureAuthorizedAccount(account: AllAuthorizedAccountTypes) {
+        this.pageMode = UserSettingPageModes.CONFIGURE_ACCOUNT;
+        this.selectedAccount = account;
     }
 
     @action
@@ -132,11 +153,11 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @action
     beginAccountSetup(provider: Provider) {
-        this.selectProvider(provider);
+        this.connectNewProviderAccount(provider);
     }
 
     @action
-    configureProvider() {
+    configureProvider(_: Provider) {
         // TODO: Implement
     }
 
@@ -184,6 +205,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.STORAGE];
         const accounts = (await userReference.authorizedStorageAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
+        mappedObject.authorizedServiceIds = accounts.map(account => account.storageProvider.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 
@@ -194,6 +216,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
         const accounts = (await userReference.authorizedCitationAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
+        mappedObject.authorizedServiceIds = accounts.map(account => account.citationService.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 
@@ -204,6 +227,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
         const accounts = (await userReference.authorizedComputingAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
+        mappedObject.authorizedServiceIds = accounts.map(account => account.computingService.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 
@@ -298,12 +322,13 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async disconnectAddon(account: AllAuthorizedAccountTypes) {
+    async disconnectAccount(account: AllAuthorizedAccountTypes) {
         try {
             const authorizedAccounts = this.filterTypeMapper[this.activeFilterType]
                 .authorizedAccounts as AllAuthorizedAccountTypes[];
-            await account.destroyRecord();
             authorizedAccounts.removeObject(account);
+            await account.destroyRecord();
+            await taskFor(this.filterTypeMapper[this.activeFilterType].getAuthorizedAccountsTask).perform();
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));

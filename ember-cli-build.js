@@ -32,7 +32,10 @@ module.exports = function(defaults) {
             ],
         },
         'ember-composable-helpers': {
-            only: ['compose', 'contains', 'flatten', 'includes', 'range', 'queue', 'map-by', 'without', 'find-by'],
+            only: [
+                'compose', 'contains', 'filter-by', 'find-by', 'flatten',
+                'includes', 'map-by', 'range', 'queue', 'without',
+            ],
         },
         fingerprint: {
             enabled: true,

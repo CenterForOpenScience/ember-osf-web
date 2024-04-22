@@ -56,6 +56,10 @@ export default class Provider {
         return this.provider.name;
     }
 
+    get id() {
+        return this.provider.id;
+    }
+
     providerTypeMapper: Record<string, ProviderTypeMapper>  = {
         externalStorageService: {
             getConfiguredAddon: taskFor(this.getConfiguredStorageAddon),
