@@ -105,7 +105,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
     }
 
     get currentTypeAuthorizedAccounts() {
-        return this.filterTypeMapper[this.activeFilterType].authorizedAccounts;
+        const allAccounts = this.filterTypeMapper[this.activeFilterType].authorizedAccounts;
+        const filteredAccounts = (allAccounts as AllAuthorizedAccountTypes[]).filter(
+            (account: AllAuthorizedAccountTypes) => {
+                const lowerCaseDisplayName = account.displayName.toLowerCase();
+                return lowerCaseDisplayName.includes(this.filterText.toLowerCase());
+            },
+        );
+        return filteredAccounts;
     }
 
     get filteredAddonProviders() {
