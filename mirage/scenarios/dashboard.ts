@@ -98,16 +98,20 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     });
 
     const boxAccount = server.create('authorized-storage-account', {
-        externalUserId: currentUser.id,
-        externalUserDisplayName: currentUser.fullName,
+        displayName: 'My Box Account',
         scopes: ['write'], // TODO: This should be a from an enum?
         storageProvider: boxAddon,
         configuringUser: addonUser,
     });
 
     server.create('authorized-storage-account', {
-        externalUserId: currentUser.id,
-        externalUserDisplayName: currentUser.fullName,
+        displayName: 'My Dropbox Account',
+        scopes: ['write'], // TODO: This should be a from an enum?
+        storageProvider: dropboxAddon,
+        configuringUser: addonUser,
+    });
+    server.create('authorized-storage-account', {
+        displayName: 'My Secret Dropbox Account',
         scopes: ['write'], // TODO: This should be a from an enum?
         storageProvider: dropboxAddon,
         configuringUser: addonUser,

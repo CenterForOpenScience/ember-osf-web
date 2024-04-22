@@ -15,8 +15,7 @@ export interface AddonCredentialFields {
 }
 
 export default class AuthorizedStorageAccountModel extends OsfModel {
-    @attr('fixstring') externalUserId!: string;
-    @attr('fixstring') externalUserDisplayName!: string;
+    @attr('fixstring') displayName!: string;
     @attr('fixstringarray') scopes!: string[];
     @attr('object') credentials?: AddonCredentialFields; // write-only
     @attr('fixstring') apiBaseUrl!: string; // Only applicable when ExternalStorageService.configurableApiRoot
