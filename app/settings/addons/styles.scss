@@ -35,7 +35,7 @@
     padding: 0 10px;
 
     &.active {
-        background-color: #f0f0f0;
+        background-color: $color-light;
     }
 }
 
@@ -78,9 +78,9 @@
 
 .tab-list {
     margin-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $color-border-gray;
     box-sizing: border-box;
-    color: rgb(51, 51, 51);
+    color: $color-grey;
     display: block;
     line-height: 20px;
     list-style-image: none;
