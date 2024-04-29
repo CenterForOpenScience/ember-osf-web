@@ -54,7 +54,7 @@ function buildOSF(
         doi: '10.30822/artk.v1i1.79',
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
-        publicationCitation: 'This is the publication Citation',
+        originalPublicationCitation: 'This is the publication Citation',
         hasCoi: true,
         hasDataLinks: PreprintDataLinksEnum.NOT_APPLICABLE,
         hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,

@@ -42,6 +42,7 @@ export default class PreprintModel extends OsfModel {
     @attr('date') datePublished!: Date;
     @attr('date') dateWithdrawn!: Date;
     @attr('date') originalPublicationDate!: Date | null;
+    @attr('string') originalPublicationCitation!: string;
     @attr('date') dateModified!: Date;
     @attr('fixstring') doi!: string | null;
     @attr('boolean') public!: boolean;
@@ -59,7 +60,6 @@ export default class PreprintModel extends OsfModel {
     @attr('string') hasDataLinks!: PreprintDataLinksEnum;
     @attr('string') hasPreregLinks!: PreprintPreregLinksEnum;
     @attr('string') conflictOfInterestStatement!: string | null;
-    @attr('string') publicationCitation!: string;
     @attr('array') dataLinks!: string[];
     @attr('array') preregLinks!: string[];
     @attr('string') whyNoData!: string | null;
