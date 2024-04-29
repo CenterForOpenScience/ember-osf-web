@@ -37,7 +37,7 @@ export default class Review extends Component<ReviewArgs>{
     @task
     @waitFor
     private async loadPreprint()  {
-        this.preprint = await this.store.findRecord('preprint', 'osf-not-contributor');
+        // this.preprint = await this.store.findRecord('preprint', 'osf-not-contributor');
         // this.preprint = await this.store.findRecord('preprint', 'osf-approved-admin');
         this.provider = this.preprint.provider.content;
         this.license = this.preprint.license;
