@@ -18,6 +18,7 @@ export function createPreprint(this: HandlerContext, schema: Schema) {
         dateModified: now,
         dateCreated: now,
         isPublished: false,
+        originalPublicationDate: null,
         public: false,
         subjects: [],
         tags: [] as string[] ,
