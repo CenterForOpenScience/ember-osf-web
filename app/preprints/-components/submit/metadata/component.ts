@@ -38,15 +38,6 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
         regex: DOIRegex,
         type: 'invalid_doi',
     }),
-    /*
-    originalPublicationDate: validateFormat({
-        allowBlank: true,
-        allowNone: true,
-        ignoreBlank: true,
-        regex: /^((?!(0))[0-9]{4})$/,
-        type: 'year_format',
-    }),
-    */
     license: validatePresence({
         presence: true,
         ignoreBlank: true,
