@@ -47,7 +47,7 @@ export default buildRoutes(function() {
         this.route('metadata', function() {
             this.route('index', { path: '/'});
             this.route('detail', { path: '/:recordId' });
-            // this.route('add');
+            this.route('add');
         });
     });
 

@@ -97,13 +97,13 @@ module('Integration | Component | carousel', hooks => {
         checkActive(assert, this.element, { active: 1, inactive: [2, 3] });
     });
 
-    test('li navigation works', async function(assert) {
+    test('navigation works', async function(assert) {
         checkActive(assert, this.element, { active: 1, inactive: [2, 3] });
-        await click('[data-test-navigation-item]:nth-of-type(2) > [data-test-navigation-button]');
+        await click('[data-test-navigation-item]:nth-of-type(2)');
         checkActive(assert, this.element, { active: 2, inactive: [3, 1] });
-        await click('[data-test-navigation-item]:nth-of-type(3) > [data-test-navigation-button]');
+        await click('[data-test-navigation-item]:nth-of-type(3)');
         checkActive(assert, this.element, { active: 3, inactive: [1, 2] });
-        await click('[data-test-navigation-item]:nth-of-type(1) > [data-test-navigation-button]');
+        await click('[data-test-navigation-item]:nth-of-type(1)');
         checkActive(assert, this.element, { active: 1, inactive: [2, 3] });
     });
 });

@@ -298,11 +298,13 @@ export default class AnalyticsChart extends Component<AnalyticsChartArgs> {
         } else {
             const data: PopularPageDatum[] = this.args.chartsDataTaskInstance.value!.popular_pages as any;
             const aggregatedResults: { [name: string]: PopularPageDisplay } = {};
+
             data.forEach(datum => {
-                const displayDatum = this.popularPageDisplay(datum);
-                const priorDisplay = aggregatedResults[displayDatum.name];
-                if (priorDisplay) {
-                    priorDisplay.count += displayDatum.count;
+                const cleanTitle = datum.title.replace(/^OSF \| /, '');
+                const displayDatum = { name: cleanTitle, count: datum.count };
+
+                if (aggregatedResults[displayDatum.name]) {
+                    aggregatedResults[displayDatum.name].count += displayDatum.count;
                 } else {
                     aggregatedResults[displayDatum.name] = displayDatum;
                 }
