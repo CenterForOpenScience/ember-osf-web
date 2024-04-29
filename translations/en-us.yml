@@ -239,8 +239,9 @@ addons:
         no-authorized-accounts: 'No authorized accounts'
         connect: 'Connect'
         configure: 'Configure'
-        disconnect: 'Disconnect'
-        disconnect-confirmation: 'Are you sure you want to disconnect this account? All projects connected to this account will be affected.'
+        disable: 'Disable'
+        disable-account-header: 'Disable Account'
+        disable-confirmation: 'Are you sure you want to disable this account? All projects connected to this account will be affected.'
     terms:
         heading: '{providerName} Terms'
         accepting: 'Accepting terms…'
@@ -2134,8 +2135,8 @@ routes:
         email: Email
 osf-components:
     addon-card:
-        enable: Enable
-        disable: Disable
+        connect: Connect
+        disconnect: Disconnect
         configure: Configure
         provider-logo-alt: '{provider} logo'
         disable-modal-header: 'Disable Add-on'
