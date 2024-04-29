@@ -21,7 +21,7 @@
                         alt={{t 'preprints.submit.step-one.title'}}
                     />
                     <div local-class='text'>
-                        {{this.preprint.provider.name}}
+                        {{this.provider.name}}
                     </div>
                 </div>
             </div>
@@ -72,19 +72,18 @@
                 </div>
             </div>
             <div local-class='content-container'>
-                <h4>
-                    {{t 'preprints.submit.step-five.publication-doi'}}
-                </h4>
-                <div local-class='display'>
-                    {{this.preprint.doi}}
-                </div>
+                <Preprints::-Components::PreprintDoi
+                    @preprint={{this.preprint}}
+                    @provider={{this.provider}}
+                    @isReview={{true}}
+                />
             </div>
             <div local-class='content-container'>
                 <h4>
                     {{t 'preprints.submit.step-five.publication-date'}}
                 </h4>
                 <div local-class='display'>
-                    {{moment-format this.preprint.originalPublicationDate 'YYYY-MM-DD'}}
+                    {{this.displayPublicationDate}}
                 </div>
             </div>
             <div local-class='content-container'>
@@ -92,7 +91,7 @@
                     {{t 'preprints.submit.step-five.publication-citation'}}
                 </h4>
                 <div local-class='display'>
-                    {{this.preprint.originalPublicationCitation}}
+                    {{this.displayPublicationCitation}}
                 </div>
             </div>
             <hr>

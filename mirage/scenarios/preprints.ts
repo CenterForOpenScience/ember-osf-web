@@ -64,7 +64,7 @@ function buildOSF(
 
     approvedAdminPreprint.update({ identifiers: [osfApprovedAdminIdentifier] });
 
-    const notContributorPreprint = server.create('preprint', {
+    const notContributorPreprint = server.create('preprint', Object({
         provider: osf,
         id: 'osf-not-contributor',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
@@ -75,7 +75,8 @@ function buildOSF(
         whyNoData: `Why No Data\n${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         whyNoPrereg: `Why No Prereg\n${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         tags: [],
-    });
+        isPreprintDoi: false,
+    }));
 
     const rejectedPreprint = server.create('preprint', {
         provider: osf,
