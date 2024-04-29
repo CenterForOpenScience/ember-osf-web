@@ -101,17 +101,21 @@
                     local-class='input-container'
                     @placeholder={{t 'preprints.submit.step-two.publication-doi-input'}}
                 />
+                {{!-- @minDate={{this.embargoRangeStartDate}}
+                @maxDate={{this.embargoRangeEndDate}} --}}
 
-                <form.text
-                    data-test-publication-year-input
-                    @label={{t 'preprints.submit.step-two.publication-year-input'}}
-                    @ariaLabel={{t 'preprints.submit.step-two.publication-year-input'}}
-                    @valuePath={{'originalPublicationDate'}}
-                    {{on 'change' this.validate}}
-                    {{on 'focusout' this.validate}}
-                    local-class='input-container'
-                    @placeholder={{t 'preprints.submit.step-two.publication-year-input'}}
-                />
+                <div local-class='input-container'>
+                    <ValidatedInput::Date
+                        @label={{t 'preprints.submit.step-two.publication-date-input'}}
+                        @ariaLabel={{t 'preprints.submit.step-two.publication-date-input'}}
+                        data-test-publication-date-input
+                        @value={{@manager.preprint.originalPublicationDate}}
+                        @placeholder={{t 'preprints.submit.step-two.publication-date-input'}}
+                        @date={{@manager.preprint.originalPublicationDate}}
+                        {{on 'change' this.validate}}
+                        {{on 'focusout' this.validate}}
+                    />
+                </div>
 
                 <form.text
                     data-test-publication-citation-input

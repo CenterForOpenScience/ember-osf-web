@@ -81,10 +81,10 @@
             </div>
             <div local-class='content-container'>
                 <h4>
-                    {{t 'preprints.submit.step-five.publication-year'}}
+                    {{t 'preprints.submit.step-five.publication-date'}}
                 </h4>
                 <div local-class='display'>
-                    {{moment-format this.preprint.originalPublicationDate 'YYYY'}}
+                    {{moment-format this.preprint.originalPublicationDate 'YYYY-MM-DD'}}
                 </div>
             </div>
             <div local-class='content-container'>
