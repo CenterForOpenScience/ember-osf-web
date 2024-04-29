@@ -106,7 +106,7 @@
                     data-test-publication-year-input
                     @label={{t 'preprints.submit.step-two.publication-year-input'}}
                     @ariaLabel={{t 'preprints.submit.step-two.publication-year-input'}}
-                    @valuePath={{'originalPublicationYear'}}
+                    @valuePath={{'originalPublicationDate'}}
                     {{on 'change' this.validate}}
                     {{on 'focusout' this.validate}}
                     local-class='input-container'
@@ -117,7 +117,7 @@
                     data-test-publication-citation-input
                     @label={{t 'preprints.submit.step-two.publication-citation-input'}}
                     @ariaLabel={{t 'preprints.submit.step-two.publication-citation-input'}}
-                    @valuePath={{'publicationCitation'}}
+                    @valuePath={{'originalPublicationCitation'}}
                     {{on 'change' this.validate}}
                     {{on 'focusout' this.validate}}
                     local-class='input-container'

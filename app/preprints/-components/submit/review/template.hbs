@@ -84,7 +84,7 @@
                     {{t 'preprints.submit.step-five.publication-year'}}
                 </h4>
                 <div local-class='display'>
-                    {{moment-format this.preprint.originalPublicationDate 'YYYY-MM-DD'}}
+                    {{moment-format this.preprint.originalPublicationDate 'YYYY'}}
                 </div>
             </div>
             <div local-class='content-container'>
@@ -92,7 +92,7 @@
                     {{t 'preprints.submit.step-five.publication-citation'}}
                 </h4>
                 <div local-class='display'>
-                    {{this.preprint.publicationCitation}}
+                    {{this.preprint.originalPublicationCitation}}
                 </div>
             </div>
             <hr>

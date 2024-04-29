@@ -25,8 +25,7 @@ interface MetadataArgs {
 
 interface MetadataForm {
     doi: string;
-    originalPublicationYear: number;
-    publicationCitation: string;
+    originalPublicationDate: number;
     license: LicenseModel;
     subjects: SubjectModel[];
 }
@@ -39,7 +38,7 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
         regex: DOIRegex,
         type: 'invalid_doi',
     }),
-    originalPublicationYear: validateFormat({
+    originalPublicationDate: validateFormat({
         allowBlank: true,
         allowNone: true,
         ignoreBlank: true,
