@@ -8,6 +8,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import Intl from 'ember-intl/services/intl';
 import { task } from 'ember-concurrency';
+import { waitFor } from '@ember/test-waiters';
 
 export enum PreprintStatusTypeEnum {
     titleAndFile = 'titleAndFile',
@@ -55,6 +56,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * Callback for the action-flow component
      */
     @task
+    @waitFor
     public async onDelete(): Promise<void> {
         await this.preprint.deleteRecord();
         await this.router.transitionTo('preprints.discover', this.provider.id);
@@ -82,6 +84,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * Callback for the action-flow component
      */
     @task
+    @waitFor
     public async onNext(): Promise<void> {
         this.nextButtonIsDisabled = true;
         if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
