@@ -3,6 +3,8 @@ import Component from '@glimmer/component';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 /**
  * The Action Flow Args
@@ -25,9 +27,9 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
     /**
      * Calls the state machine next method
      */
-    @action
-    public onNext(): void {
-        this.manager.onNext();
+    @task
+    public async onNext(): Promise<void> {
+        await taskFor(this.manager.onNext).perform();
     }
 
     /**
@@ -41,9 +43,9 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
     /**
      * Calls the state machine delete method
      */
-    @action
-    public onDelete(): void {
-        this.manager.onDelete();
+    @task
+    public async onDelete(): Promise<void> {
+        await taskFor(this.manager.onDelete).perform();
     }
 
     /**

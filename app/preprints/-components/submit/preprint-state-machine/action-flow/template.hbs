@@ -15,7 +15,7 @@
             <Button
                 data-test-next-button
                 data-analytics-name='Next button'
-                {{on 'click' this.onNext}}
+                {{on 'click' (perform this.onNext)}}
                 local-class='btn'
                 @disabled={{@manager.nextButtonIsDisabled}}
                 @layout='large'
@@ -31,7 +31,7 @@
             @class='btn-destroy preprint-delete-btn'
             @buttonLayout='large'
             @noBackground={{true}}
-            @delete={{action this.onDelete }}
+            @delete={{perform this.onDelete }}
             @modalTitle={{this.modalTitle}}
             @modalBody={{this.modalBody}}
         />
