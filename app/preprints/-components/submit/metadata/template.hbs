@@ -101,8 +101,6 @@
                     local-class='input-container'
                     @placeholder={{t 'preprints.submit.step-two.publication-doi-input'}}
                 />
-                {{!-- @minDate={{this.embargoRangeStartDate}}
-                @maxDate={{this.embargoRangeEndDate}} --}}
 
                 <div local-class='input-container'>
                     <ValidatedInput::Date
@@ -114,6 +112,8 @@
                         @date={{@manager.preprint.originalPublicationDate}}
                         {{on 'change' this.validate}}
                         {{on 'focusout' this.validate}}
+                        @minDate={{this.originalPublicationDateMin}}
+                        @maxDate={{this.originalPublicationDateMax}}
                     />
                 </div>
 
