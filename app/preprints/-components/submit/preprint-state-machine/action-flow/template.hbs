@@ -28,7 +28,8 @@
 
         <DeleteButton
             data-test-delete-button
-            @class='btn-destroy preprint-delete-btn'
+            class='btn-destroy'
+            local-class='btn'
             @buttonLayout='large'
             @noBackground={{true}}
             @delete={{perform this.onDelete }}
