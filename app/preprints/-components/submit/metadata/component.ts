@@ -55,6 +55,14 @@ export default class Metadata extends Component<MetadataArgs>{
     showAddContributorWidget = true;
     @tracked licenses = [] as LicenseModel[];
     @tracked license!: LicenseModel;
+    originalPublicationDateMin = new Date(1900, 0, 1);
+    today = new Date();
+    originalPublicationDateMax = new Date(
+        this.today.getFullYear(),
+        this.today.getMonth(),
+        this.today.getDate(),
+    );
+
 
     constructor(owner: unknown, args: MetadataArgs) {
         super(owner, args);
