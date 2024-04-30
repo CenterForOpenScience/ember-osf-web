@@ -12,7 +12,10 @@ import Toast from 'ember-toastr/services/toast';
 
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import NodeModel from 'ember-osf-web/models/node';
-import Provider, { AllAuthorizedAccountTypes } from 'ember-osf-web/packages/addons-service/provider';
+import Provider, {
+    AllAuthorizedAccountTypes,
+    AllConfiguredAddonTypes,
+} from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import AuthorizedStorageAccountModel, { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
@@ -31,6 +34,7 @@ enum PageMode {
     ACCOUNT_CREATE = 'accountCreate',
     CONFIRM = 'confirm',
     CONFIGURE = 'configure',
+    CONFIGURATION_LIST = 'configurationList'
 }
 
 export enum FilterTypes {
@@ -75,6 +79,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
+    @tracked selectedConfiguration?: AllConfiguredAddonTypes;
     @tracked selectedAccount?: AllAuthorizedAccountTypes;
     @tracked credentialsObject: AddonCredentialFields = {
         url: '',
@@ -115,10 +120,18 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     @action
-    configureProvider(provider: Provider) {
+    configureProvider(provider: Provider, configuredAddon: AllConfiguredAddonTypes) {
         this.cancelSetup();
         this.selectedProvider = provider;
+        this.selectedConfiguration = configuredAddon;
         this.pageMode = PageMode.CONFIGURE;
+    }
+
+    @action
+    listProviderConfigurations(provider: Provider) {
+        this.cancelSetup();
+        this.selectedProvider = provider;
+        this.pageMode = PageMode.CONFIGURATION_LIST;
     }
 
     @action
@@ -334,6 +347,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             heading = this.intl.t('addons.confirm.heading', { providerName });
             break;
         case PageMode.CONFIGURE:
+        case PageMode.CONFIGURATION_LIST:
             heading = this.intl.t('addons.configure.heading', { providerName });
             break;
         default:

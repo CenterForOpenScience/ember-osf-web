@@ -1,5 +1,4 @@
 import { getOwner, setOwner } from '@ember/application';
-import ArrayProxy from '@ember/array/proxy';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -36,7 +35,7 @@ export type AllConfiguredAddonTypes =
     ConfiguredComputingAddonModel;
 
 interface ProviderTypeMapper {
-    getConfiguredAddon: Task<any, any>;
+    getConfiguredAddons: Task<any, any>;
     getAuthorizedAccounts: Task<any, any>;
     createAccountForNodeAddon: Task<any, any>;
     createConfiguredAddon: Task<any, any>;
@@ -62,19 +61,19 @@ export default class Provider {
 
     providerTypeMapper: Record<string, ProviderTypeMapper>  = {
         externalStorageService: {
-            getConfiguredAddon: taskFor(this.getConfiguredStorageAddon),
+            getConfiguredAddons: taskFor(this.getConfiguredStorageAddons),
             getAuthorizedAccounts: taskFor(this.getAuthorizedStorageAccounts),
             createAccountForNodeAddon: taskFor(this.createAuthorizedStorageAccount),
             createConfiguredAddon: taskFor(this.createConfiguredStorageAddon),
         },
         externalComputingService: {
-            getConfiguredAddon: taskFor(this.getConfiguredComputingAddon),
+            getConfiguredAddons: taskFor(this.getConfiguredComputingAddons),
             getAuthorizedAccounts: taskFor(this.getAuthorizedComputingAccounts),
             createAccountForNodeAddon: taskFor(this.createAuthorizedComputingAccount),
             createConfiguredAddon: taskFor(this.createConfiguredComputingAddon),
         },
         externalCitationService: {
-            getConfiguredAddon: taskFor(this.getConfiguredCitationAddon),
+            getConfiguredAddons: taskFor(this.getConfiguredCitationAddons),
             getAuthorizedAccounts: taskFor(this.getAuthorizedCitationAccounts),
             createAccountForNodeAddon: taskFor(this.createAuthorizedCitationAccount),
             createConfiguredAddon: taskFor(this.createConfiguredCitationAddon),
@@ -82,6 +81,7 @@ export default class Provider {
     };
 
     @tracked configuredAddon?: AllConfiguredAddonTypes;
+    @tracked configuredAddons?: AllConfiguredAddonTypes[];
     @tracked authorizedAccount?: AllAuthorizedAccountTypes;
     @tracked authorizedAccounts?: AllAuthorizedAccountTypes[];
 
@@ -112,7 +112,7 @@ export default class Provider {
     async initialize() {
         await taskFor(this.getUserReference).perform();
         await taskFor(this.getResourceReference).perform();
-        await taskFor(this.providerMap!.getConfiguredAddon).perform();
+        await taskFor(this.providerMap!.getConfiguredAddons).perform();
     }
 
     @task
@@ -141,39 +141,34 @@ export default class Provider {
 
     @task
     @waitFor
-    async getConfiguredStorageAddon() {
+    async getConfiguredStorageAddons() {
         if (this.serviceNode) {
-            await taskFor(this.getConfiguredAddon).perform('configuredStorageAddons');
-        }
-    }
-
-    @task
-    @waitFor
-    async getConfiguredCitationAddon() {
-        if (this.serviceNode) {
-            await taskFor(this.getConfiguredAddon).perform('configuredCitationAddons');
-        }
-    }
-
-    @task
-    @waitFor
-    async getConfiguredComputingAddon() {
-        if (this.serviceNode) {
-            await taskFor(this.getConfiguredAddon).perform('configuredComputingAddons');
-        }
-    }
-
-    @task
-    @waitFor
-    async getConfiguredAddon(configuredAddonType: RelationshipsFor<ResourceReferenceModel>) {
-        if (this.serviceNode) {
-            const configuredAddons = await this.serviceNode[configuredAddonType] as ArrayProxy<AllConfiguredAddonTypes>;
-            const currentProviderConfiguredAddon = configuredAddons.filter(
-                (addon: any) => addon.name === this.provider.id,
+            this.configuredAddons = await this.serviceNode.queryHasMany(
+                'configuredStorageAddons',
+                {'filter[name]': this.provider.name},
             );
-            if (currentProviderConfiguredAddon.length > 0) {
-                this.configuredAddon = currentProviderConfiguredAddon[0];
-            }
+        }
+    }
+
+    @task
+    @waitFor
+    async getConfiguredCitationAddons() {
+        if (this.serviceNode) {
+            this.configuredAddons = await this.serviceNode.queryHasMany(
+                'configuredCitationAddons',
+                {'filter[name]': this.provider.name},
+            );
+        }
+    }
+
+    @task
+    @waitFor
+    async getConfiguredComputingAddons() {
+        if (this.serviceNode) {
+            this.configuredAddons = await this.serviceNode.queryHasMany(
+                'configuredComputingAddons',
+                {'filter[name]': this.provider.name},
+            );
         }
     }
 
