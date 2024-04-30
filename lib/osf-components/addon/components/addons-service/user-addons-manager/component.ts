@@ -47,11 +47,11 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @tracked filterTypeMapper = {
         [FilterTypes.STORAGE]: {
             modelName: 'external-storage-service',
-            userRelationshipName: 'authorizedStorageAccounts',
             fetchProvidersTask: taskFor(this.getStorageAddonProviders),
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedStorageAccounts),
             authorizedAccounts: [] as AuthorizedStorageAccountModel[],
+            authorizedServiceIds: [] as string[],
         },
         [FilterTypes.CITATION_MANAGER]: {
             modelName: 'external-citation-service',
@@ -59,6 +59,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedCitationAccounts),
             authorizedAccounts: [] as AuthorizedCitationAccountModel[],
+            authorizedServiceIds: [] as string[],
         },
         [FilterTypes.CLOUD_COMPUTING]: {
             modelName: 'external-computing-service',
@@ -66,6 +67,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedComputingAccounts),
             authorizedAccounts: [] as AuthorizedComputingAccount[],
+            authorizedServiceIds: [] as string[],
         },
     };
     @tracked filterText = '';
@@ -82,6 +84,8 @@ export default class UserAddonManagerComponent extends Component<Args> {
         secretKey: '',
         repo: '',
     };
+    @tracked displayName = '';
+
     @action
     onCredentialsInput(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -103,7 +107,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
     }
 
     get currentTypeAuthorizedAccounts() {
-        return this.filterTypeMapper[this.activeFilterType].authorizedAccounts;
+        const allAccounts = this.filterTypeMapper[this.activeFilterType].authorizedAccounts;
+        const filteredAccounts = (allAccounts as AllAuthorizedAccountTypes[]).filter(
+            (account: AllAuthorizedAccountTypes) => {
+                const lowerCaseDisplayName = account.displayName.toLowerCase();
+                return lowerCaseDisplayName.includes(this.filterText.toLowerCase());
+            },
+        );
+        return filteredAccounts;
     }
 
     get filteredAddonProviders() {
@@ -115,13 +126,17 @@ export default class UserAddonManagerComponent extends Component<Args> {
         return textFilteredAddons;
     }
 
+    get currentTypeAuthorizedServiceIds() {
+        return this.filterTypeMapper[this.activeFilterType].authorizedServiceIds;
+    }
+
     get currentListIsLoading() {
         const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
         return activeFilterObject.fetchProvidersTask.isRunning;
     }
 
     @action
-    selectProvider(provider: Provider) {
+    connectNewProviderAccount(provider: Provider) {
         this.pageMode = UserSettingPageModes.TERMS;
         this.selectedProvider = provider;
     }
@@ -132,7 +147,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     }
 
     @action
-    cancelAccountSetup() {
+    cancelSetup() {
         this.credentialsObject = {
             url: '',
             username: '',
@@ -142,6 +157,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             secretKey: '',
             repo: '',
         };
+        this.displayName = '';
         this.pageMode = undefined;
         this.selectedProvider = undefined;
     }
@@ -175,6 +191,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.STORAGE];
         const accounts = (await userReference.authorizedStorageAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
+        mappedObject.authorizedServiceIds = accounts.map(account => account.storageProvider.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 
@@ -185,6 +202,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
         const accounts = (await userReference.authorizedCitationAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
+        mappedObject.authorizedServiceIds = accounts.map(account => account.citationService.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 
@@ -195,6 +213,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
         const accounts = (await userReference.authorizedComputingAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
+        mappedObject.authorizedServiceIds = accounts.map(account => account.computingService.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 
@@ -260,8 +279,8 @@ export default class UserAddonManagerComponent extends Component<Args> {
         if (this.selectedProvider) {
             try {
                 await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon)
-                    .perform(this.credentialsObject);
-                this.cancelAccountSetup();
+                    .perform(this.credentialsObject, this.displayName);
+                this.cancelSetup();
                 await taskFor(this.getAuthorizedAccounts).perform();
             } catch (e) {
                 const errorMessage = this.intl.t('addons.accountCreate.error');
@@ -276,25 +295,26 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async createAuthorizedAccount() {
         if (this.selectedProvider) {
             return await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon)
-                .perform(this.credentialsObject);
+                .perform(this.credentialsObject, this.displayName);
         }
     }
 
     @task
     @waitFor
     async oauthFlowRefocus() {
-        this.cancelAccountSetup();
+        this.cancelSetup();
         await taskFor(this.getAuthorizedAccounts).perform();
     }
 
     @task
     @waitFor
-    async disconnectAddon(account: AllAuthorizedAccountTypes) {
+    async disconnectAccount(account: AllAuthorizedAccountTypes) {
         try {
             const authorizedAccounts = this.filterTypeMapper[this.activeFilterType]
                 .authorizedAccounts as AllAuthorizedAccountTypes[];
-            await account.destroyRecord();
             authorizedAccounts.removeObject(account);
+            await account.destroyRecord();
+            await taskFor(this.filterTypeMapper[this.activeFilterType].getAuthorizedAccountsTask).perform();
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));

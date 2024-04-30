@@ -6,8 +6,7 @@ import UserReferenceModel from './user-reference';
 import OsfModel from './osf-model';
 
 export default class AuthorizedCitationAccountModel extends OsfModel {
-    @attr('fixstring') externalUserId!: string;
-    @attr('fixstring') externalUserDisplayName!: string;
+    @attr('fixstring') displayName!: string;
     @attr('fixstringarray') scopes!: string[];
     @attr('object') credentials?: AddonCredentialFields; // write-only
     @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-citation-accounts

@@ -9,13 +9,30 @@
         {{else}}
             <div local-class='oauth-wrapper'>
                 {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}
-                <Button
-                    data-test-addon-oauth-button
-                    data-analytics-name='OAuth'
-                    {{on 'click' (perform this.startOauthFlow)}}
-                >
-                    {{t 'general.authorize'}}
-                </Button>
+                <label local-class='auth-text-input-label'>
+                    {{t 'addons.accountCreate.display-name-label'}}
+                    <Input
+                        placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
+                        @value={{@manager.displayName}}
+                    />
+                </label>
+                <div local-class='button-wrapper'>
+                    <Button
+                        data-test-addon-cancel-button
+                        data-analytics-name='Cancel'
+                        {{on 'click' @manager.cancelSetup}}
+                    >
+                        {{t 'general.cancel'}}
+                    </Button>
+                    <Button
+                        data-test-addon-oauth-button
+                        data-analytics-name='Begin OAuth'
+                        @type='primary'
+                        {{on 'click' (perform this.startOauthFlow)}}
+                    >
+                        {{t 'general.authorize'}}
+                    </Button>
+                </div>
             </div>
         {{/if}}
     {{else}}
@@ -62,19 +79,36 @@
                 </label>
                 {{field.postText}}
             {{/each}}
+            <label local-class='auth-text-input-label'>
+                {{t 'addons.accountCreate.display-name-label'}}
+                <Input
+                    placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
+                    @value={{@manager.displayName}}
+                />
+            </label>
             {{#if @manager.connectAccountError}}
                 <p local-class='connect-error'>
                     {{t 'addons.accountCreate.error'}}
                 </p>
             {{/if}}
-            <Button
-                data-test-addon-connect-account-button
-                data-analytics-name='Connect Account'
-                disabled={{@manager.connectAccount.isRunning}}
-                {{on 'click' (perform @manager.connectAccount)}}
-            >
-                {{t 'general.authorize'}}
-            </Button>
+            <div local-class='button-wrapper'>
+                <Button
+                    data-test-addon-cancel-button
+                    data-analytics-name='Cancel'
+                    {{on 'click' @manager.cancelSetup}}
+                >
+                    {{t 'general.cancel'}}
+                </Button>
+                <Button
+                    data-test-addon-connect-account-button
+                    data-analytics-name='Connect Account'
+                    @type='primary'
+                    disabled={{@manager.connectAccount.isRunning}}
+                    {{on 'click' (perform @manager.connectAccount this.displayName)}}
+                >
+                    {{t 'general.authorize'}}
+                </Button>
+            </div>
         </form>
     {{/if}}
 {{/if}}

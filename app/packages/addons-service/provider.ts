@@ -56,6 +56,10 @@ export default class Provider {
         return this.provider.name;
     }
 
+    get id() {
+        return this.provider.id;
+    }
+
     providerTypeMapper: Record<string, ProviderTypeMapper>  = {
         externalStorageService: {
             getConfiguredAddon: taskFor(this.getConfiguredStorageAddon),
@@ -207,7 +211,7 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedStorageAccount(credentials: AddonCredentialFields) {
+    private async createAuthorizedStorageAccount(credentials: AddonCredentialFields, accountName: string) {
         const newAccount = this.store.createRecord('authorized-storage-account', {
             credentials,
             apiBaseUrl: (this.provider as ExternalStorageServiceModel).configurableApiRoot ? credentials.url : '',
@@ -215,6 +219,7 @@ export default class Provider {
             scopes: [],
             storageProvider: this.provider,
             configuringUser: this.userReference,
+            displayName: accountName,
         });
         await newAccount.save();
         return newAccount;
@@ -222,13 +227,14 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedCitationAccount(credentials: AddonCredentialFields) {
+    private async createAuthorizedCitationAccount(credentials: AddonCredentialFields, accountName: string) {
         const newAccount = this.store.createRecord('authorized-citation-account', {
             credentials,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             citationService: this.provider,
             configuringUser: this.userReference,
+            displayName: accountName,
         });
         await newAccount.save();
         return newAccount;
@@ -236,13 +242,14 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedComputingAccount(credentials: AddonCredentialFields) {
+    private async createAuthorizedComputingAccount(credentials: AddonCredentialFields, accountName: string) {
         const newAccount = this.store.createRecord('authorized-computing-account', {
             credentials,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             computingService: this.provider,
             configuringUser: this.userReference,
+            displayName: accountName,
         });
         await newAccount.save();
         return newAccount;
