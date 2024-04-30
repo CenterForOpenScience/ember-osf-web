@@ -1190,7 +1190,7 @@ preprints:
             subjects-input: 'Subjects'
             tags-input: 'Tags'
             publication-doi-input: 'Publication Doi'
-            publication-date-input: 'Publication Year'
+            publication-date-input: 'Publication Date'
             publication-citation-input: 'Publication Citation'
         step-three:
             title: 'Author Assertions'
@@ -1233,7 +1233,8 @@ preprints:
             select-a-service: 'Select a service'
             preprint-title: 'Title'
             contributors: 'Contributors'
-            publication-date: 'Publication Year'
+            publication-date: 'Publication Data'
+            publication-doi: 'Publication DOI'
             publication-citation: 'Publication Citation'
         data-analytics: 'Goto {statusType} tab'
         status-flow:

@@ -14,9 +14,7 @@
             <p> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
         {{/if}}
     {{else}}
-        {{#if this.review}}
-            {{t 'general.not-applicable' }}
-        {{else if (not @preprint.public)}}
+        {{#if (not @preprint.public)}}
             {{t 'preprints.detail.preprint_pending_doi' documentType=this.documentType}}
         {{else if (and this.provider.reviewsWorkflow (not this.preprint.isPublished))}}
             {{t 'preprints.detail.preprint_pending_doi_moderation'}}

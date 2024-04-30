@@ -38,7 +38,7 @@ export default class Review extends Component<ReviewArgs>{
     @waitFor
     private async loadPreprint()  {
         // this.preprint = await this.store.findRecord('preprint', 'osf-not-contributor');
-        // this.preprint = await this.store.findRecord('preprint', 'osf-approved-admin');
+        this.preprint = await this.store.findRecord('preprint', 'osf-approved-admin');
         this.provider = this.preprint.provider.content;
         this.license = this.preprint.license;
         this.subjects = await this.preprint.queryHasMany('subjects');
@@ -46,6 +46,10 @@ export default class Review extends Component<ReviewArgs>{
 
     public get providerLogo(): string | undefined {
         return this.provider.get('assets')?.square_color_no_transparent;
+    }
+
+    public  get displayPublicationDoi(): string {
+        return this.preprint.articleDoiUrl || this.intl.t('general.not-applicable');
     }
 
     public  get displayPublicationDate(): string {
