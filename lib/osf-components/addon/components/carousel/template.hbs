@@ -5,32 +5,26 @@
     ...attributes
 >
     {{yield (hash header=(component 'carousel/x-header'))}}
-    <ol data-test-dot-navigation local-class='dot-nav' role='tablist'>
+    <div data-test-dot-navigation local-class='dot-nav' role='tablist'>
         {{#each this.carouselItems as |item|}}
-            <li
+            <div
                 data-test-navigation-item
                 role='tab'
-                local-class={{if item.isActive 'current' ''}}
+                tabindex='0'
+                local-class='dot-nav-item {{if item.isActive 'current'}}'
                 aria-selected={{if item.isActive 'true' 'false'}}
+                {{on 'click' (fn this.navClick item)}}
             >
-                <Button
-                    data-test-navigation-button
-                    data-analytics-name='Go to slide {{item.slideIndex}}'
-                    data-slide={{item.index}}
-                    aria-label={{t 'osf-components.carousel.go_to_slide' slideIndex=item.slideIndex}}
-                    {{action this.navClick item}}
-                >
-                    <span>{{item.slideIndex}}</span>
-                    {{#if item.isActive}}
-                        <span>{{t 'osf-components.carousel.current_slide'}}</span>
-                    {{/if}}
-                </Button>
-            </li>
+                <span class='visually-hidden'>{{t 'osf-components.carousel.go_to_slide' slideIndex=item.slideIndex}}</span>
+                {{#if item.isActive}}
+                    <span class='visually-hidden'>{{t 'osf-components.carousel.current_slide'}}</span>
+                {{/if}}
+            </div>
         {{/each}}
-    </ol>
-    <ul data-test-carousel-list local-class='item-list'>
+    </div>
+    <div data-test-carousel-list local-class='item-list'>
         {{yield (hash slide=(component 'carousel/x-item' register=(action this.register) allItems=this.carouselItems))}}
-    </ul>
+    </div>
     <Button
         data-test-carousel-button-previous
         data-analytics-name='Previous slide'

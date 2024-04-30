@@ -32,6 +32,17 @@
                     </OsfLink>
                 {{/if}}
             </h3>
+            {{#if this.showEmbargo}}
+                <div local-class='embargoStatus'>
+                    <span>{{t 'registries.registrationList.embargoEndDate'}}</span>
+                    <span> 
+                        {{t 'registries.registrationList.EmbargoEndPrefix'}}
+                        {{format-date @registration.embargoEndDate}}
+                    </span>
+                </div>
+            {{else if this.showPublic}}
+                <span>{{t 'registries.registrationList.public'}}</span>
+            {{/if}}
             {{#if (eq @state 'pending_moderation')}}
                 <ReviewActionsList @revision={{this.latestRevision}} />
             {{else}}
