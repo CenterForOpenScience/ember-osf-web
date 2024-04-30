@@ -83,7 +83,7 @@ module('Integration | Component | moderators', hooks => {
         );
         assert.dom('[data-test-moderator-link]').exists({ count: 2 });
         assert.dom('[data-test-permission-group]').exists({ count: 2 });
-        assert.dom('[data-test-delete-moderator-button]').exists({ count: 2 });
+        assert.dom('[data-test-delete-moderator-button]').exists({ count: 4 });
         assert.dom(`[data-test-moderator-row="${currentUser.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         assert.dom(`[data-test-moderator-row="${moderator.id}"]>div>[data-test-permission-group]`).hasText('Moderator');
         await clickTrigger(`[data-test-moderator-row="${moderator.id}"]`);
