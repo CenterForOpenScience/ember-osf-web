@@ -9,11 +9,11 @@
             {{#if manager.selectedProvider}}
                 <div data-analytics-scope='{{manager.selectedProvider.name}}'>
                     <Button
-                        data-test-cancel-account-setup
-                        data-analytics-name='Cancel Account Setup'
+                        data-test-cancel-setup
+                        data-analytics-name='Cancel Setup'
                         local-class='float-right'
                         @layout='fake-link'
-                        {{on 'click' manager.cancelAccountSetup}}
+                        {{on 'click' manager.cancelSetup}}
                     >
                         {{t 'general.back'}}
                     </Button>
@@ -25,13 +25,22 @@
                             <AddonsService::TermsOfService
                                 @provider={{manager.selectedProvider.provider}}
                             />
-                            <Button
-                                local-class='float-right'
-                                @type='primary'
-                                {{on 'click' manager.acceptProviderTerms}}
-                            >
-                                {{t 'general.confirm'}}
-                            </Button>
+                            <div local-class='float-right'>
+
+                                <Button
+                                    data-test-addon-cancel-button
+                                    data-analytics-name='Cancel'
+                                    {{on 'click' manager.cancelSetup}}
+                                >
+                                    {{t 'general.cancel'}}
+                                </Button>
+                                <Button
+                                    @type='primary'
+                                    {{on 'click' manager.acceptProviderTerms}}
+                                >
+                                    {{t 'general.confirm'}}
+                                </Button>
+                            </div>
                         </div>
                     {{else if (eq manager.pageMode 'accountCreate')}}
                         <div data-analytics-scope='Account Create'>
