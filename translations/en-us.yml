@@ -1245,6 +1245,7 @@ preprints:
             step-review: 'Review'
         action-flow:
             next: 'Next'
+            submit: 'Submit'
             delete: 'Delete'
             caution: 'Caution'
             caution-statement: 'Only one person at a time is able to edit a preprint draft. Be sure to coordinate with any other contributors.'

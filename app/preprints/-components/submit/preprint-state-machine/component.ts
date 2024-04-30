@@ -63,16 +63,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     /**
-     * Callback for the action-flow component
-     */
-    @task
-    @waitFor
-    public async onSave(): Promise<void> {
-        await this.preprint.save();
-        await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id );
-    }
-
-    /**
      * saveOnStep
      *
      * @description Abstracted method to save after each step
@@ -80,6 +70,14 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     private async saveOnStep(): Promise<void> {
         await this.preprint.save();
         this.statusFlowIndex++;
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @action
+    public async onSubmit(): Promise<void> {
+        await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
     }
 
     /**

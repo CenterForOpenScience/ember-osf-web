@@ -1,17 +1,30 @@
 <div local-class='action-flow-container  {{if (is-mobile) 'mobile'}}'>
     <div local-class='button-container'>
-        <Button
-            data-test-next-button
-            data-analytics-name='Next button'
-            {{on 'click' this.onNext}}
-            local-class='btn'
-            @disabled={{@manager.nextButtonIsDisabled}}
-            @layout='large'
-            @type='primary'
-        >
-            {{ t 'preprints.submit.action-flow.next'}}
-            <FaIcon @icon='arrow-right' />
-        </Button>
+        {{#if this.isSubmit}}
+            <Button
+                data-test-submit-button
+                data-analytics-name='Submit button'
+                {{on 'click' this.onSubmit}}
+                local-class='btn'
+                @layout='large'
+                @type='primary'
+            >
+                {{ t 'preprints.submit.action-flow.submit'}}
+            </Button>
+        {{else}}
+            <Button
+                data-test-next-button
+                data-analytics-name='Next button'
+                {{on 'click' this.onNext}}
+                local-class='btn'
+                @disabled={{@manager.nextButtonIsDisabled}}
+                @layout='large'
+                @type='primary'
+            >
+                {{ t 'preprints.submit.action-flow.next'}}
+                <FaIcon @icon='arrow-right' />
+            </Button>
+        {{/if}}
 
         <Button
             data-test-delete-button
