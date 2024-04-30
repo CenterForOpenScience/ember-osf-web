@@ -1233,7 +1233,7 @@ preprints:
             select-a-service: 'Select a service'
             preprint-title: 'Title'
             contributors: 'Contributors'
-            publication-date: 'Publication Data'
+            publication-date: 'Publication Date'
             publication-doi: 'Publication DOI'
             publication-citation: 'Publication Citation'
         data-analytics: 'Goto {statusType} tab'
