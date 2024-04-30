@@ -42,7 +42,7 @@ export default class PreprintModel extends OsfModel {
     @attr('date') datePublished!: Date;
     @attr('date') dateWithdrawn!: Date;
     @attr('date') originalPublicationDate!: Date | null;
-    @attr('string') originalPublicationCitation!: string;
+    @attr('fixstring') originalPublicationCitation!: string | null;
     @attr('date') dateModified!: Date;
     @attr('fixstring') doi!: string | null;
     @attr('boolean') public!: boolean;

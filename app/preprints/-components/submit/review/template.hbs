@@ -72,11 +72,14 @@
                 </div>
             </div>
             <div local-class='content-container'>
-                <Preprints::-Components::PreprintDoi
-                    @preprint={{this.preprint}}
-                    @provider={{this.provider}}
-                    @isReview={{true}}
-                />
+                <div local-class='content-container'>
+                    <h4>
+                        {{t 'preprints.submit.step-five.publication-doi'}}
+                    </h4>
+                    <div local-class='display'>
+                        {{this.displayPublicationDoi}}
+                    </div>
+                </div>
             </div>
             <div local-class='content-container'>
                 <h4>
