@@ -29,6 +29,8 @@
     <Button
         data-analytics-name='Delete button'
         data-test-delete-button
+        @layout={{this.buttonLayout}}
+        class={{this.class}}
         @type='destroy'
         {{on 'click' this._show}}
         @disabled={{this.disabled}}

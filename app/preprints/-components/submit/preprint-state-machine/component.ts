@@ -3,8 +3,6 @@ import PreprintModel, { PreprintDataLinksEnum, PreprintPreregLinksEnum } from 'e
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import Store from '@ember-data/store';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
-import { waitFor } from '@ember/test-waiters';
 import RouterService from '@ember/routing/router-service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
@@ -55,11 +53,10 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     /**
      * Callback for the action-flow component
      */
-    @task
-    @waitFor
+    @action
     public async onDelete(): Promise<void> {
         await this.preprint.deleteRecord();
-        await this.router.transitionTo('preprints.index', this.provider.id);
+        await this.router.transitionTo('preprints.discover', this.provider.id);
     }
 
     /**

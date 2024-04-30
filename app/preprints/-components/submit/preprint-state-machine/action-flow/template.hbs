@@ -26,16 +26,15 @@
             </Button>
         {{/if}}
 
-        <Button
+        <DeleteButton
             data-test-delete-button
-            data-analytics-name='Delete button'
-            {{on 'click' this.onDelete}}
-            local-class='btn'
-            @layout='large'
-            class='btn-destroy'
-        >
-            {{ t 'preprints.submit.action-flow.delete'}}
-        </Button>
+            @class='btn-destroy preprint-delete-btn'
+            @buttonLayout='large'
+            @noBackground={{true}}
+            @delete={{action this.onDelete }}
+            @modalTitle={{t 'settings.account.affiliatedInstitutions.deleteModalTitle'}}
+            @modalBody={{t 'settings.account.affiliatedInstitutions.deleteModalTitle'}}
+        />
     </div>
     <div local-class='caution-container'>
         <div local-class='icon-container'>
