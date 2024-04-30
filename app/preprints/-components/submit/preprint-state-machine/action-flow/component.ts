@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import { waitFor } from '@ember/test-waiters';
 
 /**
  * The Action Flow Args
@@ -28,6 +29,7 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
      * Calls the state machine next method
      */
     @task
+    @waitFor
     public async onNext(): Promise<void> {
         await taskFor(this.manager.onNext).perform();
     }
@@ -44,6 +46,7 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
      * Calls the state machine delete method
      */
     @task
+    @waitFor
     public async onDelete(): Promise<void> {
         await taskFor(this.manager.onDelete).perform();
     }
