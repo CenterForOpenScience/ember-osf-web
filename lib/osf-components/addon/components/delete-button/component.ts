@@ -30,7 +30,6 @@ export default class DeleteButton extends Component {
     small = false;
     smallSecondary = false;
     buttonLayout = 'medium';
-    class = '';
     noBackground = false;
     hardConfirm = false;
     disabled = false;
