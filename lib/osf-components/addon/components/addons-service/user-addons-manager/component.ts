@@ -84,6 +84,8 @@ export default class UserAddonManagerComponent extends Component<Args> {
         secretKey: '',
         repo: '',
     };
+    @tracked displayName = '';
+
     @action
     onCredentialsInput(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -145,7 +147,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     }
 
     @action
-    cancelAccountSetup() {
+    cancelSetup() {
         this.credentialsObject = {
             url: '',
             username: '',
@@ -155,6 +157,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             secretKey: '',
             repo: '',
         };
+        this.displayName = '';
         this.pageMode = undefined;
         this.selectedProvider = undefined;
     }
@@ -276,8 +279,8 @@ export default class UserAddonManagerComponent extends Component<Args> {
         if (this.selectedProvider) {
             try {
                 await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon)
-                    .perform(this.credentialsObject);
-                this.cancelAccountSetup();
+                    .perform(this.credentialsObject, this.displayName);
+                this.cancelSetup();
                 await taskFor(this.getAuthorizedAccounts).perform();
             } catch (e) {
                 const errorMessage = this.intl.t('addons.accountCreate.error');
@@ -292,14 +295,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async createAuthorizedAccount() {
         if (this.selectedProvider) {
             return await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon)
-                .perform(this.credentialsObject);
+                .perform(this.credentialsObject, this.displayName);
         }
     }
 
     @task
     @waitFor
     async oauthFlowRefocus() {
-        this.cancelAccountSetup();
+        this.cancelSetup();
         await taskFor(this.getAuthorizedAccounts).perform();
     }
 

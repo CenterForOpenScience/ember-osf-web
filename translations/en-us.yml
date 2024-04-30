@@ -291,6 +291,8 @@ addons:
         existing-account: 'Choose existing account'
         unauthenticated-account: 'Unauthenticated account'
     accountCreate:
+        display-name-label: 'Display name'
+        display-name-placeholder: 'Account name'
         url-label: 'Host URL'
         url-placeholder: 'owncloud.example.org'
         owncloud-url-post-text: 'Only ownCloud instances supporting <a href="https://doc.owncloud.com/">WebDAV</a> and <a href"https://www.freedesktop.org/wiki/Specifications/open-collaboration-services-1.7/">OCS v1.7</a> are supported.'
