@@ -152,7 +152,8 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
 
         if(this.args.manager.preprint.hasDataLinks === PreprintDataLinksEnum.NOT_APPLICABLE) {
             this.authorAssertionFormChangeset.set('whyNoData',
-                this.intl.t('preprints.submit.step-three.public-data-na-placeholder'));
+                this.intl.t('preprints.submit.step-three.public-data-na-placeholder',
+                    { singularPreprintWord: this.args.manager.provider.documentType.singular}));
         }
 
         if(this.args.manager.preprint.hasPreregLinks === PreprintPreregLinksEnum.NOT_APPLICABLE) {

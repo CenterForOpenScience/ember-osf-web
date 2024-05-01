@@ -109,12 +109,10 @@
                 <Preprints::-Components::PreprintCoi @preprint={{this.preprint}} />
             </div> 
             <div local-class='content-container'>
-                <h4>
-                    {{t 'preprints.submit.step-five.public-data'}}
-                </h4>
-                <div local-class='display'>
-                    {{this.displayPublicationCitation}}
-                </div>
+                <Preprints::-Components::PreprintPublicData
+                    @preprint={{this.preprint}}
+                    @preprintWord={{this.provider.documentType.singular}}
+                />
             </div> 
             <div local-class='content-container'>
                 <h4>
