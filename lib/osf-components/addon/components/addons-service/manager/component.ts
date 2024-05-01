@@ -34,6 +34,7 @@ enum PageMode {
     ACCOUNT_CREATE = 'accountCreate',
     CONFIRM = 'confirm',
     CONFIGURE = 'configure',
+    CONFIGURATION_LIST = 'configurationList'
 }
 
 export enum FilterTypes {
@@ -81,6 +82,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
+    @tracked selectedConfiguration?: AllConfiguredAddonTypes;
     @tracked selectedAccount?: AllAuthorizedAccountTypes;
     @tracked credentialsObject: AddonCredentialFields = {
         url: '',
@@ -133,10 +135,18 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     @action
-    configureProvider(provider: Provider) {
+    configureProvider(provider: Provider, configuredAddon: AllConfiguredAddonTypes) {
         this.cancelSetup();
         this.selectedProvider = provider;
+        this.selectedConfiguration = configuredAddon;
         this.pageMode = PageMode.CONFIGURE;
+    }
+
+    @action
+    listProviderConfigurations(provider: Provider) {
+        this.cancelSetup();
+        this.selectedProvider = provider;
+        this.pageMode = PageMode.CONFIGURATION_LIST;
     }
 
     @action
@@ -356,6 +366,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             heading = this.intl.t('addons.confirm.heading', { providerName });
             break;
         case PageMode.CONFIGURE:
+        case PageMode.CONFIGURATION_LIST:
             heading = this.intl.t('addons.configure.heading', { providerName });
             break;
         default:
