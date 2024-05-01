@@ -58,6 +58,11 @@ function buildOSF(
         hasCoi: true,
         conflictOfInterestStatement: 'This is the conflict of interest statement',
         hasDataLinks: PreprintDataLinksEnum.NOT_APPLICABLE,
+        dataLinks: [
+            'http://www.datalink.com/1',
+            'http://www.datalink.com/2',
+            'http://www.datalink.com/3',
+        ],
         hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
     });
 
