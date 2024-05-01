@@ -52,6 +52,7 @@
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::PublicData
                     @changeSet={{this.authorAssertionFormChangeset}}
+                    @manager={{@manager}}
                     @validate={{this.validate}}
                 />
             </div>
