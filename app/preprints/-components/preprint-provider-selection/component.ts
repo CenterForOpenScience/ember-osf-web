@@ -39,6 +39,10 @@ export default class PreprintProviderSelection extends Component<InputArgs> {
 
     @action
     updateSelectedProvider(provider: PreprintProviderModel): void {
-        this.selectedProvider = provider;
+        if (this.selectedProvider?.id !== provider.id) {
+            this.selectedProvider = provider;
+        } else {
+            this.selectedProvider = undefined;
+        }
     }
 }
