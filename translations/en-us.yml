@@ -1232,12 +1232,16 @@ preprints:
             create-button: 'Create a new OSF project'
         step-five:
             title: 'Review'
-            select-a-service: 'Select a service'
+            preprint-service: '{singularPreprintWord} Service'
             preprint-title: 'Title'
             contributors: 'Contributors'
             publication-date: 'Publication Date'
             publication-doi: 'Publication DOI'
             publication-citation: 'Publication Citation'
+            conflict-of-interest: 'Conflict of Interest'
+            no-conflict-of-interest: 'Author asserted no Conflict of Interest.'
+            public-data: 'Public Data'
+            public-preregistration: 'Public Preregistration'
         data-analytics: 'Goto {statusType} tab'
         status-flow:
             step-title-and-file: 'Title and File'
