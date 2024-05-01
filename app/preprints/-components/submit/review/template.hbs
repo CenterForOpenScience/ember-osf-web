@@ -11,7 +11,7 @@
 
             <div local-class='content-container'>
                 <div local-class='title'>
-                    {{t 'preprints.submit.step-five.select-a-service'}}
+                    {{ this.providerServiceLabel}}
                 </div>
                 <div local-class='display'>
                     <img
@@ -105,6 +105,25 @@
             >
                 {{t 'preprints.submit.step-three.title'}}
             </h3>
+            <div local-class='content-container'>
+                <Preprints::-Components::PreprintCoi @preprint={{this.preprint}} />
+            </div> 
+            <div local-class='content-container'>
+                <h4>
+                    {{t 'preprints.submit.step-five.public-data'}}
+                </h4>
+                <div local-class='display'>
+                    {{this.displayPublicationCitation}}
+                </div>
+            </div> 
+            <div local-class='content-container'>
+                <h4>
+                    {{t 'preprints.submit.step-five.public-preregistration'}}
+                </h4>
+                <div local-class='display'>
+                    {{this.displayPublicationCitation}}
+                </div>
+            </div> 
             <hr />
         </div>
         <div local-class='step-container'>
