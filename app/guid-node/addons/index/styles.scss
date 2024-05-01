@@ -35,7 +35,7 @@
     padding: 0 10px;
 
     &.active {
-        background-color: #f0f0f0;
+        background-color: $color-light;
     }
 }
 
@@ -52,4 +52,41 @@
 
 .account-select {
     margin: 20px 0;
+}
+
+.tab-list {
+    margin-bottom: 10px;
+    border-bottom: 1px solid $color-border-gray;
+    box-sizing: border-box;
+    color: $color-grey;
+    display: block;
+    line-height: 20px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    height: 41px;
+    padding: 0;
+}
+
+.tab-list {
+    li {
+        cursor: pointer;
+        display: block;
+        position: relative;
+        margin-bottom: -1px;
+        float: left;
+        height: 41px;
+        padding: 10px 15px;
+    }
+
+    li:global(.ember-tabs__tab--selected) {
+        background-color: $bg-light;
+        border-bottom: 2px solid $color-blue;
+    }
+
+    li:hover {
+        text-decoration: none;
+        background-color: $bg-light;
+        color: var(--primary-color);
+    }
 }
