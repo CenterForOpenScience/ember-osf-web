@@ -55,7 +55,7 @@ export default class PreprintModel extends OsfModel {
     @attr('date') preprintDoiCreated!: Date;
     @attr('array') currentUserPermissions!: Permission[];
     @attr('fixstringarray') tags!: string[];
-    @attr('fixstring') withdrawalJustification!     : string;
+    @attr('fixstring') withdrawalJustification!: string;
     @attr('boolean') hasCoi!: boolean;
     @attr('string') hasDataLinks!: PreprintDataLinksEnum;
     @attr('string') hasPreregLinks!: PreprintPreregLinksEnum;

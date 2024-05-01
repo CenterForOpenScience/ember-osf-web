@@ -52,7 +52,7 @@
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::PublicData
                     @changeSet={{this.authorAssertionFormChangeset}}
-                    @manager={{@manager}}
+                    @preprintWord={{@manager.provider.documentType.singular}}
                     @validate={{this.validate}}
                 />
             </div>
@@ -60,6 +60,7 @@
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::PublicPreregistration
                     @changeSet={{this.authorAssertionFormChangeset}}
+                    @preprintWord={{@manager.provider.documentType.singular}}
                     @validate={{this.validate}}
                 />
             </div>
