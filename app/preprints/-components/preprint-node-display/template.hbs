@@ -1,0 +1,14 @@
+<div>
+    {{#if this.loadNode.isRunning}}
+        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+    {{else}} 
+        <h4>
+            {{t 'preprints.submit.step-five.supplement-title'}}
+        </h4>
+        <div local-class='display'>
+            <div local-class='text'>
+                {{ this.nodeDisplay}}
+            </div>
+        </div>
+    {{/if}}
+</div>

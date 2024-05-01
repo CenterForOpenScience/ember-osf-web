@@ -1242,6 +1242,8 @@ preprints:
             no-conflict-of-interest: 'Author asserted no Conflict of Interest.'
             public-data: 'Public Data'
             public-preregistration: 'Public Preregistration'
+            supplement-title: 'OSF Project'
+            supplement-na: 'Author did not add any supplements for this {singularPreprintWord}'
         data-analytics: 'Goto {statusType} tab'
         status-flow:
             step-title-and-file: 'Title and File'
