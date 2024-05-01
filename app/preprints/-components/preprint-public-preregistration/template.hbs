@@ -1,0 +1,21 @@
+<div>
+    <h4>
+        {{t 'preprints.submit.step-five.public-preregistration'}}
+    </h4>
+    <div local-class='display'>
+        {{#if this.displayPreregLinkInfo}}
+            <div local-class='text'>
+                {{ this.preregLinkInfoDisplay}}
+            </div>
+            {{#each this.preprint.preregLinks as | link| }}
+                <div local-class='text'>
+                    {{link}}
+                </div>
+            {{/each}}
+        {{else}}
+            <ExpandablePreview @height='50'>
+                {{this.publicPreregistrationDisplay}}
+            </ExpandablePreview>
+        {{/if}}
+    </div>
+</div>
