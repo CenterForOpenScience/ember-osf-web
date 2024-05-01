@@ -18,8 +18,8 @@ export default class PreprintNodeDisplay extends Component<NodeDisplayArgs> {
     @service store!: Store;
 
     preprint = this.args.preprint;
-    node!: NodeModel;
-    nodeId!: string;
+    node?: NodeModel;
+    nodeId?: string;
 
     constructor(owner: unknown, args: NodeDisplayArgs) {
         super(owner, args);
@@ -31,7 +31,7 @@ export default class PreprintNodeDisplay extends Component<NodeDisplayArgs> {
 
     get nodeDisplay(): string {
         if (this.nodeId) {
-            return this.node.title;
+            return this.node?.title as string;
         } else {
             return this.intl.t('preprints.submit.step-five.supplement-na',
                 { singularPreprintWord: this.args.preprintWord});
