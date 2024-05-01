@@ -193,6 +193,12 @@
                             </OsfLink>
                         </div>
                     {{/if}}
+                    {{#if this.model.preprint.originalPublicationCitation}}
+                        <div>
+                            <h4>{{t 'preprints.detail.publication-citation'}}</h4>
+                            {{this.model.preprint.originalPublicationCitation}}
+                        </div>
+                    {{/if}}
                     <Preprints::-Components::PreprintLicense @preprint={{this.model.preprint}} />
                     <Preprints::-Components::PreprintDiscipline @subjects={{this.model.subjects}} />
                     <Preprints::-Components::PreprintTag @preprint={{this.model.preprint}} />
