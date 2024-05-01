@@ -14,14 +14,13 @@ export default class PreprintPublicData extends Component<CoiArgs> {
     preprint = this.args.preprint;
 
     get publicDataDisplay(): string {
-        // return this.displayPublicationCitation;
         if (this.preprint.hasDataLinks === PreprintDataLinksEnum.NOT_APPLICABLE) {
             return this.intl.t('preprints.submit.step-three.public-data-na-placeholder',
                 { singularPreprintWord: this.args.preprintWord});
         } else if (this.preprint.hasDataLinks === PreprintDataLinksEnum.NO) {
             return this.preprint.whyNoData as string;
         } else {
-            return 'data links'; // this.preprint.dataLinks;
+            return '';
         }
     }
 }

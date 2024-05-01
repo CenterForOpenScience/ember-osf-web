@@ -1,6 +1,10 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { PreprintDataLinksEnum, PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
+import {
+    PreprintDataLinksEnum,
+    PreprintPreregLinksEnum,
+    PreprintPreregLinkInfoEnum,
+} from 'ember-osf-web/models/preprint';
 
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import { ReviewsState } from 'ember-osf-web/models/provider';
@@ -110,6 +114,7 @@ function buildOSF(
         hasCoi: true,
         hasDataLinks: PreprintDataLinksEnum.AVAILABLE,
         dataLinks: ['Data link 1', 'Data link 2', 'Data link 3'],
+        preregLinkInfo: PreprintPreregLinkInfoEnum.PREREG_ANALYSIS,
         hasPreregLinks: PreprintPreregLinksEnum.AVAILABLE,
         preregLinks: ['Prereg link 1', 'Prereg link 2', 'Prereg link 3'],
         conflictOfInterestStatement: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,

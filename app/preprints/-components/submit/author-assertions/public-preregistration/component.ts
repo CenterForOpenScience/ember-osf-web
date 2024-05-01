@@ -13,6 +13,7 @@ import { RadioButtonOption } from 'osf-components/components/form-controls/radio
  */
 interface PublicPreregistrationArgs {
     changeSet: BufferedChangeset;
+    preprintWord: string;
     validate: () => {};
 }
 
@@ -94,8 +95,10 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
         } else {
             this.isPublicPreregistrationWhyNoStatementDisabled = true;
             this.args.changeSet.set('whyNoPrereg',
-                this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder'));
-            this.placeholder = this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder');
+                this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder',
+                    { singularPreprintWord: this.args.preprintWord}));
+            this.placeholder = this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder',
+                { singularPreprintWord: this.args.preprintWord});
         }
 
         this.args.validate();

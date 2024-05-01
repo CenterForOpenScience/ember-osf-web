@@ -6,7 +6,6 @@ import { tracked } from '@glimmer/tracking';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { PreprintDataLinksEnum } from 'ember-osf-web/models/preprint';
 import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
-import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
 
 /**
@@ -14,7 +13,7 @@ import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/pre
  */
 interface PublicDataArgs {
     changeSet: BufferedChangeset;
-    manager: PreprintStateMachine;
+    preprintWord: string;
     validate: () => {};
 }
 
@@ -72,9 +71,9 @@ export default class PublicData extends Component<PublicDataArgs>{
             this.isPublicDataWhyNoStatementDisabled = true;
             this.args.changeSet.set('whyNoData',
                 this.intl.t('preprints.submit.step-three.public-data-na-placeholder',
-                    { singularPreprintWord: this.args.manager.provider.documentType.singular}));
+                    { singularPreprintWord: this.args.preprintWord}));
             this.placeholder =  this.intl.t('preprints.submit.step-three.public-data-na-placeholder',
-                { singularPreprintWord: this.args.manager.provider.documentType.singular});
+                { singularPreprintWord: this.args.preprintWord});
         }
 
         this.args.validate();

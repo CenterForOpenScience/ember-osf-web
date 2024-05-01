@@ -115,12 +115,10 @@
                 />
             </div> 
             <div local-class='content-container'>
-                <h4>
-                    {{t 'preprints.submit.step-five.public-preregistration'}}
-                </h4>
-                <div local-class='display'>
-                    {{this.displayPublicationCitation}}
-                </div>
+                <Preprints::-Components::PreprintPublicPreregistration
+                    @preprint={{this.preprint}}
+                    @preprintWord={{this.provider.documentType.singular}}
+                />
             </div> 
             <hr />
         </div>
