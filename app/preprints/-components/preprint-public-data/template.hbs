@@ -3,8 +3,14 @@
         {{t 'preprints.submit.step-five.public-data'}}
     </h4>
     <div local-class='display'>
-        <div local-class='text'>
-            {{this.publicDataDisplay}}
-        </div>
+        {{#each this.preprint.dataLinks as | link| }}
+            <div local-class='text'>
+                {{link}}
+            </div>
+        {{else}}
+            <div local-class='text'>
+                {{this.publicDataDisplay}}
+            </div>
+        {{/each}}
     </div>
 </div>

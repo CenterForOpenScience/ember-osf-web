@@ -23,6 +23,5 @@ export default class PreprintPublicData extends Component<CoiArgs> {
         } else {
             return 'data links'; // this.preprint.dataLinks;
         }
-
     }
 }
