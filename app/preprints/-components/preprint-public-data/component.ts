@@ -3,12 +3,12 @@ import PreprintModel, { PreprintDataLinksEnum } from 'ember-osf-web/models/prepr
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 
-interface CoiArgs {
+interface PublicDataArgs {
     preprint: PreprintModel;
     preprintWord: string;
 }
 
-export default class PreprintPublicData extends Component<CoiArgs> {
+export default class PreprintPublicData extends Component<PublicDataArgs> {
     @service intl!: Intl;
 
     preprint = this.args.preprint;
