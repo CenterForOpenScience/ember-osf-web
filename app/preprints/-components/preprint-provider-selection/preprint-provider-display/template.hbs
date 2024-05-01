@@ -1,8 +1,6 @@
-{{!-- template-lint-disable no-invalid-interactive --}}
 <div
     data-test-provider-id='{{this.provider.id}}'
     local-class='provider-container {{if (is-mobile) 'mobile'}} {{if this.isSelected 'selected'}}'
-    {{ on 'click' (action this.onProviderSelect) }}
 >
     <div local-class='image-container'>
         <img
@@ -22,5 +20,22 @@
         local-class='description-container'
     >
         {{html-safe this.provider.description}}
+    </div>
+
+    <div
+        local-class='button-container'
+    >
+        <Button
+            data-test-select-button
+            data-analytics-name='Select a new preprint'
+            @layout='small'
+            {{on 'click' (action this.onProviderSelect)}}
+        >
+            {{#if this.isSelected}}
+                {{t 'preprints.select.deselect-button'}}
+            {{else}}
+                {{t 'preprints.select.select-button'}}
+            {{/if}}
+        </Button>
     </div>
 </div>

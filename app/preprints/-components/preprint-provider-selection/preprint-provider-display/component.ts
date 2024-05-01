@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
 
@@ -11,7 +12,7 @@ interface InputArgs {
 
 
 export default class PreprintProviderDisplay extends Component<InputArgs> {
-    provider: PreprintProviderModel = this.args.provider;
+    @tracked provider: PreprintProviderModel = this.args.provider;
 
     public get isSelected(): boolean {
         return this.args.provider.id === this.args.selectedProviderId;
