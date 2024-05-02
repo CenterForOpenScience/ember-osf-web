@@ -1,0 +1,162 @@
+<div ...attributes>
+    {{#let (unique-id 'upload-files-dropzone') as |id|}}
+        <DropzoneWidget
+            @buildUrl={{this.buildUrl}}
+            @options={{this.dropzoneOptions}}
+            @dropzone={{false}}
+            @addedfile={{action this.addedFile}}
+            @dragenter={{@dragEnter}}
+            @dragleave={{@dragLeave}}
+            @dragover={{@dragOver}}
+            @drop={{@drop}}
+            @success={{action this.success}}
+            @error={{action this.error}}
+            @enable={{@enable}}
+            @uploadprogress={{this.updateUploadProgress}}
+            @id={{id}}
+            @clickable={{this.clickableElementSelectors}}
+            as |dropzone|
+        >
+            {{yield (hash
+                setClickableElementId=this.setClickableElementId
+            )}}
+            <OsfDialog
+                @isOpen={{this.shouldShowModal}}
+                @onClose={{fn this.closeModal dropzone.dropzoneInstance}}
+            as |dialog|>
+                <dialog.heading>
+                    {{#if this.shouldShowUploadingModal}}
+                        {{t 'osf-components.file-browser.uploading_file' fileCount=this.uploading.length}}
+                    {{/if}}
+                    {{#if this.shouldShowFailureModal}}
+                        {{t 'osf-components.file-browser.upload_failed' fileCount=this.failedFilesNumber}}
+                    {{/if}}
+                    {{#if this.shouldShowSuccessModal}}
+                        {{t 'osf-components.file-browser.upload_success' fileCount=this.uploadCompleted.length}}
+                    {{/if}}
+                </dialog.heading>
+                <dialog.main>
+                    {{#if this.shouldShowUploadingModal}}
+                        <ul local-class='FileList'>
+                            {{#each this.uploading as |item|}}
+                                <li local-class='FileListItem'>
+                                    <div>
+                                        <FaIcon @icon='file-alt' />
+                                        <span local-class='Filename'>{{item.name}}</span>
+                                    </div>
+                                    <div>
+                                        {{concat (floor (get-anything this.uploadProgress item)) '%'}}
+                                        <FaIcon @icon='spinner' @pulse={{true}}/>
+                                    </div>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                    {{#if this.shouldShowFailureModal}}
+                        <ul local-class='FileList'>
+                            {{#each this.uploadErrored as |item|}}
+                                <li
+                                    local-class='FileListItem'
+                                >
+                                    <div>
+                                        <FaIcon @icon='file-alt' />
+                                        <span local-class='Filename'>
+                                            {{item.name}}
+                                        </span>
+                                        {{#if (eq item.xhr.status 507)}}
+                                            <span local-class='ErrorMessage'>
+                                                {{t 'osf-components.file-browser.exceeds_storage_limit'}}
+                                            </span>
+                                        {{/if}}
+                                    </div>
+                                    <div local-class='Flex'>
+                                        <Button
+                                            {{on 'click' (fn this.skip item)}}
+                                            disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
+                                        >
+                                            {{t 'osf-components.file-browser.skip'}}
+                                        </Button>
+                                        <Button
+                                            @type='destroy'
+                                            {{on 'click' (fn this.retryUpload dropzone.dropzoneInstance item)}}
+                                            disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
+                                        >
+                                            {{#if (or (eq item.status 'uploading') (eq item.status 'queued'))}}
+                                                {{concat (floor (get-anything this.uploadProgress item)) '%'}}
+                                                <FaIcon @icon='spinner' @pulse={{true}} />
+                                            {{else}}
+                                                {{t 'osf-components.file-browser.retry'}}
+                                            {{/if}}
+                                        </Button>
+                                    </div>
+                                </li>
+                            {{/each}}
+                            {{#each this.uploadConflicted as |item|}}
+                                <li
+                                    local-class='FileListItem'
+                                >
+                                    <div>
+                                        <FaIcon @icon='file-alt' />
+                                        <span local-class='Filename'>{{item.name}}</span>
+                                    </div>
+                                    <div local-class='Flex'>
+                                        <Button
+                                            {{on 'click' (fn this.skip item)}}
+                                            disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
+                                        >
+                                            {{t 'osf-components.file-browser.skip'}}
+                                        </Button>
+                                        <Button
+                                            @type='destroy'
+                                            {{on 'click' (fn this.retryUpload dropzone.dropzoneInstance item)}}
+                                            disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
+                                        >
+                                            {{#if (or (eq item.status 'uploading') (eq item.status 'queued'))}}
+                                                {{concat (floor (get-anything this.uploadProgress item)) '%'}}
+                                                <FaIcon @icon='spinner' @pulse={{true}} />
+                                            {{else}}
+                                                {{t 'osf-components.file-browser.replace'}}
+                                            {{/if}}
+                                        </Button>
+                                    </div>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                    {{#if this.shouldShowSuccessModal}}
+                        <ul local-class='FileList'>
+                            {{#each this.uploadCompleted as |item|}}
+                                <li
+                                    local-class='FileListItem'
+                                >
+                                    <div>
+                                        <FaIcon @icon='file-alt' />
+                                        <span local-class='Filename'>{{item.name}}</span>
+                                    </div>
+                                    <FaIcon local-class='CheckIcon' @icon='check' />
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{/if}}
+                </dialog.main>
+                <dialog.footer>
+                    {{#if this.shouldShowUploadingModal}}
+                        <Button
+                            {{on 'click' (fn this.cancelAllUploads dropzone.dropzoneInstance)}}
+                            @type='destroy'
+                        >
+                            {{t 'general.cancel'}}
+                        </Button>
+                    {{/if}}
+                    {{#if (or this.shouldShowFailureModal this.shouldShowSuccessModal)}}
+                        <Button
+                            {{on 'click' (fn this.closeModal dropzone.dropzoneInstance)}}
+                        >
+                            {{t 'general.done'}}
+                        </Button>
+                    {{/if}}
+                </dialog.footer>
+            </OsfDialog>
+        </DropzoneWidget>
+    {{/let}}
+</div>
