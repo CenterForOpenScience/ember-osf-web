@@ -38,6 +38,7 @@ export default class TitleAndFile extends Component<TitleAndFileArgs>{
     titleAndFileFormChangeset = buildChangeset(this.args.manager.preprint, TitleAndFileFormValidation);
     @tracked isFileUploadDisplayed = false;
     @tracked isFileSelectDisplayed = false;
+    @tracked dragging = false;
 
     @action
     public validate(): void {

@@ -7,14 +7,16 @@ import Toast from 'ember-toastr/services/toast';
 
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 import { TrackedWeakMap } from 'tracked-built-ins';
+import PreprintModel from 'ember-osf-web/models/preprint';
 
 interface PreprintUploadArgs {
-    manager: StorageManager;
-    isOpen: boolean;
     allowVersioning: boolean;
+    manager: StorageManager;
+    preprint: PreprintModel;
     dragEnter: () => {};
     dragLeave: () => {};
     dragOver: () => {};
+    clickableElementId: string;
 }
 
 
@@ -25,7 +27,7 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     @tracked uploadCompleted: any[] = [];
     @tracked uploadErrored: any[] = [];
     @tracked uploadConflicted: any[] = [];
-    @tracked clickableElementId = '';
+    @tracked clickableElementId = this.args.clickableElementId;
     uploadProgress = new TrackedWeakMap();
 
     get clickableElementSelectors() {
@@ -33,15 +35,6 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
             return [`#${this.clickableElementId}`];
         }
         return [];
-    }
-
-    get shouldShowUploadingModal() {
-        return this.uploading.length !== 0;
-    }
-
-    get shouldShowFailureModal() {
-        return this.failedFilesNumber > 0 &&
-            this.uploading.length === 0;
     }
 
     get dropzoneOptions() {
@@ -63,23 +56,6 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
         };
     }
 
-    get shouldShowSuccessModal() {
-        return this.uploadCompleted.length !== 0 &&
-            this.uploadConflicted.length === 0 &&
-            this.uploadErrored.length === 0 &&
-            this.uploading.length === 0;
-    }
-
-    get shouldShowModal() {
-        return this.shouldShowFailureModal ||
-            this.shouldShowUploadingModal ||
-            this.shouldShowSuccessModal;
-    }
-
-    get failedFilesNumber() {
-        return this.uploadErrored.length + this.uploadConflicted.length;
-    }
-
     @action
     updateUploadProgress(_: any, __: any, file: any, progress: any) {
         this.uploadProgress.set(file, progress);
@@ -91,7 +67,8 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
         if (newUploadLink) {
             return newUploadLink;
         }
-        const url = new URL(this.args.manager.currentFolder.links.upload as string);
+
+        const url = new URL(this.args.preprint.files.links.upload as string);
         url.searchParams.append('kind', 'file');
         url.searchParams.append('name', name);
         return url.toString();
@@ -162,32 +139,8 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
         notifyPropertyChange(this, 'uploadConflicted');
     }
 
-    retryUpload(dropzoneInstance: any, file: any) {
-        dropzoneInstance.addFile(file);
-    }
-
-    @action
-    skip(file: any) {
-        this.uploadErrored.removeObject(file);
-        this.uploadConflicted.removeObject(file);
-    }
-
     @action
     setClickableElementId(id: string) {
         this.clickableElementId = id;
-    }
-
-    @action
-    cancelAllUploads(dropzoneInstance: any) {
-        dropzoneInstance.removeAllFiles(true);
-    }
-
-    @action
-    closeModal(dropzoneInstance: any) {
-        dropzoneInstance.removeAllFiles(true);
-        this.uploadCompleted = [];
-        this.uploadErrored = [];
-        this.uploadConflicted = [];
-        this.args.manager.reload();
     }
 }
