@@ -1184,6 +1184,9 @@ preprints:
             title: 'Title and File'
             title-input: 'Title'
             abstract-input: 'Abstract'
+            upload-title: 'Upload your preprint'
+            file-upload-label: 'Upload from your computer'
+            file-select-label: 'Select from an existing OSF project'
         step-two:
             title: 'Metadata'
             contributors-input: 'Contributors'
