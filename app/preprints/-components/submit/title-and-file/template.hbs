@@ -71,10 +71,25 @@
                 </Button>
             </div>
             {{#if this.isFileUploadDisplayed}}
-                {{ t 'preprints.submit.step-one.file-upload-label'}}
-                <Preprints::-Components::Submit::TitleAndFile::UploadFile
-                    @manager={{@manager}}
-                />
+                {{#let (unique-id 'preprint-upload-files-dropzone') as |id|}}
+                    <Preprints::-Components::Submit::TitleAndFile::UploadFile
+                        @manager={{@manager}}
+                        @preprint{{@manager.preprint}}
+                        @clickableElementId={{id}}
+                        @enabled={{true}}
+                        @dragEnter={{fn (mut this.dragging) true}}
+                        @dragOver={{fn (mut this.dragging) true}}
+                        @dragLeave={{fn (mut this.dragging) false}}
+                        @drop={{fn (mut this.dragging) false}}
+                    >
+                        <div local-class='upload-file {{if this.dragging 'DraggingHighlight'}}'
+                        
+                         id={{id}}>
+                            {{ t 'preprints.submit.step-one.file-upload-label'}}
+                        </div>
+                    </Preprints::-Components::Submit::TitleAndFile::UploadFile>
+                {{/let}}
+
             {{/if}}
             {{#if this.isFileSelectDisplayed}}
                 {{ t 'preprints.submit.step-one.file-select-label'}}

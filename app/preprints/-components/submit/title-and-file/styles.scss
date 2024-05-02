@@ -60,3 +60,8 @@
 
     }
 }
+
+.DraggingHighlight {
+    border: 1px solid $color-bg-blue-dark;
+    box-shadow: 2px 2px 5px $color-bg-blue-dark;
+}
