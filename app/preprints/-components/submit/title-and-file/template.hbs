@@ -72,6 +72,9 @@
             </div>
             {{#if this.isFileUploadDisplayed}}
                 {{ t 'preprints.submit.step-one.file-upload-label'}}
+                <Preprints::-Components::Submit::TitleAndFile::UploadFile
+                    @manager={{@manager}}
+                />
             {{/if}}
             {{#if this.isFileSelectDisplayed}}
                 {{ t 'preprints.submit.step-one.file-select-label'}}
