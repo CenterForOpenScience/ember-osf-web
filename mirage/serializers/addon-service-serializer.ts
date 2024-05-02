@@ -1,9 +1,16 @@
-import { dasherize } from '@ember/string';
+import { underscore } from '@ember/string';
 import { JSONAPISerializer, ModelInstance, Request } from 'ember-cli-mirage';
 
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 
 export default class AddonServiceSerializer extends JSONAPISerializer {
+    keyForAttribute(attr: string) {
+        return underscore(attr);
+    }
+
+    keyForRelationship(relationship: string) {
+        return underscore(relationship);
+    }
     buildNormalLinks(model: ModelInstance) {
         return {
             self: `${addonServiceAPIUrl}${model.modelName}/${model.id}/`,
@@ -18,7 +25,7 @@ export default class AddonServiceSerializer extends JSONAPISerializer {
         json.data.relationships = Object
             .entries(this.buildRelationships(model))
             .reduce((acc, [key, value]) => {
-                acc[dasherize(key)] = value;
+                acc[underscore(key)] = value;
                 return acc;
             }, {} as Record<string, unknown>); // better type?
 
