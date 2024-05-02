@@ -19,14 +19,44 @@
             color: $brand-danger;
         }
 
-        .input-container {
-            margin-bottom: 20px;
-        }
-
         .textarea-container {
             * > textarea {
                 height: 150px;
             }
         }
+    }
+
+    &.mobile {
+        height: fit-content;
+    }
+
+    .input-container {
+        margin-bottom: 20px;
+    }
+
+    .upload-container {
+        width: 100%;
+
+        .button-container {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            .btn {
+                width: calc(50% - 10px);
+            }
+        }
+
+        .cancel-button-container {
+            margin-top: 10px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
     }
 }
