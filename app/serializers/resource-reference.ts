@@ -1,10 +1,6 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
-import { dasherize } from '@ember/string';
+import OsfSerializer from './osf-serializer';
 
-export default class ResourceReferenceSerializer extends JSONAPISerializer {
-    keyForRelationship(key: string) {
-        return dasherize(key);
-    }
+export default class ResourceReferenceSerializer extends OsfSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
