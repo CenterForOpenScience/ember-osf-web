@@ -51,13 +51,8 @@ export default class StatusFlowDisplay extends Component<StatusFlowDisplayArgs>{
     public get getLinkClass(): string {
         if (this.isSelected) {
             return 'selected';
-        } else if (this.isFinished) {
-            return 'finished';
         } else {
-            return '';
+            return 'unfinished';
         }
-
-
     }
-
 }

@@ -8,8 +8,11 @@
     align-items: center;
     justify-content: flex-start;
     background-color: inherit;
-    cursor: pointer;
     z-index: 1;
+
+    &.cursor {
+        cursor: pointer;
+    }
 
     &.selected {
         width: 193px;
@@ -60,8 +63,12 @@
 
         .selected {
             pointer-events: none;
-            color: $color-text-black;
+            color: $color-text-gray-blue;
             cursor: default;
+        }
+
+        .unfinished {
+            color: $color-link-dark;
         }
     }
 }
