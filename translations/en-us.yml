@@ -1186,12 +1186,13 @@ preprints:
             abstract-input: 'Abstract'
         step-two:
             title: 'Metadata'
+            contributors-input: 'Contributors'
             license-input: 'License'
-            license-description: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this help guide.'
+            license-description: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/article/148-licensing" target="_blank" rel="noopener noreferrer">help guide</a>.'
             license-placeholder: 'Select one'
             subjects-input: 'Subjects'
             tags-input: 'Tags'
-            publication-doi-input: 'Publication Doi'
+            publication-doi-input: 'Publication DOI'
             publication-date-input: 'Publication Date'
             publication-citation-input: 'Publication Citation'
         step-three:
