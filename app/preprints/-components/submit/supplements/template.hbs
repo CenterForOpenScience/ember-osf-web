@@ -14,7 +14,7 @@
             data-analytics-name='Connect to an existing OSF preprint'
             {{on 'click' this.onConnectOsfProject}}
             @layout='large'
-            local-class='btn-width'
+            local-class='btn-width {{if this.displayExistingNodeWidget 'selected'}}'
             class='btn btn-secondary btn-large'
         >
             {{t 'preprints.submit.step-four.connect-button'}}
@@ -24,7 +24,7 @@
             data-test-create-osf-button
             data-analytics-name='Create a new OSF preprint'
             {{on 'click' this.onCreateOsfProject}}
-            local-class='btn-width'
+            local-class='btn-width {{if this.displayCreateNodeWidget 'selected'}}'
             @layout='large'
         >
             {{t 'preprints.submit.step-four.create-button'}}
