@@ -1253,6 +1253,7 @@ preprints:
             step-review: 'Review'
         action-flow:
             next: 'Next'
+            next-disabled-tooltip: 'Fill in "Required *" fields to continue'
             submit: 'Submit'
             delete: 'Delete'
             delete-modal-title: 'Delete {singularPreprintWord}'
