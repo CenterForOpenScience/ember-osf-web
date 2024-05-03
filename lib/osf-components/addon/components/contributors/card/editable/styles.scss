@@ -1,13 +1,23 @@
-.CardContainer {
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.card-container {
     composes: CardContainer from '../styles.scss';
 }
 
-.MainSection {
+.main-section {
     composes: MainSection from '../styles.scss';
 }
 
-.CardSection {
-    composes: CardSection from '../styles.scss';
+.name-section {
+    composes: NameSection from '../styles.scss';
+}
+
+.permission-section {
+    composes: PermissionSection from '../styles.scss';
+}
+
+.action-section {
+    composes: ActionSection from '../styles.scss';
 }
 
 .CardSectionSmall {
@@ -20,10 +30,10 @@
     max-width: 4%;
 }
 
-.Handle {
+.handle {
     padding-right: 10px;
     color: var(--primary-color);
-    font-size: 20pt;
+    font-size: 12px;
 }
 
 .DropdownSection {
@@ -32,8 +42,4 @@
 
 .DropdownList {
     composes: DropdownList from '../styles.scss';
-}
-
-.m-r-xs {
-    margin-right: 5px;
 }
