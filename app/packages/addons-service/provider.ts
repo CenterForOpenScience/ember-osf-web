@@ -88,7 +88,7 @@ export default class Provider {
     @service store!: Store;
 
     get isConfigured() {
-        return Boolean(this.configuredAddon);
+        return Boolean(this.configuredAddon) || Boolean(this.configuredAddons?.length);
     }
 
     constructor(provider: any, currentUser: CurrentUserService, node?: NodeModel) {

@@ -119,7 +119,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
 
     server.create('configured-storage-addon', {
         id: 'box1',
-        name: 'box',
+        name: 'Box',
         displayName: 'Boxed Data',
         rootFolder: '/woot/',
         storageProvider: boxAddon,

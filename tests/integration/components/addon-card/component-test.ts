@@ -59,10 +59,10 @@ module('Integration | Component | addon-card', hooks => {
         );
         assert.dom('[data-test-addon-card-logo]').hasAttribute('alt', 'Test Addon logo', 'Alt text is correct');
         assert.dom('[data-test-addon-card-title]').hasText('Test Addon');
-        assert.dom('[data-test-addon-card-configure]').doesNotExist();
-        assert.dom('[data-test-addon-card-disable]').doesNotExist();
-        assert.dom('[data-test-addon-card-enable]').exists();
-        await click('[data-test-addon-card-enable]');
+        assert.dom('[data-test-addon-card-edit]').doesNotExist();
+        assert.dom('[data-test-addon-card-disconnect]').doesNotExist();
+        assert.dom('[data-test-addon-card-connect]').exists();
+        await click('[data-test-addon-card-connect]');
         assert.ok(this.manager.beginAccountSetup.calledOnce);
     });
 
@@ -100,17 +100,17 @@ module('Integration | Component | addon-card', hooks => {
         );
         assert.dom('[data-test-addon-card-logo]').hasAttribute('alt', 'Test Addon logo', 'Alt text is correct');
         assert.dom('[data-test-addon-card-title]').hasText('Test Addon');
-        assert.dom('[data-test-addon-card-configure]').exists();
-        assert.dom('[data-test-addon-card-disable]').exists();
-        assert.dom('[data-test-addon-card-enable]').doesNotExist();
+        assert.dom('[data-test-addon-card-edit]').exists();
+        assert.dom('[data-test-addon-card-disconnect]').exists();
+        assert.dom('[data-test-addon-card-connect]').doesNotExist();
 
-        await click('[data-test-addon-card-configure]');
+        await click('[data-test-addon-card-edit]');
         assert.ok(this.manager.configureProvider.calledOnce);
-        await click('[data-test-addon-card-disable]');
-        assert.dom('[data-test-addon-disable-modal-disable]').exists();
-        assert.dom('#osf-dialog-heading').hasText('Disable Add-on');
-        assert.dom('[data-test-dialog] main').containsText('Are you sure you want to disable this add-on?');
-        await click('[data-test-addon-disable-modal-disable]');
+        await click('[data-test-addon-card-disconnect]');
+        assert.dom('[data-test-addon-disconnect-modal-confirm]').exists();
+        assert.dom('#osf-dialog-heading').hasText('Disconnect Add-on');
+        assert.dom('[data-test-dialog] main').containsText('Are you sure you want to disconnect this add-on?');
+        await click('[data-test-addon-disconnect-modal-confirm]');
         assert.ok(addonObj.disableProjectAddon.perform.calledOnce);
     });
 });

@@ -1,10 +1,6 @@
-import JSONAPISerializer from '@ember-data/serializer/json-api';
-import { underscore } from '@ember/string';
+import OsfSerializer from './osf-serializer';
 
-export default class ExternalCitationServiceSerializer extends JSONAPISerializer {
-    keyForAttribute(key: string) {
-        return underscore(key);
-    }
+export default class ExternalCitationServiceSerializer extends OsfSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {

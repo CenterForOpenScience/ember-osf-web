@@ -13,8 +13,7 @@ import Toast from 'ember-toastr/services/toast';
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import NodeModel from 'ember-osf-web/models/node';
 import Provider, {
-    AllAuthorizedAccountTypes,
-    AllConfiguredAddonTypes,
+    AllAuthorizedAccountTypes, AllConfiguredAddonTypes,
 } from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
@@ -25,6 +24,7 @@ interface FilterSpecificObject {
     modelName: string;
     task: Task<any, any>;
     list: EmberArray<Provider>;
+    configuredAddons?: EmberArray<AllConfiguredAddonTypes>;
 }
 
 enum PageMode {
@@ -62,16 +62,19 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             modelName: 'external-storage-service',
             task: taskFor(this.getStorageAddonProviders),
             list: A([]),
+            configuredAddons: A([]),
         },
         [FilterTypes.CITATION_MANAGER]: {
             modelName: 'external-citation-service',
             task: taskFor(this.getCitationAddonProviders),
             list: A([]),
+            configuredAddons: A([]),
         },
         [FilterTypes.CLOUD_COMPUTING]: {
             modelName: 'external-computing-service',
             task: taskFor(this.getCloudComputingProviders),
             list: A([]),
+            configuredAddons: A([]),
         },
     };
     @tracked filterText = '';
@@ -91,6 +94,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         repo: '',
     };
     @tracked connectAccountError = false;
+    @tracked displayName = '';
 
     @action
     filterByAddonType(type: FilterTypes) {
@@ -102,6 +106,17 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         if (activeFilterObject.list.length === 0) {
             activeFilterObject.task.perform();
         }
+    }
+    get filteredConfiguredProviders() {
+        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        const possibleProviders = activeFilterObject.list;
+        const textFilteredAddons = possibleProviders.filter(
+            (provider: any) => provider.provider.name.toLowerCase().includes(this.filterText.toLowerCase()),
+        );
+
+        const configuredProviders = textFilteredAddons.filter((provider: Provider) => provider.isConfigured);
+
+        return configuredProviders;
     }
 
     get filteredAddonProviders() {
@@ -171,7 +186,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     async createAuthorizedAccount() {
         if (this.selectedProvider) {
             const newAccount = await taskFor(this.selectedProvider.providerMap!
-                .createAccountForNodeAddon).perform(this.credentialsObject);
+                .createAccountForNodeAddon).perform(this.credentialsObject, this.displayName);
             return newAccount;
         }
         return undefined;
@@ -250,6 +265,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             secretKey: '',
             repo: '',
         };
+        this.displayName = '';
     }
 
     @action
@@ -276,7 +292,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             filter: {'resource-uri': encodeURI(this.node.links.iri as string)},
         });
         if(references) {
-            this.addonServiceNode = references[0];
+            this.addonServiceNode = references.firstObject;
         }
     }
 
@@ -289,7 +305,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         activeFilterObject.list = A(serviceStorageProviders.sort(this.providerSorter));
 
         if (this.addonServiceNode) {
-            await this.addonServiceNode.get('configuredStorageAddons');
+            const configuredAddons = await this.addonServiceNode.get('configuredStorageAddons');
+            activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
     }
 
@@ -302,7 +319,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
 
         if (this.addonServiceNode) {
-            await this.addonServiceNode.get('configuredComputingAddons');
+            const configuredAddons = await this.addonServiceNode.get('configuredComputingAddons');
+            activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
     }
 
@@ -315,7 +333,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
 
         if (this.addonServiceNode) {
-            await this.addonServiceNode.get('configuredCitationAddons');
+            const configuredAddons = await this.addonServiceNode.get('configuredCitationAddons');
+            activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
     }
 

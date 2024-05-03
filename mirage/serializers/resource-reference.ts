@@ -2,9 +2,9 @@ import { ModelInstance } from 'ember-cli-mirage';
 
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
-import AddonServiceSerializer from './addon-service-serializer';
+import ApplicationSerializer from './application';
 
-export default class ResourceReferenceSerializer extends AddonServiceSerializer {
+export default class ResourceReferenceSerializer extends ApplicationSerializer<ResourceReferenceModel> {
     buildRelationships(model: ModelInstance<ResourceReferenceModel>) {
         return {
             configuredStorageAddons: {

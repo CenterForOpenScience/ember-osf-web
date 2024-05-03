@@ -3,7 +3,7 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
-import AddonServiceSerializer from './addon-service-serializer';
+import ApplicationSerializer from './application';
 
 export interface MirageConfiguredStorageAddon extends ConfiguredStorageAddonModel {
     accountOwnerId: string;
@@ -12,7 +12,7 @@ export interface MirageConfiguredStorageAddon extends ConfiguredStorageAddonMode
     storageProviderId: string;
 }
 
-export default class ConfiguredStorageAddonSerializer extends AddonServiceSerializer {
+export default class ConfiguredStorageAddonSerializer extends ApplicationSerializer<ConfiguredStorageAddonModel> {
     buildRelationships(model: ModelInstance<MirageConfiguredStorageAddon>) {
         return {
             accountOwner: {
