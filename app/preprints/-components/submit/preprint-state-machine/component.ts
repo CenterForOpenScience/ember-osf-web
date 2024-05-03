@@ -36,7 +36,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     metadataValidation = false;
     authorAssertionValidation = false;
     supplementValidation = false;
-    nextButtonIsDisabled = true;
+    @tracked nextButtonIsDisabled = true;
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
@@ -90,16 +90,19 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
             this.titleAndFieldValidation
         ) {
+            this.nextButtonIsDisabled = !this.metadataValidation;
             await this.saveOnStep();
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
             this.metadataValidation
         ) {
+            this.nextButtonIsDisabled = !this.authorAssertionValidation;
             await this.saveOnStep();
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.authorAssertions) &&
             this.authorAssertionValidation
         ) {
+            this.nextButtonIsDisabled = !this.supplementValidation;
             await this.saveOnStep();
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.supplements) &&
@@ -157,6 +160,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
 
     @action
     public onClickStep(type: string): void {
+        this.nextButtonIsDisabled = !this.isFinished(type);
         if (
             type === PreprintStatusTypeEnum.titleAndFile &&
             this.statusFlowIndex > this.getTypeIndex(type)

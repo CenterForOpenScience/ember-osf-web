@@ -16,13 +16,18 @@
                 data-test-next-button
                 data-analytics-name='Next button'
                 {{on 'click' (perform this.onNext)}}
-                local-class='btn'
+                local-class='btn {{if @manager.nextButtonIsDisabled 'disabled'}}'
                 @disabled={{@manager.nextButtonIsDisabled}}
                 @layout='large'
                 @type='primary'
             >
                 {{ t 'preprints.submit.action-flow.next'}}
                 <FaIcon @icon='arrow-right' />
+                {{#if @manager.nextButtonIsDisabled}}
+                    <EmberTooltip>
+                        {{t 'preprints.submit.action-flow.next-disabled-tooltip'}}
+                    </EmberTooltip>
+                {{/if}}
             </Button>
         {{/if}}
 

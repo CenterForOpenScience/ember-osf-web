@@ -24,6 +24,12 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-evenly;
+
+            &.disabled {
+                background-color: $color-bg-gray-blue-light;
+                border: 1px solid transparent;
+                cursor: default;
+            }
         }
     }
 
