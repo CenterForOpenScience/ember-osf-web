@@ -3,7 +3,7 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 
-import AddonServiceSerializer from './addon-service-serializer';
+import ApplicationSerializer from './application';
 
 export interface MirageConfiguredCitationAddon extends ConfiguredCitationAddonModel {
     accountOwnerId: string;
@@ -12,7 +12,7 @@ export interface MirageConfiguredCitationAddon extends ConfiguredCitationAddonMo
     externalCitationServiceId: string;
 }
 
-export default class ConfiguredCitationAddonSerializer extends AddonServiceSerializer {
+export default class ConfiguredCitationAddonSerializer extends ApplicationSerializer<ConfiguredCitationAddonModel> {
     buildRelationships(model: ModelInstance<MirageConfiguredCitationAddon>) {
         return {
             accountOwner: {

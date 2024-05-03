@@ -3,9 +3,9 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 
-import AddonServiceSerializer from './addon-service-serializer';
+import ApplicationSerializer from './application';
 
-export default class UserReferenceSerializer extends AddonServiceSerializer {
+export default class UserReferenceSerializer extends ApplicationSerializer<UserReferenceModel> {
     buildRelationships(model: ModelInstance<UserReferenceModel>) {
         return {
             authorizedStorageAccounts: {

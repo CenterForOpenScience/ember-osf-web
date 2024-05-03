@@ -3,7 +3,7 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
 import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
 
-import AddonServiceSerializer from './addon-service-serializer';
+import ApplicationSerializer from './application';
 
 export interface MirageConfiguredComputingAddon extends ConfiguredComputingAddonModel {
     accountOwnerId: string;
@@ -12,7 +12,7 @@ export interface MirageConfiguredComputingAddon extends ConfiguredComputingAddon
     externalComputingServiceId: string;
 }
 
-export default class ConfiguredComputingAddonSerializer extends AddonServiceSerializer {
+export default class ConfiguredComputingAddonSerializer extends ApplicationSerializer<ConfiguredComputingAddonModel> {
     buildRelationships(model: ModelInstance<MirageConfiguredComputingAddon>) {
         return {
             accountOwner: {
