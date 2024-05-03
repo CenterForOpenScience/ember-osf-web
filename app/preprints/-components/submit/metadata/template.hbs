@@ -90,6 +90,7 @@
                             @readOnly={{false}}
                             @inline={{true}}
                             id={{tagsFieldId}}
+                            local-class='tags-border'
                         />
                     {{/let}}
                 </div>
@@ -109,6 +110,7 @@
                     <ValidatedInput::Date
                         @label={{t 'preprints.submit.step-two.publication-date-input'}}
                         @ariaLabel={{t 'preprints.submit.step-two.publication-date-input'}}
+                        @readOnly={{false}}
                         data-test-publication-date-input
                         @value={{@manager.preprint.originalPublicationDate}}
                         @placeholder={{t 'preprints.submit.step-two.publication-date-input'}}
