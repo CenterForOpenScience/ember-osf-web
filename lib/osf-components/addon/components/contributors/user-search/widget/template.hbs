@@ -1,25 +1,29 @@
 <div ...attributes>
-    <div local-class='InputContainer'>
-        <Input
-            local-class='UserSearchInput'
-            data-test-user-search-input
-            placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
-            @type='text'
-            @value={{this.query}}
-            @enter={{perform this.fetchUsers false}}
-        />
-        <Button
-            data-test-user-search-button
-            local-class='ClearButton'
-            @type='create'
-            {{on 'click' (perform this.fetchUsers false)}}
-        >
-            {{t 'registries.registration_metadata.add_contributors.search'}}
-        </Button>
+    <div local-class='input-container'>
+        <div local-class='search-container'>
+            <Input
+                local-class='user-search-input'
+                data-test-user-search-input
+                placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
+                @type='text'
+                @value={{this.query}}
+                @enter={{perform this.fetchUsers false}}
+            />
+            <Button
+                data-test-user-search-button
+                local-class='search-button'
+                @type='create'
+                {{on 'click' (perform this.fetchUsers false)}}
+            >
+                {{t 'registries.registration_metadata.add_contributors.search'}}
+            </Button>
+        </div>
+        <div local-class='add-by-email-container'>
+            <Contributors::AddUnregisteredModal
+                @addUnregisteredContributor={{@manager.addUnregisteredContributor}}
+            />
+        </div>
     </div>
-    <Contributors::AddUnregisteredModal
-        @addUnregisteredContributor={{@manager.addUnregisteredContributor}}
-    />
     <div
         local-class='UserSearchResultsContainer'
         data-test-user-search-results
