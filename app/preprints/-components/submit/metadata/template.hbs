@@ -9,6 +9,9 @@
         </h3>
         <div local-class='form-container'>
             <div local-class='input-container'>
+                <label>
+                    {{t 'preprints.submit.step-two.contributors-input'}}
+                </label>
                 <Contributors::Widget
                     @preprint={{@manager.preprint}}
                     @shouldShowAdd={{this.showAddContributorWidget}}
@@ -30,7 +33,7 @@
                         <span local-class='required'>*</span>
                     </label>
                     <p>
-                        {{t 'preprints.submit.step-two.license-description'}}
+                        {{t 'preprints.submit.step-two.license-description' htmlSafe=true}}
                     </p>
                     <form.select
                         data-test-license-input
