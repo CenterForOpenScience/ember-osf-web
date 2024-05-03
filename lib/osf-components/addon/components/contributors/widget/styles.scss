@@ -1,31 +1,41 @@
-.Container {
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.container {
     border: 1px solid $color-border-gray;
     margin-top: 10px;
     overflow-y: scroll;
     max-height: 500px;
-}
 
-.Heading {
-    padding: 11px 20px;
-    height: 40px;
-    font-weight: bold;
-    display: flex;
-    border-bottom: 1px solid $color-border-gray;
-    background-color: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
+    .heading-container {
+        width: 100%;
+        height: 40px;
+        font-weight: bold;
+        border-bottom: 1px solid $color-border-gray;
+        background-color: #fff;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
 
-.HeadingTitle {
-    flex: 1 0 auto;
-    max-width: 30%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+        .name-title,
+        .permission-title,
+        .citation-title {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
 
-    &:first-of-type {
-        flex: 2 0 auto;
-        max-width: 41%;
+        .name-title {
+            padding-left: 40px;
+            width: 50%;
+        }
+
+        .permission-title {
+            width: 30%;
+        }
+
+        .citation-title {
+            width: 20%;
+        }
     }
 }

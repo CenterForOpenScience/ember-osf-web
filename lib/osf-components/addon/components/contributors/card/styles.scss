@@ -4,25 +4,55 @@
     background-color: #fff;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
 }
 
 .MainSection {
-    display: flex;
     height: 60px;
+    padding-left: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
     align-items: center;
-    padding: 0 20px;
+}
+
+.NameSection {
+    width: calc(50% - 10px);
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.PermissionSection {
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 10px;
+
+    :global(.ember-power-select-trigger) {
+        width: calc(100% - 5px);
+    }
+}
+
+.ActionSection {
+    width: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .CardSection {
     flex: 1 0 auto;
-    max-width: 34%;
     display: flex;
     align-items: center;
-
-    &:first-of-type {
-        flex: 2 0 auto;
-        max-width: 40%;
-    }
 
     :global(.ember-power-select-trigger) {
         width: 120px;

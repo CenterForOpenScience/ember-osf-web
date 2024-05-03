@@ -2599,13 +2599,12 @@ osf-components:
         reorderContributor:
             reorderContributor: 'Reorder contributor'
             success: 'Contributor order updated.'
-            dragHandle: '⇕'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
         addContributor:
             success: 'Contributor added'
             errorHeading: 'Error adding contributor'
-        currentContributors: 'Current contributors'
+        currentContributors: 'Contributors'
         email: 'Email'
         fullName: 'Full name'
         selectPermission: 'Select permission'

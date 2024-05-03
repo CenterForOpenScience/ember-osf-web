@@ -1,24 +1,19 @@
 <div data-test-contributor-card={{@contributor.id}}
-    local-class='CardContainer'>
-    <div data-test-contributor-card-main local-class='MainSection'>
-        <span local-class='CardSection'>
-            <span local-class='Handle'>
-                <span
-                    {{sortable-handle}}
-                    data-test-sortable-handle={{@contributor.id}}
-                    aria-label={{t 'osf-components.contributors.reorderContributor.reorderContributor'}}
-                >
-                    {{t 'osf-components.contributors.reorderContributor.dragHandle'}}
-                </span>
-            </span>
-            <img
+    local-class='card-container'>
+    <div data-test-contributor-card-main local-class='main-section'>
+        <div local-class='name-section'>
+            <div local-class='handle'>
+                <FaIcon @icon='bars' />
+            </div>
+            {{!-- Removed by Mark as part of the preprint redesign 2024-05-03 --}}
+            {{!-- <img
                 data-test-contributor-gravatar
                 local-class='m-r-xs'
                 src={{@contributor.users.links.profile_image}}
                 alt={{@contributor.users.fullName}}
                 height='30'
                 width='30'
-            >
+            > --}}
             <OsfLink
                 data-test-contributor-link={{@contributor.id}}
                 data-analytics-name='View user'
@@ -27,10 +22,10 @@
             >
                 {{@contributor.users.fullName}}
             </OsfLink>
-        </span>
-        <span
+        </div>
+        <div
             data-test-contributor-permission={{@contributor.id}}
-            local-class='CardSection'
+            local-class='permission-section'
         >
             <PowerSelect
                 @selected={{@contributor.permission}}
@@ -43,49 +38,51 @@
                     {{t (concat 'osf-components.contributors.permissions.' option)}}
                 </span>
             </PowerSelect>
-        </span>
-        <span data-test-contributor-citation={{@contributor.id}} local-class='CardSectionSmall'>
-            <Input
-                @type='checkbox'
-                @checked={{readonly @contributor.bibliographic}}
-                aria-label={{t 'app_components.project_contributors.list.citation'}}
-                data-test-contributor-citation-checkbox
-                data-analytics-name='Toogle isBibliographic'
-                {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
-            />
-        </span>
-        <span
-            data-test-contributor-caret={{@contributor.id}}
-            data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
-            aria-label={{if this.showDropdown
-                (t 'osf-components.contributors.educationAndEmployment.collapse')
-                (t 'osf-components.contributors.educationAndEmployment.expand')
-            }}
-            local-class='CardSectionXS'
-            role='button'
-            {{on 'click' this.toggleDropdown}}
-        >
-            <FaIcon
-                @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
-            />
-        </span>
-        <span local-class='CardSectionXS'>
-            <DeleteButton
-                data-test-contributor-remove={{@contributor.id}}
-                @small={{true}}
-                @noBackground={{true}}
-                @delete={{fn @manager.removeContributor @contributor}}
-                @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
-                @modalBody={{t
-                    'osf-components.contributors.removeContributor.confirmRemove.body'
-                    userName=(if @contributor.unregisteredContributor
-                        @contributor.unregisteredContributor
-                        @contributor.users.fullName
-                    )
+        </div>
+        <div local-class='action-section'>
+            <span data-test-contributor-citation={{@contributor.id}} local-class='CardSectionSmall'>
+                <Input
+                    @type='checkbox'
+                    @checked={{readonly @contributor.bibliographic}}
+                    aria-label={{t 'app_components.project_contributors.list.citation'}}
+                    data-test-contributor-citation-checkbox
+                    data-analytics-name='Toogle isBibliographic'
+                    {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
+                />
+            </span>
+            <span
+                data-test-contributor-caret={{@contributor.id}}
+                data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
+                aria-label={{if this.showDropdown
+                    (t 'osf-components.contributors.educationAndEmployment.collapse')
+                    (t 'osf-components.contributors.educationAndEmployment.expand')
                 }}
-                @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
-            />
-        </span>
+                local-class='CardSectionXS'
+                role='button'
+                {{on 'click' this.toggleDropdown}}
+            >
+                <FaIcon
+                    @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
+                />
+            </span>
+            <span local-class='CardSectionXS'>
+                <DeleteButton
+                    data-test-contributor-remove={{@contributor.id}}
+                    @small={{true}}
+                    @noBackground={{true}}
+                    @delete={{fn @manager.removeContributor @contributor}}
+                    @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
+                    @modalBody={{t
+                        'osf-components.contributors.removeContributor.confirmRemove.body'
+                        userName=(if @contributor.unregisteredContributor
+                            @contributor.unregisteredContributor
+                            @contributor.users.fullName
+                        )
+                    }}
+                    @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
+                />
+            </span>
+        </div>
     </div>
     {{#if this.showDropdown}}
         <div data-test-contributor-card-dropdown local-class='DropdownSection'>
