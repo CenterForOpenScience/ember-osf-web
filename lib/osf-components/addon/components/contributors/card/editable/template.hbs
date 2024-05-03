@@ -40,7 +40,7 @@
             </PowerSelect>
         </div>
         <div local-class='action-section'>
-            <span data-test-contributor-citation={{@contributor.id}} local-class='CardSectionSmall'>
+            <div data-test-contributor-citation={{@contributor.id}} local-class='action-container'>
                 <Input
                     @type='checkbox'
                     @checked={{readonly @contributor.bibliographic}}
@@ -49,23 +49,23 @@
                     data-analytics-name='Toogle isBibliographic'
                     {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
                 />
-            </span>
-            <span
+            </div>
+            <div
                 data-test-contributor-caret={{@contributor.id}}
                 data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
                 aria-label={{if this.showDropdown
                     (t 'osf-components.contributors.educationAndEmployment.collapse')
                     (t 'osf-components.contributors.educationAndEmployment.expand')
                 }}
-                local-class='CardSectionXS'
+                local-class='action-container'
                 role='button'
                 {{on 'click' this.toggleDropdown}}
             >
                 <FaIcon
                     @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
                 />
-            </span>
-            <span local-class='CardSectionXS'>
+            </div>
+            <div local-class='action-container'>
                 <DeleteButton
                     data-test-contributor-remove={{@contributor.id}}
                     @small={{true}}
@@ -81,12 +81,12 @@
                     }}
                     @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
                 />
-            </span>
+            </div>
         </div>
     </div>
     {{#if this.showDropdown}}
-        <div data-test-contributor-card-dropdown local-class='DropdownSection'>
-            <ul local-class='DropdownList'>
+        <div data-test-contributor-card-dropdown local-class='dropdown-section'>
+            <ul local-class='dropdown-list'>
                 {{#if @contributor.users.employment}}
                     {{#each @contributor.users.employment as |item|}}
                         <li>

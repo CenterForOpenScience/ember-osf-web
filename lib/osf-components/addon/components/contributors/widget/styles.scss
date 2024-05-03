@@ -1,9 +1,10 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-.container {
+.display-container {
     border: 1px solid $color-border-gray;
     margin-top: 10px;
     overflow-y: scroll;
+    overflow-x: hidden;
     max-height: 500px;
 
     .heading-container {
@@ -37,5 +38,13 @@
         .citation-title {
             width: 20%;
         }
+    }
+}
+
+.add-user-container {
+    margin-top: 10px;
+
+    .user-search-container {
+        margin-top: 10px;
     }
 }

@@ -33,28 +33,28 @@
             {{t (concat 'osf-components.contributors.permissions.' @contributor.permission)}}
         </div>
         <div local-class='action-section'>
-            <span
+            <div
                 data-test-contributor-citation={{@contributor.id}}
-                local-class='CardSectionSmall'
+                local-class='action-container'
             >
                 {{t (concat 'osf-components.contributors.citation.' @contributor.bibliographic)}}
-            </span>
-            <span
+            </div>
+            <div
                 data-test-contributor-caret={{@contributor.id}}
                 data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
                 aria-label={{if this.showDropdown  
                     (t 'osf-components.contributors.educationAndEmployment.collapse')
                     (t 'osf-components.contributors.educationAndEmployment.expand')
                 }}
-                local-class='CardSectionXS'
+                local-class='action-container'
                 role='button'
                 {{on 'click' this.toggleDropdown}}
             >
                 <FaIcon
                     @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
                 />
-            </span>
-            <span local-class='CardSectionXS'>
+            </div>
+            <div local-class='action-container'>
                 {{#if (eq @contributor.users.id this.currentUser.user.id)}}
                     <DeleteButton
                         data-test-contributor-remove-self={{@contributor.id}}
@@ -66,12 +66,12 @@
                         @confirmButtonText={{t 'contributor_list.remove_contributor.confirm_remove.button'}}
                     />
                 {{/if}}
-            </span>
+            </div>
         </div>
     </div>
     {{#if this.showDropdown}}
-        <div data-test-contributor-card-dropdown local-class='DropdownSection'>
-            <ul local-class='DropdownList'>
+        <div data-test-contributor-card-dropdown local-class='dropdown-section'>
+            <ul local-class='dropdown-list'>
                 {{#if @contributor.users.employment}}
                     {{#each @contributor.users.employment as |item|}}
                         <li>

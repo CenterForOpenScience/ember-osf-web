@@ -20,14 +20,8 @@
     composes: ActionSection from '../styles.scss';
 }
 
-.CardSectionSmall {
-    composes: CardSection from '../styles.scss';
-    max-width: 14%;
-}
-
-.CardSectionXS {
-    composes: CardSection from '../styles.scss';
-    max-width: 4%;
+.action-container {
+    composes: ActionContainer from '../styles.scss';
 }
 
 .handle {
@@ -36,10 +30,10 @@
     font-size: 12px;
 }
 
-.DropdownSection {
+.dropdown-section {
     composes: DropdownSection from '../styles.scss';
 }
 
-.DropdownList {
+.dropdown-list {
     composes: DropdownList from '../styles.scss';
 }
