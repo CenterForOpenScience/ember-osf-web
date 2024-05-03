@@ -1,7 +1,8 @@
 .TagsWidget.TagsWidget {
-    border: 0;
+    border: 0 !important;
     padding: 0;
     margin: 0;
+    margin-top: 10px;
 }
 
 .TagsWidget :global(.emberTagInput-tag) {

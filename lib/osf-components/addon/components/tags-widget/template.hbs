@@ -1,7 +1,7 @@
 {{#unless @taggable.tags.length}}
-    <span data-test-no-tags>
+    <div data-test-no-tags>
         {{t 'osf-components.tags-widget.no_tags'}}
-    </span>
+    </div>
 {{/unless}}
 <TagInput
     data-test-tags-widget-tag-input
@@ -15,6 +15,7 @@
     @ariaLabel={{t 'osf-components.tags-widget.add_tag'}}
     @readOnly={{this.readOnly}}
     @maxlength={{1024}}
+    ...attributes
     as |tag|
 >
     <span

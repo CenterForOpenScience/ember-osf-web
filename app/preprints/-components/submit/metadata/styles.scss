@@ -21,6 +21,15 @@
 
         .input-container {
             margin-bottom: 20px;
+
+            .tags-border {
+                * > input {
+                    padding: 6px 12px;
+                    border: 1px solid $color-border-gray;
+                    font-size: 14px;
+                    height: 34px;
+                }
+            }
         }
     }
 
