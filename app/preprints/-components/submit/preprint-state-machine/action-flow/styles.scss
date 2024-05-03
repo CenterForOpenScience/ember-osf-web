@@ -27,24 +27,6 @@
         }
     }
 
-    .caution-container {
-        padding: 20px;
-        width: 100%;
-
-        .icon-container {
-            font-weight: bold;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-start;
-            padding-bottom: 5px;
-
-            .fav-icon {
-                margin-right: 5px;
-            }
-        }
-    }
-
     &.mobile {
         height: fit-content;
     }

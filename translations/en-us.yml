@@ -1257,8 +1257,6 @@ preprints:
             delete: 'Delete'
             delete-modal-title: 'Delete {singularPreprintWord}'
             delete-modal-body: 'Are you sure you want to delete this {singularPreprintWord}? This action CANNOT be undone.'
-            caution: 'Caution'
-            caution-statement: 'Only one person at a time is able to edit a preprint draft. Be sure to coordinate with any other contributors.'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
