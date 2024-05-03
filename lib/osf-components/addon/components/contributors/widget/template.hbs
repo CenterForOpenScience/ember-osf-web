@@ -8,7 +8,7 @@
         <label for={{currentContributorFieldId}}>
             {{t 'osf-components.contributors.currentContributors'}}
         </label>
-        <div local-class='container' ...attributes>
+        <div local-class='display-container' ...attributes>
             <div local-class='heading-container'>
                 <div data-test-heading-name local-class='name-title'>
                     {{t 'osf-components.contributors.headings.name'}}
@@ -26,10 +26,17 @@
             />
         </div>
         {{#if @shouldShowAdd}}
-            <Contributors::UserSearch::Widget
-                @manager={{manager}}
-                @toggleAddContributorWidget={{@toggleAddContributorWidget}}
-            />
+            <div local-class='add-user-container'>
+                <label>
+                    {{t 'osf-components.contributors.addContributors'}}
+                </label>
+                <div local-class='user-search-container'>
+                    <Contributors::UserSearch::Widget
+                        @manager={{manager}}
+                        @toggleAddContributorWidget={{@toggleAddContributorWidget}}
+                    />
+                </div>
+            </div>
         {{/if}}
     {{/let}}
 </Contributors::Manager>

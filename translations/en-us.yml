@@ -2604,6 +2604,7 @@ osf-components:
         addContributor:
             success: 'Contributor added'
             errorHeading: 'Error adding contributor'
+        addContributors: 'Add Contributors'
         currentContributors: 'Contributors'
         email: 'Email'
         fullName: 'Full name'
