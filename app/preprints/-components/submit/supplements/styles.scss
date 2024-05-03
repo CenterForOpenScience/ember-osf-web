@@ -23,6 +23,10 @@
 
         .btn-width {
             width: calc(50% - 20px);
+
+            &.selected {
+                background-color: $secondary-blue;
+            }
         }
     }
 
