@@ -1667,7 +1667,7 @@ registries:
             search_placeholder: 'Search by name or profile information'
             help_text: '<p>Search results will appear here. Click the + icon in each row to set permissions for that contributor.</p><p>You can perform additional searches to add more contributors. Your selections will remain listed below until you click Save.</p>'
             search: 'Search'
-            add_unregistered_contributor: 'Add unregistered contributor'
+            add_unregistered_contributor: 'Add by email address'
             error_loading: 'Error, could not load contributors'
             no_results: 'No results found'
             add_contributor_aria: 'Add contributor'

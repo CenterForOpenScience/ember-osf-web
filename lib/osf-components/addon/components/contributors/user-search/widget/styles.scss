@@ -1,6 +1,6 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-.UserSearchResultsContainer {
+.user-search-results-container {
     border: 1px solid $color-border-gray;
     margin-top: 10px;
     overflow-y: scroll;
@@ -65,4 +65,3 @@
         width: calc(50% - 10px);
     }
 }
-
