@@ -135,12 +135,15 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
             },
         });
 
+        const providerId = preprint.id + ':osfstorage';
+        const osfstorage = server.create('file-provider', { id: providerId, target: preprint });
+
         preprint.update({
             contributors: allContributors,
             bibliographicContributors: allContributors,
             license,
             subjects,
-            files: [file],
+            files: [osfstorage],
             primaryFile: file,
             node,
         });
