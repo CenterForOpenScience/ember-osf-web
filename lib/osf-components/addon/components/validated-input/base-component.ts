@@ -45,13 +45,13 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
 
     @computed('errors', 'validation.options', 'isRequired')
     get required(): boolean {
-        if (!this.validation) {
-            return false;
-        }
         if (this.isRequired === true) {
             return true;
         }
         if (this.isRequired === false) {
+            return false;
+        }
+        if (!this.validation) {
             return false;
         }
         const { options } = this.validation;
