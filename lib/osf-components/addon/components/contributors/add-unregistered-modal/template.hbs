@@ -1,8 +1,8 @@
 <OsfDialog as |dialog|>
     <dialog.trigger>
         <Button
+            local-class='add-button'
             data-test-add-unregistered-contributor-button
-            @layout='fake-link'
             {{on 'click' dialog.open}}
         >
             {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}

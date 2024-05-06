@@ -25,23 +25,9 @@
         </div>
     </div>
     <div
-        local-class='UserSearchResultsContainer'
+        local-class='user-search-results-container'
         data-test-user-search-results
     >
-        <div local-class='Heading'>
-            <span data-test-heading-name>
-                {{t 'registries.registration_metadata.add_contributors.results_heading'}}
-            </span>
-            <Button
-                local-class='ClearButton'
-                data-analytics-name='Done adding contributor'
-                data-test-add-unregistered-contributor-done
-                @type='create'
-                {{on 'click' @toggleAddContributorWidget}}
-            >
-                {{t 'general.done'}}
-            </Button>
-        </div>
         <Contributors::UserSearch::List
             @manager={{@manager}}
             @results={{this.results}}
