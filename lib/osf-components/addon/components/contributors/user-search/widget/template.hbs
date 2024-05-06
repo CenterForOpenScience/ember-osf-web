@@ -12,10 +12,10 @@
             <Button
                 data-test-user-search-button
                 local-class='search-button'
-                @type='create'
+                @type='primary'
                 {{on 'click' (perform this.fetchUsers false)}}
             >
-                {{t 'registries.registration_metadata.add_contributors.search'}}
+                <FaIcon @icon='search' />
             </Button>
         </div>
         <div local-class='add-by-email-container'>
@@ -24,16 +24,28 @@
             />
         </div>
     </div>
-    <div
-        local-class='user-search-results-container'
-        data-test-user-search-results
-    >
-        <Contributors::UserSearch::List
-            @manager={{@manager}}
-            @results={{this.results}}
-            @fetchUsers={{this.fetchUsers}}
-            @shouldShowLoadMoreUsers={{this.shouldShowLoadMoreUsers}}
-            @isLoadingUsers={{this.fetchUsers.isRunning}}
-        />
-    </div>
+    {{#if this.displayResults}}
+        <div
+            local-class='user-search-results-container'
+            data-test-user-search-results
+        >
+            <Contributors::UserSearch::List
+                @manager={{@manager}}
+                @results={{this.results}}
+                @fetchUsers={{this.fetchUsers}}
+                @shouldShowLoadMoreUsers={{this.shouldShowLoadMoreUsers}}
+                @isLoadingUsers={{this.fetchUsers.isRunning}}
+            />
+        </div>
+        <div
+            local-class='user-search-cancel-container'
+        >
+            <Button
+                data-test-user-search-cancel-button
+                {{on 'click' this.cancelSearch}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+        </div>
+    {{/if}}
 </div>

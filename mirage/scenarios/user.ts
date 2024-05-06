@@ -7,6 +7,13 @@ export function userScenario(server: Server) {
         familyName: 'Brady',
     });
 
+    for(let i = 1; i < 20; i++) {
+        server.create('user', {
+            givenName: 'Tom',
+            familyName: `Brady - ${i}`,
+        });
+    }
+
     server.create('user', {
         givenName: 'Harry',
         familyName: 'Bailey',

@@ -1,37 +1,32 @@
-.CardContainer {
+.card-container {
     composes: CardContainer from '../../card/styles.scss';
 }
 
-.MainSection {
+.main-section {
     composes: MainSection from '../../card/styles.scss';
 }
 
-.CardSection {
-    composes: CardSection from '../../card/styles.scss';
+.name-section {
+    composes: NameSection from '../../card/styles.scss';
 }
 
-.CardSectionSmall {
-    composes: CardSection from '../../card/styles.scss';
-    max-width: 14%;
+.permission-section {
+    composes: PermissionSection from '../../card/styles.scss';
 }
 
-.ButtonSection {
-    width: 60px;
+.action-section {
+    composes: ActionSection from '../../card/styles.scss';
 }
 
-.Check {
-    padding-left: 12px;
-    color: $color-border-gray;
+.action-container {
+    composes: ActionContainer from '../../card/styles.scss';
 }
 
-.AddButton {
+.add-button {
     background-color: $color-bg-white;
+    color: darken($brand-success, 10%) !important;
 
-    svg {
-        color: #458446;
+    .svg {
+        margin-top: 4px;
     }
-}
-
-.m-r-xs {
-    margin-right: 5px;
 }
