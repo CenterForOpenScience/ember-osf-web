@@ -11,7 +11,7 @@ import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { ErrorDocument } from 'osf-api';
-import ConfiguredStorageAddonModel, { ConnectedCapabilities, ConnectedOparationNames}
+import ConfiguredStorageAddonModel, { ConnectedCapabilities, ConnectedOperationNames}
     from 'ember-osf-web/models/configured-storage-addon';
 
 export default class ServiceProviderFile {
@@ -37,12 +37,12 @@ export default class ServiceProviderFile {
         this.fileModel = fileModel;
         this.configuredStorageAddon = configuredStorageAddon;
         this.userCanDownloadAsZip = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOparationNames.DownloadAsZip);
+            .includes(ConnectedOperationNames.DownloadAsZip);
         this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOparationNames.HasRevisions);
+            .includes(ConnectedOperationNames.HasRevisions);
         this.parallelUploadsLimit = configuredStorageAddon.concurrentUploads;
         this.canMoveToThisProvider = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOparationNames.CopyInto);
+            .includes(ConnectedOperationNames.CopyInto);
     }
 
     get id() {

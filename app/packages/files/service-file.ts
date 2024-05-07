@@ -5,7 +5,7 @@ import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
-import ConfiguredStorageAddonModel, { ConnectedCapabilities, ConnectedOparationNames}
+import ConfiguredStorageAddonModel, { ConnectedCapabilities, ConnectedOperationNames}
     from 'ember-osf-web/models/configured-storage-addon';
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
@@ -72,14 +72,14 @@ export default class ServiceFile {
         this.fileModel = fileModel;
         this.configuredStorageAddon = configuredStorageAddon;
         this.userCanDownloadAsZip = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOparationNames.DownloadAsZip);
+            .includes(ConnectedOperationNames.DownloadAsZip);
         this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOparationNames.HasRevisions);
+            .includes(ConnectedOperationNames.HasRevisions);
         this.shouldShowRevisions = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOparationNames.HasRevisions);
+            .includes(ConnectedOperationNames.HasRevisions);
         this.parallelUploadsLimit = configuredStorageAddon.concurrentUploads;
         this.canMoveToThisProvider = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOparationNames.CopyInto);
+            .includes(ConnectedOperationNames.CopyInto);
     }
 
     get isFile() {

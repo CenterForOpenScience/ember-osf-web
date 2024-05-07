@@ -131,7 +131,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     get currentListIsLoading() {
         const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
-        return activeFilterObject.task.isRunning;
+        return activeFilterObject.task.isRunning || taskFor(this.initialize).isRunning;
     }
 
     @action
@@ -281,8 +281,14 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        taskFor(this.getServiceNode).perform();
-        taskFor(this.getStorageAddonProviders).perform();
+        taskFor(this.initialize).perform();
+    }
+
+    @task
+    @waitFor
+    async initialize() {
+        await taskFor(this.getServiceNode).perform();
+        await taskFor(this.getStorageAddonProviders).perform();
     }
 
     @task
@@ -300,42 +306,59 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async getStorageAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.STORAGE];
-        const serviceStorageProviders: Provider[] =
-            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
-        activeFilterObject.list = A(serviceStorageProviders.sort(this.providerSorter));
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.addonServiceNode.get('configuredStorageAddons');
+            const configuredAddons = await this.store.query('configured-storage-addon', {
+                'filter[authorized-resource-uri]': encodeURI(this.node.links.iri as string),
+                'page[size]': 100,
+            });
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
+
+        const serviceStorageProviders: Provider[] =
+            await taskFor(this.getExternalProviders)
+                .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
+        activeFilterObject.list = A(serviceStorageProviders.sort(this.providerSorter));
+
+
     }
 
     @task
     @waitFor
     async getCloudComputingProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
-        const cloudComputingProviders: Provider[] =
-            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
-        activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.addonServiceNode.get('configuredComputingAddons');
+            const configuredAddons = await this.store.query('configured-computing-addon', {
+                'filter[authorized-resource-uri]': encodeURI(this.node.links.iri as string),
+                'page[size]': 100,
+            });
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
+
+        const cloudComputingProviders: Provider[] =
+            await taskFor(this.getExternalProviders)
+                .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
+        activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
     }
 
     @task
     @waitFor
     async getCitationAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
-        const serviceCloudComputingProviders: Provider[] =
-            await taskFor(this.getExternalProviders).perform(activeFilterObject.modelName);
-        activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.addonServiceNode.get('configuredCitationAddons');
+            const configuredAddons = await this.store.query('configured-citation-addon', {
+                'filter[authorized-resource-uri]': encodeURI(this.node.links.iri as string),
+                'page[size]': 100,
+            });
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
+
+        const serviceCloudComputingProviders: Provider[] =
+            await taskFor(this.getExternalProviders)
+                .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
+        activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
     }
 
     providerSorter(a: Provider, b: Provider) {
@@ -380,11 +403,11 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async getExternalProviders(providerType: string) {
+    async getExternalProviders(providerType: string, configuredAddons?: EmberArray<AllConfiguredAddonTypes>) {
         const serviceProviderModels = (await this.store.findAll(providerType)).toArray();
         const serviceProviders = [] as Provider[];
         for (const provider of serviceProviderModels) {
-            serviceProviders.addObject(new Provider(provider, this.currentUser, this.node));
+            serviceProviders.addObject(new Provider(provider, this.currentUser, this.node, configuredAddons));
         }
         return serviceProviders;
     }

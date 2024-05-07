@@ -11,6 +11,7 @@ export default class ConfiguredComputingAddonModel extends OsfModel {
     @attr('string') displayName!: string;
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
+    @attr('string') authorizedResourceUri!: string;
 
     @belongsTo('external-computing-service', { inverse: null })
     externalComputingService!: AsyncBelongsTo<ExternalComputingService> & ExternalComputingService;

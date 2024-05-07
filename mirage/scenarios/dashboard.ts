@@ -7,7 +7,7 @@ import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import User from 'ember-osf-web/models/user';
-import { ConnectedOparationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-storage-addon';
+import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-storage-addon';
 
 const {
     dashboard: {
@@ -122,12 +122,13 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         name: 'Box',
         displayName: 'Boxed Data',
         rootFolder: '/woot/',
+        authorizedResourceUri: 'http://localhost:5000/file5',
         storageProvider: boxAddon,
         accountOwner: addonUser,
         authorizedResource: addonFile5,
         baseAccount: boxAccount,
         connectedCapabilities: [ConnectedCapabilities.Access, ConnectedCapabilities.Update],
-        connectedOperationNames: [ConnectedOparationNames.CopyInto],
+        connectedOperationNames: [ConnectedOperationNames.CopyInto],
         iconUrl: `${assetsPrefix}assets/images/addons/icons/box.png`,
     });
 
