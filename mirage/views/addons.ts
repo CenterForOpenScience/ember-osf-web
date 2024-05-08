@@ -176,6 +176,30 @@ export function resourceReferencesList(this: HandlerContext, schema: Schema, req
     return processed;
 }
 
+export function configuredStorageAddonList(this: HandlerContext, schema: Schema, request: Request) {
+    const models = schema.configuredStorageAddons.all().models;
+    const filteredModels = models.filter((addon: ModelInstance) => filter(addon, request));
+    const data = filteredModels.map((addon: ModelInstance) => this.serialize(addon).data);
+    const processed = process(schema, request, this, data);
+    return processed;
+}
+
+export function configuredComputingAddonList(this: HandlerContext, schema: Schema, request: Request) {
+    const models = schema.configuredComputingAddons.all().models;
+    const filteredModels = models.filter((addon: ModelInstance) => filter(addon, request));
+    const data = filteredModels.map((addon: ModelInstance) => this.serialize(addon).data);
+    const processed = process(schema, request, this, data);
+    return processed;
+}
+
+export function configuredCitationAddonList(this: HandlerContext, schema: Schema, request: Request) {
+    const models = schema.configuredCitationAddons.all().models;
+    const filteredModels = models.filter((addon: ModelInstance) => filter(addon, request));
+    const data = filteredModels.map((addon: ModelInstance) => this.serialize(addon).data);
+    const processed = process(schema, request, this, data);
+    return processed;
+}
+
 export function createConfiguredStorageAddon(this: HandlerContext, schema: Schema) {
     const attrs =
         this.normalizedRequestAttrs('configured-storage-addon') as NormalizedRequestAttrs<MirageConfiguredStorageAddon>;

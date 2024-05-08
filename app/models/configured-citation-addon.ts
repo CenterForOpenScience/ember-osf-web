@@ -11,6 +11,7 @@ export default class ConfiguredCitationAddonModel extends OsfModel {
     @attr('string') displayName!: string;
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;
+    @attr('string') authorizedResourceUri!: string;
 
     @belongsTo('external-citation-service', { inverse: null })
     externalCitationService!: AsyncBelongsTo<ExternalCitationServiceModel> & ExternalCitationServiceModel;

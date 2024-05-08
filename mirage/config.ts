@@ -553,8 +553,11 @@ export default function(this: Server) {
     this.resource('authorized-computing-accounts', { except: ['index'] });
     this.post('authorized-computing-accounts', addons.createAuthorizedComputingAccount);
     this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
+    this.get('/configured-storage-addons/', addons.configuredStorageAddonList);
     this.resource('configured-citation-addons', { only: ['show', 'update', 'delete'] });
+    this.get('/configured-citation-addons/', addons.configuredCitationAddonList);
     this.resource('configured-computing-addons', { only: ['show', 'update', 'delete'] });
+    this.get('/configured-computing-addons/', addons.configuredComputingAddonList);
     this.post('configured-storage-addons', addons.createConfiguredStorageAddon);
     this.post('configured-citation-addons', addons.createConfiguredCitationAddon);
     this.post('configured-computing-addons', addons.createConfiguredComputingAddon);

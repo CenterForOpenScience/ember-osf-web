@@ -1,4 +1,5 @@
 import { getOwner, setOwner } from '@ember/application';
+import EmberArray from '@ember/array';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -35,7 +36,6 @@ export type AllConfiguredAddonTypes =
     ConfiguredComputingAddonModel;
 
 interface ProviderTypeMapper {
-    getConfiguredAddons: Task<any, any>;
     getAuthorizedAccounts: Task<any, any>;
     createAccountForNodeAddon: Task<any, any>;
     createConfiguredAddon: Task<any, any>;
@@ -61,19 +61,16 @@ export default class Provider {
 
     providerTypeMapper: Record<string, ProviderTypeMapper>  = {
         externalStorageService: {
-            getConfiguredAddons: taskFor(this.getConfiguredStorageAddons),
             getAuthorizedAccounts: taskFor(this.getAuthorizedStorageAccounts),
             createAccountForNodeAddon: taskFor(this.createAuthorizedStorageAccount),
             createConfiguredAddon: taskFor(this.createConfiguredStorageAddon),
         },
         externalComputingService: {
-            getConfiguredAddons: taskFor(this.getConfiguredComputingAddons),
             getAuthorizedAccounts: taskFor(this.getAuthorizedComputingAccounts),
             createAccountForNodeAddon: taskFor(this.createAuthorizedComputingAccount),
             createConfiguredAddon: taskFor(this.createConfiguredComputingAddon),
         },
         externalCitationService: {
-            getConfiguredAddons: taskFor(this.getConfiguredCitationAddons),
             getAuthorizedAccounts: taskFor(this.getAuthorizedCitationAccounts),
             createAccountForNodeAddon: taskFor(this.createAuthorizedCitationAccount),
             createConfiguredAddon: taskFor(this.createConfiguredCitationAddon),
@@ -82,6 +79,7 @@ export default class Provider {
 
     @tracked configuredAddon?: AllConfiguredAddonTypes;
     @tracked configuredAddons?: AllConfiguredAddonTypes[];
+    @tracked allConfiguredAddons?: EmberArray<AllConfiguredAddonTypes>;
     @tracked authorizedAccount?: AllAuthorizedAccountTypes;
     @tracked authorizedAccounts?: AllAuthorizedAccountTypes[];
 
@@ -91,11 +89,17 @@ export default class Provider {
         return Boolean(this.configuredAddon) || Boolean(this.configuredAddons?.length);
     }
 
-    constructor(provider: any, currentUser: CurrentUserService, node?: NodeModel) {
+    constructor(
+        provider: any,
+        currentUser: CurrentUserService,
+        node?: NodeModel,
+        configuredAddons?: EmberArray<AllConfiguredAddonTypes>,
+    ) {
         setOwner(this, getOwner(provider));
         this.node = node;
         this.currentUser = currentUser;
         this.provider = provider;
+        this.allConfiguredAddons = configuredAddons;
 
         if (provider instanceof ExternalStorageServiceModel) {
             this.providerMap = this.providerTypeMapper.externalStorageService;
@@ -112,7 +116,7 @@ export default class Provider {
     async initialize() {
         await taskFor(this.getUserReference).perform();
         await taskFor(this.getResourceReference).perform();
-        await taskFor(this.providerMap!.getConfiguredAddons).perform();
+        this.getProviderConfiguredAddons();
     }
 
     @task
@@ -139,37 +143,8 @@ export default class Provider {
         }
     }
 
-    @task
-    @waitFor
-    async getConfiguredStorageAddons() {
-        if (this.serviceNode) {
-            this.configuredAddons = await this.serviceNode.queryHasMany(
-                'configuredStorageAddons',
-                {'filter[name]': this.provider.name},
-            );
-        }
-    }
-
-    @task
-    @waitFor
-    async getConfiguredCitationAddons() {
-        if (this.serviceNode) {
-            this.configuredAddons = await this.serviceNode.queryHasMany(
-                'configuredCitationAddons',
-                {'filter[name]': this.provider.name},
-            );
-        }
-    }
-
-    @task
-    @waitFor
-    async getConfiguredComputingAddons() {
-        if (this.serviceNode) {
-            this.configuredAddons = await this.serviceNode.queryHasMany(
-                'configuredComputingAddons',
-                {'filter[name]': this.provider.name},
-            );
-        }
+    getProviderConfiguredAddons() {
+        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.name === this.name);
     }
 
     @task
