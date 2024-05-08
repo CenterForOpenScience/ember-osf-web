@@ -48,7 +48,10 @@ export default class Preprints extends Route {
             let brandedProviders = [];
 
             if (this.theme.id === 'osf') {
-                const allProviders = await this.store.findAll('preprint-provider', { reload: true });
+                const allProviders = await this.store.query('preprint-provider', {
+                    reload: true,
+                    filter: { advertiseOnDiscoverPage: true },
+                });
                 brandedProviders = allProviders.filter(item => item.id !== 'osf');
             }
 
