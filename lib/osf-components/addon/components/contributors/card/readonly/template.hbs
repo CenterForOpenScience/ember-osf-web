@@ -3,7 +3,10 @@
     data-analytics-scope='Contributor card'
     local-class='card-container'
 >
-    <div data-test-contributor-card-main local-class='main-section'>
+    <div
+        data-test-contributor-card-main
+        local-class='main-section {{if (is-mobile) 'mobile'}}'
+    >
         <div local-class='name-section'>
             {{!-- Removed by Mark as part of the preprint redesign 2024-05-03 --}}
             {{!-- <img

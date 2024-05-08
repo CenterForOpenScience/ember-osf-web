@@ -28,6 +28,14 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
     /**
      * Calls the state machine next method
      */
+    @action
+    public onPrevious(): void {
+        this.manager.onPrevious();
+    }
+
+    /**
+     * Calls the state machine next method
+     */
     @task
     @waitFor
     public async onNext(): Promise<void> {

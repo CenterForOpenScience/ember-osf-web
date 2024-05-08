@@ -71,4 +71,12 @@
             color: $color-link-dark;
         }
     }
+
+    &.mobile {
+        width: 100%;
+
+        &.selected {
+            border: 0;
+        }
+    }
 }

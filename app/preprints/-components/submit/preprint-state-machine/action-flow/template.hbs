@@ -1,6 +1,29 @@
 <div local-class='action-flow-container  {{if (is-mobile) 'mobile'}}'>
-    <div local-class='button-container'>
-        {{#if this.isSubmit}}
+    {{#if this.isSubmit}}
+        {{#if (is-mobile)}}
+            <div local-class='button-container'>
+                <Button
+                    data-test-previous-button
+                    data-analytics-name='Previous button'
+                    {{on 'click' (action this.onPrevious)}}
+                    local-class='{{if @manager.isPreviousButtonDisabled 'mobile-disabled'}}'
+                    @disabled={{@manager.isPreviousButtonDisabled}}
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='arrow-left' />
+                </Button>
+            </div>
+            <div local-class='button-container'>
+                <Button
+                    data-test-submit-button
+                    data-analytics-name='Submit button'
+                    {{on 'click' this.onSubmit}}
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='arrow-right' />
+                </Button>
+            </div>
+        {{else}}
             <Button
                 data-test-submit-button
                 data-analytics-name='Submit button'
@@ -11,26 +34,72 @@
             >
                 {{ t 'preprints.submit.action-flow.submit'}}
             </Button>
+        {{/if}}
+    {{else}}
+        {{#if (is-mobile)}}
+            <div local-class='button-container'>
+                <Button
+                    data-test-previous-button
+                    data-analytics-name='Previous button'
+                    {{on 'click' (action this.onPrevious)}}
+                    local-class='{{if @manager.isPreviousButtonDisabled 'mobile-disabled'}}'
+                    @disabled={{@manager.isPreviousButtonDisabled}}
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='arrow-left' />
+                </Button>
+            </div>
+
+            <div local-class='button-container'>
+                <Button
+                    data-test-next-button
+                    data-analytics-name='Next button'
+                    {{on 'click' (perform this.onNext)}}
+                    local-class='{{if @manager.isNextButtonDisabled 'mobile-disabled'}}'
+                    @disabled={{@manager.isNextButtonDisabled}}
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='arrow-right' />
+                    {{#if @manager.isNextButtonDisabled}}
+                        <EmberTooltip>
+                            {{t 'preprints.submit.action-flow.next-disabled-tooltip'}}
+                        </EmberTooltip>
+                    {{/if}}
+                </Button>
+            </div>
         {{else}}
             <Button
                 data-test-next-button
                 data-analytics-name='Next button'
                 {{on 'click' (perform this.onNext)}}
-                local-class='btn {{if @manager.nextButtonIsDisabled 'disabled'}}'
-                @disabled={{@manager.nextButtonIsDisabled}}
+                local-class='btn {{if @manager.isNextButtonDisabled 'disabled'}}'
+                @disabled={{@manager.isNextButtonDisabled}}
                 @layout='large'
                 @type='primary'
             >
                 {{ t 'preprints.submit.action-flow.next'}}
                 <FaIcon @icon='arrow-right' />
-                {{#if @manager.nextButtonIsDisabled}}
+                {{#if @manager.isNextButtonDisabled}}
                     <EmberTooltip>
                         {{t 'preprints.submit.action-flow.next-disabled-tooltip'}}
                     </EmberTooltip>
                 {{/if}}
             </Button>
         {{/if}}
-
+    {{/if}}
+    {{#if (is-mobile)}}
+        <div local-class='button-container'>
+            <DeleteButton
+                data-test-delete-button
+                @small={{true}}
+                @icon='trash'
+                @noBackground={{true}}
+                @delete={{perform this.onDelete }}
+                @modalTitle={{this.modalTitle}}
+                @modalBody={{this.modalBody}}
+            />
+        </div>
+    {{else}}
         <DeleteButton
             data-test-delete-button
             class='btn-destroy'
@@ -41,5 +110,5 @@
             @modalTitle={{this.modalTitle}}
             @modalBody={{this.modalBody}}
         />
-    </div>
+    {{/if}}
 </div>
