@@ -21,4 +21,17 @@
             height: 175px;
         }
     }
+
+    &.mobile {
+        padding-top: 0;
+        width: 100%;
+
+        .line {
+            display: none;
+
+            &.long {
+                height: fit-content;
+            }
+        }
+    }
 }

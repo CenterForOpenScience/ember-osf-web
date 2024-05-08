@@ -28,8 +28,17 @@
     margin-right: 5px;
 }
 
+.PermissionContainer {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 10px;
+}
+
 .PermissionSection {
-    width: 30%;
+    width: 62%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -42,7 +51,7 @@
 }
 
 .ActionSection {
-    width: 20%;
+    width: calc(38% - 20px);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;

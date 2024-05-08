@@ -1,14 +1,15 @@
 {{#if this.shouldDisplayStatusType}}
     <div local-class='status-container
         {{if this.isSelected 'selected'}}
-        {{if this.isFinished 'cursor'}}'
+        {{if this.isFinished 'cursor'}}
+        {{if (is-mobile) 'mobile'}}'
     >
         <div local-class='graphics-container'>
             <FaIcon
                 local-class='{{this.getFaIcon}}'
                 @icon='{{this.getFaIcon}}'
                 data-test-icon
-             />
+            />
         </div>
         <div local-class='link-container'>
             {{#if this.isFinished}}

@@ -1,5 +1,7 @@
 import Component from '@glimmer/component';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
+import { inject as service } from '@ember/service';
+import Media from 'ember-responsive';
 
 /**
  * The Status Flow Display Args
@@ -10,6 +12,8 @@ interface StatusFlowDisplayArgs {
 }
 
 export default class StatusFlowDisplay extends Component<StatusFlowDisplayArgs>{
+    @service media!: Media;
+
     type = this.args.type;
 
     private get manager(): PreprintStateMachine {
@@ -17,7 +21,13 @@ export default class StatusFlowDisplay extends Component<StatusFlowDisplayArgs>{
     }
 
     public get shouldDisplayStatusType(): boolean {
-        return this.manager.shouldDisplayStatusType(this.type);
+        let isDisplay = this.manager.shouldDisplayStatusType(this.type);
+        if (this.media.isMobile) {
+            isDisplay &&= this.isSelected;
+        }
+
+        return isDisplay;
+
     }
 
     public get getStatusTitle(): string {

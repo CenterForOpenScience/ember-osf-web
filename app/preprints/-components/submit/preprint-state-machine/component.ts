@@ -36,7 +36,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     metadataValidation = false;
     authorAssertionValidation = false;
     supplementValidation = false;
-    @tracked nextButtonIsDisabled = true;
+    @tracked isNextButtonDisabled = true;
+    @tracked isPreviousButtonDisabled = true;
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
@@ -70,7 +71,20 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     private async saveOnStep(): Promise<void> {
         await this.preprint.save();
         this.statusFlowIndex++;
+        this.determinePreviousButtonState();
     }
+
+    /**
+     * determinePreviousButtonState
+     *
+     * @description Abstracted method to determine the state of the previous button
+     *
+     * @returns void
+     */
+    private determinePreviousButtonState(): void {
+        this.isPreviousButtonDisabled = this.statusFlowIndex === 1;
+    }
+
 
     /**
      * Callback for the action-flow component
@@ -86,23 +100,23 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onNext(): Promise<void> {
-        this.nextButtonIsDisabled = true;
+        this.isNextButtonDisabled = true;
         if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
             this.titleAndFieldValidation
         ) {
-            this.nextButtonIsDisabled = !this.metadataValidation;
+            this.isNextButtonDisabled = !this.metadataValidation;
             await this.saveOnStep();
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
             this.metadataValidation
         ) {
-            this.nextButtonIsDisabled = !this.authorAssertionValidation;
+            this.isNextButtonDisabled = !this.authorAssertionValidation;
             await this.saveOnStep();
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.authorAssertions) &&
             this.authorAssertionValidation
         ) {
-            this.nextButtonIsDisabled = !this.supplementValidation;
+            this.isNextButtonDisabled = !this.supplementValidation;
             await this.saveOnStep();
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.supplements) &&
@@ -119,7 +133,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public validateTitleAndFile(valid: boolean): void {
         this.titleAndFieldValidation = valid;
-        this.nextButtonIsDisabled = !valid;
+        this.isNextButtonDisabled = !valid;
     }
 
     /**
@@ -128,7 +142,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public validateMetadata(valid: boolean): void {
         this.metadataValidation = valid;
-        this.nextButtonIsDisabled = !valid;
+        this.isNextButtonDisabled = !valid;
     }
 
     /**
@@ -146,7 +160,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.preprint.whyNoPrereg = null;
         }
         this.authorAssertionValidation = valid;
-        this.nextButtonIsDisabled = !valid;
+        this.isNextButtonDisabled = !valid;
     }
 
     /**
@@ -155,12 +169,21 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public validateSupplements(valid: boolean): void {
         this.supplementValidation = valid;
-        this.nextButtonIsDisabled = !valid;
+        this.isNextButtonDisabled = !valid;
+    }
+
+    @action
+    public onPrevious(): void {
+        if (this.statusFlowIndex > 1) {
+            this.statusFlowIndex--;
+        }
+        this.determinePreviousButtonState();
+        this.isNextButtonDisabled = false;
     }
 
     @action
     public onClickStep(type: string): void {
-        this.nextButtonIsDisabled = !this.isFinished(type);
+        this.isNextButtonDisabled = !this.isFinished(type);
         if (
             type === PreprintStatusTypeEnum.titleAndFile &&
             this.statusFlowIndex > this.getTypeIndex(type)
@@ -188,6 +211,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         ) {
             this.statusFlowIndex = this.getTypeIndex(type);
         }
+
+        this.determinePreviousButtonState();
     }
 
     @action
