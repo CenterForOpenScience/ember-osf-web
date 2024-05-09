@@ -28,6 +28,15 @@
                 background-color: $secondary-blue;
             }
         }
+
+        &.mobile {
+            flex-direction: column;
+
+            .btn-width {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
     }
 
     .cancel-button-container {

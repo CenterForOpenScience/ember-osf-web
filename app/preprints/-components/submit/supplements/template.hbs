@@ -8,7 +8,7 @@
         {{t 'preprints.submit.step-four.description'}}
     </p>
 
-    <div local-class='button-container'>
+    <div local-class='button-container {{if (is-mobile) 'mobile'}}'>
         <Button
             data-test-existing-osf-button
             data-analytics-name='Connect to an existing OSF preprint'
