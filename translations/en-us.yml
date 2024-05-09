@@ -238,6 +238,7 @@ addons:
         no-results: 'No results found'
         no-authorized-accounts: 'No authorized accounts'
         connect: 'Connect'
+        reconnect: 'Reconnect'
         configure: 'Configure'
         disable: 'Disable'
         disable-account-header: 'Disable Account'
@@ -288,6 +289,7 @@ addons:
         heading: 'Log in to {providerName} or select an account'
         no-accounts: 'No accounts available'
         new-account: 'Setup new account'
+        reconnect-account: 'Reconnect account'
         existing-account: 'Choose existing account'
         unauthenticated-account: 'Unauthenticated account'
     accountCreate:
@@ -319,6 +321,13 @@ addons:
         oauth-window-blocked: "The OAuth window was blocked. Please disable adblock for this site or check your browser's security setting and try again."
         oauth-description: 'Use OAuth to connect your {providerName} account'
         error: 'Error creating account'
+        connect: Connect
+        connect-success: 'Successfully connected account'
+        reconnect: Reconnect
+        reconnect-success: 'Successfully reconnected account'
+        reconnect-error: 'Error reconnecting account'
+        disconnect-success: 'Successfully disconnected account'
+        disconnect-error: 'Error disconnecting account'
     confirm:
         heading: 'Confirm {providerName} Account'
         verify: 'Authorize the following account:'
