@@ -38,7 +38,14 @@
         .citation-title {
             width: 20%;
         }
-    }
+
+        &.mobile {
+            .name-title {
+                padding-left: 5px;
+                width: 100%;
+            }
+        }
+    } 
 }
 
 .add-user-container {
@@ -46,5 +53,11 @@
 
     .user-search-container {
         margin-top: 10px;
+        max-height: 425px;
+        overflow: hidden;
+    }
+
+    &.mobile {
+        max-height: 450px;
     }
 }
