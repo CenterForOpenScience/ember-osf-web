@@ -103,9 +103,8 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         const provider = new Provider(externalStorageService, currentUser, node);
         await settled();
 
-        const account = await taskFor(provider.createAccountForNodeAddon)
-            .perform('authorized-storage-account', {} as AddonCredentialFields);
-        await taskFor(provider.setNodeAddonCredentials).perform(account);
+        await taskFor(provider.createAccountForNodeAddon)
+            .perform({} as AddonCredentialFields);
 
         // TODO: Fix these with [ENG-5454]
         // assert.equal((provider.configuredAddon as ConfiguredStorageAddonModel)

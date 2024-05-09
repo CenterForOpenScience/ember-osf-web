@@ -159,7 +159,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     async acceptTerms() {
-        await taskFor(this.selectedProvider!.providerMap!.getAuthorizedAccounts).perform();
+        await taskFor(this.selectedProvider!.getAuthorizedAccounts).perform();
         if(this.selectedProvider!.authorizedAccounts!.length > 0){
             this.pageMode = PageMode.NEW_OR_EXISTING_ACCOUNT;
         } else {
@@ -226,7 +226,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     async oauthFlowRefocus(newAccount: AllAuthorizedAccountTypes) {
         await newAccount.reload();
         this.clearCredentials();
-        await taskFor(this.selectedProvider!.providerMap!.getAuthorizedAccounts).perform();
+        await taskFor(this.selectedProvider!.getAuthorizedAccounts).perform();
         this.selectedAccount = undefined;
         this.chooseExistingAccount();
     }

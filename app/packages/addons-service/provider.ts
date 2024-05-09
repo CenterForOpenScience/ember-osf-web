@@ -6,7 +6,6 @@ import Store from '@ember-data/store';
 import { tracked } from '@glimmer/tracking';
 import { Task, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import { RelationshipsFor } from 'ember-data';
 
 import NodeModel from 'ember-osf-web/models/node';
 import CurrentUserService from 'ember-osf-web/services/current-user';
@@ -151,28 +150,31 @@ export default class Provider {
     @task
     @waitFor
     async getAuthorizedStorageAccounts() {
-        await taskFor(this.getAuthorizedAccounts).perform('authorizedStorageAccounts',
-            { 'filter[storageProvider]': this.provider.id });
+        const authorizedStorageAccounts = await this.userReference.authorizedStorageAccounts;
+        this.authorizedAccounts = authorizedStorageAccounts
+            .filterBy('storageProvider.id', this.provider.id).toArray();
     }
 
     @task
     @waitFor
     async getAuthorizedCitationAccounts() {
-        await taskFor(this.getAuthorizedAccounts).perform('authorizedCitationAccounts',
-            { 'filter[externalCitationService]': this.provider.id });
+        const authorizedCitationAccounts = await this.userReference.authorizedCitationAccounts;
+        this.authorizedAccounts = authorizedCitationAccounts
+            .filterBy('citationService.id', this.provider.id).toArray();
     }
 
     @task
     @waitFor
     async getAuthorizedComputingAccounts() {
-        await taskFor(this.getAuthorizedAccounts).perform('authorizedComputingAccounts',
-            { 'filter[externalComputingService]': this.provider.id });
+        const authorizedComputingAccounts = await this.userReference.authorizedComputingAccounts;
+        this.authorizedAccounts = authorizedComputingAccounts
+            .filterBy('computingService.id', this.provider.id).toArray();
     }
 
     @task
     @waitFor
-    async getAuthorizedAccounts(accountType: RelationshipsFor<UserReferenceModel>, filter: any) {
-        this.authorizedAccounts = await this.userReference.queryHasMany(accountType, filter);
+    async getAuthorizedAccounts() {
+        this.providerMap?.getAuthorizedAccounts.perform();
     }
 
     async userAddonAccounts() {
