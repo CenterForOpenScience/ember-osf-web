@@ -91,6 +91,8 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         .find('box') as ModelInstance<ExternalStorageServiceModel>;
     const dropboxAddon = server.schema.externalStorageServices
         .find('dropbox') as ModelInstance<ExternalStorageServiceModel>;
+    const s3Addon = server.schema.externalStorageServices
+        .find('s3') as ModelInstance<ExternalStorageServiceModel>;
     const addonUser = server.create('user-reference', { id: currentUser.id });
     const addonFile5 = server.create('resource-reference', { id: filesNode.id });
     addonUser.update({
@@ -102,6 +104,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         scopes: ['write'], // TODO: This should be a from an enum?
         storageProvider: boxAddon,
         configuringUser: addonUser,
+        credentialsAvailable: true,
     });
 
     server.create('authorized-storage-account', {
@@ -109,12 +112,23 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         scopes: ['write'], // TODO: This should be a from an enum?
         storageProvider: dropboxAddon,
         configuringUser: addonUser,
+        credentialsAvailable: true,
     });
     server.create('authorized-storage-account', {
+        id: 'dropbox2',
         displayName: 'My Secret Dropbox Account',
         scopes: ['write'], // TODO: This should be a from an enum?
         storageProvider: dropboxAddon,
         configuringUser: addonUser,
+        credentialsAvailable: false,
+        authUrl: 'http://fake.com',
+    });
+    server.create('authorized-storage-account', {
+        displayName: 'My AmazonS3 Account',
+        scopes: ['write'], // TODO: This should be a from an enum?
+        storageProvider: s3Addon,
+        configuringUser: addonUser,
+        credentialsAvailable: false,
     });
 
     server.create('configured-storage-addon', {
