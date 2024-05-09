@@ -17,7 +17,8 @@ import Provider, {
 } from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
-import AuthorizedStorageAccountModel, { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
+import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
+import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface FilterSpecificObject {
@@ -158,7 +159,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     async acceptTerms() {
-        await taskFor(this.selectedProvider!.providerMap!.getAuthorizedAccounts).perform();
+        await taskFor(this.selectedProvider!.getAuthorizedAccounts).perform();
         if(this.selectedProvider!.authorizedAccounts!.length > 0){
             this.pageMode = PageMode.NEW_OR_EXISTING_ACCOUNT;
         } else {
@@ -225,7 +226,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     async oauthFlowRefocus(newAccount: AllAuthorizedAccountTypes) {
         await newAccount.reload();
         this.clearCredentials();
-        await taskFor(this.selectedProvider!.providerMap!.getAuthorizedAccounts).perform();
+        await taskFor(this.selectedProvider!.getAuthorizedAccounts).perform();
         this.selectedAccount = undefined;
         this.chooseExistingAccount();
     }

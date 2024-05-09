@@ -1,4 +1,4 @@
-import { CredentialsFormat, TermsOfServiceCapabilities } from 'ember-osf-web/models/external-storage-service';
+import { CredentialsFormat, TermsOfServiceCapabilities } from 'ember-osf-web/models/external-service';
 export default [
     {
         id: 'box',

@@ -1,6 +1,6 @@
-import OsfSerializer from './osf-serializer';
+import GravyValetSerializer from './gravy-valet-serializer';
 
-export default class ExternalComputingServiceSerializer extends OsfSerializer {
+export default class ExternalComputingServiceSerializer extends GravyValetSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {

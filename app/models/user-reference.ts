@@ -1,12 +1,11 @@
-import { AsyncHasMany, hasMany } from '@ember-data/model';
+import Model, { AsyncHasMany, hasMany } from '@ember-data/model';
 
 import AuthorizedStorageAccountModel from './authorized-storage-account';
 import AuthorizedCitationAccount from './authorized-citation-account';
 import AuthorizedComputingAccount from './authorized-computing-account';
 import ResourceReferenceModel from './resource-reference';
-import OsfModel from './osf-model';
 
-export default class UserReferenceModel extends OsfModel {
+export default class UserReferenceModel extends Model {
     @hasMany('authorized-storage-account', { inverse: 'configuringUser' })
     authorizedStorageAccounts!: AsyncHasMany<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel[];
 

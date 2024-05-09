@@ -1,6 +1,6 @@
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 
-import ApplicationSerializer from './application';
+import AddonServiceSerializer from './addon-service';
 
-export default class ConfiguredStorageAddonSerializer extends ApplicationSerializer<ExternalStorageServiceModel> {
+export default class ConfiguredStorageAddonSerializer extends AddonServiceSerializer<ExternalStorageServiceModel> {
 }

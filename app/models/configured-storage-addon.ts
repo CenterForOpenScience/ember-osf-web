@@ -1,9 +1,7 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import AuthorizedStorageAccountModel from './authorized-storage-account';
-import ResourceReferenceModel from './resource-reference';
-import UserReferenceModel from './user-reference';
-import OsfModel from './osf-model';
+import ConfiguredAddonModel from './configured-addon';
 import ExternalStorageServiceModel from './external-storage-service';
 
 export enum ConnectedCapabilities {
@@ -17,26 +15,16 @@ export enum ConnectedOperationNames {
     HasRevisions = 'has_revisions',
 }
 
-export default class ConfiguredStorageAddonModel extends OsfModel {
-    @attr('string') name!: string;
-    @attr('string') displayName!: string;
+export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
+    // Move these to superclass?
     @attr('array') connectedCapabilities!: ConnectedCapabilities[];
     @attr('array') connectedOperationNames!: ConnectedOperationNames[];
-    @attr('fixstring') externalUserId!: string;
-    @attr('fixstring') externalUserDisplayName!: string;
+
     @attr('number') concurrentUploads!: number;
     @attr('fixstring') rootFolder!: string;
-    @attr('string') iconUrl!: string;
-    @attr('string') authorizedResourceUri!: string;
 
     @belongsTo('external-storage-service', { inverse: null })
     storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
-
-    @belongsTo('user-reference', { inverse: null })
-    accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
-
-    @belongsTo('resource-reference', { inverse: 'configuredStorageAddons' })
-    authorizedResource!: AsyncBelongsTo<ResourceReferenceModel> & ResourceReferenceModel;
 
     @belongsTo('authorized-storage-account')
     baseAccount!: AsyncBelongsTo<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel;

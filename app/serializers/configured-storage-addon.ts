@@ -1,5 +1,6 @@
-import OsfSerializer from './osf-serializer';
-export default class ConfiguredStorageAddonSerializer extends OsfSerializer {
+import GravyValetSerializer from './gravy-valet-serializer';
+
+export default class ConfiguredStorageAddonSerializer extends GravyValetSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
