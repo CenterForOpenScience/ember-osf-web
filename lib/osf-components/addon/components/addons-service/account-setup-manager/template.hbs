@@ -9,13 +9,15 @@
         {{else}}
             <div local-class='oauth-wrapper'>
                 {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}
-                <label local-class='auth-text-input-label'>
-                    {{t 'addons.accountCreate.display-name-label'}}
-                    <Input
-                        placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
-                        @value={{@manager.displayName}}
-                    />
-                </label>
+                {{#unless @reconnect}}
+                    <label local-class='auth-text-input-label'>
+                        {{t 'addons.accountCreate.display-name-label'}}
+                        <Input
+                            placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
+                            @value={{@manager.displayName}}
+                        />
+                    </label>
+                {{/unless}}
                 <div local-class='button-wrapper'>
                     <Button
                         data-test-addon-cancel-button
@@ -26,11 +28,11 @@
                     </Button>
                     <Button
                         data-test-addon-oauth-button
-                        data-analytics-name='Begin OAuth'
+                        data-analytics-name={{if @reconnect 'Reconnect account' 'Begin OAuth'}}
                         @type='primary'
                         {{on 'click' (perform this.startOauthFlow)}}
                     >
-                        {{t 'general.authorize'}}
+                        {{if @reconnect (t 'addons.accountCreate.reconnect') (t 'general.authorize')}}
                     </Button>
                 </div>
             </div>
@@ -79,13 +81,15 @@
                 </label>
                 {{field.postText}}
             {{/each}}
-            <label local-class='auth-text-input-label'>
-                {{t 'addons.accountCreate.display-name-label'}}
-                <Input
-                    placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
-                    @value={{@manager.displayName}}
-                />
-            </label>
+            {{#unless @reconnect}}
+                <label local-class='auth-text-input-label'>
+                    {{t 'addons.accountCreate.display-name-label'}}
+                    <Input
+                        placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
+                        @value={{@manager.displayName}}
+                    />
+                </label>
+            {{/unless}}
             {{#if @manager.connectAccountError}}
                 <p local-class='connect-error'>
                     {{t 'addons.accountCreate.error'}}
@@ -99,15 +103,27 @@
                 >
                     {{t 'general.cancel'}}
                 </Button>
-                <Button
-                    data-test-addon-connect-account-button
-                    data-analytics-name='Connect Account'
-                    @type='primary'
-                    disabled={{@manager.connectAccount.isRunning}}
-                    {{on 'click' (perform @manager.connectAccount this.displayName)}}
-                >
-                    {{t 'general.authorize'}}
-                </Button>
+                {{#if @reconnect}}
+                    <Button
+                        data-test-addon-reconnect-account-button
+                        data-analytics-name='Reconnect Account'
+                        @type='primary'
+                        disabled={{@manager.reconnectAccount.isRunning}}
+                        {{on 'click' (perform @manager.reconnectAccount)}}
+                    >
+                        {{t 'addons.accountCreate.reconnect'}}
+                    </Button>
+                {{else}}
+                    <Button
+                        data-test-addon-connect-account-button
+                        data-analytics-name='Connect Account'
+                        @type='primary'
+                        disabled={{@manager.connectAccount.isRunning}}
+                        {{on 'click' (perform @manager.connectAccount this.displayName)}}
+                    >
+                        {{t 'addons.accountCreate.connect'}}
+                    </Button>
+                {{/if}}
             </div>
         </form>
     {{/if}}

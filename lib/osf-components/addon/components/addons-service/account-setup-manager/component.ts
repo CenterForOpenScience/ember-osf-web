@@ -37,6 +37,8 @@ interface InputFieldObject {
 
 interface Args {
     onConnect: () => void;
+    onReconnect: () => void;
+    reconnect?: boolean;
     provider: ExternalStorageServiceModel; // Type?
     manager: AddonsServiceManagerComponent | UserAddonsManagerComponent;
     onInput: (event: Event) => void;
@@ -206,7 +208,9 @@ export default class AccountSetupManagerComponent extends Component<Args> {
     @task
     @waitFor
     async startOauthFlow() {
-        this.account = await taskFor(this.args.manager.createAuthorizedAccount).perform();
+        const { manager, reconnect } = this.args;
+        this.account = reconnect ? manager.selectedAccount :
+            await taskFor(this.args.manager.createAuthorizedAccount).perform();
         if (this.account) {
             const oauthWindow = window.open(this.account.authUrl, '_blank');
             if (oauthWindow) {
