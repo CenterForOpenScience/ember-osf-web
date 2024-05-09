@@ -5,11 +5,7 @@
 .main-section {
     composes: MainSection from '../styles.scss';
 
-    // border: 1px solid red;
-    // background-color: lightblue;
-
     &.mobile {
-        // border: 1px solid blue;
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
@@ -20,10 +16,8 @@
 
 .name-section {
     composes: NameSection from '../styles.scss';
-    // background-color: lightcoral;
 
     &.mobile {
-        // border: 3px solid orange;
         width: 100%;
         height: 40px;
         padding-left: 5px;
@@ -32,10 +26,8 @@
 
 .permission-container {
     composes: PermissionContainer from '../styles.scss';
-    // background-color: lightgreen;
 
     &.mobile {
-        // border: 1px solid blue;
         width: 100%;
         height: 40px;
         padding-left: 5px;
@@ -44,17 +36,14 @@
 
 .permission-section {
     composes: PermissionSection from '../styles.scss';
-    // background-color: lightpink;
 }
 
 .action-section {
     composes: ActionSection from '../styles.scss';
-    // background-color: lightseagreen;
 }
 
 .action-container {
     composes: ActionContainer from '../styles.scss';
-    // background-color: lightsalmon;
 }
 
 .handle {

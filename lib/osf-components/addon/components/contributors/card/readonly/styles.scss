@@ -4,10 +4,34 @@
 
 .main-section {
     composes: MainSection from '../styles.scss';
+
+    &.mobile {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        height: 80px;
+        padding-left: 0;
+    }
 }
 
 .name-section {
     composes: NameSection from '../styles.scss';
+
+    &.mobile {
+        width: 100%;
+        height: 40px;
+        padding-left: 5px;
+    }
+}
+
+.permission-container {
+    composes: PermissionContainer from '../styles.scss';
+
+    &.mobile {
+        width: 100%;
+        height: 40px;
+        padding-left: 5px;
+    }
 }
 
 .permission-section {
