@@ -26,7 +26,6 @@
                                 @provider={{manager.selectedProvider.provider}}
                             />
                             <div local-class='float-right'>
-
                                 <Button
                                     data-test-addon-cancel-button
                                     data-analytics-name='Cancel'
@@ -52,6 +51,19 @@
                                 @manager={{manager}}
                                 @onConnect={{manager.connectAccount}}
                                 @onInput={{manager.onCredentialsInput}}
+                            />
+                        </div>
+                    {{else if (eq manager.pageMode 'accountReconnect')}}
+                        <div data-analytics-scope='Account Reconnects'>
+                            <h3 local-class='page-heading'>
+                                {{t 'addons.accountSelect.reconnect-account'}}
+                            </h3>
+                            <AddonsService::AccountSetupManager
+                                @provider={{manager.selectedProvider.provider}}
+                                @manager={{manager}}
+                                @onReconnect={{manager.reconnectAccount}}
+                                @onInput={{manager.onCredentialsInput}}
+                                @reconnect={{true}}
                             />
                         </div>
                     {{/if}}
@@ -130,6 +142,15 @@
                                             {{account.displayName}}
                                         </span>
                                         <span>
+                                            {{#unless account.credentialsAvailable}}
+                                                <Button
+                                                    data-analytics-name='Reconnect account'
+                                                    @type='primary'
+                                                    {{on 'click' (fn manager.navigateToReconnectProviderAccount account)}}
+                                                >
+                                                    {{t 'addons.list.reconnect'}}
+                                                </Button>
+                                            {{/unless}}
                                             <DeleteButton
                                                 @secondary={{true}}
                                                 @delete={{perform manager.disconnectAccount account}}

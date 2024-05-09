@@ -37,7 +37,7 @@ export type AllConfiguredAddonTypes =
 
 interface ProviderTypeMapper {
     getAuthorizedAccounts: Task<any, any>;
-    createAccountForNodeAddon: Task<any, any>;
+    createAuthorizedAccount: Task<any, any>;
     createConfiguredAddon: Task<any, any>;
 }
 
@@ -62,17 +62,17 @@ export default class Provider {
     providerTypeMapper: Record<string, ProviderTypeMapper>  = {
         externalStorageService: {
             getAuthorizedAccounts: taskFor(this.getAuthorizedStorageAccounts),
-            createAccountForNodeAddon: taskFor(this.createAuthorizedStorageAccount),
+            createAuthorizedAccount: taskFor(this.createAuthorizedStorageAccount),
             createConfiguredAddon: taskFor(this.createConfiguredStorageAddon),
         },
         externalComputingService: {
             getAuthorizedAccounts: taskFor(this.getAuthorizedComputingAccounts),
-            createAccountForNodeAddon: taskFor(this.createAuthorizedComputingAccount),
+            createAuthorizedAccount: taskFor(this.createAuthorizedComputingAccount),
             createConfiguredAddon: taskFor(this.createConfiguredComputingAddon),
         },
         externalCitationService: {
             getAuthorizedAccounts: taskFor(this.getAuthorizedCitationAccounts),
-            createAccountForNodeAddon: taskFor(this.createAuthorizedCitationAccount),
+            createAuthorizedAccount: taskFor(this.createAuthorizedCitationAccount),
             createConfiguredAddon: taskFor(this.createConfiguredCitationAddon),
         },
     };
@@ -230,69 +230,59 @@ export default class Provider {
 
     @task
     @waitFor
-    public async createAccountForNodeAddon(credentials: AddonCredentialFields) {
-        return await taskFor(this.providerMap!.createAccountForNodeAddon).perform(credentials);
+    public async createAuthorizedAccount(credentials: AddonCredentialFields) {
+        return await taskFor(this.providerMap!.createAuthorizedAccount).perform(credentials);
+    }
+
+    @task
+    @waitFor
+    public async reconnectAuthorizedAccount(account: AllAuthorizedAccountTypes, credentials: AddonCredentialFields) {
+        account.credentials = credentials;
+        await account.save();
+        await account.reload();
     }
 
     @task
     @waitFor
     private async createConfiguredStorageAddon(account: AuthorizedStorageAccountModel) {
-        if (!this.configuredAddon) {
-            const configuredStorageAddon = this.store.createRecord('configured-storage-addon', {
-                rootFolder: '',
-                storageProvider: this.provider,
-                accountOwner: this.userReference,
-                authorizedResource: this.serviceNode,
-                baseAccount: account,
-            });
-            await configuredStorageAddon.save();
-            this.configuredAddon = configuredStorageAddon;
-        }
+        const configuredStorageAddon = this.store.createRecord('configured-storage-addon', {
+            rootFolder: '',
+            storageProvider: this.provider,
+            accountOwner: this.userReference,
+            authorizedResource: this.serviceNode,
+            baseAccount: account,
+        });
+        await configuredStorageAddon.save();
     }
 
     @task
     @waitFor
     private async createConfiguredCitationAddon(account: AuthorizedCitationAccountModel) {
-        if (!this.configuredAddon) {
-            const configuredCitationAddon = this.store.createRecord('configured-citation-addon', {
-                citationService: this.provider,
-                accountOwner: this.userReference,
-                authorizedResource: this.serviceNode,
-                baseAccount: account,
-            });
-            await configuredCitationAddon.save();
-            this.configuredAddon = configuredCitationAddon;
-        }
+        const configuredCitationAddon = this.store.createRecord('configured-citation-addon', {
+            citationService: this.provider,
+            accountOwner: this.userReference,
+            authorizedResource: this.serviceNode,
+            baseAccount: account,
+        });
+        await configuredCitationAddon.save();
     }
 
     @task
     @waitFor
     private async createConfiguredComputingAddon(account: AuthorizedComputingAccount) {
-        if (!this.configuredAddon) {
-            const configuredComputingAddon = this.store.createRecord('configured-computing-addon', {
-                computingService: this.provider,
-                accountOwner: this.userReference,
-                authorizedResource: this.serviceNode,
-                baseAccount: account,
-            });
-            await configuredComputingAddon.save();
-            this.configuredAddon = configuredComputingAddon;
-        }
+        const configuredComputingAddon = this.store.createRecord('configured-computing-addon', {
+            computingService: this.provider,
+            accountOwner: this.userReference,
+            authorizedResource: this.serviceNode,
+            baseAccount: account,
+        });
+        await configuredComputingAddon.save();
     }
 
     @task
     @waitFor
     public async createConfiguredAddon(account: AllAuthorizedAccountTypes) {
         return await taskFor(this.providerMap!.createConfiguredAddon).perform(account);
-    }
-
-    @task
-    @waitFor
-    async setNodeAddonCredentials(account: AllAuthorizedAccountTypes) {
-        if (this.configuredAddon) {
-            // @ts-ignore: Can ignore as AuthorizedXYZAccount and ConfiguredXYZAddon types *should* match up here
-            this.configuredAddon.set('baseAccount', account);
-        }
     }
 
     @task

@@ -187,7 +187,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     async createAuthorizedAccount() {
         if (this.selectedProvider) {
             const newAccount = await taskFor(this.selectedProvider.providerMap!
-                .createAccountForNodeAddon).perform(this.credentialsObject, this.displayName);
+                .createAuthorizedAccount).perform(this.credentialsObject, this.displayName);
             return newAccount;
         }
         return undefined;

@@ -103,7 +103,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         const provider = new Provider(externalStorageService, currentUser, node);
         await settled();
 
-        await taskFor(provider.createAccountForNodeAddon)
+        await taskFor(provider.createAuthorizedAccount)
             .perform({} as AddonCredentialFields);
 
         // TODO: Fix these with [ENG-5454]
