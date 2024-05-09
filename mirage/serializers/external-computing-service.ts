@@ -1,6 +1,6 @@
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 
-import ApplicationSerializer from './application';
+import AddonServiceSerializer from './addon-service';
 
-export default class ExternalComputingServiceSerializer extends ApplicationSerializer<ExternalComputingServiceModel> {
+export default class ExternalComputingServiceSerializer extends AddonServiceSerializer<ExternalComputingServiceModel> {
 }
