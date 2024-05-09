@@ -18,7 +18,7 @@
             <form.radioGroup
                 @id={{publicDataId}}
                 @valuePath={{'hasDataLinks'}}
-                @class='radio-group'
+                @class='radio-group {{if (is-mobile) 'mobile'}}'
                 @isRequired={{true}}
                 @changeset={{@changeSet}}
                 @options={{this.publicDataOptions}}

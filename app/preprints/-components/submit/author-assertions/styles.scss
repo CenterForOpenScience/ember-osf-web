@@ -57,3 +57,7 @@
         }
     }
 }
+
+:global(.radio-group.mobile) {
+    flex-direction: column;
+}
