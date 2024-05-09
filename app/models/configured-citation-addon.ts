@@ -1,26 +1,12 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
+import { AsyncBelongsTo, belongsTo } from '@ember-data/model';
 
 import AuthorizedCitationAccountModel from './authorized-citation-account';
 import ExternalCitationServiceModel from './external-citation-service';
-import OsfModel from './osf-model';
-import ResourceReferenceModel from './resource-reference';
-import UserReferenceModel from './user-reference';
+import ConfiguredAddonModel from './configured-addon';
 
-export default class ConfiguredCitationAddonModel extends OsfModel {
-    @attr('string') name!: string;
-    @attr('string') displayName!: string;
-    @attr('fixstring') externalUserId!: string;
-    @attr('fixstring') externalUserDisplayName!: string;
-    @attr('string') authorizedResourceUri!: string;
-
+export default class ConfiguredCitationAddonModel extends ConfiguredAddonModel {
     @belongsTo('external-citation-service', { inverse: null })
     externalCitationService!: AsyncBelongsTo<ExternalCitationServiceModel> & ExternalCitationServiceModel;
-
-    @belongsTo('user-reference', { inverse: null })
-    accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
-
-    @belongsTo('resource-reference', { inverse: 'configuredCitationAddons' })
-    authorizedResource!: AsyncBelongsTo<ResourceReferenceModel> & ResourceReferenceModel;
 
     @belongsTo('authorized-citation-account')
     baseAccount!: AsyncBelongsTo<AuthorizedCitationAccountModel> & AuthorizedCitationAccountModel;
