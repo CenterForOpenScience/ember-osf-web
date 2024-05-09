@@ -7,7 +7,7 @@
         data-test-contributor-card-main
         local-class='main-section {{if (is-mobile) 'mobile'}}'
     >
-        <div local-class='name-section'>
+        <div local-class='name-section {{if (is-mobile) 'mobile'}}'>
             {{!-- Removed by Mark as part of the preprint redesign 2024-05-03 --}}
             {{!-- <img
                 data-test-contributor-gravatar
@@ -30,45 +30,49 @@
             {{/if}}
         </div>
         <div
-            data-test-contributor-permission={{@contributor.id}}
-            local-class='permission-section'
+            local-class='permission-container {{if (is-mobile) 'mobile'}}'
         >
-            {{t (concat 'osf-components.contributors.permissions.' @contributor.permission)}}
-        </div>
-        <div local-class='action-section'>
             <div
-                data-test-contributor-citation={{@contributor.id}}
-                local-class='action-container'
+                data-test-contributor-permission={{@contributor.id}}
+                local-class='permission-section'
             >
-                {{t (concat 'osf-components.contributors.citation.' @contributor.bibliographic)}}
+                {{t (concat 'osf-components.contributors.permissions.' @contributor.permission)}}
             </div>
-            <div
-                data-test-contributor-caret={{@contributor.id}}
-                data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
-                aria-label={{if this.showDropdown  
-                    (t 'osf-components.contributors.educationAndEmployment.collapse')
-                    (t 'osf-components.contributors.educationAndEmployment.expand')
-                }}
-                local-class='action-container'
-                role='button'
-                {{on 'click' this.toggleDropdown}}
-            >
-                <FaIcon
-                    @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
-                />
-            </div>
-            <div local-class='action-container'>
-                {{#if (eq @contributor.users.id this.currentUser.user.id)}}
-                    <DeleteButton
-                        data-test-contributor-remove-self={{@contributor.id}}
-                        @small={{true}}
-                        @noBackground={{true}}
-                        @delete={{fn @manager.removeContributor @contributor}}
-                        @modalTitle={{t 'contributor_list.remove_contributor.confirm_remove.title'}}
-                        @modalBody={{t 'contributor_list.remove_contributor.confirm_remove.body'}}
-                        @confirmButtonText={{t 'contributor_list.remove_contributor.confirm_remove.button'}}
+            <div local-class='action-section'>
+                <div
+                    data-test-contributor-citation={{@contributor.id}}
+                    local-class='action-container'
+                >
+                    {{t (concat 'osf-components.contributors.citation.' @contributor.bibliographic)}}
+                </div>
+                <div
+                    data-test-contributor-caret={{@contributor.id}}
+                    data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
+                    aria-label={{if this.showDropdown  
+                        (t 'osf-components.contributors.educationAndEmployment.collapse')
+                        (t 'osf-components.contributors.educationAndEmployment.expand')
+                    }}
+                    local-class='action-container'
+                    role='button'
+                    {{on 'click' this.toggleDropdown}}
+                >
+                    <FaIcon
+                        @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
                     />
-                {{/if}}
+                </div>
+                <div local-class='action-container'>
+                    {{#if (eq @contributor.users.id this.currentUser.user.id)}}
+                        <DeleteButton
+                            data-test-contributor-remove-self={{@contributor.id}}
+                            @small={{true}}
+                            @noBackground={{true}}
+                            @delete={{fn @manager.removeContributor @contributor}}
+                            @modalTitle={{t 'contributor_list.remove_contributor.confirm_remove.title'}}
+                            @modalBody={{t 'contributor_list.remove_contributor.confirm_remove.body'}}
+                            @confirmButtonText={{t 'contributor_list.remove_contributor.confirm_remove.button'}}
+                        />
+                    {{/if}}
+                </div>
             </div>
         </div>
     </div>
