@@ -17,7 +17,8 @@ import Provider, {
 } from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
-import AuthorizedStorageAccountModel, { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
+import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
+import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface FilterSpecificObject {

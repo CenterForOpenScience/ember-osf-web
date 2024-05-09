@@ -3,8 +3,10 @@ import { timeout } from 'ember-concurrency';
 
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
-import AuthorizedStorageAccountModel, { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
-import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
+import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
+import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
+import { CredentialsFormat } from 'ember-osf-web/models/external-service';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import FileProviderModel from 'ember-osf-web/models/file-provider';

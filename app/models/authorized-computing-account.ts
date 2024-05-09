@@ -1,22 +1,11 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
+import { AsyncBelongsTo, belongsTo } from '@ember-data/model';
 
 import ExternalComputingService from './external-computing-service';
-import { AddonCredentialFields } from './authorized-storage-account';
-import UserReferenceModel from './user-reference';
-import OsfModel from './osf-model';
+import AuthorizedAccountModel from './authorized-account';
 
-export default class AuthorizedComputingAccount extends OsfModel {
-    @attr('fixstring') displayName!: string;
-    @attr('fixstringarray') scopes!: string[];
-    @attr('object') credentials?: AddonCredentialFields; // write-only
-    @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-computing-accounts
-    @attr('boolean') readonly credentialsAvailable!: boolean;
-
+export default class AuthorizedComputingAccount extends AuthorizedAccountModel {
     @belongsTo('external-computing-service')
     computingService!: AsyncBelongsTo<ExternalComputingService> & ExternalComputingService;
-
-    @belongsTo('user-reference', { inverse: 'authorizedComputingAccounts' })
-    configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 }
 
 declare module 'ember-data/types/registries/model' {

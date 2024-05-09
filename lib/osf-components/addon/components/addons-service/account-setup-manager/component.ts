@@ -10,8 +10,9 @@ import Toast from 'ember-toastr/services/toast';
 
 import AddonsServiceManagerComponent from 'ember-osf-web/components/addons-service/manager/component';
 import UserAddonsManagerComponent from 'ember-osf-web/components/addons-service/user-addons-manager/component';
-import { AddonCredentialFields } from 'ember-osf-web/models/authorized-storage-account';
-import ExternalStorageServiceModel, { CredentialsFormat } from 'ember-osf-web/models/external-storage-service';
+import { AddonCredentialFields } from 'ember-osf-web/models/authorized-account';
+import { CredentialsFormat } from 'ember-osf-web/models/external-service';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import { AllAuthorizedAccountTypes } from 'ember-osf-web/packages/addons-service/provider';
 
 // TODO: Get this from GravyValet??

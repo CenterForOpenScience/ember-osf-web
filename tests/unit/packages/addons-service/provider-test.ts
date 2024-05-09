@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 
 import Provider from 'ember-osf-web/packages/addons-service/provider';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
-import {AddonCredentialFields} from 'ember-osf-web/models/authorized-storage-account';
+import {AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
 
 module('Unit | Packages | addons-service | provider', function(hooks) {
     setupTest(hooks);
