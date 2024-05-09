@@ -1,13 +1,6 @@
-import { attr } from '@ember-data/model';
+import ExternalServiceModel from './external-service';
 
-import OsfModel from './osf-model';
-import { CredentialsFormat, TermsOfServiceCapabilities } from './external-storage-service';
-
-export default class ExternalComputingServiceModel extends OsfModel {
-    @attr('fixstring') name!: string;
-    @attr('string') iconUrl!: string;
-    @attr('string') credentialsFormat!: CredentialsFormat;
-    @attr('array') termsOfService!: TermsOfServiceCapabilities[];
+export default class ExternalComputingServiceModel extends ExternalServiceModel {
     // TODO: actually need some attrs here for cloud computing options
 }
 

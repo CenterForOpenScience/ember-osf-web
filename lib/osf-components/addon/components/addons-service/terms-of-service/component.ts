@@ -2,8 +2,9 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import IntlService from 'ember-intl/services/intl';
 
-import { AllProviderTypes} from 'ember-osf-web/packages/addons-service/provider';
-import ExternalStorageServiceModel, { TermsOfServiceCapabilities } from 'ember-osf-web/models/external-storage-service';
+import { AllProviderTypes } from 'ember-osf-web/packages/addons-service/provider';
+import { TermsOfServiceCapabilities } from 'ember-osf-web/models/external-service';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 
