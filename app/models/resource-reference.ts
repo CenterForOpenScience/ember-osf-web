@@ -1,11 +1,10 @@
-import { AsyncHasMany, attr, hasMany } from '@ember-data/model';
+import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
-import OsfModel from './osf-model';
 import ConfiguredStorageAddonModel from './configured-storage-addon';
 import ConfiguredCitationAddonModel from './configured-citation-addon';
 import ConfiguredComputingAddonModel from './configured-computing-addon';
 
-export default class ResourceReferenceModel extends OsfModel {
+export default class ResourceReferenceModel extends Model {
 
     @attr('fixstring') resourceUri!: string;
 

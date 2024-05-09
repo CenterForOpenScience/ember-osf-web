@@ -1,7 +1,6 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
+import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import UserReferenceModel from './user-reference';
-import OsfModel from './osf-model';
 
 export interface AddonCredentialFields {
     url: string;
@@ -13,7 +12,7 @@ export interface AddonCredentialFields {
     repo: string;
 }
 
-export default class AuthorizedAccountModel extends OsfModel {
+export default class AuthorizedAccountModel extends Model {
     @attr('fixstring') displayName!: string;
     @attr('fixstringarray') scopes!: string[];
     @attr('object') credentials?: AddonCredentialFields; // write-only

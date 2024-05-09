@@ -1,10 +1,9 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
+import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import ResourceReferenceModel from './resource-reference';
 import UserReferenceModel from './user-reference';
-import OsfModel from './osf-model';
 
-export default class ConfiguredAddonModel extends OsfModel {
+export default class ConfiguredAddonModel extends Model {
     @attr('string') name!: string;
     @attr('string') displayName!: string;
     @attr('fixstring') externalUserId!: string;
