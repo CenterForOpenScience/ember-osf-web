@@ -1,6 +1,4 @@
-import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
-
-import UserReferenceModel from './user-reference';
+import Model, { attr } from '@ember-data/model';
 
 export interface AddonCredentialFields {
     url: string;
@@ -18,7 +16,4 @@ export default class AuthorizedAccountModel extends Model {
     @attr('object') credentials?: AddonCredentialFields; // write-only
     @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-xyz-accounts
     @attr('boolean') readonly credentialsAvailable!: boolean;
-
-    @belongsTo('user-reference', { inverse: 'authorizedStorageAccounts' })
-    configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 }

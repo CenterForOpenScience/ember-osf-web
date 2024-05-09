@@ -2,8 +2,12 @@ import { AsyncBelongsTo, belongsTo } from '@ember-data/model';
 
 import ExternalComputingService from './external-computing-service';
 import AuthorizedAccountModel from './authorized-account';
+import UserReferenceModel from './user-reference';
 
 export default class AuthorizedComputingAccount extends AuthorizedAccountModel {
+    @belongsTo('user-reference', { inverse: 'authorizedComputingAccounts' })
+    configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
+
     @belongsTo('external-computing-service')
     computingService!: AsyncBelongsTo<ExternalComputingService> & ExternalComputingService;
 }
