@@ -11,6 +11,10 @@
         color: $color-text-gray-light;
         font-style: italic;
     }
+
+    &.mobile {
+        max-height: 250px;
+    }
 }
 
 .Heading {
@@ -66,5 +70,22 @@
 
     .add-by-email-container {
         width: calc(50% - 10px);
+    }
+
+    &.mobile {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        height: 100px;
+        margin-top: 10px;
+
+        .add-by-email-container,
+        .search-container {
+            width: 100%;
+        }
+
+        .search-container {
+            margin-bottom: 10px;
+        }
     }
 }

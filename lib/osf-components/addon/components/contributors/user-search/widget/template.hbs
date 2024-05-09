@@ -1,5 +1,5 @@
 <div ...attributes>
-    <div local-class='input-container'>
+    <div local-class='input-container {{if (is-mobile) 'mobile'}}'>
         <div local-class='search-container'>
             <Input
                 local-class='user-search-input'
@@ -26,7 +26,17 @@
     </div>
     {{#if this.displayResults}}
         <div
-            local-class='user-search-results-container'
+            local-class='user-search-cancel-container'
+        >
+            <Button
+                data-test-user-search-cancel-button
+                {{on 'click' this.cancelSearch}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+        </div>
+        <div
+            local-class='user-search-results-container {{if (is-mobile) 'mobile'}}'
             data-test-user-search-results
         >
             <Contributors::UserSearch::List
@@ -36,16 +46,6 @@
                 @shouldShowLoadMoreUsers={{this.shouldShowLoadMoreUsers}}
                 @isLoadingUsers={{this.fetchUsers.isRunning}}
             />
-        </div>
-        <div
-            local-class='user-search-cancel-container'
-        >
-            <Button
-                data-test-user-search-cancel-button
-                {{on 'click' this.cancelSearch}}
-            >
-                {{t 'general.cancel'}}
-            </Button>
         </div>
     {{/if}}
 </div>
