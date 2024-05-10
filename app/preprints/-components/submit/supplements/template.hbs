@@ -8,44 +8,70 @@
         {{t 'preprints.submit.step-four.description'}}
     </p>
 
-    <div local-class='button-container {{if (is-mobile) 'mobile'}}'>
-        <Button
-            data-test-existing-osf-button
-            data-analytics-name='Connect to an existing OSF preprint'
-            {{on 'click' this.onConnectOsfProject}}
-            @layout='large'
-            local-class='btn-width {{if this.displayExistingNodeWidget 'selected'}}'
-            class='btn btn-secondary btn-large'
-        >
-            {{t 'preprints.submit.step-four.connect-button'}}
-        </Button>
+    {{#if this.isSupplementAttached}}
+        <div local-class='supplement-container'>
+            <div local-class='supplement'>
+                <Preprints::-Components::PreprintNodeDisplay
+                    @preprint={{@manager.preprint}}
+                    @preprintWord={{@manager.provider.documentType.singular}}
+                />
+            </div>
 
-        <Button
-            data-test-create-osf-button
-            data-analytics-name='Create a new OSF preprint'
-            {{on 'click' this.onCreateOsfProject}}
-            local-class='btn-width {{if this.displayCreateNodeWidget 'selected'}}'
-            @layout='large'
-        >
-            {{t 'preprints.submit.step-four.create-button'}}
-        </Button>
-    </div>
-
-    {{#if this.displayExistingNodeWidget }}
-        <div>
-            <Preprints::-Components::Submit::Supplements::ExistingNodeWidget
-            @projectSelected={{this.projectSelected}}/>
+            <div local-class='action'>
+                <DeleteButton
+                    data-test-delete-button
+                    @small={{true}}
+                    @icon='trash'
+                    @noBackground={{true}}
+                    @delete={{perform this.removeSelectedProject}}
+                    @modalTitle={{t 'preprints.submit.step-four.delete-modalTitle'}}
+                    @modalBody={{t 'preprints.submit.step-four.delete-warning'}}
+                />
+                <EmberTooltip>
+                    {{t 'preprints.submit.step-four.delete-warning'}}
+                </EmberTooltip>
+            </div>
         </div>
-    {{/if}}
-
-    {{#if this.isDisplayCancelButton}}
-        <div local-class='cancel-button-container'>
+    {{else}}
+        <div local-class='button-container {{if (is-mobile) 'mobile'}}'>
             <Button
-                data-test-cancel-button
-                {{on 'click' this.onCancelProjectAction}}
+                data-test-existing-osf-button
+                data-analytics-name='Connect to an existing OSF preprint'
+                {{on 'click' this.onConnectOsfProject}}
+                @layout='large'
+                local-class='btn-width {{if this.displayExistingNodeWidget 'selected'}}'
+                class='btn btn-secondary btn-large'
             >
-                {{t 'general.cancel'}}
+                {{t 'preprints.submit.step-four.connect-button'}}
+            </Button>
+
+            <Button
+                data-test-create-osf-button
+                data-analytics-name='Create a new OSF preprint'
+                {{on 'click' this.onCreateOsfProject}}
+                local-class='btn-width {{if this.displayCreateNodeWidget 'selected'}}'
+                @layout='large'
+            >
+                {{t 'preprints.submit.step-four.create-button'}}
             </Button>
         </div>
+
+        {{#if this.displayExistingNodeWidget }}
+            <div>
+                <Preprints::-Components::Submit::Supplements::ExistingNodeWidget
+                @projectSelected={{this.projectSelected}}/>
+            </div>
+        {{/if}}
+
+        {{#if this.isDisplayCancelButton}}
+            <div local-class='cancel-button-container'>
+                <Button
+                    data-test-cancel-button
+                    {{on 'click' this.onCancelProjectAction}}
+                >
+                    {{t 'general.cancel'}}
+                </Button>
+            </div>
+        {{/if}}
     {{/if}}
 </div>

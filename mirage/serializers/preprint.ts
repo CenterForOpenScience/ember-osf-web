@@ -81,15 +81,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
-            node: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/nodes/${model.nodeId}`,
-                        meta: {},
-                        // meta: this.buildRelatedLinkMeta(model, 'node'),
-                    },
-                },
-            },
             identifiers: {
                 links: {
                     related: {
@@ -99,6 +90,17 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                 },
             },
         };
+
+        if (model.node) {
+            relationships['node'] = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.nodeId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
 
         if (model.primaryFile) {
             relationships['files'] = {

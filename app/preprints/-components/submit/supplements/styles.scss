@@ -12,6 +12,36 @@
         margin-bottom: 20px;
     }
 
+    .supplement-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+
+        .supplement {
+            width: calc(100% - 50px);
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+
+            h4 {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+        }
+
+        .action {
+            width: 50px;
+            height: 72px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
     .button-container {
         margin-top: 10px;
         margin-bottom: 10px;

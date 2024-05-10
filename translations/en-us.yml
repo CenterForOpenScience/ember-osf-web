@@ -1229,8 +1229,9 @@ preprints:
             choose-project: 'Choose project'
             choose-project-line-one-description: 'This will make your project public, if it is not already.'
             choose-project-line-two-description: 'The projects and components for which you have admin access are listed below.'
-
             create-button: 'Create a new OSF project'
+            delete-modalTitle: 'Remove supplemental material'
+            delete-warning: 'Remove the current supplemental material. This can be left blank or you will be able to select a new supplement. This action CAN NOT be undone.'
         step-five:
             title: 'Review'
             preprint-service: '{singularPreprintWord} Service'
