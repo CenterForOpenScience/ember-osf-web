@@ -322,8 +322,14 @@ export function updateAuthorizedStorageAccount(this: HandlerContext, schema: Sch
     const externalService = schema.externalStorageServices
         .find(attrs.storageProviderId) as ModelInstance<ExternalStorageServiceModel>;
     try {
-        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         const authorizedAccount = schema.authorizedStorageAccounts.find(attrs.id);
+        if (!attrs.credentials) {
+            authorizedAccount.update({
+                ...attrs,
+            });
+            return authorizedAccount;
+        }
+        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         authorizedAccount.update({
             credentialsAvailable: authorized,
             credentials: undefined,
@@ -344,8 +350,14 @@ export function updateAuthorizedCitationAccount(this: HandlerContext, schema: Sc
     const externalService = schema.externalCitationServices
         .find(attrs.citationServiceId) as ModelInstance<ExternalCitationServiceModel>;
     try {
-        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         const authorizedAccount = schema.authorizedCitationAccounts.find(attrs.id);
+        if (!attrs.credentials) {
+            authorizedAccount.update({
+                ...attrs,
+            });
+            return authorizedAccount;
+        }
+        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         authorizedAccount.update({
             credentialsAvailable: authorized,
             credentials: undefined,
@@ -367,8 +379,14 @@ export function updateAuthorizedComputingAccount(this: HandlerContext, schema: S
     const externalService = schema.externalComputingServices
         .find(attrs.computingServiceId) as ModelInstance<ExternalComputingServiceModel>;
     try {
-        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         const authorizedAccount = schema.authorizedComputingAccounts.find(attrs.id);
+        if (!attrs.credentials) {
+            authorizedAccount.update({
+                ...attrs,
+            });
+            return authorizedAccount;
+        }
+        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         authorizedAccount.update({
             credentialsAvailable: authorized,
             credentials: undefined,
