@@ -19,9 +19,14 @@ interface SupplementsArgs {
 export default class Supplements extends Component<SupplementsArgs>{
     @tracked displayExistingNodeWidget = false;
     @tracked displayCreateNodeWidget = false;
+    @tracked isSupplementAttached = false;
 
     constructor(owner: unknown, args: SupplementsArgs) {
         super(owner, args);
+
+        if(this.args.manager.preprint.get('node')?.get('id')) {
+            this.isSupplementAttached = true;
+        }
 
         this.args.manager.validateSupplements(true);
     }
@@ -56,10 +61,21 @@ export default class Supplements extends Component<SupplementsArgs>{
         this.validate();
     }
 
+    @task
+    @waitFor
+    public async removeSelectedProject(): Promise<void> {
+        this.args.manager.preprint.set('node', null);
+        await this.args.manager.preprint.save();
+        this.isSupplementAttached = false;
+        this.validate();
+    }
+
     @action
     public projectSelected(node: Node): void {
         this.args.manager.preprint.set('node', node);
         taskFor(this.saveSelectedProject).perform();
+        this.isSupplementAttached = true;
+        this.onCancelProjectAction();
     }
 
     @action
