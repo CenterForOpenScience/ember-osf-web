@@ -23,6 +23,7 @@ export enum PreprintStatusTypeEnum {
  */
 interface StateMachineArgs {
     provider: PreprintProviderModel;
+    preprint: PreprintModel;
 }
 
 /**
@@ -47,9 +48,22 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
 
-        this.preprint = this.store.createRecord('preprint', {
-            provider: this.provider,
-        });
+        if (this.args.preprint) {
+            this.preprint = this.args.preprint;
+            this.setValidationForEditFlow();
+        } else {
+            this.preprint = this.store.createRecord('preprint', {
+                provider: this.provider,
+            });
+        }
+    }
+
+    private setValidationForEditFlow(): void {
+        this.titleAndFieldValidation = true;
+        this.metadataValidation = true;
+        this.authorAssertionValidation = true;
+        this.supplementValidation = true;
+        this.isNextButtonDisabled = false;
     }
 
     /**
