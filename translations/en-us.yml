@@ -2887,6 +2887,7 @@ settings:
             error: 'Could not update SHARE indexing preference. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
             button-label: 'Update'
     addons:
+        page-title: 'Add-ons'
         title: 'Configure add-on accounts'
     notifications:
         title: Notifications

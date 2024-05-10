@@ -1,3 +1,4 @@
+{{page-title (t 'settings.addons.page-title')}}
 <div data-analytics-scope='User addons'>
     <AddonsService::UserAddonsManager
         @user={{this.currentUser.user}}
@@ -141,7 +142,7 @@
                                         <span>
                                             {{account.displayName}}
                                         </span>
-                                        <span>
+                                        <span local-class='button-wrapper'>
                                             {{#unless account.credentialsAvailable}}
                                                 <Button
                                                     data-analytics-name='Reconnect account'
