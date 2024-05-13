@@ -18,8 +18,8 @@ interface SupplementsArgs {
  */
 export default class Supplements extends Component<SupplementsArgs>{
     @tracked displayExistingNodeWidget = false;
-    @tracked displayCreateNodeWidget = false;
     @tracked isSupplementAttached = false;
+    @tracked isModalOpen = false;
 
     constructor(owner: unknown, args: SupplementsArgs) {
         super(owner, args);
@@ -32,26 +32,24 @@ export default class Supplements extends Component<SupplementsArgs>{
     }
 
     public get isDisplayCancelButton(): boolean {
-        return this.displayExistingNodeWidget ||
-        this.displayCreateNodeWidget;
+        return this.displayExistingNodeWidget;
     }
 
     @action
     public onCancelProjectAction(): void {
         this.displayExistingNodeWidget = false;
-        this.displayCreateNodeWidget = false;
+        this.isModalOpen = false;
     }
 
     @action
     public onConnectOsfProject(): void {
         this.displayExistingNodeWidget = true;
-        this.displayCreateNodeWidget = false;
     }
 
     @action
     public onCreateOsfProject(): void {
-        this.displayCreateNodeWidget = true;
         this.displayExistingNodeWidget = false;
+        this.isModalOpen = true;
     }
 
     @task
