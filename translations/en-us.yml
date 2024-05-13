@@ -1229,7 +1229,12 @@ preprints:
             choose-project: 'Choose project'
             choose-project-line-one-description: 'This will make your project public, if it is not already.'
             choose-project-line-two-description: 'The projects and components for which you have admin access are listed below.'
+            create-title: 'Create Project'
+            create-project-line-one-description: 'This creates a public project for your supplemental materials.'
+            create-project-line-two-description: 'Upload files and manage contributors on the project.'
+            project-title: 'New project title for supplemental materials.'
             create-button: 'Create a new OSF project'
+            create-project: 'Create project'
             delete-modalTitle: 'Disconnect supplemental material'
             delete-warning: 'This will disconnect the selected project. You can select new supplemental material or re-add the same supplemental material at a later date.'
         step-five:

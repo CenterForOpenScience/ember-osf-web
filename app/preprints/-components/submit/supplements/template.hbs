@@ -48,9 +48,7 @@
             <Preprints::-Components::Submit::Supplements::ExistingNodeWidget
                 @projectSelected={{this.projectSelected}}
             />
-        {{/if}}
 
-        {{#if this.isDisplayCancelButton}}
             <div local-class='cancel-button-container'>
                 <Button
                     data-test-cancel-button
@@ -59,6 +57,13 @@
                     {{t 'general.cancel'}}
                 </Button>
             </div>
+        {{/if}}
+
+        {{#if this.displayCreateNodeWidget}}
+            <Preprints::-Components::Submit::Supplements::CreateNodeWidget
+                @projectSelected={{this.projectSelected}}
+                @cancelProject={{this.onCancelProjectAction}}
+            />
         {{/if}}
     {{/if}}
 </div>

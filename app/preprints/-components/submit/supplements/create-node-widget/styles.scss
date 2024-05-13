@@ -22,11 +22,23 @@
         .input-container {
             margin-bottom: 20px;
         }
+    }
 
-        .textarea-container {
-            * > textarea {
-                height: 150px;
-            }
+    .button-container {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-end;
+
+        .create-button-container {
+            margin-left: 25px;
+        }
+
+        .disabled {
+            background-color: $color-bg-gray-blue-light;
+            border: 1px solid transparent;
+            cursor: default;
         }
     }
 }
+
