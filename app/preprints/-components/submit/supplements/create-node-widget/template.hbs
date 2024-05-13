@@ -1,0 +1,58 @@
+<div local-class='preprint-input-container'>
+    <h4 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-four.create-title'}}
+    </h4>
+    <p>
+        {{t 'preprints.submit.step-four.create-project-line-one-description'}}
+        <br>
+        {{t 'preprints.submit.step-four.create-project-line-two-description'}}
+    </p>
+    <div local-class='form-container'>
+        <FormControls
+            @changeset={{this.projectTitleFormChangeset}}
+            data-test-form
+            as |form|
+        >
+            {{#let (unique-id 'title') as |titleFieldId|}}
+                <label for={{titleFieldId}}
+                    data-test-new-project-title-label
+                >
+                    {{t 'preprints.submit.step-four.project-title'}}
+                    <span local-class='required'>*</span>
+                </label>
+                <form.text
+                    data-test-new-project-title-input
+                    @valuePath={{'title'}}
+                    @isRequired={{true}}
+                    {{on 'change' this.validate}}
+                    local-class='input-container'
+                    @placeholder={{t 'preprints.submit.step-four.project-title'}}
+                    @uniqueID={{titleFieldId}} 
+                />
+            {{/let}}
+        </FormControls>
+
+        <div local-class='button-container'>
+            <Button
+                data-test-new-project-cancel-button
+                {{on 'click' @cancelProject}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+
+            <div local-class='create-button-container'>
+                <Button
+                    data-test-new-project-create-button
+                    {{on 'click' (perform this.createNewProject)}}
+                    local-class='{{if this.isButtonDisabled 'disabled'}}'
+                    @disabled={{this.isButtonDisabled}}
+                    @type='primary'
+                >
+                    {{t 'preprints.submit.step-four.create-project'}}
+                </Button>
+            </div>
+        </div>
+    </div>
+</div>
