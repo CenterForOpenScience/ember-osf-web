@@ -9,6 +9,22 @@
             <div local-class='text'>
                 {{ this.nodeDisplay}}
             </div>
+            {{#if @removeNode}} 
+                <div local-class='action'>
+                    <DeleteButton
+                        data-test-delete-button
+                        @small={{true}}
+                        @icon='trash'
+                        @noBackground={{true}}
+                        @delete={{perform @removeNode}}
+                        @modalTitle={{t 'preprints.submit.step-four.delete-modalTitle'}}
+                        @modalBody={{t 'preprints.submit.step-four.delete-warning'}}
+                    />
+                    <EmberTooltip>
+                        {{t 'preprints.submit.step-four.delete-warning'}}
+                    </EmberTooltip>
+                </div>
+            {{/if}}
         </div>
     {{/if}}
 </div>
