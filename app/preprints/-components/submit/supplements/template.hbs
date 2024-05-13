@@ -37,7 +37,7 @@
                 data-test-create-osf-button
                 data-analytics-name='Create a new OSF preprint'
                 {{on 'click' this.onCreateOsfProject}}
-                local-class='btn-width {{if this.displayCreateNodeWidget 'selected'}}'
+                local-class='btn-width {{if this.isModelOpen 'selected'}}'
                 @layout='large'
             >
                 {{t 'preprints.submit.step-four.create-button'}}
@@ -59,11 +59,11 @@
             </div>
         {{/if}}
 
-        {{#if this.displayCreateNodeWidget}}
-            <Preprints::-Components::Submit::Supplements::CreateNodeWidget
-                @projectSelected={{this.projectSelected}}
-                @cancelProject={{this.onCancelProjectAction}}
-            />
-        {{/if}}
+        <NewProjectModal
+            @isPublic={{true}}
+            @openModal={{this.isModalOpen}}
+            @afterProjectCreated={{this.projectSelected}}
+            @closeModal={{this.onCancelProjectAction}}
+        />
     {{/if}}
 </div>
