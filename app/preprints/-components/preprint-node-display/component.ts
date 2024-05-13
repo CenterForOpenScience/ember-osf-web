@@ -11,6 +11,7 @@ import NodeModel from 'ember-osf-web/models/node';
 interface NodeDisplayArgs {
     preprint: PreprintModel;
     preprintWord: string;
+    removeNode: () => boolean;
 }
 
 export default class PreprintNodeDisplay extends Component<NodeDisplayArgs> {
@@ -21,12 +22,12 @@ export default class PreprintNodeDisplay extends Component<NodeDisplayArgs> {
     node?: NodeModel;
     nodeId?: string;
 
+
     constructor(owner: unknown, args: NodeDisplayArgs) {
         super(owner, args);
 
         this.nodeId = this.preprint.belongsTo('node').id();
         taskFor(this.loadNode).perform();
-
     }
 
     get nodeDisplay(): string {

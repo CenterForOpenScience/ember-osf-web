@@ -4,9 +4,11 @@
     >
         {{t 'preprints.submit.step-four.title'}}
     </h3>
-    <p>
-        {{t 'preprints.submit.step-four.description'}}
-    </p>
+    {{#unless this.isSupplementAttached}}
+        <p>
+            {{t 'preprints.submit.step-four.description'}}
+        </p>
+    {{/unless}}
 
     {{#if this.isSupplementAttached}}
         <div local-class='supplement-container'>
@@ -14,22 +16,8 @@
                 <Preprints::-Components::PreprintNodeDisplay
                     @preprint={{@manager.preprint}}
                     @preprintWord={{@manager.provider.documentType.singular}}
+                    @removeNode={{this.removeSelectedProject}}
                 />
-            </div>
-
-            <div local-class='action'>
-                <DeleteButton
-                    data-test-delete-button
-                    @small={{true}}
-                    @icon='trash'
-                    @noBackground={{true}}
-                    @delete={{perform this.removeSelectedProject}}
-                    @modalTitle={{t 'preprints.submit.step-four.delete-modalTitle'}}
-                    @modalBody={{t 'preprints.submit.step-four.delete-warning'}}
-                />
-                <EmberTooltip>
-                    {{t 'preprints.submit.step-four.delete-warning'}}
-                </EmberTooltip>
             </div>
         </div>
     {{else}}
@@ -57,10 +45,9 @@
         </div>
 
         {{#if this.displayExistingNodeWidget }}
-            <div>
-                <Preprints::-Components::Submit::Supplements::ExistingNodeWidget
-                @projectSelected={{this.projectSelected}}/>
-            </div>
+            <Preprints::-Components::Submit::Supplements::ExistingNodeWidget
+                @projectSelected={{this.projectSelected}}
+            />
         {{/if}}
 
         {{#if this.isDisplayCancelButton}}
