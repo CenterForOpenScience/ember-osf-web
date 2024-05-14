@@ -43,7 +43,7 @@ module('Integration | Component | addon-card', hooks => {
             node: { id: 'testnode' },
             projectEnabledAddons: [],
             beginAccountSetup: sinon.stub(),
-            configureProvider: sinon.stub(),
+            listProviderConfigurations: sinon.stub(),
         };
 
         await render(hbs`
@@ -84,7 +84,7 @@ module('Integration | Component | addon-card', hooks => {
             node: { id: 'testnode' },
             projectEnabledAddons: [],
             beginAccountSetup: sinon.stub(),
-            configureProvider: sinon.stub(),
+            listProviderConfigurations: sinon.stub(),
         };
 
         await render(hbs`
@@ -105,11 +105,11 @@ module('Integration | Component | addon-card', hooks => {
         assert.dom('[data-test-addon-card-connect]').doesNotExist();
 
         await click('[data-test-addon-card-edit]');
-        assert.ok(this.manager.configureProvider.calledOnce);
+        assert.ok(this.manager.listProviderConfigurations.calledOnce);
         await click('[data-test-addon-card-disconnect]');
         assert.dom('[data-test-addon-disconnect-modal-confirm]').exists();
-        assert.dom('#osf-dialog-heading').hasText('Disconnect Add-on');
-        assert.dom('[data-test-dialog] main').containsText('Are you sure you want to disconnect this add-on?');
+        assert.dom('#osf-dialog-heading').hasText('Disable Add-on');
+        assert.dom('[data-test-dialog] main').containsText('Are you sure you want to disable this add-on?');
         await click('[data-test-addon-disconnect-modal-confirm]');
         assert.ok(addonObj.disableProjectAddon.perform.calledOnce);
     });
