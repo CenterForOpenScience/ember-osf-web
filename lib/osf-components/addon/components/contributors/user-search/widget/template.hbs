@@ -26,16 +26,6 @@
     </div>
     {{#if this.displayResults}}
         <div
-            local-class='user-search-cancel-container'
-        >
-            <Button
-                data-test-user-search-cancel-button
-                {{on 'click' this.cancelSearch}}
-            >
-                {{t 'general.cancel'}}
-            </Button>
-        </div>
-        <div
             local-class='user-search-results-container {{if (is-mobile) 'mobile'}}'
             data-test-user-search-results
         >
@@ -46,6 +36,16 @@
                 @shouldShowLoadMoreUsers={{this.shouldShowLoadMoreUsers}}
                 @isLoadingUsers={{this.fetchUsers.isRunning}}
             />
+        </div>
+        <div
+            local-class='user-search-cancel-container'
+        >
+            <Button
+                data-test-user-search-cancel-button
+                {{on 'click' this.cancelSearch}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
         </div>
     {{/if}}
 </div>
