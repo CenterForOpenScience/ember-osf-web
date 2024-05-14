@@ -74,7 +74,7 @@
                 {{#let (unique-id 'preprint-upload-files-dropzone') as |id|}}
                     <Preprints::-Components::Submit::TitleAndFile::UploadFile
                         @manager={{@manager}}
-                        @preprint{{@manager.preprint}}
+                        @preprint={{@manager.preprint}}
                         @clickableElementId={{id}}
                         @enabled={{true}}
                         @dragEnter={{fn (mut this.dragging) true}}

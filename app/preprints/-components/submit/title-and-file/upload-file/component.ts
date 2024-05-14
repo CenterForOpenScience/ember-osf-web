@@ -38,7 +38,7 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     }
 
     get dropzoneOptions() {
-        let uploadLimit = 4;
+        let uploadLimit = 1;
         if (this.args.manager.currentFolder?.parallelUploadsLimit) {
             uploadLimit = this.args.manager.currentFolder.parallelUploadsLimit;
         }
