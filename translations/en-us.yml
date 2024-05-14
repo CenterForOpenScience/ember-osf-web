@@ -222,11 +222,19 @@ dashboard:
 
 addons:
     heading: 'Add-ons'
+    provider:
+        remove-configured-addon-success: 'You have successfully removed this addon'
+        remove-configured-addon-error: 'There was a problem removing this addon'
     list:
         authorized-accounts-for-provider: 'Authorized accounts for {providerName}'
         authorized-accounts: 'Authorized accounts'
         connected-accounts: 'Connected Accounts'
+        connected-locations: 'Connected locations'
+        add-another-location: 'Add another location'
         all-addons: 'All Add-ons'
+        confirm-remove-connected-location: 'Are you sure you want to disconnect this addon?'
+        connected-to-account: 'Connected to account'
+        root-folder-not-set: 'Root folder not set'
         sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.' 
         sync-details-2: 'To manage all add-ons connected to your account, visit your profile settings.'
         filter-placeholder: 'Filter add-ons'
@@ -2143,12 +2151,13 @@ routes:
         email: Email
 osf-components:
     addon-card:
+        enable: Enable
         connect: Connect
-        disconnect: Disconnect
+        disable: Disable
         configure: Configure
         provider-logo-alt: '{provider} logo'
-        disconnect-modal-header: 'Disconnect Add-on'
-        disconnect-modal-body: 'Are you sure you want to disconnect this add-on?'
+        disconnect-modal-header: 'Disable Add-on'
+        disconnect-modal-body: 'Are you sure you want to disable this add-on?'
     search-result-card:
         show_additional_metadata: 'Show additional metadata'
         hide_additional_metadata: 'Hide additional metadata'

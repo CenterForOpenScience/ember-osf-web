@@ -6,6 +6,8 @@ import Store from '@ember-data/store';
 import { tracked } from '@glimmer/tracking';
 import { Task, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
 import NodeModel from 'ember-osf-web/models/node';
 import CurrentUserService from 'ember-osf-web/services/current-user';
@@ -21,6 +23,8 @@ import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computin
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
+import { notifyPropertyChange } from '@ember/object';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 export type AllProviderTypes =
     ExternalStorageServiceModel |
@@ -43,6 +47,9 @@ interface ProviderTypeMapper {
 
 
 export default class Provider {
+    @service toast!: Toast;
+    @service intl!: Intl;
+
     @tracked node?: NodeModel;
     @tracked serviceNode?: ResourceReferenceModel;
 
@@ -86,7 +93,7 @@ export default class Provider {
     @service store!: Store;
 
     get isConfigured() {
-        return Boolean(this.configuredAddon) || Boolean(this.configuredAddons?.length);
+        return Boolean(this.configuredAddons?.length);
     }
 
     constructor(
@@ -117,6 +124,23 @@ export default class Provider {
         await taskFor(this.getUserReference).perform();
         await taskFor(this.getResourceReference).perform();
         this.getProviderConfiguredAddons();
+    }
+
+    @task
+    @waitFor
+    async removeConfiguredAddon(selectedConfiguration: AllConfiguredAddonTypes) {
+        const errorMessage = this.intl.t('addons.provider.remove-configured-addon-error');
+        const successMessage = this.intl.t('addons.provider.remove-configured-addon-success');
+        try {
+            await selectedConfiguration?.destroyRecord();
+            this.configuredAddons?.removeObject(selectedConfiguration);
+            notifyPropertyChange(this, 'configuredAddons');
+            this.toast.success(successMessage);
+        }  catch (e) {
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            return;
+        }
     }
 
     @task

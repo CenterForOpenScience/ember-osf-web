@@ -21,9 +21,9 @@
             <Button
                 data-test-addon-card-edit
                 data-analytics-name='Edit'
-                {{on 'click' (fn @manager.configureProvider @addon)}}
+                {{on 'click' (fn @manager.listProviderConfigurations @addon)}}
             >
-                {{t 'general.edit'}}
+                {{t 'osf-components.addon-card.configure'}}
             </Button>
             <Button
                 data-test-addon-card-disconnect
@@ -31,7 +31,7 @@
                 local-class='disconnect'
                 {{on 'click' (action (mut this.deleteModalOpen) true)}}
             >
-                {{t 'osf-components.addon-card.disconnect'}}
+                {{t 'osf-components.addon-card.disable'}}
             </Button>
         {{else}}
             <Button
@@ -39,7 +39,7 @@
                 data-analytics-name='Connect'
                 {{on 'click' (fn @manager.beginAccountSetup @addon)}}
             >
-                {{t 'osf-components.addon-card.connect'}}
+                {{t 'osf-components.addon-card.enable'}}
             </Button>
         {{/if}}
     </div>

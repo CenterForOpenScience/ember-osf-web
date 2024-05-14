@@ -90,3 +90,37 @@
         color: var(--primary-color);
     }
 }
+
+.configured-addons {
+    border: 1px solid $color-border-gray;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.configured-addons-heading {
+    border-bottom: 1px solid $color-border-gray;
+    box-sizing: border-box;
+}
+
+.configured-addon-display-name {
+    margin-top: 10px;
+    font-size: large;
+}
+
+.configured-addon-connected-to {
+    border-bottom: 1px solid $color-border-gray;
+    box-sizing: border-box;
+}
+
+.remove-connected-button {
+    border: 0;
+    color: $brand-danger;
+}
+
+.edit-connected-button {
+    border: 0;
+}
+
+.add-location-button {
+    margin-top: 10px;
+}

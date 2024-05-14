@@ -145,6 +145,85 @@
                                 {{if manager.confirmAccountSetup.isRunning (t 'addons.confirm.authorizing') (t 'general.confirm')}}
                             </Button>
                         </div>
+                    {{else if (eq manager.pageMode 'configurationList')}}
+                        <div local-class='configured-addons'>
+                            <div local-class='configured-addons-heading'>
+                                <h4>{{t 'addons.list.connected-locations'}}</h4>
+                            </div>
+                            {{#each provider.configuredAddons as |configuredAddon|}}
+                                <div local-class='configured-addon-display-name'>
+                                    {{configuredAddon.displayName}}
+                                    <span local-class='float-right'>
+                                        <Button
+                                            data-test-edit-connected-location={{configuredAddon.displayName}}
+                                            data-analytics-name='Edit connected location'
+                                            local-class='edit-connected-button'
+                                            {{on 'click' (fn manager.configureProvider manager.selectedProvider configuredAddon)}}
+                                        >
+                                            <FaIcon @icon='pencil-alt' />
+                                        </Button>
+                                        <Button
+                                            data-test-remove-connected-location={{configuredAddon.displayName}}
+                                            data-analytics-name='Remove connected location'
+                                            local-class='remove-connected-button'
+                                            {{on 'click' (queue
+                                                (action (mut manager.selectedConfiguration) configuredAddon)
+                                                (action (mut manager.confirmRemoveConnectedLocation) true)
+                                            )}}
+                                        >
+                                            <FaIcon @icon='times' />
+                                        </Button>
+                                    </span>
+                                </div>
+                                <div local-class='configured-addon-root-folder'>
+                                    {{#if configuredAddon.rootFolder}}
+                                        {{configuredAddon.rootFolder}}
+                                    {{else}}
+                                        {{t 'addons.list.root-folder-not-set'}}
+                                    {{/if}}
+                                </div>
+                                <div local-class='configured-addon-connected-to'>
+                                    {{t 'addons.list.connected-to-account'}} {{configuredAddon.baseAccount.displayName}}
+                                </div>
+                            {{/each}}
+                        </div>
+                        <div local-class='float-right'>
+                            <Button
+                                data-test-add-another-location-button
+                                data-analytics-name='Add another location'
+                                local-class='add-location-button'
+                                {{on 'click' (action manager.beginAccountSetup this.currentProvider)}}
+                            >
+                                {{t 'addons.list.add-another-location'}}
+                            </Button>
+                        </div>
+                        <OsfDialog
+                            @isOpen={{manager.confirmRemoveConnectedLocation}}
+                            @onClose={{action (mut manager.confirmRemoveConnectedLocation) false}}
+                            as |dialog|
+                        >
+                            <dialog.main>
+                                {{t 'addons.list.confirm-remove-connected-location'}}
+                            </dialog.main>
+                            <dialog.footer>
+                                <div local-class='float-right'>
+                                    <Button
+                                        data-test-cancel-remove-connected-location-button
+                                        data-analytics-name='Cancel remove connected location'
+                                        {{on 'click' (action (mut manager.confirmRemoveConnectedLocation) false)}}
+                                    >
+                                        {{t 'general.cancel'}}
+                                    </Button>
+                                    <Button
+                                        data-test-confirm-remove-connected-location-button
+                                        data-analytics-name='Confirm remove connected location'
+                                        {{on 'click' (perform provider.removeConfiguredAddon manager.selectedConfiguration)}}
+                                    >
+                                        {{t 'general.confirm'}}
+                                    </Button>
+                                </div>
+                            </dialog.footer>
+                        </OsfDialog>
                     {{else if (eq manager.pageMode 'configure')}}
                         <div local-class='float-right'>
                             <Button

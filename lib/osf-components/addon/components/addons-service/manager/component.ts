@@ -20,6 +20,7 @@ import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage
 import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import { TrackedObject } from 'tracked-built-ins';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -58,7 +59,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked addonServiceNode?: ResourceReferenceModel;
 
     possibleFilterTypes = Object.values(FilterTypes);
-    filterTypeMapper: Record<FilterTypes, FilterSpecificObject> = {
+    mapper: Record<FilterTypes, FilterSpecificObject> = {
         [FilterTypes.STORAGE]: {
             modelName: 'external-storage-service',
             task: taskFor(this.getStorageAddonProviders),
@@ -78,9 +79,11 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             configuredAddons: A([]),
         },
     };
+    filterTypeMapper = new TrackedObject(this.mapper);
     @tracked filterText = '';
     @tracked activeFilterType: FilterTypes = FilterTypes.STORAGE;
 
+    @tracked confirmRemoveConnectedLocation = false;
     @tracked pageMode?: PageMode;
     @tracked selectedProvider?: Provider;
     @tracked selectedConfiguration?: AllConfiguredAddonTypes;
@@ -250,8 +253,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     cancelSetup() {
         this.pageMode = undefined;
         this.selectedProvider = undefined;
+        this.selectedConfiguration = undefined;
         this.clearCredentials();
         this.selectedAccount = undefined;
+        this.confirmRemoveConnectedLocation = false;
     }
 
     @action
@@ -320,8 +325,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             await taskFor(this.getExternalProviders)
                 .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
         activeFilterObject.list = A(serviceStorageProviders.sort(this.providerSorter));
-
-
     }
 
     @task
