@@ -105,9 +105,9 @@
 
                 <div local-class='input-container'>
                     <ValidatedInput::Date
+                        local-class='read-only'
                         @label={{t 'preprints.submit.step-two.publication-date-input'}}
                         @ariaLabel={{t 'preprints.submit.step-two.publication-date-input'}}
-                        @readOnly={{false}}
                         data-test-publication-date-input
                         @value={{@manager.preprint.originalPublicationDate}}
                         @placeholder={{t 'preprints.submit.step-two.publication-date-input'}}
