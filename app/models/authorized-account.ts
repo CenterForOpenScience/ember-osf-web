@@ -14,6 +14,7 @@ export default class AuthorizedAccountModel extends Model {
     @attr('fixstring') displayName!: string;
     @attr('fixstringarray') scopes!: string[];
     @attr('object') credentials?: AddonCredentialFields; // write-only
+    @attr('boolean') initiateOauth!: boolean; // write-only
     @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-xyz-accounts
     @attr('boolean') readonly credentialsAvailable!: boolean;
 }

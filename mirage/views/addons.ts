@@ -316,24 +316,21 @@ export function createAuthorizedComputingAccount(this: HandlerContext, schema: S
 }
 
 export function updateAuthorizedStorageAccount(this: HandlerContext, schema: Schema) {
-    const attrs = this.normalizedRequestAttrs(
+    const attrs  = this.normalizedRequestAttrs(
         'authorized-storage-account',
     ) as NormalizedRequestAttrs<MirageAuthorizedStorageAccount>;
     const externalService = schema.externalStorageServices
         .find(attrs.storageProviderId) as ModelInstance<ExternalStorageServiceModel>;
     try {
         const authorizedAccount = schema.authorizedStorageAccounts.find(attrs.id);
-        if (!attrs.credentials) {
-            authorizedAccount.update({
-                ...attrs,
-            });
-            return authorizedAccount;
+        let authorizedAttrs = attrs;
+        if (attrs.credentials || attrs.initiateOauth) {
+            authorizedAttrs = prepareAuthorizedAccountAttrs(
+                attrs, externalService,
+            ) as NormalizedRequestAttrs<MirageAuthorizedStorageAccount>;
         }
-        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         authorizedAccount.update({
-            credentialsAvailable: authorized,
-            credentials: undefined,
-            authUrl: null,
+            ...authorizedAttrs,
         });
         return authorizedAccount;
     } catch (e) {
@@ -351,17 +348,14 @@ export function updateAuthorizedCitationAccount(this: HandlerContext, schema: Sc
         .find(attrs.citationServiceId) as ModelInstance<ExternalCitationServiceModel>;
     try {
         const authorizedAccount = schema.authorizedCitationAccounts.find(attrs.id);
-        if (!attrs.credentials) {
-            authorizedAccount.update({
-                ...attrs,
-            });
-            return authorizedAccount;
+        let authorizedAttrs = attrs;
+        if (attrs.credentials || attrs.initiateOauth) {
+            authorizedAttrs = prepareAuthorizedAccountAttrs(
+                attrs, externalService,
+            ) as NormalizedRequestAttrs<MirageAuthorizedCitationAccount>;
         }
-        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         authorizedAccount.update({
-            credentialsAvailable: authorized,
-            credentials: undefined,
-            authUrl: null,
+            ...authorizedAttrs,
         });
         return authorizedAccount;
     } catch (e) {
@@ -380,17 +374,14 @@ export function updateAuthorizedComputingAccount(this: HandlerContext, schema: S
         .find(attrs.computingServiceId) as ModelInstance<ExternalComputingServiceModel>;
     try {
         const authorizedAccount = schema.authorizedComputingAccounts.find(attrs.id);
-        if (!attrs.credentials) {
-            authorizedAccount.update({
-                ...attrs,
-            });
-            return authorizedAccount;
+        let authorizedAttrs = attrs;
+        if (attrs.credentials || attrs.initiateOauth) {
+            authorizedAttrs = prepareAuthorizedAccountAttrs(
+                attrs, externalService,
+            ) as NormalizedRequestAttrs<MirageAuthorizedComputingAccount>;
         }
-        const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
         authorizedAccount.update({
-            credentialsAvailable: authorized,
-            credentials: undefined,
-            authUrl: null,
+            ...authorizedAttrs,
         });
         return authorizedAccount;
     } catch (e) {
@@ -406,7 +397,7 @@ function prepareAuthorizedAccountAttrs(
     const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
     attrs.credentials = undefined;
     // @ts-ignore: authUrl is set by the backend
-    attrs.authUrl = !authorized ? 'https://www.fake.com' : '';
+    attrs.authUrl = !authorized && attrs.initiateOauth ? 'https://www.fake.com' : '';
     // @ts-ignore: credentialsAvailable is set by the backend
     attrs.credentialsAvailable = authorized;
     return attrs;
@@ -438,6 +429,7 @@ function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFor
         }
         break;
     default: // OAuth or OAuth2 should be authorized using the address found in authUrl. Faked below for mirage
+        return false;
     }
     return true;
 }

@@ -49,7 +49,7 @@ export default class Provider {
     currentUser: CurrentUserService;
     @tracked userReference!: UserReferenceModel;
     provider: AllProviderTypes;
-    providerMap?: ProviderTypeMapper;
+    private providerMap?: ProviderTypeMapper;
 
     get name() {
         return this.provider.name;
@@ -184,9 +184,12 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedStorageAccount(credentials: AddonCredentialFields, accountName: string) {
+    private async createAuthorizedStorageAccount(
+        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
+    ) {
         const newAccount = this.store.createRecord('authorized-storage-account', {
             credentials,
+            initiateOauth: initiateOauth || false,
             apiBaseUrl: (this.provider as ExternalStorageServiceModel).configurableApiRoot ? credentials.url : '',
             externalUserId: this.currentUser.user?.id,
             scopes: [],
@@ -200,9 +203,12 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedCitationAccount(credentials: AddonCredentialFields, accountName: string) {
+    private async createAuthorizedCitationAccount(
+        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
+    ) {
         const newAccount = this.store.createRecord('authorized-citation-account', {
             credentials,
+            initiateOauth: initiateOauth || false,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             citationService: this.provider,
@@ -215,9 +221,12 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedComputingAccount(credentials: AddonCredentialFields, accountName: string) {
+    private async createAuthorizedComputingAccount(
+        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
+    ) {
         const newAccount = this.store.createRecord('authorized-computing-account', {
             credentials,
+            initiateOauth: initiateOauth || false,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             computingService: this.provider,
@@ -230,8 +239,11 @@ export default class Provider {
 
     @task
     @waitFor
-    public async createAuthorizedAccount(credentials: AddonCredentialFields) {
-        return await taskFor(this.providerMap!.createAuthorizedAccount).perform(credentials);
+    public async createAuthorizedAccount(
+        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
+    ) {
+        return await taskFor(this.providerMap!.createAuthorizedAccount)
+            .perform(credentials, accountName, initiateOauth);
     }
 
     @task

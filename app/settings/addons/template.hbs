@@ -143,15 +143,13 @@
                                             {{account.displayName}}
                                         </span>
                                         <span local-class='button-wrapper'>
-                                            {{#unless account.credentialsAvailable}}
-                                                <Button
-                                                    data-analytics-name='Reconnect account'
-                                                    @type='primary'
-                                                    {{on 'click' (fn manager.navigateToReconnectProviderAccount account)}}
-                                                >
-                                                    {{t 'addons.list.reconnect'}}
-                                                </Button>
-                                            {{/unless}}
+                                            <Button
+                                                data-analytics-name='Reconnect account'
+                                                @type='primary'
+                                                {{on 'click' (fn manager.navigateToReconnectProviderAccount account)}}
+                                            >
+                                                {{t 'addons.list.reconnect'}}
+                                            </Button>
                                             <DeleteButton
                                                 @secondary={{true}}
                                                 @delete={{perform manager.disconnectAccount account}}

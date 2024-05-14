@@ -30,7 +30,7 @@
                         data-test-addon-oauth-button
                         data-analytics-name={{if @reconnect 'Reconnect account' 'Begin OAuth'}}
                         @type='primary'
-                        {{on 'click' (perform this.startOauthFlow)}}
+                        {{on 'click' (if @reconnect (perform this.startOauthReconnectFlow) (perform this.startOauthFlow))}}
                     >
                         {{if @reconnect (t 'addons.accountCreate.reconnect') (t 'general.authorize')}}
                     </Button>

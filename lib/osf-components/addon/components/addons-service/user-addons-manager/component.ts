@@ -304,7 +304,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async connectAccount() {
         if (this.selectedProvider) {
             try {
-                await taskFor(this.selectedProvider.providerMap!.createAuthorizedAccount)
+                await taskFor(this.selectedProvider!.createAuthorizedAccount)
                     .perform(this.credentialsObject, this.displayName);
                 this.cancelSetup();
                 await taskFor(this.getAuthorizedAccounts).perform();
@@ -337,10 +337,10 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async createAuthorizedAccount() {
+    async createAuthorizedAccount(initiateOauth?: boolean) {
         if (this.selectedProvider) {
-            return await taskFor(this.selectedProvider.providerMap!.createAuthorizedAccount)
-                .perform(this.credentialsObject, this.displayName);
+            return await taskFor(this.selectedProvider.createAuthorizedAccount)
+                .perform(this.credentialsObject, this.displayName, initiateOauth);
         }
     }
 

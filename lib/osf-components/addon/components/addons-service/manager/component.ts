@@ -184,10 +184,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async createAuthorizedAccount() {
+    async createAuthorizedAccount(initiateOauth?: boolean) {
         if (this.selectedProvider) {
-            const newAccount = await taskFor(this.selectedProvider.providerMap!
-                .createAuthorizedAccount).perform(this.credentialsObject, this.displayName);
+            const newAccount = await taskFor(this.selectedProvider.createAuthorizedAccount)
+                .perform(this.credentialsObject, this.displayName, initiateOauth);
             return newAccount;
         }
         return undefined;
@@ -197,7 +197,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async createConfiguredAddon(newAccount: AllAuthorizedAccountTypes) {
         if (this.selectedProvider) {
-            await taskFor(this.selectedProvider.providerMap!.createConfiguredAddon).perform(newAccount);
+            await taskFor(this.selectedProvider.createConfiguredAddon).perform(newAccount);
         }
     }
 
