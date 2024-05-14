@@ -21,6 +21,7 @@ import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computin
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
+import { notifyPropertyChange } from '@ember/object';
 
 export type AllProviderTypes =
     ExternalStorageServiceModel |
@@ -86,7 +87,7 @@ export default class Provider {
     @service store!: Store;
 
     get isConfigured() {
-        return Boolean(this.configuredAddon) || Boolean(this.configuredAddons?.length);
+        return Boolean(this.configuredAddons?.length);
     }
 
     constructor(
@@ -117,6 +118,14 @@ export default class Provider {
         await taskFor(this.getUserReference).perform();
         await taskFor(this.getResourceReference).perform();
         this.getProviderConfiguredAddons();
+    }
+
+    @task
+    @waitFor
+    async removeConfiguredAddon(selectedConfiguration: AllConfiguredAddonTypes) {
+        this.configuredAddons?.removeObject(selectedConfiguration);
+        notifyPropertyChange(this, 'configuredAddons');
+        await selectedConfiguration?.destroyRecord();
     }
 
     @task
