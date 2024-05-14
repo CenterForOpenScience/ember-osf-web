@@ -2,6 +2,7 @@ import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-d
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import CitationModel from 'ember-osf-web/models/citation';
+import FileProviderModel from 'ember-osf-web/models/file-provider';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
@@ -81,8 +82,8 @@ export default class PreprintModel extends OsfModel {
     @hasMany('review-action')
     reviewActions!: AsyncHasMany<ReviewActionModel>;
 
-    @hasMany('base-file-item', { polymorphic: true, inverse: 'target'})
-    files!: AsyncHasMany<FileModel> & FileModel;
+    @hasMany('file-provider', { inverse: 'target'})
+    files!: AsyncHasMany<FileProviderModel> & FileProviderModel;
 
     @hasMany('contributors', { inverse: 'preprint'})
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel;
