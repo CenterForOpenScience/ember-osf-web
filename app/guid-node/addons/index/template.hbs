@@ -147,7 +147,9 @@
                         </div>
                     {{else if (eq manager.pageMode 'configurationList')}}
                         <div local-class='configured-addons'>
-                            {{t 'addons.list.connected-locations'}}
+                            <div local-class='configured-addons-heading'>
+                                <h4>{{t 'addons.list.connected-locations'}}</h4>
+                            </div>
                             {{#each provider.configuredAddons as |configuredAddon|}}
                                 <div local-class='configured-addon-display-name'>
                                     {{configuredAddon.displayName}}
@@ -155,6 +157,7 @@
                                         <Button
                                             data-test-edit-connected-location={{configuredAddon.displayName}}
                                             data-analytics-name='Edit connected location'
+                                            local-class='edit-connected-button'
                                             {{on 'click' (fn manager.configureProvider manager.selectedProvider configuredAddon)}}
                                         >
                                             <FaIcon @icon='pencil-alt' />
@@ -162,6 +165,7 @@
                                         <Button
                                             data-test-remove-connected-location={{configuredAddon.displayName}}
                                             data-analytics-name='Remove connected location'
+                                            local-class='remove-connected-button'
                                             {{on 'click' (queue
                                                 (action (mut manager.selectedConfiguration) configuredAddon)
                                                 (action (mut manager.confirmRemoveConnectedLocation) true)
@@ -183,10 +187,11 @@
                                 </div>
                             {{/each}}
                         </div>
-                        <div local-class='pull-right'>
+                        <div local-class='float-right'>
                             <Button
                                 data-test-add-another-location-button
                                 data-analytics-name='Add another location'
+                                local-class='add-location-button'
                                 {{on 'click' (action manager.beginAccountSetup this.currentProvider)}}
                             >
                                 {{t 'addons.list.add-another-location'}}
