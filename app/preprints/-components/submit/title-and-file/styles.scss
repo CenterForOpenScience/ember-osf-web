@@ -19,19 +19,15 @@
             color: $brand-danger;
         }
 
+        .input-container {
+            margin-bottom: 20px;
+        }
+
         .textarea-container {
-            * > textarea {
+            textarea {
                 height: 150px;
             }
         }
-    }
-
-    &.mobile {
-        height: fit-content;
-    }
-
-    .input-container {
-        margin-bottom: 20px;
     }
 
     .upload-container {
@@ -63,7 +59,20 @@
             align-items: center;
             justify-content: flex-end;
         }
+    }
 
+    &.mobile {
+        .upload-container {
+            .button-container {
+                flex-direction: column;
+                justify-content: flex-start;
+
+                .btn {
+                    width: 100%;
+                    margin-bottom: 20px;
+                }
+            }
+        }
     }
 }
 
