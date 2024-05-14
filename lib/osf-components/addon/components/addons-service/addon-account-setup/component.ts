@@ -44,7 +44,7 @@ interface Args {
     onInput: (event: Event) => void;
 }
 
-export default class AccountSetupManagerComponent extends Component<Args> {
+export default class AddonAccountSetupComponent extends Component<Args> {
     @service intl!: IntlService;
     @service toast!: Toast;
 

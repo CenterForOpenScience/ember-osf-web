@@ -47,7 +47,7 @@
                             <h3 local-class='page-heading'>
                                 {{t 'addons.accountSelect.new-account'}}
                             </h3>
-                            <AddonsService::AccountSetupManager
+                            <AddonsService::AddonAccountSetup
                                 @provider={{manager.selectedProvider.provider}}
                                 @manager={{manager}}
                                 @onConnect={{manager.connectAccount}}
@@ -59,7 +59,7 @@
                             <h3 local-class='page-heading'>
                                 {{t 'addons.accountSelect.reconnect-account'}}
                             </h3>
-                            <AddonsService::AccountSetupManager
+                            <AddonsService::AddonAccountSetup
                                 @provider={{manager.selectedProvider.provider}}
                                 @manager={{manager}}
                                 @onReconnect={{manager.reconnectAccount}}
