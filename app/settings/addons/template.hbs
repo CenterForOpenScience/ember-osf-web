@@ -1,3 +1,4 @@
+{{page-title (t 'settings.addons.page-title')}}
 <div data-analytics-scope='User addons'>
     <AddonsService::UserAddonsManager
         @user={{this.currentUser.user}}
@@ -26,7 +27,6 @@
                                 @provider={{manager.selectedProvider.provider}}
                             />
                             <div local-class='float-right'>
-
                                 <Button
                                     data-test-addon-cancel-button
                                     data-analytics-name='Cancel'
@@ -47,11 +47,24 @@
                             <h3 local-class='page-heading'>
                                 {{t 'addons.accountSelect.new-account'}}
                             </h3>
-                            <AddonsService::AccountSetupManager
+                            <AddonsService::AddonAccountSetup
                                 @provider={{manager.selectedProvider.provider}}
                                 @manager={{manager}}
                                 @onConnect={{manager.connectAccount}}
                                 @onInput={{manager.onCredentialsInput}}
+                            />
+                        </div>
+                    {{else if (eq manager.pageMode 'accountReconnect')}}
+                        <div data-analytics-scope='Account Reconnects'>
+                            <h3 local-class='page-heading'>
+                                {{t 'addons.accountSelect.reconnect-account'}}
+                            </h3>
+                            <AddonsService::AddonAccountSetup
+                                @provider={{manager.selectedProvider.provider}}
+                                @manager={{manager}}
+                                @onReconnect={{manager.reconnectAccount}}
+                                @onInput={{manager.onCredentialsInput}}
+                                @reconnect={{true}}
                             />
                         </div>
                     {{/if}}
@@ -129,7 +142,14 @@
                                         <span>
                                             {{account.displayName}}
                                         </span>
-                                        <span>
+                                        <span local-class='button-wrapper'>
+                                            <Button
+                                                data-analytics-name='Reconnect account'
+                                                @type='primary'
+                                                {{on 'click' (fn manager.navigateToReconnectProviderAccount account)}}
+                                            >
+                                                {{t 'addons.list.reconnect'}}
+                                            </Button>
                                             <DeleteButton
                                                 @secondary={{true}}
                                                 @delete={{perform manager.disconnectAccount account}}

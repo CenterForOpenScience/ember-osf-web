@@ -37,12 +37,14 @@ interface InputFieldObject {
 
 interface Args {
     onConnect: () => void;
+    onReconnect: () => void;
+    reconnect?: boolean;
     provider: ExternalStorageServiceModel; // Type?
     manager: AddonsServiceManagerComponent | UserAddonsManagerComponent;
     onInput: (event: Event) => void;
 }
 
-export default class AccountSetupManagerComponent extends Component<Args> {
+export default class AddonAccountSetupComponent extends Component<Args> {
     @service intl!: IntlService;
     @service toast!: Toast;
 
@@ -206,14 +208,36 @@ export default class AccountSetupManagerComponent extends Component<Args> {
     @task
     @waitFor
     async startOauthFlow() {
-        this.account = await taskFor(this.args.manager.createAuthorizedAccount).perform();
-        if (this.account) {
+        this.account = await taskFor(this.args.manager.createAuthorizedAccount).perform(true);
+        if (this.account) { // returned account should have authUrl
             const oauthWindow = window.open(this.account.authUrl, '_blank');
             if (oauthWindow) {
                 document.addEventListener('visibilitychange', this.onVisibilityChange);
                 this.pendingOauth = true;
             } else {
                 this.toast.error(this.intl.t('addons.accountCreate.oauth-window-blocked'));
+            }
+        }
+    }
+
+    @task
+    @waitFor
+    async startOauthReconnectFlow() {
+        const { manager } = this.args;
+        this.account = manager.selectedAccount;
+        if (this.account) {
+            this.account.initiateOauth = true;
+            await this.account.save(); // returned account should have authUrl
+            if (this.account.authUrl) {
+                const oauthWindow = window.open(this.account.authUrl, '_blank');
+                if (oauthWindow) {
+                    document.addEventListener('visibilitychange', this.onVisibilityChange);
+                    this.pendingOauth = true;
+                } else {
+                    this.toast.error(this.intl.t('addons.accountCreate.oauth-window-blocked'));
+                }
+            } else {
+                this.toast.error(this.intl.t('addons.accountCreate.oauth-reconnect-error'));
             }
         }
     }

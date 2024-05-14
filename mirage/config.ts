@@ -546,11 +546,14 @@ export default function(this: Server) {
         addons.resourceConfiguredCitationAddonList);
     this.get('/resource-references/:nodeGuid/configured-computing-addons',
         addons.resourceConfiguredComputingAddonList);
-    this.resource('authorized-storage-accounts', { except: ['index'] });
+    this.resource('authorized-storage-accounts', { except: ['index', 'update'] });
+    this.patch('authorized-storage-accounts/:id', addons.updateAuthorizedStorageAccount);
     this.post('authorized-storage-accounts', addons.createAuthorizedStorageAccount);
-    this.resource('authorized-citation-accounts', { except: ['index'] });
+    this.resource('authorized-citation-accounts', { except: ['index', 'update'] });
+    this.patch('authorized-citation-accounts/:id', addons.updateAuthorizedCitationAccount);
     this.post('authorized-citation-accounts', addons.createAuthorizedCitationAccount);
-    this.resource('authorized-computing-accounts', { except: ['index'] });
+    this.resource('authorized-computing-accounts', { except: ['index', 'update'] });
+    this.patch('authorized-computing-accounts/:id', addons.updateAuthorizedComputingAccount);
     this.post('authorized-computing-accounts', addons.createAuthorizedComputingAccount);
     this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
     this.get('/configured-storage-addons/', addons.configuredStorageAddonList);

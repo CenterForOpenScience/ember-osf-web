@@ -315,13 +315,89 @@ export function createAuthorizedComputingAccount(this: HandlerContext, schema: S
     }
 }
 
+export function updateAuthorizedStorageAccount(this: HandlerContext, schema: Schema) {
+    const attrs  = this.normalizedRequestAttrs(
+        'authorized-storage-account',
+    ) as NormalizedRequestAttrs<MirageAuthorizedStorageAccount>;
+    const externalService = schema.externalStorageServices
+        .find(attrs.storageProviderId) as ModelInstance<ExternalStorageServiceModel>;
+    try {
+        const authorizedAccount = schema.authorizedStorageAccounts.find(attrs.id);
+        let authorizedAttrs = attrs;
+        if (attrs.credentials || attrs.initiateOauth) {
+            authorizedAttrs = prepareAuthorizedAccountAttrs(
+                attrs, externalService,
+            ) as NormalizedRequestAttrs<MirageAuthorizedStorageAccount>;
+        }
+        authorizedAccount.update({
+            ...authorizedAttrs,
+        });
+        return authorizedAccount;
+    } catch (e) {
+        return new Response(403, {}, {
+            errors: [{ detail: e.message }],
+        });
+    }
+}
+
+export function updateAuthorizedCitationAccount(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs(
+        'authorized-citation-account',
+    ) as NormalizedRequestAttrs<MirageAuthorizedCitationAccount>;
+    const externalService = schema.externalCitationServices
+        .find(attrs.citationServiceId) as ModelInstance<ExternalCitationServiceModel>;
+    try {
+        const authorizedAccount = schema.authorizedCitationAccounts.find(attrs.id);
+        let authorizedAttrs = attrs;
+        if (attrs.credentials || attrs.initiateOauth) {
+            authorizedAttrs = prepareAuthorizedAccountAttrs(
+                attrs, externalService,
+            ) as NormalizedRequestAttrs<MirageAuthorizedCitationAccount>;
+        }
+        authorizedAccount.update({
+            ...authorizedAttrs,
+        });
+        return authorizedAccount;
+    } catch (e) {
+        return new Response(403, {}, {
+            errors: [{ detail: e.message }],
+        });
+    }
+
+}
+
+export function updateAuthorizedComputingAccount(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs(
+        'authorized-computing-account',
+    ) as NormalizedRequestAttrs<MirageAuthorizedComputingAccount>;
+    const externalService = schema.externalComputingServices
+        .find(attrs.computingServiceId) as ModelInstance<ExternalComputingServiceModel>;
+    try {
+        const authorizedAccount = schema.authorizedComputingAccounts.find(attrs.id);
+        let authorizedAttrs = attrs;
+        if (attrs.credentials || attrs.initiateOauth) {
+            authorizedAttrs = prepareAuthorizedAccountAttrs(
+                attrs, externalService,
+            ) as NormalizedRequestAttrs<MirageAuthorizedComputingAccount>;
+        }
+        authorizedAccount.update({
+            ...authorizedAttrs,
+        });
+        return authorizedAccount;
+    } catch (e) {
+        return new Response(403, {}, {
+            errors: [{ detail: e.message }],
+        });
+    }
+}
+
 function prepareAuthorizedAccountAttrs(
     attrs: NormalizedRequestAttrs<AllAuthorizedAccountTypes>, externalService: ModelInstance<AllProviderTypes>,
 ) {
     const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
     attrs.credentials = undefined;
     // @ts-ignore: authUrl is set by the backend
-    attrs.authUrl = !authorized ? 'https://www.fake.com' : '';
+    attrs.authUrl = !authorized && attrs.initiateOauth ? 'https://www.fake.com' : '';
     // @ts-ignore: credentialsAvailable is set by the backend
     attrs.credentialsAvailable = authorized;
     return attrs;

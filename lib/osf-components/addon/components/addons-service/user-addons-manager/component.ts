@@ -13,7 +13,7 @@ import Toast from 'ember-toastr/services/toast';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import { AddonCredentialFields } from 'ember-osf-web/models/authorized-account';
+import AuthorizedAccountModel, { AddonCredentialFields } from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
@@ -29,6 +29,7 @@ import { FilterTypes } from '../manager/component';
 enum UserSettingPageModes {
     TERMS = 'terms',
     ACCOUNT_CREATE = 'accountCreate',
+    ACCOUNT_RECONNECT = 'accountReconnect',
 }
 
 interface Args {
@@ -145,6 +146,30 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @action
     acceptProviderTerms() {
         this.pageMode = UserSettingPageModes.ACCOUNT_CREATE;
+    }
+
+    @action
+    navigateToReconnectProviderAccount(account: AllAuthorizedAccountTypes) {
+        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        const possibleProviders = activeFilterObject.list;
+        this.pageMode = UserSettingPageModes.ACCOUNT_RECONNECT;
+        this.selectedAccount = account;
+        let providerId = '';
+        const accountType = (account.constructor as typeof AuthorizedAccountModel).modelName;
+        switch (accountType) {
+        case 'authorized-storage-account':
+            providerId = (account as AuthorizedStorageAccountModel).storageProvider.get('id');
+            break;
+        case 'authorized-citation-account':
+            providerId = (account as AuthorizedCitationAccountModel).citationService.get('id');
+            break;
+        case 'authorized-computing-account':
+            providerId = (account as AuthorizedComputingAccount).computingService.get('id');
+            break;
+        default:
+            break;
+        }
+        this.selectedProvider = possibleProviders.find(provider => provider.id === providerId);
     }
 
     @action
@@ -279,10 +304,11 @@ export default class UserAddonManagerComponent extends Component<Args> {
     async connectAccount() {
         if (this.selectedProvider) {
             try {
-                await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon)
+                await taskFor(this.selectedProvider!.createAuthorizedAccount)
                     .perform(this.credentialsObject, this.displayName);
                 this.cancelSetup();
                 await taskFor(this.getAuthorizedAccounts).perform();
+                this.toast.success(this.intl.t('addons.accountCreate.connect-success'));
             } catch (e) {
                 const errorMessage = this.intl.t('addons.accountCreate.error');
                 captureException(e, { errorMessage });
@@ -293,10 +319,28 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async createAuthorizedAccount() {
+    async reconnectAccount() {
+        if (this.selectedProvider && this.selectedAccount) {
+            try {
+                await taskFor(this.selectedProvider.reconnectAuthorizedAccount)
+                    .perform(this.selectedAccount, this.credentialsObject);
+                this.cancelSetup();
+                await taskFor(this.getAuthorizedAccounts).perform();
+                this.toast.success(this.intl.t('addons.accountCreate.reconnect-success'));
+            } catch (e) {
+                const errorMessage = this.intl.t('addons.accountCreate.reconnect-error');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+            }
+        }
+    }
+
+    @task
+    @waitFor
+    async createAuthorizedAccount(initiateOauth?: boolean) {
         if (this.selectedProvider) {
-            return await taskFor(this.selectedProvider.providerMap!.createAccountForNodeAddon)
-                .perform(this.credentialsObject, this.displayName);
+            return await taskFor(this.selectedProvider.createAuthorizedAccount)
+                .perform(this.credentialsObject, this.displayName, initiateOauth);
         }
     }
 
@@ -316,9 +360,10 @@ export default class UserAddonManagerComponent extends Component<Args> {
             authorizedAccounts.removeObject(account);
             await account.destroyRecord();
             await taskFor(this.filterTypeMapper[this.activeFilterType].getAuthorizedAccountsTask).perform();
+            this.toast.success(this.intl.t('addons.accountCreate.disconnect-success'));
         } catch (e) {
             captureException(e);
-            this.toast.error(getApiErrorMessage(e));
+            this.toast.error(getApiErrorMessage(e), this.intl.t('addons.accountCreate.disconnect-error'));
         }
     }
 }

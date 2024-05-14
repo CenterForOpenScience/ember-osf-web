@@ -118,7 +118,7 @@
                             {{/if}}
                         </div>
                     {{else if (eq manager.pageMode 'accountCreate')}}
-                        <AddonsService::AccountSetupManager
+                        <AddonsService::AddonAccountSetup
                             @provider={{provider.provider}}
                             @manager={{manager}}
                             @onConnect={{manager.connectAccount}}
