@@ -222,6 +222,9 @@ dashboard:
 
 addons:
     heading: 'Add-ons'
+    provider:
+        remove-configured-addon-success: 'You have successfully removed this addon'
+        remove-configured-addon-error: 'There was a problem removing this addon'
     list:
         authorized-accounts-for-provider: 'Authorized accounts for {providerName}'
         authorized-accounts: 'Authorized accounts'
