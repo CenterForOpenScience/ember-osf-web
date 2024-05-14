@@ -138,11 +138,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         return activeFilterObject.task.isRunning || taskFor(this.initialize).isRunning;
     }
 
-    get filteredConfiguredAddons() {
-        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
-        return activeFilterObject.configuredAddons;
-    }
-
     @action
     configureProvider(provider: Provider, configuredAddon: AllConfiguredAddonTypes) {
         this.cancelSetup();
