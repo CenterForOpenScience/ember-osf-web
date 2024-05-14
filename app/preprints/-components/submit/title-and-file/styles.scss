@@ -43,9 +43,15 @@
             flex-direction: row;
             align-items: flex-start;
             justify-content: space-between;
+            margin-bottom: 20px;
 
             .btn {
                 width: calc(50% - 10px);
+            }
+
+            .selected {
+                background-color: $secondary-blue;
+                color: $color-text-white;
             }
         }
 

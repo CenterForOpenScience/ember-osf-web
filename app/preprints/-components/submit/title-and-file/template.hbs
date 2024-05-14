@@ -55,7 +55,7 @@
                     data-test-upload-button
                     data-analytics-name='Upload button'
                     {{on 'click' this.displayFileUpload}}
-                    local-class='btn'
+                    local-class='btn {{if this.isFileUploadDisplayed 'selected'}}'
                     disabled={{this.isButtonDisabled}}
                 >
                     {{ t 'preprints.submit.step-one.file-upload-label'}}
