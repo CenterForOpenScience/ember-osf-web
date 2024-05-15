@@ -4,19 +4,18 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
-
-import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 import { TrackedWeakMap } from 'tracked-built-ins';
 import PreprintModel from 'ember-osf-web/models/preprint';
+import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
 interface PreprintUploadArgs {
-    allowVersioning: boolean;
-    manager: StorageManager;
+    manager: PreprintStateMachine;
     preprint: PreprintModel;
+    allowVersioning: boolean;
+    clickableElementId: string;
     dragEnter: () => {};
     dragLeave: () => {};
     dragOver: () => {};
-    clickableElementId: string;
 }
 
 
@@ -27,21 +26,18 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     @tracked uploadCompleted: any[] = [];
     @tracked uploadErrored: any[] = [];
     @tracked uploadConflicted: any[] = [];
-    @tracked clickableElementId = this.args.clickableElementId;
+
     uploadProgress = new TrackedWeakMap();
 
     get clickableElementSelectors() {
-        if (this.clickableElementId) {
-            return [`#${this.clickableElementId}`];
+        if (this.args.clickableElementId) {
+            return [`#${this.args.clickableElementId}`];
         }
         return [];
     }
 
     get dropzoneOptions() {
-        let uploadLimit = 1;
-        if (this.args.manager.currentFolder?.parallelUploadsLimit) {
-            uploadLimit = this.args.manager.currentFolder.parallelUploadsLimit;
-        }
+        const uploadLimit = 1;
         return {
             createImageThumbnails: false,
             method: 'PUT',
@@ -56,6 +52,7 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
         };
     }
 
+
     @action
     updateUploadProgress(_: any, __: any, file: any, progress: any) {
         this.uploadProgress.set(file, progress);
@@ -68,7 +65,8 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
             return newUploadLink;
         }
 
-        const url = new URL(this.args.preprint.files.links.upload as string);
+        const url = new URL(this.args.manager.preprint.files[0].upload as string);
+
         url.searchParams.append('kind', 'file');
         url.searchParams.append('name', name);
         return url.toString();
@@ -139,8 +137,9 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
         notifyPropertyChange(this, 'uploadConflicted');
     }
 
+
     @action
     setClickableElementId(id: string) {
-        this.clickableElementId = id;
+        this.args.clickableElementId = id;
     }
 }
