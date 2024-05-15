@@ -44,8 +44,15 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
+            files: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/files/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                    },
+                },
+            },
             subjects: {
-
                 links: {
                     self: {
                         href: `${apiUrl}/v2/preprints/${model.id}/relationships/subjects/`,
@@ -103,15 +110,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
         }
 
         if (model.primaryFile) {
-            relationships['files'] = {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/preprints/${model.id}/files/`,
-                        meta: this.buildRelatedLinkMeta(model, 'files'),
-                    },
-                },
-            };
-
             relationships['primaryFile'] = {
                 links: {
                     related: {

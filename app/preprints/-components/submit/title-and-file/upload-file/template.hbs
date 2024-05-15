@@ -1,23 +1,24 @@
-{{#let (unique-id 'upload-files-dropzone') as |id|}}
-    <DropzoneWidget
-        @buildUrl={{this.buildUrl}}
-        @options={{this.dropzoneOptions}}
-        @dropzone={{true}}
-        @addedfile={{action this.addedFile}}
-        @dragenter={{@dragEnter}}
-        @dragleave={{@dragLeave}}
-        @dragover={{@dragOver}}
-        @drop={{@drop}}
-        @success={{action this.success}}
-        @error={{action this.error}}
-        @enable={{@enable}}
-        @uploadprogress={{this.updateUploadProgress}}
-        @id={{id}}
-        @clickable={{this.clickableElementSelectors}}
-        {{!-- as |dropzone| --}}
-    >
-        {{yield (hash
-            setClickableElementId=this.setClickableElementId
-        )}}
-    </DropzoneWidget>   
-{{/let}}
+<div ...attributes>
+    {{#let (unique-id 'upload-files-dropzone') as |id|}}
+        <DropzoneWidget
+            @buildUrl={{this.buildUrl}}
+            @options={{this.dropzoneOptions}}
+            @dropzone={{false}}
+            @addedfile={{action this.addedFile}}
+            @dragenter={{@dragEnter}}
+            @dragleave={{@dragLeave}}
+            @dragover={{@dragOver}}
+            @drop={{@drop}}
+            @success={{action this.success}}
+            @error={{action this.error}}
+            @enable={{@enable}}
+            @uploadprogress={{this.updateUploadProgress}}
+            @id={{id}}
+            @clickable={{this.clickableElementSelectors}}
+        >
+            {{yield (hash
+                setClickableElementId=this.setClickableElementId
+            )}}
+        </DropzoneWidget>
+    {{/let}}
+</div>

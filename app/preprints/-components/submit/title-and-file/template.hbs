@@ -76,14 +76,13 @@
                         @manager={{@manager}}
                         @preprint={{@manager.preprint}}
                         @clickableElementId={{id}}
-                        @enabled={{true}}
+                        @enable={{true}}
                         @dragEnter={{fn (mut this.dragging) true}}
                         @dragOver={{fn (mut this.dragging) true}}
                         @dragLeave={{fn (mut this.dragging) false}}
                         @drop={{fn (mut this.dragging) false}}
                     >
                         <div local-class='upload-file {{if this.dragging 'DraggingHighlight'}}'
-                        
                          id={{id}}>
                             {{ t 'preprints.submit.step-one.file-upload-label'}}
                         </div>

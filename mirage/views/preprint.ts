@@ -26,6 +26,7 @@ export function createPreprint(this: HandlerContext, schema: Schema) {
     };
     const preprint = schema.preprints.create(attrs) as ModelInstance<PreprintModel>;
 
+
     const userId = schema.roots.first().currentUserId;
 
     if (userId) {
@@ -41,6 +42,10 @@ export function createPreprint(this: HandlerContext, schema: Schema) {
         preprint.bibliographicContributors.models.push(contributor);
         preprint.save();
     }
+
+    const providerId = preprint.id + ':osfstorage';
+    schema.fileProviders.create({ id: providerId, target: preprint });
+    preprint.save();
 
     return preprint;
 }
