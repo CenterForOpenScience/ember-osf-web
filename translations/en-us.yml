@@ -2161,7 +2161,6 @@ routes:
         email: Email
 osf-components:
     addon-card:
-        enable: Enable
         connect: Connect
         disable: Disable
         configure: Configure
