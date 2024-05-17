@@ -4,21 +4,16 @@
             @buildUrl={{this.buildUrl}}
             @options={{this.dropzoneOptions}}
             @dropzone={{false}}
-            @addedfile={{action this.addedFile}}
             @dragenter={{@dragEnter}}
             @dragleave={{@dragLeave}}
             @dragover={{@dragOver}}
             @drop={{@drop}}
-            @success={{action this.success}}
-            @error={{action this.error}}
             @enable={{@enable}}
-            @uploadprogress={{this.updateUploadProgress}}
             @id={{id}}
             @clickable={{this.clickableElementSelectors}}
+            @preUpload={{perform this.createPreprint}}
         >
-            {{yield (hash
-                setClickableElementId=this.setClickableElementId
-            )}}
+            {{yield}}
         </DropzoneWidget>
     {{/let}}
 </div>

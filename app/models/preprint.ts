@@ -1,6 +1,7 @@
 import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CitationModel from 'ember-osf-web/models/citation';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
@@ -12,7 +13,7 @@ import FileModel from './file';
 import IdentifierModel from './identifier';
 import LicenseModel from './license';
 import NodeModel from './node';
-import OsfModel, { Permission } from './osf-model';
+import { Permission } from './osf-model';
 import PreprintProviderModel from './preprint-provider';
 import SubjectModel from './subject';
 
@@ -37,7 +38,7 @@ export enum PreprintPreregLinkInfoEnum {
     PREREG_BOTH = 'prereg_both',
 }
 
-export default class PreprintModel extends OsfModel {
+export default class PreprintModel extends AbstractNodeModel {
     @attr('fixstring') title!: string;
     @attr('date') dateCreated!: Date;
     @attr('date') datePublished!: Date;
