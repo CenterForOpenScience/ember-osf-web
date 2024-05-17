@@ -1,6 +1,7 @@
 <div ...attributes>
     {{#let (unique-id 'upload-files-dropzone') as |id|}}
         <DropzoneWidget
+            local-class='upload-file-widget'
             @buildUrl={{this.buildUrl}}
             @options={{this.dropzoneOptions}}
             @dropzone={{false}}
