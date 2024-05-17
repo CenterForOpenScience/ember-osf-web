@@ -82,9 +82,21 @@
                         @dragLeave={{fn (mut this.dragging) false}}
                         @drop={{fn (mut this.dragging) false}}
                     >
-                        <div local-class='upload-file {{if this.dragging 'DraggingHighlight'}}'
-                         id={{id}}>
-                            {{ t 'preprints.submit.step-one.file-upload-label'}}
+                        <div
+                            data-test-file-drag-and-drop-area
+                            local-class='upload-file {{if this.dragging 'highlight'}}'
+                            id={{id}}
+                        >
+                            <div
+                                data-test-file-upload-label-one
+                            >
+                                {{ t 'preprints.submit.step-one.file-upload-label-one'}}
+                            </div>
+                            <div
+                                data-test-file-upload-label-two
+                            >
+                                {{ t 'preprints.submit.step-one.file-upload-label-two'}}
+                            </div>
                         </div>
                     </Preprints::-Components::Submit::TitleAndFile::UploadFile>
                 {{/let}}
