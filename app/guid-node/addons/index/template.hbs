@@ -192,7 +192,10 @@
                                 data-test-add-another-location-button
                                 data-analytics-name='Add another location'
                                 local-class='add-location-button'
-                                {{on 'click' (action manager.beginAccountSetup manager.selectedProvider)}}
+                                {{on 'click' (queue
+                                    (perform provider.getAuthorizedAccounts)
+                                    (action manager.beginAccountSetup manager.selectedProvider)
+                                )}}
                             >
                                 {{t 'addons.list.add-another-location'}}
                             </Button>
