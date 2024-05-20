@@ -73,6 +73,7 @@ module('Integration | Component | addon-card', hooks => {
             provider: {
                 id: 'box',
                 name: 'Test Addon',
+                displayName: 'Test Addon',
                 iconUrl: 'https://some.url/from/addons/service/box.png',
             },
             disableProjectAddon: { perform: sinon.stub() },
@@ -100,17 +101,10 @@ module('Integration | Component | addon-card', hooks => {
         );
         assert.dom('[data-test-addon-card-logo]').hasAttribute('alt', 'Test Addon logo', 'Alt text is correct');
         assert.dom('[data-test-addon-card-title]').hasText('Test Addon');
-        assert.dom('[data-test-addon-card-edit]').exists();
-        assert.dom('[data-test-addon-card-disconnect]').exists();
+        assert.dom('[data-test-addon-card-configure]').exists();
         assert.dom('[data-test-addon-card-connect]').doesNotExist();
 
-        await click('[data-test-addon-card-edit]');
+        await click('[data-test-addon-card-configure]');
         assert.ok(this.manager.listProviderConfigurations.calledOnce);
-        await click('[data-test-addon-card-disconnect]');
-        assert.dom('[data-test-addon-disconnect-modal-confirm]').exists();
-        assert.dom('#osf-dialog-heading').hasText('Disable Add-on');
-        assert.dom('[data-test-dialog] main').containsText('Are you sure you want to disable this add-on?');
-        await click('[data-test-addon-disconnect-modal-confirm]');
-        assert.ok(addonObj.disableProjectAddon.perform.calledOnce);
     });
 });
