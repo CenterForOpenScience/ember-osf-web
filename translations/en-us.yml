@@ -2163,11 +2163,8 @@ routes:
 osf-components:
     addon-card:
         connect: Connect
-        disable: Disable
         configure: Configure
         provider-logo-alt: '{provider} logo'
-        disconnect-modal-header: 'Disable Add-on'
-        disconnect-modal-body: 'Are you sure you want to disable this add-on?'
     search-result-card:
         show_additional_metadata: 'Show additional metadata'
         hide_additional_metadata: 'Hide additional metadata'
