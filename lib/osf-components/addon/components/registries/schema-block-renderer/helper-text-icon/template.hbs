@@ -5,7 +5,8 @@
             tabindex='0'
             id={{id}}
             @icon='question-circle'
-            @ariaHidden={{false}}
+            aria-hidden='false'
+            aria-label={{this.helpText}}
             ...attributes
         />
         <EmberPopover

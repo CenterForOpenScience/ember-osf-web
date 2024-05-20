@@ -16,6 +16,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'osf',
         name: 'Open Science Framework',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'preprint',
         assets: randomAssets(1),
         footerLinks: 'fake footer links',
@@ -25,6 +26,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'thesiscommons',
         name: 'Thesis Commons',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'thesis',
         assets: randomAssets(2),
         // eslint-disable-next-line max-len
@@ -33,6 +35,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'preprintrxiv',
         name: 'PreprintrXiv',
+        advertiseOnDiscoverPage: false,
         preprintWord: 'preprint',
         assets: randomAssets(3),
         // eslint-disable-next-line max-len
@@ -43,6 +46,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'paperxiv',
         name: 'PaperXiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'paper',
         assets: randomAssets(4),
         // eslint-disable-next-line max-len
@@ -51,6 +55,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'thesisrxiv',
         name: 'ThesisrXiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'thesis',
         assets: randomAssets(5),
         // eslint-disable-next-line max-len
@@ -59,6 +64,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'workrxiv',
         name: 'WorkrXiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'work',
         assets: randomAssets(6),
         footerLinks: 'fake footer links',
@@ -66,6 +72,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'docrxiv',
         name: 'DocrXiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'default',
         assets: randomAssets(7),
         footerLinks: 'fake footer links',
@@ -73,6 +80,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'agrixiv',
         name: 'AgriXiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'preprint',
         assets: randomAssets(8),
         reviewsWorkflow: PreprintProviderReviewsWorkFlow.POST_MODERATION,
@@ -80,24 +88,28 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
     {
         id: 'biohackrxiv',
         name: 'BioHackrXiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'preprint',
         assets: randomAssets(9),
     },
     {
         id: 'nutrixiv',
         name: 'NutriXiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'preprint',
         assets: randomAssets(10),
     },
     {
         id: 'paleorxiv',
         name: 'PaleoRrxiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'preprint',
         assets: randomAssets(10, false),
     },
     {
         id: 'sportrxiv',
         name: 'Sport-Rxiv',
+        advertiseOnDiscoverPage: true,
         preprintWord: 'paper',
         assets: randomAssets(10),
     },
