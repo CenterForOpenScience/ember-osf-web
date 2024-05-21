@@ -1180,8 +1180,8 @@ preprints:
     submit:
         title-submit: 'New {documentType}'
         title-edit: 'Edit {documentType}'
-        step-one:
-            title: 'Title and File'
+        step-title:
+            title: 'Title and Abstract'
             title-input: 'Title'
             abstract-input: 'Abstract'
             upload-title: 'Upload your preprint'
@@ -1189,7 +1189,14 @@ preprints:
             file-upload-label-one: 'Drag and drop files here to upload'
             file-upload-label-two: 'or click to browse for files.'
             file-select-label: 'Select from an existing OSF project'
-        step-two:
+        step-file:
+            title: 'File'
+            upload-title: 'Upload your preprint'
+            file-upload-label: 'Upload from your computer'
+            file-upload-label-one: 'Drag and drop files here to upload'
+            file-upload-label-two: 'or click to browse for files.'
+            file-select-label: 'Select from an existing OSF project'
+        step-metadata:
             title: 'Metadata'
             contributors-input: 'Contributors'
             license-input: 'License'
@@ -1200,7 +1207,7 @@ preprints:
             publication-doi-input: 'Publication DOI'
             publication-date-input: 'Publication Date'
             publication-citation-input: 'Publication Citation'
-        step-three:
+        step-assertions:
             title: 'Author Assertions'
             conflict-of-interest-input: 'Conflict of Interest'
             conflict-of-interest-description: 'The Conflict of Interest (COI) assertion is made on behalf of all the authors listed for this preprint. COIs include: financial involvement in any entity such as honoraria, grants, speaking fees, employment, consultancies, stock ownership, expert testimony, and patents or licenses. COIs can also include non-financial interests such as personal or professional relationships or pre-existing beliefs in the subject matter or materials discussed in this preprint'
@@ -1227,7 +1234,7 @@ preprints:
             public-preregistration-link-info-designs: 'Study Design'
             public-preregistration-link-info-analysis: 'Analysis Plan'
             public-preregistration-link-info-both: 'Both'
-        step-four:
+        step-supplements:
             title: 'Supplements'
             description: 'Connect an OSF project to share data, code, protocols, or other supplemental materials.'
             connect-button: 'Connect an existing OSF project'
@@ -1242,7 +1249,7 @@ preprints:
             create-project: 'Create project'
             delete-modalTitle: 'Disconnect supplemental material'
             delete-warning: 'This will disconnect the selected project. You can select new supplemental material or re-add the same supplemental material at a later date.'
-        step-five:
+        step-review:
             title: 'Review'
             preprint-service: '{singularPreprintWord} Service'
             preprint-title: 'Title'
@@ -1675,7 +1682,7 @@ registries:
             add_new_button: 'Add new contributors'
             done_add_new_button: 'Done adding new contributors'
             results_heading: 'Results'
-            search_placeholder: 'Search by name or profile information'
+            search_placeholder: 'Search by name'
             search: 'Search'
             add_unregistered_contributor: 'Add by email address'
             error_loading: 'Error, could not load contributors'

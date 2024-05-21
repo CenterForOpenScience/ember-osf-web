@@ -2,11 +2,11 @@
     <h3 local-class='title'
         data-test-title
     >
-        {{t 'preprints.submit.step-four.title'}}
+        {{t 'preprints.submit.step-supplements.title'}}
     </h3>
     {{#unless this.isSupplementAttached}}
         <p>
-            {{t 'preprints.submit.step-four.description'}}
+            {{t 'preprints.submit.step-supplements.description'}}
         </p>
     {{/unless}}
 
@@ -32,7 +32,7 @@
                 disabled={{this.isDisplayCancelButton}}
 
             >
-                {{t 'preprints.submit.step-four.connect-button'}}
+                {{t 'preprints.submit.step-supplements.connect-button'}}
             </Button>
 
             <Button
@@ -43,7 +43,7 @@
                 @layout='large'
                 disabled={{this.isDisplayCancelButton}}
             >
-                {{t 'preprints.submit.step-four.create-button'}}
+                {{t 'preprints.submit.step-supplements.create-button'}}
             </Button>
         </div>
 

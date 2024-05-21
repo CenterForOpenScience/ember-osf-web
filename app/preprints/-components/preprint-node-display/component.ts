@@ -34,7 +34,7 @@ export default class PreprintNodeDisplay extends Component<NodeDisplayArgs> {
         if (this.nodeId) {
             return this.node?.title as string;
         } else {
-            return this.intl.t('preprints.submit.step-five.supplement-na',
+            return this.intl.t('preprints.submit.step-review.supplement-na',
                 { singularPreprintWord: this.args.preprintWord});
         }
     }

@@ -33,19 +33,19 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     publicPreregLinkInfoOptions = [
         {
             key:  PreprintPreregLinkInfoEnum.PREREG_EMPTY,
-            value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-placeholder'),
+            value: this.intl.t('preprints.submit.step-assertions.public-preregistration-link-info-placeholder'),
         } as PreregistationLinkInfoOption,
         {
             key:  PreprintPreregLinkInfoEnum.PREREG_DESIGNS,
-            value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-designs'),
+            value: this.intl.t('preprints.submit.step-assertions.public-preregistration-link-info-designs'),
         } as PreregistationLinkInfoOption,
         {
             key:  PreprintPreregLinkInfoEnum.PREREG_ANALYSIS,
-            value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-analysis'),
+            value: this.intl.t('preprints.submit.step-assertions.public-preregistration-link-info-analysis'),
         } as PreregistationLinkInfoOption,
         {
             key:  PreprintPreregLinkInfoEnum.PREREG_BOTH,
-            value: this.intl.t('preprints.submit.step-three.public-preregistration-link-info-both'),
+            value: this.intl.t('preprints.submit.step-assertions.public-preregistration-link-info-both'),
         } as PreregistationLinkInfoOption,
     ];
 
@@ -91,13 +91,13 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
         } else if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.NO) {
             this.args.changeSet.set('whyNoPrereg', '');
             this.isPublicPreregistrationWhyNoStatementDisabled = false;
-            this.placeholder = this.intl.t('preprints.submit.step-three.public-preregistration-no-placeholder');
+            this.placeholder = this.intl.t('preprints.submit.step-assertions.public-preregistration-no-placeholder');
         } else {
             this.isPublicPreregistrationWhyNoStatementDisabled = true;
             this.args.changeSet.set('whyNoPrereg',
-                this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder',
+                this.intl.t('preprints.submit.step-assertions.public-preregistration-na-placeholder',
                     { singularPreprintWord: this.args.preprintWord}));
-            this.placeholder = this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder',
+            this.placeholder = this.intl.t('preprints.submit.step-assertions.public-preregistration-na-placeholder',
                 { singularPreprintWord: this.args.preprintWord});
         }
 

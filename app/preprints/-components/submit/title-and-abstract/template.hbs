@@ -2,11 +2,11 @@
     <h3 local-class='title'
         data-test-title
     >
-        {{t 'preprints.submit.step-one.title'}}
+        {{t 'preprints.submit.step-title.title'}}
     </h3>
     <div local-class='form-container'>
         <FormControls
-            @changeset={{this.titleAndFileFormChangeset}}
+            @changeset={{this.titleAndAbstractFormChangeset}}
             data-test-form
             as |form|
         >
@@ -14,7 +14,7 @@
                 <label for={{titleFieldId}}
                     data-test-title-label
                 >
-                    {{t 'preprints.submit.step-one.title-input'}}
+                    {{t 'preprints.submit.step-title.title-input'}}
                     <span local-class='required'>*</span>
                 </label>
                 <form.text
@@ -23,7 +23,7 @@
                     @isRequired={{true}}
                     {{on 'change' this.validate}}
                     local-class='input-container'
-                    @placeholder={{t 'preprints.submit.step-one.title-input'}}
+                    @placeholder={{t 'preprints.submit.step-title.title-input'}}
                     @uniqueID={{titleFieldId}} 
                 />
             {{/let}}
@@ -31,7 +31,7 @@
                 <label for={{abstractFieldId}}
                     data-test-abstract-label
                 >
-                    {{t 'preprints.submit.step-one.abstract-input'}}
+                    {{t 'preprints.submit.step-title.abstract-input'}}
                     <span local-class='required'>*</span>
                 </label>
                 <form.textarea
@@ -40,14 +40,14 @@
                     @isRequired={{true}}
                     {{on 'change' this.validate}}
                     local-class='input-container textarea-container'
-                    @placeholder={{t 'preprints.submit.step-one.abstract-input'}}
+                    @placeholder={{t 'preprints.submit.step-title.abstract-input'}}
                     @uniqueID={{abstractFieldId}} 
                 />
             {{/let}}
         </FormControls>
-        <div local-class='upload-container'>
+        {{!-- <div local-class='upload-container'>
             <label data-test-upload-label>
-                {{t 'preprints.submit.step-one.upload-title'}}
+                {{t 'preprints.submit.step-title.upload-title'}}
                 <span local-class='required'>*</span>
             </label>
             <div local-class='button-container'>
@@ -58,7 +58,7 @@
                     local-class='btn {{if this.isFileUploadDisplayed 'selected'}}'
                     disabled={{this.isButtonDisabled}}
                 >
-                    {{ t 'preprints.submit.step-one.file-upload-label'}}
+                    {{ t 'preprints.submit.step-title.file-upload-label'}}
                 </Button>
                 <Button
                     data-test-select-button
@@ -67,12 +67,12 @@
                     local-class='btn'
                     disabled={{this.isButtonDisabled}}
                 >
-                    {{ t 'preprints.submit.step-one.file-select-label'}}
+                    {{ t 'preprints.submit.step-title.file-select-label'}}
                 </Button>
             </div>
             {{#if this.isFileUploadDisplayed}}
                 {{#let (unique-id 'preprint-upload-files-dropzone') as |id|}}
-                    <Preprints::-Components::Submit::TitleAndFile::UploadFile
+                    <Preprints::-Components::Submit::titleAndAbstract::UploadFile
                         @manager={{@manager}}
                         @preprint={{@manager.preprint}}
                         @clickableElementId={{id}}
@@ -90,20 +90,20 @@
                             <div
                                 data-test-file-upload-label-one
                             >
-                                {{ t 'preprints.submit.step-one.file-upload-label-one'}}
+                                {{ t 'preprints.submit.step-title.file-upload-label-one'}}
                             </div>
                             <div
                                 data-test-file-upload-label-two
                             >
-                                {{ t 'preprints.submit.step-one.file-upload-label-two'}}
+                                {{ t 'preprints.submit.step-title.file-upload-label-two'}}
                             </div>
                         </div>
-                    </Preprints::-Components::Submit::TitleAndFile::UploadFile>
+                    </Preprints::-Components::Submit::titleAndAbstract::UploadFile>
                 {{/let}}
 
             {{/if}}
             {{#if this.isFileSelectDisplayed}}
-                {{ t 'preprints.submit.step-one.file-select-label'}}
+                {{ t 'preprints.submit.step-title.file-select-label'}}
             {{/if}}
             {{#if this.isButtonDisabled}}
                 <div local-class='cancel-button-container'>
@@ -115,6 +115,6 @@
                     </Button>
                 </div>
             {{/if}}
-        </div>
+        </div> --}}
     </div>
 </div>

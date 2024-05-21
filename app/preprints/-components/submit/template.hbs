@@ -1,6 +1,6 @@
 <div local-class='preprint-state-machine-container  {{if (is-mobile) 'mobile'}}'>
-    {{#if this.isTitleAndFileActive}}
-        <Preprints::-Components::Submit::TitleAndFile
+    {{#if this.istitleAndAbstractActive}}
+        <Preprints::-Components::Submit::titleAndAbstract
             @manager={{@manager}}
         />
     {{/if}}

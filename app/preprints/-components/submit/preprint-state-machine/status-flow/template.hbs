@@ -2,8 +2,8 @@
     <div local-class='line {{if @manager.displayAuthorAssertions 'long'}}'/>
     <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
         @manager={{@manager}}
-        @type={{@manager.getTitleAndFileType}}
-        data-test-title-and-file
+        @type={{@manager.gettitleAndAbstractType}}
+        data-test-title-and-abstract
     />
     <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
         @manager={{@manager}}

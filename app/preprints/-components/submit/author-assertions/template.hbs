@@ -2,7 +2,7 @@
     <h3 local-class='title'
         data-test-title
     >
-        {{t 'preprints.submit.step-three.title'}}
+        {{t 'preprints.submit.step-assertions.title'}}
     </h3>
     <div local-class='form-container'>
         <FormControls
@@ -16,11 +16,11 @@
                     <label for={{conflictOfInterestId}}
                         data-test-coi-label
                     >
-                        {{t 'preprints.submit.step-three.conflict-of-interest-input'}}
+                        {{t 'preprints.submit.step-assertions.conflict-of-interest-input'}}
                         <span local-class='required'>*</span>
                     </label>
                     <p>
-                        {{t 'preprints.submit.step-three.conflict-of-interest-description'}}
+                        {{t 'preprints.submit.step-assertions.conflict-of-interest-description'}}
                     </p>
 
 
@@ -46,7 +46,7 @@
                     @valuePath={{'conflictOfInterestStatement'}}
                     {{on 'change' this.validate}}
                     local-class='input-container textarea-container'
-                    @placeholder={{t 'preprints.submit.step-three.conflict-of-interest-placeholder'}}
+                    @placeholder={{t 'preprints.submit.step-assertions.conflict-of-interest-placeholder'}}
                 />
             {{/if}}
 

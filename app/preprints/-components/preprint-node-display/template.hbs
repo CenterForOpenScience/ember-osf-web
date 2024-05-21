@@ -3,7 +3,7 @@
         <LoadingIndicator data-test-loading-indicator @dark={{true}} />
     {{else}} 
         <h4>
-            {{t 'preprints.submit.step-five.supplement-title'}}
+            {{t 'preprints.submit.step-review.supplement-title'}}
         </h4>
         <div local-class='display'>
             <div local-class='text'>
@@ -17,11 +17,11 @@
                         @icon='trash'
                         @noBackground={{true}}
                         @delete={{perform @removeNode}}
-                        @modalTitle={{t 'preprints.submit.step-four.delete-modalTitle'}}
-                        @modalBody={{t 'preprints.submit.step-four.delete-warning'}}
+                        @modalTitle={{t 'preprints.submit.step-supplements.delete-modalTitle'}}
+                        @modalBody={{t 'preprints.submit.step-supplements.delete-warning'}}
                     />
                     <EmberTooltip>
-                        {{t 'preprints.submit.step-four.delete-warning'}}
+                        {{t 'preprints.submit.step-supplements.delete-warning'}}
                     </EmberTooltip>
                 </div>
             {{/if}}
