@@ -11,7 +11,7 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 
 export enum PreprintStatusTypeEnum {
-    titleAndFile = 'titleAndFile',
+    titleAndAbstract = 'titleAndAbstract',
     metadata = 'metadata',
     authorAssertions = 'authorAssertions',
     supplements = 'supplements',
@@ -33,7 +33,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service store!: Store;
     @service router!: RouterService;
     @service intl!: Intl;
-    titleAndFieldValidation = false;
+    titleAndAbstractValidation = false;
     metadataValidation = false;
     authorAssertionValidation = false;
     supplementValidation = false;
@@ -59,7 +59,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     private setValidationForEditFlow(): void {
-        this.titleAndFieldValidation = true;
+        this.titleAndAbstractValidation = true;
         this.metadataValidation = true;
         this.authorAssertionValidation = true;
         this.supplementValidation = true;
@@ -114,8 +114,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @waitFor
     public async onNext(): Promise<void> {
         this.isNextButtonDisabled = true;
-        if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndFile) &&
-            this.titleAndFieldValidation
+        if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndAbstract) &&
+            this.titleAndAbstractValidation
         ) {
             this.isNextButtonDisabled = !this.metadataValidation;
             await this.saveOnStep();
@@ -144,8 +144,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * Callback for the action-flow component
      */
     @action
-    public validateTitleAndFile(valid: boolean): void {
-        this.titleAndFieldValidation = valid;
+    public validatetitleAndAbstract(valid: boolean): void {
+        this.titleAndAbstractValidation = valid;
         this.isNextButtonDisabled = !valid;
     }
 
@@ -198,7 +198,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public onClickStep(type: string): void {
         this.isNextButtonDisabled = !this.isFinished(type);
         if (
-            type === PreprintStatusTypeEnum.titleAndFile &&
+            type === PreprintStatusTypeEnum.titleAndAbstract &&
             this.statusFlowIndex > this.getTypeIndex(type)
         ) {
             this.statusFlowIndex = this.getTypeIndex(type);
@@ -231,7 +231,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public isSelected(type: string): boolean {
         if (
-            type === PreprintStatusTypeEnum.titleAndFile &&
+            type === PreprintStatusTypeEnum.titleAndAbstract &&
             this.getTypeIndex(type) === this.statusFlowIndex
         ) {
             return true;
@@ -270,7 +270,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public isDisabled(type: string): boolean {
         if (
-            type === PreprintStatusTypeEnum.titleAndFile &&
+            type === PreprintStatusTypeEnum.titleAndAbstract &&
             this.getTypeIndex(type) === this.statusFlowIndex
         ) {
             return true;
@@ -301,7 +301,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     private getTypeIndex(type: string): number {
-        if (type === PreprintStatusTypeEnum.titleAndFile) {
+        if (type === PreprintStatusTypeEnum.titleAndAbstract) {
             return 1;
         } else if (type === PreprintStatusTypeEnum.metadata) {
             return 2;
@@ -336,7 +336,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public getStatusTitle(type: string): string {
         switch (type) {
-        case PreprintStatusTypeEnum.titleAndFile:
+        case PreprintStatusTypeEnum.titleAndAbstract:
             return this.intl.t('preprints.submit.status-flow.step-title-and-file');
         case PreprintStatusTypeEnum.metadata:
             return this.intl.t('preprints.submit.status-flow.step-metadata');
@@ -374,14 +374,14 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     /**
-     * getTitleAndFileType
+     * gettitleAndAbstractType
      *
      * @description Provides the enum type to limit strings in the hbs files
      *
      * @returns strings
      */
-    public get getTitleAndFileType(): string {
-        return PreprintStatusTypeEnum.titleAndFile;
+    public get gettitleAndAbstractType(): string {
+        return PreprintStatusTypeEnum.titleAndAbstract;
     }
 
     /**

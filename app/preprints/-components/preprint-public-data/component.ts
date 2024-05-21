@@ -15,7 +15,7 @@ export default class PreprintPublicData extends Component<PublicDataArgs> {
 
     get publicDataDisplay(): string {
         if (this.preprint.hasDataLinks === PreprintDataLinksEnum.NOT_APPLICABLE) {
-            return this.intl.t('preprints.submit.step-three.public-data-na-placeholder',
+            return this.intl.t('preprints.submit.step-assertions.public-data-na-placeholder',
                 { singularPreprintWord: this.args.preprintWord});
         } else if (this.preprint.hasDataLinks === PreprintDataLinksEnum.NO) {
             return this.preprint.whyNoData as string;

@@ -15,6 +15,6 @@ export default class PreprintCoi extends Component<CoiArgs> {
     get coiDisplay(): string {
         return this.preprint.hasCoi
             ? this.preprint.conflictOfInterestStatement as string
-            : this.intl.t('preprints.submit.step-five.no-conflict-of-interest');
+            : this.intl.t('preprints.submit.step-review.no-conflict-of-interest');
     }
 }

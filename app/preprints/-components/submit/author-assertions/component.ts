@@ -152,19 +152,19 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
 
         if(this.args.manager.preprint.hasDataLinks === PreprintDataLinksEnum.NOT_APPLICABLE) {
             this.authorAssertionFormChangeset.set('whyNoData',
-                this.intl.t('preprints.submit.step-three.public-data-na-placeholder',
+                this.intl.t('preprints.submit.step-assertions.public-data-na-placeholder',
                     { singularPreprintWord: this.args.manager.provider.documentType.singular}));
         }
 
         if(this.args.manager.preprint.hasPreregLinks === PreprintPreregLinksEnum.NOT_APPLICABLE) {
             this.authorAssertionFormChangeset.set('whyNoPrereg',
-                this.intl.t('preprints.submit.step-three.public-preregistration-na-placeholder',
+                this.intl.t('preprints.submit.step-assertions.public-preregistration-na-placeholder',
                     { singularPreprintWord: this.args.manager.provider.documentType.singular}));
         }
 
         if (this.args.manager.preprint.hasCoi === false) {
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
-                this.intl.t('preprints.submit.step-three.conflict-of-interest-none'));
+                this.intl.t('preprints.submit.step-assertions.conflict-of-interest-none'));
         }
 
     }
@@ -181,7 +181,7 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
         } else {
             this.isConflictOfInterestStatementDisabled = true;
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
-                this.intl.t('preprints.submit.step-three.conflict-of-interest-none'));
+                this.intl.t('preprints.submit.step-assertions.conflict-of-interest-none'));
         }
 
         this.validate();

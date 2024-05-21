@@ -8,11 +8,11 @@
             <label for={{publicPreregistrationId}}
                 data-test-public-preregistration-label
             >
-                {{t 'preprints.submit.step-three.public-preregistration-input'}}
+                {{t 'preprints.submit.step-assertions.public-preregistration-input'}}
                 <span local-class='required'>*</span>
             </label>
             <p>
-                {{t 'preprints.submit.step-three.public-preregistration-description'}}
+                {{t 'preprints.submit.step-assertions.public-preregistration-description'}}
             </p>
 
             <form.radioGroup
@@ -52,7 +52,7 @@
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::LinkWidget
                 @update={{this.updatePublicPreregistrationLinks}}
-                @placeholder={{t 'preprints.submit.step-three.public-preregistration-link-placeholder'}}
+                @placeholder={{t 'preprints.submit.step-assertions.public-preregistration-link-placeholder'}}
             />
             </div>
         {{/if}}

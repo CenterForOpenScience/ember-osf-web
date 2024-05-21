@@ -20,18 +20,18 @@ export default class PreprintPublicPreregistration extends Component<PublicPrere
 
     get preregLinkInfoDisplay(): string {
         if (this.preprint.preregLinkInfo === PreprintPreregLinkInfoEnum.PREREG_DESIGNS) {
-            return this.intl.t('preprints.submit.step-three.public-preregistration-link-info-designs');
+            return this.intl.t('preprints.submit.step-assertions.public-preregistration-link-info-designs');
 
         } else if (this.preprint.preregLinkInfo === PreprintPreregLinkInfoEnum.PREREG_ANALYSIS) {
-            return this.intl.t('preprints.submit.step-three.public-preregistration-link-info-analysis');
+            return this.intl.t('preprints.submit.step-assertions.public-preregistration-link-info-analysis');
         } else {
-            return this.intl.t('preprints.submit.step-three.public-preregistration-link-info-both');
+            return this.intl.t('preprints.submit.step-assertions.public-preregistration-link-info-both');
         }
     }
 
     get publicPreregistrationDisplay(): string {
         if (this.preprint.hasPreregLinks === PreprintPreregLinksEnum.NOT_APPLICABLE) {
-            return this.intl.t('preprints.submit.step-three.public-data-na-placeholder',
+            return this.intl.t('preprints.submit.step-assertions.public-data-na-placeholder',
                 { singularPreprintWord: this.args.preprintWord});
         } else if (this.preprint.hasPreregLinks === PreprintPreregLinksEnum.NO) {
             return this.preprint.whyNoPrereg as string;

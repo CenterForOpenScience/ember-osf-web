@@ -66,7 +66,7 @@ export default class Review extends Component<ReviewArgs>{
     }
 
     public get providerServiceLabel(): string {
-        return this.intl.t('preprints.submit.step-five.preprint-service',
+        return this.intl.t('preprints.submit.step-review.preprint-service',
             { singularPreprintWord: this.provider.documentType.singularCapitalized });
     }
 }

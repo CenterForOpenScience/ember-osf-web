@@ -4,9 +4,9 @@
     {{else}} 
         <div local-class='step-container'>
             <h3 local-class='title'
-                data-test-title-step-one
+                data-test-title-step-title
             >
-                {{t 'preprints.submit.step-one.title'}}
+                {{t 'preprints.submit.step-title.title'}}
             </h3>
 
             <div local-class='content-container'>
@@ -18,7 +18,7 @@
                         data-test-provider-image
                         local-class='image'
                         src={{this.providerLogo}}
-                        alt={{t 'preprints.submit.step-one.title'}}
+                        alt={{t 'preprints.submit.step-title.title'}}
                     />
                     <div local-class='text'>
                         {{this.provider.name}}
@@ -27,7 +27,7 @@
             </div>
             <div local-class='content-container'>
                 <h4>
-                    {{t 'preprints.submit.step-five.preprint-title'}}
+                    {{t 'preprints.submit.step-review.preprint-title'}}
                 </h4>
                 <div local-class='display'>
                     {{this.preprint.title}}
@@ -40,13 +40,13 @@
         </div>
         <div local-class='step-container'>
             <h3 local-class='title'
-                data-test-title-step-two
+                data-test-title-step-metadata
             >
-                {{t 'preprints.submit.step-two.title'}}
+                {{t 'preprints.submit.step-metadata.title'}}
             </h3>
             <div local-class='content-container'>
                 <div local-class='title'>
-                    {{t 'preprints.submit.step-five.contributors'}}
+                    {{t 'preprints.submit.step-review.contributors'}}
                 </div>
                 <div local-class='display'>
                     <ContributorList
@@ -74,7 +74,7 @@
             <div local-class='content-container'>
                 <div local-class='content-container'>
                     <h4>
-                        {{t 'preprints.submit.step-five.publication-doi'}}
+                        {{t 'preprints.submit.step-review.publication-doi'}}
                     </h4>
                     <div local-class='display'>
                         {{this.displayPublicationDoi}}
@@ -83,7 +83,7 @@
             </div>
             <div local-class='content-container'>
                 <h4>
-                    {{t 'preprints.submit.step-five.publication-date'}}
+                    {{t 'preprints.submit.step-review.publication-date'}}
                 </h4>
                 <div local-class='display'>
                     {{this.displayPublicationDate}}
@@ -91,7 +91,7 @@
             </div>
             <div local-class='content-container'>
                 <h4>
-                    {{t 'preprints.submit.step-five.publication-citation'}}
+                    {{t 'preprints.submit.step-review.publication-citation'}}
                 </h4>
                 <div local-class='display'>
                     {{this.displayPublicationCitation}}
@@ -101,9 +101,9 @@
         </div>
         <div local-class='step-container'>
             <h3 local-class='title'
-                data-test-title-step-three
+                data-test-title-step-assertions
             >
-                {{t 'preprints.submit.step-three.title'}}
+                {{t 'preprints.submit.step-assertions.title'}}
             </h3>
             <div local-class='content-container'>
                 <Preprints::-Components::PreprintCoi @preprint={{this.preprint}} />
@@ -124,9 +124,9 @@
         </div>
         <div local-class='step-container'>
             <h3 local-class='title'
-                data-test-title-step-four
+                data-test-title-step-supplements
             >
-                {{t 'preprints.submit.step-four.title'}}
+                {{t 'preprints.submit.step-supplements.title'}}
             </h3>
             <div local-class='content-container'>
                 <Preprints::-Components::PreprintNodeDisplay

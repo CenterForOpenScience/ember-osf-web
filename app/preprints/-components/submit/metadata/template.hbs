@@ -5,7 +5,7 @@
         <h3 local-class='title'
             data-test-title
         >
-            {{t 'preprints.submit.step-two.title'}}
+            {{t 'preprints.submit.step-metadata.title'}}
         </h3>
         <div local-class='form-container'>
             <div local-class='input-container'>
@@ -26,20 +26,20 @@
                     <label for={{licenseId}}
                         data-test-license-label
                     >
-                        {{t 'preprints.submit.step-two.license-input'}}
+                        {{t 'preprints.submit.step-metadata.license-input'}}
                         <span local-class='required'>*</span>
                     </label>
                     <p>
-                        {{t 'preprints.submit.step-two.license-description' htmlSafe=true}}
+                        {{t 'preprints.submit.step-metadata.license-description' htmlSafe=true}}
                     </p>
                     <form.select
                         data-test-license-input
-                        @ariaLabel={{ t 'preprints.submit.step-two.license-placeholder'}}
+                        @ariaLabel={{ t 'preprints.submit.step-metadata.license-placeholder'}}
                         @valuePath={{'license'}}
                         @options={{this.licenses}}
                         @onchange={{this.validate}}
                         local-class='input-container'
-                        @placeholder={{ t 'preprints.submit.step-two.license-placeholder'}}
+                        @placeholder={{ t 'preprints.submit.step-metadata.license-placeholder'}}
                         as |license|
                     >
                         {{license.name}}
@@ -51,7 +51,7 @@
                         <label for={{subjectsFieldId}}
                             data-test-subjects-label
                         >
-                            {{ t 'preprints.submit.step-two.subjects-input'}}
+                            {{ t 'preprints.submit.step-metadata.subjects-input'}}
                             <span local-class='required'>*</span>
                         </label>
                         <Subjects::Manager
@@ -80,7 +80,7 @@
                         <label for={{tagsFieldId}}
                             data-test-tags-label
                         >
-                            {{t 'preprints.submit.step-two.tags-input'}}
+                            {{t 'preprints.submit.step-metadata.tags-input'}}
                         </label>
                         <TagsWidget
                             @taggable={{@manager.preprint}}
@@ -94,23 +94,23 @@
 
                 <form.text
                     data-test-publication-doi-input
-                    @label={{t 'preprints.submit.step-two.publication-doi-input'}}
-                    @ariaLabel={{t 'preprints.submit.step-two.publication-doi-input'}}
+                    @label={{t 'preprints.submit.step-metadata.publication-doi-input'}}
+                    @ariaLabel={{t 'preprints.submit.step-metadata.publication-doi-input'}}
                     @valuePath={{'doi'}}
                     {{on 'change' this.validate}}
                     {{on 'focusout' this.validate}}
                     local-class='input-container'
-                    @placeholder={{t 'preprints.submit.step-two.publication-doi-input'}}
+                    @placeholder={{t 'preprints.submit.step-metadata.publication-doi-input'}}
                 />
 
                 <div local-class='input-container'>
                     <ValidatedInput::Date
                         local-class='read-only'
-                        @label={{t 'preprints.submit.step-two.publication-date-input'}}
-                        @ariaLabel={{t 'preprints.submit.step-two.publication-date-input'}}
+                        @label={{t 'preprints.submit.step-metadata.publication-date-input'}}
+                        @ariaLabel={{t 'preprints.submit.step-metadata.publication-date-input'}}
                         data-test-publication-date-input
                         @value={{@manager.preprint.originalPublicationDate}}
-                        @placeholder={{t 'preprints.submit.step-two.publication-date-input'}}
+                        @placeholder={{t 'preprints.submit.step-metadata.publication-date-input'}}
                         @date={{@manager.preprint.originalPublicationDate}}
                         {{on 'change' this.validate}}
                         {{on 'focusout' this.validate}}
@@ -121,13 +121,13 @@
 
                 <form.text
                     data-test-publication-citation-input
-                    @label={{t 'preprints.submit.step-two.publication-citation-input'}}
-                    @ariaLabel={{t 'preprints.submit.step-two.publication-citation-input'}}
+                    @label={{t 'preprints.submit.step-metadata.publication-citation-input'}}
+                    @ariaLabel={{t 'preprints.submit.step-metadata.publication-citation-input'}}
                     @valuePath={{'originalPublicationCitation'}}
                     {{on 'change' this.validate}}
                     {{on 'focusout' this.validate}}
                     local-class='input-container'
-                    @placeholder={{t 'preprints.submit.step-two.publication-citation-input'}}
+                    @placeholder={{t 'preprints.submit.step-metadata.publication-citation-input'}}
                 />
             </FormControls>
         </div>
