@@ -47,9 +47,9 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     }
 
     @action
-    buildUrl(files: any[]) {
+    buildUrl(files: any[]): string {
         const { name } = files[0];
-        const url = new URL(this.args.manager.preprint.files.firstObject!.links.upload as string);
+        const url = new URL(this.args.preprint.files.firstObject!.links.upload as string);
         url.searchParams.append('kind', 'file');
         url.searchParams.append('name', name);
         return url.toString();
