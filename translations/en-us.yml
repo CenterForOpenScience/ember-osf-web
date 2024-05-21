@@ -1184,11 +1184,6 @@ preprints:
             title: 'Title and Abstract'
             title-input: 'Title'
             abstract-input: 'Abstract'
-            upload-title: 'Upload your preprint'
-            file-upload-label: 'Upload from your computer'
-            file-upload-label-one: 'Drag and drop files here to upload'
-            file-upload-label-two: 'or click to browse for files.'
-            file-select-label: 'Select from an existing OSF project'
         step-file:
             title: 'File'
             upload-title: 'Upload your preprint'
