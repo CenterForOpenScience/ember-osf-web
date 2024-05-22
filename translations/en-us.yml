@@ -1261,6 +1261,7 @@ preprints:
         data-analytics: 'Goto {statusType} tab'
         status-flow:
             step-title-and-abstract: 'Title and Abstract'
+            step-file: 'File'
             step-metadata: 'Metadata'
             step-author-assertions: 'Author Assertions'
             step-supplements: 'Supplements'

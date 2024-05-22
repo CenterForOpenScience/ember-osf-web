@@ -2,8 +2,13 @@
     <div local-class='line {{if @manager.displayAuthorAssertions 'long'}}'/>
     <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
         @manager={{@manager}}
-        @type={{@manager.gettitleAndAbstractType}}
+        @type={{@manager.getTitleAndAbstractType}}
         data-test-title-and-abstract
+    />
+    <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
+        @manager={{@manager}}
+        @type={{@manager.getFileType}}
+        data-test-file
     />
     <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow::StatusFlowDisplay
         @manager={{@manager}}
