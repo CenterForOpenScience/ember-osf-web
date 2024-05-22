@@ -1,0 +1,80 @@
+<div local-class='preprint-input-container {{if (is-mobile) 'mobile'}}'>
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-file.title'}}
+    </h3>
+    <div local-class='form-container'>
+        <div local-class='upload-container'>
+            <label data-test-upload-label>
+                {{t 'preprints.submit.step-file.upload-title'}}
+                <span local-class='required'>*</span>
+            </label>
+            <div local-class='button-container'>
+                <Button
+                    data-test-upload-button
+                    data-analytics-name='Upload button'
+                    {{on 'click' this.displayFileUpload}}
+                    local-class='btn {{if this.isFileUploadDisplayed 'selected'}}'
+                    disabled={{this.isButtonDisabled}}
+                >
+                    {{ t 'preprints.submit.step-file.file-upload-label'}}
+                </Button>
+                <Button
+                    data-test-select-button
+                    data-analytics-name='Select button'
+                    {{on 'click' this.displayFileSelect}}
+                    local-class='btn'
+                    disabled={{this.isButtonDisabled}}
+                >
+                    {{ t 'preprints.submit.step-file.file-select-label'}}
+                </Button>
+            </div>
+            {{#if this.isFileUploadDisplayed}}
+                {{#let (unique-id 'preprint-upload-files-dropzone') as |id|}}
+                    <Preprints::-Components::Submit::file::UploadFile
+                        @manager={{@manager}}
+                        @preprint={{@manager.preprint}}
+                        @clickableElementId={{id}}
+                        @enable={{true}}
+                        @dragEnter={{fn (mut this.dragging) true}}
+                        @dragOver={{fn (mut this.dragging) true}}
+                        @dragLeave={{fn (mut this.dragging) false}}
+                        @drop={{fn (mut this.dragging) false}}
+                    >
+                        <div
+                            data-test-file-drag-and-drop-area
+                            local-class='upload-file {{if this.dragging 'highlight'}}'
+                            id={{id}}
+                        >
+                            <div
+                                data-test-file-upload-label-one
+                            >
+                                {{ t 'preprints.submit.step-file.file-upload-label-one'}}
+                            </div>
+                            <div
+                                data-test-file-upload-label-two
+                            >
+                                {{ t 'preprints.submit.step-file.file-upload-label-two'}}
+                            </div>
+                        </div>
+                    </Preprints::-Components::Submit::file::UploadFile>
+                {{/let}}
+
+            {{/if}}
+            {{#if this.isFileSelectDisplayed}}
+                {{ t 'preprints.submit.step-file.file-select-label'}}
+            {{/if}}
+            {{#if this.isButtonDisabled}}
+                <div local-class='cancel-button-container'>
+                    <Button
+                        data-test-cancel-button
+                        {{on 'click' this.onCancelSelectAction}}
+                    >
+                        {{t 'general.cancel'}}
+                    </Button>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+</div>

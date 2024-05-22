@@ -13,8 +13,12 @@ interface SubmitArgs {
  * The Submit component
  */
 export default class Submit extends Component<SubmitArgs>{
-    public get istitleAndAbstractActive(): boolean {
+    public get isTitleAndAbstractActive(): boolean {
         return this.isSelected(PreprintStatusTypeEnum.titleAndAbstract);
+    }
+
+    public get isFileActive(): boolean {
+        return this.isSelected(PreprintStatusTypeEnum.file);
     }
 
     public get isMetadataActive(): boolean {
