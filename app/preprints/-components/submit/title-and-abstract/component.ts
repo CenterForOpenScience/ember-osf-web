@@ -44,11 +44,11 @@ export default class TitleAndAbstract extends Component<TitleAndAbstractArgs>{
     public validate(): void {
         this.titleAndAbstractFormChangeset.validate();
         if (this.titleAndAbstractFormChangeset.isInvalid) {
-            this.args.manager.validatetitleAndAbstract(false);
+            this.args.manager.validateTitleAndAbstract(false);
             return;
         }
         this.titleAndAbstractFormChangeset.execute();
-        this.args.manager.validatetitleAndAbstract(true);
+        this.args.manager.validateTitleAndAbstract(true);
     }
 
     // @action

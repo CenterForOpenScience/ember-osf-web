@@ -12,6 +12,7 @@ import { waitFor } from '@ember/test-waiters';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
+    file = 'file',
     metadata = 'metadata',
     authorAssertions = 'authorAssertions',
     supplements = 'supplements',
@@ -34,6 +35,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service router!: RouterService;
     @service intl!: Intl;
     titleAndAbstractValidation = false;
+    fileValidation = false;
     metadataValidation = false;
     authorAssertionValidation = false;
     supplementValidation = false;
@@ -60,6 +62,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
 
     private setValidationForEditFlow(): void {
         this.titleAndAbstractValidation = true;
+        this.fileValidation = true;
         this.metadataValidation = true;
         this.authorAssertionValidation = true;
         this.supplementValidation = true;
@@ -120,6 +123,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.isNextButtonDisabled = !this.metadataValidation;
             await this.saveOnStep();
             return;
+        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
+            this.fileValidation
+        ) {
+            this.isNextButtonDisabled = !this.authorAssertionValidation;
+            await this.saveOnStep();
+            return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
             this.metadataValidation
         ) {
@@ -144,8 +153,17 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * Callback for the action-flow component
      */
     @action
-    public validatetitleAndAbstract(valid: boolean): void {
+    public validateTitleAndAbstract(valid: boolean): void {
         this.titleAndAbstractValidation = valid;
+        this.isNextButtonDisabled = !valid;
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @action
+    public validateFile(valid: boolean): void {
+        this.fileValidation = valid;
         this.isNextButtonDisabled = !valid;
     }
 
@@ -203,6 +221,11 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         ) {
             this.statusFlowIndex = this.getTypeIndex(type);
         } else if (
+            type === PreprintStatusTypeEnum.file &&
+            this.statusFlowIndex > this.getTypeIndex(type)
+        ) {
+            this.statusFlowIndex = this.getTypeIndex(type);
+        } else if (
             type === PreprintStatusTypeEnum.metadata &&
             this.statusFlowIndex > this.getTypeIndex(type)
         ) {
@@ -232,6 +255,11 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public isSelected(type: string): boolean {
         if (
             type === PreprintStatusTypeEnum.titleAndAbstract &&
+            this.getTypeIndex(type) === this.statusFlowIndex
+        ) {
+            return true;
+        } else if (
+            type === PreprintStatusTypeEnum.file &&
             this.getTypeIndex(type) === this.statusFlowIndex
         ) {
             return true;
@@ -275,6 +303,11 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         ) {
             return true;
         } else if (
+            type === PreprintStatusTypeEnum.file &&
+            this.getTypeIndex(type) === this.statusFlowIndex
+        ) {
+            return true;
+        } else if (
             type === PreprintStatusTypeEnum.metadata &&
             this.getTypeIndex(type) === this.statusFlowIndex
         ) {
@@ -303,18 +336,20 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     private getTypeIndex(type: string): number {
         if (type === PreprintStatusTypeEnum.titleAndAbstract) {
             return 1;
-        } else if (type === PreprintStatusTypeEnum.metadata) {
+        } else if (type === PreprintStatusTypeEnum.file) {
             return 2;
+        } else if (type === PreprintStatusTypeEnum.metadata) {
+            return 3;
         } else if (type === PreprintStatusTypeEnum.authorAssertions) {
-            return 3;
+            return 4;
         } else if (type === PreprintStatusTypeEnum.supplements &&  this.displayAuthorAssertions) {
-            return 4;
-        }  else if (type === PreprintStatusTypeEnum.supplements &&  !this.displayAuthorAssertions) {
-            return 3;
-        } else if (type === PreprintStatusTypeEnum.review &&  this.displayAuthorAssertions) {
             return 5;
-        }  else if (type === PreprintStatusTypeEnum.review &&  !this.displayAuthorAssertions) {
+        }  else if (type === PreprintStatusTypeEnum.supplements &&  !this.displayAuthorAssertions) {
             return 4;
+        } else if (type === PreprintStatusTypeEnum.review &&  this.displayAuthorAssertions) {
+            return 6;
+        }  else if (type === PreprintStatusTypeEnum.review &&  !this.displayAuthorAssertions) {
+            return 5;
         } else {
             return 0;
         }
@@ -338,6 +373,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         switch (type) {
         case PreprintStatusTypeEnum.titleAndAbstract:
             return this.intl.t('preprints.submit.status-flow.step-title-and-abstract');
+        case PreprintStatusTypeEnum.file:
+            return this.intl.t('preprints.submit.status-flow.step-file');
         case PreprintStatusTypeEnum.metadata:
             return this.intl.t('preprints.submit.status-flow.step-metadata');
         case PreprintStatusTypeEnum.authorAssertions:
@@ -374,14 +411,25 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     /**
-     * gettitleAndAbstractType
+     * getTitleAndAbstractType
      *
      * @description Provides the enum type to limit strings in the hbs files
      *
      * @returns strings
      */
-    public get gettitleAndAbstractType(): string {
+    public get getTitleAndAbstractType(): string {
         return PreprintStatusTypeEnum.titleAndAbstract;
+    }
+
+    /**
+     * getFileType
+     *
+     * @description Provides the enum type to limit strings in the hbs files
+     *
+     * @returns strings
+     */
+    public get getFileType(): string {
+        return PreprintStatusTypeEnum.file;
     }
 
     /**
