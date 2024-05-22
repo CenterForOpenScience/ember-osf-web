@@ -1260,7 +1260,7 @@ preprints:
             supplement-na: 'Author did not add any supplements for this {singularPreprintWord}'
         data-analytics: 'Goto {statusType} tab'
         status-flow:
-            step-title-and-file: 'Title and File'
+            step-title-and-abstract: 'Title and Abstract'
             step-metadata: 'Metadata'
             step-author-assertions: 'Author Assertions'
             step-supplements: 'Supplements'

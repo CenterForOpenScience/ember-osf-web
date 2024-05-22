@@ -337,7 +337,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public getStatusTitle(type: string): string {
         switch (type) {
         case PreprintStatusTypeEnum.titleAndAbstract:
-            return this.intl.t('preprints.submit.status-flow.step-title-and-file');
+            return this.intl.t('preprints.submit.status-flow.step-title-and-abstract');
         case PreprintStatusTypeEnum.metadata:
             return this.intl.t('preprints.submit.status-flow.step-metadata');
         case PreprintStatusTypeEnum.authorAssertions:
