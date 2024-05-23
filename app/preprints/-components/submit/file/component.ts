@@ -1,11 +1,10 @@
 import Component from '@glimmer/component';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 import { action } from '@ember/object';
-import { ValidationObject } from 'ember-changeset-validations';
-import { validatePresence } from 'ember-changeset-validations/validators';
-import buildChangeset from 'ember-osf-web/utils/build-changeset';
-import FileModel from 'ember-osf-web/models/file';
 import { tracked } from '@glimmer/tracking';
+import { taskFor } from 'ember-concurrency-ts';
+import { task } from 'ember-concurrency';
+import { waitFor } from '@ember/test-waiters';
 
 /**
  * The File Args
@@ -14,48 +13,51 @@ interface FileArgs {
     manager: PreprintStateMachine;
 }
 
-interface FileForm {
-    file: FileModel;
-}
-
-const FileFormValidation: ValidationObject<FileForm> = {
-    file: validatePresence({
-        presence: true,
-        ignoreBlank: true,
-        type: 'empty',
-    }),
-};
-
 /**
  * The File Component
  */
 export default class PreprintFile extends Component<FileArgs>{
-    fileFormChangeset = buildChangeset(this.args.manager.preprint, FileFormValidation);
     @tracked isFileUploadDisplayed = false;
     @tracked isFileSelectDisplayed = false;
+    @tracked isFileAttached = false;
     @tracked dragging = false;
+    @tracked file!: any;
+
+    constructor(owner: unknown, args: FileArgs) {
+        super(owner, args);
+
+        taskFor(this.loadFiles).perform();
+    }
+
+    @task
+    @waitFor
+    private async loadFiles()  {
+        if(this.args.manager.preprint.get('files')?.firstObject?.id) {
+            const file = await this.args.manager.preprint.primaryFile;
+            this.file = file;
+            this.isFileAttached = true;
+        }
+    }
 
     @action
-    public validate(): void {
-        this.fileFormChangeset.validate();
-        if (this.fileFormChangeset.isInvalid) {
-            this.args.manager.validateFile(false);
-            return;
-        }
-        this.fileFormChangeset.execute();
+    public validate(file: any): void {
+        this.file = file;
+        this.isFileAttached = true;
+        this.isFileSelectDisplayed = false;
+        this.isFileUploadDisplayed = false;
         this.args.manager.validateFile(true);
     }
 
     @action
     public displayFileUpload(): void {
         this.isFileUploadDisplayed = true;
-        this.isFileSelectDisplayed= false;
+        this.isFileSelectDisplayed = false;
     }
 
     @action
     public displayFileSelect(): void {
         this.isFileUploadDisplayed = false;
-        this.isFileSelectDisplayed= true;
+        this.isFileSelectDisplayed = true;
     }
 
     public get isButtonDisabled(): boolean {

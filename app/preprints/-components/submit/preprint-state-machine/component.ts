@@ -122,6 +122,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         ) {
             this.isNextButtonDisabled = !this.metadataValidation;
             await this.saveOnStep();
+            await this.preprint.files;
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
             this.fileValidation
