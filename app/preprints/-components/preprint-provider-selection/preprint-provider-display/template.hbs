@@ -20,6 +20,11 @@
         local-class='description-container'
     >
         {{html-safe this.provider.description}}
+        {{#if this.provider.description}}
+            <EmberPopover>
+                {{html-safe this.provider.description}}
+            </EmberPopover>
+        {{/if}}
     </div>
 
     <div
