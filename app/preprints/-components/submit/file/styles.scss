@@ -12,26 +12,33 @@
         margin-bottom: 20px;
     }
 
-    .form-container {
+    .file-container {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
 
-        .required {
-            color: $brand-danger;
+        .file {
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
-        .input-container {
-            margin-bottom: 20px;
-        }
-
-        .textarea-container {
-            textarea {
-                height: 150px;
-            }
+        h4 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
     }
 
     .upload-container {
         width: 100%;
+
+        .required {
+            color: $brand-danger;
+        }
 
         .button-container {
             width: 100%;

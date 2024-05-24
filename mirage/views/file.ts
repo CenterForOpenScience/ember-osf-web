@@ -69,7 +69,6 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     } else {
         fileProvider = schema.fileProviders.findBy({ providerId: `${node.id}:${fileProviderId}` });
     }
-    // const { rootFolder } = fileProvider;
     const randomNum = faker.random.number();
     const fileGuid = guid('file');
     const id = fileGuid(randomNum);

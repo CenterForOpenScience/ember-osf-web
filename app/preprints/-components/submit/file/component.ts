@@ -39,16 +39,6 @@ export default class PreprintFile extends Component<FileArgs>{
         }
     }
 
-    @task
-    @waitFor
-    public async removeSelectedFile(): Promise<void> {
-        this.args.manager.preprint?.primaryFile?.delete();
-        await this.args.manager.preprint?.primaryFile?.save();
-        await this.args.manager.preprint.save();
-        this.isFileAttached = false;
-        this.validate(false);
-    }
-
     @action
     public validate(file: any): void {
         this.file = file;

@@ -1,12 +1,12 @@
 <div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-metadata.title'}}
+    </h3>
     {{#if this.loadLicenses.isRunning}}
         <LoadingIndicator data-test-loading-indicator @dark={{true}} />
     {{else}}
-        <h3 local-class='title'
-            data-test-title
-        >
-            {{t 'preprints.submit.step-metadata.title'}}
-        </h3>
         <div local-class='form-container'>
             <div local-class='input-container'>
                 <Contributors::Widget
