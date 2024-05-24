@@ -20,12 +20,12 @@ export default class ConfiguredAddonModel extends Model {
     authorizedResource!: AsyncBelongsTo<ResourceReferenceModel> & ResourceReferenceModel;
 
     async getFolderItems(this: ConfiguredAddonModel) {
-        const data = await $.ajax({
-            type: 'POST',
-            crossDomain: true,
-            url: 'http://localhost:7979/v1/addon-operation-invocations',
-            contentType: 'application/json',
-            data: JSON.stringify({
+        const data = await fetch('http://localhost:7979/v1/addon-operation-invocations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
                 operationName: 'list_folder',
                 thruAddon: this,
                 byUser: this.accountOwner.id,
