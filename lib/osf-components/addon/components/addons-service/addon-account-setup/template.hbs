@@ -10,13 +10,20 @@
             <div local-class='oauth-wrapper'>
                 {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}
                 {{#unless @reconnect}}
-                    <label local-class='auth-text-input-label'>
-                        {{t 'addons.accountCreate.display-name-label'}}
+                    {{#let (unique-id 'display-name-label') as |displayNameId|}}
+                        <label for={{displayNameId}} local-class='auth-text-input-label'>
+                            {{t 'addons.accountCreate.display-name-label'}}
+                        </label>
+                        <div local-class='post-text'>
+                            {{t 'addons.accountCreate.display-name-help'}}
+                        </div>
                         <Input
+                            local-class='input'
+                            id={{displayNameId}}
                             placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
                             @value={{@manager.displayName}}
                         />
-                    </label>
+                    {{/let}}
                 {{/unless}}
                 <div local-class='button-wrapper'>
                     <Button
@@ -68,27 +75,40 @@
                 {{/if}}
             {{/if}}
             {{#each this.inputFields as |field|}}
-                <label local-class='auth-text-input-label'>
-                    {{field.labelText}}
+                {{#let (unique-id (field.name)) as |id|}}
+                    <label for={{id}} local-class='auth-text-input-label'>
+                        {{field.labelText}}
+                    </label>
+                    <div local-class='post-text'>
+                        {{field.postText}}
+                    </div>
                     <Input
-                        name={{field.name}}
-                        placeholder={{field.inputPlaceholder}}
-                        autocomplete={{field.autocomplete}}
-                        @type={{field.inputType}}
-                        @value={{field.inputValue}}
-                        {{on 'keyup' @onInput}}
+                            id={{id}}
+                            local-class='input'
+                            name={{field.name}}
+                            placeholder={{field.inputPlaceholder}}
+                            autocomplete={{field.autocomplete}}
+                            @type={{field.inputType}}
+                            @value={{field.inputValue}}
+                            {{on 'keyup' @onInput}}
                     />
-                </label>
-                {{field.postText}}
+                {{/let}}
             {{/each}}
             {{#unless @reconnect}}
-                <label local-class='auth-text-input-label'>
-                    {{t 'addons.accountCreate.display-name-label'}}
+                {{#let (unique-id 'displayNameField') as |id|}}
+                    <label for={{id}} local-class='auth-text-input-label'>
+                        {{t 'addons.accountCreate.display-name-label'}}
+                    </label>
+                    <div local-class='post-text'>
+                        {{t 'addons.accountCreate.display-name-help'}}
+                    </div>
                     <Input
+                        id={{id}}
+                        local-class='input'
                         placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
                         @value={{@manager.displayName}}
                     />
-                </label>
+                {{/let}}
             {{/unless}}
             {{#if @manager.connectAccountError}}
                 <p local-class='connect-error'>

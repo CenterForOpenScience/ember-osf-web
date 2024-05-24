@@ -44,6 +44,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     user = this.args.user;
     @tracked userReference!: UserReferenceModel;
+    @tracked tabIndex = 0;
 
     possibleFilterTypes = Object.values(FilterTypes);
     @tracked filterTypeMapper = {
@@ -95,6 +96,11 @@ export default class UserAddonManagerComponent extends Component<Args> {
     }
 
     @tracked pageMode?: UserSettingPageModes;
+
+    @action
+    changeTab(index: number) {
+        this.tabIndex = index;
+    }
 
     @action
     filterByAddonType(type: FilterTypes) {
@@ -307,6 +313,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
                 await taskFor(this.selectedProvider!.createAuthorizedAccount)
                     .perform(this.credentialsObject, this.displayName);
                 this.cancelSetup();
+                this.changeTab(1);
                 await taskFor(this.getAuthorizedAccounts).perform();
                 this.toast.success(this.intl.t('addons.accountCreate.connect-success'));
             } catch (e) {
@@ -348,6 +355,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @waitFor
     async oauthFlowRefocus() {
         this.cancelSetup();
+        this.changeTab(1);
         await taskFor(this.getAuthorizedAccounts).perform();
     }
 
