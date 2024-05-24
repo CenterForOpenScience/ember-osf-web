@@ -1187,6 +1187,7 @@ preprints:
         step-file:
             title: 'File'
             upload-title: 'Upload your preprint'
+            uploaded-file-title: 'Attached preprint file'
             file-upload-label: 'Upload from your computer'
             file-upload-label-one: 'Drag and drop files here to upload'
             file-upload-label-two: 'or click to browse for files.'
