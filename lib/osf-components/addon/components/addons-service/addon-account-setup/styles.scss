@@ -3,7 +3,6 @@
 }
 
 .auth-text-input-label {
-    margin-top: 20px;
     display: block;
 }
 
@@ -13,4 +12,13 @@
 
 .connect-error {
     color: $brand-danger;
+}
+
+.post-text {
+    display: block;
+}
+
+.input {
+    margin-bottom: 20px;
+    margin-top: 5px;
 }

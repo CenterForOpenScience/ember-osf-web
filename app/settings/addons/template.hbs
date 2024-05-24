@@ -94,7 +94,7 @@
                         {{/each}}
                     </div>
                     <AriaTabs
-                        @defaultIndex={{0}}
+                        @selectedIndex={{manager.tabIndex}} @onSelect={{action manager.changeTab}} 
                         as |tab|
                     >
                         <tab.tabList
@@ -102,7 +102,7 @@
                             as |tablist|
                         >
                             <tablist.tab data-analytics-name='All Addons Tab'>{{t 'addons.list.all-addons'}}</tablist.tab>
-                            <tablist.tab data-analytics-name='Authorized Accounts Tab'>{{t 'addons.list.authorized-accounts'}}</tablist.tab>
+                            <tablist.tab data-analytics-name='Connected Accounts Tab'>{{t 'addons.list.connected-accounts'}}</tablist.tab>
                         </tab.tabList>
                         <tab.tabPanel
                             data-test-all-addons-tab
@@ -122,7 +122,7 @@
                                                 @type='create'
                                                 {{on 'click' (fn manager.connectNewProviderAccount provider)}}
                                             >
-                                                {{t 'general.authorize'}}
+                                                {{t 'addons.list.connect'}}
                                             </Button>
                                         </span>
                                     </li>
@@ -132,8 +132,8 @@
                             </ul>
                         </tab.tabPanel>
                         <tab.tabPanel
-                            data-test-authorized-accounts-tab
-                            data-analytics-scope='Authorized accounts tab'
+                            data-test-connected-accounts-tab
+                            data-analytics-scope='Connected accounts tab'
                             local-class='addons-list-wrapper {{if (media 'isMobile') 'mobile'}}'
                         >
                             <ul local-class='configured-addons-wrapper'>
@@ -161,7 +161,7 @@
                                         </span>
                                     </li>
                                 {{else}}
-                                    <li local-class='provider-list-item'>{{t 'addons.list.no-authorized-accounts'}}</li>
+                                    <li local-class='provider-list-item'>{{t 'addons.list.no-connected-accounts'}}</li>
                                 {{/each}}
                             </ul>
                         </tab.tabPanel>

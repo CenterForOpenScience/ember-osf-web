@@ -226,8 +226,7 @@ addons:
         remove-configured-addon-success: 'You have successfully removed this addon'
         remove-configured-addon-error: 'There was a problem removing this addon'
     list:
-        authorized-accounts-for-provider: 'Authorized accounts for {providerName}'
-        authorized-accounts: 'Authorized accounts'
+        connected-accounts-for-provider: 'Connected accounts for {providerName}'
         connected-accounts: 'Connected Accounts'
         connected-locations: 'Connected locations'
         add-another-location: 'Add another location'
@@ -244,7 +243,7 @@ addons:
             citation-manager: 'Citation Manager'
             cloud-computing: 'Cloud Computing'
         no-results: 'No results found'
-        no-authorized-accounts: 'No authorized accounts'
+        no-connected-accounts: 'No connected accounts'
         connect: 'Connect'
         disconnect: 'Disconnect'
         reconnect: 'Reconnect'
@@ -300,10 +299,11 @@ addons:
         new-account: 'Setup new account'
         reconnect-account: 'Reconnect account'
         existing-account: 'Choose existing account'
-        unauthenticated-account: 'Unauthenticated account'
+        unauthenticated-account: 'Unconnected account'
     accountCreate:
         display-name-label: 'Display name'
         display-name-placeholder: 'Account name'
+        display-name-help: 'This is help text for the display name'
         url-label: 'Host URL'
         url-placeholder: 'owncloud.example.org'
         owncloud-url-post-text: 'Only ownCloud instances supporting <a href="https://doc.owncloud.com/">WebDAV</a> and <a href"https://www.freedesktop.org/wiki/Specifications/open-collaboration-services-1.7/">OCS v1.7</a> are supported.'
@@ -340,8 +340,8 @@ addons:
         disconnect-error: 'Error disconnecting account'
     confirm:
         heading: 'Confirm {providerName} Account'
-        verify: 'Authorize the following account:'
-        authorizing: 'Authorizing…'
+        verify: 'Connect the following account:'
+        authorizing: 'Connecting…'
     configure:
         heading: 'Configure {providerName}'
 
