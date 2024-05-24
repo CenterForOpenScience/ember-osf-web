@@ -139,10 +139,11 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     @action
-    configureProvider(provider: Provider, configuredAddon: AllConfiguredAddonTypes) {
+    async configureProvider(provider: Provider, configuredAddon: AllConfiguredAddonTypes) {
         this.cancelSetup();
         this.selectedProvider = provider;
         this.selectedConfiguration = configuredAddon;
+        // const rootItems = await configuredAddon.getFolderItems();
         this.pageMode = PageMode.CONFIGURE;
     }
 

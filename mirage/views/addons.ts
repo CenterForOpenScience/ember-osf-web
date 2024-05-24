@@ -250,7 +250,7 @@ export function createConfiguredComputingAddon(this: HandlerContext, schema: Sch
     return configuredComputingAddon;
 }
 
-export function createAddonOperation(this: HandlerContext, _: Schema) {
+export function createAddonOperationInvocation(this: HandlerContext, _: Schema) {
     type ItemType = 'FILE' | 'FOLDER';
     return new Response(201, {}, {
         data: {
@@ -300,6 +300,7 @@ export function createAddonOperation(this: HandlerContext, _: Schema) {
                     ],
                 },
                 total_count: 5,
+                // TODO: page cursors
                 created: new Date().toISOString(),
                 modified: new Date().toISOString(),
             },

@@ -18,4 +18,19 @@ export default class ConfiguredAddonModel extends Model {
 
     @belongsTo('resource-reference', { inverse: 'configuredStorageAddons' })
     authorizedResource!: AsyncBelongsTo<ResourceReferenceModel> & ResourceReferenceModel;
+
+    async getFolderItems(this: ConfiguredAddonModel) {
+        const data = await $.ajax({
+            type: 'POST',
+            crossDomain: true,
+            url: 'http://localhost:7979/v1/addon-operation-invocations',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                operationName: 'list_folder',
+                thruAddon: this,
+                byUser: this.accountOwner.id,
+            }),
+        });
+        return data;
+    }
 }
