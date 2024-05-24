@@ -49,6 +49,7 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     const { name, kind } = this.request.queryParams;
     let isPreprint = false;
     let node: any | PreprintModel;
+
     if (this.request.url.includes('draft_nodes')) {
         node = schema.draftNodes.find(parentID);
     } else if (this.request.url.includes('preprints')) {
@@ -69,6 +70,9 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     } else {
         fileProvider = schema.fileProviders.findBy({ providerId: `${node.id}:${fileProviderId}` });
     }
+
+    const { rootFolder } = fileProvider;
+
     const randomNum = faker.random.number();
     const fileGuid = guid('file');
     const id = fileGuid(randomNum);
@@ -101,6 +105,11 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
 
     fileProvider.files.models.pushObject(uploadedFile);
     fileProvider.save();
+
+    if (rootFolder) {
+        rootFolder.files.models.pushObject(uploadedFile);
+        rootFolder.save();
+    }
 
     return uploadedFile;
 }
