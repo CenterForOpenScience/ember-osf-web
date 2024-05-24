@@ -51,7 +51,7 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     let node: any | PreprintModel;
     if (this.request.url.includes('draft_nodes')) {
         node = schema.draftNodes.find(parentID);
-    } else if (this.request.url.includes('file')) {
+    } else if (this.request.url.includes('preprints')) {
         isPreprint = true;
         node = schema.preprints.find(parentID) as ModelInstance<PreprintModel>;
     } else {
