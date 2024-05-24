@@ -32,8 +32,8 @@ export default class PreprintFile extends Component<FileArgs>{
     @task
     @waitFor
     private async loadFiles()  {
-        if(this.args.manager.preprint.get('files')?.firstObject?.id) {
-            const file = await this.args.manager.preprint.primaryFile;
+        const file = await this.args.manager.preprint.primaryFile;
+        if(file) {
             this.file = file;
             this.isFileAttached = true;
         }
