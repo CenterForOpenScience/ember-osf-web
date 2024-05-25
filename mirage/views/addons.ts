@@ -1,7 +1,7 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 import { timeout } from 'ember-concurrency';
 
-import { addonServiceAPIUrl } from 'ember-osf-web/adapters/addon-service';
+import { InvocationStatus, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
@@ -13,6 +13,7 @@ import ExternalComputingServiceModel from 'ember-osf-web/models/external-computi
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { AllAuthorizedAccountTypes, AllProviderTypes } from 'ember-osf-web/packages/addons-service/provider';
 
+import { MirageAddonOperationInvocation } from '../serializers/addon-operation-invocation';
 import { MirageConfiguredComputingAddon } from '../serializers/configured-computing-addon';
 import { MirageConfiguredCitationAddon } from '../serializers/configured-citation-addon';
 import { MirageConfiguredStorageAddon } from '../serializers/configured-storage-addon';
@@ -250,104 +251,25 @@ export function createConfiguredComputingAddon(this: HandlerContext, schema: Sch
     return configuredComputingAddon;
 }
 
-export function createAddonOperationInvocation(this: HandlerContext, _: Schema) {
-    type ItemType = 'FILE' | 'FOLDER';
-    return new Response(201, {}, {
-        data: {
-            id: '1234',
-            type: 'addon-operation-invocation',
-            attributes: {
-                invocation_status: 'done',
-                operation_name: 'get_root_items',
-                operation_results: {
-                    items: [
-                        {
-                            type: 'FOLDER' as ItemType,
-                            path: ['root'],
-                            name: 'Folder1',
-                            id: 'folder1',
-                        },
-                        {
-                            type: 'FOLDER' as ItemType,
-                            path: ['root'],
-                            name: 'Folder2',
-                            id: 'folder2',
-                        },
-                        {
-                            type: 'FILE' as ItemType,
-                            path: ['root'],
-                            name: 'File1',
-                            id: 'file1',
-                        },
-                        {
-                            type: 'FOLDER' as ItemType,
-                            path: ['root'],
-                            name: 'Folder3',
-                            id: 'folder3',
-                        },
-                        {
-                            type: 'FOLDER' as ItemType,
-                            path: ['root'],
-                            name: 'Folder4',
-                            id: 'folder4',
-                        },
-                        {
-                            type: 'FILE' as ItemType,
-                            path: ['root'],
-                            name: 'File1',
-                            id: 'file1',
-                        },
-                    ],
-                },
-                total_count: 5,
-                // TODO: page cursors
-                created: new Date().toISOString(),
-                modified: new Date().toISOString(),
-            },
-            links: {
-                self: `${addonServiceAPIUrl}addon-operation-invocations/1234`,
-            },
-            relationships: {
-                // TODO: Get relationship id and hrefs from the request
-                operation: {
-                    links: {
-                        related: {
-                            href: `${addonServiceAPIUrl}addon-operations/1234`,
-                            meta: {},
-                        },
-                    },
-                    data: {
-                        id: '1234',
-                        type: 'addon-operations',
-                    },
-                },
-                by_user: {
-                    links: {
-                        related: {
-                            href: `${addonServiceAPIUrl}user-references/1234`,
-                            meta: {},
-                        },
-                    },
-                    data: {
-                        id: '1234',
-                        type: 'user-references',
-                    },
-                },
-                thru_addon: {
-                    links: {
-                        related: {
-                            href: `${addonServiceAPIUrl}configured-storage-addons/1234`,
-                            meta: {},
-                        },
-                    },
-                    data: {
-                        id: '1234',
-                        type: 'configured-storage-addons',
-                    },
-                },
-            },
-        },
+export function createAddonOperationInvocation(this: HandlerContext, schema: Schema) {
+    const attrs = this.normalizedRequestAttrs(
+        'addon-operation-invocation',
+    ) as NormalizedRequestAttrs<MirageAddonOperationInvocation>;
+    const invocation = schema.addonOperationInvocations.create(attrs) as ModelInstance<MirageAddonOperationInvocation>;
+    const { folderId } = invocation.operationKwargs;
+    const items = '12345'.split('').map(i => ({
+        itemId: i,
+        itemName: `Folder${i}`,
+        itemType: ItemType.Folder,
+        itemPath: folderId,
+    }));
+    invocation.update({
+        invocationStatus: InvocationStatus.Success,
+        created: new Date(),
+        modified: new Date(),
+        operationResult: { items },
     });
+    return invocation;
 }
 
 export function createAuthorizedStorageAccount(this: HandlerContext, schema: Schema) {

@@ -143,7 +143,9 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.cancelSetup();
         this.selectedProvider = provider;
         this.selectedConfiguration = configuredAddon;
-        // const rootItems = await configuredAddon.getFolderItems();
+        // if (configuredAddon instanceof ConfiguredStorageAddonModel) {
+        //     const rootItems = await taskFor(configuredAddon.getFolderItems).perform();
+        // }
         this.pageMode = PageMode.CONFIGURE;
     }
 
