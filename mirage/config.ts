@@ -564,6 +564,7 @@ export default function(this: Server) {
     this.post('configured-storage-addons', addons.createConfiguredStorageAddon);
     this.post('configured-citation-addons', addons.createConfiguredCitationAddon);
     this.post('configured-computing-addons', addons.createConfiguredComputingAddon);
+    this.post('addon-operation-invocations', addons.createAddonOperationInvocation);
 
     // Reset API url and namespace to use v2 endpoints for tests
     this.urlPrefix = apiUrl;
