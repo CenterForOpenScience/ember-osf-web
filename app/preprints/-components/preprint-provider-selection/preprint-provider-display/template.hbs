@@ -16,18 +16,6 @@
         {{this.provider.name}}
     </div>
     <div
-        data-test-description
-        local-class='description-container'
-    >
-        {{html-safe this.provider.description}}
-        {{#if this.provider.description}}
-            <EmberPopover>
-                {{html-safe this.provider.description}}
-            </EmberPopover>
-        {{/if}}
-    </div>
-
-    <div
         local-class='button-container'
     >
         <Button
@@ -43,4 +31,11 @@
             {{/if}}
         </Button>
     </div>
+    <EmberPopover>
+        {{#if this.provider.description}}
+            {{html-safe this.provider.description}}
+        {{else}}
+            {{html-safe this.provider.name}}
+        {{/if}}
+    </EmberPopover>
 </div>
