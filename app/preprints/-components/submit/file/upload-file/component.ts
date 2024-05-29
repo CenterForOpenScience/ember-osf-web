@@ -5,12 +5,13 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import PreprintModel from 'ember-osf-web/models/preprint';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
+import FileModel from 'ember-osf-web/models/file';
 
 interface PreprintUploadArgs {
     manager: PreprintStateMachine;
     preprint: PreprintModel;
     allowVersioning: boolean;
-    validate: (_: any) => {};
+    validate: (_: FileModel) => {};
     clickableElementId: string;
     dragEnter: () => {};
     dragLeave: () => {};
@@ -55,8 +56,10 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     }
 
     @action
-    async preUpload(_: any, __: any, file: any) {
-        await this.args.preprint.files;
+    async success(_: any, __:any, file: FileModel): Promise<void> {
+        // console.log(1, file);
+        this.args.manager.preprint.set('primaryFile', file);
+        await this.args.manager.preprint.save();
         this.args.validate(file);
     }
 }

@@ -38,6 +38,11 @@ export enum PreprintPreregLinkInfoEnum {
     PREREG_BOTH = 'prereg_both',
 }
 
+export interface PreprintLicenseRecordModel {
+    copyrightHolders: string[];
+    year: string;
+}
+
 export default class PreprintModel extends AbstractNodeModel {
     @attr('fixstring') title!: string;
     @attr('date') dateCreated!: Date;
@@ -50,7 +55,7 @@ export default class PreprintModel extends AbstractNodeModel {
     @attr('boolean') public!: boolean;
     @attr('boolean') isPublished!: boolean;
     @attr('boolean') isPreprintOrphan!: boolean;
-    @attr('object') licenseRecord!: any;
+    @attr('object') licenseRecord!: PreprintLicenseRecordModel;
     @attr('string') reviewsState!: ReviewsState;
     @attr('string') description!: string;
     @attr('date') dateLastTransitioned!: Date;

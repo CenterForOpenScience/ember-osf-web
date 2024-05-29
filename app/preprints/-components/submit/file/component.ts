@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { taskFor } from 'ember-concurrency-ts';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
+import FileModel from 'ember-osf-web/models/file';
 
 /**
  * The File Args
@@ -40,7 +41,7 @@ export default class PreprintFile extends Component<FileArgs>{
     }
 
     @action
-    public validate(file: any): void {
+    public async validate(file: FileModel): Promise<void> {
         this.file = file;
         this.isFileAttached = true;
         this.isFileSelectDisplayed = false;

@@ -44,6 +44,30 @@
                     >
                         {{license.name}}
                     </form.select>
+
+                    {{#if this.displayRequiredLicenseFields}}
+                        <form.text
+                            data-test-license-copyright-input
+                            @label={{t 'preprints.submit.step-metadata.license-copyright-input'}}
+                            @ariaLabel={{t 'preprints.submit.step-metadata.license-copyright-input'}}
+                            @valuePath={{'licenseCopyrights'}}
+                            {{on 'change' this.validate}}
+                            {{on 'focusout' this.validate}}
+                            local-class='input-container'
+                            @placeholder={{t 'preprints.submit.step-metadata.license-copyright-input'}}
+                        />
+
+                        <form.text
+                            data-test-license-year-input
+                            @label={{t 'preprints.submit.step-metadata.license-year-input'}}
+                            @ariaLabel={{t 'preprints.submit.step-metadata.license-year-input'}}
+                            @valuePath={{'licenseYear'}}
+                            {{on 'change' this.validate}}
+                            {{on 'focusout' this.validate}}
+                            local-class='input-container'
+                            @placeholder={{t 'preprints.submit.step-metadata.license-year-input'}}
+                        />
+                    {{/if}}
                 {{/let}}
 
                 <div local-class='input-container'>
