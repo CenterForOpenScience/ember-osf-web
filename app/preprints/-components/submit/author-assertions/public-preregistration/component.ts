@@ -66,13 +66,13 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     ];
 
     public get displayPublicPreregistrationWhyNoStatement(): boolean {
-        return this.args.changeSet.get('hasPreregLinks') === undefined ?
+        return this.args.changeSet.get('hasPreregLinks') === null ?
             false :
             !this.displayPublicPreregistrationLinks;
     }
 
     public get displayPublicPreregistrationLinks(): boolean {
-        return this.args.changeSet.get('hasPreregLinks') === undefined ?
+        return this.args.changeSet.get('hasPreregLinks') === null ?
             false :
             this.args.changeSet.get('hasPreregLinks')  === PreprintPreregLinksEnum.YES;
     }
