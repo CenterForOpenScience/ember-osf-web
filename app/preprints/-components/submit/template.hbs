@@ -1,4 +1,7 @@
 <div local-class='preprint-state-machine-container  {{if (is-mobile) 'mobile'}}'>
+    {{!-- <div local-class='text-center'>
+        <FaIcon @icon='spinner' @pulse={{true}} @size='2x' />
+    </div> --}}
     {{#if this.isTitleAndAbstractActive}}
         <Preprints::-Components::Submit::titleAndAbstract
             @manager={{@manager}}

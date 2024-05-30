@@ -3,7 +3,6 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CitationModel from 'ember-osf-web/models/citation';
-import FileProviderModel from 'ember-osf-web/models/file-provider';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
@@ -88,8 +87,10 @@ export default class PreprintModel extends AbstractNodeModel {
     @hasMany('review-action')
     reviewActions!: AsyncHasMany<ReviewActionModel>;
 
+    /*
     @hasMany('file-provider', { inverse: 'target'})
-    files!: AsyncHasMany<FileProviderModel> & FileProviderModel;
+    files!: AsyncHasMany<FileProviderModel> & FileProviderModel[];
+    */
 
     @hasMany('contributors', { inverse: 'preprint'})
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel;
