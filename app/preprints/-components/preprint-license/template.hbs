@@ -7,5 +7,8 @@
             {{on 'click' (action 'toggleLicenseText') }}
             /> 
         </span>
+        {{#if this.showLicenseText}}
+            <pre>{{this.preprint.licenseText}}</pre>
+        {{/if}}
     </div>
 {{/if}}
