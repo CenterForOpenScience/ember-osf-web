@@ -10,13 +10,21 @@
     font-size: 16px;
 
     .text-center {
-        width: 100%;
         z-index: 1;
-        height: 100%;
-        // border: 1px solid red;
+        position: absolute;
+        top: 0;
+        left: 205px;
+        bottom: 0;
+        right: 190px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &.mobile {
-        height: fit-content;
+        .text-center {
+            left: 0;
+            right: 0;
+        }
     }
 }
