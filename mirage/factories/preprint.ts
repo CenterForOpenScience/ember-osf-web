@@ -63,6 +63,16 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
         year: '2023',
     },
 
+    dateLastTransitioned: null,
+    hasCoi: null,
+    conflictOfInterestStatement: null,
+    hasDataLinks: null,
+    whyNoData: null,
+    dataLinks: null,
+    preregLinks: null,
+    preregLinkInfo: null,
+    hasPreregLinks: null,
+
     dateWithdrawn: null,
 
     doi: null,
