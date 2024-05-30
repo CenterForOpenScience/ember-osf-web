@@ -120,11 +120,11 @@ export default class PreprintModel extends AbstractNodeModel {
     @computed('license', 'licenseRecord')
     get licenseText(): string {
         const text = this.license.get('text') || '';
-        const { year = '', copyright_holders = [] } = this.licenseRecord; // eslint-disable-line camelcase
+        const { year = '', copyrightHolders = [] } = this.licenseRecord;
 
         return text
             .replace(/({{year}})/g, year)
-            .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
+            .replace(/({{copyrightHolders}})/g, copyrightHolders.join(', '));
     }
 }
 
