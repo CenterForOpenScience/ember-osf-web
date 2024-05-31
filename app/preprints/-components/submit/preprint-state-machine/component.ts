@@ -120,27 +120,27 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndAbstract) &&
             this.titleAndAbstractValidation
         ) {
-            this.isNextButtonDisabled = !this.metadataValidation;
             await this.saveOnStep();
             await this.preprint.files;
+            this.isNextButtonDisabled = !this.metadataValidation;
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
             this.fileValidation
         ) {
-            this.isNextButtonDisabled = !this.authorAssertionValidation;
             await this.saveOnStep();
+            this.isNextButtonDisabled = !this.authorAssertionValidation;
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
             this.metadataValidation
         ) {
-            this.isNextButtonDisabled = !this.authorAssertionValidation;
             await this.saveOnStep();
+            this.isNextButtonDisabled = !this.authorAssertionValidation;
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.authorAssertions) &&
             this.authorAssertionValidation
         ) {
-            this.isNextButtonDisabled = !this.supplementValidation;
             await this.saveOnStep();
+            this.isNextButtonDisabled = !this.supplementValidation;
             return;
         } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.supplements) &&
             this.supplementValidation
