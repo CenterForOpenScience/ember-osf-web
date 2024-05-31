@@ -87,11 +87,6 @@ export default class PreprintModel extends AbstractNodeModel {
     @hasMany('review-action')
     reviewActions!: AsyncHasMany<ReviewActionModel>;
 
-    /*
-    @hasMany('file-provider', { inverse: 'target'})
-    files!: AsyncHasMany<FileProviderModel> & FileProviderModel[];
-    */
-
     @hasMany('contributors', { inverse: 'preprint'})
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel;
 
