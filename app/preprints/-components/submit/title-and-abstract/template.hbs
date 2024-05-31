@@ -26,6 +26,7 @@
                     local-class='input-container'
                     @placeholder={{t 'preprints.submit.step-title.title-input'}}
                     @uniqueID={{titleFieldId}} 
+                    @onKeyUp={{this.validate}}
                 />
             {{/let}}
             {{#let (unique-id 'abstract') as |abstractFieldId|}}
@@ -43,6 +44,7 @@
                     local-class='input-container textarea-container'
                     @placeholder={{t 'preprints.submit.step-title.abstract-input'}}
                     @uniqueID={{abstractFieldId}} 
+                    @onKeyUp={{this.validate}}
                 />
             {{/let}}
         </FormControls>
