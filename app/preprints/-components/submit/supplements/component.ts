@@ -62,8 +62,9 @@ export default class Supplements extends Component<SupplementsArgs>{
     @task
     @waitFor
     public async removeSelectedProject(): Promise<void> {
-        this.args.manager.preprint.set('node', null);
-        await this.args.manager.preprint.save();
+        // TODO this is bug ENG-5651
+        const node = await this.args.manager.preprint.node;
+        await this.args.manager.preprint.deleteM2MRelationship('node', node);
         this.isSupplementAttached = false;
         this.validate();
     }
