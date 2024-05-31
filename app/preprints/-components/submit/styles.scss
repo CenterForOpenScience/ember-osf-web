@@ -9,7 +9,8 @@
     justify-content: center;
     font-size: 16px;
 
-    .text-center {
+
+    .spinner-container {
         z-index: 1;
         position: absolute;
         top: 0;
@@ -17,12 +18,14 @@
         bottom: 0;
         right: 190px;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+        padding-top: 200px;
+        background-color: $color-bg-white-transparent;
     }
 
     &.mobile {
-        .text-center {
+        .spinner-container {
             left: 0;
             right: 0;
         }

@@ -1,6 +1,6 @@
 <div local-class='preprint-state-machine-container  {{if (is-mobile) 'mobile'}}'>
     {{#if @manager.onNext.isRunning}}
-        <div local-class='text-center'>
+        <div local-class='spinner-container'>
             <FaIcon @icon='spinner' @pulse={{true}} @size='2x' />
         </div>
     {{/if}}
