@@ -23,6 +23,7 @@ import template from './template';
 
 interface ModelWithSubjects extends OsfModel {
     subjects: SubjectModel[];
+    subjectsAcceptable?: SubjectModel[];
 }
 
 // SubjectManager is responsible for:
@@ -34,7 +35,8 @@ export interface SubjectManager {
     savedSubjects: SubjectModel[];
     isSaving: boolean;
     hasChanged: boolean;
-    provider: ProviderModel;
+    provider?: ProviderModel;
+    model: ModelWithSubjects;
 
     selectSubject(subject: SubjectModel): void;
     unselectSubject(subject: SubjectModel): void;
@@ -51,7 +53,7 @@ export interface SubjectManager {
 export default class SubjectManagerComponent extends Component {
     // required
     model!: ModelWithSubjects;
-    provider!: ProviderModel;
+    provider?: ProviderModel;
     doesAutosave!: boolean;
 
     // optional
@@ -156,8 +158,11 @@ export default class SubjectManagerComponent extends Component {
         super.init();
 
         assert('@model is required', Boolean(this.model));
-        assert('@provider is required', Boolean(this.provider));
         assert('@doesAutosave is required', this.doesAutosave !== null && this.doesAutosave !== undefined);
+        const isNodeModel = (this.model && this.model.get('subjects') !== undefined);
+        if (!isNodeModel) {
+            assert('@provider is required', Boolean(this.provider));
+        }
     }
 
     @action

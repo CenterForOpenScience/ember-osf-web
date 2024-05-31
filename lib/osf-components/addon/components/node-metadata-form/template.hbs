@@ -331,14 +331,13 @@
             </dl>
         {{/if}}
     </FormControls>
-    {{#if @manager.node.isRegistration}}
+    {{#unless @manager.node.isAnonymous}}
         <div local-class='subjects' data-test-subjects-list>
             <dl>
                 <dt>{{t 'osf-components.node-metadata-form.subjects'}}</dt>
                 <dd>
                     <Subjects::Manager
                         @model={{@manager.node}}
-                        @provider={{@manager.node.provider}}
                         @doesAutosave={{true}}
                         as |subjectsManager|
                     >
@@ -349,7 +348,7 @@
                 </dd>
             </dl>
         </div>
-    {{/if}}
+    {{/unless}}
     <div local-class='tags'>
         <dl>
             <dt>{{t 'osf-components.node-metadata-form.tags'}}</dt>
