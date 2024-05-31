@@ -37,7 +37,7 @@ export default class TitleAndAbstract extends Component<TitleAndAbstractArgs>{
                 type: 'empty',
             }),
             validateLength({
-                min: 30,
+                min: 20,
                 type: 'greaterThanOrEqualTo',
                 translationArgs: {
                     description: this.intl.t('preprints.submit.step-title.abstract-input'),
