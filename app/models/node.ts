@@ -120,7 +120,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @attr('boolean') currentUserCanComment!: boolean;
     @attr('boolean') wikiEnabled!: boolean;
 
-    @hasMany('subject', { inverse: null, async: false }) subjectsAcceptable!: SubjectModel[];
+    @hasMany('subject', { inverse: null, async: false }) subjectsAcceptable?: SubjectModel[];
 
     // FE-only property to check enabled addons.
     // null until getEnabledAddons has been called

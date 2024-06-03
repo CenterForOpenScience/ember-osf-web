@@ -331,24 +331,23 @@
             </dl>
         {{/if}}
     </FormControls>
-    {{#unless @manager.node.isAnonymous}}
-        <div local-class='subjects' data-test-subjects-list>
-            <dl>
-                <dt>{{t 'osf-components.node-metadata-form.subjects'}}</dt>
-                <dd>
-                    <Subjects::Manager
-                        @model={{@manager.node}}
-                        @doesAutosave={{true}}
-                        as |subjectsManager|
-                    >
-                        <Subjects::Widget
-                            @subjectsManager={{subjectsManager}}
-                        />
-                    </Subjects::Manager>
-                </dd>
-            </dl>
-        </div>
-    {{/unless}}
+    <div local-class='subjects' data-test-subjects-list>
+        <dl>
+            <dt>{{t 'osf-components.node-metadata-form.subjects'}}</dt>
+            <dd>
+                <Subjects::Manager
+                    @model={{@manager.node}}
+                    @provider={{@manager.node.provider}}
+                    @doesAutosave={{true}}
+                    as |subjectsManager|
+                >
+                    <Subjects::Widget
+                        @subjectsManager={{subjectsManager}}
+                    />
+                </Subjects::Manager>
+            </dd>
+        </dl>
+    </div>
     <div local-class='tags'>
         <dl>
             <dt>{{t 'osf-components.node-metadata-form.tags'}}</dt>
