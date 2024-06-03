@@ -63,8 +63,8 @@
                     data-test-public-preregistration-description-input
                     @disabled={{this.isPublicPreregistrationWhyNoStatementDisabled}}
                     @valuePath={{'whyNoPrereg'}}
-                    {{on 'change' @validate}}
                     local-class='input-container textarea-container'
+                    @onKeyUp={{@validate}}
                     @placeholder={{this.placeholder}}
                 />
             </div>

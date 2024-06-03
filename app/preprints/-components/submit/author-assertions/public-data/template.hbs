@@ -44,7 +44,7 @@
                     data-test-public-data-description-input
                     @disabled={{this.isPublicDataWhyNoStatementDisabled}}
                     @valuePath={{'whyNoData'}}
-                    {{on 'change' @validate}}
+                    @onKeyUp={{@validate}}
                     local-class='input-container textarea-container'
                     @placeholder={{this.placeholder}}
                 />
