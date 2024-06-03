@@ -27,7 +27,7 @@ export default class PublicData extends Component<PublicDataArgs>{
 
     publicDataOptions = [
         {
-            inputValue: PreprintDataLinksEnum.YES,
+            inputValue: PreprintDataLinksEnum.AVAILABLE,
             displayText: this.intl.t('general.available'),
         } as RadioButtonOption,
         {
@@ -49,7 +49,7 @@ export default class PublicData extends Component<PublicDataArgs>{
     public get displayPublicDataLinks(): boolean {
         return this.args.changeSet.get('hasDataLinks') === null ?
             false :
-            this.args.changeSet.get('hasDataLinks')  === PreprintDataLinksEnum.YES;
+            this.args.changeSet.get('hasDataLinks')  === PreprintDataLinksEnum.AVAILABLE;
     }
 
     @action
@@ -60,11 +60,11 @@ export default class PublicData extends Component<PublicDataArgs>{
 
     @action
     public updatePublicDataOptions(): void {
-        if (this.args.changeSet.get('hasDataLinks') === PreprintDataLinksEnum.YES) {
-            this.args.changeSet.set('whyNoData', '');
+        if (this.args.changeSet.get('hasDataLinks') === PreprintDataLinksEnum.AVAILABLE) {
+            this.args.changeSet.set('whyNoData', null);
             this.isPublicDataWhyNoStatementDisabled = false;
         } else if (this.args.changeSet.get('hasDataLinks') === PreprintDataLinksEnum.NO) {
-            this.args.changeSet.set('whyNoData', '');
+            this.args.changeSet.set('whyNoData', null);
             this.isPublicDataWhyNoStatementDisabled = false;
             this.placeholder = this.intl.t('preprints.submit.step-assertions.public-data-no-placeholder');
         } else {

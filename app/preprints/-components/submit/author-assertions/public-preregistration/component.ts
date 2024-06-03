@@ -52,7 +52,7 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
 
     publicPreregistrationOptions = [
         {
-            inputValue: PreprintPreregLinksEnum.YES,
+            inputValue: PreprintPreregLinksEnum.AVAILABLE,
             displayText: this.intl.t('general.available'),
         } as RadioButtonOption,
         {
@@ -74,7 +74,7 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     public get displayPublicPreregistrationLinks(): boolean {
         return this.args.changeSet.get('hasPreregLinks') === null ?
             false :
-            this.args.changeSet.get('hasPreregLinks')  === PreprintPreregLinksEnum.YES;
+            this.args.changeSet.get('hasPreregLinks')  === PreprintPreregLinksEnum.AVAILABLE;
     }
 
     @action
@@ -85,11 +85,11 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
 
     @action
     public updatePublicPreregistrationOptions(): void {
-        if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.YES) {
-            this.args.changeSet.set('whyNoPrereg', '');
+        if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.AVAILABLE) {
+            this.args.changeSet.set('whyNoPrereg', null);
             this.isPublicPreregistrationWhyNoStatementDisabled = false;
         } else if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.NO) {
-            this.args.changeSet.set('whyNoPrereg', '');
+            this.args.changeSet.set('whyNoPrereg', null);
             this.isPublicPreregistrationWhyNoStatementDisabled = false;
             this.placeholder = this.intl.t('preprints.submit.step-assertions.public-preregistration-no-placeholder');
         } else {

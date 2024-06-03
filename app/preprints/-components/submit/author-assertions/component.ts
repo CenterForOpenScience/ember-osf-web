@@ -47,7 +47,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         type: 'empty',
     }),
     whyNoData: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
-        if (changes['hasDataLinks'] !== PreprintDataLinksEnum.YES)  {
+        if (changes['hasDataLinks'] !== PreprintDataLinksEnum.AVAILABLE)  {
             return validatePresence({
                 presence: true,
                 ignoreBlank: true,
@@ -57,7 +57,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         return true;
     }],
     dataLinks: [(_key: string, newValue: string[], _oldValue: string[], changes: any, _content: any) => {
-        if (changes['hasDataLinks'] === PreprintDataLinksEnum.YES || newValue) {
+        if (changes['hasDataLinks'] === PreprintDataLinksEnum.AVAILABLE || newValue) {
             let isValid = false;
             if (newValue) {
                 isValid = true;
@@ -82,7 +82,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
     }),
     whyNoPrereg: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
         if (
-            changes['hasPreregLinks'] !== PreprintPreregLinksEnum.YES
+            changes['hasPreregLinks'] !== PreprintPreregLinksEnum.AVAILABLE
         ) {
             return validatePresence({
                 presence: true,
@@ -93,7 +93,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         return true;
     }],
     preregLinks: [(_key: string, newValue: string[], _oldValue: string[], changes: any, _content: any) => {
-        if (changes['hasPreregLinks'] === PreprintPreregLinksEnum.YES || newValue) {
+        if (changes['hasPreregLinks'] === PreprintPreregLinksEnum.AVAILABLE || newValue) {
             let isValid = false;
             if (newValue) {
                 isValid = true;
@@ -112,7 +112,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         }
     }],
     preregLinkInfo: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
-        if (changes['hasPreregLinks'] === PreprintPreregLinksEnum.YES || newValue) {
+        if (changes['hasPreregLinks'] === PreprintPreregLinksEnum.AVAILABLE || newValue) {
             return validatePresence({
                 presence: true,
                 ignoreBlank: false,

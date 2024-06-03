@@ -18,14 +18,12 @@ import SubjectModel from './subject';
 
 export enum PreprintDataLinksEnum {
     AVAILABLE = 'available',
-    YES = 'yes',
     NO = 'no',
     NOT_APPLICABLE = 'not_applicable',
 }
 
 export enum PreprintPreregLinksEnum {
     AVAILABLE = 'available',
-    YES = 'yes',
     NO = 'no',
     NOT_APPLICABLE = 'not_applicable',
 }
