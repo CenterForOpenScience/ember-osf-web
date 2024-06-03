@@ -31,11 +31,6 @@ export default class TitleAndAbstract extends Component<TitleAndAbstractArgs>{
             type: 'empty',
         }),
         description: [
-            validatePresence({
-                presence: true,
-                ignoreBlank: true,
-                type: 'empty',
-            }),
             validateLength({
                 min: 20,
                 type: 'greaterThanOrEqualTo',
