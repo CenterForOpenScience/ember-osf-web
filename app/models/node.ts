@@ -286,6 +286,13 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     isNode = true;
     collectable = false;
 
+    init() {
+        super.init();
+        if (!this.subjectsAcceptable) {
+            this.set('subjectsAcceptable', []);
+        }
+    }
+
     makeFork(): Promise<object> {
         const url = getRelatedHref(this.links.relationships!.forks);
         return this.currentUser.authenticatedAJAX({
