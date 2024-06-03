@@ -353,7 +353,7 @@ export default class OsfModel extends Model {
      * });
      *
      * contributors.sparseModels.forEach(contrib => {
-     *     console.log(contrib.users.fullName);
+     *     console.info(contrib.users.fullName);
      * );
      * ```
      */

@@ -5,7 +5,9 @@ import { inject as service } from '@ember/service';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Theme from 'ember-osf-web/services/theme';
+import requireAuth from 'ember-osf-web/decorators/require-auth';
 
+@requireAuth()
 export default class PreprintEditRoute extends Route {
     @service store!: Store;
     @service theme!: Theme;

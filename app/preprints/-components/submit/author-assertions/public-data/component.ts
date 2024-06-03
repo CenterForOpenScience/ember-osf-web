@@ -41,13 +41,13 @@ export default class PublicData extends Component<PublicDataArgs>{
     ];
 
     public get displayPublicDataWhyNoStatement(): boolean {
-        return this.args.changeSet.get('hasDataLinks') === undefined ?
+        return this.args.changeSet.get('hasDataLinks') === null ?
             false :
             !this.displayPublicDataLinks;
     }
 
     public get displayPublicDataLinks(): boolean {
-        return this.args.changeSet.get('hasDataLinks') === undefined ?
+        return this.args.changeSet.get('hasDataLinks') === null ?
             false :
             this.args.changeSet.get('hasDataLinks')  === PreprintDataLinksEnum.YES;
     }

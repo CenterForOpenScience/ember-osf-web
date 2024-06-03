@@ -3,7 +3,6 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CitationModel from 'ember-osf-web/models/citation';
-import FileProviderModel from 'ember-osf-web/models/file-provider';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
@@ -38,6 +37,11 @@ export enum PreprintPreregLinkInfoEnum {
     PREREG_BOTH = 'prereg_both',
 }
 
+export interface PreprintLicenseRecordModel {
+    copyrightHolders: string[];
+    year: string;
+}
+
 export default class PreprintModel extends AbstractNodeModel {
     @attr('fixstring') title!: string;
     @attr('date') dateCreated!: Date;
@@ -50,7 +54,7 @@ export default class PreprintModel extends AbstractNodeModel {
     @attr('boolean') public!: boolean;
     @attr('boolean') isPublished!: boolean;
     @attr('boolean') isPreprintOrphan!: boolean;
-    @attr('object') licenseRecord!: any;
+    @attr('object') licenseRecord!: PreprintLicenseRecordModel;
     @attr('string') reviewsState!: ReviewsState;
     @attr('string') description!: string;
     @attr('date') dateLastTransitioned!: Date;
@@ -83,9 +87,6 @@ export default class PreprintModel extends AbstractNodeModel {
     @hasMany('review-action')
     reviewActions!: AsyncHasMany<ReviewActionModel>;
 
-    @hasMany('file-provider', { inverse: 'target'})
-    files!: AsyncHasMany<FileProviderModel> & FileProviderModel;
-
     @hasMany('contributors', { inverse: 'preprint'})
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel;
 
@@ -114,11 +115,11 @@ export default class PreprintModel extends AbstractNodeModel {
     @computed('license', 'licenseRecord')
     get licenseText(): string {
         const text = this.license.get('text') || '';
-        const { year = '', copyright_holders = [] } = this.licenseRecord; // eslint-disable-line camelcase
+        const { year = '', copyrightHolders = [] } = this.licenseRecord;
 
         return text
             .replace(/({{year}})/g, year)
-            .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
+            .replace(/({{copyrightHolders}})/g, copyrightHolders.join(', '));
     }
 }
 

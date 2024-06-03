@@ -97,14 +97,16 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
         uploadedFile.size = uploadAttrs.size;
     }
 
-    if (isPreprint) {
-        /* eslint-disable-next-line */
-        node.primaryFile = uploadedFile;
-        node.save();
-    }
-
     fileProvider.files.models.pushObject(uploadedFile);
     fileProvider.save();
+
+    /*
+    if (isPreprint) {
+        /* eslint-disable-next-line * /
+        // node.primaryFile = uploadedFile;
+        node.save();
+    }
+    */
 
     if (rootFolder) {
         rootFolder.files.models.pushObject(uploadedFile);

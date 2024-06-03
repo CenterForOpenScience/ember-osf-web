@@ -166,11 +166,10 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
                 this.intl.t('preprints.submit.step-assertions.conflict-of-interest-none'));
         }
-
     }
 
     public get displayCoiStatement(): boolean {
-        return this.authorAssertionFormChangeset.get('hasCoi') !== undefined;
+        return this.authorAssertionFormChangeset.get('hasCoi');
     }
 
     @action

@@ -7,7 +7,7 @@
                     data-analytics-name='Previous button'
                     {{on 'click' (action this.onPrevious)}}
                     local-class='{{if @manager.isPreviousButtonDisabled 'mobile-disabled'}}'
-                    @disabled={{@manager.isPreviousButtonDisabled}}
+                    disabled={{@manager.isPreviousButtonDisabled}}
                     @layout='fake-link'
                 >
                     <FaIcon @icon='arrow-left' />
@@ -43,20 +43,19 @@
                     data-analytics-name='Previous button'
                     {{on 'click' (action this.onPrevious)}}
                     local-class='{{if @manager.isPreviousButtonDisabled 'mobile-disabled'}}'
-                    @disabled={{@manager.isPreviousButtonDisabled}}
+                    disabled={{@manager.isPreviousButtonDisabled}}
                     @layout='fake-link'
                 >
                     <FaIcon @icon='arrow-left' />
                 </Button>
             </div>
-
             <div local-class='button-container'>
                 <Button
                     data-test-next-button
                     data-analytics-name='Next button'
                     {{on 'click' (perform this.onNext)}}
                     local-class='{{if @manager.isNextButtonDisabled 'mobile-disabled'}}'
-                    @disabled={{@manager.isNextButtonDisabled}}
+                    disabled={{@manager.isNextButtonDisabled}}
                     @layout='fake-link'
                 >
                     <FaIcon @icon='arrow-right' />
@@ -73,7 +72,7 @@
                 data-analytics-name='Next button'
                 {{on 'click' (perform this.onNext)}}
                 local-class='btn {{if @manager.isNextButtonDisabled 'disabled'}}'
-                @disabled={{@manager.isNextButtonDisabled}}
+                disabled={{@manager.isNextButtonDisabled}}
                 @layout='large'
                 @type='primary'
             >
