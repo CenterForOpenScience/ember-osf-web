@@ -1184,7 +1184,7 @@ preprints:
             title: 'Title and Abstract'
             title-input: 'Title'
             abstract-input: 'Abstract'
-            abstract-input-error: '30 characters'
+            abstract-input-error: '20 characters'
         step-file:
             title: 'File'
             upload-title: 'Upload your preprint'
