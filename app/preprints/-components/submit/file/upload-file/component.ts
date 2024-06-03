@@ -21,7 +21,6 @@ interface PreprintUploadArgs {
     dragOver: () => {};
 }
 
-
 export default class PreprintUpload extends Component<PreprintUploadArgs> {
     @service intl!: Intl;
     @service toast!: Toast;
