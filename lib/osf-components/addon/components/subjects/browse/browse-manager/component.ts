@@ -56,7 +56,7 @@ export default class SubjectBrowserManagerComponent extends Component {
                 });
                 this.setProperties({ rootSubjects });
             } else {
-                const rootSubjects = this.subjectsManager.model.subjectsAcceptable;
+                const rootSubjects = this.subjectsManager.model.subjectsAcceptable || [];
                 this.setProperties({ rootSubjects });
             }
         } catch (e) {
