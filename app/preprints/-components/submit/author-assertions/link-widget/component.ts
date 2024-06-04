@@ -25,21 +25,25 @@ export default class LinkWidget extends Component<LinkWidgetArgs>{
 
         if (this.args.links?.length > 0) {
             this.links = this.args.links;
+            this.notifyPropertyChange();
         }
+    }
+
+    private notifyPropertyChange(): void {
+        this.args.update(this.links);
+        notifyPropertyChange(this, 'links');
     }
 
     @action
     public onUpdate(value: string, index: number): void {
         this.links[index] = value;
-        this.args.update(this.links);
-        notifyPropertyChange(this, 'links');
+        this.notifyPropertyChange();
     }
 
     @action
     public addLink(): void {
         this.links.push('');
-        notifyPropertyChange(this, 'links');
-        this.args.update(this.links);
+        this.notifyPropertyChange();
     }
 
     @action
@@ -48,8 +52,7 @@ export default class LinkWidget extends Component<LinkWidgetArgs>{
             this.onUpdate('', index);
         } else {
             this.links.splice(index, 1);
-            this.args.update(this.links);
+            this.notifyPropertyChange();
         }
-        notifyPropertyChange(this, 'links');
     }
 }

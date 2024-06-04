@@ -28,7 +28,6 @@
                         @valuePath={{'hasCoi'}}
                         @class='radio-group {{if (is-mobile) 'mobile'}}'
                         @isRequired={{true}}
-                        @changeset={{this.authorAssertionFormChangeset}}
                         @options={{this.coiOptions}}
                         @onchange={{this.updateCoi}}
                         as |radioGroup|
@@ -38,16 +37,15 @@
                 {{/let}}
             </div>
 
-            {{#if this.displayCoiStatement}}
-                <form.textarea
-                    data-test-coi-description-input
-                    @disabled={{this.isConflictOfInterestStatementDisabled}}
-                    @valuePath={{'conflictOfInterestStatement'}}
-                    @onKeyUp={{this.validate}}
-                    local-class='input-container textarea-container'
-                    @placeholder={{t 'preprints.submit.step-assertions.conflict-of-interest-placeholder'}}
-                />
-            {{/if}}
+            <form.textarea
+                data-test-coi-description-input
+                @disabled={{this.isConflictOfInterestStatementDisabled}}
+                @valuePath={{'conflictOfInterestStatement'}}
+                {{ on 'change' this.validate}}
+                @onKeyUp={{this.validate}}
+                local-class='input-container textarea-container'
+                @placeholder={{t 'preprints.submit.step-assertions.conflict-of-interest-placeholder'}}
+            />
 
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::PublicData
