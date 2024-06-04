@@ -56,7 +56,17 @@ export default class SubjectBrowserManagerComponent extends Component {
                 });
                 this.setProperties({ rootSubjects });
             } else {
-                const rootSubjects = this.subjectsManager.model.subjectsAcceptable || [];
+                const model = this.subjectsManager.model;
+                const rootSubjects = await model.queryHasMany('subjectsAcceptable', {
+                    filter: {
+                        parent: 'null',
+                    },
+                    page: {
+                        size: subjectPageSize,
+                    },
+                    sort: 'text',
+                    related_counts: 'children',
+                });
                 this.setProperties({ rootSubjects });
             }
         } catch (e) {
