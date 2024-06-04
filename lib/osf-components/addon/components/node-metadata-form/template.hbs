@@ -341,7 +341,7 @@
                     @doesAutosave={{true}}
                     as |subjectsManager|
                 >
-                    {{#if subjectsManager.initializeSubjects.isRunning}}
+                    {{#if subjectsManager.loadingNodeSubjects}}
                         <LoadingIndicator data-test-loading-indicator @dark={{true}} />
                     {{else}}
                         <Subjects::Widget
