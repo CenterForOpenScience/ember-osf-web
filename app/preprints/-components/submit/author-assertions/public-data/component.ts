@@ -6,12 +6,14 @@ import { tracked } from '@glimmer/tracking';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { PreprintDataLinksEnum } from 'ember-osf-web/models/preprint';
 import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
+import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
 
 /**
  * The Public Data Args
  */
 interface PublicDataArgs {
+    manager: PreprintStateMachine;
     changeSet: BufferedChangeset;
     preprintWord: string;
     validate: () => {};

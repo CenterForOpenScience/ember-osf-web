@@ -12,7 +12,7 @@
                 <form.text
                     data-test-link-input
                     @isRequired={{true}}
-                    @onKeyUp={{this.onUpdate}}
+                    {{on 'change' this.onUpdate}}
                     @placeholder={{ @placeholder }}
                     @valuePath={{'value'}}
                     local-class='input'

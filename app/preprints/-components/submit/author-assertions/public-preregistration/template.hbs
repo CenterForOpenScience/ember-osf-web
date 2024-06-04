@@ -37,7 +37,10 @@
                     class='form-control'
                 >
                     {{#each this.publicPreregLinkInfoOptions as |infoOption|}}
-                        <option value={{infoOption.key}}>
+                        <option
+                            value={{infoOption.key}}
+                            selected={{if (eq this.selectedValue infoOption.key) 'selected'}}
+                        >
                             {{infoOption.value}}
                         </option>
                     {{/each}}
@@ -53,6 +56,7 @@
                 <Preprints::-Components::Submit::AuthorAssertions::LinkWidget
                 @update={{this.updatePublicPreregistrationLinks}}
                 @placeholder={{t 'preprints.submit.step-assertions.public-preregistration-link-placeholder'}}
+                @links={{@manager.preprint.preregLinks}}
             />
             </div>
         {{/if}}

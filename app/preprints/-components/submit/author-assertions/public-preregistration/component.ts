@@ -6,12 +6,14 @@ import { tracked } from '@glimmer/tracking';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { PreprintPreregLinkInfoEnum, PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
 import { RadioButtonOption } from 'osf-components/components/form-controls/radio-button-group/component';
+import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 
 
 /**
  * The Public Preregistration Args
  */
 interface PublicPreregistrationArgs {
+    manager: PreprintStateMachine;
     changeSet: BufferedChangeset;
     preprintWord: string;
     validate: () => {};
@@ -29,6 +31,13 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     @service intl!: Intl;
     @tracked isPublicPreregistrationWhyNoStatementDisabled = true;
     @tracked placeholder!: string;
+    @tracked selectedValue!: string;
+
+    constructor(owner: unknown, args: PublicPreregistrationArgs) {
+        super(owner, args);
+
+        this.selectedValue = this.args.manager.preprint.preregLinkInfo;
+    }
 
     publicPreregLinkInfoOptions = [
         {
@@ -106,6 +115,7 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
 
     @action
     public updatePreregistrationLinkInfo(linkInfo: string): void {
+        this.selectedValue = linkInfo;
         this.args.changeSet.set('preregLinkInfo', linkInfo);
         this.args.validate();
     }
