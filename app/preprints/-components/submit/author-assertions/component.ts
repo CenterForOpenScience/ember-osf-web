@@ -47,7 +47,8 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
         type: 'empty',
     }),
     whyNoData: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
-        if (changes['hasDataLinks'] !== PreprintDataLinksEnum.AVAILABLE)  {
+        if (changes['hasDataLinks'] !== PreprintDataLinksEnum.AVAILABLE &&
+        content['hasDataLinks'] !== PreprintDataLinksEnum.AVAILABLE)  {
             return validatePresence({
                 presence: true,
                 ignoreBlank: true,
@@ -82,7 +83,8 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
     }),
     whyNoPrereg: [(key: string, newValue: string, oldValue: string, changes: any, content: any) => {
         if (
-            changes['hasPreregLinks'] !== PreprintPreregLinksEnum.AVAILABLE
+            changes['hasPreregLinks'] !== PreprintPreregLinksEnum.AVAILABLE &&
+            content['hasPreregLinks'] !== PreprintPreregLinksEnum.AVAILABLE
         ) {
             return validatePresence({
                 presence: true,
@@ -129,7 +131,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
  */
 export default class PublicData extends Component<AuthorAssertionsArgs>{
     @service intl!: Intl;
-    @tracked isConflictOfInterestStatementDisabled = true;
+    @tracked isConflictOfInterestStatementDisabled = false;
     @tracked isPublicDataStatementDisabled = true;
     authorAssertionFormChangeset = buildChangeset(
         this.args.manager.preprint,
@@ -165,25 +167,24 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
         if (this.args.manager.preprint.hasCoi === false) {
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
                 this.intl.t('preprints.submit.step-assertions.conflict-of-interest-none'));
+        } else {
+            this.isConflictOfInterestStatementDisabled = false;
         }
-    }
-
-    public get displayCoiStatement(): boolean {
-        return this.authorAssertionFormChangeset.get('hasCoi');
     }
 
     @action
     public updateCoi(): void {
         if (this.authorAssertionFormChangeset.get('hasCoi')) {
-            this.authorAssertionFormChangeset.set('conflictOfInterestStatement', '');
+            this.authorAssertionFormChangeset.set('conflictOfInterestStatement', null);
             this.isConflictOfInterestStatementDisabled = false;
         } else {
-            this.isConflictOfInterestStatementDisabled = true;
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
                 this.intl.t('preprints.submit.step-assertions.conflict-of-interest-none'));
+            this.isConflictOfInterestStatementDisabled = true;
         }
 
         this.validate();
+
     }
 
     @action
