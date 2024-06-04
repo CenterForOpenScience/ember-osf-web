@@ -18,7 +18,7 @@ interface LinkWidgetArgs {
  */
 export default class LinkWidget extends Component<LinkWidgetArgs>{
     @service intl!: Intl;
-    @tracked links: string[] = [''];
+    @tracked links: string[] = [];
 
     constructor(owner: unknown, args: LinkWidgetArgs) {
         super(owner, args);
@@ -26,6 +26,8 @@ export default class LinkWidget extends Component<LinkWidgetArgs>{
         if (this.args.links?.length > 0) {
             this.links = this.args.links;
             this.notifyPropertyChange();
+        } else {
+            this.addLink();
         }
     }
 
