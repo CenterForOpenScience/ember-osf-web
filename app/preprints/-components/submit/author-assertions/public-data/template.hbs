@@ -33,7 +33,8 @@
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::LinkWidget
                 @update={{this.updatePublicDataLinks}}
-                @placeholder= {{t 'preprints.submit.step-assertions.public-data-link-placeholder'}}
+                @placeholder={{t 'preprints.submit.step-assertions.public-data-link-placeholder'}}
+                @links={{@manager.preprint.dataLinks}}
             />
             </div>
         {{/if}}
