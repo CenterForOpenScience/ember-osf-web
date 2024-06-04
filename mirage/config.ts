@@ -120,8 +120,6 @@ export default function(this: Server) {
     osfResource(this, 'subject', { only: ['show'] });
     osfNestedResource(this, 'subject', 'children', { only: ['index'] });
     osfNestedResource(this, 'node', 'children');
-    const engineering = this.create('subject', { id: '1', text: 'Engineering' });
-    this.create('subject', { id: '2', text: 'Law', parentId: engineering.id });
     this.get('/nodes/:parentID/subjectsAcceptable', getSubjectsAcceptable);
     osfNestedResource(this, 'node', 'contributors', {
         defaultSortKey: 'index',

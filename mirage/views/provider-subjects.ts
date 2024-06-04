@@ -46,3 +46,8 @@ export function getProviderSubjects(this: HandlerContext, schema: Schema, reques
         { defaultPageSize: Number(pageSize) },
     );
 }
+
+export function getSubjectsAcceptable(this: HandlerContext, schema: Schema) {
+    return schema.subjects.all();
+}
+
