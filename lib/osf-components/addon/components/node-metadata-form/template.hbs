@@ -335,20 +335,20 @@
         <dl>
             <dt>{{t 'osf-components.node-metadata-form.subjects'}}</dt>
             <dd>
-                {{#if this.subjectsManager.initializeSubjects.isRunning}}
-                    <LoadingIndicator data-test-loading-indicator @dark={{true}} />
-                {{else}}
-                    <Subjects::Manager
-                        @model={{@manager.node}}
-                        @provider={{@manager.node.provider}}
-                        @doesAutosave={{true}}
-                        as |subjectsManager|
-                    >
+                <Subjects::Manager
+                    @model={{@manager.node}}
+                    @provider={{@manager.node.provider}}
+                    @doesAutosave={{true}}
+                    as |subjectsManager|
+                >
+                    {{#if subjectsManager.initializeSubjects.isRunning}}
+                        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+                    {{else}}
                         <Subjects::Widget
                             @subjectsManager={{subjectsManager}}
                         />
-                    </Subjects::Manager>
-                {{/if}}
+                    {{/if}}
+                </Subjects::Manager>
             </dd>
         </dl>
     </div>
