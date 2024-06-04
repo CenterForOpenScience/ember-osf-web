@@ -44,6 +44,8 @@ export default class Link extends Component<LinkArgs>{
             {value: this.args.value || undefined},
             this.linkFormValidation,
         );
+
+        this.onUpdate();
     }
 
     @action
