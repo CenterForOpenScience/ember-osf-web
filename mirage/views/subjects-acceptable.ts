@@ -1,17 +1,7 @@
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
 import Subject from 'ember-osf-web/models/subject';
 import { process } from './utils';
-
-function getFilterOpts(
-    queryParams: { [key: string]: string },
-): { type: string, value: string } {
-    if ('filter[parent]' in queryParams) {
-        const { 'filter[parent]': value } = queryParams;
-        return { type: 'parent', value };
-    }
-    const { 'filter[text]': text } = queryParams;
-    return { type: 'text', value: text };
-}
+import { getFilterOpts } from './provider-subjects';
 
 export function getSubjectsAcceptable(this: HandlerContext, schema: Schema, request: Request) {
     const { pageSize } = request.queryParams;

@@ -2,7 +2,7 @@ import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage
 import Subject from 'ember-osf-web/models/subject';
 import { process } from './utils';
 
-function getFilterOpts(
+export function getFilterOpts(
     queryParams: { [key: string]: string },
 ): { type: string, value: string } {
     if ('filter[parent]' in queryParams) {
@@ -46,8 +46,3 @@ export function getProviderSubjects(this: HandlerContext, schema: Schema, reques
         { defaultPageSize: Number(pageSize) },
     );
 }
-
-export function getSubjectsAcceptable(this: HandlerContext, schema: Schema) {
-    return schema.subjects.all();
-}
-
