@@ -131,7 +131,7 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
  */
 export default class PublicData extends Component<AuthorAssertionsArgs>{
     @service intl!: Intl;
-    @tracked isConflictOfInterestStatementDisabled = false;
+    @tracked isConflictOfInterestStatementDisabled = true;
     @tracked isPublicDataStatementDisabled = true;
     authorAssertionFormChangeset = buildChangeset(
         this.args.manager.preprint,
@@ -167,6 +167,7 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
         if (this.args.manager.preprint.hasCoi === false) {
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
                 this.intl.t('preprints.submit.step-assertions.conflict-of-interest-none'));
+            this.isConflictOfInterestStatementDisabled = true;
         } else {
             this.isConflictOfInterestStatementDisabled = false;
         }
