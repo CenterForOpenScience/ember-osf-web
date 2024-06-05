@@ -164,7 +164,10 @@ export default class SubjectManagerComponent extends Component {
         if (!isProject) {
             assert('@provider is required', Boolean(this.provider));
         }
-        assert('@subjectsAcceptable is required', this.model.get('subjectsAcceptable') !== undefined);
+
+        if (isProject) {
+            assert('@subjectsAcceptable is required', this.model.get('subjectsAcceptable') !== undefined);
+        }
     }
 
     @action
