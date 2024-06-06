@@ -1,25 +1,13 @@
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
 import Subject from 'ember-osf-web/models/subject';
 import { process } from './utils';
+import { getFilterOpts } from './provider-subjects';
 
-export function getFilterOpts(
-    queryParams: { [key: string]: string },
-): { type: string, value: string } {
-    if ('filter[parent]' in queryParams) {
-        const { 'filter[parent]': value } = queryParams;
-        return { type: 'parent', value };
-    }
-    const { 'filter[text]': text } = queryParams;
-    return { type: 'text', value: text };
-}
-
-export function getProviderSubjects(this: HandlerContext, schema: Schema, request: Request) {
-    const { parentID: providerId } = request.params;
+export function getSubjectsAcceptable(this: HandlerContext, schema: Schema, request: Request) {
     const { pageSize } = request.queryParams;
     const filterOpts = getFilterOpts(request.queryParams);
 
-    const provider = schema.registrationProviders.find(providerId);
-    const subjects = provider.subjects.models;
+    const subjects = schema.subjects.all().models;
     let filteredSubjects: Array<ModelInstance<Subject>>;
 
     if (filterOpts.type === 'parent') {
