@@ -22,7 +22,6 @@ export default class SearchSubjects extends Component {
     @alias('doSearch.isRunning')
     isLoading!: boolean;
 
-    @alias('doSearch.lastSuccessful.value')
     searchResults?: SubjectModel[];
 
     @computed('searchResults.[]')
@@ -36,24 +35,42 @@ export default class SearchSubjects extends Component {
     async doSearch() {
         await timeout(500); // debounce
 
-        const provider = await this.subjectsManager.provider;
-
         const { userQuery } = this;
         if (!userQuery) {
             return undefined;
         }
-        const filterResults = await provider.queryHasMany('subjects', {
-            filter: {
-                text: userQuery,
-            },
-            page: {
-                size: 150,
-            },
-            sort: 'text',
-            related_counts: 'children',
-            embed: 'parent',
-        });
 
-        return filterResults;
+        if (this.subjectsManager.model.get('isProject')) {
+            const model = this.subjectsManager.model;
+            const filterResults = await model.queryHasMany('subjectsAcceptable', {
+                filter: {
+                    text: userQuery,
+                },
+                page: {
+                    size: 150,
+                },
+                sort: 'text',
+                related_counts: 'children',
+            });
+
+            this.set('searchResults', filterResults);
+            return filterResults;
+        } else {
+            const provider = await this.subjectsManager.provider;
+            const filterResults = await provider.queryHasMany('subjects', {
+                filter: {
+                    text: userQuery,
+                },
+                page: {
+                    size: 150,
+                },
+                sort: 'text',
+                related_counts: 'children',
+                embed: 'parent',
+            });
+
+            this.set('searchResults', filterResults);
+            return filterResults;
+        }
     }
 }
