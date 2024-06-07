@@ -16,8 +16,8 @@ export enum ConnectedOperationNames {
     DownloadAsZip = 'download_as_zip',
     CopyInto = 'copy_into',
     HasRevisions = 'has_revisions',
-    GetRootItems = 'get_root_items',
-    GetChildItems = 'get_child_items',
+    ListRootItems = 'list_root_items',
+    ListChildItems = 'list_child_items',
 }
 
 export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
@@ -29,7 +29,7 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
     @attr('fixstring') rootFolder!: string;
 
     @belongsTo('external-storage-service', { inverse: null })
-    storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
+    externalStorageService!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
 
     @belongsTo('authorized-storage-account')
     baseAccount!: AsyncBelongsTo<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel;
@@ -39,10 +39,10 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
     async getFolderItems(this: ConfiguredStorageAddonModel, folderId?: string) {
         const newInvocation = this.store.createRecord('addon-operation-invocation', {
 
-            operationName: folderId ? ConnectedOperationNames.GetChildItems : ConnectedOperationNames.GetRootItems,
+            operationName: folderId ? ConnectedOperationNames.ListChildItems : ConnectedOperationNames.ListRootItems,
             operationKwargs: {
-                folderId,
-                type: ItemType.Folder,
+                itemId: folderId,
+                itemType: ItemType.Folder,
             },
             thruAddon: this,
             byUser: await this.accountOwner,

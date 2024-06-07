@@ -97,7 +97,7 @@ export default class StorageManager extends Component<Args> {
     @service toast!: Toast;
     @service features!: Features;
 
-    @tracked storageProvider?: FileProviderModel;
+    @tracked externalStorageService?: FileProviderModel;
     @tracked folderLineage: Array<File | ProviderFile | ServiceProviderFile> = [];
     @tracked displayItems: File[] = [];
     @tracked filter = '';
@@ -146,16 +146,16 @@ export default class StorageManager extends Component<Args> {
     @waitFor
     async getRootFolder() {
         if (this.args.provider) {
-            this.storageProvider = this.args.provider;
+            this.externalStorageService = this.args.provider;
             let providerFile;
-            if(this.features.isEnabled('gravy_waffle') && this.storageProvider.name !== 'osfstorage') {
+            if(this.features.isEnabled('gravy_waffle') && this.externalStorageService.name !== 'osfstorage') {
                 providerFile = getServiceProviderFile(
                     this.currentUser,
-                    this.storageProvider,
+                    this.externalStorageService,
                     this.args.configuredStorageAddon,
                 );
             } else {
-                providerFile = getStorageProviderFile(this.currentUser, this.storageProvider);
+                providerFile = getStorageProviderFile(this.currentUser, this.externalStorageService);
             }
             if (!providerFile) {
                 // This should only be hit in development when we haven't set up a provider properly.

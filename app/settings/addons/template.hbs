@@ -8,7 +8,7 @@
             <LoadingIndicator @dark={{true}} />
         {{else}}
             {{#if manager.selectedProvider}}
-                <div data-analytics-scope='{{manager.selectedProvider.name}}'>
+                <div data-analytics-scope='{{manager.selectedProvider.displayName}}'>
                     <Button
                         data-test-cancel-setup
                         data-analytics-name='Cancel Setup'
@@ -21,7 +21,7 @@
                     {{#if (eq manager.pageMode 'terms')}}
                         <div data-analytics-scope='Terms'>
                             <h3>
-                                {{t 'addons.terms.heading' providerName=manager.selectedProvider.provider.name}}
+                                {{t 'addons.terms.heading' providerName=manager.selectedProvider.provider.displayName}}
                             </h3>
                             <AddonsService::TermsOfService
                                 @provider={{manager.selectedProvider.provider}}
@@ -112,13 +112,13 @@
                             <ul local-class='addons-card-wrapper'>
                                 {{#each manager.filteredAddonProviders as |provider|}}
                                     <li
-                                        data-test-provider={{provider.name}}
+                                        data-test-provider={{provider.displayName}}
                                         local-class='provider-list-item'
                                     >
-                                        {{provider.name}}
+                                        {{provider.displayName}}
                                         <span>
                                             <Button
-                                                data-analytics-name='Connect Addon Button {{provider.name}}'
+                                                data-analytics-name='Connect Addon Button {{provider.displayName}}'
                                                 @type='create'
                                                 {{on 'click' (fn manager.connectNewProviderAccount provider)}}
                                             >

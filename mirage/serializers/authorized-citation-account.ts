@@ -13,7 +13,7 @@ interface MirageAuthorizedCitationAccount extends ModelInstance<AuthorizedCitati
 export default class AuthorizedCitationAccountSerializer extends AddonServiceSerializer<AuthorizedCitationAccount> {
     buildRelationships(model: MirageAuthorizedCitationAccount) {
         return {
-            configuringUser: {
+            accountOwner: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}user-references/${model.configuringUserId}/`,

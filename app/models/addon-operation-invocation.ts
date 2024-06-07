@@ -2,20 +2,20 @@ import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
+import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
 import { ConnectedOperationNames } from 'ember-osf-web/models/configured-storage-addon';
 
 export enum InvocationStatus {
-     // TODO: are these right?
-    Success = 'SUCCESS',
-    Failure = 'FAILURE',
-    Pending = 'PENDING',
+    STARTING = 'STARTING',
+    GOING = 'GOING',
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR',
 }
 export enum ItemType {
     Folder = 'FOLDER',
     File = 'FILE',
 }
 
-export type OperationName = 'get_root_items' | 'get_child_items';
 export interface OperationResult{
     items: Item[];
     cursor?: string; // TODO: name??
@@ -40,6 +40,9 @@ export default class AddonOperationInvocationModel extends Model {
 
     @belongsTo('configured-addon', { inverse: null, polymorphic: true })
     thruAddon?: AsyncBelongsTo<ConfiguredAddonModel> | ConfiguredAddonModel;
+
+    @belongsTo('authorized-account', { inverse: null, polymorphic: true })
+    thruAccount?: AsyncBelongsTo<AuthorizedAccountModel> | AuthorizedAccountModel;
 }
 
 declare module 'ember-data/types/registries/model' {

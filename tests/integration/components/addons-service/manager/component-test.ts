@@ -46,7 +46,7 @@ module('Integration | Component | addons-service | manager', hooks => {
         {{/each}}
 
         {{#each manager.filteredAddonProviders as |provider index|}}
-            <span data-test-provider={{provider.provider.name}}>{{provider.provider.name}}</span>
+            <span data-test-provider={{provider.provider.displayName}}>{{provider.provider.displayName}}</span>
         {{/each}}
     {{/if}}
 </AddonsService::Manager>

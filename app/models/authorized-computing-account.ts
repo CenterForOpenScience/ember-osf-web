@@ -6,7 +6,7 @@ import UserReferenceModel from './user-reference';
 
 export default class AuthorizedComputingAccount extends AuthorizedAccountModel {
     @belongsTo('user-reference', { inverse: 'authorizedComputingAccounts' })
-    configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
+    accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 
     @belongsTo('external-computing-service')
     computingService!: AsyncBelongsTo<ExternalComputingService> & ExternalComputingService;

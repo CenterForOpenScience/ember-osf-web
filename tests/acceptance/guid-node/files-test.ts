@@ -147,7 +147,7 @@ module('Acceptance | guid-node/files', hooks => {
             name: 'bitbucket',
             displayName: 'Bitbucket',
             rootFolder: '/woot/',
-            storageProvider: bitbucketAddon,
+            externalStorageService: bitbucketAddon,
             authorizedResource: addonFile,
         });
         await visit(`/${this.node.id}/files`);

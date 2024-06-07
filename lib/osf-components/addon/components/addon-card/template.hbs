@@ -1,19 +1,19 @@
 <div
     local-class='card-wrapper'
-    data-test-addon-card={{@addon.provider.name}}
-    data-analytics-scope={{concat 'Addon card' @addon.provider.name}}
+    data-test-addon-card={{@addon.provider.displayName}}
+    data-analytics-scope={{concat 'Addon card' @addon.provider.displayName}}
 >
     <img
         data-test-addon-card-logo
         src={{this.assetLogo}}
-        alt={{t 'osf-components.addon-card.provider-logo-alt' provider=@addon.provider.name}}
+        alt={{t 'osf-components.addon-card.provider-logo-alt' provider=@addon.provider.displayName}}
         local-class='addon-card-logo'
     />
     <div
         data-test-addon-card-title
         local-class='provider-name'
     >
-        {{@addon.provider.name}}
+        {{@addon.provider.displayName}}
     </div>
     
     <div local-class='buttons-wrapper'>

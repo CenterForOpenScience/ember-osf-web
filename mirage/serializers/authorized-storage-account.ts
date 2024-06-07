@@ -13,14 +13,14 @@ interface MirageAuthorizedStorageAccount extends ModelInstance<AuthorizedStorage
 export default class AuthorizedStorageAccountSerializer extends AddonServiceSerializer<AuthorizedStorageAccount> {
     buildRelationships(model: MirageAuthorizedStorageAccount) {
         return {
-            configuringUser: {
+            accountOwner: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}user-references/${model.configuringUserId}/`,
                     },
                 },
             },
-            storageProvider: {
+            externalStorageService: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}external-storage-services/${model.storageProviderId}/`,

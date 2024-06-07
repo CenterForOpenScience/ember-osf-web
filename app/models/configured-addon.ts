@@ -4,7 +4,6 @@ import ResourceReferenceModel from './resource-reference';
 import UserReferenceModel from './user-reference';
 
 export default class ConfiguredAddonModel extends Model {
-    @attr('string') name!: string;
     @attr('string') displayName!: string;
     @attr('fixstring') externalUserId!: string;
     @attr('fixstring') externalUserDisplayName!: string;

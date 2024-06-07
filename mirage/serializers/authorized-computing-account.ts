@@ -13,7 +13,7 @@ interface MirageAuthorizedComputingAccount extends ModelInstance<AuthorizedCompu
 export default class AuthorizedComputingAccountSerializer extends AddonServiceSerializer<AuthorizedComputingAccount> {
     buildRelationships(model: MirageAuthorizedComputingAccount) {
         return {
-            configuringUser: {
+            accountOwner: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}user-references/${model.configuringUserId}/`,

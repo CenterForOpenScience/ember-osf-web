@@ -44,7 +44,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             externalUserId: user.id,
             externalUserDisplayName: user.fullName,
             rootFolder: '/rooty-tooty/',
-            storageProvider: mirageExternalStorageService,
+            externalStorageService: mirageExternalStorageService,
             accountOwner: userReference,
             authorizedResource: resourceReference,
         });
@@ -93,7 +93,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
             externalUserId: user.id,
             externalUserDisplayName: user.fullName,
             rootFolder: '/',
-            storageProvider: mirageExternalStorageService,
+            externalStorageService: mirageExternalStorageService,
             accountOwner: userReference,
             authorizedResource: resourceReference,
         });

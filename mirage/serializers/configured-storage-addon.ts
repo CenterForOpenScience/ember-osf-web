@@ -36,7 +36,7 @@ export default class ConfiguredStorageAddonSerializer extends AddonServiceSerial
                     },
                 },
             },
-            storageProvider: {
+            externalStorageService: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}external-storage-services/${model.storageProviderId}/`,

@@ -20,8 +20,8 @@
         {{#if manager.selectedProvider}}
             {{#let manager.selectedProvider as |provider|}}
                 <div
-                    data-test-addon={{provider.provider.name}}
-                    data-analytics-scope='Addon - {{provider.provider.name}}'
+                    data-test-addon={{provider.provider.displayName}}
+                    data-analytics-scope='Addon - {{provider.provider.displayName}}'
                 >
                     {{#if (eq manager.pageMode 'terms')}}
                         <AddonsService::TermsOfService
@@ -206,7 +206,7 @@
                             as |dialog|
                         >
                             <dialog.heading>
-                                {{t 'addons.list.disconnect'}} {{provider.provider.name}}
+                                {{t 'addons.list.disconnect'}} {{provider.provider.displayName}}
                             </dialog.heading>
                             <dialog.main>
                                 {{t 'addons.list.confirm-remove-connected-location'}}
