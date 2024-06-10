@@ -309,10 +309,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.STORAGE];
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.store.query('configured-storage-addon', {
-                'filter[authorized_resource_uri]': encodeURI(this.node.links.iri as string),
-                'page[size]': 100,
-            });
+            const configuredAddons = await this.addonServiceNode.configuredStorageAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
@@ -328,10 +325,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.store.query('configured-computing-addon', {
-                'filter[authorized_resource_uri]': encodeURI(this.node.links.iri as string),
-                'page[size]': 100,
-            });
+            const configuredAddons = await this.addonServiceNode.configuredComputingAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
@@ -347,10 +341,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.store.query('configured-citation-addon', {
-                'filter[authorized_resource_uri]': encodeURI(this.node.links.iri as string),
-                'page[size]': 100,
-            });
+            const configuredAddons = await this.addonServiceNode.configuredCitationAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
@@ -361,7 +352,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     providerSorter(a: Provider, b: Provider) {
-        return a.provider.name.localeCompare(b.provider.name);
+        return a.provider.displayName.localeCompare(b.provider.displayName);
     }
 
     get projectEnabledAddons(): ConfiguredStorageAddonModel[] {
@@ -369,7 +360,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     get headingText() {
-        const providerName = this.selectedProvider?.provider.name;
+        const providerName = this.selectedProvider?.provider.displayName;
         let heading;
         switch (this.pageMode) {
         case PageMode.TERMS:

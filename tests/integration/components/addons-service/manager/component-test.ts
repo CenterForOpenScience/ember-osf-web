@@ -19,9 +19,10 @@ module('Integration | Component | addons-service | manager', hooks => {
         this.owner.register('service:current-user', CurrentUserStub);
         const store = this.owner.lookup('service:store');
         const mirageNode = server.create('node', { id: 'test' });
-        const user = server.create('user', { id: 'user' });
-        this.owner.lookup('service:current-user').setProperties({ testUser: user, currentUserId: user.id });
+        const mirageUser = server.create('user', { id: 'user' });
         const node = await store.findRecord('node', mirageNode.id);
+        const user = await store.findRecord('user', mirageUser.id);
+        this.owner.lookup('service:current-user').setProperties({ testUser: user, currentUserId: user.id });
         server.create('resource-reference',
             { id: mirageNode.id, configuredStorageAddons: [] });
         server.create('user-reference', { id: user.id });

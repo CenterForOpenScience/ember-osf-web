@@ -33,7 +33,7 @@ export default class FileProviderList extends Component<InputArgs> {
     @waitFor
     async configuredStorageProviders() {
         const _ref = await this.store.query('resource-reference', {
-            filter: {resource_uri: encodeURI(this.args.node.links.iri as string)},
+            filter: {resource_uri: this.args.node.links.iri},
         });
 
         if (_ref.toArray().length > 0) {

@@ -3,7 +3,7 @@ import { CredentialsFormat, TermsOfServiceCapabilities } from 'ember-osf-web/mod
 export default [
     {
         id: 'boa',
-        name: 'Boa',
+        displayName: 'Boa',
         credentialsFormat: CredentialsFormat.USERNAME_PASSWORD,
         termsOfService: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES_PARTIAL,
