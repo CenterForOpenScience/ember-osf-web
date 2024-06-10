@@ -531,7 +531,7 @@ export default function(this: Server) {
     this.resource('external-storage-services', { only: ['index', 'show'] });
     this.resource('external-citation-services', { only: ['index', 'show'] });
     this.resource('external-computing-services', { only: ['index', 'show'] });
-    this.resource('user-references', { only: ['show'] });
+    this.resource('user-references', { only: ['index', 'show'] });
     this.get('/user-references/:userGuid/authorized-storage-accounts/',
         addons.userReferenceAuthorizedStorageAccountList);
     this.get('/user-references/:userGuid/authorized-citation-accounts/',
@@ -539,7 +539,7 @@ export default function(this: Server) {
     this.get('/user-references/:userGuid/authorized-computing-accounts/',
         addons.userAuthorizedComputingAccountList);
     this.get('/resource-references/', addons.resourceReferencesList);
-    this.resource('resource-references', { only: ['show'] });
+    this.resource('resource-references', { only: ['index', 'show'] });
     this.get('/resource-references/:nodeGuid/configured-storage-addons',
         addons.resourceReferenceConfiguredStorageAddonList);
     this.get('/resource-references/:nodeGuid/configured-citation-addons',
