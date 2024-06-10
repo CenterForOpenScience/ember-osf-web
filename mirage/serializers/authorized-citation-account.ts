@@ -7,7 +7,7 @@ import AddonServiceSerializer from './addon-service';
 
 interface MirageAuthorizedCitationAccount extends ModelInstance<AuthorizedCitationAccount> {
     configuringUserId: string;
-    storageProviderId: string;
+    externalCitationServiceId: string;
 }
 
 export default class AuthorizedCitationAccountSerializer extends AddonServiceSerializer<AuthorizedCitationAccount> {
@@ -23,7 +23,7 @@ export default class AuthorizedCitationAccountSerializer extends AddonServiceSer
             externalCitationService: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}external-citation-services/${model.storageProviderId}/`,
+                        href: `${addonServiceAPIUrl}external-citation-services/${model.externalCitationServiceId}/`,
                     },
                 },
             },

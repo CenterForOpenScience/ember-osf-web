@@ -7,7 +7,7 @@ import AddonServiceSerializer from './addon-service';
 
 interface MirageAuthorizedStorageAccount extends ModelInstance<AuthorizedStorageAccount> {
     configuringUserId: string;
-    storageProviderId: string;
+    externalStorageServiceId: string;
 }
 
 export default class AuthorizedStorageAccountSerializer extends AddonServiceSerializer<AuthorizedStorageAccount> {
@@ -23,7 +23,7 @@ export default class AuthorizedStorageAccountSerializer extends AddonServiceSeri
             externalStorageService: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}external-storage-services/${model.storageProviderId}/`,
+                        href: `${addonServiceAPIUrl}external-storage-services/${model.externalStorageServiceId}/`,
                     },
                 },
             },

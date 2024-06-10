@@ -9,7 +9,7 @@ export interface MirageConfiguredStorageAddon extends ConfiguredStorageAddonMode
     accountOwnerId: string;
     authorizedResourceId: string;
     baseAccountId: string;
-    storageProviderId: string;
+    externalStorageServiceId: string;
 }
 
 export default class ConfiguredStorageAddonSerializer extends AddonServiceSerializer<ConfiguredStorageAddonModel> {
@@ -39,7 +39,7 @@ export default class ConfiguredStorageAddonSerializer extends AddonServiceSerial
             externalStorageService: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}external-storage-services/${model.storageProviderId}/`,
+                        href: `${addonServiceAPIUrl}external-storage-services/${model.externalStorageServiceId}/`,
                     },
                 },
             },

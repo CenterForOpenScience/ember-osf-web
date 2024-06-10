@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 
 import Provider from 'ember-osf-web/packages/addons-service/provider';
 import { CurrentUserStub } from 'ember-osf-web/tests/helpers/require-auth';
-import {AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 module('Unit | Packages | addons-service | provider', function(hooks) {
     setupTest(hooks);
@@ -21,14 +21,15 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         const user = await store.findRecord('user', mirageUser.id);
         currentUser.setProperties({ testUser: user, currentUserId: user.id });
 
-        const node = store.createRecord('node', {
+        const mirageNode = server.create('node', {
             id: 'wowza',
-            currentUserPermissions: [ 'read', 'write', 'admin' ],
+            currentUserPermissions: [ Permission.Read, Permission.Write, Permission.Admin ],
         });
+        const node = await store.findRecord('node', mirageNode.id);
         // Make the addons service stuff
         const mirageExternalStorageService = server.create('external-storage-service', {
             id: 'bropdox',
-            name: 'Bropdox',
+            displayName: 'Bropdox',
         });
         const resourceReference = server.create('resource-reference', {
             id: node.id,
@@ -40,7 +41,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         });
 
         server.create('configured-storage-addon', {
-            name: 'bropdox',
+            displayName: 'bropdox',
             externalUserId: user.id,
             externalUserDisplayName: user.fullName,
             rootFolder: '/rooty-tooty/',
@@ -70,14 +71,15 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         const user = await store.findRecord('user', mirageUser.id);
         currentUser.setProperties({ testUser: user, currentUserId: user.id });
 
-        const node = store.createRecord('node', {
+        const mirageNode = server.create('node', {
             id: 'wowza',
-            currentUserPermissions: [ 'read', 'write', 'admin' ],
+            currentUserPermissions: [ Permission.Read, Permission.Write, Permission.Admin ],
         });
+        const node = await store.findRecord('node', mirageNode.id);
         // Make the addons service stuff
         const mirageExternalStorageService = server.create('external-storage-service', {
             id: 'bropdox',
-            name: 'Bropdox',
+            displayName: 'Bropdox',
         });
         const resourceReference = server.create('resource-reference', {
             id: node.id,
@@ -89,7 +91,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         });
 
         server.create('configured-storage-addon', {
-            name: 'bropdox',
+            displayName: 'bropdox',
             externalUserId: user.id,
             externalUserDisplayName: user.fullName,
             rootFolder: '/',
@@ -104,7 +106,7 @@ module('Unit | Packages | addons-service | provider', function(hooks) {
         await settled();
 
         await taskFor(provider.createAuthorizedAccount)
-            .perform({} as AddonCredentialFields);
+            .perform({}, 'bropdox account');
 
         // TODO: Fix these with [ENG-5454]
         // assert.equal((provider.configuredAddon as ConfiguredStorageAddonModel)
