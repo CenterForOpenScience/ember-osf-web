@@ -11,28 +11,28 @@ export default class UserReferenceSerializer extends AddonServiceSerializer<User
             authorizedStorageAccounts: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-storage-accounts/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized_storage_accounts/`,
                     },
                 },
             },
             authorizedCitationAccounts: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-citation-accounts/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized_citation_accounts/`,
                     },
                 },
             },
             authorizedComputingAccounts: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized-computing-accounts/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.id}/authorized_computing_accounts/`,
                     },
                 },
             },
             configuredResources: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.id}/configured-resources/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.id}/configured_resources/`,
                     },
                 },
             },

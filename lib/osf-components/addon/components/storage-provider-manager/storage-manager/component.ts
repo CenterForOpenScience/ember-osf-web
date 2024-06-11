@@ -108,7 +108,7 @@ export default class StorageManager extends Component<Args> {
     @tracked selectedFiles: File[] = [];
 
     get targetNode() {
-        return this.args.provider.target.content;
+        return this.args.provider?.target.content;
     }
     get rootFolder() {
         return this.folderLineage[0];

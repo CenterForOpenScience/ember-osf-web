@@ -10,21 +10,21 @@ export default class ResourceReferenceSerializer extends AddonServiceSerializer<
             configuredStorageAddons: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-storage-addons`,
+                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured_storage_addons`,
                     },
                 },
             },
             configuredCitationAddons: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-citation-addons`,
+                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured_citation_addons`,
                     },
                 },
             },
             configuredComputingAddons: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured-computing-addons`,
+                        href: `${addonServiceAPIUrl}resource-references/${model.id}/configured_computing_addons`,
                     },
                 },
             },

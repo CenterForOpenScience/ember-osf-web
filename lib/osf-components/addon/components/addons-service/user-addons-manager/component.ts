@@ -23,6 +23,7 @@ import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-s
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import getHref from 'ember-osf-web/utils/get-href';
 
 import { FilterTypes } from '../manager/component';
 
@@ -204,10 +205,13 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @waitFor
     async getUserReference() {
         const { user } = this;
-        const userReferences = await this.store.query('user-reference', {
-            filter: {user_uri: user.links.iri?.toString()},
-        });
-        this.userReference = userReferences.firstObject;
+        const _iri = user.links.iri;
+        if (_iri) {
+            const userReferences = await this.store.query('user-reference', {
+                filter: {user_uri: getHref(_iri)},
+            });
+            this.userReference = userReferences.firstObject;
+        }
     }
 
     @task
