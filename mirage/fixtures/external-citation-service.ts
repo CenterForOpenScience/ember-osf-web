@@ -3,7 +3,7 @@ import { CredentialsFormat, TermsOfServiceCapabilities } from 'ember-osf-web/mod
 export default [
     {
         id: 'mendeley',
-        name: 'Mendeley',
+        displayName: 'Mendeley',
         credentialsFormat: CredentialsFormat.OAUTH2,
         termsOfService: [
             TermsOfServiceCapabilities.FORKING_PARTIAL,
@@ -13,7 +13,7 @@ export default [
     },
     {
         id: 'zotero',
-        name: 'Zotero',
+        displayName: 'Zotero',
         credentialsFormat: CredentialsFormat.OAUTH,
         termsOfService: [
             TermsOfServiceCapabilities.FORKING_PARTIAL,

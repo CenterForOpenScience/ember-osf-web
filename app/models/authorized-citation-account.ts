@@ -6,7 +6,7 @@ import UserReferenceModel from './user-reference';
 
 export default class AuthorizedCitationAccountModel extends AuthorizedAccountModel {
     @belongsTo('user-reference', { inverse: 'authorizedCitationAccounts' })
-    configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
+    accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 
     @belongsTo('external-citation-service')
     citationService!: AsyncBelongsTo<ExternalCitationServiceModel> & ExternalCitationServiceModel;

@@ -88,15 +88,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked selectedProvider?: Provider;
     @tracked selectedConfiguration?: AllConfiguredAddonTypes;
     @tracked selectedAccount?: AllAuthorizedAccountTypes;
-    @tracked credentialsObject: AddonCredentialFields = {
-        url: '',
-        username: '',
-        password: '',
-        token: '',
-        accessKey: '',
-        secretKey: '',
-        repo: '',
-    };
+    @tracked credentialsObject: AddonCredentialFields = {};
     @tracked connectAccountError = false;
     @tracked displayName = '';
 
@@ -115,7 +107,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
         const possibleProviders = activeFilterObject.list;
         const textFilteredAddons = possibleProviders.filter(
-            (provider: any) => provider.provider.name.toLowerCase().includes(this.filterText.toLowerCase()),
+            (provider: any) => provider.provider.displayName.toLowerCase().includes(this.filterText.toLowerCase()),
         );
 
         const configuredProviders = textFilteredAddons.filter((provider: Provider) => provider.isConfigured);
@@ -127,7 +119,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
         const possibleProviders = activeFilterObject.list;
         const textFilteredAddons = possibleProviders.filter(
-            (provider: any) => provider.provider.name.toLowerCase().includes(this.filterText.toLowerCase()),
+            (provider: any) => provider.provider.displayName.toLowerCase().includes(this.filterText.toLowerCase()),
         );
 
         return textFilteredAddons;
@@ -304,7 +296,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async getServiceNode() {
         const references = await this.store.query('resource-reference', {
-            filter: {'resource-uri': encodeURI(this.node.links.iri as string)},
+            filter: {resource_uri: this.node.links.iri},
         });
         if(references) {
             this.addonServiceNode = references.firstObject;
@@ -317,10 +309,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.STORAGE];
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.store.query('configured-storage-addon', {
-                'filter[authorized-resource-uri]': encodeURI(this.node.links.iri as string),
-                'page[size]': 100,
-            });
+            const configuredAddons = await this.addonServiceNode.configuredStorageAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
@@ -336,10 +325,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.store.query('configured-computing-addon', {
-                'filter[authorized-resource-uri]': encodeURI(this.node.links.iri as string),
-                'page[size]': 100,
-            });
+            const configuredAddons = await this.addonServiceNode.configuredComputingAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
@@ -355,10 +341,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
 
         if (this.addonServiceNode) {
-            const configuredAddons = await this.store.query('configured-citation-addon', {
-                'filter[authorized-resource-uri]': encodeURI(this.node.links.iri as string),
-                'page[size]': 100,
-            });
+            const configuredAddons = await this.addonServiceNode.configuredCitationAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
@@ -369,7 +352,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     providerSorter(a: Provider, b: Provider) {
-        return a.provider.name.localeCompare(b.provider.name);
+        return a.provider.displayName.localeCompare(b.provider.displayName);
     }
 
     get projectEnabledAddons(): ConfiguredStorageAddonModel[] {
@@ -377,7 +360,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     get headingText() {
-        const providerName = this.selectedProvider?.provider.name;
+        const providerName = this.selectedProvider?.provider.displayName;
         let heading;
         switch (this.pageMode) {
         case PageMode.TERMS:

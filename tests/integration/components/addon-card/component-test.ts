@@ -33,7 +33,7 @@ module('Integration | Component | addon-card', hooks => {
         this.addon = {
             provider: {
                 id: 'box',
-                name: 'Test Addon',
+                displayName: 'Test Addon',
                 iconUrl: 'https://some.url/from/addons/service/box.png',
             },
             disableProjectAddon: sinon.stub(),
@@ -72,7 +72,6 @@ module('Integration | Component | addon-card', hooks => {
         const addonObj = {
             provider: {
                 id: 'box',
-                name: 'Test Addon',
                 displayName: 'Test Addon',
                 iconUrl: 'https://some.url/from/addons/service/box.png',
             },

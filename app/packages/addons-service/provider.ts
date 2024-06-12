@@ -58,8 +58,8 @@ export default class Provider {
     provider: AllProviderTypes;
     private providerMap?: ProviderTypeMapper;
 
-    get name() {
-        return this.provider.name;
+    get displayName() {
+        return this.provider.displayName;
     }
 
     get id() {
@@ -146,29 +146,27 @@ export default class Provider {
     @task
     @waitFor
     async getUserReference() {
-        const userReference = this.store.peekRecord('user-reference', this.currentUser.user?.id);
-        if (userReference) {
-            this.userReference = userReference;
-        } else {
-            this.userReference = await this.store.findRecord('user-reference', this.currentUser.user?.id);
-        }
+        const { user } = this.currentUser;
+        const userReferences = await this.store.query('user-reference', {
+            filter: {user_uri: user?.links.iri?.toString()},
+        });
+        this.userReference = userReferences.firstObject;
     }
+
 
     @task
     @waitFor
     async getResourceReference() {
         if (this.node) {
-            const serviceNode = this.store.peekRecord('resource-reference', this.node.id);
-            if (serviceNode) {
-                this.serviceNode = serviceNode;
-            } else {
-                this.serviceNode = await this.store.findRecord('resource-reference', this.node.id);
-            }
+            const resourceRefs = await this.store.query('resource-reference', {
+                filter: {resource_uri: this.node.links.iri?.toString()},
+            });
+            this.serviceNode = resourceRefs.firstObject;
         }
     }
 
     getProviderConfiguredAddons() {
-        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.name === this.name);
+        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.displayName === this.displayName);
     }
 
     @task
@@ -176,7 +174,7 @@ export default class Provider {
     async getAuthorizedStorageAccounts() {
         const authorizedStorageAccounts = await this.userReference.authorizedStorageAccounts;
         this.authorizedAccounts = authorizedStorageAccounts
-            .filterBy('storageProvider.id', this.provider.id).toArray();
+            .filterBy('externalStorageService.id', this.provider.id).toArray();
     }
 
     @task
@@ -198,7 +196,7 @@ export default class Provider {
     @task
     @waitFor
     async getAuthorizedAccounts() {
-        this.providerMap?.getAuthorizedAccounts.perform();
+        await this.providerMap?.getAuthorizedAccounts.perform();
     }
 
     async userAddonAccounts() {
@@ -216,9 +214,8 @@ export default class Provider {
             initiateOauth: initiateOauth || false,
             apiBaseUrl: (this.provider as ExternalStorageServiceModel).configurableApiRoot ? credentials.url : '',
             externalUserId: this.currentUser.user?.id,
-            scopes: [],
-            storageProvider: this.provider,
-            configuringUser: this.userReference,
+            authorizedCapabilities: ['ACCESS', 'UPDATE'],
+            externalStorageService: this.provider,
             displayName: accountName,
         });
         await newAccount.save();
@@ -236,7 +233,7 @@ export default class Provider {
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             citationService: this.provider,
-            configuringUser: this.userReference,
+            accountOwner: this.userReference,
             displayName: accountName,
         });
         await newAccount.save();
@@ -254,7 +251,7 @@ export default class Provider {
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             computingService: this.provider,
-            configuringUser: this.userReference,
+            accountOwner: this.userReference,
             displayName: accountName,
         });
         await newAccount.save();
@@ -283,10 +280,11 @@ export default class Provider {
     private async createConfiguredStorageAddon(account: AuthorizedStorageAccountModel) {
         const configuredStorageAddon = this.store.createRecord('configured-storage-addon', {
             rootFolder: '',
-            storageProvider: this.provider,
+            externalStorageService: this.provider,
             accountOwner: this.userReference,
-            authorizedResource: this.serviceNode,
+            authorizedResourceUri: this.node!.links.iri,
             baseAccount: account,
+            connectedCapabilities: ['ACCESS', 'UPDATE'],
         });
         await configuredStorageAddon.save();
     }

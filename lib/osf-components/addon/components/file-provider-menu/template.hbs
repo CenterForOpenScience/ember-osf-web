@@ -29,8 +29,8 @@
         {{#each this.configuredStorageAddons as |provider|}}
             <div local-class='FileProvider'>
                 <OsfLink
-                    data-test-files-provider-link={{provider.name}}
-                    data-analytics-name={{concat 'Files - ' provider.name}} 
+                    data-test-files-provider-link={{provider.id}}
+                    data-analytics-name={{concat 'Files - ' provider.id}}
                     @route='guid-node.files.provider'
                     @models={{array @node.id provider.id}}
                 >

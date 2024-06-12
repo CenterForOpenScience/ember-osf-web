@@ -102,32 +102,32 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     const boxAccount = server.create('authorized-storage-account', {
         displayName: 'My Box Account',
         scopes: ['write'], // TODO: This should be a from an enum?
-        storageProvider: boxAddon,
-        configuringUser: addonUser,
+        externalStorageService: boxAddon,
+        accountOwner: addonUser,
         credentialsAvailable: true,
     });
 
     server.create('authorized-storage-account', {
         displayName: 'My Dropbox Account',
         scopes: ['write'], // TODO: This should be a from an enum?
-        storageProvider: dropboxAddon,
-        configuringUser: addonUser,
+        externalStorageService: dropboxAddon,
+        accountOwner: addonUser,
         credentialsAvailable: true,
     });
     server.create('authorized-storage-account', {
         id: 'dropbox2',
         displayName: 'My Secret Dropbox Account',
         scopes: ['write'], // TODO: This should be a from an enum?
-        storageProvider: dropboxAddon,
-        configuringUser: addonUser,
+        externalStorageService: dropboxAddon,
+        accountOwner: addonUser,
         credentialsAvailable: false,
         authUrl: 'http://fake.com',
     });
     server.create('authorized-storage-account', {
         displayName: 'My AmazonS3 Account',
         scopes: ['write'], // TODO: This should be a from an enum?
-        storageProvider: s3Addon,
-        configuringUser: addonUser,
+        externalStorageService: s3Addon,
+        accountOwner: addonUser,
         credentialsAvailable: false,
     });
 
@@ -137,7 +137,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         displayName: 'Boxed Data',
         rootFolder: '/woot/',
         authorizedResourceUri: 'http://localhost:5000/file5',
-        storageProvider: boxAddon,
+        externalStorageService: boxAddon,
         accountOwner: addonUser,
         authorizedResource: addonFile5,
         baseAccount: boxAccount,

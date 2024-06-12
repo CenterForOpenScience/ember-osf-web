@@ -23,6 +23,7 @@ import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-s
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import getHref from 'ember-osf-web/utils/get-href';
 
 import { FilterTypes } from '../manager/component';
 
@@ -78,15 +79,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @tracked selectedProvider?: Provider;
     @tracked selectedAccount?: AllAuthorizedAccountTypes;
-    @tracked credentialsObject: AddonCredentialFields = {
-        url: '',
-        username: '',
-        password: '',
-        token: '',
-        accessKey: '',
-        secretKey: '',
-        repo: '',
-    };
+    @tracked credentialsObject: AddonCredentialFields = {};
     @tracked displayName = '';
 
     @action
@@ -129,7 +122,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
         const possibleProviders = activeFilterObject.list;
         const textFilteredAddons = possibleProviders.filter(
-            (provider: Provider) => provider.name.toLowerCase().includes(this.filterText.toLowerCase()),
+            (provider: Provider) => provider.displayName.toLowerCase().includes(this.filterText.toLowerCase()),
         );
         return textFilteredAddons;
     }
@@ -164,7 +157,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const accountType = (account.constructor as typeof AuthorizedAccountModel).modelName;
         switch (accountType) {
         case 'authorized-storage-account':
-            providerId = (account as AuthorizedStorageAccountModel).storageProvider.get('id');
+            providerId = (account as AuthorizedStorageAccountModel).externalStorageService.get('id');
             break;
         case 'authorized-citation-account':
             providerId = (account as AuthorizedCitationAccountModel).citationService.get('id');
@@ -212,8 +205,13 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @waitFor
     async getUserReference() {
         const { user } = this;
-        const userReference = await this.store.findRecord('user-reference', user.id);
-        this.userReference = userReference;
+        const _iri = user.links.iri;
+        if (_iri) {
+            const userReferences = await this.store.query('user-reference', {
+                filter: {user_uri: getHref(_iri)},
+            });
+            this.userReference = userReferences.firstObject;
+        }
     }
 
     @task
@@ -223,7 +221,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.STORAGE];
         const accounts = (await userReference.authorizedStorageAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
-        mappedObject.authorizedServiceIds = accounts.map(account => account.storageProvider.get('id'));
+        mappedObject.authorizedServiceIds = accounts.map(account => account.externalStorageService.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 
@@ -295,7 +293,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     }
 
     providerSorter(a: AllProviderTypes, b: AllProviderTypes) {
-        return a.name.localeCompare(b.name);
+        return a.displayName.localeCompare(b.displayName);
     }
 
     @task

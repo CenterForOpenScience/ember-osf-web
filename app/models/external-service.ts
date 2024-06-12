@@ -26,7 +26,7 @@ export enum TermsOfServiceCapabilities {
 }
 
 export default class ExternalServiceModel extends Model {
-    @attr('fixstring') name!: string;
+    @attr('fixstring') displayName!: string;
     @attr('string') iconUrl!: string;
     @attr('string') credentialsFormat!: CredentialsFormat;
     @attr('array') termsOfService!: TermsOfServiceCapabilities[];

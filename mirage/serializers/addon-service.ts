@@ -31,16 +31,21 @@ export default class AddonServiceSerializer<T extends Model> extends JSONAPISeri
             self: `${addonServiceAPIUrl}${this.typeKeyForModel(model)}/${model.id}/`,
         };
     }
-    serialize(model: ModelInstance<T>, request: Request) {
+    serialize(model: any, request: Request) {
         const json = super.serialize(model, request);
-        json.data.links = this.buildNormalLinks(model);
-        json.data.relationships = Object
-            .entries(this.buildRelationships(model))
-            .reduce((acc, [key, value]) => {
-                acc[underscore(key)] = value as RelationshipObject;
-                return acc;
-            }, {} as Record<string, RelationshipObject>);
-
+        const _datas: any[] = Array.isArray(json.data) ? json.data : [json.data];
+        const _models: Arry<ModelInstance<T>> = Array.isArray(model.models) ? model.models : [model];
+        for (let i = 0; i < _models.length; i++) {
+            const _model = _models[i];
+            const _datum = _datas[i];
+            _datum.links = this.buildNormalLinks(_model);
+            _datum.relationships = Object
+                .entries(this.buildRelationships(_model))
+                .reduce((acc, [key, value]) => {
+                    acc[underscore(key)] = value as RelationshipObject;
+                    return acc;
+                }, {} as Record<string, RelationshipObject>);
+        }
         return json;
     }
 }

@@ -531,20 +531,20 @@ export default function(this: Server) {
     this.resource('external-storage-services', { only: ['index', 'show'] });
     this.resource('external-citation-services', { only: ['index', 'show'] });
     this.resource('external-computing-services', { only: ['index', 'show'] });
-    this.resource('user-references', { only: ['show'] });
-    this.get('/user-references/:userGuid/authorized-storage-accounts/',
+    this.resource('user-references', { only: ['index', 'show'] });
+    this.get('/user-references/:userGuid/authorized_storage_accounts/',
         addons.userReferenceAuthorizedStorageAccountList);
-    this.get('/user-references/:userGuid/authorized-citation-accounts/',
+    this.get('/user-references/:userGuid/authorized_citation_accounts/',
         addons.userAuthorizedCitationAccountList);
-    this.get('/user-references/:userGuid/authorized-computing-accounts/',
+    this.get('/user-references/:userGuid/authorized_computing_accounts/',
         addons.userAuthorizedComputingAccountList);
     this.get('/resource-references/', addons.resourceReferencesList);
-    this.resource('resource-references', { only: ['show'] });
-    this.get('/resource-references/:nodeGuid/configured-storage-addons',
+    this.resource('resource-references', { only: ['index', 'show'] });
+    this.get('/resource-references/:nodeGuid/configured_storage_addons',
         addons.resourceReferenceConfiguredStorageAddonList);
-    this.get('/resource-references/:nodeGuid/configured-citation-addons',
+    this.get('/resource-references/:nodeGuid/configured_citation_addons',
         addons.resourceConfiguredCitationAddonList);
-    this.get('/resource-references/:nodeGuid/configured-computing-addons',
+    this.get('/resource-references/:nodeGuid/configured_computing_addons',
         addons.resourceConfiguredComputingAddonList);
     this.resource('authorized-storage-accounts', { except: ['index', 'update'] });
     this.patch('authorized-storage-accounts/:id', addons.updateAuthorizedStorageAccount);

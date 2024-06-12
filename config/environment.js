@@ -82,7 +82,7 @@ const {
     OSF_MFR_URL: mfrUrl = 'http://localhost:4200',
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
     // TODO: where shold this actually go?
-    ADDON_SERVICE_URL: addonServiceUrl = 'http://localhost:7979/',
+    ADDON_SERVICE_URL: addonServiceUrl = 'http://localhost:8004/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
     OSF_AUTHENTICATOR: osfAuthenticator = 'osf-cookie',
     PLAUDIT_WIDGET_URL: plauditWidgetUrl = 'https://osf-review.plaudit.pub/embed/endorsements.js',

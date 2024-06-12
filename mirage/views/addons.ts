@@ -21,7 +21,7 @@ import { filter, process } from './utils';
 
 interface MirageAuthorizedStorageAccount extends AuthorizedStorageAccountModel {
     configuringUserId: string;
-    storageProviderId: string;
+    externalStorageServiceId: string;
 }
 interface MirageAuthorizedCitationAccount extends AuthorizedCitationAccountModel {
     configuringUserId: string;
@@ -277,7 +277,7 @@ export function createAuthorizedStorageAccount(this: HandlerContext, schema: Sch
         'authorized-storage-account',
     ) as NormalizedRequestAttrs<MirageAuthorizedStorageAccount>;
     const externalService = schema.externalStorageServices
-        .find(attrs.storageProviderId) as ModelInstance<ExternalStorageServiceModel>;
+        .find(attrs.externalStorageServiceId) as ModelInstance<ExternalStorageServiceModel>;
     try {
         const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
         const newAuthorizedAccount = schema.authorizedStorageAccounts
@@ -343,7 +343,7 @@ export function updateAuthorizedStorageAccount(this: HandlerContext, schema: Sch
         'authorized-storage-account',
     ) as NormalizedRequestAttrs<MirageAuthorizedStorageAccount>;
     const externalService = schema.externalStorageServices
-        .find(attrs.storageProviderId) as ModelInstance<ExternalStorageServiceModel>;
+        .find(attrs.externalStorageServiceId) as ModelInstance<ExternalStorageServiceModel>;
     try {
         const authorizedAccount = schema.authorizedStorageAccounts.find(attrs.id);
         let authorizedAttrs = attrs;

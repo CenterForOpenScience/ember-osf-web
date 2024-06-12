@@ -8,10 +8,10 @@ export default class AuthorizedStorageAccountModel extends AuthorizedAccountMode
     @attr('fixstring') apiBaseUrl!: string; // Only applicable when ExternalStorageService.configurableApiRoot === true
 
     @belongsTo('user-reference', { inverse: 'authorizedStorageAccounts' })
-    configuringUser!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
+    readonly accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 
     @belongsTo('external-storage-service')
-    storageProvider!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
+    externalStorageService!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
 }
 
 declare module 'ember-data/types/registries/model' {

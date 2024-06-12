@@ -2,7 +2,7 @@ import { CredentialsFormat, TermsOfServiceCapabilities } from 'ember-osf-web/mod
 export default [
     {
         id: 'box',
-        name: 'Box',
+        displayName: 'Box',
         credentialsFormat: CredentialsFormat.OAUTH2,
         termsOfService: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
@@ -20,7 +20,7 @@ export default [
     },
     {
         id: 'bitbucket',
-        name: 'Bitbucket',
+        displayName: 'Bitbucket',
         credentialsFormat: CredentialsFormat.OAUTH2,
         termsOfService: [
             TermsOfServiceCapabilities.FORKING,
@@ -36,7 +36,7 @@ export default [
     },
     {
         id: 'dataverse',
-        name: 'Dataverse',
+        displayName: 'Dataverse',
         credentialsFormat: CredentialsFormat.REPO_TOKEN,
         termsOfService: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
@@ -53,7 +53,7 @@ export default [
     },
     {
         id: 'dropbox',
-        name: 'Dropbox',
+        displayName: 'Dropbox',
         credentialsFormat: CredentialsFormat.OAUTH2,
         termsOfService: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
@@ -71,7 +71,7 @@ export default [
     },
     {
         id: 'figshare',
-        name: 'figshare',
+        displayName: 'figshare',
         credentialsFormat: CredentialsFormat.OAUTH2,
         termsOfService: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES_PARTIAL,
@@ -88,7 +88,7 @@ export default [
     },
     {
         id: 'gitlab',
-        name: 'GitLab',
+        displayName: 'GitLab',
         credentialsFormat: CredentialsFormat.REPO_TOKEN,
         termsOfService: [
             TermsOfServiceCapabilities.FORKING,
@@ -103,7 +103,7 @@ export default [
     },
     {
         id: 'onedrive',
-        name: 'OneDrive',
+        displayName: 'OneDrive',
         credentialsFormat: CredentialsFormat.OAUTH2,
         termsOfService: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
@@ -121,7 +121,7 @@ export default [
     },
     {
         id: 'owncloud',
-        name: 'ownCloud',
+        displayName: 'ownCloud',
         credentialsFormat: CredentialsFormat.URL_USERNAME_PASSWORD,
         termsOfService: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
@@ -139,7 +139,7 @@ export default [
     },
     {
         id: 's3',
-        name: 'Amazon S3',
+        displayName: 'Amazon S3',
         credentialsFormat: CredentialsFormat.ACCESS_SECRET_KEYS,
         termsOfService: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,

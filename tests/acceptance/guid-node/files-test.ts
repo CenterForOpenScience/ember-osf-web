@@ -135,24 +135,17 @@ module('Acceptance | guid-node/files', hooks => {
     test('Switching providers', async function(this: GuidNodeTestContext, assert) {
         const bitbucketAddon = server.schema.externalStorageServices
             .find('bitbucket') as ModelInstance<ExternalStorageServiceModel>;
-        server.create('file-provider', {
-            provider: 'bitbucket',
-            name: 'bitbucket',
-            target: this.node,
-        });
-        server.create('resource-reference', { id: this.node.id });
         const addonFile = server.create('resource-reference', { id: this.node.id });
         server.create('configured-storage-addon', {
             id: 'bitbucket',
-            name: 'bitbucket',
             displayName: 'Bitbucket',
             rootFolder: '/woot/',
-            storageProvider: bitbucketAddon,
+            externalStorageService: bitbucketAddon,
             authorizedResource: addonFile,
         });
         await visit(`/${this.node.id}/files`);
-        assert.dom('[data-test-files-provider-link="bitbucket"').exists('Bitbucket shown');
-        assert.dom('[data-test-files-provider-link="bitbucket"').hasAttribute('href',
+        assert.dom('[data-test-files-provider-link="bitbucket"]').exists('Bitbucket shown');
+        assert.dom('[data-test-files-provider-link="bitbucket"]').hasAttribute('href',
             `/${this.node.id}/files/bitbucket`, 'Links to bitbucket files');
     });
 });
