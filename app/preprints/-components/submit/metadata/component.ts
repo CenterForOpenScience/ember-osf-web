@@ -119,7 +119,8 @@ export default class Metadata extends Component<MetadataArgs>{
 
     private setLicenseFields(): void {
         if (this.license?.hasRequiredFields) {
-            this.metadataFormChangeset.set('licenseCopyrights', this.preprint.licenseRecord.copyrightHolders.join(' '));
+            this.metadataFormChangeset.set('licenseCopyrights',
+                this.preprint.licenseRecord.copyright_holders.join(' '));
             this.metadataFormChangeset.set('licenseYear', this.preprint.licenseRecord.year);
 
         }
@@ -134,7 +135,7 @@ export default class Metadata extends Component<MetadataArgs>{
     private updateLicenseRecord(): void {
         if (this.metadataFormChangeset.get('license').hasRequiredFields) {
             this.metadataFormChangeset.set('licenseRecord', {
-                copyrightHolders: [this.metadataFormChangeset.get('licenseCopyrights')],
+                copyright_holders: [this.metadataFormChangeset.get('licenseCopyrights')],
                 year: this.metadataFormChangeset.get('licenseYear'),
 
             } as PreprintLicenseRecordModel);
