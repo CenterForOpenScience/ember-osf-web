@@ -602,7 +602,7 @@ validationErrors:
     even: '{description} must be even.'
     exclusion: '{description} is reserved.'
     greaterThan: '{description} must be greater than {gt}.'
-    greaterThanOrEqualTo: '{description} must be greater than or equal to {gte}.'
+    greaterThanOrEqualTo: '{description} must be at least {gte} characters.'
     https_url: '{description} must be a valid https url.'
     inclusion: '{description} is not included in the list.'
     invalid: '{description} is invalid.'
