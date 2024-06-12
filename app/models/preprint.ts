@@ -36,7 +36,7 @@ export enum PreprintPreregLinkInfoEnum {
 }
 
 export interface PreprintLicenseRecordModel {
-    copyrightHolders: string[];
+    copyright_holders: string[];
     year: string;
 }
 
@@ -113,11 +113,11 @@ export default class PreprintModel extends AbstractNodeModel {
     @computed('license', 'licenseRecord')
     get licenseText(): string {
         const text = this.license.get('text') || '';
-        const { year = '', copyrightHolders = [] } = this.licenseRecord;
+        const { year = '', copyright_holders = [] } = this.licenseRecord;
 
         return text
             .replace(/({{year}})/g, year)
-            .replace(/({{copyrightHolders}})/g, copyrightHolders.join(', '));
+            .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
     }
 }
 
