@@ -25,6 +25,7 @@
                     {{on 'change' this.validate}}
                     local-class='input-container'
                     @placeholder={{t 'preprints.submit.step-title.title-input'}}
+                    @maxlength={{512}}
                     @uniqueID={{titleFieldId}} 
                     @onKeyUp={{this.validate}}
                 />
