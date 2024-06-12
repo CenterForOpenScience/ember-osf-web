@@ -31,6 +31,12 @@
                 align-items: center;
                 justify-content: flex-start;
 
+                &.ellipsis {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: normal;
+                }
+
                 .image {
                     width: 30px;
                     height: 30px;
