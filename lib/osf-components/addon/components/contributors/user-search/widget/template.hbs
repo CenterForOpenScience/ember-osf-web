@@ -12,6 +12,7 @@
             <Button
                 data-test-user-search-button
                 local-class='search-button'
+                aria-label={{t 'registries.registration_metadata.add_contributors.search'}}
                 @type='primary'
                 {{on 'click' (perform this.fetchUsers false)}}
             >
