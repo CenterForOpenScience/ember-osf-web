@@ -44,7 +44,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
-    displayAuthorAssertions = this.provider.assertionsEnabled;
+    displayAuthorAssertions = false;
     @tracked statusFlowIndex = 1;
 
     constructor(owner: unknown, args: StateMachineArgs) {
@@ -58,6 +58,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                 provider: this.provider,
             });
         }
+        this.displayAuthorAssertions = this.provider.assertionsEnabled;
     }
 
     private setValidationForEditFlow(): void {
