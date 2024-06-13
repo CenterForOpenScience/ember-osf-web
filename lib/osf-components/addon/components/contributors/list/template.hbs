@@ -12,6 +12,7 @@
         {{#each @contributorsManager.contributors as |contributor|}}
             <li 
                 {{sortable-item
+                    distance=30
                     model=contributor
                     disabled=(eq this.widgetMode 'readonly')
                     onDragStart=(action (mut @contributorsManager.isDragging) true)

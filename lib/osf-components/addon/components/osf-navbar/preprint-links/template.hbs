@@ -23,6 +23,7 @@
         data-test-add-a-preprint-osf-navbar
         data-analytics-name='Add a preprint'
         @route='preprints.select'
+        {{on 'click' @onLinkClicked}}
     >
         {{t 'navbar.add_a_preprint' preprintWord=(t 'documentType.preprint.singularCapitalized')}}
     </OsfLink>
