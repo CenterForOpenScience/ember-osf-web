@@ -20,8 +20,8 @@ interface FileArgs {
  */
 export default class PreprintFile extends Component<FileArgs>{
     @tracked isFileUploadDisplayed = false;
+    @tracked isProjectSelectDisplayed = false;
     @tracked isFileSelectDisplayed = false;
-    @tracked isFilesDisplayed = false;
     @tracked isFileAttached = false;
     @tracked dragging = false;
     @tracked file!: any;
@@ -47,7 +47,7 @@ export default class PreprintFile extends Component<FileArgs>{
     public async validate(file: FileModel): Promise<void> {
         this.file = file;
         this.isFileAttached = true;
-        this.isFileSelectDisplayed = false;
+        this.isProjectSelectDisplayed = false;
         this.isFileUploadDisplayed = false;
         this.args.manager.validateFile(true);
     }
@@ -55,31 +55,31 @@ export default class PreprintFile extends Component<FileArgs>{
     @action
     public displayFileUpload(): void {
         this.isFileUploadDisplayed = true;
+        this.isProjectSelectDisplayed = false;
         this.isFileSelectDisplayed = false;
-        this.isFilesDisplayed = false;
     }
 
     @action
     public displayFileSelect(): void {
         this.isFileUploadDisplayed = false;
-        this.isFileSelectDisplayed = true;
-        this.isFilesDisplayed = false;
+        this.isProjectSelectDisplayed = true;
+        this.isFileSelectDisplayed = false;
     }
 
     public get isButtonDisabled(): boolean {
-        return this.isFileSelectDisplayed || this.isFileUploadDisplayed;
+        return this.isProjectSelectDisplayed || this.isFileUploadDisplayed;
     }
 
     @action
     public onCancelSelectAction(): void {
         this.isFileUploadDisplayed = false;
-        this.isFileSelectDisplayed= false;
+        this.isProjectSelectDisplayed = false;
     }
 
     @action
     public projectSelected(node: NodeModel): void {
         this.selectedProjectNode = node;
-        this.isFilesDisplayed = true;
+        this.isFileSelectDisplayed= true;
     }
 
     @task
