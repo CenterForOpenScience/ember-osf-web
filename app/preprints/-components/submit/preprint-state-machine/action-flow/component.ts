@@ -45,9 +45,10 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
     /**
      * Calls the state machine submit method
      */
-    @action
-    public onSubmit(): void {
-        this.manager.onSubmit();
+    @task
+    @waitFor
+    public async onSubmit(): Promise<void> {
+        await taskFor(this.manager.onSubmit).perform();
     }
 
     /**

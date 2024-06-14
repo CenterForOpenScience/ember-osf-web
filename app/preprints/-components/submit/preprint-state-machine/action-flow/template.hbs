@@ -17,7 +17,7 @@
                 <Button
                     data-test-submit-button
                     data-analytics-name='Submit button'
-                    {{on 'click' this.onSubmit}}
+                    {{on 'click' (perform this.onSubmit)}}
                     @layout='fake-link'
                 >
                     <FaIcon @icon='arrow-right' />
@@ -27,7 +27,7 @@
             <Button
                 data-test-submit-button
                 data-analytics-name='Submit button'
-                {{on 'click' this.onSubmit}}
+                {{on 'click' (perform this.onSubmit)}}
                 local-class='btn'
                 @layout='large'
                 @type='primary'
