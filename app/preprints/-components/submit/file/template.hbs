@@ -78,6 +78,21 @@
                 {{/if}}
                 {{#if this.isFileSelectDisplayed}}
                     {{ t 'preprints.submit.step-file.file-select-label'}}
+                    <Preprints::-Components::PreprintExistingNodeWidget
+                        @projectSelected={{this.projectSelected}}
+                        data-test-select-project
+                    />
+
+                    {{#if this.isFilesDisplayed}}
+                        <Files::Widget
+                            data-test-file-widget
+                            local-class='files-widget'
+                            @node={{this.selectedProjectNode}}
+                            @onSelectFile={{perform this.onSelectFile}}
+                            @canEdit={{false}}
+                            disabled={{false}}
+                        />
+                    {{/if}}
                 {{/if}}
                 {{#if this.isButtonDisabled}}
                     <div local-class='cancel-button-container'>
