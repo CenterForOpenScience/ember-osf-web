@@ -469,7 +469,7 @@ export function valueSearch(_: Schema, __: Request) {
                             matchingHighlight: 'National <em>Institute of Health</em>',
                         },
                     ],
-                    cardSearchResultCount: 2134,
+                    cardSearchResultCount: 3,
                 },
                 relationships: {
                     indexCard: {
