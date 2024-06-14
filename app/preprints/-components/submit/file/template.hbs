@@ -76,14 +76,14 @@
                     {{/let}}
 
                 {{/if}}
-                {{#if this.isFileSelectDisplayed}}
+                {{#if this.isProjectSelectDisplayed}}
                     {{ t 'preprints.submit.step-file.file-select-label'}}
                     <Preprints::-Components::PreprintExistingNodeWidget
                         @projectSelected={{this.projectSelected}}
                         data-test-select-project
                     />
 
-                    {{#if this.isFilesDisplayed}}
+                    {{#if this.isFileSelectDisplayed}}
                         <Files::Widget
                             data-test-file-widget
                             local-class='files-widget'
