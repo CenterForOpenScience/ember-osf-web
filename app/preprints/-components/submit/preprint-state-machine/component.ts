@@ -106,9 +106,22 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     /**
      * Callback for the action-flow component
      */
-    @action
-    public onSubmit(): void {
-        this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
+    @task
+    @waitFor
+    public async onSubmit(): Promise<void> {
+        if (this.provider.reviewsWorkflow) {
+            const reviewAction = this.store.createRecord('review-action', {
+                actionTrigger: 'submit',
+                target: this.preprint,
+            });
+            await reviewAction.save();
+        } else {
+            this.preprint.isPublished = true;
+            await this.preprint.save();
+        }
+
+
+        await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
     }
 
     /**
