@@ -1,5 +1,5 @@
 <div local-class='preprint-state-machine-container  {{if (is-mobile) 'mobile'}}'>
-    {{#if (or @manager.onNext.isRunning @manager.onSubmit.isRunning)}}
+    {{#if (or @manager.onNext.isRunning @manager.onSubmit.isRunning @manager.addProjectFile.isRunning)}}
         <div local-class='spinner-container'>
             <FaIcon @icon='spinner' @pulse={{true}} @size='2x' />
         </div>

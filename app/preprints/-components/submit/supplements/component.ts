@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import { taskFor } from 'ember-concurrency-ts';
+import NodeModel from 'ember-osf-web/models/node';
 
 /**
  * The Supplements Args
@@ -69,7 +70,7 @@ export default class Supplements extends Component<SupplementsArgs>{
     }
 
     @action
-    public projectSelected(node: Node): void {
+    public projectSelected(node: NodeModel): void {
         this.args.manager.preprint.set('node', node);
         taskFor(this.saveSelectedProject).perform();
         this.isSupplementAttached = true;

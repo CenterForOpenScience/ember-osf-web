@@ -9,6 +9,7 @@ import { action } from '@ember/object';
 import Intl from 'ember-intl/services/intl';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
+import FileModel from 'ember-osf-web/models/file';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -488,5 +489,15 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      */
     public get getReviewType(): string {
         return PreprintStatusTypeEnum.review;
+    }
+
+    @task
+    @waitFor
+    public async addProjectFile(file: FileModel): Promise<void>{
+        await file.copy(this.preprint, '/', 'osfstorage');
+        const theFiles = await this.preprint.files;
+        const rootFolder = await theFiles.firstObject!.rootFolder;
+        const primaryFile = await rootFolder!.files;
+        this.preprint.set('primaryFile', primaryFile.firstObject);
     }
 }
