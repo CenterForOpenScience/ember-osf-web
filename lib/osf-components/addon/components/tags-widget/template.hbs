@@ -22,6 +22,7 @@
         data-test-tags-widget-tag='{{tag}}'
         data-analytics-name='Click tag'
         role='link'
+        class='{{if @isPreprint 'no-cursor'}}'
         {{action this._clickTag tag}}
     >
         {{tag}}

@@ -43,3 +43,8 @@
         height: fit-content;
     }
 }
+
+.TagsWidget :global(.emberTagInput-tag) {
+    cursor: default;
+
+}

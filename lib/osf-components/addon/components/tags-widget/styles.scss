@@ -28,6 +28,10 @@
     }
 }
 
+.TagsWidget :global(.emberTagInput-tag .no-cursor) {
+    cursor: default;
+} 
+
 .TagsWidget :global(.emberTagInput-new) {
     width: 100%;
 
