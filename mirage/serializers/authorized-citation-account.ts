@@ -6,7 +6,7 @@ import AuthorizedCitationAccount from 'ember-osf-web/models/authorized-citation-
 import AddonServiceSerializer from './addon-service';
 
 interface MirageAuthorizedCitationAccount extends ModelInstance<AuthorizedCitationAccount> {
-    configuringUserId: string;
+    accountOwnerId: string;
     externalCitationServiceId: string;
 }
 
@@ -16,7 +16,7 @@ export default class AuthorizedCitationAccountSerializer extends AddonServiceSer
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.configuringUserId}/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
             },

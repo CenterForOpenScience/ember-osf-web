@@ -6,7 +6,7 @@ import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computin
 import AddonServiceSerializer from './addon-service';
 
 interface MirageAuthorizedComputingAccount extends ModelInstance<AuthorizedComputingAccount> {
-    configuringUserId: string;
+    accountOwnerId: string;
     externalComputingServiceId: string;
 }
 
@@ -16,7 +16,7 @@ export default class AuthorizedComputingAccountSerializer extends AddonServiceSe
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.configuringUserId}/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
             },

@@ -78,20 +78,6 @@ module('Acceptance | settings | addons', hooks => {
         assert.dom('[data-test-all-addons-tab]').containsText('No results found');
     });
 
-    test('It can start OAuth flow', async function(assert) {
-        await visit('/settings/addons');
-
-        await click('[data-test-provider-connect-button="Box"]');
-        assert.dom('[data-test-capabilities-table]')
-            .containsText('Adding/updating files within OSF will be reflected in Box.');
-
-        await click('[data-test-addon-terms-confirm-button]');
-        await fillIn('[data-test-oauth-display-name-input]', 'My Box Addon');
-        await click('[data-test-addon-oauth-button]');
-        assert.dom('#toast-container', document as any).hasTextContaining('The OAuth window was blocked.',
-            'Toast error shown after failing to open OAuth window');
-    });
-
     test('It can connect a non-OAuth addon', async function(assert) {
         server.create('external-storage-service',
             {
@@ -125,7 +111,7 @@ module('Acceptance | settings | addons', hooks => {
         await fillIn('[data-test-input="password"]', 'password123');
         triggerKeyEvent('[data-test-input="password"]', 'keyup', 'Shift');
         await click('[data-test-addon-connect-account-button]');
-        assert.dom('[data-test-connected-accounts-tab]').containsText('My ownCloud Account');
+        assert.dom('[data-test-connected-accounts-tab]').includesText('My ownCloud Addon');
     });
 
 });

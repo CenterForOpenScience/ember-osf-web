@@ -6,7 +6,7 @@ import AuthorizedStorageAccount from 'ember-osf-web/models/authorized-storage-ac
 import AddonServiceSerializer from './addon-service';
 
 interface MirageAuthorizedStorageAccount extends ModelInstance<AuthorizedStorageAccount> {
-    configuringUserId: string;
+    accountOwnerId: string;
     externalStorageServiceId: string;
 }
 
@@ -16,7 +16,7 @@ export default class AuthorizedStorageAccountSerializer extends AddonServiceSeri
             accountOwner: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}user-references/${model.configuringUserId}/`,
+                        href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
             },

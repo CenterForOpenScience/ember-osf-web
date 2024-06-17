@@ -20,15 +20,15 @@ import { MirageConfiguredStorageAddon } from '../serializers/configured-storage-
 import { filter, process } from './utils';
 
 interface MirageAuthorizedStorageAccount extends AuthorizedStorageAccountModel {
-    configuringUserId: string;
+    accountOwnerId: string;
     externalStorageServiceId: string;
 }
 interface MirageAuthorizedCitationAccount extends AuthorizedCitationAccountModel {
-    configuringUserId: string;
+    accountOwnerId: string;
     citationServiceId: string;
 }
 interface MirageAuthorizedComputingAccount extends AuthorizedComputingAccountModel {
-    configuringUserId: string;
+    accountOwnerId: string;
     computingServiceId: string;
 }
 
