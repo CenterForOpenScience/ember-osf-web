@@ -78,6 +78,13 @@ module('Acceptance | settings | addons', hooks => {
         assert.dom('[data-test-all-addons-tab]').containsText('No results found');
     });
 
+    test('Connected account tab works', async function(assert) {
+        await visit('/settings/addons');
+
+        await click('[data-test-connected-accounts-tab-control]');
+        assert.dom('[data-test-provider-list-item-name="My Box Account"]').exists();
+    });
+
     test('It can connect, reconnect, and disconnect a non-OAuth addon', async function(assert) {
         server.create('external-storage-service',
             {

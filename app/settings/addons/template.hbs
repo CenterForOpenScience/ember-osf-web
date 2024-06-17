@@ -103,8 +103,18 @@
                             local-class='tab-list'
                             as |tablist|
                         >
-                            <tablist.tab data-analytics-name='All Addons Tab'>{{t 'addons.list.all-addons'}}</tablist.tab>
-                            <tablist.tab data-analytics-name='Connected Accounts Tab'>{{t 'addons.list.connected-accounts'}}</tablist.tab>
+                            <tablist.tab 
+                                data-analytics-name='All Addons Tab'
+                                data-test-all-addons-tab-control
+                            >
+                                {{t 'addons.list.all-addons'}}
+                            </tablist.tab>
+                            <tablist.tab
+                                data-test-connected-accounts-tab-control
+                                data-analytics-name='Connected Accounts Tab'
+                            >
+                                {{t 'addons.list.connected-accounts'}}
+                            </tablist.tab>
                         </tab.tabList>
                         <tab.tabPanel
                             data-test-all-addons-tab
