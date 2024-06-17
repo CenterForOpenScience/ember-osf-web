@@ -78,7 +78,7 @@ module('Acceptance | settings | addons', hooks => {
         assert.dom('[data-test-all-addons-tab]').containsText('No results found');
     });
 
-    test('It can connect a non-OAuth addon', async function(assert) {
+    test('It can connect, reconnect, and disconnect a non-OAuth addon', async function(assert) {
         server.create('external-storage-service',
             {
                 id: 'owncloud',
@@ -111,7 +111,22 @@ module('Acceptance | settings | addons', hooks => {
         await fillIn('[data-test-input="password"]', 'password123');
         triggerKeyEvent('[data-test-input="password"]', 'keyup', 'Shift');
         await click('[data-test-addon-connect-account-button]');
-        assert.dom('[data-test-connected-accounts-tab]').includesText('My ownCloud Addon');
+        assert.dom('[data-test-provider-list-item-name="My ownCloud Addon"]').containsText('My ownCloud Addon');
+
+        await click('[data-test-reconnect-account-button="My ownCloud Addon"]');
+        await fillIn('[data-test-input="url"]', 'https://server.owncloud.com/');
+        triggerKeyEvent('[data-test-input="url"]', 'keyup', 'Shift');
+        await fillIn('[data-test-input="username"]', 'Robert Username');
+        triggerKeyEvent('[data-test-input="username"]', 'keyup', 'Shift');
+        await fillIn('[data-test-input="password"]', 'password123!');
+        triggerKeyEvent('[data-test-input="password"]', 'keyup', 'Shift');
+        await click('[data-test-addon-reconnect-account-button]');
+        assert.dom('[data-test-provider-list-item-name="My ownCloud Addon"]').containsText('My ownCloud Addon');
+
+        // eslint-disable-next-line max-len
+        await click('[data-test-disconnect-account-button="My ownCloud Addon"] > [data-test-delete-button-secondary-destroy]');
+        await click('[data-test-confirm-delete]');
+        assert.dom('[data-test-provider-list-item-name="My ownCloud Addon"]').doesNotExist();
     });
 
 });
