@@ -35,6 +35,8 @@
                                     {{t 'general.cancel'}}
                                 </Button>
                                 <Button
+                                    data-test-addon-terms-confirm-button
+                                    data-analytics-name='Confirm terms'
                                     @type='primary'
                                     {{on 'click' manager.acceptProviderTerms}}
                                 >
@@ -118,6 +120,7 @@
                                         {{provider.displayName}}
                                         <span>
                                             <Button
+                                                data-test-provider-connect-button={{provider.displayName}}
                                                 data-analytics-name='Connect Addon Button {{provider.displayName}}'
                                                 @type='create'
                                                 {{on 'click' (fn manager.connectNewProviderAccount provider)}}

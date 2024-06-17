@@ -288,7 +288,7 @@ export function createAuthorizedStorageAccount(this: HandlerContext, schema: Sch
         }
         return newAuthorizedAccount;
     } catch (e) {
-        return new Response(403, {}, {
+        return new Response(400, {}, {
             errors: [{ detail: e.message }],
         });
     }
