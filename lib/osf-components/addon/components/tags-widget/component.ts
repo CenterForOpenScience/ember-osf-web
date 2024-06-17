@@ -14,6 +14,7 @@ import template from './template';
 
 interface Taggable extends OsfModel {
     tags: string[];
+    isPreprint: boolean;
 }
 
 @layout(template, styles)
@@ -22,6 +23,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
 
     // required arguments
     taggable!: Taggable;
+    isPreprint = false;
 
     // optional arguments
     readOnly = true;
@@ -38,6 +40,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
         super.init();
         assert('tags-widget: You must pass in a taggable model', Boolean(this.taggable && 'tags' in this.taggable));
     }
+
 
     @action
     _addTag(tag: string) {
@@ -63,7 +66,9 @@ export default class TagsWidget extends Component.extend({ styles }) {
 
     @action
     _clickTag(tag: string): void {
-        this.router.transitionTo('search', { queryParams: { q: `${encodeURIComponent(tag)}` } });
+        if (!this.isPreprint) {
+            this.router.transitionTo('search', { queryParams: { q: `${encodeURIComponent(tag)}` } });
+        }
     }
 
     _onChange() {
