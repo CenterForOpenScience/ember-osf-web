@@ -747,6 +747,7 @@ node:
         add-ons: Add-ons
         settings: Settings
     projects:
+        search-placeholder: 'Find project by name'
         select-placeholder: 'Click to select project'
         load-more:
             loading: Loading…
