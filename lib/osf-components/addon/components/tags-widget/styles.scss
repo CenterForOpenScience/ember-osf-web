@@ -9,7 +9,7 @@
     background: $color-bg-blue-light;
     border-radius: 0;
     color: $color-text-black;
-    cursor: pointer;
+    cursor: default;
     font-size: 13px;
     max-width: 100%;
     overflow-wrap: break-word;
@@ -28,8 +28,8 @@
     }
 }
 
-.TagsWidget :global(.emberTagInput-tag .no-cursor) {
-    cursor: default;
+.TagsWidget :global(.emberTagInput-tag .cursor) {
+    cursor: pointer;
 } 
 
 .TagsWidget :global(.emberTagInput-new) {

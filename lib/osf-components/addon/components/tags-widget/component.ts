@@ -14,7 +14,7 @@ import template from './template';
 
 interface Taggable extends OsfModel {
     tags: string[];
-    isPreprint: boolean;
+    isTagClickable: boolean;
 }
 
 @layout(template, styles)
@@ -23,11 +23,11 @@ export default class TagsWidget extends Component.extend({ styles }) {
 
     // required arguments
     taggable!: Taggable;
-    isPreprint = false;
 
     // optional arguments
     readOnly = true;
     autoSave = true;
+    isTagClickable = true;
     onChange?: (taggable: Taggable) => void;
 
     @attribute('data-analytics-scope')
@@ -66,7 +66,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
 
     @action
     _clickTag(tag: string): void {
-        if (!this.isPreprint) {
+        if (this.isTagClickable) {
             this.router.transitionTo('search', { queryParams: { q: `${encodeURIComponent(tag)}` } });
         }
     }

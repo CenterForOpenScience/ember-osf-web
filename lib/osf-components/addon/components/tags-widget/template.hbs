@@ -18,11 +18,12 @@
     ...attributes
     as |tag|
 >
+    {{!-- template-lint-disable no-invalid-interactive --}}
     <span
         data-test-tags-widget-tag='{{tag}}'
         data-analytics-name='Click tag'
-        role='link'
-        class='{{if @isPreprint 'no-cursor'}}'
+        role='{{if @isTagClickable 'link'}}'
+        class='{{if @isTagClickable 'cursor'}}'
         {{action this._clickTag tag}}
     >
         {{tag}}
