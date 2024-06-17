@@ -23,6 +23,7 @@ import template from './template';
 
 interface ModelWithSubjects extends OsfModel {
     subjects: SubjectModel[];
+    hasSubjects(): boolean;
 }
 
 // SubjectManager is responsible for:
@@ -62,6 +63,8 @@ export default class SubjectManagerComponent extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
     @service store!: Store;
+
+    hasSubjects?: (_: boolean) => void;
 
     savedSubjectIds = new Set<string>();
     selectedSubjectIds = new Set<string>();
@@ -116,6 +119,10 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
+        if (this.hasSubjects) {
+            const hasSubjects = savedSubjectIds.size > 0;
+            this.hasSubjects(hasSubjects);
+        }
     }
 
     @restartableTask

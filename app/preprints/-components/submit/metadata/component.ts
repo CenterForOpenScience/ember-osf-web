@@ -92,7 +92,6 @@ export default class Metadata extends Component<MetadataArgs>{
         this.today.getDate(),
     );
 
-
     constructor(owner: unknown, args: MetadataArgs) {
         super(owner, args);
 
@@ -142,6 +141,11 @@ export default class Metadata extends Component<MetadataArgs>{
         } else {
             this.metadataFormChangeset.set('licenseRecord', undefined);
         }
+    }
+
+    @action
+    hasSubjects(): void {
+        this.validate();
     }
 
     @action
