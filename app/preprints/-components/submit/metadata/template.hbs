@@ -83,7 +83,7 @@
                             @provider={{@manager.provider}}
                             @metadataChangeset={{this.metadataFormChangeset}} 
                             @doesAutosave={{true}}
-                            @hasSubjects={{action this.hasSubjects}}
+                            @hasSubjects={{perform this.hasSubjects}}
                             @onchange={{this.validate}}
                             id={{subjectsFieldId}}
                             as |subjectsManager|
