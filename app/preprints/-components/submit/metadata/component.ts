@@ -143,8 +143,7 @@ export default class Metadata extends Component<MetadataArgs>{
         }
     }
 
-    @task
-    @waitFor
+    @action
     public async hasSubjects(hasSubjects: boolean): Promise<void> {
         if (hasSubjects) {
             this.validate();
