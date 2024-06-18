@@ -18,6 +18,7 @@
                             {{t 'addons.accountCreate.display-name-help'}}
                         </div>
                         <Input
+                            data-test-oauth-display-name-input
                             local-class='input'
                             id={{displayNameId}}
                             placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
@@ -62,6 +63,7 @@
                 </label>
                 {{#if this.otherRepoSelected}}
                     <Input
+                        data-test-other-repo-input
                         local-class='auth-text-input-label'
                         placeholder={{t 'addons.accountCreate.repo-other-placeholder'}}
                         @value={{this.otherRepo}}
@@ -83,6 +85,7 @@
                         {{field.postText}}
                     </div>
                     <Input
+                            data-test-input={{field.name}}
                             id={{id}}
                             local-class='input'
                             name={{field.name}}
@@ -103,6 +106,7 @@
                         {{t 'addons.accountCreate.display-name-help'}}
                     </div>
                     <Input
+                        data-test-display-name-input
                         id={{id}}
                         local-class='input'
                         placeholder={{t 'addons.accountCreate.display-name-placeholder'}}

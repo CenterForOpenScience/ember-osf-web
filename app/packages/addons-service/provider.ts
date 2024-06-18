@@ -217,6 +217,7 @@ export default class Provider {
             authorizedCapabilities: ['ACCESS', 'UPDATE'],
             externalStorageService: this.provider,
             displayName: accountName,
+            accountOwner: this.userReference,
         });
         await newAccount.save();
         return newAccount;

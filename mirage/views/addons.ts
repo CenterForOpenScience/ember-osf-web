@@ -20,15 +20,15 @@ import { MirageConfiguredStorageAddon } from '../serializers/configured-storage-
 import { filter, process } from './utils';
 
 interface MirageAuthorizedStorageAccount extends AuthorizedStorageAccountModel {
-    configuringUserId: string;
+    accountOwnerId: string;
     externalStorageServiceId: string;
 }
 interface MirageAuthorizedCitationAccount extends AuthorizedCitationAccountModel {
-    configuringUserId: string;
+    accountOwnerId: string;
     citationServiceId: string;
 }
 interface MirageAuthorizedComputingAccount extends AuthorizedComputingAccountModel {
-    configuringUserId: string;
+    accountOwnerId: string;
     computingServiceId: string;
 }
 
@@ -288,7 +288,7 @@ export function createAuthorizedStorageAccount(this: HandlerContext, schema: Sch
         }
         return newAuthorizedAccount;
     } catch (e) {
-        return new Response(403, {}, {
+        return new Response(400, {}, {
             errors: [{ detail: e.message }],
         });
     }

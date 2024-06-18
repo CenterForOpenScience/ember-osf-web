@@ -95,7 +95,7 @@ const capabilitiesToTextKeyMap: Record<ServiceTranslationKey, Partial<Record<Cap
 };
 
 
-export default class UserAddonManagerComponent extends Component<Args> {
+export default class TermsOfServiceComponent extends Component<Args> {
     @service intl!: IntlService;
 
     applicableCapabilities: CapabilityCategory[] = [];

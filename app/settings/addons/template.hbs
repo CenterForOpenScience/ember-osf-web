@@ -35,6 +35,8 @@
                                     {{t 'general.cancel'}}
                                 </Button>
                                 <Button
+                                    data-test-addon-terms-confirm-button
+                                    data-analytics-name='Confirm terms'
                                     @type='primary'
                                     {{on 'click' manager.acceptProviderTerms}}
                                 >
@@ -101,8 +103,18 @@
                             local-class='tab-list'
                             as |tablist|
                         >
-                            <tablist.tab data-analytics-name='All Addons Tab'>{{t 'addons.list.all-addons'}}</tablist.tab>
-                            <tablist.tab data-analytics-name='Connected Accounts Tab'>{{t 'addons.list.connected-accounts'}}</tablist.tab>
+                            <tablist.tab 
+                                data-analytics-name='All Addons Tab'
+                                data-test-all-addons-tab-control
+                            >
+                                {{t 'addons.list.all-addons'}}
+                            </tablist.tab>
+                            <tablist.tab
+                                data-test-connected-accounts-tab-control
+                                data-analytics-name='Connected Accounts Tab'
+                            >
+                                {{t 'addons.list.connected-accounts'}}
+                            </tablist.tab>
                         </tab.tabList>
                         <tab.tabPanel
                             data-test-all-addons-tab
@@ -118,6 +130,7 @@
                                         {{provider.displayName}}
                                         <span>
                                             <Button
+                                                data-test-provider-connect-button={{provider.displayName}}
                                                 data-analytics-name='Connect Addon Button {{provider.displayName}}'
                                                 @type='create'
                                                 {{on 'click' (fn manager.connectNewProviderAccount provider)}}
@@ -138,12 +151,13 @@
                         >
                             <ul local-class='configured-addons-wrapper'>
                                 {{#each manager.currentTypeAuthorizedAccounts as |account|}}
-                                    <li local-class='provider-list-item'>
-                                        <span>
+                                    <li local-class='provider-list-item' data-test-provider-list-item={{account.displayName}}>
+                                        <span data-test-provider-list-item-name={{account.displayName}}>
                                             {{account.displayName}}
                                         </span>
                                         <span local-class='button-wrapper'>
                                             <Button
+                                                data-test-reconnect-account-button={{account.displayName}}
                                                 data-analytics-name='Reconnect account'
                                                 @type='primary'
                                                 {{on 'click' (fn manager.navigateToReconnectProviderAccount account)}}
@@ -151,6 +165,7 @@
                                                 {{t 'addons.list.reconnect'}}
                                             </Button>
                                             <DeleteButton
+                                                data-test-disconnect-account-button={{account.displayName}}
                                                 @secondary={{true}}
                                                 @delete={{perform manager.disconnectAccount account}}
                                                 @buttonLabel={{t 'addons.list.disable'}}
