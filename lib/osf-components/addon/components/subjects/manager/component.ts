@@ -23,7 +23,6 @@ import template from './template';
 
 interface ModelWithSubjects extends OsfModel {
     subjects: SubjectModel[];
-    hasSubjects(_: boolean): void;
 }
 
 // SubjectManager is responsible for:
