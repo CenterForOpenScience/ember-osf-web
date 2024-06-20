@@ -1188,7 +1188,7 @@ preprints:
             abstract-input-error: '20 characters'
         step-file:
             title: 'File'
-            upload-title: 'Upload your preprint'
+            upload-title: 'Upload your {singularPreprintWord}'
             uploaded-file-title: 'Attached preprint file'
             file-upload-label: 'Upload from your computer'
             file-upload-label-one: 'Drag and drop files here to upload'
