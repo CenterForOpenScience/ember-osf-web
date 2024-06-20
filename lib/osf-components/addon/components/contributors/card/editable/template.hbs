@@ -7,7 +7,7 @@
         local-class='main-section {{if (is-mobile) 'mobile'}}'
     >
         <div local-class='name-section {{if (is-mobile) 'mobile'}}'>
-            {{#if (not (is-mobile))}}
+            {{#unless this.isMobile}}
                 <div local-class='handle'
                     data-test-sortable-handle={{@contributor.id}}
                     aria-label={{t 'osf-components.contributors.reorderContributor.reorderContributor'}}
@@ -15,7 +15,7 @@
                 >
                     <FaIcon @icon='bars' />
                 </div>
-            {{/if}}
+            {{/unless}}
             {{!-- Removed by Mark as part of the preprint redesign 2024-05-03 --}}
             {{!-- <img
                 data-test-contributor-gravatar
