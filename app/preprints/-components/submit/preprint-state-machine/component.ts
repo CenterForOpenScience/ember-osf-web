@@ -103,6 +103,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         this.isPreviousButtonDisabled = this.statusFlowIndex === 1;
     }
 
+    toggleLeftNav = false;
 
     /**
      * Callback for the action-flow component

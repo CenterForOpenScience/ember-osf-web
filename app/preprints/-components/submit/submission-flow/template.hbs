@@ -15,11 +15,13 @@ as |manager|>
             </div>
         </layout.heading>
         {{#if (is-mobile)}}
-            <layout.top>
+            <layout.top as |top|>
                 <div local-class='top-container'>
                     <div local-class='top-left'>
                         <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
                             @manager={{manager}}
+                            @leftNavToggle={{top.toggleSidenav}}
+                            @isMobile={{true}}
                         />
                     </div>
                     <div local-class='top-right'>
@@ -31,13 +33,13 @@ as |manager|>
                 </div>
             </layout.top>
         {{/if}}
-        {{#if (not (is-mobile))}}
-            <layout.left local-class='left-container'>
-                <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
-                    @manager={{manager}}
-                />
-            </layout.left>
-        {{/if}}
+        <layout.left local-class='left-container' as |left|>
+            <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
+                @manager={{manager}}
+                @leftNavToggle={{left.toggleSidenav}}
+                @isMobile={{false}}
+            />
+        </layout.left>
         <layout.main local-class='main-container {{if (is-mobile) 'mobile'}}'>
             <Preprints::-Components::Submit
                 @manager={{manager}}
