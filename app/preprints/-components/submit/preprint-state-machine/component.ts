@@ -50,6 +50,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @tracked preprint: PreprintModel;
     displayAuthorAssertions = false;
     @tracked statusFlowIndex = 1;
+    @tracked isEditFlow = false;
 
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
@@ -57,6 +58,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         if (this.args.preprint) {
             this.preprint = this.args.preprint;
             this.setValidationForEditFlow();
+            this.isEditFlow = true;
         } else {
             this.preprint = this.store.createRecord('preprint', {
                 provider: this.provider,
@@ -127,15 +129,17 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onSubmit(): Promise<void> {
-        if (this.provider.reviewsWorkflow) {
-            const reviewAction = this.store.createRecord('review-action', {
-                actionTrigger: 'submit',
-                target: this.preprint,
-            });
-            await reviewAction.save();
-        } else {
-            this.preprint.isPublished = true;
-            await this.preprint.save();
+        if (!this.isEditFlow) {
+            if (this.provider.reviewsWorkflow) {
+                const reviewAction = this.store.createRecord('review-action', {
+                    actionTrigger: 'submit',
+                    target: this.preprint,
+                });
+                await reviewAction.save();
+            } else {
+                this.preprint.isPublished = true;
+                await this.preprint.save();
+            }
         }
 
         await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
