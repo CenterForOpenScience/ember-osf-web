@@ -6,7 +6,7 @@ import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/pre
  */
 interface StatusFlowDisplayArgs {
     manager: PreprintStateMachine;
-    isMobile: boolean;
+    isDisplayMobileMenu: boolean;
     leftNavToggle: () => void;
     type: string;
 }
@@ -21,7 +21,7 @@ export default class StatusFlowDisplay extends Component<StatusFlowDisplayArgs>{
 
     public get shouldDisplayStatusType(): boolean {
         let isDisplay = this.manager.shouldDisplayStatusType(this.type);
-        if (this.args.isMobile) {
+        if (this.args.isDisplayMobileMenu) {
             isDisplay &&= this.isSelected;
         }
 
@@ -53,7 +53,7 @@ export default class StatusFlowDisplay extends Component<StatusFlowDisplayArgs>{
     }
 
     public onClick(): void {
-        if (!this.args.isMobile) {
+        if (!this.args.isDisplayMobileMenu) {
             this.args.leftNavToggle();
         }
         this.args.manager.onClickStep(this.type);
