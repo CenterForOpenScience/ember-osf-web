@@ -7,6 +7,8 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
+import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
 
 /**
  * The File Args
@@ -19,6 +21,8 @@ interface FileArgs {
  * The File Component
  */
 export default class PreprintFile extends Component<FileArgs>{
+    @service intl!: Intl;
+
     @tracked isFileUploadDisplayed = false;
     @tracked isProjectSelectDisplayed = false;
     @tracked isFileSelectDisplayed = false;
@@ -87,5 +91,11 @@ export default class PreprintFile extends Component<FileArgs>{
     async onSelectFile(file: FileModel): Promise<void> {
         await taskFor(this.args.manager.addProjectFile).perform(file);
         this.validate(file);
+    }
+
+    public get getUploadText(): string {
+        return this.intl.t('preprints.submit.step-file.upload-title',
+            { singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized });
+
     }
 }

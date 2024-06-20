@@ -20,7 +20,7 @@
         {{else}}
             <div local-class='upload-container'>
                 <label data-test-upload-label>
-                    {{t 'preprints.submit.step-file.upload-title'}}
+                    {{this.getUploadText}}
                     <span local-class='required'>*</span>
                 </label>
                 <div local-class='button-container'>
