@@ -101,7 +101,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
 
     const boxAccount = server.create('authorized-storage-account', {
         displayName: 'My Box Account',
-        scopes: ['write'], // TODO: This should be a from an enum?
+        // scopes: ['write'], // TODO: This should be a from an enum?
         externalStorageService: boxAddon,
         accountOwner: addonUser,
         credentialsAvailable: true,
@@ -109,7 +109,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
 
     server.create('authorized-storage-account', {
         displayName: 'My Dropbox Account',
-        scopes: ['write'], // TODO: This should be a from an enum?
+        // scopes: ['write'], // TODO: This should be a from an enum?
         externalStorageService: dropboxAddon,
         accountOwner: addonUser,
         credentialsAvailable: true,
@@ -117,7 +117,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     server.create('authorized-storage-account', {
         id: 'dropbox2',
         displayName: 'My Secret Dropbox Account',
-        scopes: ['write'], // TODO: This should be a from an enum?
+        // scopes: ['write'], // TODO: This should be a from an enum?
         externalStorageService: dropboxAddon,
         accountOwner: addonUser,
         credentialsAvailable: false,
@@ -125,7 +125,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     });
     server.create('authorized-storage-account', {
         displayName: 'My AmazonS3 Account',
-        scopes: ['write'], // TODO: This should be a from an enum?
+        // scopes: ['write'], // TODO: This should be a from an enum?
         externalStorageService: s3Addon,
         accountOwner: addonUser,
         credentialsAvailable: false,
@@ -133,7 +133,6 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
 
     server.create('configured-storage-addon', {
         id: 'box1',
-        name: 'Box',
         displayName: 'Boxed Data',
         rootFolder: '/woot/',
         authorizedResourceUri: 'http://localhost:5000/file5',

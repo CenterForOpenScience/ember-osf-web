@@ -49,6 +49,10 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
         });
         return await newInvocation.save();
     }
+
+    get externalServiceId() {
+        return (this as ConfiguredStorageAddonModel).belongsTo('externalStorageService').id();
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

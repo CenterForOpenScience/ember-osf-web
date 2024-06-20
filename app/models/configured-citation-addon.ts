@@ -10,6 +10,10 @@ export default class ConfiguredCitationAddonModel extends ConfiguredAddonModel {
 
     @belongsTo('authorized-citation-account')
     baseAccount!: AsyncBelongsTo<AuthorizedCitationAccountModel> & AuthorizedCitationAccountModel;
+
+    get externalServiceId() {
+        return (this as ConfiguredCitationAddonModel).belongsTo('externalCitationService').id();
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

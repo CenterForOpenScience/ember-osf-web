@@ -166,7 +166,7 @@ export default class Provider {
     }
 
     getProviderConfiguredAddons() {
-        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.displayName === this.displayName);
+        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.externalServiceId === this.provider.id);
     }
 
     @task
