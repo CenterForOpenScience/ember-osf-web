@@ -1278,6 +1278,8 @@ preprints:
             delete: 'Delete'
             delete-modal-title: 'Delete {singularPreprintWord}'
             delete-modal-body: 'Are you sure you want to delete this {singularPreprintWord}? This action CANNOT be undone.'
+            success: '{singularPreprintWord} saved.'
+            error: 'Error saving {singularPreprintWord}.'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'

@@ -10,6 +10,8 @@ import Intl from 'ember-intl/services/intl';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import FileModel from 'ember-osf-web/models/file';
+import Toast from 'ember-toastr/services/toast';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -35,6 +37,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service store!: Store;
     @service router!: RouterService;
     @service intl!: Intl;
+    @service toast!: Toast;
     titleAndAbstractValidation = false;
     fileValidation = false;
     metadataValidation = false;
@@ -87,7 +90,22 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * @description Abstracted method to save after each step
      */
     private async saveOnStep(): Promise<void> {
-        await this.preprint.save();
+        try {
+            await this.preprint.save();
+            this.toast.success(
+                this.intl.t('preprints.submit.action-flow.success',
+                    {
+                        singularPreprintWord: this.provider.documentType.singular,
+                    }),
+            );
+        } catch (e) {
+            const errorMessage = this.intl.t('preprints.submit.action-flow.error',
+                {
+                    singularPreprintWord: this.provider.documentType.singular,
+                });
+            this.toast.error(errorMessage);
+            captureException(e, { errorMessage });
+        }
         this.statusFlowIndex++;
         this.determinePreviousButtonState();
     }
