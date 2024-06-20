@@ -60,16 +60,6 @@
         .finished {
             color: $brand-success;
         }
-
-        .selected {
-            pointer-events: none;
-            color: $color-text-gray-blue;
-            cursor: default;
-        }
-
-        .unfinished {
-            color: $color-link-dark;
-        }
     }
 
     &.mobile {
