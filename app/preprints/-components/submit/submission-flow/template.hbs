@@ -21,7 +21,7 @@ as |manager|>
                         <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
                             @manager={{manager}}
                             @leftNavToggle={{top.toggleSidenav}}
-                            @isMobile={{true}}
+                            @isDisplayMobileMenu={{true}}
                         />
                     </div>
                     <div local-class='top-right'>
@@ -37,7 +37,7 @@ as |manager|>
             <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
                 @manager={{manager}}
                 @leftNavToggle={{left.toggleSidenav}}
-                @isMobile={{false}}
+                @isDisplayMobileMenu={{false}}
             />
         </layout.left>
         <layout.main local-class='main-container {{if (is-mobile) 'mobile'}}'>

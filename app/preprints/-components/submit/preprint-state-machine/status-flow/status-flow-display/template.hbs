@@ -2,10 +2,10 @@
     <div local-class='status-container
         {{if this.isSelected 'selected'}}
         {{if this.isFinished 'cursor'}}
-        {{if @isMobile 'mobile'}}'
+        {{if (is-mobile) 'mobile'}}'
     >
         <div local-class='graphics-container'>
-            {{#if @isMobile}}
+            {{#if @isDisplayMobileMenu}}
                 <Button
                     @layout='fake-link'
                     {{on 'click' @leftNavToggle}}
