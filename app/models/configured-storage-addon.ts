@@ -18,6 +18,7 @@ export enum ConnectedOperationNames {
     HasRevisions = 'has_revisions',
     ListRootItems = 'list_root_items',
     ListChildItems = 'list_child_items',
+    GetItemInfo = 'get_item_info',
 }
 
 export interface OperationKwargs {
@@ -49,6 +50,18 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
         const newInvocation = this.store.createRecord('addon-operation-invocation', {
             operationName,
             operationKwargs,
+            thruAddon: this,
+            byUser: await this.accountOwner,
+        });
+        return await newInvocation.save();
+    }
+
+    @task
+    @waitFor
+    async getItemInfo(this: ConfiguredStorageAddonModel, itemId: string) {
+        const newInvocation = this.store.createRecord('addon-operation-invocation', {
+            operationName: ConnectedOperationNames.GetItemInfo,
+            operationKwargs: { itemId },
             thruAddon: this,
             byUser: await this.accountOwner,
         });

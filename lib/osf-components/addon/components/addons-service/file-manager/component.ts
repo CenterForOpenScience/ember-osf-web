@@ -36,6 +36,7 @@ export default class FileManager extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
+        taskFor(this.getStartingFolder).perform();
         taskFor(this.getItems).perform();
     }
 
@@ -43,7 +44,7 @@ export default class FileManager extends Component<Args> {
     @action
     goToRoot() {
         this.cursor = '';
-        this.currentPath = [];
+        this.currentPath = this.currentPath.slice(0, 1);
         this.currentFolderId = this.args.startingFolderId;
         taskFor(this.getItems).perform();
     }
@@ -66,6 +67,19 @@ export default class FileManager extends Component<Args> {
         taskFor(this.getItems).perform();
     }
 
+
+    @task
+    @waitFor
+    async getStartingFolder() {
+        const { startingFolderId, configuredStorageAddon } = this.args;
+        try {
+            const invocation = await taskFor(configuredStorageAddon.getItemInfo).perform(startingFolderId);
+            this.currentPath = invocation.operationResult.items;
+        } catch (e) {
+            this.toast.error(this.intl.t('osf-components.addons-service.file-manager.get-item-error'));
+        }
+    }
+
     @task
     @waitFor
     async getItems() {
@@ -79,7 +93,7 @@ export default class FileManager extends Component<Args> {
             this.currentItems = this.cursor ? [...this.currentItems, ...operationResult.items] : operationResult.items;
             this.hasMore = Boolean(invocation.operationResult.cursor);
         } catch (e) {
-            this.toast.error(this.intl.t('osf-components.addons-service.file-manager.error'));
+            this.toast.error(this.intl.t('osf-components.addons-service.file-manager.get-items-error'));
         }
     }
 }

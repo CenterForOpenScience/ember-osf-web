@@ -2171,6 +2171,10 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    addons-srvice:
+        file-manager:
+            get-item-error: 'Error fetching item'
+            get-items-error: 'Error fetching items'
     addon-card:
         connect: Connect
         configure: Configure
