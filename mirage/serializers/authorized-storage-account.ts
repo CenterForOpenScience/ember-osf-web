@@ -19,11 +19,19 @@ export default class AuthorizedStorageAccountSerializer extends AddonServiceSeri
                         href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
+                data: {
+                    type: 'user-references',
+                    id: model.accountOwnerId,
+                },
             },
             externalStorageService: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}external-storage-services/${model.externalStorageServiceId}/`,
+                    },
+                    data: {
+                        type: 'external-storage-services',
+                        id: model.externalStorageServiceId,
                     },
                 },
             },

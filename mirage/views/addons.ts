@@ -1,7 +1,7 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 import { timeout } from 'ember-concurrency';
 
-import { InvocationStatus, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
+import { InvocationStatus } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
@@ -255,16 +255,17 @@ export function createAddonOperationInvocation(this: HandlerContext, schema: Sch
     const attrs = this.normalizedRequestAttrs(
         'addon-operation-invocation',
     ) as NormalizedRequestAttrs<MirageAddonOperationInvocation>;
+    const kwargs = attrs.operationKwargs;
     const invocation = schema.addonOperationInvocations.create(attrs) as ModelInstance<MirageAddonOperationInvocation>;
-    const { folderId } = invocation.operationKwargs;
+    const folderId = kwargs.itemId || 'root';
     const items = '12345'.split('').map(i => ({
-        itemId: i,
-        itemName: `Folder${i}`,
-        itemType: ItemType.Folder,
+        itemId: `${folderId}-${i}`,
+        itemName: `${kwargs.itemType}${i} in ${folderId}`,
+        itemType: kwargs.itemType,
         itemPath: folderId,
     }));
     invocation.update({
-        invocationStatus: InvocationStatus.Success,
+        invocationStatus: InvocationStatus.SUCCESS,
         created: new Date(),
         modified: new Date(),
         operationResult: { items },
