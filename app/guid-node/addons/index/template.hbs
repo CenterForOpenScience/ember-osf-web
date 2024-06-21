@@ -247,23 +247,11 @@
                             </dialog.footer>
                         </OsfDialog>
                     {{else if (eq manager.pageMode 'configure')}}
-                        <div local-class='float-right'>
-                            <Button
-                                data-test-addon-cancel-button
-                                data-analytics-name='Cancel'
-                                {{on 'click' manager.cancelSetup}}
-                            >
-                                {{t 'general.cancel'}}
-                            </Button>
-                            <Button
-                                data-test-addon-save-button
-                                data-analytics-name='Save'
-                                @type='primary'
-                                {{on 'click' (fn manager.save provider)}}
-                            >
-                                {{t 'general.save'}}
-                            </Button>
-                        </div>
+                        <AddonsService::RootFolderPicker
+                            @configuredStorageAddon={{manager.selectedConfiguration}}
+                            @onSave={{perform manager.saveConfiguration}}
+                            @onCancel={{manager.cancelSetup}}
+                        />
                     {{/if}}
                 </div>
             {{/let}}

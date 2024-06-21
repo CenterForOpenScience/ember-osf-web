@@ -20,6 +20,12 @@ export enum ConnectedOperationNames {
     ListChildItems = 'list_child_items',
 }
 
+export interface OperationKwargs {
+    itemId?: string;
+    itemType?: ItemType;
+    pageCursor?: string;
+}
+
 export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
     // Move these to superclass?
     @attr('array') connectedCapabilities!: ConnectedCapabilities[];
@@ -36,14 +42,13 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
 
     @task
     @waitFor
-    async getFolderItems(this: ConfiguredStorageAddonModel, folderId?: string) {
+    async getFolderItems(this: ConfiguredStorageAddonModel, kwargs?: OperationKwargs) {
+        const operationKwargs = kwargs || {};
+        const operationName = operationKwargs.itemId ? ConnectedOperationNames.ListChildItems :
+            ConnectedOperationNames.ListRootItems;
         const newInvocation = this.store.createRecord('addon-operation-invocation', {
-
-            operationName: folderId ? ConnectedOperationNames.ListChildItems : ConnectedOperationNames.ListRootItems,
-            operationKwargs: {
-                itemId: folderId,
-                itemType: ItemType.Folder,
-            },
+            operationName,
+            operationKwargs,
             thruAddon: this,
             byUser: await this.accountOwner,
         });

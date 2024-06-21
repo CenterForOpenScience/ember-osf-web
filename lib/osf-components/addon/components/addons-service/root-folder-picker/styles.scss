@@ -1,0 +1,16 @@
+.file-tree-table {
+    width: 100%;
+
+    thead {
+        border: solid 1px $color-border-gray;
+    }
+
+    th:first-of-type {
+        text-align: start;
+    }
+
+    th:last-of-type {
+        text-align: end;
+        width: 30px;
+    }
+}

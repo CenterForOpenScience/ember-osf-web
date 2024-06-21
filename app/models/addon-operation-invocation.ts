@@ -24,7 +24,7 @@ export interface Item {
     itemId: string;
     itemName: string;
     itemType: ItemType;
-    itemPath?: string;
+    itemPath: string;
 }
 
 export default class AddonOperationInvocationModel extends Model {
