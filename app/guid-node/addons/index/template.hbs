@@ -158,6 +158,7 @@
                                             data-test-edit-connected-location={{configuredAddon.displayName}}
                                             data-analytics-name='Edit connected location'
                                             local-class='edit-connected-button'
+                                            aria-label={{t 'addons.list.edit-location' displayName=configuredAddon.displayName}}
                                             {{on 'click' (fn manager.configureProvider manager.selectedProvider configuredAddon)}}
                                         >
                                             <FaIcon @icon='pencil-alt' />
@@ -166,6 +167,7 @@
                                             data-test-remove-connected-location={{configuredAddon.displayName}}
                                             data-analytics-name='Remove connected location'
                                             local-class='remove-connected-button'
+                                            aria-label={{t 'addons.list.remove-location' displayName=configuredAddon.displayName}}
                                             {{on 'click' (queue
                                                 (action (mut manager.selectedConfiguration) configuredAddon)
                                                 (action (mut manager.confirmRemoveConnectedLocation) true)

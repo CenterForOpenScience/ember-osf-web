@@ -229,6 +229,8 @@ addons:
         connected-accounts-for-provider: 'Connected accounts for {providerName}'
         connected-accounts: 'Connected Accounts'
         connected-locations: 'Connected locations'
+        edit-location: 'Edit {displayName}'
+        remove-location: 'Remove {displayName}'
         add-another-location: 'Add another location'
         all-addons: 'All Add-ons'
         confirm-remove-connected-location: 'You are about to disconnect the addon below from the project.'
