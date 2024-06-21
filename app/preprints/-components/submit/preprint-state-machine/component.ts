@@ -28,6 +28,8 @@ export enum PreprintStatusTypeEnum {
 interface StateMachineArgs {
     provider: PreprintProviderModel;
     preprint: PreprintModel;
+    setPageDirty: () => void;
+    resetPageDirty: () => void;
 }
 
 /**
@@ -129,6 +131,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onSubmit(): Promise<void> {
+        this.args.resetPageDirty();
         if (!this.isEditFlow) {
             if (this.provider.reviewsWorkflow) {
                 const reviewAction = this.store.createRecord('review-action', {
@@ -151,6 +154,11 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onNext(): Promise<void> {
+        if (this.isEditFlow) {
+            this.args.resetPageDirty();
+        } else {
+            this.args.setPageDirty();
+        }
         this.isNextButtonDisabled = true;
         if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndAbstract) &&
             this.titleAndAbstractValidation
@@ -189,6 +197,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         }
     }
 
+    private setPageDirty(): void {
+        if (this.isEditFlow) {
+            this.args.setPageDirty();
+        }
+    }
+
     /**
      * Callback for the action-flow component
      */
@@ -196,6 +210,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public validateTitleAndAbstract(valid: boolean): void {
         this.titleAndAbstractValidation = valid;
         this.isNextButtonDisabled = !valid;
+        this.setPageDirty();
     }
 
     /**
@@ -205,6 +220,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public validateFile(valid: boolean): void {
         this.fileValidation = valid;
         this.isNextButtonDisabled = !valid;
+        this.setPageDirty();
     }
 
     /**
@@ -214,6 +230,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public validateMetadata(valid: boolean): void {
         this.metadataValidation = valid;
         this.isNextButtonDisabled = !valid;
+        this.setPageDirty();
     }
 
     /**
@@ -232,6 +249,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         }
         this.authorAssertionValidation = valid;
         this.isNextButtonDisabled = !valid;
+        this.setPageDirty();
     }
 
     /**
@@ -241,6 +259,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public validateSupplements(valid: boolean): void {
         this.supplementValidation = valid;
         this.isNextButtonDisabled = !valid;
+        this.setPageDirty();
     }
 
     @action
