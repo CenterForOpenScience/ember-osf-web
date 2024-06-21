@@ -47,6 +47,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     supplementValidation = false;
     @tracked isNextButtonDisabled = true;
     @tracked isPreviousButtonDisabled = true;
+    @tracked isEditFlow = false;
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
