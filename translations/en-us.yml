@@ -346,6 +346,14 @@ addons:
         authorizing: 'Connecting…'
     configure:
         heading: 'Configure {providerName}'
+        go-to-folder: 'Go to folder {folderName}'
+        select-folder: 'Select {folderName} as root folder'
+        table-headings:
+            folder-name: 'Folder Name'
+            select: 'Select'
+        no-folders: 'No folders'
+        success: 'Successfully updated {configurationName}'
+        error: 'Error updating {configurationName}'
 
 metadata:
     tab-title: 'Metadata'

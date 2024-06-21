@@ -1,0 +1,80 @@
+<AddonsService::FileManager
+    @configuredStorageAddon={{@configuredStorageAddon}}
+    @defaultKwargs={{this.defaultKwargs}}
+    @startingFolderId={{this.selectedFolder}}
+    as |fileManager|
+>
+    <span>
+        <Button
+            @layout='fake-link'
+            {{on 'click' fileManager.goToRoot}}
+        >
+            <FaIcon @icon='folder' />
+            {{@configuredStorageAddon.rootFolder}}
+        </Button>
+    </span>
+    {{#each fileManager.currentPath as |pathItem|}}
+        <span>
+            <Button
+                @layout='fake-link'
+                aria-label={{t 'addons.configure.go-to-folder' folderName=pathItem.itemName}}
+                {{on 'click' (fn fileManager.goToFolder pathItem)}}
+            >
+                {{pathItem.itemName}}
+            </Button>
+        </span>
+    {{/each}}
+    <table>
+        <thead>
+            <tr>
+                <th>{{t 'addons.configure.table-headings.folder-name'}}</th>
+                <th>{{t 'addons.configure.table-headings.select'}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each fileManager.currentItems as |folder|}}
+                <tr>
+                    <td>
+                        <Button
+                            @layout='fake-link'
+                            aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
+                            {{on 'click' (fn fileManager.goToFolder folder)}}
+                        >
+                            <FaIcon @icon='folder' />
+                            {{folder.itemName}}
+                        </Button>
+                    </td>
+                    <td>
+                        <input
+                            type='radio'
+                            name='folder'
+                            value={{folder.itemName}}
+                            aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
+                            {{on 'change'(fn this.selectFolder folder)}}
+                        >
+                    </td>
+                </tr>
+            {{else}}
+                <tr>
+                    <td colspan='2'>{{t 'addons.configure.no-folders'}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{#if fileManager.isLoading}}
+        <LoadingIndicator @dark={{true}} />
+    {{/if}}
+</AddonsService::FileManager>
+<Button
+    @type='primary'
+    disabled={{this.disableSave}}
+    {{on 'click' (fn @onSave this.selectedFolder)}}
+>
+    {{t 'general.save'}}
+</Button>
+<Button
+    @type='secondary'
+    {{on 'click' @onCancel}}
+>
+    {{t 'general.cancel'}}
+</Button>
