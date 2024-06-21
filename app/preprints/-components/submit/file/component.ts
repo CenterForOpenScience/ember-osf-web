@@ -27,6 +27,7 @@ export default class PreprintFile extends Component<FileArgs>{
     @tracked isProjectSelectDisplayed = false;
     @tracked isFileSelectDisplayed = false;
     @tracked isFileAttached = false;
+    @tracked isEdit = false;
     @tracked dragging = false;
     @tracked file!: any;
     @tracked selectedProjectNode!: NodeModel;
@@ -72,6 +73,17 @@ export default class PreprintFile extends Component<FileArgs>{
 
     public get isButtonDisabled(): boolean {
         return this.isProjectSelectDisplayed || this.isFileUploadDisplayed;
+    }
+
+    @action
+    public async addNewfile(): Promise<void> {
+        this.isEdit = true;
+        this.file = null;
+        this.isFileAttached = false;
+        this.isFileUploadDisplayed = false;
+        this.isProjectSelectDisplayed = false;
+        this.isFileSelectDisplayed = false;
+        this.args.manager.validateFile(false);
     }
 
     @action

@@ -1194,6 +1194,8 @@ preprints:
             file-upload-label-one: 'Drag and drop files here to upload'
             file-upload-label-two: 'or click to browse for files.'
             file-select-label: 'Select from an existing OSF project'
+            delete-modal-title: 'Add a new preprint file'
+            delete-warning: 'This will allow a new version of the preprint file to be uploaded to the preprint. The existing file will be retained as a version of the preprint.'
         step-metadata:
             title: 'Metadata'
             contributors-input: 'Contributors'
@@ -1247,7 +1249,7 @@ preprints:
             project-title: 'New project title for supplemental materials.'
             create-button: 'Create a new OSF project'
             create-project: 'Create project'
-            delete-modalTitle: 'Disconnect supplemental material'
+            delete-modal-title: 'Disconnect supplemental material'
             delete-warning: 'This will disconnect the selected project. You can select new supplemental material or re-add the same supplemental material at a later date.'
         step-review:
             title: 'Review'

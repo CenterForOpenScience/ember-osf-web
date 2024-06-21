@@ -14,6 +14,7 @@ interface PreprintUploadArgs {
     manager: PreprintStateMachine;
     preprint: PreprintModel;
     allowVersioning: boolean;
+    isEdit: boolean;
     validate: (_: FileModel) => {};
     clickableElementId: string;
     dragEnter: () => {};
@@ -59,11 +60,17 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     @task
     @waitFor
     async prepUrl() {
+        let urlString: string;
         const theFiles = await this.args.preprint.files;
         const rootFolder = await theFiles.firstObject!.rootFolder;
-        const urlString = await theFiles.firstObject!.links.upload as string;
-        const url = new URL( urlString );
-        this.url = url;
+        if(this.args.isEdit) {
+            const primaryFile = await this.args.preprint.primaryFile;
+            urlString = primaryFile?.links?.upload as string;
+        } else {
+            urlString = await theFiles.firstObject!.links.upload as string;
+        }
+
+        this.url = new URL( urlString );
         this.rootFolder = rootFolder;
     }
 
@@ -71,7 +78,9 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     buildUrl(files: any[]): string {
         const { name } = files[0];
         this.url!.searchParams.append('kind', 'file');
-        this.url!.searchParams.append('name', name);
+        if(!this.args.isEdit) {
+            this.url!.searchParams.append('name', name);
+        }
         return this.url!.toString();
     }
 

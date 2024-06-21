@@ -1,0 +1,26 @@
+<div>
+    <h4 data-test-uploaded-file-label>
+        {{t 'preprints.submit.step-file.uploaded-file-title'}}
+    </h4>
+    <div local-class='display'>
+        <div local-class='text' data-test-uploaded-file-name>
+            {{ @file.name }}
+        </div>
+        {{#if @addNewFile}} 
+            <div local-class='action'>
+                <DeleteButton
+                    data-test-delete-button
+                    @small={{true}}
+                    @icon='trash'
+                    @noBackground={{true}}
+                    @delete={{action @addNewFile}}
+                    @modalTitle={{t 'preprints.submit.step-file.delete-modal-title'}}
+                    @modalBody={{t 'preprints.submit.step-file.delete-warning'}}
+                />
+                <EmberTooltip>
+                    {{t 'preprints.submit.step-file.delete-warning'}}
+                </EmberTooltip>
+            </div>
+        {{/if}}
+    </div>
+</div>
