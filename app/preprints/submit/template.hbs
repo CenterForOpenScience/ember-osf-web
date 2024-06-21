@@ -3,6 +3,8 @@
         @provider={{this.model.provider}}
         @brand={{this.model.brand}}
         @header='preprints.submit.title-submit'
+        @setPageDirty={{this.setPageDirty}}
+        @resetPageDirty={{this.resetPageDirty}}
     />
 {{else}}
     <LoadingIndicator data-test-loading-indicator @dark={{true}} />

@@ -3,6 +3,8 @@
 <Preprints::-Components::Submit::PreprintStateMachine 
     @provider={{@provider}}
     @preprint={{@preprint}}
+    @setPageDirty={{@setPageDirty}}
+    @resetPageDirty={{@resetPageDirty}}
 as |manager|>
     <OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
         <layout.heading local-class='header-container'
