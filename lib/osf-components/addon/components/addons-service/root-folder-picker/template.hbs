@@ -1,21 +1,15 @@
 <AddonsService::FileManager
+    data-analytics-scope='Root folder picker'
     @configuredStorageAddon={{@configuredStorageAddon}}
     @defaultKwargs={{this.defaultKwargs}}
     @startingFolderId={{this.selectedFolder}}
     as |fileManager|
 >
-    <span>
-        <Button
-            @layout='fake-link'
-            {{on 'click' fileManager.goToRoot}}
-        >
-            <FaIcon @icon='folder' />
-            {{@configuredStorageAddon.rootFolder}}
-        </Button>
-    </span>
     {{#each fileManager.currentPath as |pathItem|}}
         <span>
             <Button
+                data-test-folder-path-option='{{pathItem.itemName}}'
+                data-analytics-name='Go to ancestor folder'
                 @layout='fake-link'
                 aria-label={{t 'addons.configure.go-to-folder' folderName=pathItem.itemName}}
                 {{on 'click' (fn fileManager.goToFolder pathItem)}}
@@ -36,6 +30,8 @@
                 <tr>
                     <td>
                         <Button
+                            data-test-folder-link='{{folder.itemName}}'
+                            data-analytics-name='Go to folder'
                             @layout='fake-link'
                             aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
                             {{on 'click' (fn fileManager.goToFolder folder)}}
@@ -46,6 +42,8 @@
                     </td>
                     <td>
                         <input
+                            data-test-root-folder-option='{{folder.itemName}}'
+                            data-analytics-name='Select folder'
                             type='radio'
                             name='folder'
                             value={{folder.itemName}}
@@ -66,6 +64,8 @@
     {{/if}}
 </AddonsService::FileManager>
 <Button
+    data-test-root-folder-save
+    data-analytics-name='Save selected folder'
     @type='primary'
     disabled={{this.disableSave}}
     {{on 'click' (fn @onSave this.selectedFolder)}}
@@ -73,6 +73,8 @@
     {{t 'general.save'}}
 </Button>
 <Button
+    data-test-root-folder-cancel
+    data-analytics-name='Cancel'
     @type='secondary'
     {{on 'click' @onCancel}}
 >

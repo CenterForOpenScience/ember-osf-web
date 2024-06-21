@@ -4,6 +4,7 @@ import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
@@ -26,7 +27,7 @@ export default class RootFolderPicker extends Component<Args> {
     };
 
     get disableSave() {
-        return this.selectedFolder === this.args.configuredStorageAddon.rootFolder;
+        return this.selectedFolder === this.args.configuredStorageAddon.rootFolder || taskFor(this.save).isRunning;
     }
 
     @action
