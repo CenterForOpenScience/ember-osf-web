@@ -9,12 +9,11 @@
     {{else}} 
         {{#if this.isFileAttached}}
             <div local-class='file-container'>
-                <h4 data-test-uploaded-file-label>
-                    {{t 'preprints.submit.step-file.uploaded-file-title'}}
-                </h4>
-
-                <div local-class='file' data-test-uploaded-file-name>
-                    {{this.file.name}}
+                <div local-class='file'>
+                    <Preprints::-Components::PreprintFileDisplay
+                        @file={{this.file}}
+                        @addNewFile={{this.addNewfile}}
+                    />
                 </div>
             </div>
         {{else}}
@@ -55,6 +54,7 @@
                             @dragLeave={{fn (mut this.dragging) false}}
                             @drop={{fn (mut this.dragging) false}}
                             @validate={{action this.validate}}
+                            @isEdit={{this.isEdit}}
                         >
                             <div
                                 data-test-file-drag-and-drop-area
