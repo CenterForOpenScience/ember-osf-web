@@ -5,27 +5,34 @@
         @startingFolderId={{this.selectedFolder}}
         as |fileManager|
     >
-        {{#each fileManager.currentPath as |pathItem|}}
-            <span>
-                <Button
-                    data-test-folder-path-option='{{pathItem.itemName}}'
-                    data-analytics-name='Go to ancestor folder'
-                    @layout='fake-link'
-                    aria-label={{t 'addons.configure.go-to-folder' folderName=pathItem.itemName}}
-                    {{on 'click' (fn fileManager.goToFolder pathItem)}}
-                >
-                    {{pathItem.itemName}}
-                </Button>
-            </span>
-        {{/each}}
-        <table>
+        <div local-class='current-path'>
+            {{#each fileManager.currentPath as |pathItem index|}}
+                <span>
+                    <Button
+                        data-test-folder-path-option='{{pathItem.itemName}}'
+                        data-analytics-name='Go to ancestor folder'
+                        @layout='fake-link'
+                        aria-label={{t 'addons.configure.go-to-folder' folderName=pathItem.itemName}}
+                        {{on 'click' (fn fileManager.goToFolder pathItem)}}
+                    >
+                        {{#if (eq index 0)}}
+                            <FaIcon @icon='home' />
+                        {{else}}
+                            <FaIcon @icon='chevron-right' />
+                        {{/if}}
+                        {{pathItem.itemName}}
+                    </Button>
+                </span>
+            {{/each}}
+        </div>
+        <table local-class='file-tree-table'>
             <thead>
                 <tr>
                     <th>{{t 'addons.configure.table-headings.folder-name'}}</th>
                     <th>{{t 'addons.configure.table-headings.select'}}</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody local-class='table-body'>
                 {{#each fileManager.currentItems as |folder|}}
                     <tr>
                         <td>
@@ -52,6 +59,12 @@
                             >
                         </td>
                     </tr>
+                {{else if fileManager.isLoading}}
+                    <LoadingIndicator @dark={{true}} />
+                {{else if fileManager.isError}}
+                    <tr>
+                        <td colspan='2'>{{t 'addons.configure.error-loading-items'}}</td>
+                    </tr>
                 {{else}}
                     <tr>
                         <td colspan='2'>{{t 'addons.configure.no-folders'}}</td>
@@ -59,25 +72,24 @@
                 {{/each}}
             </tbody>
         </table>
-        {{#if fileManager.isLoading}}
-            <LoadingIndicator @dark={{true}} />
-        {{/if}}
-        <Button
-            data-test-root-folder-save
-            data-analytics-name='Save selected folder'
-            @type='primary'
-            disabled={{this.disableSave}}
-            {{on 'click' (fn @onSave this.selectedFolder)}}
-        >
-            {{t 'general.save'}}
-        </Button>
-        <Button
-            data-test-root-folder-cancel
-            data-analytics-name='Cancel'
-            @type='secondary'
-            {{on 'click' @onCancel}}
-        >
-            {{t 'general.cancel'}}
-        </Button>
+        <div local-class='footer-buttons-wrapper'>
+            <Button
+                data-test-root-folder-save
+                data-analytics-name='Save selected folder'
+                @type='primary'
+                disabled={{this.disableSave}}
+                {{on 'click' (fn @onSave this.selectedFolder)}}
+            >
+                {{t 'general.save'}}
+            </Button>
+            <Button
+                data-test-root-folder-cancel
+                data-analytics-name='Cancel'
+                @type='secondary'
+                {{on 'click' @onCancel}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+        </div>
     </AddonsService::FileManager>
 </div>

@@ -352,6 +352,7 @@ addons:
             folder-name: 'Folder Name'
             select: 'Select'
         no-folders: 'No folders'
+        error-loading-items: 'Error loading items'
         success: 'Successfully updated {configurationName}'
         error: 'Error updating {configurationName}'
 

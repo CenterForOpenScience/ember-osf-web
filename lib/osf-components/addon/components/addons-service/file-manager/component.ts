@@ -10,6 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { Item } from 'ember-osf-web/models/addon-operation-invocation';
 import ConfiguredStorageAddonModel, { OperationKwargs } from 'ember-osf-web/models/configured-storage-addon';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface Args {
     configuredStorageAddon: ConfiguredStorageAddonModel;
@@ -31,7 +32,13 @@ export default class FileManager extends Component<Args> {
     private lastInvocation: any = null;
 
     get isLoading() {
-        return taskFor(this.args.configuredStorageAddon.getFolderItems).isRunning;
+        return taskFor(this.args.configuredStorageAddon.getFolderItems).isRunning ||
+            taskFor(this.getStartingFolder).isRunning;
+    }
+
+    get isError() {
+        return taskFor(this.args.configuredStorageAddon.getFolderItems).lastPerformed?.error ||
+            taskFor(this.getStartingFolder).lastPerformed?.error;
     }
 
     constructor(owner: unknown, args: Args) {
@@ -52,6 +59,7 @@ export default class FileManager extends Component<Args> {
     @action
     goToFolder(folder: Item) {
         this.cursor = '';
+        this.currentItems = [];
         if (this.currentPath.includes(folder)) {
             this.currentPath = this.currentPath.slice(0, this.currentPath.indexOf(folder) + 1);
         } else {
@@ -76,7 +84,10 @@ export default class FileManager extends Component<Args> {
             const invocation = await taskFor(configuredStorageAddon.getItemInfo).perform(startingFolderId);
             this.currentPath = invocation.operationResult.items;
         } catch (e) {
-            this.toast.error(this.intl.t('osf-components.addons-service.file-manager.get-item-error'));
+            captureException(e);
+            const errorMessage = this.intl.t('osf-components.addons-service.file-manager.get-item-error');
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            throw e;
         }
     }
 
@@ -93,7 +104,10 @@ export default class FileManager extends Component<Args> {
             this.currentItems = this.cursor ? [...this.currentItems, ...operationResult.items] : operationResult.items;
             this.hasMore = Boolean(invocation.operationResult.cursor);
         } catch (e) {
-            this.toast.error(this.intl.t('osf-components.addons-service.file-manager.get-items-error'));
+            captureException(e);
+            const errorMessage = this.intl.t('osf-components.addons-service.file-manager.get-items-error');
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            throw e;
         }
     }
 }
