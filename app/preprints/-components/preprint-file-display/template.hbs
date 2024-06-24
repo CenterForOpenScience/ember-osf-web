@@ -1,6 +1,6 @@
 <div>
     <h4 data-test-uploaded-file-label>
-        {{t 'preprints.submit.step-file.uploaded-file-title'}}
+        {{t 'preprints.submit.step-file.uploaded-file-title' singularPreprintWord = @preprintWord }}
     </h4>
     <div local-class='display'>
         <div local-class='text' data-test-uploaded-file-name>
@@ -14,11 +14,12 @@
                     @icon='trash'
                     @noBackground={{true}}
                     @delete={{action @addNewFile}}
-                    @modalTitle={{t 'preprints.submit.step-file.delete-modal-title'}}
-                    @modalBody={{t 'preprints.submit.step-file.delete-warning'}}
+                    @confirmButtonText = {{t 'preprints.submit.step-file.delete-modal-button'}}
+                    @modalTitle={{t 'preprints.submit.step-file.delete-modal-title' singularPreprintWord = @preprintWord}}
+                    @modalBody={{t 'preprints.submit.step-file.delete-warning' singularPreprintWord = @preprintWord}}
                 />
                 <EmberTooltip>
-                    {{t 'preprints.submit.step-file.delete-warning'}}
+                    {{t 'preprints.submit.step-file.delete-modal-button'}}
                 </EmberTooltip>
             </div>
         {{/if}}

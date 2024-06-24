@@ -1189,13 +1189,14 @@ preprints:
         step-file:
             title: 'File'
             upload-title: 'Upload your {singularPreprintWord}'
-            uploaded-file-title: 'Attached preprint file'
+            uploaded-file-title: 'Attached {singularPreprintWord} file'
             file-upload-label: 'Upload from your computer'
             file-upload-label-one: 'Drag and drop files here to upload'
             file-upload-label-two: 'or click to browse for files.'
             file-select-label: 'Select from an existing OSF project'
-            delete-modal-title: 'Add a new preprint file'
-            delete-warning: 'This will allow a new version of the preprint file to be uploaded to the preprint. The existing file will be retained as a version of the preprint.'
+            delete-modal-title: 'Add a new {singularPreprintWord} file'
+            delete-warning: 'This will allow a new version of the {singularPreprintWord} file to be uploaded to the {singularPreprintWord}. The existing file will be retained as a version of the {singularPreprintWord}.'
+            delete-modal-button: 'Continue'
         step-metadata:
             title: 'Metadata'
             contributors-input: 'Contributors'
