@@ -10,7 +10,6 @@ import sinon, { SinonSpy } from 'sinon';
 
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
-// import root from 'ember-osf-web/mirage/factories/root';
 
 interface ThisTestContext extends TestContext {
     configuredAddon: ConfiguredStorageAddonModel;
