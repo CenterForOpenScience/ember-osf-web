@@ -47,7 +47,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     supplementValidation = false;
     @tracked isNextButtonDisabled = true;
     @tracked isPreviousButtonDisabled = true;
-    @tracked isEditFlow = false;
+    @tracked isDeleteButtonDisplayed = false;
+    @tracked isWithdrawalButtonDisplayed = false;
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
@@ -62,11 +63,16 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.preprint = this.args.preprint;
             this.setValidationForEditFlow();
             this.isEditFlow = true;
+            this.isDeleteButtonDisplayed = false;
+            this.isWithdrawalButtonDisplayed = true;
         } else {
+            this.isDeleteButtonDisplayed = true;
+            this.isWithdrawalButtonDisplayed = false;
             this.preprint = this.store.createRecord('preprint', {
                 provider: this.provider,
             });
         }
+
         this.displayAuthorAssertions = this.provider.assertionsEnabled;
     }
 
@@ -85,6 +91,16 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onDelete(): Promise<void> {
+        await this.preprint.deleteRecord();
+        await this.router.transitionTo('preprints.discover', this.provider.id);
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @task
+    @waitFor
+    public async onWithdrawal(): Promise<void> {
         await this.preprint.deleteRecord();
         await this.router.transitionTo('preprints.discover', this.provider.id);
     }
