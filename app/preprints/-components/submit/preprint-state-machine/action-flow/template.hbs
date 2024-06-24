@@ -112,4 +112,9 @@
             />
         {{/if}}
     {{/if}}
+    {{#if @manager.isWithdrawalButtonDisplayed}}
+        <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow::WithdrawalPreprint
+            @manager={{@manager}}
+        />
+    {{/if}}
 </div>

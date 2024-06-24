@@ -57,37 +57,23 @@ export default class ActionFlow extends Component<ActionFlowArgs>{
     @task
     @waitFor
     public async onDelete(): Promise<void> {
-        if(this.args.manager.isEditFlow) {
-            await taskFor(this.manager.onDelete).perform();
-        } else {
-            await taskFor(this.manager.onDelete).perform();
-        }
+        await taskFor(this.manager.onDelete).perform();
     }
 
     /**
      * internationalize the delete modal title
      */
     public get modalTitle(): string {
-        if(this.args.manager.isEditFlow) {
-            return this.intl.t('preprints.submit.action-flow.withdrawal-modal-title',
-                { singularPreprintWord: this.manager.provider.documentType.singularCapitalized });
-        } else {
-            return this.intl.t('preprints.submit.action-flow.delete-modal-title',
-                { singularPreprintWord: this.manager.provider.documentType.singularCapitalized });
-        }
+        return this.intl.t('preprints.submit.action-flow.delete-modal-title',
+            { singularPreprintWord: this.manager.provider.documentType.singularCapitalized });
     }
 
     /**
      * internationalize the delete modal body
      */
     public get modalBody(): string {
-        if(this.args.manager.isEditFlow) {
-            return this.intl.t('preprints.submit.action-flow.withdrawal-modal-body',
-                { singularPreprintWord: this.manager.provider.documentType.singular});
-        } else {
-            return this.intl.t('preprints.submit.action-flow.delete-modal-body',
-                { singularPreprintWord: this.manager.provider.documentType.singular});
-
-        }
+        return this.intl.t('preprints.submit.action-flow.delete-modal-body',
+            { singularPreprintWord: this.manager.provider.documentType.singular});
     }
+
 }

@@ -1,0 +1,80 @@
+<OsfDialog as |dialog|>
+    <dialog.trigger>
+        {{#if (is-mobile)}}
+            <Button
+                local-class='add-button'
+                data-test-withdrawal-button
+                {{on 'click' dialog.open}}
+            >
+                <FaIcon @icon='trash' />
+            </Button>
+        {{else}}
+            <FaIcon @icon='circle-minus' />
+            <Button
+                @layout='large'
+                @type='destroy' 
+                local-class='btn'
+                data-test-withdrawal-button
+                {{on 'click' dialog.open}}
+            >
+                {{t 'preprints.submit.action-flow.withdrawal'}}
+            </Button>
+        {{/if}}
+    </dialog.trigger>
+    <dialog.heading
+        data-test-dialog-heading
+    >
+        {{this.modalTitle}}
+    </dialog.heading>
+    <dialog.main
+        data-test-dialog-body
+    >
+        <div local-class='form-container'>
+            <FormControls
+                @changeset={{this.withdrawalFormChangeset}}
+                data-test-comment-form
+                as |form|
+            >
+                {{#let (unique-id 'comment') as |commentFieldId|}}
+                    <label for={{commentFieldId}}
+                        data-test-comment-label
+                    >
+                        {{this.commentLabel}}
+                        <span local-class='required'>*</span>
+                    </label>
+                    <form.textarea
+                        data-test-comment-input
+                        @valuePath={{'withdrawalJustification'}}
+                         {{on 'change' this.validate}}
+                        @isRequired={{true}}
+                        local-class='input-container textarea-container'
+                        @placeholder={{t 'preprints.submit.action-flow.withdrawal-placeholder'}}
+                        @uniqueID={{commentFieldId}} 
+                        @onKeyUp={{this.validate}}
+                    />
+                {{/let}}
+            </FormControls>
+        </div>
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            data-test-cancel-button
+            {{on 'click' dialog.close}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            data-test-withdrawal-button
+            disabled={{this.isInvalid}}
+            @type='destroy'
+            {{on 'click' (
+                queue
+                (perform this.onWithdrawal)
+                dialog.close
+            )
+            }}
+        >
+            {{t 'preprints.submit.action-flow.withdrawal'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

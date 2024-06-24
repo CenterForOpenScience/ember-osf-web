@@ -1,0 +1,22 @@
+.btn {
+    width: 145px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+
+.form-container {
+    width: 100%;
+
+    .required {
+        color: $brand-danger;
+    }
+
+    .textarea-container {
+        textarea {
+            height: 150px;
+        }
+    }
+}
