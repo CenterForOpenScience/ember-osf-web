@@ -3,8 +3,7 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
-import { taskFor } from 'ember-concurrency-ts';
+import { task, TaskInstance } from 'ember-concurrency';
 import IntlService from 'ember-intl/services/intl';
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
@@ -13,7 +12,7 @@ import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage
 
 interface Args {
     configuredStorageAddon: ConfiguredStorageAddonModel;
-    onSave: (folder: Item) => void;
+    onSave: TaskInstance<void>;
 }
 
 export default class RootFolderPicker extends Component<Args> {
@@ -27,7 +26,7 @@ export default class RootFolderPicker extends Component<Args> {
     };
 
     get disableSave() {
-        return this.selectedFolder === this.args.configuredStorageAddon.rootFolder || taskFor(this.save).isRunning;
+        return this.selectedFolder === this.args.configuredStorageAddon.rootFolder || this.args.onSave.isRunning;
     }
 
     @action
