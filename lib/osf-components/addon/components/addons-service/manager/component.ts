@@ -135,9 +135,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.cancelSetup();
         this.selectedProvider = provider;
         this.selectedConfiguration = configuredAddon;
-        // if (configuredAddon instanceof ConfiguredStorageAddonModel) {
-        //     const rootItems = await taskFor(configuredAddon.getFolderItems).perform();
-        // }
         this.pageMode = PageMode.CONFIGURE;
     }
 
@@ -195,7 +192,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async createConfiguredAddon(newAccount: AllAuthorizedAccountTypes) {
         if (this.selectedProvider) {
-            await taskFor(this.selectedProvider.createConfiguredAddon).perform(newAccount);
+            this.selectedConfiguration = await taskFor(this.selectedProvider.createConfiguredAddon).perform(newAccount);
         }
     }
 
@@ -239,7 +236,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async confirmAccountSetup(account: AllAuthorizedAccountTypes) {
         if (this.selectedProvider && this.selectedAccount) {
-            await taskFor(this.selectedProvider.createConfiguredAddon).perform(account);
+            this.selectedConfiguration = await taskFor(this.selectedProvider.createConfiguredAddon).perform(account);
         }
         this.pageMode = PageMode.CONFIGURE;
     }
@@ -269,10 +266,24 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.displayName = '';
     }
 
-    @action
-    save() {
-        this.cancelSetup();
-        // TODO: Actually save the provider
+    @task
+    @waitFor
+    async saveConfiguration(newRoot: string) {
+        // TODO: this assumes the configuration is a storage addon. Needs to be generalizable
+        try {
+            if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredStorageAddonModel) {
+                this.selectedConfiguration.rootFolder = newRoot;
+                await this.selectedConfiguration.save();
+                this.toast.success(this.intl.t('addons.configure.success', {
+                    configurationName: this.selectedConfiguration.displayName,
+                }));
+            }
+            this.cancelSetup();
+        } catch(e) {
+            this.toast.error(this.intl.t('addons.configure.error', {
+                configurationName: this.selectedConfiguration?.displayName,
+            }));
+        }
     }
 
     @action

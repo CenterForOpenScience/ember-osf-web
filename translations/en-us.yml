@@ -229,6 +229,8 @@ addons:
         connected-accounts-for-provider: 'Connected accounts for {providerName}'
         connected-accounts: 'Connected Accounts'
         connected-locations: 'Connected locations'
+        edit-location: 'Edit {displayName}'
+        remove-location: 'Remove {displayName}'
         add-another-location: 'Add another location'
         all-addons: 'All Add-ons'
         confirm-remove-connected-location: 'You are about to disconnect the addon below from the project.'
@@ -344,6 +346,15 @@ addons:
         authorizing: 'Connecting…'
     configure:
         heading: 'Configure {providerName}'
+        go-to-folder: 'Go to folder {folderName}'
+        select-folder: 'Select {folderName} as root folder'
+        table-headings:
+            folder-name: 'Folder Name'
+            select: 'Select'
+        no-folders: 'No folders'
+        error-loading-items: 'Error loading items'
+        success: 'Successfully updated {configurationName}'
+        error: 'Error updating {configurationName}'
 
 metadata:
     tab-title: 'Metadata'
@@ -2161,6 +2172,10 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    addons-srvice:
+        file-manager:
+            get-item-error: 'Error fetching item'
+            get-items-error: 'Error fetching items'
     addon-card:
         connect: Connect
         configure: Configure

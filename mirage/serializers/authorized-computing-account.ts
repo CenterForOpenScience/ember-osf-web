@@ -19,12 +19,20 @@ export default class AuthorizedComputingAccountSerializer extends AddonServiceSe
                         href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
+                data: {
+                    type: 'user-references',
+                    id: model.accountOwnerId,
+                },
             },
-            couldComputingService: {
+            computingService: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}external-computing-services/${model.externalComputingServiceId}/`,
                     },
+                },
+                data: {
+                    type: 'external-computing-services',
+                    id: model.externalComputingServiceId,
                 },
             },
         };

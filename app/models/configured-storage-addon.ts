@@ -18,6 +18,13 @@ export enum ConnectedOperationNames {
     HasRevisions = 'has_revisions',
     ListRootItems = 'list_root_items',
     ListChildItems = 'list_child_items',
+    GetItemInfo = 'get_item_info',
+}
+
+export interface OperationKwargs {
+    itemId?: string;
+    itemType?: ItemType;
+    pageCursor?: string;
 }
 
 export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
@@ -36,18 +43,33 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
 
     @task
     @waitFor
-    async getFolderItems(this: ConfiguredStorageAddonModel, folderId?: string) {
+    async getFolderItems(this: ConfiguredStorageAddonModel, kwargs?: OperationKwargs) {
+        const operationKwargs = kwargs || {};
+        const operationName = operationKwargs.itemId ? ConnectedOperationNames.ListChildItems :
+            ConnectedOperationNames.ListRootItems;
         const newInvocation = this.store.createRecord('addon-operation-invocation', {
-
-            operationName: folderId ? ConnectedOperationNames.ListChildItems : ConnectedOperationNames.ListRootItems,
-            operationKwargs: {
-                itemId: folderId,
-                itemType: ItemType.Folder,
-            },
+            operationName,
+            operationKwargs,
             thruAddon: this,
             byUser: await this.accountOwner,
         });
         return await newInvocation.save();
+    }
+
+    @task
+    @waitFor
+    async getItemInfo(this: ConfiguredStorageAddonModel, itemId: string) {
+        const newInvocation = this.store.createRecord('addon-operation-invocation', {
+            operationName: ConnectedOperationNames.GetItemInfo,
+            operationKwargs: { itemId },
+            thruAddon: this,
+            byUser: await this.accountOwner,
+        });
+        return await newInvocation.save();
+    }
+
+    get externalServiceId() {
+        return (this as ConfiguredStorageAddonModel).belongsTo('externalStorageService').id();
     }
 }
 

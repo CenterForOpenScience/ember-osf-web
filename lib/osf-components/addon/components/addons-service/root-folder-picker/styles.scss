@@ -1,0 +1,47 @@
+.current-path {
+    margin-bottom: 1rem;
+}
+
+.file-tree-table {
+    width: 100%;
+    border: solid 1px $color-border-gray;
+    border-collapse: collapse;
+
+    thead {
+        border-bottom: solid 1px $color-border-gray;
+    }
+
+    th {
+        padding: 6px;
+    }
+
+    th:first-of-type {
+        text-align: start;
+    }
+
+    th:last-of-type {
+        text-align: end;
+        width: 30px;
+    }
+}
+
+.table-body {
+    tr {
+        td {
+            padding: 6px;
+        }
+
+        td:first-of-type {
+            text-align: start;
+        }
+
+        td:last-of-type {
+            text-align: center;
+        }
+    }
+}
+
+.footer-buttons-wrapper {
+    margin-top: 1rem;
+    float: right;
+}

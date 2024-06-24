@@ -21,12 +21,20 @@ export default class ConfiguredStorageAddonSerializer extends AddonServiceSerial
                         href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
+                data: {
+                    id: model.accountOwnerId,
+                    type: 'user-references',
+                },
             },
             authorizedResource: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}resource-references/${model.authorizedResourceId}/`,
                     },
+                },
+                data: {
+                    id: model.authorizedResourceId,
+                    type: 'resource-references',
                 },
             },
             baseAccount: {
@@ -35,12 +43,20 @@ export default class ConfiguredStorageAddonSerializer extends AddonServiceSerial
                         href: `${addonServiceAPIUrl}authorized-storage-accounts/${model.baseAccountId}/`,
                     },
                 },
+                data: {
+                    id: model.baseAccountId,
+                    type: 'authorized-storage-accounts',
+                },
             },
             externalStorageService: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}external-storage-services/${model.externalStorageServiceId}/`,
                     },
+                },
+                data: {
+                    id: model.externalStorageServiceId,
+                    type: 'external-storage-services',
                 },
             },
         };

@@ -166,7 +166,7 @@ export default class Provider {
     }
 
     getProviderConfiguredAddons() {
-        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.displayName === this.displayName);
+        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.externalServiceId === this.provider.id);
     }
 
     @task
@@ -287,7 +287,7 @@ export default class Provider {
             baseAccount: account,
             connectedCapabilities: ['ACCESS', 'UPDATE'],
         });
-        await configuredStorageAddon.save();
+        return await configuredStorageAddon.save();
     }
 
     @task
@@ -299,7 +299,7 @@ export default class Provider {
             authorizedResource: this.serviceNode,
             baseAccount: account,
         });
-        await configuredCitationAddon.save();
+        return await configuredCitationAddon.save();
     }
 
     @task
@@ -311,7 +311,7 @@ export default class Provider {
             authorizedResource: this.serviceNode,
             baseAccount: account,
         });
-        await configuredComputingAddon.save();
+        return await configuredComputingAddon.save();
     }
 
     @task

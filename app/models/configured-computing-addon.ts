@@ -10,6 +10,10 @@ export default class ConfiguredComputingAddonModel extends ConfiguredAddonModel 
 
     @belongsTo('authorized-computing-account')
     baseAccount!: AsyncBelongsTo<AuthorizedComputingAccount> & AuthorizedComputingAccount;
+
+    get externalServiceId() {
+        return (this as ConfiguredComputingAddonModel).belongsTo('externalComputingService').id();
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

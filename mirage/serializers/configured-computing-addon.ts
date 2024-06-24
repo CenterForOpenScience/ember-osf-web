@@ -21,12 +21,20 @@ export default class ConfiguredComputingAddonSerializer extends AddonServiceSeri
                         href: `${addonServiceAPIUrl}user-references/${model.accountOwnerId}/`,
                     },
                 },
+                data: {
+                    id: model.accountOwnerId,
+                    type: 'user-references',
+                },
             },
             authorizedResource: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}resource-references/${model.authorizedResourceId}/`,
                     },
+                },
+                data: {
+                    id: model.authorizedResourceId,
+                    type: 'resource-references',
                 },
             },
             baseAccount: {
@@ -35,12 +43,20 @@ export default class ConfiguredComputingAddonSerializer extends AddonServiceSeri
                         href: `${addonServiceAPIUrl}authorized-storage-accounts/${model.baseAccountId}/`,
                     },
                 },
+                data: {
+                    id: model.baseAccountId,
+                    type: 'authorized-storage-accounts',
+                },
             },
             externalComputingService: {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}external-computing-services/${model.externalComputingServiceId}/`,
                     },
+                },
+                data: {
+                    id: model.externalComputingServiceId,
+                    type: 'external-computing-services',
                 },
             },
         };

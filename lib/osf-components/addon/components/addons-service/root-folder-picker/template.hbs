@@ -1,0 +1,95 @@
+<div data-analytics-scope='Root folder picker'>
+    <AddonsService::FileManager
+        @configuredStorageAddon={{@configuredStorageAddon}}
+        @defaultKwargs={{this.defaultKwargs}}
+        @startingFolderId={{this.selectedFolder}}
+        as |fileManager|
+    >
+        <div local-class='current-path'>
+            {{#each fileManager.currentPath as |pathItem index|}}
+                <span>
+                    <Button
+                        data-test-folder-path-option='{{pathItem.itemName}}'
+                        data-analytics-name='Go to ancestor folder'
+                        @layout='fake-link'
+                        aria-label={{t 'addons.configure.go-to-folder' folderName=pathItem.itemName}}
+                        {{on 'click' (fn fileManager.goToFolder pathItem)}}
+                    >
+                        {{#if (eq index 0)}}
+                            <FaIcon @icon='home' />
+                        {{else}}
+                            <FaIcon @icon='chevron-right' />
+                        {{/if}}
+                        {{pathItem.itemName}}
+                    </Button>
+                </span>
+            {{/each}}
+        </div>
+        <table local-class='file-tree-table'>
+            <thead>
+                <tr>
+                    <th>{{t 'addons.configure.table-headings.folder-name'}}</th>
+                    <th>{{t 'addons.configure.table-headings.select'}}</th>
+                </tr>
+            </thead>
+            <tbody local-class='table-body'>
+                {{#each fileManager.currentItems as |folder|}}
+                    <tr>
+                        <td>
+                            <Button
+                                data-test-folder-link='{{folder.itemName}}'
+                                data-analytics-name='Go to folder'
+                                @layout='fake-link'
+                                aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
+                                {{on 'click' (fn fileManager.goToFolder folder)}}
+                            >
+                                <FaIcon @icon='folder' />
+                                {{folder.itemName}}
+                            </Button>
+                        </td>
+                        <td>
+                            <input
+                                data-test-root-folder-option='{{folder.itemName}}'
+                                data-analytics-name='Select folder'
+                                type='radio'
+                                name='folder'
+                                value={{folder.itemName}}
+                                aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
+                                {{on 'change'(fn this.selectFolder folder)}}
+                            >
+                        </td>
+                    </tr>
+                {{else if fileManager.isLoading}}
+                    <LoadingIndicator @dark={{true}} />
+                {{else if fileManager.isError}}
+                    <tr>
+                        <td colspan='2'>{{t 'addons.configure.error-loading-items'}}</td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan='2'>{{t 'addons.configure.no-folders'}}</td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <div local-class='footer-buttons-wrapper'>
+            <Button
+                data-test-root-folder-save
+                data-analytics-name='Save selected folder'
+                @type='primary'
+                disabled={{this.disableSave}}
+                {{on 'click' (fn @onSave this.selectedFolder)}}
+            >
+                {{t 'general.save'}}
+            </Button>
+            <Button
+                data-test-root-folder-cancel
+                data-analytics-name='Cancel'
+                @type='secondary'
+                {{on 'click' @onCancel}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+        </div>
+    </AddonsService::FileManager>
+</div>
