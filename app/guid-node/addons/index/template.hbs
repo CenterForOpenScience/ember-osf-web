@@ -247,7 +247,7 @@
                             </dialog.footer>
                         </OsfDialog>
                     {{else if (eq manager.pageMode 'configure')}}
-                        <AddonsService::RootFolderPicker
+                        <AddonsService::ConfiguredAddonEdit
                             @configuredStorageAddon={{manager.selectedConfiguration}}
                             @onSave={{perform manager.saveConfiguration}}
                             @onCancel={{manager.cancelSetup}}

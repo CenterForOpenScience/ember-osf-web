@@ -12,7 +12,7 @@ interface Args {
     onSave: TaskInstance<void>;
 }
 
-export default class RootFolderPicker extends Component<Args> {
+export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked displayName = this.args.configuredStorageAddon.displayName;
     @tracked selectedFolder = this.args.configuredStorageAddon.rootFolder;
     @tracked currentItems: Item[] = [];

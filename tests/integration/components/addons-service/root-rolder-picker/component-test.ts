@@ -17,7 +17,7 @@ interface ThisTestContext extends TestContext {
     onCancel: SinonSpy;
 }
 
-module('Integration | Component | addons-service | root-folder-picker', function(this: ThisTestContext, hooks) {
+module('Integration | Component | addons-service | configured-addon-edit', function(this: ThisTestContext, hooks) {
     setupRenderingTest(hooks);
     setupMirage(hooks);
     setupIntl(hooks);
@@ -49,7 +49,7 @@ module('Integration | Component | addons-service | root-folder-picker', function
         this.onSave = sinon.fake();
         this.onCancel = sinon.fake();
         await render(hbs`
-<AddonsService::RootFolderPicker
+<AddonsService::ConfiguredAddonEdit
     @configuredStorageAddon={{this.configuredAddon}}
     @onSave={{this.onSave}}
     @onCancel={{this.onCancel}}
