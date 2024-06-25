@@ -1276,6 +1276,7 @@ preprints:
             step-review: 'Review'
         action-flow:
             delete: 'Delete'
+            delete-modal-body: 'Are you sure you want to delete the {singularPreprintWord}? This action CAN NOT be undone.'
             delete-modal-title: 'Delete {singularPreprintWord}'
             error: 'Error saving {singularPreprintWord}.'
             error-withdrawal: 'Error withdrawing the {singularPreprintWord}.'
