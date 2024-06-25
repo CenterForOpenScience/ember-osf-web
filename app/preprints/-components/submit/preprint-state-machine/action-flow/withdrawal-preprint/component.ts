@@ -26,7 +26,7 @@ export default class WithdrawalComponent extends Component<WithdrawalModalArgs> 
 
     withdrawalFormValidations: ValidationObject<WithdrawalFormFields> = {
         withdrawalJustification: validateLength({
-            min: 20,
+            min: 25,
             type: 'greaterThanOrEqualTo',
             translationArgs: {
                 description: this.intl.t('preprints.submit.action-flow.withdrawal-placeholder'),
