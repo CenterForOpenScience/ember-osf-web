@@ -14,6 +14,7 @@ import Toast from 'ember-toastr/services/toast';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
+import { taskFor } from 'ember-concurrency-ts';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -66,7 +67,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.setValidationForEditFlow();
             this.isEditFlow = true;
             this.isDeleteButtonDisplayed = false;
-            this.isWithdrawalButtonDisplayed = this.canDisplayWitdrawalButton();
+            taskFor(this.canDisplayWitdrawalButton).perform();
         } else {
             this.isDeleteButtonDisplayed = true;
             this.isWithdrawalButtonDisplayed = false;
@@ -78,9 +79,28 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         this.displayAuthorAssertions = this.provider.assertionsEnabled;
     }
 
-    private canDisplayWitdrawalButton(): boolean {
-        return this.preprint.currentUserPermissions.includes(Permission.Admin) &&
-        this.preprint.reviewsState === ReviewsState.ACCEPTED;
+    @task
+    @waitFor
+    private async canDisplayWitdrawalButton(): Promise<void> {
+        let isWithdrawalRejected = false;
+
+        const withdrawalRequests = await this.preprint.requests;
+        const withdrawalRequest = withdrawalRequests.firstObject;
+        if (withdrawalRequest) {
+            const requestActions = await withdrawalRequest.queryHasMany('actions', {
+                sort: '-modified',
+            });
+
+            const latestRequestAction = requestActions.firstObject;
+            // @ts-ignore: ActionTrigger is never
+            if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
+                isWithdrawalRejected = true;
+            }
+        }
+
+        this.isWithdrawalButtonDisplayed = this.preprint.currentUserPermissions.includes(Permission.Admin) &&
+        (this.preprint.reviewsState === ReviewsState.ACCEPTED ||
+        this.preprint.reviewsState === ReviewsState.PENDING) && !isWithdrawalRejected;
 
     }
 
@@ -109,16 +129,33 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onWithdrawal(): Promise<void> {
-        const preprintRequest = await this.store.createRecord('preprint-request', {
-            comment: this.preprint.withdrawalJustification,
-            requestType: 'withdrawal',
-            target: this.preprint,
-        });
+        try {
+            const preprintRequest = await this.store.createRecord('preprint-request', {
+                comment: this.preprint.withdrawalJustification,
+                requestType: 'withdrawal',
+                target: this.preprint,
+            });
 
-        await preprintRequest.save();
+            await preprintRequest.save();
 
-        await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
+            this.toast.success(
+                this.intl.t('preprints.submit.action-flow.success-withdrawal',
+                    {
+                        singularCapitalizedPreprintWord: this.provider.documentType.singularCapitalized,
+                    }),
+            );
+
+            await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
+        } catch (e) {
+            const errorMessage = this.intl.t('preprints.submit.action-flow.error-withdrawal',
+                {
+                    singularPreprintWord: this.provider.documentType.singular,
+                });
+            this.toast.error(errorMessage);
+            captureException(e, { errorMessage });
+        }
     }
+
 
     /**
      * saveOnStep

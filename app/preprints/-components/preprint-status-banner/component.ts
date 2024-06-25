@@ -193,6 +193,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
             });
 
             const latestRequestAction = requestActions.firstObject;
+            // @ts-ignore: ActionTrigger is never
             if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
                 this.isWithdrawalRejected = true;
                 this.latestAction = latestRequestAction;
