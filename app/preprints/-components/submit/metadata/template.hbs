@@ -69,7 +69,6 @@
                         />
                     {{/if}}
                 {{/let}}
-
                 <div local-class='input-container'>
                     {{#let (unique-id) 'subjects' as |subjectsFieldId|}}
                         <label for={{subjectsFieldId}}
@@ -96,10 +95,7 @@
                             @isValidating={{subjectsManager.isSaving}} />
                         </Subjects::Manager>
                     {{/let}}
-
-                   
                 </div>
-                
                 <div local-class='input-container'>
                     {{#let (unique-id) 'tags' as |tagsFieldId|}}
                         <label for={{tagsFieldId}}

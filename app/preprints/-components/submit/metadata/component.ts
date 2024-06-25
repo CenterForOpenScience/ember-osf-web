@@ -128,7 +128,7 @@ export default class Metadata extends Component<MetadataArgs>{
 
     private setHasRequiredFields(): void {
         this.license = this.metadataFormChangeset.get('license');
-        this.displayRequiredLicenseFields = this.license.hasRequiredFields;
+        this.displayRequiredLicenseFields = this.license?.hasRequiredFields || false;
     }
 
     private updateLicenseRecord(): void {
