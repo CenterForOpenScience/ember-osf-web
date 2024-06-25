@@ -42,7 +42,10 @@ export default class PreprintEditRoute extends Route.extend(ConfirmationMixin, {
 
             const preprint = await this.store.findRecord('preprint', args.guid);
 
-            if (!this.preprint.currentUserPermissions.includes(Permission.Write)) {
+            if (
+                !preprint.currentUserPermissions.includes(Permission.Write) ||
+                preprint.isWithdrawn
+            ) {
                 throw new Error('User does not have permission to edit this preprint');
             }
 
@@ -53,7 +56,6 @@ export default class PreprintEditRoute extends Route.extend(ConfirmationMixin, {
                 brand: provider.brand.content,
             };
         } catch (e) {
-
             this.router.transitionTo('not-found', `preprints/${args.provider_id}`);
             return null;
         }
