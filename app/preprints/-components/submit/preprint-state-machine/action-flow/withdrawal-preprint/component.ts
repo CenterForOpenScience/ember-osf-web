@@ -10,6 +10,11 @@ import { taskFor } from 'ember-concurrency-ts';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import config from 'ember-osf-web/config/environment';
+import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/models/provider';
+import { SafeString } from '@ember/template/-private/handlebars';
+
+const { support: { supportEmail } } = config;
 
 interface WithdrawalModalArgs {
     manager: PreprintStateMachine;
@@ -66,7 +71,7 @@ export default class WithdrawalComponent extends Component<WithdrawalModalArgs> 
     }
 
     /**
-     * internationalize the delete modal title
+     * internationalize the modal title
      */
     public get modalTitle(): string {
         return this.intl.t('preprints.submit.action-flow.withdrawal-modal-title',
@@ -74,10 +79,40 @@ export default class WithdrawalComponent extends Component<WithdrawalModalArgs> 
     }
 
     /**
-     * internationalize the delete modal body
+     * internationalize the modal explanation
      */
-    public get modalBody(): string {
-        return this.intl.t('preprints.submit.action-flow.withdrawal-modal-body',
-            { singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized});
+    public get modalExplanation(): SafeString {
+        if (this.args.manager.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
+            && this.args.manager.preprint.reviewsState === ReviewsState.PENDING
+        ) {
+            return this.intl.t('preprints.submit.action-flow.pre-moderation-notice-pending',
+                {
+                    singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized,
+                    htmlSafe: true,
+                }) as SafeString;
+        } else if (this.args.manager.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
+        ) {
+            return this.intl.t('preprints.submit.action-flow.pre-moderation-notice-accepted',
+                {
+                    singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized,
+                    pluralCapitalizedPreprintWord: this.args.manager.provider.documentType.pluralCapitalized,
+                    htmlSafe: true,
+                }) as SafeString;
+        } else if (this.args.manager.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.POST_MODERATION) {
+            return this.intl.t('preprints.submit.action-flow.post-moderation-notice',
+                {
+                    singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized,
+                    pluralCapitalizedPreprintWord: this.args.manager.provider.documentType.pluralCapitalized,
+                    htmlSafe: true,
+                }) as SafeString;
+        } else {
+            return this.intl.t('preprints.submit.action-flow.no-moderation-notice',
+                {
+                    singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized,
+                    pluralCapitalizedPreprintWord: this.args.manager.provider.documentType.pluralCapitalized,
+                    supportEmail,
+                    htmlSafe: true,
+                }) as SafeString;
+        }
     }
 }

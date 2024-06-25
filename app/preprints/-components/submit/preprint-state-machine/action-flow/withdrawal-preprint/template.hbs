@@ -29,6 +29,9 @@
     <dialog.main
         data-test-dialog-body
     >
+        <div local-class='explanation-container'>
+            {{this.modalExplanation}}
+        </div>
         <div local-class='form-container'>
             <FormControls
                 @changeset={{this.withdrawalFormChangeset}}
@@ -69,8 +72,8 @@
             @type='destroy'
             {{on 'click' (
                 queue
-                (perform this.onWithdrawal)
                 dialog.close
+                (perform this.onWithdrawal)
                 this.withdrawalFormChangeset.clear
             )
             }}
