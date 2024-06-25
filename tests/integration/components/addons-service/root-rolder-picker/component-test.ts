@@ -1,4 +1,4 @@
-import { click, render } from '@ember/test-helpers';
+import { click, fillIn, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -37,6 +37,7 @@ module('Integration | Component | addons-service | root-folder-picker', function
         });
 
         const mirageConfiguredAddon = server.create('configured-storage-addon', {
+            displayName: 'My configured addon',
             rootFolder: 'rooty',
             externalStorageService: boxAddon,
             accountOwner: userRef,
@@ -55,10 +56,22 @@ module('Integration | Component | addons-service | root-folder-picker', function
 />
         `);
 
+        assert.dom('[data-test-display-name-input]').hasValue('My configured addon', 'Display name is poopulated');
         assert.dom('[data-test-folder-path-option]').exists({ count: 1 }, 'Has root folder path option');
         assert.dom('[data-test-folder-link]').exists({ count: 5 }, 'Root folder has 5 folders');
         assert.dom('[data-test-root-folder-option]').exists({ count: 5 }, 'Checkbox available for each folder option');
         assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
+
+        // updating and reseting the display name
+        assert.dom('[data-test-display-name-error]').doesNotExist('No error message initially');
+        await fillIn('[data-test-display-name-input]', '');
+        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
+        assert.dom('[data-test-display-name-error]').exists('Error message is shown when display name is empty');
+        await fillIn('[data-test-display-name-input]', 'My configured addon 2');
+        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled');
+        assert.dom('[data-test-display-name-error]').doesNotExist('No error message after display name is set');
+        await fillIn('[data-test-display-name-input]', 'My configured addon');
+        assert.dom('[data-test-root-folder-save]').isDisabled('Save is disabled if display name is same as before');
 
         // Navigate into a folder
         const folderLinks = this.element.querySelectorAll('[data-test-folder-link]');
@@ -77,6 +90,11 @@ module('Integration | Component | addons-service | root-folder-picker', function
 
         // Save
         await click('[data-test-root-folder-save]');
-        assert.ok(this.onSave.calledOnceWith('rooty-1'), 'Save action was called with selected folder id');
+        const args = {
+            rootFolder: 'rooty-1',
+            displayName: 'My configured addon',
+        };
+
+        assert.ok(this.onSave.calledOnceWith(args), 'Save action was called with selected folder id');
     });
 });

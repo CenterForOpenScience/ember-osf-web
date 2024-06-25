@@ -1,4 +1,25 @@
-<div data-analytics-scope='Root folder picker'>
+<div
+    local-class='root-folder-picker-wrapper'
+    data-analytics-scope='Root folder picker'
+>
+    <div local-class='display-name-wrapper'>
+        <label>
+            {{t 'addons.configure.display-name'}}
+            <Input
+                data-test-display-name-input
+                @type='text'
+                @value={{this.displayName}}
+            />
+        </label>
+        {{#if this.invalidDisplayName}}
+            <span
+                data-test-display-name-error
+                local-class='display-name-error'
+            >
+                {{t 'validationErrors.blank'}}
+            </span>
+        {{/if}}
+    </div>
     <AddonsService::FileManager
         @configuredStorageAddon={{@configuredStorageAddon}}
         @defaultKwargs={{this.defaultKwargs}}
@@ -78,7 +99,7 @@
                 data-analytics-name='Save selected folder'
                 @type='primary'
                 disabled={{this.disableSave}}
-                {{on 'click' (fn @onSave this.selectedFolder)}}
+                {{on 'click' (fn @onSave this.onSaveArgs)}}
             >
                 {{t 'general.save'}}
             </Button>

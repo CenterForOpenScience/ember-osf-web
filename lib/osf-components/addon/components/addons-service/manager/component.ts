@@ -268,11 +268,11 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async saveConfiguration(newRoot: string) {
-        // TODO: this assumes the configuration is a storage addon. Needs to be generalizable
+    async saveConfiguration(args: any) {
         try {
             if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredStorageAddonModel) {
-                this.selectedConfiguration.rootFolder = newRoot;
+                this.selectedConfiguration.rootFolder = args.rootFolder;
+                this.selectedConfiguration.displayName = args.displayName;
                 await this.selectedConfiguration.save();
                 this.toast.success(this.intl.t('addons.configure.success', {
                     configurationName: this.selectedConfiguration.displayName,

@@ -1,10 +1,7 @@
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
-import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task, TaskInstance } from 'ember-concurrency';
-import IntlService from 'ember-intl/services/intl';
+import { TaskInstance } from 'ember-concurrency';
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
@@ -16,8 +13,7 @@ interface Args {
 }
 
 export default class RootFolderPicker extends Component<Args> {
-    @service intl!: IntlService;
-
+    @tracked displayName = this.args.configuredStorageAddon.displayName;
     @tracked selectedFolder = this.args.configuredStorageAddon.rootFolder;
     @tracked currentItems: Item[] = [];
 
@@ -25,20 +21,29 @@ export default class RootFolderPicker extends Component<Args> {
         itemType: ItemType.Folder,
     };
 
+    get invalidDisplayName() {
+        return this.displayName.trim().length === 0;
+    }
+
+    get folderChanged() {
+        return this.selectedFolder !== this.args.configuredStorageAddon.rootFolder;
+    }
+
     get disableSave() {
-        return this.selectedFolder === this.args.configuredStorageAddon.rootFolder || this.args.onSave.isRunning;
+        const folderValid = this.folderChanged;
+        const nameValid = this.displayName !== this.args.configuredStorageAddon.displayName && !this.invalidDisplayName;
+        return !(folderValid || nameValid) || this.args.onSave.isRunning;
+    }
+
+    get onSaveArgs() {
+        return {
+            displayName: this.displayName,
+            rootFolder: this.selectedFolder,
+        };
     }
 
     @action
     selectFolder(folder: Item) {
         this.selectedFolder = folder.itemId;
-    }
-
-    @task
-    @waitFor
-    async save() {
-        const { configuredStorageAddon } = this.args;
-        configuredStorageAddon.rootFolder = this.selectedFolder;
-        await configuredStorageAddon.save();
     }
 }
