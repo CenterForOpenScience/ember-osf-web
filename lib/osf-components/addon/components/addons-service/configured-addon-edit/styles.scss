@@ -1,3 +1,16 @@
+.root-folder-picker-wrapper {
+    border: solid 1px $color-border-gray;
+    padding: 1rem;
+}
+
+.display-name-wrapper {
+    margin-bottom: 1rem;
+}
+
+.display-name-error {
+    color: $brand-danger;
+}
+
 .current-path {
     margin-bottom: 1rem;
 }
@@ -42,6 +55,6 @@
 }
 
 .footer-buttons-wrapper {
-    margin-top: 1rem;
+    margin-top: 2rem;
     float: right;
 }

@@ -3,6 +3,10 @@ import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 import ResourceReferenceModel from './resource-reference';
 import UserReferenceModel from './user-reference';
 
+export interface ConfiguredAddonEditableAttrs {
+    displayName: string;
+}
+
 export default class ConfiguredAddonModel extends Model {
     @attr('string') displayName!: string;
     @attr('fixstring') externalUserId!: string;

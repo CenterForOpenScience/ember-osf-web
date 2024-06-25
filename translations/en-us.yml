@@ -346,6 +346,7 @@ addons:
         authorizing: 'Connecting…'
     configure:
         heading: 'Configure {providerName}'
+        display-name: 'Display name'
         go-to-folder: 'Go to folder {folderName}'
         select-folder: 'Select {folderName} as root folder'
         table-headings:
