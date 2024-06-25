@@ -12,6 +12,8 @@ import { waitFor } from '@ember/test-waiters';
 import FileModel from 'ember-osf-web/models/file';
 import Toast from 'ember-toastr/services/toast';
 import captureException from 'ember-osf-web/utils/capture-exception';
+import { Permission } from 'ember-osf-web/models/osf-model';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -64,7 +66,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.setValidationForEditFlow();
             this.isEditFlow = true;
             this.isDeleteButtonDisplayed = false;
-            this.isWithdrawalButtonDisplayed = true;
+            this.isWithdrawalButtonDisplayed = this.canDisplayWitdrawalButton();
         } else {
             this.isDeleteButtonDisplayed = true;
             this.isWithdrawalButtonDisplayed = false;
@@ -74,6 +76,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         }
 
         this.displayAuthorAssertions = this.provider.assertionsEnabled;
+    }
+
+    private canDisplayWitdrawalButton(): boolean {
+        return this.preprint.currentUserPermissions.includes(Permission.Admin) &&
+        this.preprint.reviewsState === ReviewsState.ACCEPTED;
+
     }
 
     private setValidationForEditFlow(): void {

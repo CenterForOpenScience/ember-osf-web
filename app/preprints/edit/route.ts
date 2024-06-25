@@ -12,6 +12,7 @@ import { action, computed } from '@ember/object';
 import PreprintEdit from 'ember-osf-web/preprints/edit/controller';
 import Intl from 'ember-intl/services/intl';
 import Transition from '@ember/routing/-private/transition';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 @requireAuth()
 export default class PreprintEditRoute extends Route.extend(ConfirmationMixin, {}) {
@@ -40,6 +41,10 @@ export default class PreprintEditRoute extends Route.extend(ConfirmationMixin, {
             this.theme.id = args.provider_id;
 
             const preprint = await this.store.findRecord('preprint', args.guid);
+
+            if (!this.preprint.currentUserPermissions.includes(Permission.Write)) {
+                throw new Error('User does not have permission to edit this preprint');
+            }
 
 
             return {
