@@ -2,18 +2,19 @@
     <dialog.trigger>
         {{#if (is-mobile)}}
             <Button
-                local-class='add-button'
                 data-test-withdrawal-button
+                data-analytics-name='Withdrawal Button'
                 {{on 'click' dialog.open}}
+                @layout='fake-link'
             >
-                <FaIcon @icon='trash' />
+                <FaIcon @icon='minus-circle' />
             </Button>
         {{else}}
-            <FaIcon @icon='circle-minus' />
             <Button
                 @layout='large'
                 @type='destroy' 
                 local-class='btn'
+                data-analytics-name='Withdrawal Button'
                 data-test-withdrawal-button
                 {{on 'click' dialog.open}}
             >

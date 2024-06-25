@@ -119,7 +119,7 @@
         {{/if}}
     {{/if}}
     {{#if @manager.isWithdrawalButtonDisplayed}}
-        <div local-class='desktop-button-container'>
+        <div local-class='{{if (is-mobile) 'mobile-button-container' 'desktop-button-container'}}'>
             <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow::WithdrawalPreprint
                 @manager={{@manager}}
             />
