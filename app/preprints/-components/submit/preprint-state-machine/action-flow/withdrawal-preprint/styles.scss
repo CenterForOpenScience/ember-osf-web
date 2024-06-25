@@ -4,7 +4,10 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+}
 
+.withdrawal-button {
+    color: $brand-danger;
 }
 
 .explanation-container {
