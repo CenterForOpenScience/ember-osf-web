@@ -9,6 +9,7 @@ import { Task, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import { TrackedObject } from 'tracked-built-ins';
 
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import NodeModel from 'ember-osf-web/models/node';
@@ -16,11 +17,12 @@ import Provider, {
     AllAuthorizedAccountTypes, AllConfiguredAddonTypes,
 } from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import { ConfiguredAddonEditableAttrs } from 'ember-osf-web/models/configured-addon';
+import ConfiguredStorageAddonModel,
+{ ConfiguredStorageAddonEditableAttrs } from 'ember-osf-web/models/configured-storage-addon';
 import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import { TrackedObject } from 'tracked-built-ins';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -268,10 +270,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async saveConfiguration(args: any) {
+    async saveConfiguration(args: ConfiguredAddonEditableAttrs) {
         try {
             if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredStorageAddonModel) {
-                this.selectedConfiguration.rootFolder = args.rootFolder;
+                this.selectedConfiguration.rootFolder = (args as ConfiguredStorageAddonEditableAttrs).rootFolder;
                 this.selectedConfiguration.displayName = args.displayName;
                 await this.selectedConfiguration.save();
                 this.toast.success(this.intl.t('addons.configure.success', {
