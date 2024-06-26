@@ -66,8 +66,7 @@ export default class WithdrawalComponent extends Component<WithdrawalModalArgs> 
      * internationalize the withdrawal label
      */
     public get commentLabel(): string {
-        return this.intl.t('preprints.submit.action-flow.withdrawal-label',
-            { singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized});
+        return this.intl.t('preprints.submit.action-flow.withdrawal-label');
     }
 
     /**
