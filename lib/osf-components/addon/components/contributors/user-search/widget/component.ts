@@ -49,21 +49,23 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
     @keepLatestTask
     @waitFor
     async fetchUsers(isFetchingNextPage: boolean) {
-        if (isFetchingNextPage) {
-            this.currentUsersPage += 1;
-        } else {
-            await timeout(500);
-            this.currentUsersPage = 1;
-            this.results = [];
+        if(this.query !== '') {
+            if (isFetchingNextPage) {
+                this.currentUsersPage += 1;
+            } else {
+                await timeout(500);
+                this.currentUsersPage = 1;
+                this.results = [];
+            }
+            const currentPageResult = await this.store.query('user', {
+                filter: {
+                    [nameFields]: this.query,
+                },
+                page: this.currentUsersPage,
+            });
+            this.displayResults = true;
+            this.results = this.results.concat(currentPageResult.toArray());
+            this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
         }
-        const currentPageResult = await this.store.query('user', {
-            filter: {
-                [nameFields]: this.query,
-            },
-            page: this.currentUsersPage,
-        });
-        this.displayResults = true;
-        this.results = this.results.concat(currentPageResult.toArray());
-        this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
     }
 }
