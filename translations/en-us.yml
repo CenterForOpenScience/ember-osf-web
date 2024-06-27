@@ -1238,7 +1238,7 @@ preprints:
             public-preregistration-link-info-analysis: 'Analysis Plan'
             public-preregistration-link-info-both: 'Both'
         step-supplements:
-            title: 'Supplements'
+            title: 'Supplements (Optional)'
             description: 'Connect an OSF project to share data, code, protocols, or other supplemental materials.'
             connect-button: 'Connect an existing OSF project'
             choose-project: 'Choose project'
