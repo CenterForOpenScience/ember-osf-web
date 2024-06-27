@@ -16,7 +16,13 @@
         align-items: center;
         justify-content: space-evenly;
 
+
+        &.white {
+            color: $color-text-white;
+        }
+
         &.disabled {
+            color: $color-text-black;
             background-color: $color-bg-gray-blue-light;
             border: 1px solid transparent;
             cursor: default;
