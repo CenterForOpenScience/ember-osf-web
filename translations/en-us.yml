@@ -1391,7 +1391,7 @@ preprints:
                 base: 'This {documentType}'
     header:
         osf_preprints: 'OSF Preprints'
-        search_placeholder: 'Search preprints ...'
+        search_placeholder: 'Search {placeholder} ...'
         search_button: 'Perform search'
         search_label: 'Search'
         search_help: 'Search help'
