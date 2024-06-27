@@ -27,7 +27,10 @@
                         <AddonsService::TermsOfService
                             @provider={{provider.provider}}
                         />
-                        <div local-class='float-right'>
+                        <div
+                            data-analytics-scope='Addon terms'
+                            local-class='float-right'
+                        >
                             <Button
                                 data-test-addon-cancel-button
                                 data-analytics-name='Cancel'
@@ -87,7 +90,10 @@
                                 {{t 'addons.accountSelect.no-accounts'}}
                             {{/each}}
                         </fieldset>
-                        <div local-class='float-right'>
+                        <div
+                            data-analytics-scope='Account select'
+                            local-class='float-right'
+                        >
                             <Button
                                 data-test-addon-cancel-button
                                 data-analytics-name='Cancel'
@@ -127,7 +133,10 @@
                     {{else if (eq manager.pageMode 'confirm')}}
                         {{t 'addons.confirm.verify'}}
                         {{manager.selectedAccount.displayName}}
-                        <div local-class='float-right'>
+                        <div
+                            data-analytics-scope='Confirm account setup'
+                            local-class='float-right'
+                        >
                             <Button
                                 data-test-addon-cancel-button
                                 data-analytics-name='Cancel'
@@ -146,7 +155,10 @@
                             </Button>
                         </div>
                     {{else if (eq manager.pageMode 'configurationList')}}
-                        <div local-class='configured-addons'>
+                        <div
+                            data-analytics-scope='Configured Addons List'
+                            local-class='configured-addons'
+                        >
                             <div local-class='configured-addons-heading'>
                                 <h4>{{t 'addons.list.connected-locations'}}</h4>
                             </div>
@@ -265,8 +277,8 @@
                     local-class='tab-list'
                     as |tablist|
                 >
-                    <tablist.tab>{{t 'addons.list.all-addons'}}</tablist.tab>
-                    <tablist.tab>{{t 'addons.list.connected-accounts'}}</tablist.tab>
+                    <tablist.tab data-analytics-name='Select All Addons tab'>{{t 'addons.list.all-addons'}}</tablist.tab>
+                    <tablist.tab data-analytics-name='Select Connected Accounts tab'>{{t 'addons.list.connected-accounts'}}</tablist.tab>
                 </tab.tabList>
                 <tab.tabPanel
                     data-test-all-addons-tab
