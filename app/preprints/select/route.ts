@@ -17,7 +17,6 @@ export default class PreprintSelectRoute extends Route {
             adapterOptions: { 'filter[allowSubmissions]': 'true' },
         });
 
-        // this.theme.reset();
         this.theme.set('id', config.defaultProvider);
 
         return {
