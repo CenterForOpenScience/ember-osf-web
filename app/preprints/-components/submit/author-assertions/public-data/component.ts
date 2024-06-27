@@ -66,10 +66,12 @@ export default class PublicData extends Component<PublicDataArgs>{
             this.args.changeSet.set('whyNoData', null);
             this.isPublicDataWhyNoStatementDisabled = false;
         } else if (this.args.changeSet.get('hasDataLinks') === PreprintDataLinksEnum.NO) {
+            this.args.changeSet.set('dataLinks', []);
             this.args.changeSet.set('whyNoData', null);
             this.isPublicDataWhyNoStatementDisabled = false;
             this.placeholder = this.intl.t('preprints.submit.step-assertions.public-data-no-placeholder');
         } else {
+            this.args.changeSet.set('dataLinks', []);
             this.isPublicDataWhyNoStatementDisabled = true;
             this.args.changeSet.set('whyNoData',
                 this.intl.t('preprints.submit.step-assertions.public-data-na-placeholder',
