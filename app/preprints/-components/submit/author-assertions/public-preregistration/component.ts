@@ -98,11 +98,13 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
             this.args.changeSet.set('whyNoPrereg', null);
             this.isPublicPreregistrationWhyNoStatementDisabled = false;
         } else if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.NO) {
+            this.args.changeSet.set('preregLinks', []);
             this.args.changeSet.set('whyNoPrereg', null);
             this.isPublicPreregistrationWhyNoStatementDisabled = false;
             this.placeholder = this.intl.t('preprints.submit.step-assertions.public-preregistration-no-placeholder');
         } else {
             this.isPublicPreregistrationWhyNoStatementDisabled = true;
+            this.args.changeSet.set('preregLinks', []);
             this.args.changeSet.set('whyNoPrereg',
                 this.intl.t('preprints.submit.step-assertions.public-preregistration-na-placeholder',
                     { singularPreprintWord: this.args.preprintWord}));
