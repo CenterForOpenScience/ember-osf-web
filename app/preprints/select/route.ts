@@ -4,6 +4,7 @@ import Store from '@ember-data/store';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import Theme from 'ember-osf-web/services/theme';
+import config from 'ember-osf-web/config/environment';
 
 @requireAuth()
 export default class PreprintSelectRoute extends Route {
@@ -16,7 +17,8 @@ export default class PreprintSelectRoute extends Route {
             adapterOptions: { 'filter[allowSubmissions]': 'true' },
         });
 
-        this.theme.reset();
+        // this.theme.reset();
+        this.theme.set('id', config.defaultProvider);
 
         return {
             submissionProviders,
