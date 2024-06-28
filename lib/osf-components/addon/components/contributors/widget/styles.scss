@@ -1,5 +1,9 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
+.warning-container {
+    margin-top: 10px;
+}
+
 .display-container {
     border: 1px solid $color-border-gray;
     margin-top: 10px;

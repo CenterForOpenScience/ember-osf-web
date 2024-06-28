@@ -2643,6 +2643,7 @@ osf-components:
             errorHeading: 'Error adding contributor'
         addContributors: 'Add Contributors'
         currentContributors: 'Contributors'
+        permission-warning: 'Warning: Changing your permissions will prevent you from editing your draft.'
         email: 'Email'
         fullName: 'Full name'
         selectPermission: 'Select permission'
