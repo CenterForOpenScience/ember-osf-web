@@ -99,6 +99,10 @@ export default class Metadata extends Component<MetadataArgs>{
         taskFor(this.loadLicenses).perform();
     }
 
+    get displayPermissionWarning(): boolean {
+        return !this.args.manager.isEditFlow;
+    }
+
     @task
     @waitFor
     private async loadLicenses()  {
