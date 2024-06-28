@@ -21,6 +21,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-    }
 
+        .blue-button {
+            color: $brand-info;
+        }
+    }
 }

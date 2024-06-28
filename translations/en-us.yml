@@ -1197,6 +1197,7 @@ preprints:
             delete-modal-title: 'Add a new {singularPreprintWord} file'
             delete-warning: 'This will allow a new version of the {singularPreprintWord} file to be uploaded to the {singularPreprintWord}. The existing file will be retained as a version of the {singularPreprintWord}.'
             delete-modal-button: 'Continue'
+            delete-modal-button-tooltip: 'Version file'
         step-metadata:
             title: 'Metadata'
             contributors-input: 'Contributors'

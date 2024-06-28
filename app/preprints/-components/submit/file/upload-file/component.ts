@@ -27,6 +27,7 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     @service toast!: Toast;
     url?: URL;
     rootFolder?: FileModel;
+    primaryFile: FileModel | undefined;
 
     constructor(owner: unknown, args: any) {
         super(owner, args);
@@ -64,8 +65,8 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
         const theFiles = await this.args.preprint.files;
         const rootFolder = await theFiles.firstObject!.rootFolder;
         if(this.args.isEdit) {
-            const primaryFile = await this.args.preprint.primaryFile;
-            urlString = primaryFile?.links?.upload as string;
+            this.primaryFile = await this.args.preprint.primaryFile;
+            urlString = this.primaryFile?.links?.upload as string;
         } else {
             urlString = await theFiles.firstObject!.links.upload as string;
         }
@@ -87,9 +88,13 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     @task
     @waitFor
     async success(_: any, __:any, file: FileModel): Promise<void> {
-        const primaryFile = await this.rootFolder!.files;
-        this.args.manager.preprint.set('primaryFile', primaryFile.firstObject);
-        await this.args.manager.preprint.save();
+        if (this.args.isEdit) {
+            await this.primaryFile?.rename(file.name);
+        } else {
+            const primaryFile = await this.rootFolder!.files;
+            this.args.manager.preprint.set('primaryFile', primaryFile.firstObject);
+            await this.args.manager.preprint.save();
+        }
         this.args.validate(file);
     }
 }
