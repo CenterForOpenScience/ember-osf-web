@@ -22,18 +22,18 @@ export default class Carousel extends Component {
 
     @action
     changeSlide(direction: string) {
-        const activeSlide = this.carouselItems.findBy('active');
-        const activeIndex = activeSlide!.index;
-        let newIndex = direction === 'previous' ? activeIndex - 1 : activeIndex + 1;
+        const activeIndex = this.carouselItems.findIndex(item => item.isActive);
+        let newIndex = activeIndex;
 
-        if (newIndex > this.carouselItems.length - 1) {
-            newIndex = 0;
-        } else if (newIndex < 0) {
-            newIndex = this.carouselItems.length - 1;
+        if (direction === 'previous') {
+            newIndex = activeIndex - 1 < 0 ? this.carouselItems.length - 1 : activeIndex - 1;
+        } else if (direction === 'next') {
+            newIndex = activeIndex + 1 >= this.carouselItems.length ? 0 : activeIndex + 1;
         }
 
-        this.carouselItems[activeIndex].set('isActive', false);
-        this.carouselItems[newIndex].set('isActive', true);
+        this.carouselItems.forEach((item, index) => {
+            item.set('isActive', index === newIndex);
+        });
     }
 
     @action

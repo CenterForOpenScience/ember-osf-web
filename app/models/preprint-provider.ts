@@ -25,6 +25,8 @@ export default class PreprintProviderModel extends ProviderModel {
     @attr('string') shareSource!: string;
     @attr('string') preprintWord!: PreprintWord;
 
+    @attr('boolean', { defaultValue: true }) advertiseOnDiscoverPage!: boolean;
+
     // Reviews settings
     @attr('array') permissions!: ReviewPermissions[];
     @attr('boolean', { allowNull: true }) reviewsCommentsPrivate!: boolean | null;

@@ -6,7 +6,7 @@ import {
 } from 'osf-components/components/search-page/component';
 
 export default class SearchController extends Controller {
-    @tracked cardSearchText?: string = '';
+    @tracked q?: string = '';
     @tracked sort?: string =  '-relevance';
     @tracked resourceType?: ResourceTypeFilterValue | null = null;
     @tracked activeFilters?: Filter[] = [];

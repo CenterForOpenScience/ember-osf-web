@@ -28,6 +28,7 @@ import { addCollectionModerator, addRegistrationModerator } from './views/modera
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getPreprintProviderSubjects, getProviderSubjects } from './views/provider-subjects';
+import { getSubjectsAcceptable } from './views/subjects-acceptable';
 import {
     createRegistration,
     forkRegistration,
@@ -120,6 +121,7 @@ export default function(this: Server) {
     osfResource(this, 'subject', { only: ['show'] });
     osfNestedResource(this, 'subject', 'children', { only: ['index'] });
     osfNestedResource(this, 'node', 'children');
+    this.get('/nodes/:parentID/subjectsAcceptable', getSubjectsAcceptable);
     osfNestedResource(this, 'node', 'contributors', {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,

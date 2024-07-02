@@ -81,6 +81,15 @@ export default class PrePrintsDetailController extends Controller {
         });
     }
 
+    get displayTitle(): string {
+        if (this.model.preprint.isWithdrawn) {
+            return this.intl.t('preprints.detail.withdrawn_title', {
+                title: this.model.preprint.title,
+            });
+        }
+        return this.model.preprint.title;
+    }
+
     private isAdmin(): boolean {
         // True if the current user has admin permissions for the node that contains the preprint
         return (this.model.preprint.currentUserPermissions).includes(Permission.Admin);

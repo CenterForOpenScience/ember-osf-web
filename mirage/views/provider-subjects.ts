@@ -3,7 +3,7 @@ import Subject from 'ember-osf-web/models/subject';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import { process } from './utils';
 
-function getFilterOpts(
+export function getFilterOpts(
     queryParams: { [key: string]: string },
 ): { type: string, value: string } {
     if ('filter[parent]' in queryParams) {

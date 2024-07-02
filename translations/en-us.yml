@@ -1334,6 +1334,7 @@ preprints:
             metrics_disclaimer: 'Metrics collected since:'
         supplemental_materials: 'Supplemental Materials'
         tags: 'Tags'
+        withdrawn_title: 'Withdrawn: {title}'
         reason_for_withdrawal: 'Reason for withdrawal'
         file_renderer:
             download_previous_versions: 'Download previous versions'
@@ -1686,6 +1687,8 @@ registries:
             rwe: 'Real World Evidence Registry'
             youth: 'YOUth Study Registry'
             prereg: 'Preregistration Challenge'
+            twcfconsciousness: 'TWCF Consciousness Registry'
+            gfs: 'Global Flourishing Study Registry'
             logo: logo
         recent:
             title: 'Browse Registrations'
@@ -1980,6 +1983,9 @@ registries:
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
         pending_moderation: 'No registrations found with updates pending'
+        embargoEndDate: 'Embargoed Registration'
+        EmbargoEndPrefix: 'with an end date of'
+        public: 'Public Registration'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'

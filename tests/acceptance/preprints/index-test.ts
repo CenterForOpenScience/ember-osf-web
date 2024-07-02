@@ -22,6 +22,7 @@ module('Acceptance | preprints | index', hooks => {
         provider.update({
             brand,
             description: 'This is the description for OSF',
+            advertiseOnDiscoverPage: true,
         });
         this.provider = provider;
     });
