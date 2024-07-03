@@ -57,8 +57,8 @@ export default class Review extends Component<ReviewArgs>{
     }
 
     public  get displayPublicationCitation(): string {
-        return this.preprint.originalPublicationCitation
-            ? this.preprint.originalPublicationCitation
+        return this.preprint.customPublicationCitation
+            ? this.preprint.customPublicationCitation
             : this.intl.t('general.not-applicable');
     }
 
