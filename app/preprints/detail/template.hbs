@@ -192,10 +192,10 @@
                             </OsfLink>
                         </div>
                     {{/if}}
-                    {{#if this.model.preprint.originalPublicationCitation}}
+                    {{#if this.model.preprint.customPublicationCitation}}
                         <div>
                             <h4>{{t 'preprints.detail.publication-citation'}}</h4>
-                            {{this.model.preprint.originalPublicationCitation}}
+                            {{this.model.preprint.customPublicationCitation}}
                         </div>
                     {{/if}}
                     <Preprints::-Components::PreprintLicense @preprint={{this.model.preprint}} />

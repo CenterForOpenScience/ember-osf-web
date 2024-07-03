@@ -46,7 +46,7 @@ export default class PreprintModel extends AbstractNodeModel {
     @attr('date') datePublished!: Date;
     @attr('date') dateWithdrawn!: Date;
     @attr('date') originalPublicationDate!: Date | null;
-    @attr('fixstring') originalPublicationCitation!: string | null;
+    @attr('fixstring') customPublicationCitation!: string | null;
     @attr('date') dateModified!: Date;
     @attr('fixstring') doi!: string | null;
     @attr('boolean') public!: boolean;
