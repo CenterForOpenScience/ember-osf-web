@@ -30,7 +30,7 @@ interface InputFieldObject {
     labelText: string;
     inputType: string;
     inputPlaceholder: string;
-    inputValue: string;
+    inputValue?: string;
     autocomplete?: string;
     postText?: string;
 }
