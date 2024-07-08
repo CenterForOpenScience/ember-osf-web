@@ -4,46 +4,41 @@
     @preprint={{@preprint}}
     as |manager|
 >
-    {{#let (unique-id 'current-contributors') as |currentContributorFieldId|}}
-        <label for={{currentContributorFieldId}}>
-            {{t 'osf-components.contributors.currentContributors'}}
-        </label>
-        {{#if @displayPermissionWarning}}
-            <div local-class='warning-container'>
-                {{t 'osf-components.contributors.permission-warning'}}
-            </div>
-        {{/if}}
-        <div local-class='display-container' ...attributes>
-            <div local-class='heading-container {{if (is-mobile) 'mobile'}}'>
-                <div data-test-heading-name local-class='name-title'>
-                    {{t 'osf-components.contributors.headings.name'}}
-                </div>
-                {{#if (not (is-mobile))}}
-                    <div data-test-heading-permission local-class='permission-title'>
-                        {{t 'osf-components.contributors.headings.permission'}}
-                    </div>
-                    <div data-test-heading-citation local-class='citation-title'>
-                        {{t 'osf-components.contributors.headings.citation'}}
-                    </div>
-                {{/if}}
-            </div>
-            <Contributors::List
-                @contributorsManager={{manager}}
-                @widgetMode={{@widgetMode}}
-            />
+    {{#if @displayPermissionWarning}}
+        <div local-class='warning-container'>
+            {{t 'osf-components.contributors.permission-warning'}}
         </div>
-        {{#if @shouldShowAdd}}
-            <div local-class='add-user-container {{if (is-mobile) 'mobile'}}'>
-                <label>
-                    {{t 'osf-components.contributors.addContributors'}}
-                </label>
-                <div local-class='user-search-container'>
-                    <Contributors::UserSearch::Widget
-                        @manager={{manager}}
-                        @toggleAddContributorWidget={{@toggleAddContributorWidget}}
-                    />
-                </div>
+    {{/if}}
+    <div local-class='display-container' ...attributes>
+        <div local-class='heading-container {{if (is-mobile) 'mobile'}}'>
+            <div data-test-heading-name local-class='name-title'>
+                {{t 'osf-components.contributors.headings.name'}}
             </div>
-        {{/if}}
-    {{/let}}
+            {{#if (not (is-mobile))}}
+                <div data-test-heading-permission local-class='permission-title'>
+                    {{t 'osf-components.contributors.headings.permission'}}
+                </div>
+                <div data-test-heading-citation local-class='citation-title'>
+                    {{t 'osf-components.contributors.headings.citation'}}
+                </div>
+            {{/if}}
+        </div>
+        <Contributors::List
+            @contributorsManager={{manager}}
+            @widgetMode={{@widgetMode}}
+        />
+    </div>
+    {{#if @shouldShowAdd}}
+        <div local-class='add-user-container {{if (is-mobile) 'mobile'}}'>
+            <label>
+                {{t 'osf-components.contributors.addContributors'}}
+            </label>
+            <div local-class='user-search-container'>
+                <Contributors::UserSearch::Widget
+                    @manager={{manager}}
+                    @toggleAddContributorWidget={{@toggleAddContributorWidget}}
+                />
+            </div>
+        </div>
+    {{/if}}
 </Contributors::Manager>

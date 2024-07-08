@@ -9,6 +9,9 @@
     {{else}}
         <div local-class='form-container'>
             <div local-class='input-container'>
+                <label data-test-contributors-label>
+                    {{t 'preprints.submit.step-metadata.contributors-input'}}
+                </label>
                 <Contributors::Widget
                     @preprint={{@manager.preprint}}
                     @shouldShowAdd={{this.showAddContributorWidget}}
