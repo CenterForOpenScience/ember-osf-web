@@ -16,7 +16,7 @@
             for={{uniqueId}}
         >
             {{ this.displayText }} 
-            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping (this.displayText)}} />
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping this.displayText}} />
         </label>
     {{/let}}
 </div>
