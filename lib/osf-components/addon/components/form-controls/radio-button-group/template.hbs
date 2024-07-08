@@ -1,33 +1,26 @@
-<div
-    data-test-radio-button-group
-    local-class='RadioButtonGroup'
-    ...attributes
->
-    {{#each this.options as |option|}}
-        {{#let (unique-id 'radio' option) as |uniqueId|}}
+<div class='RadioButtonContainer'>
+    <div
+        data-test-radio-button-group
+        local-class='RadioButtonGroup'
+        class={{@class}}
+        ...attributes
+    >
+        {{#each this.options as |option|}}
             <div
                 data-test-radio-input
-                local-class='RadioButton'
             >
-                <input
-                    type='radio'
-                    id={{uniqueId}}
-                    name={{@valuePath}}
-                    value={{option}}
-                    onclick={{action this.updateChangeset option}}
-                    disabled={{this.disabled}}
-                    checked={{if (eq (get @changeset @valuePath) option) true false}}
+                <FormControls::RadioButtonGroup::RadioButton
+                    @changeset={{@changeset}}
+                    @onchange={{@onchange}}
+                    @valuePath={{@valuePath}}
+                    @option={{option}}
+                    @disabled={{this.disabled}}
+                    @helpTextMapping={{@helpTextMapping}}
                 >
-                <label
-                    local-class='RadioLabel'
-                    for={{uniqueId}}
-                >
-                    {{option}}
-                    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping option}} />
-                </label>
+                </FormControls::RadioButtonGroup::RadioButton>
             </div>
-        {{/let}}
-    {{/each}}
+        {{/each}}
+    </div>
     {{#if @shouldShowMessages}}
         <ValidationErrors
             @changeset={{@changeset}}

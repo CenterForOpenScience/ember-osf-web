@@ -1,4 +1,5 @@
 import { attr, belongsTo, AsyncBelongsTo, hasMany, AsyncHasMany } from '@ember-data/model';
+import PreprintModel from 'ember-osf-web/models/preprint';
 import { Link } from 'jsonapi-typescript';
 
 import AbstractNodeModel from './abstract-node';
@@ -24,7 +25,8 @@ export default class FileProviderModel extends BaseFileItem {
 
     @belongsTo('abstract-node', { inverse: 'files', polymorphic: true })
     target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) |
-        (AsyncBelongsTo<DraftNodeModel> & DraftNodeModel);
+        (AsyncBelongsTo<DraftNodeModel> & DraftNodeModel) |
+        (AsyncBelongsTo<PreprintModel> & PreprintModel);
 
     // BaseFileItem override
     isProvider = true;

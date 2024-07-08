@@ -1,0 +1,37 @@
+<div local-class='form-container'
+    {{did-insert this.initializeChangeset @index @value}}
+    {{did-update this.initializeChangeset @index @value}}
+>
+    {{#if this.linkFormChangeset}}
+        <FormControls
+            @changeset={{this.linkFormChangeset}}
+            data-test-form
+            as |form|
+        >
+            <div local-class='input-container'>
+                <form.text
+                    data-test-link-input
+                    @isRequired={{true}}
+                    {{on 'change' this.onUpdate}}
+                    @placeholder={{ @placeholder }}
+                    @valuePath={{'value'}}
+                    local-class='input'
+                />
+
+            </div>
+            <div local-class='delete-container'>
+                <Button
+                    data-test-remove-link
+                    aria-label={{t 'preprints.submit.step-assertions.public-link-remove-button'}}
+                    @layout='fake-link'
+                    {{on 'click' this.removeLink}}
+                >
+                    <FaIcon @icon='times' local-class='delete' />
+                    <EmberTooltip>
+                        {{t 'preprints.submit.step-assertions.public-link-remove-button'}}
+                    </EmberTooltip>
+                </Button>
+            </div>
+        </FormControls>
+    {{/if}}
+</div>

@@ -1,0 +1,96 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.preprint-input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .title {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .file-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+
+        .file {
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+
+    .upload-container {
+        width: 100%;
+
+        .required {
+            color: $brand-danger;
+        }
+
+        .button-container {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+
+            .btn {
+                width: calc(50% - 10px);
+            }
+
+            .selected {
+                background-color: $secondary-blue;
+                color: $color-text-white;
+            }
+        }
+
+        .upload-file {
+            border: 1px solid $color-border-gray;
+            height: 150px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            &.highlight {
+                border: 1px solid $color-bg-blue-dark;
+                box-shadow: 2px 2px 5px $color-bg-blue-dark;
+                background-color: lighten($brand-success, 50%);
+            }
+        }
+
+        .cancel-button-container {
+            margin-top: 10px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    }
+
+    &.mobile {
+        .upload-container {
+            .button-container {
+                flex-direction: column;
+                justify-content: flex-start;
+
+                .btn {
+                    width: 100%;
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+}
+

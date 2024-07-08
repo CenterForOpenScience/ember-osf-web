@@ -19,6 +19,8 @@ function buildLicenseText(): string {
 export interface PreprintMirageModel extends PreprintModel {
     isPreprintDoi: boolean;
     addLicenseName: boolean;
+    nodeId: number;
+    licenseId: number;
 }
 
 export interface PreprintTraits {
@@ -60,6 +62,16 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
         ],
         year: '2023',
     },
+
+    dateLastTransitioned: null,
+    hasCoi: null,
+    conflictOfInterestStatement: null,
+    hasDataLinks: null,
+    whyNoData: null,
+    dataLinks: null,
+    preregLinks: null,
+    preregLinkInfo: null,
+    hasPreregLinks: null,
 
     dateWithdrawn: null,
 
@@ -133,12 +145,15 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
             },
         });
 
+        const providerId = preprint.id + ':osfstorage';
+        const osfstorage = server.create('file-provider', { id: providerId, target: preprint });
+
         preprint.update({
             contributors: allContributors,
             bibliographicContributors: allContributors,
             license,
             subjects,
-            files: [file],
+            files: [osfstorage],
             primaryFile: file,
             node,
         });

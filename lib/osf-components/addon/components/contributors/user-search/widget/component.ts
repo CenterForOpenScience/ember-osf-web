@@ -1,5 +1,5 @@
 import Store from '@ember-data/store';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
@@ -27,6 +27,7 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
     @tracked results: UserModel[] = [];
     @tracked totalUsersPage = 1;
     @tracked currentUsersPage = 1;
+    @tracked displayResults = false;
 
     @computed('fetchUsers.isRunning', 'hasMoreUsers')
     get shouldShowLoadMoreUsers() {
@@ -39,23 +40,32 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
         return this.currentUsersPage < this.totalUsersPage;
     }
 
+    @action
+    public cancelSearch(): void {
+        this.query = '';
+        this.displayResults = false;
+    }
+
     @keepLatestTask
     @waitFor
     async fetchUsers(isFetchingNextPage: boolean) {
-        if (isFetchingNextPage) {
-            this.currentUsersPage += 1;
-        } else {
-            await timeout(500);
-            this.currentUsersPage = 1;
-            this.results = [];
+        if(this.query !== '') {
+            if (isFetchingNextPage) {
+                this.currentUsersPage += 1;
+            } else {
+                await timeout(500);
+                this.currentUsersPage = 1;
+                this.results = [];
+            }
+            const currentPageResult = await this.store.query('user', {
+                filter: {
+                    [nameFields]: this.query,
+                },
+                page: this.currentUsersPage,
+            });
+            this.displayResults = true;
+            this.results = this.results.concat(currentPageResult.toArray());
+            this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
         }
-        const currentPageResult = await this.store.query('user', {
-            filter: {
-                [nameFields]: this.query,
-            },
-            page: this.currentUsersPage,
-        });
-        this.results = this.results.concat(currentPageResult.toArray());
-        this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
     }
 }

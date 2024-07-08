@@ -1,6 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import Store from '@ember-data/store';
-import EmberArray, { A } from '@ember/array';
+import EmberArray, { A, isArray } from '@ember/array';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { alias } from '@ember/object/computed';
@@ -226,6 +226,13 @@ export default class OsfModel extends Model {
         return this.modifyM2MRelationship('post', relationshipName, relatedModel);
     }
 
+    async removeM2MRelationship<T extends OsfModel>(
+        this: T,
+        relationshipName: RelationshipsFor<T> & string,
+    ) {
+        return this.modifyM2MRelationship('patch', relationshipName, []);
+    }
+
     async deleteM2MRelationship<T extends OsfModel>(
         this: T,
         relationshipName: RelationshipsFor<T> & string,
@@ -266,19 +273,25 @@ export default class OsfModel extends Model {
 
     async modifyM2MRelationship<T extends OsfModel>(
         this: T,
-        action: 'post' | 'delete',
+        action: 'post' | 'delete' | 'patch',
         relationshipName: RelationshipsFor<T> & string,
-        relatedModel: OsfModel,
+        relatedModel: OsfModel | [],
     ) {
         const apiRelationshipName = underscore(relationshipName);
         const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
 
-        const data = JSON.stringify({
-            data: [{
-                id: relatedModel.id,
-                type: relatedModel.apiType,
-            }],
+        let data = JSON.stringify({
+            data: [ ],
         });
+
+        if (!isArray(relatedModel)) {
+            data = JSON.stringify({
+                data: [{
+                    id: relatedModel?.id,
+                    type: relatedModel?.apiType,
+                }],
+            });
+        }
 
         if (!url) {
             throw new Error(`Couldn't find self link for ${apiRelationshipName} relationship`);
@@ -353,7 +366,7 @@ export default class OsfModel extends Model {
      * });
      *
      * contributors.sparseModels.forEach(contrib => {
-     *     console.log(contrib.users.fullName);
+     *     console.info(contrib.users.fullName);
      * );
      * ```
      */

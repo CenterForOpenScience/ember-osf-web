@@ -5,29 +5,51 @@
     )
     @widgetMode
 ) as |Card|}}
-    <ol
-        {{sortable-group onChange=@contributorsManager.reorderContributor}}
-        local-class='ContributorList'
-    >
-        {{#each @contributorsManager.contributors as |contributor|}}
-            <li 
-                {{sortable-item
-                    model=contributor
-                    disabled=(eq this.widgetMode 'readonly')
-                    onDragStart=(action (mut @contributorsManager.isDragging) true)
-                    onDragStop=(action (mut @contributorsManager.isDragging) false)
-                }}
-            >
-                <Card @contributor={{contributor}} @item={{contributor}} />
-            </li>
-        {{/each}}
-        {{#if @contributorsManager.shouldShowLoadMore}}
-            <div local-class='InfinityLoader' {{in-viewport onEnter=@contributorsManager.fetchContributors}}>
-                {{t 'osf-components.contributors.loadMore'}}
-            </div>
-        {{/if}}
-        {{#if @contributorsManager.isLoading}}
-            <LoadingIndicator @dark={{true}} />
-        {{/if}}
-    </ol>
+    {{#if (is-mobile)}}
+        <ol
+            local-class='ContributorList'
+        >
+            {{#each @contributorsManager.contributors as |contributor|}}
+                <li>
+                    <Card @contributor={{contributor}} @item={{contributor}} />
+                </li>
+            {{/each}}
+            {{#if @contributorsManager.shouldShowLoadMore}}
+                <div local-class='InfinityLoader' {{in-viewport onEnter=@contributorsManager.fetchContributors}}>
+                    {{t 'osf-components.contributors.loadMore'}}
+                </div>
+            {{/if}}
+            {{#if @contributorsManager.isLoading}}
+                <LoadingIndicator @dark={{true}} />
+            {{/if}}
+        </ol>
+    {{else}}
+        <ol
+            {{sortable-group onChange=@contributorsManager.reorderContributor}}
+            local-class='ContributorList'
+        >
+            {{#each @contributorsManager.contributors as |contributor|}}
+                <li 
+                    {{sortable-item
+                        distance=30
+                        model=contributor
+                        disabled=(eq this.widgetMode 'readonly')
+                        onDragStart=(action (mut @contributorsManager.isDragging) true)
+                        onDragStop=(action (mut @contributorsManager.isDragging) false)
+                    }}
+                >
+                    <Card @contributor={{contributor}} @item={{contributor}} />
+                </li>
+            {{/each}}
+            {{#if @contributorsManager.shouldShowLoadMore}}
+                <div local-class='InfinityLoader' {{in-viewport onEnter=@contributorsManager.fetchContributors}}>
+                    {{t 'osf-components.contributors.loadMore'}}
+                </div>
+            {{/if}}
+            {{#if @contributorsManager.isLoading}}
+                <LoadingIndicator @dark={{true}} />
+            {{/if}}
+        </ol>
+
+    {{/if}}
 {{/let}}

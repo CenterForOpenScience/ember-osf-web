@@ -9,6 +9,7 @@ import { tracked } from '@glimmer/tracking';
 import { enqueueTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
+import PreprintModel from 'ember-osf-web/models/preprint';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import ContributorModel from 'ember-osf-web/models/contributor';
@@ -30,6 +31,7 @@ export default class ContributorsManager extends Component {
     @service store!: Store;
     @service router!: RouterService;
 
+    preprint?: PreprintModel;
     node?: NodeModel;
     draftRegistration?: DraftRegistrationModel;
 
@@ -54,7 +56,7 @@ export default class ContributorsManager extends Component {
     @enqueueTask({ on: 'init' })
     @waitFor
     async fetchContributors() {
-        const model = this.node || this.draftRegistration;
+        const model = this.node || this.draftRegistration || this.preprint;
         if (model && this.hasMore) {
             const currentPageResult = await model.queryHasMany('contributors', {
                 page: this.currentPage,
@@ -155,6 +157,7 @@ export default class ContributorsManager extends Component {
                 permission,
                 bibliographic,
                 node: this.node,
+                preprint: this.preprint,
                 draftRegistration: this.draftRegistration,
                 users: user,
             });
@@ -178,6 +181,7 @@ export default class ContributorsManager extends Component {
                 email,
                 fullName,
                 node: this.node,
+                preprint: this.preprint,
                 draftRegistration: this.draftRegistration,
             });
             await newContributor.save();

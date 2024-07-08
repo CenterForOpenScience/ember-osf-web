@@ -59,10 +59,20 @@ export default class FileSerializer extends ApplicationSerializer<MirageFileProv
 
     buildNormalLinks(model: ModelInstance<MirageFileProvider>) {
         const pathName = pluralize(underscore(model.targetId.type));
-        return {
-            ...super.buildNormalLinks(model),
+        let links = {
             upload: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.name}/upload`,
             new_folder: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.name}/upload/?kind=folder`,
+        };
+        if(pathName === 'preprints') {
+            links = {
+                upload: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.id}/upload`,
+                new_folder: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.id}/upload/?kind=folder`,
+            };
+        }
+
+        return {
+            ...super.buildNormalLinks(model),
+            ...links,
         };
     }
 }

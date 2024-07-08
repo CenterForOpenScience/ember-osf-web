@@ -1,0 +1,72 @@
+<div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-supplements.title'}}
+    </h3>
+    {{#unless this.isSupplementAttached}}
+        <p>
+            {{t 'preprints.submit.step-supplements.description'}}
+        </p>
+    {{/unless}}
+
+    {{#if this.isSupplementAttached}}
+        <div local-class='supplement-container'>
+            <div local-class='supplement'>
+                <Preprints::-Components::PreprintNodeDisplay
+                    @preprint={{@manager.preprint}}
+                    @preprintWord={{@manager.provider.documentType.singular}}
+                    @removeNode={{this.removeSelectedProject}}
+                />
+            </div>
+        </div>
+    {{else}}
+        <div local-class='button-container {{if (is-mobile) 'mobile'}}'>
+            <Button
+                data-test-existing-osf-button
+                data-analytics-name='Connect to an existing OSF preprint'
+                {{on 'click' this.onConnectOsfProject}}
+                @layout='large'
+                local-class='btn-width {{if this.displayExistingNodeWidget 'selected'}}'
+                class='btn btn-secondary btn-large'
+                disabled={{this.isDisplayCancelButton}}
+
+            >
+                {{t 'preprints.submit.step-supplements.connect-button'}}
+            </Button>
+
+            <Button
+                data-test-create-osf-button
+                data-analytics-name='Create a new OSF preprint'
+                {{on 'click' this.onCreateOsfProject}}
+                local-class='btn-width {{if this.isModelOpen 'selected'}}'
+                @layout='large'
+                disabled={{this.isDisplayCancelButton}}
+            >
+                {{t 'preprints.submit.step-supplements.create-button'}}
+            </Button>
+        </div>
+
+        {{#if this.displayExistingNodeWidget }}
+            <Preprints::-Components::PreprintExistingNodeWidget
+                @projectSelected={{this.projectSelected}}
+            />
+
+            <div local-class='cancel-button-container'>
+                <Button
+                    data-test-cancel-button
+                    {{on 'click' this.onCancelProjectAction}}
+                >
+                    {{t 'general.cancel'}}
+                </Button>
+            </div>
+        {{/if}}
+
+        <NewProjectModal
+            @isPublic={{true}}
+            @openModal={{this.isModalOpen}}
+            @afterProjectCreated={{this.projectSelected}}
+            @closeModal={{this.onCancelProjectAction}}
+        />
+    {{/if}}
+</div>

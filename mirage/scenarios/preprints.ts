@@ -1,6 +1,10 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { PreprintDataLinksEnum, PreprintPreregLinksEnum } from 'ember-osf-web/models/preprint';
+import {
+    PreprintDataLinksEnum,
+    PreprintPreregLinksEnum,
+    PreprintPreregLinkInfoEnum,
+} from 'ember-osf-web/models/preprint';
 
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import { ReviewsState } from 'ember-osf-web/models/provider';
@@ -54,8 +58,15 @@ function buildOSF(
         doi: '10.30822/artk.v1i1.79',
         originalPublicationDate: new Date('2016-11-30T16:00:00.000000Z'),
         preprintDoiCreated: new Date('2016-11-30T16:00:00.000000Z'),
+        customPublicationCitation: 'This is the publication Citation',
         hasCoi: true,
+        conflictOfInterestStatement: 'This is the conflict of interest statement',
         hasDataLinks: PreprintDataLinksEnum.NOT_APPLICABLE,
+        dataLinks: [
+            'http://www.datalink.com/1',
+            'http://www.datalink.com/2',
+            'http://www.datalink.com/3',
+        ],
         hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
     });
 
@@ -63,7 +74,7 @@ function buildOSF(
 
     approvedAdminPreprint.update({ identifiers: [osfApprovedAdminIdentifier] });
 
-    const notContributorPreprint = server.create('preprint', {
+    const notContributorPreprint = server.create('preprint', Object({
         provider: osf,
         id: 'osf-not-contributor',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
@@ -74,7 +85,8 @@ function buildOSF(
         whyNoData: `Why No Data\n${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         whyNoPrereg: `Why No Prereg\n${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
         tags: [],
-    });
+        isPreprintDoi: false,
+    }));
 
     const rejectedPreprint = server.create('preprint', {
         provider: osf,
@@ -102,6 +114,7 @@ function buildOSF(
         hasCoi: true,
         hasDataLinks: PreprintDataLinksEnum.AVAILABLE,
         dataLinks: ['Data link 1', 'Data link 2', 'Data link 3'],
+        preregLinkInfo: PreprintPreregLinkInfoEnum.PREREG_ANALYSIS,
         hasPreregLinks: PreprintPreregLinksEnum.AVAILABLE,
         preregLinks: ['Prereg link 1', 'Prereg link 2', 'Prereg link 3'],
         conflictOfInterestStatement: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
@@ -226,6 +239,8 @@ function buildOSF(
     osf.update({
         allowSubmissions: true,
         highlightedSubjects: subjects,
+        subjects,
+        licensesAcceptable: server.schema.licenses.all(),
         // currentUser,
         // eslint-disable-next-line max-len
         advisory_board: '<div class=\'preprint-advisory-header\'>\n<h2>Advisory Group</h2>\n<p>Our advisory group includes leaders in preprints and scholarly communication\n</p></div>\n<div class=\'preprint-advisory-list\'><div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>Devin Berg</strong> : engrXiv, University of Wisconsin-Stout</li>\n<li><strong>Pete Binfield</strong> : PeerJ PrePrints</li>\n<li><strong>Benjamin Brown</strong> : PsyArXiv, Georgia Gwinnett College</li>\n<li><strong>Philip Cohen</strong> : SocArXiv, University of Maryland</li>\n<li><strong>Kathleen Fitzpatrick</strong> : Modern Language Association</li>\n</ul>\n</div>\n<div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>John Inglis</strong> : bioRxiv, Cold Spring Harbor Laboratory Press</li>\n<li><strong>Rebecca Kennison</strong> : K | N Consultants</li>\n<li><strong>Kristen Ratan</strong> : CoKo Foundation</li>\n<li><strong>Oya Riege</strong>r : Ithaka S+R</li>\n<li><strong>Judy Ruttenberg</strong> : SHARE, Association of Research Libraries</li>\n</ul>\n</div>\n</div>',
@@ -296,6 +311,8 @@ function buildrXiv(
     preprintrxiv.update({
         allowSubmissions: true,
         highlightedSubjects: subjects,
+        subjects,
+        licensesAcceptable: server.schema.licenses.all(),
         // eslint-disable-next-line max-len
         advisory_board: '<div class=\'preprint-advisory-header\'>\n<h2>Advisory Group</h2>\n<p>Our advisory group includes leaders in preprints and scholarly communication\n</p></div>\n<div class=\'preprint-advisory-list\'><div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>Devin Berg</strong> : engrXiv, University of Wisconsin-Stout</li>\n<li><strong>Pete Binfield</strong> : PeerJ PrePrints</li>\n<li><strong>Benjamin Brown</strong> : PsyArXiv, Georgia Gwinnett College</li>\n<li><strong>Philip Cohen</strong> : SocArXiv, University of Maryland</li>\n<li><strong>Kathleen Fitzpatrick</strong> : Modern Language Association</li>\n</ul>\n</div>\n<div class=\'preprint-advisory-list-column\'>\n<ul>\n<li><strong>John Inglis</strong> : bioRxiv, Cold Spring Harbor Laboratory Press</li>\n<li><strong>Rebecca Kennison</strong> : K | N Consultants</li>\n<li><strong>Kristen Ratan</strong> : CoKo Foundation</li>\n<li><strong>Oya Riege</strong>r : Ithaka S+R</li>\n<li><strong>Judy Ruttenberg</strong> : SHARE, Association of Research Libraries</li>\n</ul>\n</div>\n</div>',
         footer_links: '',
@@ -313,7 +330,9 @@ function buildThesisCommons(
     currentUser: ModelInstance<User>,
 ) {
     const thesisCommons = server.schema.preprintProviders.find('thesiscommons') as ModelInstance<PreprintProvider>;
+
     const brand = server.create('brand', {
+
         primaryColor: '#821e1e',
         secondaryColor: '#94918e',
         heroBackgroundImage: 'https://singlecolorimage.com/get/94918e/1000x1000',
@@ -329,7 +348,9 @@ function buildThesisCommons(
 
     thesisCommons.update({
         highlightedSubjects: subjects,
+        subjects,
         brand,
+        licensesAcceptable: server.schema.licenses.all(),
         moderators: [currentUserModerator],
         preprints,
         description: '<p style="color: red">This is the description for Thesis Commons and it has an inline-style!</p>',
@@ -376,6 +397,7 @@ function buildAgrixiv(
 
     agrixiv.update({
         moderators: [currentUserModerator],
+        licensesAcceptable: server.schema.licenses.all(),
         brand: agrixivBrand,
         description: '<p style="color: black">This is the description for agrixiv!</p>',
         preprints: [
@@ -396,6 +418,7 @@ function buildNutrixiv(
     });
     nutrixiv.update({
         brand: nutrixivBrand,
+        licensesAcceptable: server.schema.licenses.all(),
         description: '<p style="color: green">This is the description for nutrixiv!</p>',
     });
 }
@@ -421,6 +444,7 @@ function buildBiohackrxiv(server: Server) {
 
     biohackrxiv.update({
         brand: biohackrxivBrand,
+        licensesAcceptable: server.schema.licenses.all(),
         description: '<p style="color: black">This is the description for biohackrxiv!</p>',
         preprints: [publicDoiPreprint],
     });

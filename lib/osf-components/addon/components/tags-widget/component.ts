@@ -14,6 +14,7 @@ import template from './template';
 
 interface Taggable extends OsfModel {
     tags: string[];
+    isTagClickable: boolean;
 }
 
 @layout(template, styles)
@@ -26,6 +27,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
     // optional arguments
     readOnly = true;
     autoSave = true;
+    isTagClickable = true;
     onChange?: (taggable: Taggable) => void;
 
     @attribute('data-analytics-scope')
@@ -38,6 +40,7 @@ export default class TagsWidget extends Component.extend({ styles }) {
         super.init();
         assert('tags-widget: You must pass in a taggable model', Boolean(this.taggable && 'tags' in this.taggable));
     }
+
 
     @action
     _addTag(tag: string) {
@@ -63,7 +66,9 @@ export default class TagsWidget extends Component.extend({ styles }) {
 
     @action
     _clickTag(tag: string): void {
-        this.router.transitionTo('search', { queryParams: { q: `${encodeURIComponent(tag)}` } });
+        if (this.isTagClickable) {
+            this.router.transitionTo('search', { queryParams: { q: `${encodeURIComponent(tag)}` } });
+        }
     }
 
     _onChange() {

@@ -8,7 +8,7 @@ const { OSF: { apiUrl } } = config;
 export default class PreprintSerializer extends ApplicationSerializer<PreprintMirageModel> {
     buildNormalLinks(model: ModelInstance) {
         return {
-            self: `${apiUrl}/v2/${model.id}/`,
+            self: `${apiUrl}/v2/preprints/${model.id}/`,
             doi: model.doi ?  `https://doi.org/${model.doi}` : null,
             preprint_doi: model.isPreprintDoi ? `https://doi.org/10.31219/osf.io/${model.id}` : null,
         };
@@ -44,16 +44,20 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
-            license: {
+            files: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/licenses/${model.license.id}/`,
-                        meta: {},
+                        href: `${apiUrl}/v2/preprints/${model.id}/files/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
                     },
                 },
             },
             subjects: {
                 links: {
+                    self: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/relationships/subjects/`,
+                        meta: {},
+                    },
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/subjects/`,
                         meta: this.buildRelatedLinkMeta(model, 'subjects'),
@@ -84,14 +88,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     },
                 },
             },
-            node: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/nodes/${model.node.id}`,
-                        meta: this.buildRelatedLinkMeta(model, 'node'),
-                    },
-                },
-            },
             identifiers: {
                 links: {
                     related: {
@@ -102,16 +98,18 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
             },
         };
 
-        if (model.primaryFile) {
-            relationships['files'] = {
+        if (model.node) {
+            relationships['node'] = {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/preprints/${model.id}/files/`,
-                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                        href: `${apiUrl}/v2/nodes/${model.nodeId}`,
+                        meta: {},
                     },
                 },
             };
+        }
 
+        if (model.primaryFile) {
             relationships['primaryFile'] = {
                 links: {
                     related: {

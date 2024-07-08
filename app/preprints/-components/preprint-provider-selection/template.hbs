@@ -1,0 +1,39 @@
+<div local-class='provider-selection-container {{if (is-mobile) 'mobile'}}'>
+    <div local-class='heading-container'>
+        <h1
+            data-test-heading
+            local-class='heading'
+        >
+            {{t 'preprints.select.heading'}}
+        </h1>
+    </div>
+    <div local-class='paragraph-container'>
+        <p
+            data-test-paragraph
+            local-class='paragraph'
+        >
+            {{t 'preprints.select.paragraph' link=this.learnMoreUrl htmlSafe=true}}
+        </p>
+    </div>
+    <div local-class='provider-list-container'>
+        {{#each this.submissionProviders as |provider| }}
+            <Preprints::-Components::PreprintProviderSelection::PreprintProviderDisplay
+                data-test-provider
+                @provider={{provider}}
+                @updateSelectedProvider={{this.updateSelectedProvider}}
+                @selectedProviderId={{this.selectedProviderId}}
+            />
+        {{/each}}
+    </div>
+    <div local-class='create-button-container'>
+        <Button
+            data-test-create-preprints
+            local-class='create-button {{if this.isDisabled 'disabled'}}'
+            disabled={{this.isDisabled}}
+            @type='create'
+            {{ on 'click' (action this.onCreateButtonClick) }}
+        >
+            {{t 'preprints.select.create_button'}}
+        </Button>
+    </div>
+</div>

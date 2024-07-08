@@ -95,6 +95,12 @@ export default class PrePrintsDetailController extends Controller {
         return (this.model.preprint.currentUserPermissions).includes(Permission.Admin);
     }
 
+    private hasReadWriteAccess(): boolean {
+        // True if the current user has write permissions for the node that contains the preprint
+        return (this.model.preprint.currentUserPermissions.includes(Permission.Write));
+    }
+
+
     get userIsContrib(): boolean {
         if (this.isAdmin()) {
             return true;
@@ -103,7 +109,8 @@ export default class PrePrintsDetailController extends Controller {
             this.model.contributors.forEach((author: ContributorModel) => {
                 authorIds.push(author.id);
             });
-            return this.currentUser.currentUserId ? authorIds.includes(this.currentUser.currentUserId) : false;
+            const authorId = `${this.model.preprint.id}-${this.currentUser.currentUserId}`;
+            return this.currentUser.currentUserId ? authorIds.includes(authorId) && this.hasReadWriteAccess() : false;
         }
         return false;
     }

@@ -1,14 +1,15 @@
 .TagsWidget.TagsWidget {
-    border: 0;
+    border: 0 !important;
     padding: 0;
     margin: 0;
+    margin-top: 10px;
 }
 
 .TagsWidget :global(.emberTagInput-tag) {
     background: $color-bg-blue-light;
     border-radius: 0;
     color: $color-text-black;
-    cursor: pointer;
+    cursor: default;
     font-size: 13px;
     max-width: 100%;
     overflow-wrap: break-word;
@@ -26,6 +27,10 @@
         }
     }
 }
+
+.TagsWidget :global(.emberTagInput-tag .cursor) {
+    cursor: pointer;
+} 
 
 .TagsWidget :global(.emberTagInput-new) {
     width: 100%;

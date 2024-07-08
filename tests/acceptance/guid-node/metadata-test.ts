@@ -45,7 +45,7 @@ module('Acceptance | guid-node/metadata', hooks => {
                 .containsText(funder.award_number,  `Funder award number is correct for ${funder.funder_name}`);
         }
         assert.dom('[data-test-contributors-list]').exists();
-        assert.dom('[data-test-subjects-list]').doesNotExist('There are no subjects for projects');
+        assert.dom('[data-test-subjects-list]').exists('Subjects list is displayed for projects');
 
         assert.dom('[data-test-edit-node-description-button]').doesNotExist();
         assert.dom('[data-test-edit-resource-metadata-button]').doesNotExist();
@@ -86,7 +86,7 @@ module('Acceptance | guid-node/metadata', hooks => {
                 .doesNotExist(`Funder award number does not exist for ${funder.funder_name}`);
         }
         assert.dom('[data-test-contributors-list]').doesNotExist('There are no contributors for AVOL');
-        assert.dom('[data-test-subjects-list]').doesNotExist('There are no subjects for projects');
+        assert.dom('[data-test-subjects-list]').exists('Subjects list is displayed for projects');
 
         assert.dom('[data-test-edit-node-description-button]').doesNotExist();
         assert.dom('[data-test-edit-resource-metadata-button]').doesNotExist();
@@ -126,7 +126,7 @@ module('Acceptance | guid-node/metadata', hooks => {
                 .containsText(funder.award_number,  `Funder award number is correct for ${funder.funder_name}`);
         }
         assert.dom('[data-test-contributors-list]').exists();
-        assert.dom('[data-test-subjects-list]').doesNotExist('There are no subjects for projects');
+        assert.dom('[data-test-subjects-list]').exists('Subjects list is displayed for projects');
 
         assert.dom('[data-test-edit-node-description-button]').exists();
         await click('[data-test-edit-node-description-button]');

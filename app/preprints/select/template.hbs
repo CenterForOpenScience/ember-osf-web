@@ -1,0 +1,15 @@
+{{page-title (t 'preprints.select.page-title')}}
+
+<div local-class='select-page-container {{if (is-mobile) 'mobile'}}'>
+    <div local-class='header-container'>
+        <div local-class='header-clamp-width-container'>
+            <p
+                data-test-header
+                local-class='header'
+            >
+                {{t 'preprints.select.title'}}
+            </p>
+        </div>
+    </div>
+    <Preprints::-Components::PreprintProviderSelection @submissionProviders={{this.model.submissionProviders}} />
+</div>

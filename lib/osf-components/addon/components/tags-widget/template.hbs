@@ -1,7 +1,7 @@
 {{#unless @taggable.tags.length}}
-    <span data-test-no-tags>
+    <div data-test-no-tags>
         {{t 'osf-components.tags-widget.no_tags'}}
-    </span>
+    </div>
 {{/unless}}
 <TagInput
     data-test-tags-widget-tag-input
@@ -15,12 +15,15 @@
     @ariaLabel={{t 'osf-components.tags-widget.add_tag'}}
     @readOnly={{this.readOnly}}
     @maxlength={{1024}}
+    ...attributes
     as |tag|
 >
+    {{!-- template-lint-disable no-invalid-interactive --}}
     <span
         data-test-tags-widget-tag='{{tag}}'
         data-analytics-name='Click tag'
-        role='link'
+        role='{{if @isTagClickable 'link'}}'
+        class='{{if @isTagClickable 'cursor'}}'
         {{action this._clickTag tag}}
     >
         {{tag}}

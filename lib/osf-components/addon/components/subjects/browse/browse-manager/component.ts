@@ -42,18 +42,33 @@ export default class SubjectBrowserManagerComponent extends Component {
     @waitFor
     async loadRootSubjects() {
         try {
-            const provider = await this.subjectsManager.provider;
-            const rootSubjects = await provider.queryHasMany('subjects', {
-                filter: {
-                    parent: 'null',
-                },
-                page: {
-                    size: subjectPageSize,
-                },
-                sort: 'text',
-                related_counts: 'children',
-            });
-            this.setProperties({ rootSubjects });
+            if (this.subjectsManager.provider) {
+                const provider = await this.subjectsManager.provider;
+                const rootSubjects = await provider.queryHasMany('subjects', {
+                    filter: {
+                        parent: 'null',
+                    },
+                    page: {
+                        size: subjectPageSize,
+                    },
+                    sort: 'text',
+                    related_counts: 'children',
+                });
+                this.setProperties({ rootSubjects });
+            } else {
+                const model = this.subjectsManager.model;
+                const rootSubjects = await model.queryHasMany('subjectsAcceptable', {
+                    filter: {
+                        parent: 'null',
+                    },
+                    page: {
+                        size: subjectPageSize,
+                    },
+                    sort: 'text',
+                    related_counts: 'children',
+                });
+                this.setProperties({ rootSubjects });
+            }
         } catch (e) {
             const errorMessage = this.intl.t('registries.registration_metadata.load_subjects_error');
             captureException(e, { errorMessage });

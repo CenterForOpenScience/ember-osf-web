@@ -4,22 +4,17 @@ import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import Theme from 'ember-osf-web/services/theme';
-import Media from 'ember-responsive';
 import Intl from 'ember-intl/services/intl';
+import config from 'ember-osf-web/config/environment';
 
 export default class Preprints extends Controller {
     @service store!: Store;
     @service theme!: Theme;
     @service router!: RouterService;
-    @service media!: Media;
     @service intl!: Intl;
 
-    get isMobile(): boolean {
-        return this.media.isMobile;
-    }
-
-    get isOsf(): boolean {
-        return this.theme?.provider?.id === 'osf';
+    get isDefaultProvider(): boolean {
+        return this.theme?.provider?.id === config.defaultProvider;
     }
 
     @action

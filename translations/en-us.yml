@@ -24,92 +24,96 @@ documentType:
         pluralCapitalized: Theses
         singular: thesis
         singularCapitalized: Thesis
-contact: 
+contact:
     email: support@osf.io
 general:
-    OSF: OSF
-    share: Share
-    embed: Embed
+    add: Add
+    and: and
+    api: API
+    apply: Apply
+    asc_paren: (asc)
+    available: 'Available'
+    back: Back
+    bookmark: Bookmark
+    cancel: Cancel
+    caution: Caution
+    close: Close
+    component: component
+    contributors: Contributors
+    copy: Copy
+    cos: 'Center for Open Science'
+    create: Create
+    date: Date
+    delete: Delete
+    desc_paren: (desc)
+    description: Description
+    done: Done
     download: Download
     download_url: 'Download url'
-    done: Done
-    delete: Delete
-    view: View
+    downloads: Downloads
     edit: Edit
-    cancel: Cancel
-    add: Add
-    ok: OK
-    apply: Apply
-    revisions: Revisions
+    ellipsis: …
+    embed: Embed
+    engineering: 'engineering'
+    filter: Filter
+    help: Help
+    home: Home
+    hosted_on_the_osf: 'Hosted on OSF'
+    last_modified: 'Last modified'
+    loading: Loading...
     md5: MD5
-    date: Date
-    sha2: SHA2
-    title: Title
-    contributors: Contributors
     modified: Modified
-    description: Description
-    create: Create
-    and: and
-    or: or
-    bookmark: Bookmark
     more: more
-    upload: Upload
-    rename: Rename
-    copy: Copy
     move: Move
     name: Name
-    size: Size
-    version: Version
-    downloads: Downloads
-    close: Close
-    back: Back
-    public: Public
-    filter: Filter
-    revert: Revert
-    save: Save
-    ellipsis: …
-    warning: Warning
-    caution: Caution
-    sort_asc: 'Sort ascending'
-    sort_desc: 'Sort descending'
-    last_modified: 'Last modified'
-    sort: Sort
-    asc_paren: (asc)
-    desc_paren: (desc)
-    loading: Loading...
     next: next
-    previous: previous
-    help: Help
-    api: API
-    cos: 'Center for Open Science'
-    home: Home
-    period: .
-    settings: Settings
-    project: project
-    component: component
-    registration: registration
-    hosted_on_the_osf: 'Hosted on OSF'
-    presented_by_osf: 'Presented by OSF'
-    please_confirm: 'Please confirm'
-    required: Required
+    newFeaturePopoverHeading: 'New feature!'
+    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
+    no: 'No'
+    not-applicable: 'Not Applicable'
+    ok: OK
+    or: or
     options: Options
     optional: Optional
     optional_paren: (optional)
-    update: Update
-    user: User
+    period: .
+    please_confirm: 'Please confirm'
+    presented_by_osf: 'Presented by OSF'
+    previous: previous
+    project: project
+    public: Public
+    OSF: OSF
+    other: Other
+    registration: registration
+    rename: Rename
+    required: Required
+    revert: Revert
+    revisions: Revisions
+    save: Save
+    science: 'science'
     services:
         collections: Collections
         institutions: Institutions
         preprints: Preprints
         registries: Registries
-    other: Other
+    settings: Settings
+    sha2: SHA2
+    share: Share
+    sort_asc: 'Sort ascending'
+    sort_desc: 'Sort descending'
+    sort: Sort
+    size: Size
     structured_data:
         json_ld_retrieval_error: 'Error retrieving JSON-LD object for Google Structured Data.'
     tags: 'Tags'
-    science: 'science'
-    engineering: 'engineering'
-    newFeaturePopoverHeading: 'New feature!'
-    newFeaturePopoverBody: 'You can now add funder information, resource types, and more enhanced metadata to your registration.'
+    title: Title
+    update: Update
+    upload: Upload
+    user: User
+    version: Version
+    view: View
+    warning: Warning
+    yes: 'Yes'
 
 file_actions_menu:
     actions: '{filename} actions'
@@ -579,64 +583,64 @@ tos_consent:
     continue: Continue
     failed_save: 'Unable to save Terms of Services consent.'
 validationErrors:
-    description: 'This field'
-    inclusion: '{description} is not included in the list.'
-    exclusion: '{description} is reserved.'
-    invalid: '{description} is invalid.'
-    confirmation: '{description} doesn''t match {on}.'
     accepted: '{description} must be accepted.'
-    empty: 'This field can''t be empty.'
+    affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.'
+    after: '{description} must be after {after}.'
+    before: '{description} must be before {before}.'
     blank: 'This field can''t be blank.'
-    present: '{description} must be blank.'
     collection: '{description} must be a collection.'
+    confirmation: '{description} doesn''t match {on}.'
+    date: '{description} must be a valid date.'
+    description: 'This field'
+    email: '{description} must be a valid email address.'
+    email_duplicate: 'Duplicate email'
+    email_invalid: 'Invalid email address. If this should not have occurred, please report this to {supportEmail}'
+    email_match: 'Email addresses must match.'
+    email_registered: 'This email address has already been registered.'
+    empty: 'This field can''t be empty.'
+    equalTo: '{description} must be equal to {is}.'
+    even: '{description} must be even.'
+    exclusion: '{description} is reserved.'
+    greaterThan: '{description} must be greater than {gt}.'
+    greaterThanOrEqualTo: '{description} must be at least {gte}.'
+    https_url: '{description} must be a valid https url.'
+    inclusion: '{description} is not included in the list.'
+    invalid: '{description} is invalid.'
+    invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)'
+    lessThan: '{description} must be less than {lt}.'
+    lessThanOrEqualTo: '{description} must be less than or equal to {lte}.'
+    license_not_accepted: 'Please select a license that is accepted by this collection.'
+    min_subjects: 'You must select at least one subject.'
+    missingFileNoProject: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found.'
+    moderator_comment: 'Please provide feedback for your decision.'
+    mustSelect: 'You must select a value for this field.'
+    mustSelectFileMinOne: 'You must select at least one file for this field.'
+    mustSelectMinOne: 'You must select at least one value for this field.'
+    new_folder_name: 'Folder name must not be blank.'
+    no_updated_responses: 'No changes have been made in this update.'
+    node_license_invalid: 'Invalid required fields for the license'
+    node_license_missing_fields: 'The following required {numOfFields, plural, =1 {field is} other {fields are}} missing: {missingFields}'
+    notAnInteger: '{description} must be an integer.'
+    notANumber: '{description} must be a number.'
+    odd: '{description} must be odd.'
+    onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
+    onOrAfter: '{description} must be on or after {onOrAfter}.'
+    onOrBefore: '{description} must be on or before {onOrBefore}.'
+    otherThan: '{description} must be other than {value}.'
+    password_email: 'Your password cannot be the same as your email address.'
+    password_match: 'Passwords must match.'
+    password_old: 'Your new password cannot be the same as your old password.'
+    phone: '{description} must be a valid phone number.'
+    positive: '{description} must be positive.'
+    present: '{description} must be blank.'
+    recaptcha: 'Please complete reCAPTCHA.'
     singular: '{description} can''t be a collection.'
     tooLong: '{description} is too long (maximum is {max} characters).'
     tooShort: '{description} is too short (minimum is {min} characters).'
-    before: '{description} must be before {before}.'
-    after: '{description} must be after {after}.'
+    url: '{description} must be a valid url.'
     wrongDateFormat: '{description} must be in the format of {format}.'
     wrongLength: '{description} is the wrong length (should be {is} characters).'
-    notANumber: '{description} must be a number.'
-    notAnInteger: '{description} must be an integer.'
-    greaterThan: '{description} must be greater than {gt}.'
-    greaterThanOrEqualTo: '{description} must be greater than or equal to {gte}.'
-    equalTo: '{description} must be equal to {is}.'
-    lessThan: '{description} must be less than {lt}.'
-    lessThanOrEqualTo: '{description} must be less than or equal to {lte}.'
-    otherThan: '{description} must be other than {value}.'
-    odd: '{description} must be odd.'
-    even: '{description} must be even.'
-    positive: '{description} must be positive.'
-    date: '{description} must be a valid date.'
-    onOrAfter: '{description} must be on or after {onOrAfter}.'
-    onOrBefore: '{description} must be on or before {onOrBefore}.'
-    email: '{description} must be a valid email address.'
-    phone: '{description} must be a valid phone number.'
-    url: '{description} must be a valid url.'
-    https_url: '{description} must be a valid https url.'
-    email_registered: 'This email address has already been registered.'
-    email_invalid: 'Invalid email address. If this should not have occurred, please report this to {supportEmail}'
-    email_match: 'Email addresses must match.'
-    email_duplicate: 'Duplicate email'
-    password_email: 'Your password cannot be the same as your email address.'
-    password_old: 'Your new password cannot be the same as your old password.'
-    password_match: 'Passwords must match.'
-    recaptcha: 'Please complete reCAPTCHA.'
-    affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.'
-    min_subjects: 'You must select at least one subject.'
-    node_license_invalid: 'Invalid required fields for the license'
-    node_license_missing_fields: 'The following required {numOfFields, plural, =1 {field is} other {fields are}} missing: {missingFields}'
-    invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)'
-    mustSelect: 'You must select a value for this field.'
-    mustSelectMinOne: 'You must select at least one value for this field.'
-    mustSelectFileMinOne: 'You must select at least one file for this field.'
-    missingFileNoProject: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found.'
-    onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
-    new_folder_name: 'Folder name must not be blank.'
-    year_format: 'Please specify a valid year.'
-    no_updated_responses: 'No changes have been made in this update.'
-    moderator_comment: 'Please provide feedback for your decision.'
-    license_not_accepted: 'Please select a license that is accepted by this collection.'
+    year_format: 'Please specify a valid year format (YYYY).'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
@@ -742,6 +746,12 @@ node:
         contributors: Contributors
         add-ons: Add-ons
         settings: Settings
+    projects:
+        search-placeholder: 'Find project by name'
+        select-placeholder: 'Click to select project'
+        load-more:
+            loading: Loading…
+            load-more: 'Load More Projects'
     registrations:
         new_registration_modal:
             title: Register
@@ -1160,35 +1170,163 @@ preprints:
     discover:
         title: 'Search'
     title: 'Preprints'
+    select:
+        page-title: 'Select Providers'
+        title: 'New Preprints'
+        select-button: 'Select'
+        deselect-button: 'Deselect'
+        heading: 'Select a preprint service'
+        paragraph: 'A preprint is a version of a scholarly or scientific paper that is posted online before it has undergone formal peer review and published in a scientific journal. <a href={link}>Learn More</a>.'
+        create_button: 'Create Preprint'
+    submit:
+        title-submit: 'New {documentType}'
+        title-edit: 'Edit {documentType}'
+        step-title:
+            title: 'Title and Abstract'
+            title-input: 'Title'
+            abstract-input: 'Abstract'
+            abstract-input-error: '20 characters'
+        step-file:
+            title: 'File'
+            upload-title: 'Upload your {singularPreprintWord}'
+            uploaded-file-title: 'Attached {singularPreprintWord} file'
+            file-upload-label: 'Upload from your computer'
+            file-upload-label-one: 'Drag and drop files here to upload'
+            file-upload-label-two: 'or click to browse for files.'
+            file-select-label: 'Select from an existing OSF project'
+            delete-modal-title: 'Add a new {singularPreprintWord} file'
+            delete-warning: 'This will allow a new version of the {singularPreprintWord} file to be uploaded to the {singularPreprintWord}. The existing file will be retained as a version of the {singularPreprintWord}.'
+            delete-modal-button: 'Continue'
+            delete-modal-button-tooltip: 'Version file'
+        step-metadata:
+            title: 'Metadata'
+            contributors-input: 'Contributors'
+            license-input: 'License'
+            license-description: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/article/148-licensing" target="_blank" rel="noopener noreferrer">help guide</a>.'
+            license-placeholder: 'Select one'
+            license-year-input: 'Copyright Year'
+            license-copyright-input: 'Copyright Holders'
+            subjects-input: 'Subjects'
+            tags-input: 'Tags'
+            publication-doi-input: 'Publication DOI'
+            publication-date-input: 'Publication Date'
+            publication-citation-input: 'Publication Citation'
+        step-assertions:
+            title: 'Author Assertions'
+            conflict-of-interest-input: 'Conflict of Interest'
+            conflict-of-interest-description: 'The Conflict of Interest (COI) assertion is made on behalf of all the authors listed for this preprint. COIs include: financial involvement in any entity such as honoraria, grants, speaking fees, employment, consultancies, stock ownership, expert testimony, and patents or licenses. COIs can also include non-financial interests such as personal or professional relationships or pre-existing beliefs in the subject matter or materials discussed in this preprint'
+            conflict-of-interest-placeholder: 'Describe'
+            conflict-of-interest-none: 'Author asserted there is no Conflict of Interest with this preprint.'
+
+            public-link-add-button: 'Add another'
+            public-link-remove-button: 'Remove link'
+
+            public-data-input: 'Public Data'
+            public-data-description: 'Data refers to raw and/or processed information (quantitative or qualitative) used for the analyses, case studies, and/or descriptive interpretation in the preprint. Public data could include data posted to open-access repositories, public archival library collection, or government archive. For data that is available under limited circumstances (e.g., after signing a data sharing agreement), choose the ‘No’ option and use the comment box to explain how others could access the data.'
+            public-data-link-placeholder: 'Link to data'
+            public-data-no-placeholder: 'Describe'
+            public-data-na-placeholder: 'Author asserted there is no data associated with this {singularPreprintWord}.'
+
+            public-preregistration-input: 'Public Preregistration'
+            public-preregistration-description: '
+            A preregistration is a description of the research design and/or analysis plan that is created and registered before researchers collected data or before they have seen/interacted with preexisting data. The description should appear in a public registry (e.g., clinicaltrials.gov, OSF, AEA registry).'
+            public-preregistration-link-placeholder: 'Link to preregistration'
+            public-preregistration-no-placeholder: 'Describe'
+            public-preregistration-na-placeholder: 'Author asserted there is no preregistration associated with this {singularPreprintWord}.'
+
+            public-preregistration-link-info-placeholder: 'Choose one'
+            public-preregistration-link-info-designs: 'Study Design'
+            public-preregistration-link-info-analysis: 'Analysis Plan'
+            public-preregistration-link-info-both: 'Both'
+        step-supplements:
+            title: 'Supplements (Optional)'
+            description: 'Connect an OSF project to share data, code, protocols, or other supplemental materials.'
+            connect-button: 'Connect an existing OSF project'
+            choose-project: 'Choose project'
+            choose-project-line-one-description: 'This will make your project public, if it is not already.'
+            choose-project-line-two-description: 'The projects and components for which you have admin access are listed below.'
+            create-title: 'Create Project'
+            create-project-line-one-description: 'This creates a public project for your supplemental materials.'
+            create-project-line-two-description: 'Upload files and manage contributors on the project.'
+            project-title: 'New project title for supplemental materials.'
+            create-button: 'Create a new OSF project'
+            create-project: 'Create project'
+            delete-modal-title: 'Disconnect supplemental material'
+            delete-warning: 'This will disconnect the selected project. You can select new supplemental material or re-add the same supplemental material at a later date.'
+        step-review:
+            title: 'Review'
+            preprint-service: '{singularPreprintWord} Service'
+            preprint-title: 'Title'
+            contributors: 'Contributors'
+            publication-date: 'Publication Date'
+            publication-doi: 'Publication DOI'
+            publication-citation: 'Publication Citation'
+            conflict-of-interest: 'Conflict of Interest'
+            no-conflict-of-interest: 'Author asserted no Conflict of Interest.'
+            public-data: 'Public Data'
+            public-preregistration: 'Public Preregistration'
+            supplement-title: 'OSF Project'
+            supplement-na: 'Author did not add any supplements for this {singularPreprintWord}'
+        data-analytics: 'Goto {statusType} tab'
+        status-flow:
+            step-title-and-abstract: 'Title and Abstract'
+            step-file: 'File'
+            step-metadata: 'Metadata'
+            step-author-assertions: 'Author Assertions'
+            step-supplements: 'Supplements'
+            step-review: 'Review'
+        action-flow:
+            delete: 'Delete'
+            delete-modal-body: 'Are you sure you want to delete the {singularPreprintWord}? This action CAN NOT be undone.'
+            delete-modal-title: 'Delete {singularPreprintWord}'
+            error: 'Error saving {singularPreprintWord}.'
+            error-withdrawal: 'Error withdrawing the {singularPreprintWord}.'
+            next: 'Next'
+            next-disabled-tooltip: 'Fill in "Required *" fields to continue'
+            no-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This request will be submitted to 
+            <a href="mailto:{supportEmail}" target="_blank">{supportEmail}</a> for review and removal. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
+            post-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This service uses post-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
+            pre-moderation-notice-accepted: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This service uses pre-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
+            pre-moderation-notice-pending: 'Your {singularPreprintword} is still pending approval and thus private, but can be withdrawn immediately. If you wish to provide a reason for withdrawal, it will be displayed only to service moderators. Once withdrawn, your preprint will never be made public.'
+            save-before-exit: 'Unsaved changes present. Are you sure you want to leave this page?'
+            success: '{singularPreprintWord} saved.'
+            success-withdrawal: 'Your {singularCapitalizedPreprintWord} has been successfully withdrawn.'
+            submit: 'Submit'
+            withdraw-button: 'Withdraw'
+            withdrawal-input-error: '25 characters'
+            withdrawal-label: 'Reason for withdrawal (required):'
+            withdrawal-modal-title: 'Withdraw {singularPreprintWord}'
+            withdrawal-placeholder: 'Comment'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
         citations: 'Citations'
         collapse: 'Collapse'
-        date_label: 
+        date_label:
             created_on: 'Created'
             submitted_on: 'Submitted'
         disciplines: 'Disciplines'
         expand: 'Expand'
-        header: 
+        header:
             last_edited: 'Last edited'
             authors_label: 'Authors'
             withdrawn_on: 'Withdrawn'
         license: 'License'
         none: 'None'
-        original_publication_date: 'Original publication date'
+        publication-citation: 'Publication Citation'
+        original_publication_date: 'Original Publication Date'
         orphan_preprint: 'The user has removed this file.'
         preprint_doi: '{documentType} DOI'
         preprint_pending_doi: 'DOI created after {documentType} is made public'
         preprint_pending_doi_moderation: 'DOI created after moderator approval'
         preprint_pending_doi_minted: 'DOIs are minted by a third party, and may take up to 24 hours to be registered.'
         private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
-        project_button: 
+        project_button:
             edit_preprint: 'Edit {documentType}'
             edit_resubmit_preprint: 'Edit and resubmit'
         see_less: 'See less'
         see_more: 'See more'
-        share: 
+        share:
             download: 'Download {documentType}'
             downloads: 'Downloads'
             download_file: 'Download file'
@@ -1204,7 +1342,7 @@ preprints:
         author-assertions:
             header_label: 'Author Assertions'
             describe: 'Describe'
-            available: 
+            available:
                 yes: 'Yes'
                 no: 'No'
                 available: 'Available'
@@ -1235,10 +1373,10 @@ preprints:
             brand_name: 'OSF'
             loading: 'Loading...'
             close: 'Close'
-            message: 
+            message:
                 base: '{name} uses {reviewsWorkflow}. This {documentType}'
                 pending_pre: 'is not publicly available or searchable until approved by a moderator.'
-                pending_post: 'is publicly available and searchable but is subject to removal by a moderator.'  
+                pending_post: 'is publicly available and searchable but is subject to removal by a moderator.'
                 accepted: 'has been accepted by a moderator and is publicly available and searchable.'
                 rejected: 'has been rejected by a moderator and is not publicly available or searchable.'
                 pending_withdrawal: 'This {documentType} has been requested by the authors to be withdrawn. It will still be publicly searchable until the request has been approved.'
@@ -1249,7 +1387,7 @@ preprints:
             rejected: 'rejected'
             pending_withdrawal: 'pending withdrawal'
             withdrawal_rejected: 'withdrawal rejected'
-            feedback: 
+            feedback:
                 moderator_feedback: 'Moderator feedback'
                 moderator: 'Moderator'
                 base: 'This {documentType}'
@@ -1277,13 +1415,13 @@ preprints:
         bottom:
             contact: 'Contact us'
             p1: 'Create your own branded {documentType} servers backed by the OSF.'
-            div: 
+            div:
                 line1: 'Check out the'
                 linkText1: 'open source code'
                 line2: 'and our'
                 linkText2: 'public roadmap'
                 line3: '. Input welcome!'
-        advisory: 
+        advisory:
             heading: 'Advisory Group'
             paragraph: 'Our advisory group includes leaders in preprints and scholarly communication'
 registries:
@@ -1567,12 +1705,11 @@ registries:
             add_new_button: 'Add new contributors'
             done_add_new_button: 'Done adding new contributors'
             results_heading: 'Results'
-            search_placeholder: 'Search by name or profile information'
-            help_text: '<p>Search results will appear here. Click the + icon in each row to set permissions for that contributor.</p><p>You can perform additional searches to add more contributors. Your selections will remain listed below until you click Save.</p>'
+            search_placeholder: 'Search by name'
             search: 'Search'
-            add_unregistered_contributor: 'Add unregistered contributor'
+            add_unregistered_contributor: 'Add by email address'
             error_loading: 'Error, could not load contributors'
-            no_results: 'No results found'
+            no-results: 'No results found'
             add_contributor_aria: 'Add contributor'
             save: 'Save'
             clear_all: 'Clear all'
@@ -2505,13 +2642,14 @@ osf-components:
         reorderContributor:
             reorderContributor: 'Reorder contributor'
             success: 'Contributor order updated.'
-            dragHandle: '⇕'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
         addContributor:
             success: 'Contributor added'
             errorHeading: 'Error adding contributor'
-        currentContributors: 'Current contributors'
+        addContributors: 'Add Contributors'
+        currentContributors: 'Contributors'
+        permission-warning: 'Warning: Changing your permissions will prevent you from editing your draft.'
         email: 'Email'
         fullName: 'Full name'
         selectPermission: 'Select permission'

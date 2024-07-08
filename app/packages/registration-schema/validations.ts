@@ -11,6 +11,7 @@ import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
 import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
 import SchemaResponseModel from 'ember-osf-web/models/schema-response';
+import PreprintModel from 'ember-osf-web/models/preprint';
 
 type LicensedContent = DraftRegistration | NodeModel;
 
@@ -131,7 +132,7 @@ export function validateNodeLicense() {
 }
 
 export function validateSubjects() {
-    return (_: unknown, __: unknown, ___: unknown, ____: unknown, content: DraftRegistration) => {
+    return (_: unknown, __: unknown, ___: unknown, ____: unknown, content: DraftRegistration | PreprintModel ) => {
         const subjects = content.hasMany('subjects').value();
         if (!subjects || subjects.length === 0) {
             return {

@@ -23,6 +23,8 @@ import template from './template';
 
 interface ModelWithSubjects extends OsfModel {
     subjects: SubjectModel[];
+    subjectsAcceptable?: SubjectModel[];
+    isProject: boolean;
 }
 
 // SubjectManager is responsible for:
@@ -34,7 +36,8 @@ export interface SubjectManager {
     savedSubjects: SubjectModel[];
     isSaving: boolean;
     hasChanged: boolean;
-    provider: ProviderModel;
+    provider?: ProviderModel;
+    model: ModelWithSubjects;
 
     selectSubject(subject: SubjectModel): void;
     unselectSubject(subject: SubjectModel): void;
@@ -51,16 +54,19 @@ export interface SubjectManager {
 export default class SubjectManagerComponent extends Component {
     // required
     model!: ModelWithSubjects;
-    provider!: ProviderModel;
+    provider?: ProviderModel;
     doesAutosave!: boolean;
 
     // optional
     metadataChangeset?: BufferedChangeset;
+    onchange?: () => void;
+    hasSubjects?: (_: boolean) => void;
 
     // private
     @service intl!: Intl;
     @service toast!: Toast;
     @service store!: Store;
+
 
     savedSubjectIds = new Set<string>();
     selectedSubjectIds = new Set<string>();
@@ -115,6 +121,11 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
+        this.model.set('subjects', savedSubjects);
+        if (this.hasSubjects) {
+            this.metadataChangeset?.validate('subjects');
+            this.hasSubjects(savedSubjectIds.size > 0);
+        }
     }
 
     @restartableTask
@@ -136,6 +147,11 @@ export default class SubjectManagerComponent extends Component {
             if (this.metadataChangeset) {
                 this.metadataChangeset.validate('subjects');
             }
+
+            if (this.onchange) {
+                this.onchange();
+            }
+
         } catch (e) {
             const errorMessage = this.intl.t('registries.registration_metadata.save_subjects_error');
             captureException(e, { errorMessage });
@@ -156,8 +172,15 @@ export default class SubjectManagerComponent extends Component {
         super.init();
 
         assert('@model is required', Boolean(this.model));
-        assert('@provider is required', Boolean(this.provider));
         assert('@doesAutosave is required', this.doesAutosave !== null && this.doesAutosave !== undefined);
+        const isProject = this.model.get('isProject');
+        if (!isProject) {
+            assert('@provider is required', Boolean(this.provider));
+        }
+
+        if (isProject) {
+            assert('@subjectsAcceptable is required', this.model.get('subjectsAcceptable') !== undefined);
+        }
     }
 
     @action
@@ -187,7 +210,7 @@ export default class SubjectManagerComponent extends Component {
             this.incrementProperty('selectedSubjectsChanges');
 
             // assumes the parent is already loaded in the store, which at the moment is true
-            if (subject.parent) {
+            if (subject.parent ) {
                 this.selectSubject(subject.parent);
             }
         }

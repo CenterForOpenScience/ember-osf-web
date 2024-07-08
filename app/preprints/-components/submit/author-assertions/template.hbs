@@ -1,0 +1,69 @@
+<div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-assertions.title'}}
+    </h3>
+    <div local-class='form-container'>
+        <FormControls
+            @changeset={{this.authorAssertionFormChangeset}}
+            data-test-form
+            as |form|
+        >
+
+            <div local-class='input-container'>
+                {{#let (unique-id 'conflictOfInterest') as |conflictOfInterestId|}}
+                    <label for={{conflictOfInterestId}}
+                        data-test-coi-label
+                    >
+                        {{t 'preprints.submit.step-assertions.conflict-of-interest-input'}}
+                        <span local-class='required'>*</span>
+                    </label>
+                    <p>
+                        {{t 'preprints.submit.step-assertions.conflict-of-interest-description'}}
+                    </p>
+
+                    <form.radioGroup
+                        @id={{conflictOfInterestId}}
+                        @valuePath={{'hasCoi'}}
+                        @class='radio-group {{if (is-mobile) 'mobile'}}'
+                        @isRequired={{true}}
+                        @options={{this.coiOptions}}
+                        @onchange={{this.updateCoi}}
+                        as |radioGroup|
+                    >
+                        {{radioGroup}}
+                    </form.radioGroup>
+                {{/let}}
+            </div>
+
+            <form.textarea
+                data-test-coi-description-input
+                @disabled={{this.isConflictOfInterestStatementDisabled}}
+                @valuePath={{'conflictOfInterestStatement'}}
+                {{ on 'change' this.validate}}
+                @onKeyUp={{this.validate}}
+                local-class='input-container textarea-container'
+                @placeholder={{t 'preprints.submit.step-assertions.conflict-of-interest-placeholder'}}
+            />
+
+            <div local-class='input-container'>
+                <Preprints::-Components::Submit::AuthorAssertions::PublicData
+                    @changeSet={{this.authorAssertionFormChangeset}}
+                    @preprintWord={{@manager.provider.documentType.singular}}
+                    @validate={{this.validate}}
+                    @manager={{@manager}}
+                />
+            </div>
+
+            <div local-class='input-container'>
+                <Preprints::-Components::Submit::AuthorAssertions::PublicPreregistration
+                    @changeSet={{this.authorAssertionFormChangeset}}
+                    @preprintWord={{@manager.provider.documentType.singular}}
+                    @validate={{this.validate}}
+                    @manager={{@manager}}
+                />
+            </div>
+        </FormControls>
+    </div>
+</div>

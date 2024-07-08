@@ -1,4 +1,4 @@
-<div local-class='preprints-page-container {{if this.isMobile 'mobile'}}'
+<div local-class='preprints-page-container {{if (is-mobile) 'mobile'}}'
     {{with-branding this.model.brand}}
     data-analytics-scope='preprints landing page'
 >
@@ -96,16 +96,14 @@
                 </p>
                 <div local-class='preprint-logos-container'>
                     {{#each this.model.brandedProviders as |provider| }}
-                        {{#if (not-eq provider.id 'livedata') }}
-                            <OsfLink
-                                data-test-see-branded-providers-example
-                                data-analytics-name='See Branded Providers Example'
-                                @href={{concat '/preprints/' provider.id }}
-                                title='{{provider.name}}'
-                                local-class='provider-logo'
-                                style={{html-safe (concat 'background-image: url(' provider.assets.wide_white ')' )}}
-                            ></OsfLink>
-                        {{/if}}
+                        <OsfLink
+                            data-test-see-branded-providers-example
+                            data-analytics-name='See Branded Providers Example'
+                            @href={{concat '/preprints/' provider.id }}
+                            title='{{provider.name}}'
+                            local-class='provider-logo'
+                            style={{html-safe (concat 'background-image: url(' provider.assets.wide_white ')' )}}
+                        ></OsfLink>
                     {{/each}}
                 </div>
                 <div local-class='preprint-contact-container'>
@@ -157,8 +155,8 @@
     {{!ADVISORY GROUP}}
     {{#if this.theme.provider.advisoryBoard.length}}
         <div
-            class='preprint-advisory-container {{if this.isMobile 'mobile'}}'
-            local-class='{{if this.isOsf 'osf-preprint-advisory-container'}}'
+            class='preprint-advisory-container {{if (is-mobile) 'mobile'}}'
+            local-class='{{if this.isDefaultProvider 'osf-preprint-advisory-container'}}'
         >
             <div class='preprint-advisory-inner-container'>
                 {{html-safe this.theme.provider.advisoryBoard}}

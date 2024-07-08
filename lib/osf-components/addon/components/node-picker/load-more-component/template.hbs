@@ -1,0 +1,12 @@
+{{#if @isLoading}}
+    {{t 'node.projects.load-more.loading'}}
+{{else if @hasMore}}
+    <li
+        local-class='nobullet ember-power-select-option text-center'
+        role='button'
+        {{action @loadMore}}
+        data-test-load-more-description
+    >
+        {{t 'node.projects.load-more.load-more'}}
+    </li>
+{{/if}}

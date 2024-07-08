@@ -1,0 +1,42 @@
+<div
+    data-test-provider-id='{{this.provider.id}}'
+    local-class='provider-container {{if (is-mobile) 'mobile'}} {{if this.isSelected 'selected'}}'
+>
+    <div local-class='image-container'>
+        <img
+            data-test-image
+            local-class='image'
+            src={{this.provider.assets.square_color_no_transparent}}
+            alt={{this.provider.name}} />
+
+    </div>
+    <div
+        data-test-name
+        local-class='name-container'
+    >
+        {{this.provider.name}}
+    </div>
+    <div
+        local-class='button-container'
+    >
+        <Button
+            data-test-select-button
+            data-analytics-name='Select a new preprint'
+            @layout='small'
+            {{on 'click' (action this.onProviderSelect)}}
+        >
+            {{#if this.isSelected}}
+                {{t 'preprints.select.deselect-button'}}
+            {{else}}
+                {{t 'preprints.select.select-button'}}
+            {{/if}}
+        </Button>
+    </div>
+    <EmberPopover>
+        {{#if this.provider.description}}
+            {{html-safe this.provider.description}}
+        {{else}}
+            {{html-safe this.provider.name}}
+        {{/if}}
+    </EmberPopover>
+</div>

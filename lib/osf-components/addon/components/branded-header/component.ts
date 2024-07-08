@@ -7,6 +7,8 @@ import Media from 'ember-responsive';
 import Analytics from 'ember-osf-web/services/analytics';
 import { tracked } from '@glimmer/tracking';
 import { requiredAction } from 'ember-osf-web/decorators/component';
+import Theme from 'ember-osf-web/services/theme';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
 interface InputArgs {
     onSearch: (value: string) => void;
@@ -19,6 +21,7 @@ export default class BrandedHeader extends Component<InputArgs> {
     @service analytics!: Analytics;
     @service intl!: Intl;
     @service media!: Media;
+    @service theme!: Theme;
     @requiredAction onSearch!: (value: string) => void;
     @tracked showingHelp = false;
 
@@ -37,8 +40,10 @@ export default class BrandedHeader extends Component<InputArgs> {
     }
 
     get searchPlaceholder() {
+        const provider = this.theme?.provider as PreprintProviderModel;
         return this.args.searchPlaceholder ? this.args.searchPlaceholder
-            : this.intl.t(`${this.args.translationParent}.header.search_placeholder`);
+            : this.intl.t(`${this.args.translationParent}.header.search_placeholder`,
+                { placeholder: provider?.documentType?.plural });
     }
 
     @computed('args.translationParent')

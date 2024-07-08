@@ -1,20 +1,12 @@
-.RadioButtonGroup {
-    padding-left: 10px;
-}
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-.RadioButton {
+.RadioButtonContainer {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
 
-    input {
-        flex: 0 0 auto;
+    .RadioButtonGroup {
+        padding-left: 10px;
     }
-
-    label {
-        flex: 1 0 0;
-        margin-left: 10px;
-    }
-}
-
-.RadioLabel {
-    font-weight: 500;
 }

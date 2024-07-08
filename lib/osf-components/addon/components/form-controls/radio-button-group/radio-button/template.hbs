@@ -1,0 +1,22 @@
+<div class='RadioButton'>
+    {{#let (unique-id 'radio' ) as |uniqueId|}}
+        <input
+            type='radio'
+            id={{uniqueId}}
+            name={{@valuePath}}
+            value={{this.getValue}}
+            {{ on 'click' (action this.updateChangeset)}}
+            onchange={{@onchange}}
+            disabled={{@disabled}}
+            checked={{this.isValueChecked}}
+            local-class='input'
+        >
+        <label
+            local-class='RadioLabel'
+            for={{uniqueId}}
+        >
+            {{ this.displayText }} 
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping this.displayText}} />
+        </label>
+    {{/let}}
+</div>
