@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [24.05.0] - 2024-07-08
+### Added
+- Add subjects to project metadata editor
+- Preprints to EOW phase 2
+### Removed
+- Removed LawrXiv logo from OSF Preprints discover page
+
+
 ## [24.04.0] - 2024-04-30
 ### Added
 - Misc bug and a11y fixes
@@ -1980,6 +1988,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[24.05.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.05.0
+[24.04.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.04.0
 [24.03.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.03.0
 [24.02.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.02.0
 [24.01.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.01.0
