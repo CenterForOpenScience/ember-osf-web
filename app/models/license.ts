@@ -9,6 +9,10 @@ export default class LicenseModel extends OsfModel {
     @attr('fixstring') url!: string;
     @attr('fixstring') text!: string;
     @attr('array') requiredFields!: Array<keyof NodeLicense>;
+
+    get hasRequiredFields(): boolean {
+        return this.requiredFields?.length > 0;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

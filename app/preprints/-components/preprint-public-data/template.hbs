@@ -1,0 +1,16 @@
+<div>
+    <h4>
+        {{t 'preprints.submit.step-review.public-data'}}
+    </h4>
+    <div local-class='display'>
+        {{#each this.preprint.dataLinks as | link| }}
+            <div local-class='text'>
+                {{link}}
+            </div>
+        {{else}}
+            <ExpandablePreview @height='50'>
+                {{this.publicDataDisplay}}
+            </ExpandablePreview>
+        {{/each}}
+    </div>
+</div>

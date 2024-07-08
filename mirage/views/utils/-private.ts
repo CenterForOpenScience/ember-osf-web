@@ -195,21 +195,24 @@ export function compareStrings(
     comparisonValue: any,
     operator: ComparisonOperators,
 ): boolean {
+    const lowerCaseActualValue = actualValue.toLowerCase();
     if (comparisonValue instanceof Array) {
         switch (operator) {
         case ComparisonOperators.Eq:
-            return comparisonValue.some(element => actualValue.includes(element));
+            return comparisonValue.some(element => lowerCaseActualValue.includes(element.toLowerCase()));
         case ComparisonOperators.Ne:
-            return comparisonValue.every(element => !actualValue.includes(element));
+            return comparisonValue.every(element => !lowerCaseActualValue.includes(element.toLowerCase()));
         default:
             throw new Error(`String arrays can't be compared with "${operator}".`);
         }
     } else {
+        const lowerCaseComparisonlValue = comparisonValue.toLowerCase();
         switch (operator) {
         case ComparisonOperators.Eq:
-            return actualValue.includes(comparisonValue);
+
+            return lowerCaseActualValue.includes(lowerCaseComparisonlValue);
         case ComparisonOperators.Ne:
-            return !actualValue.includes(comparisonValue);
+            return !lowerCaseActualValue.includes(lowerCaseComparisonlValue);
         default:
             throw new Error(`Strings can't be compared with "${operator}".`);
         }

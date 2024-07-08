@@ -1,0 +1,59 @@
+{{page-title (t @header documentType=this.provider.documentType)}}
+
+<Preprints::-Components::Submit::PreprintStateMachine 
+    @provider={{@provider}}
+    @preprint={{@preprint}}
+    @setPageDirty={{@setPageDirty}}
+    @resetPageDirty={{@resetPageDirty}}
+as |manager|>
+    <OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
+        <layout.heading local-class='header-container'
+         {{with-branding @brand}}
+        >
+            <div local-class='header {{if (is-mobile) 'mobile'}}'>
+                {{t @header 
+                    documentType = @provider.documentType.singularCapitalized
+                }}
+            </div>
+        </layout.heading>
+        {{#if (is-mobile)}}
+            <layout.top as |top|>
+                <div local-class='top-container'>
+                    <div local-class='top-left'>
+                        <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
+                            @manager={{manager}}
+                            @leftNavToggle={{top.toggleSidenav}}
+                            @isDisplayMobileMenu={{true}}
+                        />
+                    </div>
+                    <div local-class='top-right'>
+                        <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow
+                            @manager={{manager}}
+                        />
+                    </div>
+
+                </div>
+            </layout.top>
+        {{/if}}
+        <layout.left local-class='left-container' as |left|>
+            <Preprints::-Components::Submit::PreprintStateMachine::StatusFlow
+                @manager={{manager}}
+                @leftNavToggle={{left.toggleSidenav}}
+                @isDisplayMobileMenu={{false}}
+            />
+        </layout.left>
+        <layout.main local-class='main-container {{if (is-mobile) 'mobile'}}'>
+            <Preprints::-Components::Submit
+                @manager={{manager}}
+            />
+        </layout.main>
+        {{#if (not (is-mobile))}}
+            <layout.right local-class='right-container'>
+                <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow
+                    @manager={{manager}}
+                />
+            </layout.right>
+        {{/if}}
+    </OsfLayout>
+</Preprints::-Components::Submit::PreprintStateMachine>
+

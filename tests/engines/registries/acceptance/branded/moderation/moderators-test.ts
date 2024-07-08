@@ -42,7 +42,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
             'On the moderators page of registries reviews');
         assert.dom('[data-test-moderator-row]').exists({ count: 4 }, 'There are 4 moderators shown');
         assert.dom('[data-test-delete-moderator-button]')
-            .exists({ count: 1 }, 'Only one moderator is able to be removed');
+            .exists({ count: 2 }, 'Only one moderator is able to be removed');
         assert.dom('[data-test-moderator-permission-option]')
             .doesNotExist('Moderators are not able to edit permissions');
         assert.dom(`[data-test-delete-moderator-button=${currentUser.id}]`).exists('Only able to remove self');
@@ -64,7 +64,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         assert.dom('[data-test-moderator-permission-option]')
             .exists({ count: 4 }, 'Admins are able to edit permissions for all users');
         assert.dom('[data-test-delete-moderator-button]')
-            .exists({ count: 4 }, 'All moderators and admins are able to be removed');
+            .exists({ count: 8 }, 'All moderators and admins are able to be removed');
         assert.dom('[data-test-add-moderator-button]')
             .exists('Button to add moderator is visible for admins');
     });

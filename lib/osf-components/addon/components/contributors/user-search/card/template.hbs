@@ -1,15 +1,7 @@
 <div data-test-user-card={{@user.id}}
-    local-class='CardContainer'>
-    <div data-test-user-card-main local-class='MainSection'>
-        <span local-class='CardSection'>
-            <img
-                data-test-user-gravatar={{@user.id}}
-                local-class='m-r-xs'
-                src={{@user.links.profile_image}}
-                alt={{@user.fullName}}
-                height='30'
-                width='30'
-            >
+    local-class='card-container'>
+    <div data-test-user-card-main local-class='main-section'>
+        <div local-class='name-section'>
             <OsfLink
                 data-test-user-link={{@user.id}}
                 data-analytics-name='View user'
@@ -17,10 +9,10 @@
             >
                 {{@user.fullName}}
             </OsfLink>
-        </span>
-        <span
+        </div>
+        <div
             data-test-user-permission={{@user.id}}
-            local-class='CardSection'
+            local-class='permission-section'
         >
             {{#unless this.isAdded}}
                 <PowerSelect
@@ -36,37 +28,39 @@
                     </span>
                 </PowerSelect>
             {{/unless}}
-        </span>
-        <span data-test-user-citation={{@user.id}} local-class='CardSectionSmall'>
-            {{#unless this.isAdded}}
-                <Input
-                    @type='checkbox'
-                    @checked={{readonly this.isBibliographic}}
-                    disabled={{this.isAdded}}
-                    data-test-user-citation-checkbox={{@user.id}}
-                    data-analytics-name='Toogle isBibliographic'
-                    {{on 'click' this.toggleIsBibliographic}}
-                />
-            {{/unless}}
-        </span>
-        {{#if this.isAdded}}
-            <span local-class='CardSectionSmall'>
-                <div local-class='Check'>
-                    <FaIcon @icon='check' />
+        </div>
+        <div local-class='action-section'>
+            <div data-test-user-citation={{@user.id}} local-class='action-container'>
+                {{#unless this.isAdded}}
+                    <Input
+                        @type='checkbox'
+                        @checked={{readonly this.isBibliographic}}
+                        disabled={{this.isAdded}}
+                        data-test-user-citation-checkbox={{@user.id}}
+                        data-analytics-name='Toogle isBibliographic'
+                        {{on 'click' this.toggleIsBibliographic}}
+                    />
+                {{/unless}}
+            </div>
+            {{#if this.isAdded}}
+                <div local-class='action-container'>
+                    <div local-class='check-container'>
+                        <FaIcon @icon='check' />
+                    </div>
                 </div>
-            </span>
-        {{else}}
-            <span local-class='CardSectionSmall'>
-                <Button
-                    data-test-add-contributor-button={{@user.id}}
-                    local-class='AddButton'
-                    aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
-                    @type='light'
-                    {{on 'click' (fn @manager.addContributor @user this.permission this.isBibliographic)}}
-                >
-                    <FaIcon @icon='plus' />
-                </Button>
-            </span>
-        {{/if}}
+            {{else}}
+                <div local-class='action-container'>
+                    <Button
+                        local-class='add-button'
+                        data-test-add-contributor-button={{@user.id}}
+                        aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
+                        @type='light'
+                        {{on 'click' (fn @manager.addContributor @user this.permission this.isBibliographic)}}
+                    >
+                        <FaIcon @icon='plus' local-class='svg' />
+                    </Button>
+                </div>
+            {{/if}}
+        </div>
     </div>
 </div>

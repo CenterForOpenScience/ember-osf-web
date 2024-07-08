@@ -7,6 +7,7 @@
         @type='destroy'
         {{on 'click' this._show}}
         @disabled={{this.disabled}}
+        ...attributes
     >
         <FaIcon @icon={{this.icon}} />
     </Button>
@@ -19,6 +20,7 @@
         @type='secondary'
         @layout='small'
         {{on 'click' this._show}}
+        ...attributes
     >
         {{#if @icon}}
             <FaIcon @icon={{this.icon}} />
@@ -29,9 +31,11 @@
     <Button
         data-analytics-name='Delete button'
         data-test-delete-button
+        @layout={{this.buttonLayout}}
         @type='destroy'
         {{on 'click' this._show}}
         @disabled={{this.disabled}}
+        ...attributes
     >
         {{this.buttonLabel}}
     </Button>

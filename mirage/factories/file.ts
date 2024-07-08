@@ -12,7 +12,7 @@ export interface FileTraits {
 
 export interface PolymorphicTargetRelationship {
     id: ID;
-    type: 'draft-nodes' | 'nodes';
+    type: 'draft-nodes' | 'nodes' | 'preprints';
 }
 
 export interface MirageFile extends File {

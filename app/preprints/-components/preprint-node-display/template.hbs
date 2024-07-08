@@ -1,0 +1,30 @@
+<div>
+    {{#if this.loadNode.isRunning}}
+        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+    {{else}} 
+        <h4 data-test-uploaded-supplement-label>
+            {{t 'preprints.submit.step-review.supplement-title'}}
+        </h4>
+        <div local-class='display'>
+            <div local-class='text' data-test-uploaded-supplement-name>
+                {{ this.nodeDisplay}}
+            </div>
+            {{#if @removeNode}} 
+                <div local-class='action'>
+                    <DeleteButton
+                        data-test-delete-button
+                        @small={{true}}
+                        @icon='trash'
+                        @noBackground={{true}}
+                        @delete={{perform @removeNode}}
+                        @modalTitle={{t 'preprints.submit.step-supplements.delete-modal-title'}}
+                        @modalBody={{t 'preprints.submit.step-supplements.delete-warning'}}
+                    />
+                    <EmberTooltip>
+                        {{t 'preprints.submit.step-supplements.delete-warning'}}
+                    </EmberTooltip>
+                </div>
+            {{/if}}
+        </div>
+    {{/if}}
+</div>

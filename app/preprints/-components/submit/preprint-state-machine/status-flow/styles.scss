@@ -1,0 +1,37 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.status-flow-container {
+    width: 205px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+
+    .line {
+        position: absolute;
+        border-left: 3px solid $color-border-gray;
+        width: 0;
+        top: 20px;
+        left: 22.5px;
+        z-index: 0;
+        height: 140px;
+
+        &.long {
+            height: 175px;
+        }
+    }
+
+    &.mobile {
+        padding-top: 0;
+        width: 100%;
+
+        .line {
+            display: none;
+
+            &.long {
+                height: fit-content;
+            }
+        }
+    }
+}

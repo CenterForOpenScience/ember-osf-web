@@ -2,6 +2,7 @@ import { HandlerContext, ModelInstance, Response, Schema } from 'ember-cli-mirag
 import { MirageNode } from 'ember-osf-web/mirage/factories/node';
 import DraftNode from 'ember-osf-web/models/draft-node';
 import { FileItemKinds } from 'ember-osf-web/models/base-file-item';
+import PreprintModel from 'ember-osf-web/models/preprint';
 import faker from 'faker';
 
 import { guid } from '../factories/utils';
@@ -46,9 +47,14 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     const uploadAttrs = this.request.requestBody;
     const { parentID, fileProviderId } = this.request.params;
     const { name, kind } = this.request.queryParams;
-    let node;
+    let isPreprint = false;
+    let node: any | PreprintModel;
+
     if (this.request.url.includes('draft_nodes')) {
         node = schema.draftNodes.find(parentID);
+    } else if (this.request.url.includes('preprints')) {
+        isPreprint = true;
+        node = schema.preprints.find(parentID) as ModelInstance<PreprintModel>;
     } else {
         node = schema.nodes.find(parentID);
         if (node.storage && node.storage.isOverStorageCap) {
@@ -57,8 +63,16 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
             });
         }
     }
-    const fileProvider = schema.fileProviders.findBy({ providerId: `${node.id}:${fileProviderId}` });
+
+    let fileProvider;
+    if (isPreprint) {
+        fileProvider = schema.fileProviders.findBy({ id: `${fileProviderId}` });
+    } else {
+        fileProvider = schema.fileProviders.findBy({ providerId: `${node.id}:${fileProviderId}` });
+    }
+
     const { rootFolder } = fileProvider;
+
     const randomNum = faker.random.number();
     const fileGuid = guid('file');
     const id = fileGuid(randomNum);
@@ -83,8 +97,21 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
         uploadedFile.size = uploadAttrs.size;
     }
 
-    rootFolder.files.models.pushObject(uploadedFile);
-    rootFolder.save();
+    fileProvider.files.models.pushObject(uploadedFile);
+    fileProvider.save();
+
+    /*
+    if (isPreprint) {
+        /* eslint-disable-next-line * /
+        // node.primaryFile = uploadedFile;
+        node.save();
+    }
+    */
+
+    if (rootFolder) {
+        rootFolder.files.models.pushObject(uploadedFile);
+        rootFolder.save();
+    }
 
     return uploadedFile;
 }

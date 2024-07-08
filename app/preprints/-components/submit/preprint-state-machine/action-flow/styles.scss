@@ -1,0 +1,55 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.action-flow-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid $color-border-gray-darker;
+
+    .btn {
+        width: 145px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+
+
+        &.white {
+            color: $color-text-white;
+        }
+
+        &.disabled {
+            color: $color-text-black;
+            background-color: $color-bg-gray-blue-light;
+            border: 1px solid transparent;
+            cursor: default;
+        }
+    }
+
+    .mobile-disabled {
+        color: $color-bg-gray-darker;
+        cursor: default;
+    }
+
+    .desktop-button-container {
+        margin-top: 20px;
+    }
+
+    .mobile-button-container {
+        width: 33%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &.mobile {
+        height: fit-content;
+        flex-direction: row;
+        height: 40px;
+        border: 0;
+    }
+}

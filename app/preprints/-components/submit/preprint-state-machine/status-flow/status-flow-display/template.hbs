@@ -1,0 +1,43 @@
+{{#if this.shouldDisplayStatusType}}
+    <div local-class='status-container
+        {{if this.isSelected 'selected'}}
+        {{if this.isFinished 'cursor'}}
+        {{if (is-mobile) 'mobile'}}'
+    >
+        <div local-class='graphics-container'>
+            {{#if @isDisplayMobileMenu}}
+                <Button
+                    @layout='fake-link'
+                    {{on 'click' @leftNavToggle}}
+                >
+                    <FaIcon @icon='bars' />
+                </Button>   
+            {{else}}
+                <FaIcon
+                    local-class='{{this.getFaIcon}}'
+                    @icon='{{this.getFaIcon}}'
+                    data-test-icon
+                />
+            {{/if}}
+        </div>
+        <div local-class='link-container'>
+            {{#if this.isFinished}}
+                <Button
+                    local-class='btn finished'
+                    @layout='fake-link'
+                    data-test-link
+                    aria-label={{this.getStatusTitle}}
+                    data-analytics-name={{this.getAnalytics}}
+                    disabled={{this.isDisabled}}
+                    {{on 'click' (action this.onClick)}}
+                >
+                    {{ this.getStatusTitle }}
+                </Button>   
+            {{else}}
+                <div local-class='{{this.getLinkClass}}'>
+                    {{ this.getStatusTitle }}
+                </div>
+            {{/if}}
+        </div>
+    </div>
+{{/if}}

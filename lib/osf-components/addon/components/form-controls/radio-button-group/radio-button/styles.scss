@@ -1,0 +1,13 @@
+.RadioButton {
+    display: flex;
+
+    .input {
+        flex: 0 0 auto;
+    }
+
+    .RadioLabel {
+        flex: 1 0 0;
+        margin-left: 10px;
+        font-weight: 500;
+    }
+}

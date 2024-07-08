@@ -1,0 +1,31 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.form-container {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .input-container {
+        width: calc(100% - 50px);
+
+        .input {
+            width: 100%;
+        }
+    }
+
+    .delete-container {
+        display: flex;
+        justify-content: center;
+        width: 50px;
+        height: 34px;
+        flex-direction: row;
+        align-items: center;
+
+        .delete {
+            color: $brand-danger;
+        }
+    }
+}

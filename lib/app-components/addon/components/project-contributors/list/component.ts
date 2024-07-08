@@ -187,8 +187,4 @@ export default class List extends Component {
         this.set('contributors', []);
         taskFor(this.loadContributors).perform();
     }
-
-    get isMobile() {
-        return this.media.isMobile;
-    }
 }

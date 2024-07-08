@@ -1,0 +1,18 @@
+<div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
+    <h4 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-supplements.choose-project'}}
+        <span local-class='required'>*</span>
+    </h4>
+    <p>
+        {{t 'preprints.submit.step-supplements.choose-project-line-one-description'}}
+        <br>
+        {{t 'preprints.submit.step-supplements.choose-project-line-two-description'}}
+    </p>
+    <div local-class='select-preprint-container'>
+        <NodePicker
+        @projectSelected={{this.projectSelected}}
+        />
+    </div>
+</div>

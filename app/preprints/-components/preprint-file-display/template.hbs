@@ -1,0 +1,28 @@
+<div>
+    <h4 data-test-uploaded-file-label>
+        {{t 'preprints.submit.step-file.uploaded-file-title' singularPreprintWord = @preprintWord }}
+    </h4>
+    <div local-class='display'>
+        <div local-class='text' data-test-uploaded-file-name>
+            {{ @file.name }}
+        </div>
+        {{#if @addNewFile}} 
+            <div local-class='action'>
+                <DeleteButton
+                    data-test-delete-button
+                    @small={{true}}
+                    @icon='edit'
+                    @noBackground={{true}}
+                    @delete={{action @addNewFile}}
+                    @confirmButtonText = {{t 'preprints.submit.step-file.delete-modal-button'}}
+                    @modalTitle={{t 'preprints.submit.step-file.delete-modal-title' singularPreprintWord = @preprintWord}}
+                    @modalBody={{t 'preprints.submit.step-file.delete-warning' singularPreprintWord = @preprintWord}}
+                    local-class='blue-button'
+                />
+                <EmberTooltip>
+                    {{t 'preprints.submit.step-file.delete-modal-button-tooltip'}}
+                </EmberTooltip>
+            </div>
+        {{/if}}
+    </div>
+</div>

@@ -1,0 +1,33 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+
+.preprint-state-machine-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+
+
+    .spinner-container {
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 205px;
+        bottom: 0;
+        right: 190px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 200px;
+        background-color: $color-bg-white-transparent;
+    }
+
+    &.mobile {
+        .spinner-container {
+            left: 0;
+            right: 0;
+        }
+    }
+}

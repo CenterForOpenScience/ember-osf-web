@@ -20,8 +20,9 @@
 {{/if}}
 <li data-test-nav-submit-preprint-link>
     <OsfLink
-        @href='/preprints/submit/'
+        data-test-add-a-preprint-osf-navbar
         data-analytics-name='Add a preprint'
+        @route='preprints.select'
         {{on 'click' @onLinkClicked}}
     >
         {{t 'navbar.add_a_preprint' preprintWord=(t 'documentType.preprint.singularCapitalized')}}

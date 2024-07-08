@@ -1,6 +1,5 @@
 {{page-title this.displayTitle replace=false}}
 
-
 <div
     local-class='preprints-details-page-container {{if this.isMobile 'mobile'}}'
     {{with-branding this.model.brand}}
@@ -17,7 +16,8 @@
                             data-test-edit-preprint-button
                             data-analytics-name='Edit preprint button'
                             local-class='btn btn-primary'
-                            @href={{concat '/' this.model.preprint.id '/edit'}}
+                            @route='preprints.edit'
+                            @models={{array this.model.provider.id this.model.preprint.id}}
                         >
                             {{this.editButtonLabel}}
 
@@ -124,11 +124,11 @@
                         </div>
                         <div>
                             <span data-test-view-count-label>
-                                {{t 'preprints.detail.share.views'}}: 
+                                {{t 'preprints.detail.share.views'}}:
                             </span>
-                            <span data-test-view-count> {{this.model.preprint.apiMeta.metrics.views}} </span> | 
+                            <span data-test-view-count> {{this.model.preprint.apiMeta.metrics.views}} </span> |
                             <span data-test-download-count-label>
-                                {{t 'preprints.detail.share.downloads'}}: 
+                                {{t 'preprints.detail.share.downloads'}}:
                             </span>
                             <span data-test-download-count>{{this.model.preprint.apiMeta.metrics.downloads}}</span>
                             <EmberTooltip>
@@ -190,6 +190,12 @@
                             >
                                 {{this.model.preprint.articleDoiUrl}}
                             </OsfLink>
+                        </div>
+                    {{/if}}
+                    {{#if this.model.preprint.customPublicationCitation}}
+                        <div>
+                            <h4>{{t 'preprints.detail.publication-citation'}}</h4>
+                            {{this.model.preprint.customPublicationCitation}}
                         </div>
                     {{/if}}
                     <Preprints::-Components::PreprintLicense @preprint={{this.model.preprint}} />
