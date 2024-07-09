@@ -607,10 +607,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async addProjectFile(file: FileModel): Promise<void>{
-        await file.copy(this.preprint, '/', 'osfstorage');
+        await file.copy(this.preprint, '/', 'osfstorage', {
+            conflict: 'replace',
+        });
         const theFiles = await this.preprint.files;
         const rootFolder = await theFiles.firstObject!.rootFolder;
         const primaryFile = await rootFolder!.files;
-        this.preprint.set('primaryFile', primaryFile.firstObject);
+        this.preprint.set('primaryFile', primaryFile.lastObject);
     }
 }
