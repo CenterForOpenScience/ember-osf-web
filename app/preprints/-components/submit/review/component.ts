@@ -8,6 +8,8 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import moment from 'moment-timezone';
 import Intl from 'ember-intl/services/intl';
+import { PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
+import { SafeString } from '@ember/template/-private/handlebars';
 
 /**
  * The Review Args
@@ -27,6 +29,8 @@ export default class Review extends Component<ReviewArgs>{
     @tracked contributors?: any;
     @tracked subjects?: any;
     @service intl!: Intl;
+    @tracked displayProviderAgreement = false;
+    @tracked providerAgreement: string | SafeString = '';
 
     constructor(owner: unknown, args: ReviewArgs) {
         super(owner, args);
@@ -37,7 +41,25 @@ export default class Review extends Component<ReviewArgs>{
     @task
     @waitFor
     private async loadPreprint()  {
-        this.provider = this.preprint.provider.content;
+        this.provider = await this.preprint.provider.content;
+        if (
+            this.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION ||
+            this.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.POST_MODERATION
+        ) {
+            this.displayProviderAgreement = true;
+
+            const moderationType = this.provider.reviewsWorkflow ===
+                PreprintProviderReviewsWorkFlow.PRE_MODERATION ?
+                PreprintProviderReviewsWorkFlow.PRE_MODERATION :
+                PreprintProviderReviewsWorkFlow.POST_MODERATION;
+            this.providerAgreement = this.intl.t('preprints.submit.step-review.agreement-provider',
+                {
+                    providerName : this.provider.name,
+                    moderationType,
+                    htmlSafe: true,
+                });
+        }
+
         this.license = this.preprint.license;
         this.subjects = await this.preprint.queryHasMany('subjects');
     }

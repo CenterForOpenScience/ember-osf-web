@@ -1,7 +1,6 @@
 {{#if this.shouldDisplayStatusType}}
     <div local-class='status-container
         {{if this.isSelected 'selected'}}
-        {{if this.isFinished 'cursor'}}
         {{if (is-mobile) 'mobile'}}'
     >
         <div local-class='graphics-container'>
@@ -20,7 +19,9 @@
                 />
             {{/if}}
         </div>
-        <div local-class='link-container'>
+        <div local-class='link-container
+            {{if this.isFinished 'cursor'}}'
+        >
             {{#if this.isFinished}}
                 <Button
                     local-class='btn finished'
