@@ -45,11 +45,18 @@ export default class PreprintFile extends Component<FileArgs>{
         if(file) {
             this.file = file;
             this.isFileAttached = true;
+            this.isEdit = true;
+            this.args.manager.validateFile(true);
         }
+    }
+
+    public get isSelectProjectButtonDisabled(): boolean {
+        return this.isButtonDisabled || this.isEdit;
     }
 
     @action
     public async validate(file: FileModel): Promise<void> {
+        this.isEdit = true;
         this.file = file;
         this.isFileAttached = true;
         this.isProjectSelectDisplayed = false;
@@ -77,7 +84,6 @@ export default class PreprintFile extends Component<FileArgs>{
 
     @action
     public async addNewfile(): Promise<void> {
-        this.isEdit = true;
         this.file = null;
         this.isFileAttached = false;
         this.isFileUploadDisplayed = false;

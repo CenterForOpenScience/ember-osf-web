@@ -39,9 +39,14 @@
                         data-analytics-name='Select button'
                         {{on 'click' this.displayFileSelect}}
                         local-class='btn'
-                        disabled={{this.isButtonDisabled}}
+                        disabled={{this.isSelectProjectButtonDisabled}}
                     >
                         {{ t 'preprints.submit.step-file.file-select-label'}}
+                        {{#if this.isSelectProjectButtonDisabled}}
+                            <EmberTooltip>
+                                {{t 'preprints.submit.step-file.project-select-explanation'}}
+                            </EmberTooltip>
+                        {{/if}}
                     </Button>
                 </div>
                 {{#if this.isFileUploadDisplayed}}
