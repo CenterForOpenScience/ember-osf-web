@@ -30,8 +30,8 @@ export interface Item {
 export default class AddonOperationInvocationModel extends Model {
     @attr('string') invocationStatus!: InvocationStatus;
     @attr('string') operationName!: ConnectedOperationNames;
-    @attr('object') operationKwargs!: any;
-    @attr('object') operationResult!: OperationResult;
+    @attr('object', {snakifyForApi: true}) operationKwargs!: any;
+    @attr('object', {snakifyForApi: true}) operationResult!: OperationResult;
     @attr('date') created!: Date;
     @attr('date') modified!: Date;
 

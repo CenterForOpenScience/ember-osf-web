@@ -82,7 +82,7 @@ export default class FileManager extends Component<Args> {
         const { startingFolderId, configuredStorageAddon } = this.args;
         try {
             const invocation = await taskFor(configuredStorageAddon.getItemInfo).perform(startingFolderId);
-            this.currentPath = invocation.operationResult.items;
+            this.currentPath = [invocation.operationResult];
         } catch (e) {
             captureException(e);
             const errorMessage = this.intl.t('osf-components.addons-service.file-manager.get-item-error');
