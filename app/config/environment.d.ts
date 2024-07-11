@@ -111,7 +111,6 @@ declare const config: {
         waterbutlerUrl: string;
         helpUrl: string;
         shareBaseUrl: string;
-        shareApiUrl: string;
         shareSearchUrl: string;
         devMode: boolean;
         cookieDomain: string;
