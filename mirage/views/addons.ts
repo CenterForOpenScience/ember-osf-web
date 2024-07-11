@@ -1,7 +1,7 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 import { timeout } from 'ember-concurrency';
 
-import { InvocationStatus, Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
+import { InvocationStatus, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
@@ -258,28 +258,30 @@ export function createAddonOperationInvocation(this: HandlerContext, schema: Sch
     ) as NormalizedRequestAttrs<MirageAddonOperationInvocation>;
     const kwargs = attrs.operationKwargs;
     const invocation = schema.addonOperationInvocations.create(attrs) as ModelInstance<MirageAddonOperationInvocation>;
-    let items: Item[] = [];
-    const folderId = kwargs.itemId || 'root';
+    let result: any = null;
+    const folderId = kwargs.item_id || 'root';
     if (attrs.operationName === ConnectedOperationNames.GetItemInfo) {
-        items = [{
-            itemId: folderId,
-            itemName: `Item with ID ${folderId}`,
-            itemType: kwargs.itemType || ItemType.Folder,
-            itemPath: folderId,
-        }];
+        result = {
+            item_id: folderId,
+            item_name: `Item with ID ${folderId}`,
+            item_type: kwargs.item_type || ItemType.Folder,
+            item_path: folderId,
+        };
     } else {
-        items = '12345'.split('').map(i => ({
-            itemId: `${folderId}-${i}`,
-            itemName: `${kwargs.itemType}${i} in ${folderId}`,
-            itemType: kwargs.itemType,
-            itemPath: folderId,
-        }));
+        result = {
+            items: '12345'.split('').map(i => ({
+                item_id: `${folderId}-${i}`,
+                item_name: `${kwargs.item_type}${i} in ${folderId}`,
+                item_type: kwargs.item_type,
+                item_path: folderId,
+            })),
+        };
     }
     invocation.update({
         invocationStatus: InvocationStatus.SUCCESS,
         created: new Date(),
         modified: new Date(),
-        operationResult: { items },
+        operationResult: result,
     });
     return invocation;
 }

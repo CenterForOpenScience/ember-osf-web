@@ -256,15 +256,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @action
     clearCredentials() {
         this.connectAccountError = false;
-        this.credentialsObject = {
-            url: '',
-            username: '',
-            password: '',
-            token: '',
-            accessKey: '',
-            secretKey: '',
-            repo: '',
-        };
+        this.credentialsObject = {};
         this.displayName = '';
     }
 

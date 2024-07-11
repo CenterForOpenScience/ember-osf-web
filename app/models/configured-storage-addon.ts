@@ -55,7 +55,6 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
             operationName,
             operationKwargs,
             thruAddon: this,
-            byUser: await this.accountOwner,
         });
         return await newInvocation.save();
     }
@@ -67,7 +66,6 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
             operationName: ConnectedOperationNames.GetItemInfo,
             operationKwargs: { itemId },
             thruAddon: this,
-            byUser: await this.accountOwner,
         });
         return await newInvocation.save();
     }

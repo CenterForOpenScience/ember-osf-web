@@ -1,12 +1,12 @@
 import Model, { attr } from '@ember-data/model';
 
 export enum CredentialsFormat {
-    OAUTH = 'oauth',
-    OAUTH2 = 'oauth2',
+    OAUTH = 'OAUTH1',
+    OAUTH2 = 'OAUTH2',
+    USERNAME_PASSWORD = 'USERNAME_PASSWORD',
+    ACCESS_SECRET_KEYS = 'ACCESS_KEY_SECRET_KEY',
+    REPO_TOKEN = 'PERSONAL_ACCESS_TOKEN',
     URL_USERNAME_PASSWORD = 'url_username_password',
-    USERNAME_PASSWORD = 'username_password',
-    REPO_TOKEN = 'repo_token',
-    ACCESS_SECRET_KEYS = 'access_secret_keys',
 }
 
 export enum TermsOfServiceCapabilities {
