@@ -4,6 +4,11 @@
     >
         {{t 'preprints.submit.step-file.title'}}
     </h3>
+    {{#if this.isSelectProjectButtonDisplayed}}
+        <p>
+            {{t 'preprints.submit.step-file.upload-warning'}}
+        </p>
+    {{/if}}
     {{#if this.loadFiles.isRunning}}
         <LoadingIndicator data-test-loading-indicator @dark={{true}} />
     {{else}} 
@@ -34,20 +39,22 @@
                     >
                         {{ t 'preprints.submit.step-file.file-upload-label'}}
                     </Button>
-                    <Button
-                        data-test-select-button
-                        data-analytics-name='Select button'
-                        {{on 'click' this.displayFileSelect}}
-                        local-class='btn'
-                        disabled={{this.isSelectProjectButtonDisabled}}
-                    >
-                        {{ t 'preprints.submit.step-file.file-select-label'}}
-                        {{#if this.isSelectProjectButtonDisabled}}
-                            <EmberTooltip>
-                                {{t 'preprints.submit.step-file.project-select-explanation'}}
-                            </EmberTooltip>
-                        {{/if}}
-                    </Button>
+                    {{#if this.isSelectProjectButtonDisplayed}}
+                        <Button
+                            data-test-select-button
+                            data-analytics-name='Select button'
+                            {{on 'click' this.displayFileSelect}}
+                            local-class='btn'
+                            disabled={{this.isSelectProjectButtonDisabled}}
+                        >
+                            {{ t 'preprints.submit.step-file.file-select-label'}}
+                            {{#if this.isEdit}}
+                                <EmberTooltip>
+                                    {{this.getSelectExplanationText}}
+                                </EmberTooltip>
+                            {{/if}}
+                        </Button>
+                    {{/if}}
                 </div>
                 {{#if this.isFileUploadDisplayed}}
                     {{#let (unique-id 'preprint-upload-files-dropzone') as |id|}}
