@@ -54,12 +54,13 @@ import * as wb from './views/wb';
 
 const { OSF: { addonServiceUrl, apiUrl, shareBaseUrl, url: osfUrl } } = config;
 
+
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
     this.passthrough('https://api.crossref.org/*');
 
-    // SHARE-powered registration discover endpoint
-    this.urlPrefix = 'https://share.osf.io';
+    // SHARE search
+    this.urlPrefix = shareBaseUrl;
     this.namespace = '/api/v2/';
     this.post('/search/creativeworks/_search', shareSearch);
 
