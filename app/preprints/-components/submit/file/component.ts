@@ -50,6 +50,10 @@ export default class PreprintFile extends Component<FileArgs>{
         }
     }
 
+    public get isSelectProjectButtonDisplayed(): boolean {
+        return !this.args.manager.isEditFlow;
+    }
+
     public get isSelectProjectButtonDisabled(): boolean {
         return this.isButtonDisabled || this.isEdit;
     }
@@ -111,9 +115,13 @@ export default class PreprintFile extends Component<FileArgs>{
         this.validate(file);
     }
 
+    public get getSelectExplanationText(): string {
+        return this.intl.t('preprints.submit.step-file.project-select-explanation',
+            { singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized });
+    }
+
     public get getUploadText(): string {
         return this.intl.t('preprints.submit.step-file.upload-title',
             { singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized });
-
     }
 }
