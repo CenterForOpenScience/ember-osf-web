@@ -73,6 +73,7 @@
                                 <div local-class='account-select'>
                                     <label>
                                         <Input
+                                            data-test-existing-authorized-accounts-input
                                             name='account-select'
                                             @value={{account.id}}
                                             @type='radio'
@@ -163,7 +164,10 @@
                                 <h4>{{t 'addons.list.connected-locations'}}</h4>
                             </div>
                             {{#each provider.configuredAddons as |configuredAddon|}}
-                                <div local-class='configured-addon-display-name'>
+                                <div
+                                    data-test-configured-addon-name
+                                    local-class='configured-addon-display-name'
+                                >
                                     {{configuredAddon.displayName}}
                                     <span local-class='float-right'>
                                         <Button
@@ -189,7 +193,10 @@
                                         </Button>
                                     </span>
                                 </div>
-                                <div local-class='configured-addon-root-folder'>
+                                <div
+                                    data-test-configured-addon-root-folder
+                                    local-class='configured-addon-root-folder'
+                                >
                                     {{#if configuredAddon.rootFolder}}
                                         {{configuredAddon.rootFolder}}
                                     {{else}}
@@ -277,8 +284,18 @@
                     local-class='tab-list'
                     as |tablist|
                 >
-                    <tablist.tab data-analytics-name='Select All Addons tab'>{{t 'addons.list.all-addons'}}</tablist.tab>
-                    <tablist.tab data-analytics-name='Select Connected Accounts tab'>{{t 'addons.list.connected-accounts'}}</tablist.tab>
+                    <tablist.tab
+                        data-test-addons-tab-all-addons
+                        data-analytics-name='Select All Addons tab'
+                    >
+                        {{t 'addons.list.all-addons'}}
+                    </tablist.tab>
+                    <tablist.tab
+                        data-test-addons-tab-connected-accounts
+                        data-analytics-name='Select Connected Accounts tab'
+                    >
+                        {{t 'addons.list.connected-accounts'}}
+                    </tablist.tab>
                 </tab.tabList>
                 <tab.tabPanel
                     data-test-all-addons-tab
@@ -349,7 +366,10 @@
                                 </Button>
                             {{/each}}
                         </div>
-                        <div local-class='addon-cards-wrapper'>
+                        <div
+                            data-test-configured-provider-list
+                            local-class='addon-cards-wrapper'
+                        >
                             {{#if manager.currentListIsLoading}}
                                 <LoadingIndicator @dark={{true}} />
                             {{else}}

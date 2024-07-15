@@ -22,7 +22,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     };
 
     get invalidDisplayName() {
-        return this.displayName.trim().length === 0;
+        return this.displayName?.trim().length === 0;
     }
 
     get folderChanged() {
