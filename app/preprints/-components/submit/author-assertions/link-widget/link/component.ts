@@ -3,8 +3,9 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import { ValidationObject } from 'ember-changeset-validations';
-import { validateFormat} from 'ember-changeset-validations/validators';
+
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import { validateHttpUrl } from 'ember-osf-web/validators/url-field';
 import { tracked } from '@glimmer/tracking';
 
 
@@ -31,11 +32,7 @@ export default class Link extends Component<LinkArgs>{
     @tracked linkFormChangeset: any = null;
 
     linkFormValidation: ValidationObject<LinkForm> = {
-        value: validateFormat({
-            allowBlank: false,
-            type: 'url',
-            translationArgs: { description: this.intl.t('validationErrors.description') },
-        }),
+        value: validateHttpUrl({ translationArgs: { description: this.intl.t('validationErrors.description') } }),
     };
 
     @action

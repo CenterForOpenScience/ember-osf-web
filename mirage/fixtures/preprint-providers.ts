@@ -21,6 +21,7 @@ const preprintProviders: Array<Partial<PreprintProvider>> = [
         assets: randomAssets(1),
         footerLinks: 'fake footer links',
         reviewsWorkflow: PreprintProviderReviewsWorkFlow.PRE_MODERATION,
+        assertionsEnabled: true,
         allowCommenting: true,
         allowSubmissions: true,
     },
