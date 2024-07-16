@@ -11,7 +11,7 @@
     {{/if}}
     {{#if this.loadFiles.isRunning}}
         <LoadingIndicator data-test-loading-indicator @dark={{true}} />
-    {{else}} 
+    {{else}}
         {{#if this.isFileAttached}}
             <div local-class='file-container'>
                 <div local-class='file'>
@@ -38,6 +38,9 @@
                         disabled={{this.isButtonDisabled}}
                     >
                         {{ t 'preprints.submit.step-file.file-upload-label'}}
+                        <EmberTooltip>
+                            {{t 'preprints.submit.step-file.file-upload-help-text' singularPreprintWord=@manager.provider.documentType.singular}}
+                        </EmberTooltip>
                     </Button>
                     {{#if this.isSelectProjectButtonDisplayed}}
                         <Button
@@ -48,6 +51,9 @@
                             disabled={{this.isSelectProjectButtonDisabled}}
                         >
                             {{ t 'preprints.submit.step-file.file-select-label'}}
+                            <EmberTooltip>
+                                {{t 'preprints.submit.step-file.file-select-help-text' singularPreprintWord=@manager.provider.documentType.singular}}
+                            </EmberTooltip>
                             {{#if this.isEdit}}
                                 <EmberTooltip>
                                     {{this.getSelectExplanationText}}

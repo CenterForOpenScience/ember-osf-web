@@ -1192,14 +1192,16 @@ preprints:
             delete-modal-title: 'Add a new {singularPreprintWord} file'
             delete-warning: 'This will allow a new version of the {singularPreprintWord} file to be uploaded to the {singularPreprintWord}. The existing file will be retained as a version of the {singularPreprintWord}.'
             file-select-label: 'Select from an existing OSF project'
+            file-select-help-text: 'Start a new {singularPreprintWord} to attach a file from your project.'
             file-upload-label: 'Upload from your computer'
+            file-upload-help-text: 'Start a new {singularPreprintWord} to attach a file from your computer.'
             file-upload-label-one: 'Drag and drop files here to upload'
             file-upload-label-two: 'or click to browse for files.'
             project-select-explanation: 'A file is attach to this {singularPreprintWord} draft. You can upload a new file version using the “Upload from your computer” option. Start a new {singularPreprintWord} if you need to attach a file from a project.'
             title: 'File'
             uploaded-file-title: 'Attached {singularPreprintWord} file'
             upload-title: 'Upload your {singularPreprintWord}'
-            upload-warning: 'You cannot switch options once a file is attached.'
+            upload-warning: 'Note: You cannot switch options once a file is attached.'
         step-metadata:
             title: 'Metadata'
             contributors-input: 'Contributors'
@@ -1289,7 +1291,7 @@ preprints:
             error-withdrawal: 'Error withdrawing the {singularPreprintWord}.'
             next: 'Next'
             next-disabled-tooltip: 'Fill in "Required *" fields to continue'
-            no-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This request will be submitted to 
+            no-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This request will be submitted to
             <a href="mailto:{supportEmail}" target="_blank">{supportEmail}</a> for review and removal. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
             post-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This service uses post-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
             pre-moderation-notice-accepted: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This service uses pre-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
