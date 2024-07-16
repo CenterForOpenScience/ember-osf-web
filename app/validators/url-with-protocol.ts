@@ -13,7 +13,7 @@ interface Options {
     };
 }
 
-export function validateHttpUrl(options?: Options) {
+export function validateUrlWithProtocols(options?: Options) {
     return (key: string, newValue: string, _: any, __: any, ___: any) => {
         const acceptedProtocols = options?.acceptedProtocols || [Protocols.http, Protocols.https];
         const translationArgs = options?.translationArgs || { description: '' };

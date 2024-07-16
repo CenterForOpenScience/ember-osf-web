@@ -5,7 +5,7 @@ import Intl from 'ember-intl/services/intl';
 import { ValidationObject } from 'ember-changeset-validations';
 
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
-import { validateHttpUrl } from 'ember-osf-web/validators/url-field';
+import { validateUrlWithProtocols } from 'ember-osf-web/validators/url-with-protocol';
 import { tracked } from '@glimmer/tracking';
 
 
@@ -32,7 +32,9 @@ export default class Link extends Component<LinkArgs>{
     @tracked linkFormChangeset: any = null;
 
     linkFormValidation: ValidationObject<LinkForm> = {
-        value: validateHttpUrl({ translationArgs: { description: this.intl.t('validationErrors.description') } }),
+        value: validateUrlWithProtocols({
+            translationArgs: { description: this.intl.t('validationErrors.description') },
+        }),
     };
 
     @action
