@@ -317,7 +317,9 @@ export default class Provider {
     @task
     @waitFor
     public async createConfiguredAddon(account: AllAuthorizedAccountTypes) {
-        return await taskFor(this.providerMap!.createConfiguredAddon).perform(account);
+        const newConfiguredAddon = await taskFor(this.providerMap!.createConfiguredAddon).perform(account);
+        this.configuredAddons!.pushObject(newConfiguredAddon);
+        return newConfiguredAddon;
     }
 
     @task
