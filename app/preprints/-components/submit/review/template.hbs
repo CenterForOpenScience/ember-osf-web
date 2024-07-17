@@ -4,6 +4,26 @@
     {{else}} 
         <div local-class='step-container'>
             <h3 local-class='title'
+                data-test-user-agreement-title
+            >
+                {{t 'preprints.submit.step-review.agreement-title'}}
+            </h3>
+
+            <div local-class='content-container'>
+                {{t 'preprints.submit.step-review.agreement-user'}}
+            </div>
+            {{#if this.displayProviderAgreement}}
+                <div local-class='content-container'>
+                    {{this.providerAgreement}}
+                </div>
+                <div local-class='content-container'>
+                    {{t 'preprints.submit.step-review.agreement-provider-two' htmlSafe=true}}
+                </div>
+            {{/if}}
+            <hr>
+        </div>
+        <div local-class='step-container'>
+            <h3 local-class='title'
                 data-test-title-step-title
             >
                 {{t 'preprints.submit.step-title.title'}}

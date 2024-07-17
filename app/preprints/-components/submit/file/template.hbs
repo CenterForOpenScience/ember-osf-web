@@ -4,9 +4,14 @@
     >
         {{t 'preprints.submit.step-file.title'}}
     </h3>
+    {{#if this.isSelectProjectButtonDisplayed}}
+        <p>
+            {{t 'preprints.submit.step-file.upload-warning'}}
+        </p>
+    {{/if}}
     {{#if this.loadFiles.isRunning}}
         <LoadingIndicator data-test-loading-indicator @dark={{true}} />
-    {{else}} 
+    {{else}}
         {{#if this.isFileAttached}}
             <div local-class='file-container'>
                 <div local-class='file'>
@@ -33,16 +38,29 @@
                         disabled={{this.isButtonDisabled}}
                     >
                         {{ t 'preprints.submit.step-file.file-upload-label'}}
+                        <EmberTooltip>
+                            {{t 'preprints.submit.step-file.file-upload-help-text' singularPreprintWord=@manager.provider.documentType.singular}}
+                        </EmberTooltip>
                     </Button>
-                    <Button
-                        data-test-select-button
-                        data-analytics-name='Select button'
-                        {{on 'click' this.displayFileSelect}}
-                        local-class='btn'
-                        disabled={{this.isButtonDisabled}}
-                    >
-                        {{ t 'preprints.submit.step-file.file-select-label'}}
-                    </Button>
+                    {{#if this.isSelectProjectButtonDisplayed}}
+                        <Button
+                            data-test-select-button
+                            data-analytics-name='Select button'
+                            {{on 'click' this.displayFileSelect}}
+                            local-class='btn'
+                            disabled={{this.isSelectProjectButtonDisabled}}
+                        >
+                            {{ t 'preprints.submit.step-file.file-select-label'}}
+                            <EmberTooltip>
+                                {{t 'preprints.submit.step-file.file-select-help-text' singularPreprintWord=@manager.provider.documentType.singular}}
+                            </EmberTooltip>
+                            {{#if this.isEdit}}
+                                <EmberTooltip>
+                                    {{this.getSelectExplanationText}}
+                                </EmberTooltip>
+                            {{/if}}
+                        </Button>
+                    {{/if}}
                 </div>
                 {{#if this.isFileUploadDisplayed}}
                     {{#let (unique-id 'preprint-upload-files-dropzone') as |id|}}

@@ -11,4 +11,4 @@ export interface RawValidationResult extends ValidationResult {
     message: string;
 }
 
-export default function buildMessage(key: tring, result: ValidationResult): string | RawValidationResult;
+export default function buildMessage(key: string, result: ValidationResult): string | RawValidationResult;
