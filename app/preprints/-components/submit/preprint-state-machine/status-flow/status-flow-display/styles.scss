@@ -10,9 +10,6 @@
     background-color: inherit;
     z-index: 1;
 
-    &.cursor {
-        cursor: pointer;
-    }
 
     &.selected {
         width: 193px;
@@ -56,6 +53,11 @@
         .btn {
             font-weight: bold;
         }
+
+        &.cursor {
+            cursor: pointer;
+        }
+
 
         .finished {
             color: $brand-success;

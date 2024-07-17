@@ -229,20 +229,24 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.args.setPageDirty();
         }
         this.isNextButtonDisabled = true;
-        if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndAbstract) &&
+
+        if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndAbstract) &&
             this.titleAndAbstractValidation
         ) {
             await this.saveOnStep();
             await this.preprint.files;
-            this.isNextButtonDisabled = !this.metadataValidation;
+            this.isNextButtonDisabled = !this.fileValidation;
             return;
-        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
+        } else if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
             this.fileValidation
         ) {
             await this.saveOnStep();
-            this.isNextButtonDisabled = !this.authorAssertionValidation;
+            this.isNextButtonDisabled = !this.metadataValidation;
             return;
-        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
+        } else if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
             this.metadataValidation
         ) {
             await this.saveOnStep();
@@ -252,13 +256,15 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                 this.isNextButtonDisabled = !this.supplementValidation;
             }
             return;
-        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.authorAssertions) &&
+        } else if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.authorAssertions) &&
             this.authorAssertionValidation
         ) {
             await this.saveOnStep();
             this.isNextButtonDisabled = !this.supplementValidation;
             return;
-        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.supplements) &&
+        } else if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.supplements) &&
             this.supplementValidation
         ) {
             await this.saveOnStep();
@@ -607,10 +613,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async addProjectFile(file: FileModel): Promise<void>{
-        await file.copy(this.preprint, '/', 'osfstorage');
+        await file.copy(this.preprint, '/', 'osfstorage', {
+            conflict: 'replace',
+        });
         const theFiles = await this.preprint.files;
         const rootFolder = await theFiles.firstObject!.rootFolder;
         const primaryFile = await rootFolder!.files;
-        this.preprint.set('primaryFile', primaryFile.firstObject);
+        this.preprint.set('primaryFile', primaryFile.lastObject);
     }
 }

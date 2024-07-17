@@ -89,7 +89,9 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     @waitFor
     async success(_: any, __:any, file: FileModel): Promise<void> {
         if (this.args.isEdit) {
-            await this.primaryFile?.rename(file.name);
+            if (file.name !== this.primaryFile?.name) {
+                await this.primaryFile?.rename(file.name);
+            }
         } else {
             const primaryFile = await this.rootFolder!.files;
             this.args.manager.preprint.set('primaryFile', primaryFile.firstObject);

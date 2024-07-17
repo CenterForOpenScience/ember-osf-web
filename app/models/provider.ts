@@ -21,7 +21,7 @@ export interface Assets {
     wide_white: string;
 }
 
-export enum PreprintProviderReviewsWorkFlow{
+export enum PreprintProviderReviewsWorkFlow {
     PRE_MODERATION = 'pre-moderation',
     POST_MODERATION = 'post-moderation'
 }
