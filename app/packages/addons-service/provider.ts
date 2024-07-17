@@ -86,7 +86,6 @@ export default class Provider {
 
     @tracked configuredAddon?: AllConfiguredAddonTypes;
     @tracked configuredAddons?: AllConfiguredAddonTypes[];
-    @tracked allConfiguredAddons?: EmberArray<AllConfiguredAddonTypes>;
     @tracked authorizedAccount?: AllAuthorizedAccountTypes;
     @tracked authorizedAccounts?: AllAuthorizedAccountTypes[];
 
@@ -100,13 +99,13 @@ export default class Provider {
         provider: any,
         currentUser: CurrentUserService,
         node?: NodeModel,
-        configuredAddons?: EmberArray<AllConfiguredAddonTypes>,
+        allConfiguredAddons?: EmberArray<AllConfiguredAddonTypes>,
     ) {
         setOwner(this, getOwner(provider));
         this.node = node;
         this.currentUser = currentUser;
         this.provider = provider;
-        this.allConfiguredAddons = configuredAddons;
+        this.configuredAddons = allConfiguredAddons?.filter(addon => addon.externalServiceId === this.provider.id);
 
         if (provider instanceof ExternalStorageServiceModel) {
             this.providerMap = this.providerTypeMapper.externalStorageService;
@@ -123,7 +122,6 @@ export default class Provider {
     async initialize() {
         await taskFor(this.getUserReference).perform();
         await taskFor(this.getResourceReference).perform();
-        this.getProviderConfiguredAddons();
     }
 
     @task
@@ -163,10 +161,6 @@ export default class Provider {
             });
             this.serviceNode = resourceRefs.firstObject;
         }
-    }
-
-    getProviderConfiguredAddons() {
-        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.externalServiceId === this.provider.id);
     }
 
     @task
@@ -317,7 +311,9 @@ export default class Provider {
     @task
     @waitFor
     public async createConfiguredAddon(account: AllAuthorizedAccountTypes) {
-        return await taskFor(this.providerMap!.createConfiguredAddon).perform(account);
+        const newConfiguredAddon = await taskFor(this.providerMap!.createConfiguredAddon).perform(account);
+        this.configuredAddons!.pushObject(newConfiguredAddon);
+        return newConfiguredAddon;
     }
 
     @task
@@ -327,11 +323,6 @@ export default class Provider {
             await this.configuredAddon.destroyRecord();
             this.configuredAddon = undefined;
         }
-    }
-
-    listOfFolders() {
-        // TODO
-        return;
     }
 
     @task
