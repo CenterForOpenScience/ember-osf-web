@@ -13,6 +13,7 @@ export interface AddonCredentialFields {
 export default class AuthorizedAccountModel extends Model {
     @attr('fixstring') displayName!: string;
     @attr('fixstringarray') authorizedCapabilities!: string[];
+    @attr('fixstring') apiBaseUrl!: string; // Only applicable when ExternalService.configurableApiRoot === true
     @attr('object') credentials?: AddonCredentialFields; // write-only
     @attr('boolean') initiateOauth!: boolean; // write-only
     @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-xyz-accounts
