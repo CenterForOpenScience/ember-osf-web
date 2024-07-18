@@ -1,7 +1,7 @@
 import { click as untrackedClick, fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 
 import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -234,8 +234,7 @@ module('Acceptance | guid-node/addons', hooks => {
             .exists({ count: 1 }, 'One remove button is present after removing one');
     });
 
-    // Skip until issue with added account not showing up is resolved
-    skip('Adding new configured addons', async function(assert) {
+    test('Adding new configured addons', async function(assert) {
         const store = this.owner.lookup('service:store');
         const mirageUser = server.create('user', 'loggedIn');
         const mirageNode = server.create('node', { id: 'add0n', currentUserPermissions: [Permission.Admin] });
