@@ -14,17 +14,19 @@ import { AddonCredentialFields } from 'ember-osf-web/models/authorized-account';
 import { CredentialsFormat } from 'ember-osf-web/models/external-service';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import { AllAuthorizedAccountTypes } from 'ember-osf-web/packages/addons-service/provider';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 // TODO: Get this from GravyValet??
 const repoOptionsObject: Record<string, string[]> = {
     dataverse: [
-        'dataverse.harvard.edu',
-        'dataverse.lib.virginia.edu',
+        'https://dataverse.harvard.edu',
+        'https://dataverse.lib.virginia.edu',
     ],
     gitlab: [
         'https://gitlab.com',
     ],
 };
+
 interface InputFieldObject {
     name: keyof AddonCredentialFields;
     labelText: string;
