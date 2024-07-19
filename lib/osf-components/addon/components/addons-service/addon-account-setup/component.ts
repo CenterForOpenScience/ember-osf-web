@@ -38,10 +38,9 @@ interface InputFieldObject {
 interface Args {
     onConnect: () => void;
     onReconnect: () => void;
-    reconnect?: boolean;
+    account?: AllAuthorizedAccountTypes;
     provider: ExternalStorageServiceModel; // Type?
     manager: AddonsServiceManagerComponent | UserAddonsManagerComponent;
-    onInput: (event: Event) => void;
 }
 
 export default class AddonAccountSetupComponent extends Component<Args> {
@@ -49,12 +48,20 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     @service toast!: Toast;
 
     @tracked selectedRepo?: string;
-    @tracked otherRepo = '';
-    @tracked account?: AllAuthorizedAccountTypes;
+    @tracked otherRepo?: string;
+    @tracked url?: string;
+    @tracked newAccount?: AllAuthorizedAccountTypes;
     @tracked pendingOauth = false;
+    @tracked credentialsObject: AddonCredentialFields = {};
+    @tracked displayName = this.args.account?.displayName || '';
+    @tracked connectAccountError = false;
 
     get useOauth() {
         return [CredentialsFormat.OAUTH, CredentialsFormat.OAUTH2].includes(this.args.provider.credentialsFormat);
+    }
+
+    get showUrlField() {
+        return this.args.provider.credentialsFormat === CredentialsFormat.URL_USERNAME_PASSWORD;
     }
 
     otherRepoLabel = this.intl.t('addons.accountCreate.other-repo-label');
@@ -84,58 +91,21 @@ export default class AddonAccountSetupComponent extends Component<Args> {
 
     @action
     onRepoChange(newRepo: string) {
-        const { credentialsObject } = this.args.manager;
         this.selectedRepo = newRepo;
-        if (this.otherRepoSelected) {
-            credentialsObject.repo = this.otherRepo;
-        } else {
-            credentialsObject.repo = newRepo;
-        }
     }
 
     @action
-    onOtherRepoChange() {
-        this.args.manager.credentialsObject.repo = this.otherRepo;
+    inputFieldChanged(event: Event) {
+        const { name, value } = event.target as HTMLInputElement;
+        this.credentialsObject[name as keyof AddonCredentialFields] = value;
     }
 
     get inputFields(): InputFieldObject[] {
         const { provider } = this.args;
-        const credentials = this.args.manager.credentialsObject;
+        const credentials = this.credentialsObject;
         const t = this.intl.t.bind(this.intl);
         switch (this.args.provider.credentialsFormat) {
-        case CredentialsFormat.URL_USERNAME_PASSWORD: {
-            const urlPostText = provider.id === 'owncloud' ?
-                t('addons.accountCreate.owncloud-url-post-text', { htmlSafe: true }) : '';
-            const passwordPostText = t('addons.accountCreate.password-post-text');
-            return [
-                {
-                    name: 'url',
-                    labelText: t('addons.accountCreate.url-label'),
-                    inputType: 'text',
-                    inputPlaceholder: t('addons.accountCreate.url-placeholder'),
-                    inputValue: credentials.url,
-                    postText: urlPostText,
-                },
-                {
-                    name: 'username',
-                    labelText: t('addons.accountCreate.username-label'),
-                    inputType: 'text',
-                    inputPlaceholder: t('addons.accountCreate.username-placeholder'),
-                    inputValue: credentials.username,
-                    autocomplete: 'username',
-                },
-                {
-                    name: 'password',
-                    labelText: t('addons.accountCreate.password-label'),
-                    inputType: 'password',
-                    inputPlaceholder: t('addons.accountCreate.password-placeholder'),
-                    inputValue: credentials.password,
-                    autocomplete: 'current-password',
-                    postText: passwordPostText,
-                },
-            ];
-        }
-        case CredentialsFormat.USERNAME_PASSWORD: {
+        case CredentialsFormat.USERNAME_PASSWORD, CredentialsFormat.URL_USERNAME_PASSWORD: {
             const passwordPostText = t('addons.accountCreate.password-post-text');
             return [
                 {
@@ -197,10 +167,65 @@ export default class AddonAccountSetupComponent extends Component<Args> {
         }
     }
 
+    @task
+    @waitFor
+    async connectAccount() {
+        const { manager } = this.args;
+        const credentials = this.credentialsObject;
+        let apiBaseUrl;
+        if (this.showUrlField) {
+            apiBaseUrl = this.url;
+        } else if (this.showRepoOptions) {
+            apiBaseUrl = this.otherRepoSelected ? this.otherRepo : this.selectedRepo;
+        }
+        const accountCreationArgs = {
+            credentials,
+            apiBaseUrl,
+            displayName: this.displayName,
+            initiateOauth: this.useOauth,
+        };
+        try {
+            await taskFor(manager.connectAccount).perform(accountCreationArgs);
+            this.toast.success(this.intl.t('addons.accountCreate.connect-success'));
+        } catch (e) {
+            this.connectAccountError = true;
+            const errorMessage = this.intl.t('addons.accountCreate.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @task
+    @waitFor
+    async reconnectAccount() {
+        const { manager } = this.args;
+        const credentials = this.credentialsObject;
+        let apiBaseUrl;
+        if (this.showUrlField) {
+            apiBaseUrl = this.url;
+        } else if (this.showRepoOptions) {
+            apiBaseUrl = this.otherRepoSelected ? this.otherRepo : this.selectedRepo;
+        }
+        const accountCreationArgs = {
+            credentials,
+            apiBaseUrl,
+            displayName: this.displayName,
+            initiateOauth: this.useOauth,
+        };
+        try {
+            await taskFor((manager as UserAddonsManagerComponent).reconnectAccount).perform(accountCreationArgs);
+            this.toast.success(this.intl.t('addons.accountCreate.reconnect-success'));
+        } catch (e) {
+            const errorMessage = this.intl.t('addons.accountCreate.reconnect-error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
     @action
     onVisibilityChange() {
         if (document.visibilityState === 'visible') {
-            taskFor(this.args.manager.oauthFlowRefocus).perform(this.account!);
+            taskFor(this.args.manager.oauthFlowRefocus).perform(this.newAccount!);
             this.pendingOauth = false;
             document.removeEventListener('visibilitychange', this.onVisibilityChange);
         }
@@ -208,9 +233,12 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     @task
     @waitFor
     async startOauthFlow() {
-        this.account = await taskFor(this.args.manager.createAuthorizedAccount).perform(true);
-        if (this.account) { // returned account should have authUrl
-            const oauthWindow = window.open(this.account.authUrl, '_blank');
+        this.newAccount = await taskFor(this.args.manager.createAuthorizedAccount).perform({
+            displayName: this.displayName,
+            initiateOauth: true,
+        });
+        if (this.newAccount) { // returned account should have authUrl
+            const oauthWindow = window.open(this.newAccount.authUrl, '_blank');
             if (oauthWindow) {
                 document.addEventListener('visibilitychange', this.onVisibilityChange);
                 this.pendingOauth = true;
@@ -223,13 +251,13 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     @task
     @waitFor
     async startOauthReconnectFlow() {
-        const { manager } = this.args;
-        this.account = manager.selectedAccount;
-        if (this.account) {
-            this.account.initiateOauth = true;
-            await this.account.save(); // returned account should have authUrl
-            if (this.account.authUrl) {
-                const oauthWindow = window.open(this.account.authUrl, '_blank');
+        const { account } = this.args;
+        if (account) {
+            account.initiateOauth = true;
+            account.displayName = this.displayName;
+            await account.save(); // returned account should have authUrl
+            if (account.authUrl) {
+                const oauthWindow = window.open(account.authUrl, '_blank');
                 if (oauthWindow) {
                     document.addEventListener('visibilitychange', this.onVisibilityChange);
                     this.pendingOauth = true;

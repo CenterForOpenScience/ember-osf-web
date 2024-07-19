@@ -13,7 +13,7 @@ import Toast from 'ember-toastr/services/toast';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import AuthorizedAccountModel, { AddonCredentialFields } from 'ember-osf-web/models/authorized-account';
+import AuthorizedAccountModel, { AccountCreationArgs } from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
@@ -79,14 +79,6 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @tracked selectedProvider?: Provider;
     @tracked selectedAccount?: AllAuthorizedAccountTypes;
-    @tracked credentialsObject: AddonCredentialFields = {};
-    @tracked displayName = '';
-
-    @action
-    onCredentialsInput(event: Event) {
-        const input = event.target as HTMLInputElement;
-        this.credentialsObject[(input.name as keyof AddonCredentialFields)] = input.value;
-    }
 
     @tracked pageMode?: UserSettingPageModes;
 
@@ -173,16 +165,6 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @action
     cancelSetup() {
-        this.credentialsObject = {
-            url: '',
-            username: '',
-            password: '',
-            token: '',
-            accessKey: '',
-            secretKey: '',
-            repo: '',
-        };
-        this.displayName = '';
         this.pageMode = undefined;
         this.selectedProvider = undefined;
     }
@@ -305,47 +287,33 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async connectAccount() {
+    async connectAccount(arg: AccountCreationArgs) {
         if (this.selectedProvider) {
-            try {
-                await taskFor(this.selectedProvider!.createAuthorizedAccount)
-                    .perform(this.credentialsObject, this.displayName);
-                this.cancelSetup();
-                this.changeTab(1);
-                await taskFor(this.getAuthorizedAccounts).perform();
-                this.toast.success(this.intl.t('addons.accountCreate.connect-success'));
-            } catch (e) {
-                const errorMessage = this.intl.t('addons.accountCreate.error');
-                captureException(e, { errorMessage });
-                this.toast.error(getApiErrorMessage(e), errorMessage);
-            }
+            await taskFor(this.selectedProvider!.createAuthorizedAccount)
+                .perform(arg);
+            this.cancelSetup();
+            this.changeTab(1);
+            await taskFor(this.getAuthorizedAccounts).perform();
         }
     }
 
     @task
     @waitFor
-    async reconnectAccount() {
+    async reconnectAccount(args: AccountCreationArgs) {
         if (this.selectedProvider && this.selectedAccount) {
-            try {
-                await taskFor(this.selectedProvider.reconnectAuthorizedAccount)
-                    .perform(this.selectedAccount, this.credentialsObject);
-                this.cancelSetup();
-                await taskFor(this.getAuthorizedAccounts).perform();
-                this.toast.success(this.intl.t('addons.accountCreate.reconnect-success'));
-            } catch (e) {
-                const errorMessage = this.intl.t('addons.accountCreate.reconnect-error');
-                captureException(e, { errorMessage });
-                this.toast.error(getApiErrorMessage(e), errorMessage);
-            }
+            await taskFor(this.selectedProvider.reconnectAuthorizedAccount)
+                .perform(args, this.selectedAccount);
+            this.cancelSetup();
+            await taskFor(this.getAuthorizedAccounts).perform();
         }
     }
 
     @task
     @waitFor
-    async createAuthorizedAccount(initiateOauth?: boolean) {
+    async createAuthorizedAccount(args: AccountCreationArgs) {
         if (this.selectedProvider) {
             return await taskFor(this.selectedProvider.createAuthorizedAccount)
-                .perform(this.credentialsObject, this.displayName, initiateOauth);
+                .perform(args);
         }
     }
 
