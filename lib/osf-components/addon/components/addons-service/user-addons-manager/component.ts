@@ -178,8 +178,8 @@ export default class UserAddonManagerComponent extends Component<Args> {
             username: '',
             password: '',
             token: '',
-            accessKey: '',
-            secretKey: '',
+            access_key: '',
+            secret_key: '',
             repo: '',
         };
         this.displayName = '';
