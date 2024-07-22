@@ -187,7 +187,7 @@ export default class AddonAccountSetupComponent extends Component<Args> {
             initiateOauth: this.useOauth,
         };
         try {
-            await taskFor(manager.connectAccount).perform(accountCreationArgs);
+            await taskFor(manager.connectAccount).unlinked().perform(accountCreationArgs);
             this.toast.success(this.intl.t('addons.accountCreate.connect-success'));
         } catch (e) {
             this.connectAccountError = true;
