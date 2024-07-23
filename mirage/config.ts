@@ -370,6 +370,11 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'file',
     });
+    osfNestedResource(this, 'preprint', 'affiliatedInstitutions', {
+        path: '/preprints/:parentID/institutions/',
+        defaultSortKey: 'index',
+        relatedModelName: 'institution',
+    });
 
     this.put('/preprints/:parentID/files/:fileProviderId/upload', uploadToRoot); // Upload to file provider
 
