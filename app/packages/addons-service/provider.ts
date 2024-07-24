@@ -16,7 +16,7 @@ import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
-import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
+import { AccountCreationArgs } from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
@@ -200,17 +200,16 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedStorageAccount(
-        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
-    ) {
+    private async createAuthorizedStorageAccount(arg: AccountCreationArgs) {
+        const { credentials, apiBaseUrl, displayName, initiateOauth } = arg;
         const newAccount = this.store.createRecord('authorized-storage-account', {
             credentials,
-            initiateOauth: initiateOauth || false,
-            apiBaseUrl: (this.provider as ExternalStorageServiceModel).configurableApiRoot ? credentials.url : '',
+            initiateOauth,
+            apiBaseUrl,
             externalUserId: this.currentUser.user?.id,
             authorizedCapabilities: ['ACCESS', 'UPDATE'],
             externalStorageService: this.provider,
-            displayName: accountName,
+            displayName,
             accountOwner: this.userReference,
         });
         await newAccount.save();
@@ -219,17 +218,17 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedCitationAccount(
-        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
-    ) {
+    private async createAuthorizedCitationAccount(arg: AccountCreationArgs) {
+        const { credentials, apiBaseUrl, displayName, initiateOauth } = arg;
         const newAccount = this.store.createRecord('authorized-citation-account', {
             credentials,
-            initiateOauth: initiateOauth || false,
+            apiBaseUrl,
+            initiateOauth,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             citationService: this.provider,
             accountOwner: this.userReference,
-            displayName: accountName,
+            displayName,
         });
         await newAccount.save();
         return newAccount;
@@ -237,17 +236,17 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedComputingAccount(
-        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
-    ) {
+    private async createAuthorizedComputingAccount(arg: AccountCreationArgs) {
+        const { credentials, apiBaseUrl, displayName, initiateOauth } = arg;
         const newAccount = this.store.createRecord('authorized-computing-account', {
             credentials,
-            initiateOauth: initiateOauth || false,
+            apiBaseUrl,
+            initiateOauth,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             computingService: this.provider,
             accountOwner: this.userReference,
-            displayName: accountName,
+            displayName,
         });
         await newAccount.save();
         return newAccount;
@@ -255,17 +254,18 @@ export default class Provider {
 
     @task
     @waitFor
-    public async createAuthorizedAccount(
-        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
-    ) {
+    public async createAuthorizedAccount(arg: AccountCreationArgs) {
         return await taskFor(this.providerMap!.createAuthorizedAccount)
-            .perform(credentials, accountName, initiateOauth);
+            .perform(arg);
     }
 
     @task
     @waitFor
-    public async reconnectAuthorizedAccount(account: AllAuthorizedAccountTypes, credentials: AddonCredentialFields) {
+    public async reconnectAuthorizedAccount(args: AccountCreationArgs, account: AllAuthorizedAccountTypes) {
+        const { credentials, apiBaseUrl, displayName } = args;
         account.credentials = credentials;
+        account.apiBaseUrl = apiBaseUrl;
+        account.displayName = displayName;
         await account.save();
         await account.reload();
     }

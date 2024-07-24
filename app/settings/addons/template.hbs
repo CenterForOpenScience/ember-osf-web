@@ -53,7 +53,6 @@
                                 @provider={{manager.selectedProvider.provider}}
                                 @manager={{manager}}
                                 @onConnect={{manager.connectAccount}}
-                                @onInput={{manager.onCredentialsInput}}
                             />
                         </div>
                     {{else if (eq manager.pageMode 'accountReconnect')}}
@@ -64,9 +63,8 @@
                             <AddonsService::AddonAccountSetup
                                 @provider={{manager.selectedProvider.provider}}
                                 @manager={{manager}}
+                                @account={{manager.selectedAccount}}
                                 @onReconnect={{manager.reconnectAccount}}
-                                @onInput={{manager.onCredentialsInput}}
-                                @reconnect={{true}}
                             />
                         </div>
                     {{/if}}

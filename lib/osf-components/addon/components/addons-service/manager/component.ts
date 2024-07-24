@@ -20,9 +20,8 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import { ConfiguredAddonEditableAttrs } from 'ember-osf-web/models/configured-addon';
 import ConfiguredStorageAddonModel,
 { ConfiguredStorageAddonEditableAttrs } from 'ember-osf-web/models/configured-storage-addon';
-import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
+import { AccountCreationArgs} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
-import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -90,9 +89,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked selectedProvider?: Provider;
     @tracked selectedConfiguration?: AllConfiguredAddonTypes;
     @tracked selectedAccount?: AllAuthorizedAccountTypes;
-    @tracked credentialsObject: AddonCredentialFields = {};
-    @tracked connectAccountError = false;
-    @tracked displayName = '';
 
     @action
     filterByAddonType(type: FilterTypes) {
@@ -181,10 +177,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async createAuthorizedAccount(initiateOauth?: boolean) {
+    async createAuthorizedAccount(arg: AccountCreationArgs) {
         if (this.selectedProvider) {
             const newAccount = await taskFor(this.selectedProvider.createAuthorizedAccount)
-                .perform(this.credentialsObject, this.displayName, initiateOauth);
+                .perform(arg);
             return newAccount;
         }
         return undefined;
@@ -200,21 +196,13 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async connectAccount() {
-        try {
-            if (this.selectedProvider) {
-                const newAccount = await taskFor(this.createAuthorizedAccount).perform();
-                if (newAccount) {
-                    await taskFor(this.createConfiguredAddon).perform(newAccount);
-                    this.clearCredentials();
-                    this.pageMode = PageMode.CONFIGURE;
-                }
+    async connectAccount(arg: AccountCreationArgs) {
+        if (this.selectedProvider) {
+            const newAccount = await taskFor(this.createAuthorizedAccount).perform(arg);
+            if (newAccount) {
+                await taskFor(this.createConfiguredAddon).perform(newAccount);
+                this.pageMode = PageMode.CONFIGURE;
             }
-        } catch (e) {
-            this.connectAccountError = true;
-            const errorMessage = this.intl.t('addons.accountCreate.error');
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     }
 
@@ -222,16 +210,9 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async oauthFlowRefocus(newAccount: AllAuthorizedAccountTypes) {
         await newAccount.reload();
-        this.clearCredentials();
         await taskFor(this.selectedProvider!.getAuthorizedAccounts).perform();
         this.selectedAccount = undefined;
         this.chooseExistingAccount();
-    }
-
-    @action
-    onCredentialsInput(event: Event) {
-        const input = event.target as HTMLInputElement;
-        this.credentialsObject[(input.name as keyof AddonCredentialFields)] = input.value;
     }
 
     @task
@@ -248,16 +229,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.pageMode = undefined;
         this.selectedProvider = undefined;
         this.selectedConfiguration = undefined;
-        this.clearCredentials();
         this.selectedAccount = undefined;
         this.confirmRemoveConnectedLocation = false;
-    }
-
-    @action
-    clearCredentials() {
-        this.connectAccountError = false;
-        this.credentialsObject = {};
-        this.displayName = '';
     }
 
     @task
