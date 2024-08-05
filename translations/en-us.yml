@@ -1346,6 +1346,7 @@ preprints:
             views: 'Views'
             metrics_disclaimer: 'Metrics collected since:'
         supplemental_materials: 'Supplemental Materials'
+        affiliated_institutions: 'Affiliated Institutions'
         tags: 'Tags'
         withdrawn_title: 'Withdrawn: {title}'
         reason_for_withdrawal: 'Reason for withdrawal'

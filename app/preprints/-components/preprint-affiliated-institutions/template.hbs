@@ -1,0 +1,8 @@
+<div>
+    <h4>{{t 'preprints.detail.affiliated_institutions'}}</h4>
+    {{#if @preprint.affiliatedInstitutions}}
+        {{#each @preprint.affiliatedInstitutions as |institution|}}
+            {{institution.name}}<br>
+        {{/each}}
+    {{/if}}
+</div>
