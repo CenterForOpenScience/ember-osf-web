@@ -13,6 +13,20 @@
         }
     }
 
+    img {
+        width: 50px;
+        height: 50px;
+        border: 1px solid $color-border-white;
+        background-size: cover;
+        background-color: $color-bg-white;
+    }
 
 }
 
+.img-circle {
+    border-radius: 50%;
+}
+
+.img-responsive {
+    max-width: 100%;
+}
