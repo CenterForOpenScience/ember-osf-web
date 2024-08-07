@@ -1216,6 +1216,7 @@ preprints:
             publication-date-input: 'Publication Date'
             publication-citation-input: 'Publication Citation'
             institutions:
+                save_institutions_error: 'Failed to save affiliated institutions'
                 load_institutions_error: 'Failed to load affiliated institutions'
         step-assertions:
             title: 'Author Assertions'
