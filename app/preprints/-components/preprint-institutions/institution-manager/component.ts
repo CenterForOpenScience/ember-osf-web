@@ -7,7 +7,6 @@ import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import PreprintModel from 'ember-osf-web/models/preprint';
 import { tracked } from '@glimmer/tracking';
@@ -31,8 +30,6 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     @service intl!: Intl;
     @service store!: Store;
     @service currentUser!: CurrentUser;
-
-    @tracked private affiliatedList!: QueryHasManyResult<PreprintInstitutionModel>;
     @tracked institutions!: PreprintInstitutionModel[];
 
     constructor(owner: unknown, args: InstitutionArgs) {
@@ -49,11 +46,7 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
                 this.institutions = [] as PreprintInstitutionModel[];
                 const userInstitutions = await this.currentUser.user!.institutions;
 
-                this.affiliatedList = await this.preprint.queryHasMany(
-                    'affiliatedInstitutions', {
-                        pageSize: 100,
-                    },
-                );
+                await this.preprint.affiliatedInstitutions;
 
                 userInstitutions.forEach((institution: PreprintInstitutionModel) => {
                     institution.isSelected = this.isInstitutionAffiliated(institution.id);
@@ -72,30 +65,15 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     }
 
     private isInstitutionAffiliated(id: string): boolean {
-        return this.affiliatedList.find(institution => institution.id === id) !== undefined;
+        return this.preprint.affiliatedInstitutions.find(institution => institution.id === id) !== undefined;
     }
-
-    /*
-    @task
-    @waitFor
-    async save() {
-        try {
-            await this.preprint.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
-            await this.preprint.reload();
-        } catch (e) {
-            const errorMessage = this.intl.t('registries.drafts.draft.metadata.save_institutions_error');
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-            throw e;
-        }
-
-        this.affiliatedList = this.currentAffiliatedList;
-    }
-    */
 
     @action
     toggleInstitution(institution: PreprintInstitutionModel) {
-        institution.isSelected = !institution.isSelected;
-        // taskFor(this.save).perform();
+        if (this.isInstitutionAffiliated(institution.id)) {
+            this.preprint.affiliatedInstitutions.removeObject(institution);
+        } else {
+            this.preprint.affiliatedInstitutions.addObject(institution);
+        }
     }
 }

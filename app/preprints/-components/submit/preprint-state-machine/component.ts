@@ -250,6 +250,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.metadataValidation
         ) {
             await this.saveOnStep();
+
             if (this.displayAuthorAssertions) {
                 this.isNextButtonDisabled = !this.authorAssertionValidation;
             } else {

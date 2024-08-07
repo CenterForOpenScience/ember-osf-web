@@ -12,8 +12,4 @@ interface InstitutionSelectListArgs {
 export default class InstitutionSelectList extends Component<InstitutionSelectListArgs> {
     // Required
     manager = this.args.manager;
-
-    // optional properties
-    usePlaceholders = false;
-    reloadList!: (page?: number) => void;
 }
