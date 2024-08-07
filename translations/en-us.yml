@@ -1215,6 +1215,8 @@ preprints:
             publication-doi-input: 'Publication DOI'
             publication-date-input: 'Publication Date'
             publication-citation-input: 'Publication Citation'
+            institutions:
+                load_institutions_error: 'Failed to load affiliated institutions'
         step-assertions:
             title: 'Author Assertions'
             conflict-of-interest-input: 'Conflict of Interest'

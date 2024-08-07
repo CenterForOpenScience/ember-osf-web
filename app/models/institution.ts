@@ -85,6 +85,10 @@ export default class InstitutionModel extends OsfModel {
     }
 }
 
+export interface PreprintInstitutionModel extends InstitutionModel {
+    isSelected: boolean;
+}
+
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
         institution: InstitutionModel;
