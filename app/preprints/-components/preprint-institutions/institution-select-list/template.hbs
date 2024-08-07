@@ -1,30 +1,19 @@
-{{#paginated-list/has-many
-    local-class='institutionList'
-    model=@manager.user
-    relationshipName='institutions'
-    analyticsScope='User Institutions'
-    usePlaceholders=this.usePlaceholders
-    as |list|
-}}
-    <list.item as |institution|>
-        {{#if institution}}
-            <label data-test-institution={{institution.id}} local-class='label'>
-                {{#let (includes institution @manager.affiliatedList) as |isAffiliated|}}
-                    <Input
-                        data-test-institution-button={{concat (if isAffiliated 'remove' 'add') '-' institution.id}}
-                        data-analytics-name={{if isAffiliated 'Remove' 'Add'}}
-                        disabled={{@manager.shouldDisable}}
-                        @type='checkbox'
-                        @checked={{isAffiliated}}
-                        {{on 'change' (fn @manager.toggleInstitution institution)}}
-                    />
-                {{/let}}
+<div local-class='institution-list-container'>
+    {{@manager.institutions.length}}
+    {{#each @manager.institutions as |institution index|}}
+        <div local-class='institution-container'>
+            <div local-class='institution-checkbox'>
+                <Input
+                    data-test-institution-input={{index}}
+                    disabled={{@manager.shouldDisable}}
+                    @type='checkbox'
+                    @checked={{institution.isSelected}}
+                    {{on 'change' (fn @manager.toggleInstitution institution)}}
+                />
+            </div>
+            <div local-class='label' data-test-institution-name={{index}}>
                 {{institution.name}}
-            </label>
-        {{else}}
-            <ContentPlaceholders as |placeholder|>
-                {{placeholder.list items=2}}
-            </ContentPlaceholders>
-        {{/if}}
-    </list.item>
-{{/paginated-list/has-many}}
+            </div>
+        </div>
+    {{/each}}
+</div>

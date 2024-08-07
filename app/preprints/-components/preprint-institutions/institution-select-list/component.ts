@@ -1,14 +1,17 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
+import InstitutionsManagerComponent from '../institution-manager/component';
 
-import { layout } from 'ember-osf-web/decorators/component';
-import { InstitutionsManager } from 'osf-components/components/editable-field/institutions-manager/component';
-import styles from './styles';
-import template from './template';
 
-@layout(template, styles)
-export default class InstitutionSelectList extends Component {
+/**
+ * The Institution Select List Args
+ */
+interface InstitutionSelectListArgs {
+    manager: InstitutionsManagerComponent;
+}
+
+export default class InstitutionSelectList extends Component<InstitutionSelectListArgs> {
     // Required
-    manager!: InstitutionsManager;
+    manager = this.args.manager;
 
     // optional properties
     usePlaceholders = false;
