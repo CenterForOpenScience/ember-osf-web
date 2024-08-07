@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { click, render} from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest} from 'ember-qunit';
@@ -7,6 +7,7 @@ import { setupIntl } from 'ember-intl/test-support';
 import PreprintModel from 'ember-osf-web/models/preprint';
 import { ModelInstance } from 'ember-cli-mirage';
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
+import InstitutionModel from 'ember-osf-web/models/institution';
 
 
 module('Integration | Preprint | Component | Institution Manager', hooks => {
@@ -14,17 +15,17 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
     setupMirage(hooks);
     setupIntl(hooks);
 
-    test('it renders with 4 user institutions and 1 affiliated preprint institution', async function(assert) {
+    hooks.beforeEach(async function(this) {
         // Given the providers are loaded
         server.loadFixtures('preprint-providers');
-        const store = this.owner.lookup('service:store');
+        this.store = this.owner.lookup('service:store');
         const osf = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProvider>;
 
         // And create a preprint with affiliated institutions
         const preprintMock = server.create('preprint', { provider: osf }, 'withAffiliatedInstitutions');
 
         // And retrieve the preprint from the store
-        const preprint: PreprintModel = await store.findRecord('preprint', preprintMock.id);
+        const preprint: PreprintModel = await this.store.findRecord('preprint', preprintMock.id);
 
         // And create a user for the service with institutions
         const user = server.create('user', { id: 'institution-user' }, 'withInstitutions');
@@ -36,7 +37,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         user.save();
 
         // And find and set the user for the service
-        const currentUserModel = await store.findRecord('user', 'institution-user');
+        const currentUserModel = await this.store.findRecord('user', 'institution-user');
 
         this.owner.lookup('service:current-user').setProperties({
             testUser: currentUserModel, currentUserId: currentUserModel.id,
@@ -44,6 +45,9 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
 
         // And bind the preprint to the test
         this.set('preprintMock', preprint);
+    });
+
+    test('it renders with 4 user institutions and 1 affiliated preprint institution', async function(assert) {
 
         // When the component is rendered
         await render(hbs`
@@ -62,5 +66,75 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         assert.dom('[data-test-institution-input="2"]').isNotChecked();
         assert.dom('[data-test-institution-input="3"]').isNotChecked();
         assert.dom('[data-test-institution-input="4"]').doesNotExist();
+    });
+
+    test('it removes affiliated preprint institution', async function(assert) {
+        // Given the component is rendered
+        await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @preprint={{this.preprintMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+        // When I unclick the first affiliated preprint
+        await click('[data-test-institution-input="0"]');
+
+        // Then the first attribute is verified by name and unselected
+        assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
+        assert.dom('[data-test-institution-input="0"]').isNotChecked();
+
+        // And the other institutions are verified as not selected
+        assert.dom('[data-test-institution-input="1"]').isNotChecked();
+        assert.dom('[data-test-institution-input="2"]').isNotChecked();
+        assert.dom('[data-test-institution-input="3"]').isNotChecked();
+        assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+        const preprint = this.get('preprintMock') as PreprintModel;
+        const affiliatedInstitutions = await preprint.affiliatedInstitutions;
+
+        affiliatedInstitutions.forEach((institution: InstitutionModel) => {
+            assert.notEqual(institution.id, 'osf', 'The osf institution is found.');
+        });
+    });
+
+    test('it adds affiliated preprint institution', async function(assert) {
+        // Given the component is rendered
+        await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @preprint={{this.preprintMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+        // And I find the name of the component under test
+        // eslint-disable-next-line max-len
+        const secondAffiliatedInstitutionName = this.element.querySelector('[data-test-institution-name="1"]')?.textContent?.trim();
+
+        // When I click the second affiliated preprint
+        await click('[data-test-institution-input="1"]');
+
+
+        // Then the first attribute is verified by name and unselected
+        assert.dom('[data-test-institution-input="1"]').isChecked();
+
+        // And the other institutions are verified as not selected
+        assert.dom('[data-test-institution-input="0"]').isChecked();
+        assert.dom('[data-test-institution-input="2"]').isNotChecked();
+        assert.dom('[data-test-institution-input="3"]').isNotChecked();
+        assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+        const preprint = this.get('preprintMock') as PreprintModel;
+        const affiliatedInstitutions = await preprint.affiliatedInstitutions;
+
+        // Finally I determine if the second institutions is now affiliated
+        let isInstitutionAffiliatedFound = false;
+        affiliatedInstitutions.forEach((institution: InstitutionModel) => {
+            if (institution.name === secondAffiliatedInstitutionName) {
+                isInstitutionAffiliatedFound = true;
+            }
+        });
+
+        assert.true(isInstitutionAffiliatedFound, 'The second institution is now affiliated');
     });
 });

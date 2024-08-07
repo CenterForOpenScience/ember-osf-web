@@ -1,11 +1,9 @@
 <div local-class='institution-list-container'>
-    {{@manager.institutions.length}}
     {{#each @manager.institutions as |institution index|}}
         <div local-class='institution-container'>
             <div local-class='institution-checkbox'>
                 <Input
                     data-test-institution-input={{index}}
-                    disabled={{@manager.shouldDisable}}
                     @type='checkbox'
                     @checked={{institution.isSelected}}
                     {{on 'change' (fn @manager.toggleInstitution institution)}}
