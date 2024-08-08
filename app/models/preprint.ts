@@ -5,7 +5,6 @@ import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CitationModel from 'ember-osf-web/models/citation';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
 import { ReviewsState } from 'ember-osf-web/models/provider';
-import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -81,9 +80,6 @@ export default class PreprintModel extends AbstractNodeModel {
 
     @belongsTo('preprint-provider', { inverse: 'preprints' })
     provider!: AsyncBelongsTo<PreprintProviderModel> & PreprintProviderModel;
-
-    @hasMany('review-action')
-    reviewActions!: AsyncHasMany<ReviewActionModel>;
 
     @hasMany('contributors', { inverse: 'preprint'})
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel;
