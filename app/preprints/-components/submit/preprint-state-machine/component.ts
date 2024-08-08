@@ -11,10 +11,11 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import FileModel from 'ember-osf-web/models/file';
 import Toast from 'ember-toastr/services/toast';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import { taskFor } from 'ember-concurrency-ts';
+import InstitutionModel from 'ember-osf-web/models/institution';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -58,6 +59,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     displayAuthorAssertions = false;
     @tracked statusFlowIndex = 1;
     @tracked isEditFlow = false;
+    affiliatedInstitutions = [] as InstitutionModel[];
 
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
@@ -250,6 +252,19 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.metadataValidation
         ) {
             await this.saveOnStep();
+
+            try {
+                await this.preprint.updateM2MRelationship(
+                    'affiliatedInstitutions',
+                    this.affiliatedInstitutions,
+                );
+                await this.preprint.reload();
+            } catch (e) {
+                const errorMessage = this.intl.t('preprints.submit.step-metadata.institutions.save-institutions-error');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                throw e;
+            }
 
             if (this.displayAuthorAssertions) {
                 this.isNextButtonDisabled = !this.authorAssertionValidation;
@@ -621,5 +636,20 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         const rootFolder = await theFiles.firstObject!.rootFolder;
         const primaryFile = await rootFolder!.files;
         this.preprint.set('primaryFile', primaryFile.lastObject);
+    }
+
+    @action
+    public updateAffiliatedInstitution(institution: InstitutionModel): void {
+        if (this.isInstitutionAffiliated(institution.id)) {
+            this.affiliatedInstitutions.removeObject(institution);
+        } else {
+            this.affiliatedInstitutions.addObject(institution);
+        }
+    }
+
+    @action
+    public isInstitutionAffiliated(id: string): boolean {
+        // eslint-disable-next-line max-len
+        return this.affiliatedInstitutions.find(institution => institution.id === id) !== undefined;
     }
 }

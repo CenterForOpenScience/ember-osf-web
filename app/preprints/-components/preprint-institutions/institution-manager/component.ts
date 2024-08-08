@@ -8,22 +8,27 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import PreprintModel from 'ember-osf-web/models/preprint';
 import { tracked } from '@glimmer/tracking';
-import { PreprintInstitutionModel } from 'ember-osf-web/models/institution';
 import Store from '@ember-data/store';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import InstitutionModel from 'ember-osf-web/models/institution';
+import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
+
+
+interface PreprintInstitutionModel extends InstitutionModel {
+    isSelected: boolean;
+}
 
 /**
  * The Institution Manager Args
  */
 interface InstitutionArgs {
-    preprint: PreprintModel;
+    manager: PreprintStateMachine;
 }
 
 export default class InstitutionsManagerComponent extends Component<InstitutionArgs> {
     // Required
-    preprint = this.args.preprint;
+    manager = this.args.manager;
 
     // private properties
     @service toast!: Toast;
@@ -41,12 +46,16 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     @task
     @waitFor
     private async loadInstitutions()  {
-        if (this.preprint) {
+        if (this.manager.preprint) {
             try {
                 this.institutions = [] as PreprintInstitutionModel[];
                 const userInstitutions = await this.currentUser.user!.institutions;
 
-                await this.preprint.affiliatedInstitutions;
+                await this.manager.preprint.affiliatedInstitutions;
+
+                this.manager.preprint.affiliatedInstitutions.map((institution: InstitutionModel) => {
+                    this.manager.updateAffiliatedInstitution(institution);
+                });
 
                 userInstitutions.forEach((institution: PreprintInstitutionModel) => {
                     institution.isSelected = this.isInstitutionAffiliated(institution.id);
@@ -56,7 +65,7 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
                 notifyPropertyChange(this, 'institutions');
 
             } catch (e) {
-                const errorMessage = this.intl.t('preprints.submit.step-metadata.load_institutions_error');
+                const errorMessage = this.intl.t('preprints.submit.step-metadata.institutions.load-institutions-error');
                 captureException(e, { errorMessage });
                 this.toast.error(getApiErrorMessage(e), errorMessage);
                 throw e;
@@ -65,15 +74,12 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     }
 
     private isInstitutionAffiliated(id: string): boolean {
-        return this.preprint.affiliatedInstitutions.find(institution => institution.id === id) !== undefined;
+        // eslint-disable-next-line max-len
+        return this.args.manager.isInstitutionAffiliated(id);
     }
 
     @action
     toggleInstitution(institution: PreprintInstitutionModel) {
-        if (this.isInstitutionAffiliated(institution.id)) {
-            this.preprint.affiliatedInstitutions.removeObject(institution);
-        } else {
-            this.preprint.affiliatedInstitutions.addObject(institution);
-        }
+        this.manager.updateAffiliatedInstitution(institution);
     }
 }

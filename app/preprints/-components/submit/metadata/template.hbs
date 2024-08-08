@@ -23,7 +23,7 @@
 
             <div local-class='input-container'>
                 <Preprints::-Components::PreprintInstitutions::InstitutionManager
-                    @preprint={{@manager.preprint}} as |institutionsManager|
+                    @manager={{@manager}} as |institutionsManager|
                 >
                     <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
                          @manager={{institutionsManager}} />
