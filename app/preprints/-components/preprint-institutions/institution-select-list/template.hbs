@@ -1,20 +1,22 @@
-<div local-class='institution-list-container'>
-    <label data-test-affilitated-institutions-label>
-        {{t 'preprints.submit.step-metadata.institutions.label'}}
-    </label>
-    {{#each @manager.institutions as |institution index|}}
-        <div local-class='institution-container'>
-            <div local-class='institution-checkbox'>
-                <Input
-                    data-test-institution-input={{index}}
-                    @type='checkbox'
-                    @checked={{institution.isSelected}}
-                    {{on 'change' (fn @manager.toggleInstitution institution)}}
-                />
+{{#if this.displayComponent}}
+    <div local-class='institution-list-container {{if (is-mobile) 'mobile'}}'>
+        <label data-test-affilitated-institutions-label>
+            {{t 'preprints.submit.step-metadata.institutions.label'}}
+        </label>
+        {{#each @manager.institutions as |institution index|}}
+            <div local-class='institution-container'>
+                <div local-class='institution-checkbox'>
+                    <Input
+                        data-test-institution-input={{index}}
+                        @type='checkbox'
+                        @checked={{institution.isSelected}}
+                        {{on 'change' (fn @manager.toggleInstitution institution)}}
+                    />
+                </div>
+                <div local-class='label' data-test-institution-name={{index}}>
+                    {{institution.name}}
+                </div>
             </div>
-            <div local-class='label' data-test-institution-name={{index}}>
-                {{institution.name}}
-            </div>
-        </div>
-    {{/each}}
-</div>
+        {{/each}}
+    </div>
+{{/if}}

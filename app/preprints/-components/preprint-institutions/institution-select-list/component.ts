@@ -12,4 +12,8 @@ interface InstitutionSelectListArgs {
 export default class InstitutionSelectList extends Component<InstitutionSelectListArgs> {
     // Required
     manager = this.args.manager;
+
+    public get displayComponent(): boolean {
+        return this.args.manager.institutions.length > 0;
+    }
 }
