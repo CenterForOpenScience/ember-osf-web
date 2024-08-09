@@ -36,6 +36,7 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     @service store!: Store;
     @service currentUser!: CurrentUser;
     @tracked institutions!: PreprintInstitutionModel[];
+    @tracked preprintWord = this.manager.provider.documentType.singular;
 
     constructor(owner: unknown, args: InstitutionArgs) {
         super(owner, args);

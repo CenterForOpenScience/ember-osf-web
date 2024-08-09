@@ -3,6 +3,9 @@
         <label data-test-affilitated-institutions-label>
             {{t 'preprints.submit.step-metadata.institutions.label'}}
         </label>
+        <p>
+            {{this.descriptionDisplay}}
+        </p>
         {{#each @manager.institutions as |institution index|}}
             <div local-class='institution-container'>
                 <div local-class='institution-checkbox'>
