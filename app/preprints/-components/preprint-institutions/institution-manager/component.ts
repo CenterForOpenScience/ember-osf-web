@@ -58,7 +58,9 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
                 });
 
                 userInstitutions.forEach((institution: PreprintInstitutionModel) => {
-                    institution.isSelected = this.isInstitutionAffiliated(institution.id);
+                    institution.isSelected = this.manager.isEditFlow ?
+                        this.isInstitutionAffiliated(institution.id)
+                        : true;
                     this.institutions.push(institution);
                 });
 

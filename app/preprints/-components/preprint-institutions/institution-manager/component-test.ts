@@ -49,6 +49,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         this.set('affiliatedInstitutions', []);
 
         const managerMock = Object({
+            isEditFlow: true,
             preprint,
             updateAffiliatedInstitution: (affiliatedIinstitution: InstitutionModel): void => {
                 const affiliatedInstitutions = this.get('affiliatedInstitutions');
@@ -69,8 +70,34 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         this.set('managerMock', managerMock);
     });
 
-    test('it renders with 4 user institutions and 1 affiliated preprint institution', async function(assert) {
+    // eslint-disable-next-line max-len
+    test('it renders with 4 user institutions and 1 affiliated preprint institution - create flow', async function(assert) {
+        const managerMock = this.get('managerMock');
+        managerMock.isEditFlow = false;
+        this.set('managerMock', managerMock);
 
+        // When the component is rendered
+        await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @manager={{this.managerMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+        // Then the first attribute is verified by name and selected
+        assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
+        assert.dom('[data-test-institution-input="0"]').isChecked();
+
+        // And the other institutions are verified as not selected
+        assert.dom('[data-test-institution-input="1"]').isChecked();
+        assert.dom('[data-test-institution-input="2"]').isChecked();
+        assert.dom('[data-test-institution-input="3"]').isChecked();
+        assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+    });
+
+    // eslint-disable-next-line max-len
+    test('it renders with 4 user institutions and 1 affiliated preprint institution - edit flow', async function(assert) {
         // When the component is rendered
         await render(hbs`
 <Preprints::-Components::PreprintInstitutions::InstitutionManager
