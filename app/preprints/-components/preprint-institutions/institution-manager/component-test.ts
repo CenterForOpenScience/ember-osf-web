@@ -49,6 +49,11 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         this.set('affiliatedInstitutions', []);
 
         const managerMock = Object({
+            provider: {
+                documentType: {
+                    singular: 'Test Preprint Word',
+                },
+            },
             isEditFlow: true,
             preprint,
             updateAffiliatedInstitution: (affiliatedIinstitution: InstitutionModel): void => {
@@ -70,119 +75,136 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         this.set('managerMock', managerMock);
     });
 
-    // eslint-disable-next-line max-len
-    test('it renders with 4 user institutions and 1 affiliated preprint institution - create flow', async function(assert) {
-        const managerMock = this.get('managerMock');
-        managerMock.isEditFlow = false;
-        this.set('managerMock', managerMock);
+    test('it renders the correct labels',
+        async function(assert) {
 
-        // When the component is rendered
-        await render(hbs`
+            // Given the component is rendered
+            await render(hbs`
 <Preprints::-Components::PreprintInstitutions::InstitutionManager
         @manager={{this.managerMock}} as |manager|>
     <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
                 @manager={{manager}} />
 </Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
 
-        // Then the first attribute is verified by name and selected
-        assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
-        assert.dom('[data-test-institution-input="0"]').isChecked();
-
-        // And the other institutions are verified as not selected
-        assert.dom('[data-test-institution-input="1"]').isChecked();
-        assert.dom('[data-test-institution-input="2"]').isChecked();
-        assert.dom('[data-test-institution-input="3"]').isChecked();
-        assert.dom('[data-test-institution-input="4"]').doesNotExist();
-
-    });
-
-    // eslint-disable-next-line max-len
-    test('it renders with 4 user institutions and 1 affiliated preprint institution - edit flow', async function(assert) {
-        // When the component is rendered
-        await render(hbs`
-<Preprints::-Components::PreprintInstitutions::InstitutionManager
-        @manager={{this.managerMock}} as |manager|>
-    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
-                @manager={{manager}} />
-</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
-
-        // Then the first attribute is verified by name and selected
-        assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
-        assert.dom('[data-test-institution-input="0"]').isChecked();
-
-        // And the other institutions are verified as not selected
-        assert.dom('[data-test-institution-input="1"]').isNotChecked();
-        assert.dom('[data-test-institution-input="2"]').isNotChecked();
-        assert.dom('[data-test-institution-input="3"]').isNotChecked();
-        assert.dom('[data-test-institution-input="4"]').doesNotExist();
-
-    });
-
-    test('it removes affiliated preprint institution', async function(assert) {
-        // Given the component is rendered
-        await render(hbs`
-<Preprints::-Components::PreprintInstitutions::InstitutionManager
-        @manager={{this.managerMock}} as |manager|>
-    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
-                @manager={{manager}} />
-</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
-
-        // When I unclick the first affiliated preprint
-        await click('[data-test-institution-input="0"]');
-
-        // Then the first attribute is verified by name and unselected
-        assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
-        assert.dom('[data-test-institution-input="0"]').isNotChecked();
-
-        // And the other institutions are verified as not selected
-        assert.dom('[data-test-institution-input="1"]').isNotChecked();
-        assert.dom('[data-test-institution-input="2"]').isNotChecked();
-        assert.dom('[data-test-institution-input="3"]').isNotChecked();
-        assert.dom('[data-test-institution-input="4"]').doesNotExist();
-
-        const affiliatedInstitutions = this.get('affiliatedInstitutions');
-
-        affiliatedInstitutions.forEach((institution: InstitutionModel) => {
-            assert.notEqual(institution.id, 'osf', 'The osf institution is found.');
-        });
-    });
-
-    test('it adds affiliated preprint institution', async function(assert) {
-        // Given the component is rendered
-        await render(hbs`
-<Preprints::-Components::PreprintInstitutions::InstitutionManager
-        @manager={{this.managerMock}} as |manager|>
-    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
-                @manager={{manager}} />
-</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
-
-        // And I find the name of the component under test
-        // eslint-disable-next-line max-len
-        const secondAffiliatedInstitutionName = this.element.querySelector('[data-test-institution-name="1"]')?.textContent?.trim();
-
-        // When I click the second affiliated preprint
-        await click('[data-test-institution-input="1"]');
-
-
-        // Then the first attribute is verified by name and unselected
-        assert.dom('[data-test-institution-input="1"]').isChecked();
-
-        // And the other institutions are verified as not selected
-        assert.dom('[data-test-institution-input="0"]').isChecked();
-        assert.dom('[data-test-institution-input="2"]').isNotChecked();
-        assert.dom('[data-test-institution-input="3"]').isNotChecked();
-        assert.dom('[data-test-institution-input="4"]').doesNotExist();
-
-        const affiliatedInstitutions = this.get('affiliatedInstitutions');
-
-        // Finally I determine if the second institutions is now affiliated
-        let isInstitutionAffiliatedFound = false;
-        affiliatedInstitutions.forEach((institution: InstitutionModel) => {
-            if (institution.name === secondAffiliatedInstitutionName) {
-                isInstitutionAffiliatedFound = true;
-            }
+            // Then the first attribute is verified by name and selected
+            assert.dom('[data-test-affiliated-institutions-label]').hasText('Affiliated Institutions');
+            // eslint-disable-next-line max-len
+            assert.dom('[data-test-affiliated-institutions-description]').hasText('You can affiliate your Test Preprint Word with your institution if it is an OSF institutional member and has worked with the Center for Open Science to create a dedicated institutional OSF landing page.');
         });
 
-        assert.true(isInstitutionAffiliatedFound, 'The second institution is now affiliated');
-    });
+    test('it renders with 4 user institutions and 1 affiliated preprint institution - create flow',
+        async function(assert) {
+            const managerMock = this.get('managerMock');
+            managerMock.isEditFlow = false;
+            this.set('managerMock', managerMock);
+
+            // When the component is rendered
+            await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @manager={{this.managerMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+            // Then the first attribute is verified by name and selected
+            assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
+            assert.dom('[data-test-institution-input="0"]').isChecked();
+
+            // And the other institutions are verified as not selected
+            assert.dom('[data-test-institution-input="1"]').isChecked();
+            assert.dom('[data-test-institution-input="2"]').isChecked();
+            assert.dom('[data-test-institution-input="3"]').isChecked();
+            assert.dom('[data-test-institution-input="4"]').doesNotExist();
+        });
+
+    test('it renders with 4 user institutions and 1 affiliated preprint institution - edit flow',
+        async function(assert) {
+            // When the component is rendered
+            await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @manager={{this.managerMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+            // Then the first attribute is verified by name and selected
+            assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
+            assert.dom('[data-test-institution-input="0"]').isChecked();
+
+            // And the other institutions are verified as not selected
+            assert.dom('[data-test-institution-input="1"]').isNotChecked();
+            assert.dom('[data-test-institution-input="2"]').isNotChecked();
+            assert.dom('[data-test-institution-input="3"]').isNotChecked();
+            assert.dom('[data-test-institution-input="4"]').doesNotExist();
+        });
+
+    test('it removes affiliated preprint institution',
+        async function(assert) {
+            // Given the component is rendered
+            await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @manager={{this.managerMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+            // When I unclick the first affiliated preprint
+            await click('[data-test-institution-input="0"]');
+
+            // Then the first attribute is verified by name and unselected
+            assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
+            assert.dom('[data-test-institution-input="0"]').isNotChecked();
+
+            // And the other institutions are verified as not selected
+            assert.dom('[data-test-institution-input="1"]').isNotChecked();
+            assert.dom('[data-test-institution-input="2"]').isNotChecked();
+            assert.dom('[data-test-institution-input="3"]').isNotChecked();
+            assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+            const affiliatedInstitutions = this.get('affiliatedInstitutions');
+
+            affiliatedInstitutions.forEach((institution: InstitutionModel) => {
+                assert.notEqual(institution.id, 'osf', 'The osf institution is found.');
+            });
+        });
+
+    test('it adds affiliated preprint institution',
+        async function(assert) {
+            // Given the component is rendered
+            await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @manager={{this.managerMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+            // And I find the name of the component under test
+            // eslint-disable-next-line max-len
+            const secondAffiliatedInstitutionName = this.element.querySelector('[data-test-institution-name="1"]')?.textContent?.trim();
+
+            // When I click the second affiliated preprint
+            await click('[data-test-institution-input="1"]');
+
+
+            // Then the first attribute is verified by name and unselected
+            assert.dom('[data-test-institution-input="1"]').isChecked();
+
+            // And the other institutions are verified as not selected
+            assert.dom('[data-test-institution-input="0"]').isChecked();
+            assert.dom('[data-test-institution-input="2"]').isNotChecked();
+            assert.dom('[data-test-institution-input="3"]').isNotChecked();
+            assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+            const affiliatedInstitutions = this.get('affiliatedInstitutions');
+
+            // Finally I determine if the second institutions is now affiliated
+            let isInstitutionAffiliatedFound = false;
+            affiliatedInstitutions.forEach((institution: InstitutionModel) => {
+                if (institution.name === secondAffiliatedInstitutionName) {
+                    isInstitutionAffiliatedFound = true;
+                }
+            });
+
+            assert.true(isInstitutionAffiliatedFound, 'The second institution is now affiliated');
+        });
 });

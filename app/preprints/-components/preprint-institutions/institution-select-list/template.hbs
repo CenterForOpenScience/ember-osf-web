@@ -1,9 +1,9 @@
 {{#if this.displayComponent}}
     <div local-class='institution-list-container {{if (is-mobile) 'mobile'}}'>
-        <label data-test-affilitated-institutions-label>
+        <label data-test-affiliated-institutions-label>
             {{t 'preprints.submit.step-metadata.institutions.label'}}
         </label>
-        <p>
+        <p data-test-affiliated-institutions-description>
             {{this.descriptionDisplay}}
         </p>
         {{#each @manager.institutions as |institution index|}}
