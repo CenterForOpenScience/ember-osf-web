@@ -31,4 +31,14 @@
             width: 100%;
         }
     }
+
+    &.mobile {
+        .label {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 90%;
+        }
+
+    }
 }
