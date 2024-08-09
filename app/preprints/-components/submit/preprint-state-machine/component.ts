@@ -649,7 +649,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
 
     @action
     public isInstitutionAffiliated(id: string): boolean {
-        // eslint-disable-next-line max-len
-        return this.affiliatedInstitutions.find(institution => institution.id === id) !== undefined;
+        return this.affiliatedInstitutions.find(
+            institution => institution.id === id,
+        ) !== undefined;
     }
 }

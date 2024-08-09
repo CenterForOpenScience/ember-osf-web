@@ -45,6 +45,28 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
 
         // And bind the preprint to the test
         this.set('preprintMock', preprint);
+
+        this.set('affiliatedInstitutions', []);
+
+        const managerMock = Object({
+            preprint,
+            updateAffiliatedInstitution: (affiliatedIinstitution: InstitutionModel): void => {
+                const affiliatedInstitutions = this.get('affiliatedInstitutions');
+                if (managerMock.isInstitutionAffiliated(affiliatedIinstitution.id)) {
+                    affiliatedInstitutions.removeObject(affiliatedIinstitution);
+                } else {
+                    affiliatedInstitutions.addObject(affiliatedIinstitution);
+                }
+                this.set('affiliatedInstitutions', affiliatedInstitutions);
+
+            },
+            isInstitutionAffiliated: (id: string): boolean => {
+                const affiliatedInstitutions = this.get('affiliatedInstitutions');
+                return affiliatedInstitutions.find((mockInstitution: any) => mockInstitution.id === id) !== undefined;
+
+            },
+        });
+        this.set('managerMock', managerMock);
     });
 
     test('it renders with 4 user institutions and 1 affiliated preprint institution', async function(assert) {
@@ -52,7 +74,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         // When the component is rendered
         await render(hbs`
 <Preprints::-Components::PreprintInstitutions::InstitutionManager
-        @preprint={{this.preprintMock}} as |manager|>
+        @manager={{this.managerMock}} as |manager|>
     <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
                 @manager={{manager}} />
 </Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
@@ -66,13 +88,14 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         assert.dom('[data-test-institution-input="2"]').isNotChecked();
         assert.dom('[data-test-institution-input="3"]').isNotChecked();
         assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
     });
 
     test('it removes affiliated preprint institution', async function(assert) {
         // Given the component is rendered
         await render(hbs`
 <Preprints::-Components::PreprintInstitutions::InstitutionManager
-        @preprint={{this.preprintMock}} as |manager|>
+        @manager={{this.managerMock}} as |manager|>
     <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
                 @manager={{manager}} />
 </Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
@@ -90,8 +113,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         assert.dom('[data-test-institution-input="3"]').isNotChecked();
         assert.dom('[data-test-institution-input="4"]').doesNotExist();
 
-        const preprint = this.get('preprintMock') as PreprintModel;
-        const affiliatedInstitutions = await preprint.affiliatedInstitutions;
+        const affiliatedInstitutions = this.get('affiliatedInstitutions');
 
         affiliatedInstitutions.forEach((institution: InstitutionModel) => {
             assert.notEqual(institution.id, 'osf', 'The osf institution is found.');
@@ -102,7 +124,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         // Given the component is rendered
         await render(hbs`
 <Preprints::-Components::PreprintInstitutions::InstitutionManager
-        @preprint={{this.preprintMock}} as |manager|>
+        @manager={{this.managerMock}} as |manager|>
     <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
                 @manager={{manager}} />
 </Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
@@ -124,8 +146,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         assert.dom('[data-test-institution-input="3"]').isNotChecked();
         assert.dom('[data-test-institution-input="4"]').doesNotExist();
 
-        const preprint = this.get('preprintMock') as PreprintModel;
-        const affiliatedInstitutions = await preprint.affiliatedInstitutions;
+        const affiliatedInstitutions = this.get('affiliatedInstitutions');
 
         // Finally I determine if the second institutions is now affiliated
         let isInstitutionAffiliatedFound = false;
