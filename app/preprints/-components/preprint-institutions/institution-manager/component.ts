@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import { action } from '@ember/object';
+import { action, notifyPropertyChange } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
@@ -7,31 +7,36 @@ import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import Institution from 'ember-osf-web/models/institution';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
-import CurrentUser from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import PreprintModel from 'ember-osf-web/models/preprint';
 import { tracked } from '@glimmer/tracking';
+import Store from '@ember-data/store';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import InstitutionModel from 'ember-osf-web/models/institution';
+import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
+
+
+interface PreprintInstitutionModel extends InstitutionModel {
+    isSelected: boolean;
+}
 
 /**
  * The Institution Manager Args
  */
 interface InstitutionArgs {
-    preprint: PreprintModel;
+    manager: PreprintStateMachine;
 }
 
 export default class InstitutionsManagerComponent extends Component<InstitutionArgs> {
     // Required
-    preprint = this.args.preprint;
+    manager = this.args.manager;
 
     // private properties
     @service toast!: Toast;
     @service intl!: Intl;
+    @service store!: Store;
     @service currentUser!: CurrentUser;
-
-    @tracked affiliatedList!: QueryHasManyResult<Institution>;
-    @tracked currentAffiliatedList!: QueryHasManyResult<Institution>;
+    @tracked institutions!: PreprintInstitutionModel[];
+    @tracked preprintWord = this.manager.provider.documentType.singular;
 
     constructor(owner: unknown, args: InstitutionArgs) {
         super(owner, args);
@@ -42,16 +47,28 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     @task
     @waitFor
     private async loadInstitutions()  {
-        if (this.preprint) {
+        if (this.manager.preprint) {
             try {
-                this.affiliatedList = await this.preprint.queryHasMany(
-                    'affiliatedInstitutions', {
-                        pageSize: 100,
-                    },
-                );
-                this.currentAffiliatedList = this.affiliatedList;
+                this.institutions = [] as PreprintInstitutionModel[];
+                const userInstitutions = await this.currentUser.user!.institutions;
+
+                await this.manager.preprint.affiliatedInstitutions;
+
+                this.manager.preprint.affiliatedInstitutions.map((institution: InstitutionModel) => {
+                    this.manager.updateAffiliatedInstitution(institution);
+                });
+
+                userInstitutions.forEach((institution: PreprintInstitutionModel) => {
+                    institution.isSelected = this.manager.isEditFlow ?
+                        this.isInstitutionAffiliated(institution.id)
+                        : true;
+                    this.institutions.push(institution);
+                });
+
+                notifyPropertyChange(this, 'institutions');
+
             } catch (e) {
-                const errorMessage = this.intl.t('registries.drafts.draft.metadata.load_institutions_error');
+                const errorMessage = this.intl.t('preprints.submit.step-metadata.institutions.load-institutions-error');
                 captureException(e, { errorMessage });
                 this.toast.error(getApiErrorMessage(e), errorMessage);
                 throw e;
@@ -59,29 +76,13 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
         }
     }
 
-    @task
-    @waitFor
-    async save() {
-        try {
-            await this.preprint.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
-            await this.preprint.reload();
-        } catch (e) {
-            const errorMessage = this.intl.t('registries.drafts.draft.metadata.save_institutions_error');
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-            throw e;
-        }
-
-        this.affiliatedList = this.currentAffiliatedList;
+    private isInstitutionAffiliated(id: string): boolean {
+        // eslint-disable-next-line max-len
+        return this.args.manager.isInstitutionAffiliated(id);
     }
 
     @action
-    toggleInstitution(institution: Institution) {
-        if (this.currentAffiliatedList.includes(institution)) {
-            this.currentAffiliatedList.removeObject(institution);
-        } else {
-            this.currentAffiliatedList.pushObject(institution);
-        }
-        taskFor(this.save).perform();
+    toggleInstitution(institution: PreprintInstitutionModel) {
+        this.manager.updateAffiliatedInstitution(institution);
     }
 }

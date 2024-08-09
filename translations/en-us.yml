@@ -1215,6 +1215,11 @@ preprints:
             publication-doi-input: 'Publication DOI'
             publication-date-input: 'Publication Date'
             publication-citation-input: 'Publication Citation'
+            institutions:
+                label: 'Affiliated Institutions'
+                save-institutions-error: 'Failed to save affiliated institutions'
+                load-institutions-error: 'Failed to load affiliated institutions'
+                description: 'You can affiliate your {singularPreprintWord} with your institution if it is an <a href="https://www.cos.io/products/osf-institutions" target="_blank" rel="noopener noreferrer">OSF institutional member</a> and has worked with the Center for Open Science to create a dedicated <a href="https://help.osf.io/article/191-view-institutional-landing-pages" target="_blank" rel="noopener noreferrer">institutional OSF landing page</a>.'
         step-assertions:
             title: 'Author Assertions'
             conflict-of-interest-input: 'Conflict of Interest'
