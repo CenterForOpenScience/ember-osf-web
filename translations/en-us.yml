@@ -1280,6 +1280,7 @@ preprints:
             supplement-na: 'Author did not add any supplements for this {singularPreprintWord}'
             supplement-title: 'OSF Project'
             title: 'Review'
+            affiliated-institutions: 'Affiliated Institutions'
         data-analytics: 'Goto {statusType} tab'
         status-flow:
             step-title-and-abstract: 'Title and Abstract'
