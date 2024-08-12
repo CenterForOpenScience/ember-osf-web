@@ -1,14 +1,29 @@
 {{#if @preprint.affiliatedInstitutions}}
-    <h4>{{t 'preprints.detail.affiliated_institutions'}}</h4>
-    {{#each @preprint.affiliatedInstitutions as |institution|}}
-        <OsfLink @href={{institution.links.html}} @target='_blank' local-class='osf-institution-link-flex'>
-            <img
-                data-test-preprint-institution-list={{institution.id}}
-                local-class='img-circle img-responsive'
-                src={{institution.logoRoundedUrl}}
-                alt={{institution.name}}
-            >
-            {{institution.name}}
-        </OsfLink>
-    {{/each}}
+    {{#if @atReview}}
+        <div local-class='osf-institution-link-flex'>
+            {{#each @preprint.affiliatedInstitutions as |institution|}}
+            <OsfLink @href={{institution.links.html}} @target='_blank'>
+                <img
+                    data-test-preprint-institution-list-reviews={{institution.id}}
+                    local-class='img-circle img-responsive img-horz'
+                    src={{institution.logoRoundedUrl}}
+                    alt={{institution.name}}
+                >
+            </OsfLink>
+            {{/each}}
+        </div>
+    {{else}}
+        <h4>{{t 'preprints.detail.affiliated_institutions'}}</h4>
+        {{#each @preprint.affiliatedInstitutions as |institution|}}
+            <OsfLink @href={{institution.links.html}} @target='_blank' local-class='osf-institution-link-flex'>
+                <img
+                    data-test-preprint-institution-list={{institution.id}}
+                    local-class='img-circle img-responsive'
+                    src={{institution.logoRoundedUrl}}
+                    alt={{institution.name}}
+                >
+                {{institution.name}}
+            </OsfLink>
+        {{/each}}
+    {{/if}}
 {{/if}}
