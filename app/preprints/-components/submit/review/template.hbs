@@ -77,6 +77,12 @@
                 </div>
             </div>
             <div local-class='content-container'>
+                <div local-class='title'>
+                    {{t 'preprints.submit.step-review.affiliated-institutions'}}
+                </div>
+                <Preprints::-Components::PreprintAffiliatedInstitutions @preprint={{this.preprint}} @atReview={{true}} />
+            </div>
+            <div local-class='content-container'>
                 <div local-class='display'>
                     <Preprints::-Components::PreprintLicense @preprint={{this.preprint}} />
                 </div>

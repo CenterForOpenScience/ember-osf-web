@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { render, pauseTest } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
@@ -28,14 +28,38 @@ module('Integration | Component | PreprintAffiliatedInstitutions', hooks => {
 
     test('no institutions', async function(this: ThisTestContext, assert) {
         await render(hbs`
-            <Preprints::-Components::PreprintAffiliatedInstitutions @preprint={{this.preprintNoInstitutionsMock}}
+            <Preprints::-Components::PreprintAffiliatedInstitutions
+            @preprint={{this.preprintNoInstitutionsMock}}
+            @atReview={{false}}
         />`);
         assert.dom('[data-test-preprint-institution-list]').doesNotExist();
     });
 
     test('many institutions', async function(this: ThisTestContext, assert) {
-        await render(hbs`<Preprints::-Components::PreprintAffiliatedInstitutions @preprint={{this.preprintMock}} />`);
+        await render(hbs`
+            <Preprints::-Components::PreprintAffiliatedInstitutions
+             @preprint={{this.preprintMock}}
+        />`);
         assert.dom('[data-test-preprint-institution-list]').exists();
         assert.dom('[data-test-preprint-institution-list]').exists({ count: 4 });
+    });
+
+    test('no institutions reviews', async function(this: ThisTestContext, assert) {
+        await render(hbs`
+            <Preprints::-Components::PreprintAffiliatedInstitutions
+            @preprint={{this.preprintNoInstitutionsMock}}
+            @atReview={{true}}
+        />`);
+        assert.dom('[data-test-preprint-institution-list-reviews]').doesNotExist();
+    });
+
+    test('many institutions reviews', async function(this: ThisTestContext, assert) {
+        await render(hbs`
+            <Preprints::-Components::PreprintAffiliatedInstitutions
+             @preprint={{this.preprintMock}}
+             @atReview={{true}}
+        />`);
+        assert.dom('[data-test-preprint-institution-list-reviews]').exists();
+        assert.dom('[data-test-preprint-institution-list-reviews]').exists({ count: 4 });
     });
 });
