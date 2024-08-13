@@ -1,17 +1,19 @@
-<div local-class='content-container'>
-    <div local-class='title'>
-        {{t 'preprints.detail.affiliated_institutions'}}
+{{#if @preprint.affiliatedInstitutions}}
+    <div local-class='content-container'>
+        <div local-class='title'>
+            {{t 'preprints.detail.affiliated_institutions'}}
+        </div>
+        <div local-class='osf-institution-link-flex'>
+            {{#each @preprint.affiliatedInstitutions as |institution|}}
+                <OsfLink @href={{institution.links.html}} @target='_blank'>
+                    <img
+                        data-test-preprint-institution-list={{institution.id}}
+                        local-class='img-circle img-responsive {{if @isReviewPage 'img-horizontal'}}'
+                        src={{institution.logoRoundedUrl}}
+                        alt={{institution.name}}
+                    >
+                </OsfLink>
+            {{/each}}
+        </div>
     </div>
-    <div local-class='osf-institution-link-flex'>
-        {{#each @preprint.affiliatedInstitutions as |institution|}}
-            <OsfLink @href={{institution.links.html}} @target='_blank'>
-                <img
-                    data-test-preprint-institution-list={{institution.id}}
-                    local-class='img-circle img-responsive {{if @isReviewPage 'img-horizontal'}}'
-                    src={{institution.logoRoundedUrl}}
-                    alt={{institution.name}}
-                >
-            </OsfLink>
-        {{/each}}
-    </div>
-</div>
+{{/if}}
