@@ -30,7 +30,7 @@ module('Integration | Component | PreprintAffiliatedInstitutions', hooks => {
         await render(hbs`
             <Preprints::-Components::PreprintAffiliatedInstitutions
             @preprint={{this.preprintNoInstitutionsMock}}
-            @atReview={{false}}
+            @isReviewPage={{false}}
         />`);
         assert.dom('[data-test-preprint-institution-list]').doesNotExist();
     });
@@ -48,18 +48,18 @@ module('Integration | Component | PreprintAffiliatedInstitutions', hooks => {
         await render(hbs`
             <Preprints::-Components::PreprintAffiliatedInstitutions
             @preprint={{this.preprintNoInstitutionsMock}}
-            @atReview={{true}}
+            @isReviewPage={{true}}
         />`);
-        assert.dom('[data-test-preprint-institution-list-reviews]').doesNotExist();
+        assert.dom('[data-test-preprint-institution-list]').doesNotExist();
     });
 
     test('many institutions reviews', async function(this: ThisTestContext, assert) {
         await render(hbs`
             <Preprints::-Components::PreprintAffiliatedInstitutions
              @preprint={{this.preprintMock}}
-             @atReview={{true}}
+             @isReviewPage={{true}}
         />`);
-        assert.dom('[data-test-preprint-institution-list-reviews]').exists();
-        assert.dom('[data-test-preprint-institution-list-reviews]').exists({ count: 4 });
+        assert.dom('[data-test-preprint-institution-list]').exists();
+        assert.dom('[data-test-preprint-institution-list]').exists({ count: 4 });
     });
 });
