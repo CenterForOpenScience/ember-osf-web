@@ -5,13 +5,20 @@
         </div>
         <div local-class='osf-institution-link-flex'>
             {{#each @preprint.affiliatedInstitutions as |institution|}}
-                <OsfLink @href={{institution.links.html}} @target='_blank'>
+                <OsfLink @href={{institution.links.html}} @target='_blank' local-class='{{if @isReviewPage 'link-horizontal'}}{{unless @isReviewPage 'link-vertical'}}'>
                     <img
                         data-test-preprint-institution-list={{institution.id}}
                         local-class='img-circle img-responsive {{if @isReviewPage 'img-horizontal'}}'
                         src={{institution.logoRoundedUrl}}
                         alt={{institution.name}}
                     >
+                    {{#if @isReviewPage}}
+                        <EmberTooltip>
+                            {{institution.name}}
+                        </EmberTooltip>
+                    {{else}}
+                        {{institution.name}}
+                    {{/if}}
                 </OsfLink>
             {{/each}}
         </div>
