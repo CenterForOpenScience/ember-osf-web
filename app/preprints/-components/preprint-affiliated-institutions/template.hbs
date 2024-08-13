@@ -6,12 +6,12 @@
         {{#each @preprint.affiliatedInstitutions as |institution|}}
             <OsfLink @href={{institution.links.html}} @target='_blank'>
                 <img
-                    data-test-preprint-institution-list-reviews={{institution.id}}
-                    local-class='img-circle img-responsive {{if @atReview 'img-horizontal'}}'
+                    data-test-preprint-institution-list={{institution.id}}
+                    local-class='img-circle img-responsive {{if @isReviewPage 'img-horizontal'}}'
                     src={{institution.logoRoundedUrl}}
                     alt={{institution.name}}
                 >
-             </OsfLink>
+            </OsfLink>
         {{/each}}
     </div>
 </div>
