@@ -1,15 +1,11 @@
 .osf-institution-link-flex {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    margin-right: 15px;
-    margin-bottom: 15px;
-    margin-bottom: 10px;
-
     img {
         width: 35px;
         height: 35px;
+    }
+
+    a {
+        padding-bottom: 5px;
     }
 
     .img-circle {
@@ -17,14 +13,20 @@
         margin-right: 15px;
     }
 
-
     .img-responsive {
-        display: block;
         max-width: 100%;
     }
 
     .img-horizontal {
         margin-top: 10px;
+    }
+
+    .link-horizontal {
+        display: inline;
+    }
+
+    .link-vertical {
+        display: block;
     }
 
 }
