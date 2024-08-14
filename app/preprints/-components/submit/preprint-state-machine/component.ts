@@ -653,4 +653,9 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             institution => institution.id === id,
         ) !== undefined;
     }
+
+    @action
+    public resetAffiliatedInstitutions(): void {
+        this.affiliatedInstitutions.length = 0;
+    }
 }

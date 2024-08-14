@@ -13,6 +13,7 @@ import Store from '@ember-data/store';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 
 interface PreprintInstitutionModel extends InstitutionModel {
@@ -41,6 +42,7 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     constructor(owner: unknown, args: InstitutionArgs) {
         super(owner, args);
 
+        this.manager.resetAffiliatedInstitutions();
         taskFor(this.loadInstitutions).perform();
     }
 
@@ -84,5 +86,9 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     @action
     toggleInstitution(institution: PreprintInstitutionModel) {
         this.manager.updateAffiliatedInstitution(institution);
+    }
+
+    public get disableWriteAccess(): boolean {
+        return !(this.manager.preprint.currentUserPermissions).includes(Permission.Admin);
     }
 }
