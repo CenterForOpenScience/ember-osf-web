@@ -57,6 +57,9 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             },
             isEditFlow: true,
             preprint,
+            resetAffiliatedInstitutions: (): void => {
+                this.set('affiliatedInstitutions', []);
+            },
             updateAffiliatedInstitution: (affiliatedIinstitution: InstitutionModel): void => {
                 const affiliatedInstitutions = this.get('affiliatedInstitutions');
                 if (managerMock.isInstitutionAffiliated(affiliatedIinstitution.id)) {
