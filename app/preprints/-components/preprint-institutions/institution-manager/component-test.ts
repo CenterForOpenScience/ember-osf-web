@@ -8,6 +8,7 @@ import PreprintModel from 'ember-osf-web/models/preprint';
 import { ModelInstance } from 'ember-cli-mirage';
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 
 module('Integration | Preprint | Component | Institution Manager', hooks => {
@@ -206,5 +207,35 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             });
 
             assert.true(isInstitutionAffiliatedFound, 'The second institution is now affiliated');
+        });
+
+    test('it renders with the institutions as disabled',
+        async function(assert) {
+            const managerMock = this.get('managerMock');
+            managerMock.preprint.currentUserPermissions = [Permission.Write, Permission.Read];
+            managerMock.isEditFlow = false;
+            this.set('managerMock', managerMock);
+
+            // When the component is rendered
+            await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @manager={{this.managerMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+            // Then the first attribute is verified by name and selected
+            assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
+            assert.dom('[data-test-institution-input="0"]').isChecked();
+            assert.dom('[data-test-institution-input="0"]').isDisabled();
+
+            // And the other institutions are verified as not selected
+            assert.dom('[data-test-institution-input="1"]').isChecked();
+            assert.dom('[data-test-institution-input="1"]').isDisabled();
+            assert.dom('[data-test-institution-input="2"]').isChecked();
+            assert.dom('[data-test-institution-input="2"]').isDisabled();
+            assert.dom('[data-test-institution-input="3"]').isChecked();
+            assert.dom('[data-test-institution-input="3"]').isDisabled();
+            assert.dom('[data-test-institution-input="4"]').doesNotExist();
         });
 });
