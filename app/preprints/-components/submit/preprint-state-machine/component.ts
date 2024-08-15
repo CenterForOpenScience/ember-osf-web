@@ -647,8 +647,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         }
     }
 
-    @action
-    public isInstitutionAffiliated(id: string): boolean {
+    private isInstitutionAffiliated(id: string): boolean {
         return this.affiliatedInstitutions.find(
             institution => institution.id === id,
         ) !== undefined;
