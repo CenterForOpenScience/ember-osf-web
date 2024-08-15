@@ -56,14 +56,26 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
 
                 await this.manager.preprint.affiliatedInstitutions;
 
-                this.manager.preprint.affiliatedInstitutions.map((institution: InstitutionModel) => {
+                /**
+                 * The affiliated institutions of a preprint is in
+                 * "edit" mode if there are institutions on the
+                 * preprint model. Since the affiliated institutions
+                 * are persisted by clicking the next button, the
+                 * affiliated institutions can be in "Edit mode" even
+                 * when the manager is not in edit mode.
+                 */
+                let isEditMode = false;
+                this.manager.preprint.affiliatedInstitutions.map((institution: PreprintInstitutionModel) => {
+                    isEditMode = true;
+                    institution.isSelected = true;
                     this.manager.updateAffiliatedInstitution(institution);
                 });
 
                 userInstitutions.forEach((institution: PreprintInstitutionModel) => {
-                    institution.isSelected = this.manager.isEditFlow ?
-                        this.isInstitutionAffiliated(institution.id)
-                        : true;
+                    if (!isEditMode) {
+                        institution.isSelected = true;
+                        this.manager.updateAffiliatedInstitution(institution);
+                    }
                     this.institutions.push(institution);
                 });
 
@@ -76,11 +88,6 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
                 throw e;
             }
         }
-    }
-
-    private isInstitutionAffiliated(id: string): boolean {
-        // eslint-disable-next-line max-len
-        return this.args.manager.isInstitutionAffiliated(id);
     }
 
     @action
