@@ -46,6 +46,7 @@ import {
     claimUnregisteredUser,
     userNodeList,
     userRegistrationList,
+    userPreprintList,
 } from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
@@ -312,6 +313,7 @@ export default function(this: Server) {
     this.get('/users/:id/nodes', userNodeList);
     this.get('/sparse/users/:id/nodes', userNodeList);
     this.get('/users/:id/registrations', userRegistrationList);
+    this.get('/users/:id/preprints', userPreprintList);
     osfNestedResource(this, 'user', 'draftRegistrations', {
         only: ['index'],
     });
