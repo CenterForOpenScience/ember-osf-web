@@ -43,7 +43,7 @@ export function userPreprintList(this: HandlerContext, schema: Schema, request: 
         }
     }
 
-    const json = process(schema, request, this, preprints, { defaultSortKey: 'dateModified' });
+    const json = process(schema, request, this, preprints, { defaultSortKey: 'last_logged' });
     return json;
 }
 
