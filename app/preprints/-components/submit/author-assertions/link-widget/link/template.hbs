@@ -12,6 +12,7 @@
                 <form.text
                     data-test-link-input
                     @isRequired={{true}}
+                    @disabled={{@disabled}}
                     {{on 'change' this.onUpdate}}
                     @placeholder={{ @placeholder }}
                     @valuePath={{'value'}}
@@ -20,17 +21,19 @@
 
             </div>
             <div local-class='delete-container'>
-                <Button
-                    data-test-remove-link
-                    aria-label={{t 'preprints.submit.step-assertions.public-link-remove-button'}}
-                    @layout='fake-link'
-                    {{on 'click' this.removeLink}}
-                >
-                    <FaIcon @icon='times' local-class='delete' />
-                    <EmberTooltip>
-                        {{t 'preprints.submit.step-assertions.public-link-remove-button'}}
-                    </EmberTooltip>
-                </Button>
+                {{#unless @disabled}}
+                    <Button
+                        data-test-remove-link
+                        aria-label={{t 'preprints.submit.step-assertions.public-link-remove-button'}}
+                        @layout='fake-link'
+                        {{on 'click' this.removeLink}}
+                    >
+                        <FaIcon @icon='times' local-class='delete' />
+                        <EmberTooltip>
+                            {{t 'preprints.submit.step-assertions.public-link-remove-button'}}
+                        </EmberTooltip>
+                    </Button>
+                {{/unless}}
             </div>
         </FormControls>
     {{/if}}

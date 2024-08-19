@@ -100,7 +100,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             }
         }
 
-        this.isWithdrawalButtonDisplayed = this.preprint.currentUserPermissions.includes(Permission.Admin) &&
+        this.isWithdrawalButtonDisplayed = this.isAdmin() &&
         (this.preprint.reviewsState === ReviewsState.ACCEPTED ||
         this.preprint.reviewsState === ReviewsState.PENDING) && !isWithdrawalRejected;
 
@@ -253,17 +253,20 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         ) {
             await this.saveOnStep();
 
-            try {
-                await this.preprint.updateM2MRelationship(
-                    'affiliatedInstitutions',
-                    this.affiliatedInstitutions,
-                );
-                await this.preprint.reload();
-            } catch (e) {
-                const errorMessage = this.intl.t('preprints.submit.step-metadata.institutions.save-institutions-error');
-                captureException(e, { errorMessage });
-                this.toast.error(getApiErrorMessage(e), errorMessage);
-                throw e;
+            if (this.isAdmin()) {
+                try {
+                    await this.preprint.updateM2MRelationship(
+                        'affiliatedInstitutions',
+                        this.affiliatedInstitutions,
+                    );
+                    await this.preprint.reload();
+                } catch (e) {
+                    // eslint-disable-next-line max-len
+                    const errorMessage = this.intl.t('preprints.submit.step-metadata.institutions.save-institutions-error');
+                    captureException(e, { errorMessage });
+                    this.toast.error(getApiErrorMessage(e), errorMessage);
+                    throw e;
+                }
             }
 
             if (this.displayAuthorAssertions) {
@@ -656,5 +659,13 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @action
     public resetAffiliatedInstitutions(): void {
         this.affiliatedInstitutions.length = 0;
+    }
+
+    public isAdmin(): boolean {
+        return this.preprint.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    public isElementDisabled(): boolean {
+        return !this.isAdmin();
     }
 }
