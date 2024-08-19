@@ -16,6 +16,7 @@ interface PublicPreregistrationArgs {
     manager: PreprintStateMachine;
     changeSet: BufferedChangeset;
     preprintWord: string;
+    disabled: boolean;
     validate: () => {};
 }
 
@@ -96,11 +97,11 @@ export default class PublicPreregistration extends Component<PublicPreregistrati
     public updatePublicPreregistrationOptions(): void {
         if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.AVAILABLE) {
             this.args.changeSet.set('whyNoPrereg', null);
-            this.isPublicPreregistrationWhyNoStatementDisabled = false;
+            this.isPublicPreregistrationWhyNoStatementDisabled = false || !this.args.manager.isAdmin();
         } else if (this.args.changeSet.get('hasPreregLinks') === PreprintPreregLinksEnum.NO) {
             this.args.changeSet.set('preregLinks', []);
             this.args.changeSet.set('whyNoPrereg', null);
-            this.isPublicPreregistrationWhyNoStatementDisabled = false;
+            this.isPublicPreregistrationWhyNoStatementDisabled = false || !this.args.manager.isAdmin();
             this.placeholder = this.intl.t('preprints.submit.step-assertions.public-preregistration-no-placeholder');
         } else {
             this.isPublicPreregistrationWhyNoStatementDisabled = true;

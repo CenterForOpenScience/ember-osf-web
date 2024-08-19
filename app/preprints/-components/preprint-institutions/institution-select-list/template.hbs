@@ -13,7 +13,7 @@
                     <Input
                         data-test-institution-input={{index}}
                         @type='checkbox'
-                        @disabled={{@manager.disableWriteAccess}}
+                        @disabled={{@manager.isElementDisabled}}
                         @checked={{institution.isSelected}}
                         {{on 'change' (fn @manager.toggleInstitution institution)}}
                     />

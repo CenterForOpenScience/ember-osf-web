@@ -52,10 +52,12 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
                     singular: 'Test Preprint Word',
                 },
             },
-            isEditFlow: true,
             preprint,
             resetAffiliatedInstitutions: (): void => {
                 this.set('affiliatedInstitutions', []);
+            },
+            isElementDisabled(): boolean {
+                return !(this.preprint.currentUserPermissions).includes(Permission.Admin);
             },
             updateAffiliatedInstitution: (affiliatedIinstitution: InstitutionModel): void => {
                 const affiliatedInstitutions = this.get('affiliatedInstitutions');
@@ -128,7 +130,6 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         async function(assert) {
             // When the component is rendered
             const managerMock = this.get('managerMock');
-            managerMock.isEditFlow = true;
 
             const affiliatedInstitutions = [] as any[];
             managerMock.preprint.affiliatedInstitutions.map((institution: InstitutionModel) => {
@@ -231,7 +232,6 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         async function(assert) {
             const managerMock = this.get('managerMock');
             managerMock.preprint.currentUserPermissions = [Permission.Write, Permission.Read];
-            managerMock.isEditFlow = false;
             this.set('managerMock', managerMock);
 
             // When the component is rendered
