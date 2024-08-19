@@ -21,9 +21,35 @@ module(moduleName, hooks => {
             '/institutions/has-users/dashboard',
             "Still at '/institutions/has-users/dashboard'.",
         );
-        await percySnapshot(`${moduleName} - default`);
-        assert.dom('[data-test-next-page-button]').exists({ count: 1 }, 'next page button exists!?');
-        await click('[data-test-next-page-button]');
-        await percySnapshot(`${moduleName} - next page`);
+
+        assert.dom('[data-test-page-tab="summary"]').exists('Summary tab exists');
+        assert.dom('[data-test-page-tab="users"]').exists('Users tab exists');
+        assert.dom('[data-test-page-tab="projects"]').exists('Projects tab exists');
+        assert.dom('[data-test-page-tab="registrations"]').exists('Regitrations tab exists');
+        assert.dom('[data-test-page-tab="preprints"]').exists('Preprints tab exists');
+
+        // Summary tab
+        await percySnapshot(`${moduleName} - summary`);
+        assert.dom('[data-test-page-tab="summary"]').hasClass('active', 'Summary tab is active by default');
+
+        // Users tab
+        await click('data-test-page-tab="users"]');
+        await percySnapshot(`${moduleName} - users`);
+        assert.dom('[data-test-page-tab="users"]').hasClass('active', 'Users tab is active');
+
+        // Projects tab
+        await click('data-test-page-tab="projects"]');
+        await percySnapshot(`${moduleName} - projects`);
+        assert.dom('[data-test-page-tab="projects"]').hasClass('active', 'Projects tab is active');
+
+        // Registrations tab
+        await click('data-test-page-tab="registrations"]');
+        await percySnapshot(`${moduleName} - registrations`);
+        assert.dom('[data-test-page-tab="registrations"]').hasClass('active', 'Registrations tab is active');
+
+        // Preprints tab
+        await click('data-test-page-tab="preprints"]');
+        await percySnapshot(`${moduleName} - preprints`);
+        assert.dom('[data-test-page-tab="preprints"]').hasClass('active', 'Preprints tab is active');
     });
 });
