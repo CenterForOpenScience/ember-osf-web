@@ -902,3 +902,38 @@ button.nav-user-dropdown {
 .logoutLink {
     cursor: pointer;
 }
+
+@mixin tab-list {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    color: rgb(51, 51, 51);
+    display: block;
+    line-height: 20px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    height: 41px;
+    padding: 0;
+
+    li {
+        display: block;
+        position: relative;
+        margin-bottom: -1px;
+        float: left;
+        height: 41px;
+        padding: 10px 15px;
+    }
+
+    li.ember-tabs__tab--selected {
+        background-color: #f8f8f8;
+        border-bottom: 2px solid #204762;
+    }
+
+    li:hover {
+        border-color: transparent;
+        text-decoration: none;
+        background-color: #f8f8f8;
+        color: var(--primary-color);
+    }
+}

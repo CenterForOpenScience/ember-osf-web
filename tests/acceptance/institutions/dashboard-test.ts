@@ -33,7 +33,7 @@ module(moduleName, hooks => {
         assert.dom('[data-test-page-tab="summary"]').hasClass('active', 'Summary tab is active by default');
 
         // Users tab
-        await click('data-test-page-tab="users"]');
+        await click('[data-test-page-tab="users"]');
         await percySnapshot(`${moduleName} - users`);
         assert.dom('[data-test-page-tab="users"]').hasClass('active', 'Users tab is active');
 
@@ -43,12 +43,12 @@ module(moduleName, hooks => {
         assert.dom('[data-test-page-tab="projects"]').hasClass('active', 'Projects tab is active');
 
         // Registrations tab
-        await click('data-test-page-tab="registrations"]');
+        await click('[data-test-page-tab="registrations"]');
         await percySnapshot(`${moduleName} - registrations`);
         assert.dom('[data-test-page-tab="registrations"]').hasClass('active', 'Registrations tab is active');
 
         // Preprints tab
-        await click('data-test-page-tab="preprints"]');
+        await click('[data-test-page-tab="preprints"]');
         await percySnapshot(`${moduleName} - preprints`);
         assert.dom('[data-test-page-tab="preprints"]').hasClass('active', 'Preprints tab is active');
     });

@@ -1,4 +1,5 @@
 @import 'app/styles/layout';
+@import 'app/styles/components';
 
 .container {
     display: flex;
@@ -23,35 +24,26 @@
 
 .tab-list {
     @include clamp-width;
+    @include tab-list;
     white-space: nowrap;
     position: relative;
     overflow-x: auto;
     overflow-y: hidden;
-    box-sizing: border-box;
-    color: rgb(51, 51, 51);
-    line-height: 20px;
-    list-style-image: none;
-    list-style-position: outside;
-    list-style-type: none;
-    height: 41px;
-    padding: 0;
-}
 
-.tab {
-    display: inline-block;
-    margin-bottom: -1px;
-    height: 41px;
-    padding: 10px 15px;
-
-    &:has(a:global(.active)) {
-        background-color: #f8f8f8;
-        border-bottom: 2px solid #204762;
-    }
-
-    &:has(a:hover) {
-        border-color: transparent;
-        text-decoration: none;
-        background-color: #f8f8f8;
-        color: var(--primary-color);
+    li {
+        display: inline-block;
+    
+        &:has(a:global(.active)) {
+            background-color: #f8f8f8;
+            border-bottom: 2px solid #204762;
+        }
+    
+        &:has(a:hover) {
+            border-color: transparent;
+            text-decoration: none;
+            background-color: #f8f8f8;
+            color: var(--primary-color);
+        }
     }
 }
+
