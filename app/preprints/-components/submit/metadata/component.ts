@@ -167,4 +167,8 @@ export default class Metadata extends Component<MetadataArgs>{
         this.metadataFormChangeset.execute();
         this.args.manager.validateMetadata(true);
     }
+
+    public get widgetMode(): string {
+        return this.args.manager.isAdmin() ? 'editable' : 'readonly';
+    }
 }
