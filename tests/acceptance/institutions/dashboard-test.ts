@@ -38,7 +38,7 @@ module(moduleName, hooks => {
         assert.dom('[data-test-page-tab="users"]').hasClass('active', 'Users tab is active');
 
         // Projects tab
-        await click('data-test-page-tab="projects"]');
+        await click('[data-test-page-tab="projects"]');
         await percySnapshot(`${moduleName} - projects`);
         assert.dom('[data-test-page-tab="projects"]').hasClass('active', 'Projects tab is active');
 
