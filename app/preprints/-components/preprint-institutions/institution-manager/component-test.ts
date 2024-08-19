@@ -44,9 +44,6 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
 
-        // And bind the preprint to the test
-        this.set('preprintMock', preprint);
-
         this.set('affiliatedInstitutions', []);
 
         const managerMock = Object({
@@ -96,13 +93,19 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             assert.dom('[data-test-affiliated-institutions-description]').hasText('You can affiliate your Test Preprint Word with your institution if it is an OSF institutional member and has worked with the Center for Open Science to create a dedicated institutional OSF landing page.');
         });
 
-    test('it renders with 4 user institutions and 1 affiliated preprint institution - create flow',
+    test('it renders with 4 user institutions and 0 affiliated preprint institution - create flow',
         async function(assert) {
             const managerMock = this.get('managerMock');
-            managerMock.isEditFlow = false;
-            this.set('managerMock', managerMock);
 
-            // When the component is rendered
+            // And retrieve the preprint from the store
+            const preprint: PreprintModel = await this.store.findRecord('preprint', managerMock.preprint.id);
+            // And I remove the affiliated insitutios
+            preprint.affiliatedInstitutions = [] as any;
+            await preprint.save();
+            // And I remove the affiliated insitutios
+            managerMock.preprint.affiliatedInstitutions = [];
+            await managerMock.preprint.save();
+
             await render(hbs`
 <Preprints::-Components::PreprintInstitutions::InstitutionManager
         @manager={{this.managerMock}} as |manager|>
@@ -124,6 +127,18 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
     test('it renders with 4 user institutions and 1 affiliated preprint institution - edit flow',
         async function(assert) {
             // When the component is rendered
+            const managerMock = this.get('managerMock');
+            managerMock.isEditFlow = true;
+
+            const affiliatedInstitutions = [] as any[];
+            managerMock.preprint.affiliatedInstitutions.map((institution: InstitutionModel) => {
+                if (institution.id === 'osf') {
+                    affiliatedInstitutions.push(institution);
+                }
+            });
+
+            managerMock.preprint.affiliatedInstitutions = affiliatedInstitutions;
+            this.set('managerMock', managerMock);
             await render(hbs`
 <Preprints::-Components::PreprintInstitutions::InstitutionManager
         @manager={{this.managerMock}} as |manager|>
@@ -233,11 +248,11 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             assert.dom('[data-test-institution-input="0"]').isDisabled();
 
             // And the other institutions are verified as not selected
-            assert.dom('[data-test-institution-input="1"]').isChecked();
+            assert.dom('[data-test-institution-input="1"]').isNotChecked();
             assert.dom('[data-test-institution-input="1"]').isDisabled();
-            assert.dom('[data-test-institution-input="2"]').isChecked();
+            assert.dom('[data-test-institution-input="2"]').isNotChecked();
             assert.dom('[data-test-institution-input="2"]').isDisabled();
-            assert.dom('[data-test-institution-input="3"]').isChecked();
+            assert.dom('[data-test-institution-input="3"]').isNotChecked();
             assert.dom('[data-test-institution-input="3"]').isDisabled();
             assert.dom('[data-test-institution-input="4"]').doesNotExist();
         });
