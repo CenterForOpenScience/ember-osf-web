@@ -29,10 +29,13 @@
     position: relative;
     overflow-x: auto;
     overflow-y: hidden;
+    margin-bottom: 0;
+    border-bottom: 0;
 
     li {
         display: inline-block;
     
+        // match style in app/styles/_component.scss for selected tab
         &:has(a:global(.active)) {
             background-color: #f8f8f8;
             border-bottom: 2px solid #204762;
