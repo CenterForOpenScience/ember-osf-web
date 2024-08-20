@@ -130,6 +130,16 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      */
     @task
     @waitFor
+    public async onCancel(): Promise<void> {
+        await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
+    }
+
+
+    /**
+     * Callback for the action-flow component
+     */
+    @task
+    @waitFor
     public async onWithdrawal(): Promise<void> {
         try {
             const preprintRequest = await this.store.createRecord('preprint-request', {

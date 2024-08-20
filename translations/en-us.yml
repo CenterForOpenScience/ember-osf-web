@@ -1289,6 +1289,9 @@ preprints:
             step-supplements: 'Supplements'
             step-review: 'Review'
         action-flow:
+            cancel: 'Cancel'
+            cancel-modal-body: 'Are you sure you want to cancel editing? The updates on this page will not be saved.'
+            cancel-modal-title: 'Cancel Edit'
             delete: 'Delete'
             delete-modal-body: 'Are you sure you want to delete the {singularPreprintWord}? This action CAN NOT be undone.'
             delete-modal-title: 'Delete {singularPreprintWord}'
