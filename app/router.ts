@@ -24,7 +24,6 @@ Router.map(function() {
     this.route('institutions', function() {
         this.route('discover', { path: '/:institution_id' });
         this.route('dashboard', { path: '/:institution_id/dashboard' }, function() {
-            this.route('index', {path: '/'});
             this.route('projects');
             this.route('registrations');
             this.route('preprints');
