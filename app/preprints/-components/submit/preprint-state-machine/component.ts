@@ -11,10 +11,11 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import FileModel from 'ember-osf-web/models/file';
 import Toast from 'ember-toastr/services/toast';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import { taskFor } from 'ember-concurrency-ts';
+import InstitutionModel from 'ember-osf-web/models/institution';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -58,6 +59,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     displayAuthorAssertions = false;
     @tracked statusFlowIndex = 1;
     @tracked isEditFlow = false;
+    affiliatedInstitutions = [] as InstitutionModel[];
 
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
@@ -98,7 +100,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             }
         }
 
-        this.isWithdrawalButtonDisplayed = this.preprint.currentUserPermissions.includes(Permission.Admin) &&
+        this.isWithdrawalButtonDisplayed = this.isAdmin() &&
         (this.preprint.reviewsState === ReviewsState.ACCEPTED ||
         this.preprint.reviewsState === ReviewsState.PENDING) && !isWithdrawalRejected;
 
@@ -239,36 +241,59 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.args.setPageDirty();
         }
         this.isNextButtonDisabled = true;
-        if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndAbstract) &&
+
+        if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.titleAndAbstract) &&
             this.titleAndAbstractValidation
         ) {
             await this.saveOnStep();
             await this.preprint.files;
-            this.isNextButtonDisabled = !this.metadataValidation;
+            this.isNextButtonDisabled = !this.fileValidation;
             return;
-        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
+        } else if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
             this.fileValidation
         ) {
             await this.saveOnStep();
-            this.isNextButtonDisabled = !this.authorAssertionValidation;
+            this.isNextButtonDisabled = !this.metadataValidation;
             return;
-        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
+        } else if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.metadata) &&
             this.metadataValidation
         ) {
             await this.saveOnStep();
+
+            if (this.isAdmin()) {
+                try {
+                    await this.preprint.updateM2MRelationship(
+                        'affiliatedInstitutions',
+                        this.affiliatedInstitutions,
+                    );
+                    await this.preprint.reload();
+                } catch (e) {
+                    // eslint-disable-next-line max-len
+                    const errorMessage = this.intl.t('preprints.submit.step-metadata.institutions.save-institutions-error');
+                    captureException(e, { errorMessage });
+                    this.toast.error(getApiErrorMessage(e), errorMessage);
+                    throw e;
+                }
+            }
+
             if (this.displayAuthorAssertions) {
                 this.isNextButtonDisabled = !this.authorAssertionValidation;
             } else {
                 this.isNextButtonDisabled = !this.supplementValidation;
             }
             return;
-        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.authorAssertions) &&
+        } else if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.authorAssertions) &&
             this.authorAssertionValidation
         ) {
             await this.saveOnStep();
             this.isNextButtonDisabled = !this.supplementValidation;
             return;
-        } else if (this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.supplements) &&
+        } else if (
+            this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.supplements) &&
             this.supplementValidation
         ) {
             await this.saveOnStep();
@@ -617,10 +642,40 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async addProjectFile(file: FileModel): Promise<void>{
-        await file.copy(this.preprint, '/', 'osfstorage');
+        await file.copy(this.preprint, '/', 'osfstorage', {
+            conflict: 'replace',
+        });
         const theFiles = await this.preprint.files;
         const rootFolder = await theFiles.firstObject!.rootFolder;
         const primaryFile = await rootFolder!.files;
-        this.preprint.set('primaryFile', primaryFile.firstObject);
+        this.preprint.set('primaryFile', primaryFile.lastObject);
+    }
+
+    @action
+    public updateAffiliatedInstitution(institution: InstitutionModel): void {
+        if (this.isInstitutionAffiliated(institution.id)) {
+            this.affiliatedInstitutions.removeObject(institution);
+        } else {
+            this.affiliatedInstitutions.addObject(institution);
+        }
+    }
+
+    private isInstitutionAffiliated(id: string): boolean {
+        return this.affiliatedInstitutions.find(
+            institution => institution.id === id,
+        ) !== undefined;
+    }
+
+    @action
+    public resetAffiliatedInstitutions(): void {
+        this.affiliatedInstitutions.length = 0;
+    }
+
+    public isAdmin(): boolean {
+        return this.preprint.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    public isElementDisabled(): boolean {
+        return !this.isAdmin();
     }
 }
