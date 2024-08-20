@@ -792,6 +792,13 @@ institutions:
     search_placeholder: 'Search institutions'
     load_more: 'Load more institutions'
     dashboard:
+        tabs:
+            summary: Summary
+            users: Users
+            projects: Projects
+            registrations: Registrations
+            preprints: Preprints
+        content-placeholder: Content coming soon # Delete this eventually pls
         title: '{institutionName} Dashboard'
         last_update: 'Updated every 24 hours'
         download_csv: 'Download CSV'

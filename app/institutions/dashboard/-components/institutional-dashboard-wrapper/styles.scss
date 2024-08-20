@@ -1,0 +1,52 @@
+@import 'app/styles/layout';
+@import 'app/styles/components';
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.heading-wrapper {
+    border-bottom: 1px solid #ddd;
+}
+
+.banner {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    div {
+        color: $color-text-gray-blue;
+    }
+}
+
+.tab-list {
+    @include clamp-width;
+    @include tab-list;
+    white-space: nowrap;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 0;
+    border-bottom: 0;
+
+    li {
+        display: inline-block;
+    
+        // match style in app/styles/_component.scss for selected tab
+        &:has(a:global(.active)) {
+            background-color: $bg-light;
+            border-bottom: 2px solid $color-blue;
+        }
+    
+        &:has(a:hover) {
+            border-color: transparent;
+            text-decoration: none;
+            background-color: $bg-light;
+            color: var(--primary-color);
+        }
+    }
+}
+
