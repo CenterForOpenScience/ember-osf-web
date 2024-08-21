@@ -3,7 +3,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import ResourceModel from 'ember-osf-web/models/resource';
-import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
+import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
@@ -148,9 +148,6 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
 
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: AsyncHasMany<InstitutionModel> | InstitutionModel[];
-
-    @hasMany('review-action', { inverse: 'target' })
-    reviewActions!: AsyncHasMany<ReviewActionModel> | ReviewActionModel[];
 
     @hasMany('schema-response', { inverse: 'registration' })
     schemaResponses!: AsyncHasMany<SchemaResponseModel> | SchemaResponseModel[];

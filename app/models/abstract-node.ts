@@ -1,9 +1,9 @@
 import { hasMany, AsyncHasMany, attr } from '@ember-data/model';
-
+import { PromiseManyArray } from '@ember-data/store/-private';
 import BaseFileItem from 'ember-osf-web/models/base-file-item';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
-
+import ReviewActionModel from 'ember-osf-web/models/review-action';
 import { Permission } from './osf-model';
 
 export default class AbstractNodeModel extends BaseFileItem {
@@ -14,6 +14,9 @@ export default class AbstractNodeModel extends BaseFileItem {
     draftRegistrations!: AsyncHasMany<DraftRegistrationModel> & DraftRegistrationModel[];
 
     @attr('array') currentUserPermissions!: Permission[];
+
+    @hasMany('review-action', { inverse: 'target' })
+    reviewActions!: PromiseManyArray<ReviewActionModel>;
 
 }
 
