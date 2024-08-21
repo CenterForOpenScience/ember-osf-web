@@ -2680,6 +2680,7 @@ osf-components:
                 button: 'Remove contributor'
             success: 'You have successfully removed {contributorName}.'
             errorHeading: 'Could not remove contributor. '
+        permissionsNotEditable: 'Only Admins may edit permissions.'
     reviewActionsList:
         failedToLoadActions: 'Failed to load moderation history'
         noActionsFound: 'No moderation history found'
