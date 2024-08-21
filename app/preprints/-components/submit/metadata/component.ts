@@ -79,7 +79,7 @@ const MetadataFormValidation: ValidationObject<MetadataForm> = {
 export default class Metadata extends Component<MetadataArgs>{
     @service store!: Store;
     metadataFormChangeset = buildChangeset(this.args.manager.preprint, MetadataFormValidation);
-    showAddContributorWidget = true;
+    showAddContributorWidget = this.args.manager.isAdmin();
     @tracked displayRequiredLicenseFields = false;
     @tracked licenses = [] as LicenseModel[];
     license!: LicenseModel;
