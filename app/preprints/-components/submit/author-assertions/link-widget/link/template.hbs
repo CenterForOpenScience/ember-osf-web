@@ -10,7 +10,7 @@
         >
             <div local-class='input-container'>
                 <form.text
-                    data-test-link-input
+                    data-test-link-input={{@index}}
                     @isRequired={{true}}
                     @disabled={{@disabled}}
                     {{on 'change' this.onUpdate}}
@@ -23,7 +23,7 @@
             <div local-class='delete-container'>
                 {{#unless @disabled}}
                     <Button
-                        data-test-remove-link
+                        data-test-remove-link={{@index}}
                         aria-label={{t 'preprints.submit.step-assertions.public-link-remove-button'}}
                         @layout='fake-link'
                         {{on 'click' this.removeLink}}
