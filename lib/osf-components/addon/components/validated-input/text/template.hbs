@@ -21,6 +21,7 @@
                 @value={{this.value}}
                 maxlength={{@maxlength}}
                 {{on 'keyup' (if @onKeyUp @onKeyUp this.noop)}}
+                ...attributes
             />
         </div>
     {{else}}
@@ -35,6 +36,7 @@
             @value={{this.value}}
             maxlength={{@maxlength}}
             {{on 'keyup' (if @onKeyUp @onKeyUp this.noop)}}
+            ...attributes
         />
     {{/if}}
 {{/validated-input/x-input-wrapper}}
