@@ -176,7 +176,7 @@ export default class Provider {
     async getAuthorizedCitationAccounts() {
         const authorizedCitationAccounts = await this.userReference.authorizedCitationAccounts;
         this.authorizedAccounts = authorizedCitationAccounts
-            .filterBy('citationService.id', this.provider.id).toArray();
+            .filterBy('externalCitationService.id', this.provider.id).toArray();
     }
 
     @task
@@ -225,8 +225,9 @@ export default class Provider {
             apiBaseUrl,
             initiateOauth,
             externalUserId: this.currentUser.user?.id,
+            authorizedCapabilities: ['ACCESS', 'UPDATE'],
             scopes: [],
-            citationService: this.provider,
+            externalCitationService: this.provider,
             accountOwner: this.userReference,
             displayName,
         });
@@ -288,7 +289,7 @@ export default class Provider {
     @waitFor
     private async createConfiguredCitationAddon(account: AuthorizedCitationAccountModel) {
         const configuredCitationAddon = this.store.createRecord('configured-citation-addon', {
-            citationService: this.provider,
+            externalCitationService: this.provider,
             accountOwner: this.userReference,
             authorizedResource: this.serviceNode,
             baseAccount: account,

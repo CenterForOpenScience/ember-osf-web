@@ -238,6 +238,7 @@ export default class AddonAccountSetupComponent extends Component<Args> {
         this.newAccount = await taskFor(this.args.manager.createAuthorizedAccount).perform({
             displayName: this.displayName,
             initiateOauth: true,
+            apiBaseUrl: '',
         });
         if (this.newAccount) { // returned account should have authUrl
             const oauthWindow = window.open(this.newAccount.authUrl, '_blank');
