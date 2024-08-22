@@ -1,10 +1,7 @@
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
-import { task } from 'ember-concurrency';
-import { taskFor } from 'ember-concurrency-ts';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';
@@ -21,11 +18,10 @@ export default class InstitutionsDashboardRoute extends Route {
     @service router!: RouterService;
     @service store!: Store;
 
-    @task
-    @waitFor
-    async modelTask(institutionId: string) {
+    // eslint-disable-next-line camelcase
+    async model(params: { institution_id: string }) {
         try {
-            const institution = await this.store.findRecord('institution', institutionId, {
+            const institution = await this.store.findRecord('institution', params.institution_id, {
                 adapterOptions: {
                     include: ['summary_metrics'],
                 },
@@ -48,12 +44,5 @@ export default class InstitutionsDashboardRoute extends Route {
             this.transitionTo('not-found', this.router.get('currentURL').slice(1));
             return undefined;
         }
-    }
-
-    // eslint-disable-next-line camelcase
-    model(params: { institution_id: string }) {
-        return {
-            taskInstance: taskFor(this.modelTask).perform(params.institution_id),
-        };
     }
 }
