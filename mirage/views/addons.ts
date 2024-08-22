@@ -431,7 +431,7 @@ export function updateAuthorizedComputingAccount(this: HandlerContext, schema: S
 function prepareAuthorizedAccountAttrs(
     attrs: NormalizedRequestAttrs<AllAuthorizedAccountTypes>, externalService: ModelInstance<AllProviderTypes>,
 ) {
-    const authorized = fakeCheckCredentials(attrs.credentials!, externalService.credentialsFormat);
+    const authorized = fakeCheckCredentials(attrs, externalService.credentialsFormat);
     attrs.credentials = undefined;
     // @ts-ignore: authUrl is set by the backend
     attrs.authUrl = !authorized && attrs.initiateOauth ? 'https://www.fake.com' : '';
@@ -440,10 +440,13 @@ function prepareAuthorizedAccountAttrs(
     return attrs;
 }
 
-function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFormat: CredentialsFormat) {
+function fakeCheckCredentials(
+    attrs: NormalizedRequestAttrs<AllAuthorizedAccountTypes>, credentialsFormat: CredentialsFormat,
+) {
+    const credentials = attrs.credentials as AddonCredentialFields;
     switch (credentialsFormat) {
     case CredentialsFormat.REPO_TOKEN:
-        if (!credentials.token || !credentials.repo) {
+        if (!credentials.token || !attrs.apiBaseUrl) {
             throw new Error('Token and repo is required');
         }
         break;
@@ -458,10 +461,10 @@ function fakeCheckCredentials(credentials: AddonCredentialFields, credentialsFor
         }
         break;
     case CredentialsFormat.URL_USERNAME_PASSWORD:
-        if (!credentials.url || !credentials.username || !credentials.password) {
+        if (!attrs.apiBaseUrl || !credentials.username || !credentials.password) {
             throw new Error('URL, username, and password are required');
         }
-        if (credentials.url.indexOf('http') < 0) {
+        if (attrs.apiBaseUrl.indexOf('http') < 0) {
             throw new Error('Invalid URL');
         }
         break;

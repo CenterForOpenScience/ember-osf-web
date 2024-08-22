@@ -16,7 +16,7 @@ import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
-import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
+import { AccountCreationArgs } from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
@@ -86,7 +86,6 @@ export default class Provider {
 
     @tracked configuredAddon?: AllConfiguredAddonTypes;
     @tracked configuredAddons?: AllConfiguredAddonTypes[];
-    @tracked allConfiguredAddons?: EmberArray<AllConfiguredAddonTypes>;
     @tracked authorizedAccount?: AllAuthorizedAccountTypes;
     @tracked authorizedAccounts?: AllAuthorizedAccountTypes[];
 
@@ -100,13 +99,13 @@ export default class Provider {
         provider: any,
         currentUser: CurrentUserService,
         node?: NodeModel,
-        configuredAddons?: EmberArray<AllConfiguredAddonTypes>,
+        allConfiguredAddons?: EmberArray<AllConfiguredAddonTypes>,
     ) {
         setOwner(this, getOwner(provider));
         this.node = node;
         this.currentUser = currentUser;
         this.provider = provider;
-        this.allConfiguredAddons = configuredAddons;
+        this.configuredAddons = allConfiguredAddons?.filter(addon => addon.externalServiceId === this.provider.id);
 
         if (provider instanceof ExternalStorageServiceModel) {
             this.providerMap = this.providerTypeMapper.externalStorageService;
@@ -123,7 +122,6 @@ export default class Provider {
     async initialize() {
         await taskFor(this.getUserReference).perform();
         await taskFor(this.getResourceReference).perform();
-        this.getProviderConfiguredAddons();
     }
 
     @task
@@ -165,10 +163,6 @@ export default class Provider {
         }
     }
 
-    getProviderConfiguredAddons() {
-        this.configuredAddons = this.allConfiguredAddons?.filter(addon => addon.externalServiceId === this.provider.id);
-    }
-
     @task
     @waitFor
     async getAuthorizedStorageAccounts() {
@@ -206,17 +200,16 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedStorageAccount(
-        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
-    ) {
+    private async createAuthorizedStorageAccount(arg: AccountCreationArgs) {
+        const { credentials, apiBaseUrl, displayName, initiateOauth } = arg;
         const newAccount = this.store.createRecord('authorized-storage-account', {
             credentials,
-            initiateOauth: initiateOauth || false,
-            apiBaseUrl: (this.provider as ExternalStorageServiceModel).configurableApiRoot ? credentials.url : '',
+            initiateOauth,
+            apiBaseUrl,
             externalUserId: this.currentUser.user?.id,
             authorizedCapabilities: ['ACCESS', 'UPDATE'],
             externalStorageService: this.provider,
-            displayName: accountName,
+            displayName,
             accountOwner: this.userReference,
         });
         await newAccount.save();
@@ -225,17 +218,17 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedCitationAccount(
-        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
-    ) {
+    private async createAuthorizedCitationAccount(arg: AccountCreationArgs) {
+        const { credentials, apiBaseUrl, displayName, initiateOauth } = arg;
         const newAccount = this.store.createRecord('authorized-citation-account', {
             credentials,
-            initiateOauth: initiateOauth || false,
+            apiBaseUrl,
+            initiateOauth,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             citationService: this.provider,
             accountOwner: this.userReference,
-            displayName: accountName,
+            displayName,
         });
         await newAccount.save();
         return newAccount;
@@ -243,17 +236,17 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createAuthorizedComputingAccount(
-        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
-    ) {
+    private async createAuthorizedComputingAccount(arg: AccountCreationArgs) {
+        const { credentials, apiBaseUrl, displayName, initiateOauth } = arg;
         const newAccount = this.store.createRecord('authorized-computing-account', {
             credentials,
-            initiateOauth: initiateOauth || false,
+            apiBaseUrl,
+            initiateOauth,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
             computingService: this.provider,
             accountOwner: this.userReference,
-            displayName: accountName,
+            displayName,
         });
         await newAccount.save();
         return newAccount;
@@ -261,17 +254,18 @@ export default class Provider {
 
     @task
     @waitFor
-    public async createAuthorizedAccount(
-        credentials: AddonCredentialFields, accountName: string, initiateOauth?: boolean,
-    ) {
+    public async createAuthorizedAccount(arg: AccountCreationArgs) {
         return await taskFor(this.providerMap!.createAuthorizedAccount)
-            .perform(credentials, accountName, initiateOauth);
+            .perform(arg);
     }
 
     @task
     @waitFor
-    public async reconnectAuthorizedAccount(account: AllAuthorizedAccountTypes, credentials: AddonCredentialFields) {
+    public async reconnectAuthorizedAccount(args: AccountCreationArgs, account: AllAuthorizedAccountTypes) {
+        const { credentials, apiBaseUrl, displayName } = args;
         account.credentials = credentials;
+        account.apiBaseUrl = apiBaseUrl;
+        account.displayName = displayName;
         await account.save();
         await account.reload();
     }
@@ -317,7 +311,9 @@ export default class Provider {
     @task
     @waitFor
     public async createConfiguredAddon(account: AllAuthorizedAccountTypes) {
-        return await taskFor(this.providerMap!.createConfiguredAddon).perform(account);
+        const newConfiguredAddon = await taskFor(this.providerMap!.createConfiguredAddon).perform(account);
+        this.configuredAddons!.pushObject(newConfiguredAddon);
+        return newConfiguredAddon;
     }
 
     @task
@@ -327,11 +323,6 @@ export default class Provider {
             await this.configuredAddon.destroyRecord();
             this.configuredAddon = undefined;
         }
-    }
-
-    listOfFolders() {
-        // TODO
-        return;
     }
 
     @task

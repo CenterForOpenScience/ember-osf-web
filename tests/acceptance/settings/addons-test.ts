@@ -13,7 +13,7 @@ module('Acceptance | settings | addons', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         const currentUser = server.create('user', 'loggedIn');
-        server.create('user-reference', { id: currentUser.id });
+        const currentUserReference = server.create('user-reference', { id: currentUser.id });
         const boxAddon = server.create('external-storage-service',
             {
                 id: 'box',
@@ -46,9 +46,9 @@ module('Acceptance | settings | addons', hooks => {
             });
         server.create('authorized-storage-account', {
             displayName: 'My Box Account',
-            scopes: ['write'],
+            authorizedCapabilities: ['write'],
             externalStorageService: boxAddon,
-            accountOwner: currentUser,
+            accountOwner: currentUserReference,
             credentialsAvailable: true,
         });
     });
@@ -100,7 +100,6 @@ module('Acceptance | settings | addons', hooks => {
                     TermsOfServiceCapabilities.REGISTERING,
                 ],
                 configurableApiRoot: true,
-                readOnly: false,
                 maxConcurrentDownloads: 1,
                 maxUploadMb: 5,
                 iconUrl: 'https://owncloud.com/favicon.ico',
