@@ -26,7 +26,7 @@ interface MirageAuthorizedStorageAccount extends AuthorizedStorageAccountModel {
 }
 interface MirageAuthorizedCitationAccount extends AuthorizedCitationAccountModel {
     accountOwnerId: string;
-    citationServiceId: string;
+    externalCitationServiceId: string;
 }
 interface MirageAuthorizedComputingAccount extends AuthorizedComputingAccountModel {
     accountOwnerId: string;
@@ -313,7 +313,7 @@ export function createAuthorizedCitationAccount(this: HandlerContext, schema: Sc
         'authorized-citation-account',
     ) as NormalizedRequestAttrs<MirageAuthorizedCitationAccount>;
     const externalService = schema.externalCitationServices
-        .find(attrs.citationServiceId) as ModelInstance<ExternalCitationServiceModel>;
+        .find(attrs.externalCitationServiceId) as ModelInstance<ExternalCitationServiceModel>;
     try {
         const authorizedAttrs = prepareAuthorizedAccountAttrs(attrs, externalService);
         const newAuthorizedAccount = schema.authorizedCitationAccounts
@@ -382,7 +382,7 @@ export function updateAuthorizedCitationAccount(this: HandlerContext, schema: Sc
         'authorized-citation-account',
     ) as NormalizedRequestAttrs<MirageAuthorizedCitationAccount>;
     const externalService = schema.externalCitationServices
-        .find(attrs.citationServiceId) as ModelInstance<ExternalCitationServiceModel>;
+        .find(attrs.externalCitationServiceId) as ModelInstance<ExternalCitationServiceModel>;
     try {
         const authorizedAccount = schema.authorizedCitationAccounts.find(attrs.id);
         let authorizedAttrs = attrs;

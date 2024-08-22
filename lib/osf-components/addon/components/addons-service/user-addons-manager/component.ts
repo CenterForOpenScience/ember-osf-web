@@ -152,7 +152,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             providerId = (account as AuthorizedStorageAccountModel).externalStorageService.get('id');
             break;
         case 'authorized-citation-account':
-            providerId = (account as AuthorizedCitationAccountModel).citationService.get('id');
+            providerId = (account as AuthorizedCitationAccountModel).externalCitationService.get('id');
             break;
         case 'authorized-computing-account':
             providerId = (account as AuthorizedComputingAccount).computingService.get('id');
@@ -214,7 +214,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
         const accounts = (await userReference.authorizedCitationAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
-        mappedObject.authorizedServiceIds = accounts.map(account => account.citationService.get('id'));
+        mappedObject.authorizedServiceIds = accounts.map(account => account.externalCitationService.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 

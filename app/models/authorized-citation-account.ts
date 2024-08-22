@@ -9,7 +9,7 @@ export default class AuthorizedCitationAccountModel extends AuthorizedAccountMod
     accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 
     @belongsTo('external-citation-service')
-    citationService!: AsyncBelongsTo<ExternalCitationServiceModel> & ExternalCitationServiceModel;
+    externalCitationService!: AsyncBelongsTo<ExternalCitationServiceModel> & ExternalCitationServiceModel;
 }
 
 declare module 'ember-data/types/registries/model' {
