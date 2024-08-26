@@ -16,7 +16,7 @@
         <PaginatedList::HasMany
             local-class='table'
             @isTable={{true}}
-            @model={{this.institution}}
+            @model={{@institution}}
             @usePlaceholders={{false}}
             @relationshipName='userMetrics'
             @bindReload={{action (mut this.reloadUserList)}}

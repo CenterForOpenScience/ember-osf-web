@@ -23,6 +23,7 @@ export default Factory.extend<Institution & InstitutionTraits>({
         };
     },
     currentUserIsAdmin: true,
+    linkToExternalReportsArchive: faker.internet.url,
     lastUpdated() {
         return faker.date.recent();
     },

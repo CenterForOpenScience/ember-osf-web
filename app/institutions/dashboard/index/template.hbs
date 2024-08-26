@@ -1,31 +1,28 @@
-<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{this.model.taskInstance.institution}} as |wrapper|>
+<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{this.model.institution}} as |wrapper|>
     <wrapper.main>
         <div local-class='panel-wrapper' data-analytics-scope='Summary tab'>
             <Institutions::Dashboard::-Components::Panel
-                @isLoading={{this.model.taskInstance.isRunning}}
                 @title={{t 'institutions.dashboard.users_connected_panel'}}
             >
-                {{#if this.model.taskInstance.value.summaryMetrics}}
-                    <h3>{{this.model.taskInstance.value.summaryMetrics.userCount}}</h3>
+                {{#if this.model.summaryMetrics}}
+                    <h3>{{this.model.summaryMetrics.userCount}}</h3>
                 {{else}}
                     {{t 'institutions.dashboard.empty'}}
                 {{/if}}
             </Institutions::Dashboard::-Components::Panel>
             <Institutions::Dashboard::-Components::Panel
-                @isLoading={{this.model.taskInstance.isRunning}}
                 @title={{t 'institutions.dashboard.projects_panel'}}
             >
                 <Institutions::Dashboard::-Components::ProjectsPanel
-                    @summaryMetrics={{this.model.taskInstance.value.summaryMetrics}}
+                    @summaryMetrics={{this.model.summaryMetrics}}
                 />
             </Institutions::Dashboard::-Components::Panel>
             <Institutions::Dashboard::-Components::Panel
-                @isLoading={{this.model.taskInstance.isRunning}}
                 @title={{t 'institutions.dashboard.departments_panel'}}
             >
                 <Institutions::Dashboard::-Components::DepartmentsPanel
-                    @topDepartments={{this.model.taskInstance.value.departmentMetrics}}
-                    @totalUsers={{this.model.taskInstance.value.totalUsers}}
+                    @topDepartments={{this.model.departmentMetrics}}
+                    @totalUsers={{this.model.totalUsers}}
                 />
             </Institutions::Dashboard::-Components::Panel>
         </div>

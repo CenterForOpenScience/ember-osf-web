@@ -1,55 +1,52 @@
-import Component from '@ember/component';
-import { action, computed } from '@ember/object';
-import { reads } from '@ember/object/computed';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
-import { restartableTask, TaskInstance, timeout } from 'ember-concurrency';
+import { restartableTask, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 
-import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class InstitutionalUsersList extends Component {
+interface InstitutionalUsersListArgs {
+    institution: InstitutionModel;
+    departmentMetrics: InstitutionDepartmentsModel[];
+}
+
+export default class InstitutionalUsersList extends Component<InstitutionalUsersListArgs> {
     @service analytics!: Analytics;
     @service intl!: Intl;
 
-    @reads('modelTaskInstance.value.institution')
     institution?: InstitutionModel;
 
-    @reads('modelTaskInstance.value.departmentMetrics')
     departmentMetrics?: InstitutionDepartmentsModel[];
 
     // Private properties
-    modelTaskInstance!: TaskInstance<InstitutionsDashboardModel>;
-    department = this.intl.t('institutions.dashboard.select_default');
-    sort = 'user_name';
+    @tracked department = this.intl.t('institutions.dashboard.select_default');
+    @tracked sort = 'user_name';
 
     reloadUserList?: () => void;
 
-    @computed('intl.locale')
     get defaultDepartment() {
         return this.intl.t('institutions.dashboard.select_default');
     }
 
-    @computed('defaultDepartment', 'department', 'departmentMetrics.[]', 'institution')
     get departments() {
         let departments = [this.defaultDepartment];
 
-        if (this.institution && this.departmentMetrics) {
-            const institutionDepartments = this.departmentMetrics.map((x: InstitutionDepartmentsModel) => x.name);
+        if (this.args.institution && this.args.departmentMetrics) {
+            const institutionDepartments = this.args.departmentMetrics.map((x: InstitutionDepartmentsModel) => x.name);
             departments = departments.concat(institutionDepartments);
         }
         return departments;
     }
 
-    @computed('defaultDepartment', 'department')
     get isDefaultDepartment() {
         return this.department === this.defaultDepartment;
     }
 
-    @computed('department', 'isDefaultDepartment', 'sort')
     get queryUsers() {
         const query = {} as Record<string, string>;
         if (this.department && !this.isDefaultDepartment) {
@@ -66,7 +63,7 @@ export default class InstitutionalUsersList extends Component {
     async searchDepartment(name: string) {
         await timeout(500);
         if (this.institution) {
-            const depts: InstitutionDepartmentsModel[] = await this.institution.queryHasMany('departmentMetrics', {
+            const depts: InstitutionDepartmentsModel[] = await this.args.institution.queryHasMany('departmentMetrics', {
                 filter: {
                     name,
                 },
@@ -78,12 +75,7 @@ export default class InstitutionalUsersList extends Component {
 
     @action
     onSelectChange(department: string) {
-        this.analytics.trackFromElement(this.element, {
-            name: 'Department Select - Change',
-            category: 'select',
-            action: 'change',
-        });
-        this.set('department', department);
+        this.department = department;
         if (this.reloadUserList) {
             this.reloadUserList();
         }
@@ -91,6 +83,6 @@ export default class InstitutionalUsersList extends Component {
 
     @action
     sortInstitutionalUsers(sort: string) {
-        this.set('sort', sort);
+        this.sort = sort;
     }
 }
