@@ -29,47 +29,73 @@
                     sort=this.sort
                 ) as |SortButton|}}
                     <tr>
-                        <th data-test-header-name rowspan='2'>
-                            <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
-                            <SortButton @sortBy='user_name' />
+                        <th data-test-header-name rowspan='3'>
+                            <div class="header-content">
+                                <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
+                                <SortButton @sortBy='user_name' />
+                            </div>
                         </th>
                         <th data-test-header-department rowspan='2'>
-                            <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
-                            <SortButton @sortBy='department' />
+                            <div class="header-content">
+                                <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
+                                <SortButton @sortBy='department' />
+                            </div>
                         </th>
-                        <th local-class='nested-header text-center' colspan='2' width='128'>
-                            {{t 'institutions.dashboard.users_list.projects'}}
+                        <th>
+                            {{t 'institutions.dashboard.users_list.osf_link'}}
+                        </th>
+                        <th>
+                            <div class="header-content">
+                                <span>{{t 'institutions.dashboard.users_list.public_projects'}}</span>
+                                <SortButton @sortBy='public_projects' />
+                            </div>
+                        </th>
+                        <th style="padding-left: 0px;" >
+                            <div class="header-content">
+                                <span>{{t 'institutions.dashboard.users_list.private_projects'}}</span>
+                                <SortButton @sortBy='private_projects' />
+                            </div>
+                        </th>
+                        <th>
+                            <div class="header-content">
+                                {{t 'institutions.dashboard.users_list.public_registration_count'}}
+                                <SortButton @sortBy='public_registration_count' />
+                            </div>
+                        </th>
+                        <th>
+                            <div class="header-content">
+                                {{t 'institutions.dashboard.users_list.private_registration_count'}}
+                                <SortButton @sortBy='embargoed_registration_count' />
+                            </div>
+                        </th>
+                        <th>
+                            <div class="header-content">
+                                {{t 'institutions.dashboard.users_list.published_preprint_count'}}
+                                <SortButton @sortBy='preprint' />
+                            </div>
                         </th>
                     </tr>
-                    <tr>
-                        <th local-class='nested-header text-center' data-test-header-public-projects>
-                            <img src='/assets/images/global/open-lock.svg'
-                                alt={{t 'institutions.dashboard.users_list.public_projects'}}
-                            >
-                        </th>
-                        <th local-class='nested-header text-center' data-test-header-private-projects>
-                            <img src='/assets/images/global/closed-lock.svg'
-                                alt={{t 'institutions.dashboard.users_list.private_projects'}}
-                            >
-                        </th>
-                    </tr>
+
                 {{/let}}
             </list.header>
             <list.item local-class='item' as |institutionalUser|>
                 {{#if institutionalUser}}
                     <td data-test-item-name>
                         <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
-                            {{institutionalUser.userName}} ({{institutionalUser.userGuid}})
+                            {{institutionalUser.userName}}
                         </OsfLink>
                     </td>
                     <td data-test-item-department>{{institutionalUser.department}}</td>
-                    <td local-class='text-center' data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
-                    <td local-class='text-center' data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
-                {{else}}
-                    <td>{{placeholder.text lines=1}}</td>
-                    <td>{{placeholder.text lines=1}}</td>
-                    <td>{{placeholder.text lines=1}}</td>
-                    <td>{{placeholder.text lines=1}}</td>
+                    <td data-test-item-user-guid>
+                        <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
+                            {{institutionalUser.userGuid}}
+                        </OsfLink>
+                    </td>
+                    <td local-class='center-text' data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
+                    <td data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
+                    <td data-test-item-public-registration-count>{{institutionalUser.publicRegistrationCount}}</td>
+                    <td data-test-item-embargoed-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
+                    <td data-test-item-published-preprint-count>{{institutionalUser.publishedPreprintCount}}</td>
                 {{/if}}
             </list.item>
             <list.empty local-class='empty'>

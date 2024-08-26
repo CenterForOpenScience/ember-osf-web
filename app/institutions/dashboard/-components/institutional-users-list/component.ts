@@ -90,7 +90,20 @@ export default class InstitutionalUsersList extends Component {
     }
 
     @action
-    sortInstitutionalUsers(sort: string) {
-        this.set('sort', sort);
+    sortInstitutionalUsers(sortBy: string) {
+        if (this.sort === sortBy) {
+            // If the current sort is the same, toggle the order
+            this.set('sort', `-${sortBy}`);
+        } else if (this.sort === `-${sortBy}`) {
+            // If the current sort is already descending, toggle to ascending
+            this.set('sort', sortBy);
+        } else {
+            // Set to ascending if it's a new sort field
+            this.set('sort', sortBy);
+        }
+        if (this.reloadUserList) {
+            this.reloadUserList();
+        }
     }
+
 }

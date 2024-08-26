@@ -1,18 +1,16 @@
 <Button
-    data-test-ascending-sort={{this.sortBy}}
-    data-analytics-name={{concat 'Ascending sort ' this.sortBy}}
-    local-class={{if (eq @sort this.sortBy) 'selected' 'not-selected'}}
-    title={{t 'general.sort_asc'}}
+    data-test-sort-button={{this.sortBy}}
+    data-analytics-name={{concat 'Sort ' this.sortBy}}
+    local-class='sort-button'
+    title={{if (eq @sort this.sortBy) (t 'general.sort_desc') (t 'general.sort_asc')}}
     {{on 'click' (action @sortAction this.sortBy)}}
 >
-    <FaIcon @icon='chevron-up' />
-</Button>
-<Button
-    data-test-descending-sort={{this.sortBy}}
-    data-analytics-name={{concat 'Descending sort ' this.sortBy}}
-    local-class={{if (eq @sort this.sortByDesc) 'selected' 'not-selected'}}
-    title={{t 'general.sort_desc'}}
-    {{on 'click' (action @sortAction this.sortByDesc)}}
->
-    <FaIcon @icon='chevron-down' />
+    {{#if (eq @sort this.sortBy)}}
+        <FaIcon @icon='arrow-up' />
+    {{else if (eq @sort this.sortByDesc)}}
+        <FaIcon @icon='arrow-down' />
+    {{else}}
+        <!-- Default state when not sorted by this column -->
+        <FaIcon @icon='arrow-down' class='not-sorted' />
+    {{/if}}
 </Button>

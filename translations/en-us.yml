@@ -810,6 +810,10 @@ institutions:
             public_projects: 'Public Projects'
             private_projects: 'Private Projects'
             empty: 'No users found matching search criteria.'
+            public_registration_count: 'Public Registrations'
+            private_registration_count: 'Private Registrations'
+            published_preprint_count: 'Preprints'
+            osf_link: 'OSF Link'
         users_connected_panel: 'SSO Users Connected'
         projects_panel: 'Total Projects'
         departments_panel: Departments
