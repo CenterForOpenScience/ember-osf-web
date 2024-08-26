@@ -1,0 +1,137 @@
+<div
+    data-test-preprint-card
+    data-analytics-scope='Preprint Card'
+    local-class='preprint-card'
+>
+    <div local-class='card-contents'>
+        <div
+            local-class='card-body {{if this.isMobile 'mobile'}}'
+        >
+            <h4 local-class='list-group-item-heading heading' data-test-preprint-card-heading>
+                {{#if @preprint}}
+                    {{#unless @preprint.public}}
+                        <span>
+                            <FaIcon @icon='lock' />
+                            <EmberTooltip>
+                                {{t 'preprints.preprint_card.private_tooltip'}}
+                            </EmberTooltip>
+                        </span> |
+                    {{/unless}}
+                    <OsfLink
+                        local-class='osf-link {{if this.isMobile 'mobile'}}'
+                        data-analytics-name='Title'
+                        data-test-preprint-title='{{@preprint.id}}'
+                        @route='resolve-guid'
+                        @models={{array @preprint.id}}
+                    >
+                        {{@preprint.title}}
+                    </OsfLink>
+                {{else}}
+                    <ContentPlaceholders as |placeholder|>
+                        <placeholder.heading @subtitle={{false}} />
+                    </ContentPlaceholders>
+                {{/if}}
+                {{#if @preprint}}
+                    <div local-class='status-label'>
+                        {{#if (eq @preprint.reviewsState 'pending')}}
+                            <span local-class='label label-info'>{{t 'preprints.preprint_card.statuses.pending'}}</span>
+                        {{else if (eq @preprint.reviewsState 'accepted')}}
+                            <span local-class='label label-primary'>{{t 'preprints.preprint_card.statuses.accepted'}}</span>
+                        {{else if (eq @preprint.reviewsState 'rejected')}}
+                            <span local-class='label label-danger'>{{t 'preprints.preprint_card.statuses.rejected'}}</span>
+                        {{/if}}
+                    </div>
+                {{/if}}
+            </h4>
+            <div data-test-preprint-card-body local-class='body'>
+                {{#if @preprint}}
+                    <dl>
+                        <div>
+                            <dt data-test-provider-label>
+                                {{t 'preprints.preprint_card.provider'}}
+                            </dt>
+                            <dd data-test-provider-value>
+                                {{@preprint.provider.name}}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt data-test-created-timestamp-label>
+                                {{t 'preprints.preprint_card.date_created'}}
+                            </dt>
+                            <dd data-test-created-timestamp-value>
+                                {{moment @preprint.dateCreated}}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt data-test-updated-timestamp-label>
+                                {{t 'preprints.preprint_card.date_modified'}}
+                            </dt>
+                            <dd data-test-updated-timestamp-value>
+                                {{moment @preprint.dateModified}}
+                            </dd>
+                        </div>
+                        <div>
+                            <dt data-test-contributors-label>
+                                {{t 'preprints.preprint_card.contributors'}}
+                            </dt>
+                            <dd>
+                                <ContributorList
+                                    @model={{@preprint}}
+                                    @shouldLinkUsers={{true}}
+                                />
+                            </dd>
+                        </div>
+                        <div>
+                            <dt data-test-description-label>
+                                {{t 'preprints.preprint_card.description'}}
+                            </dt>
+                            <dd data-test-description local-class='description'>
+                                {{@preprint.description}}
+                            </dd>
+                        </div>
+                        {{#if (and this.showTags @preprint.tags)}}
+                            <div>
+                                <dt local-class='tags' data-test-tags-label>
+                                    {{t 'preprints.preprint_card.tags'}}
+                                </dt>
+                                <dd>
+                                    <TagsWidget
+                                        @taggable={{@preprint}}
+                                        @inline={{true}}
+                                    />
+                                </dd>
+                            </div>
+                        {{/if}}
+                    </dl>
+                    <div local-class='PreprintButtons'>
+                        <OsfLink
+                            local-class='link'
+                            data-analytics-name='View Preprint'
+                            data-test-view-button='{{@preprint.id}}'
+                            @route='resolve-guid'
+                            @models={{array @preprint.id}}
+                        >
+                            {{t 'preprints.preprint_card.view_button'}}
+                        </OsfLink>
+                        {{#if this.shouldShowUpdateButton}}
+                            <OsfLink
+                                local-class='link update-button'
+                                data-analytics-name='Edit Preprint'
+                                data-test-update-button='{{@preprint.id}}'
+                                @route='preprints.edit'
+                                @models={{array @preprint.provider.id @preprint.id}}
+                            >
+                                {{t 'preprints.preprint_card.update_button'}}
+                            </OsfLink>
+                        {{/if}}
+                    </div>
+
+                {{else}}
+                    <ContentPlaceholders as |placeholder|>
+                        <placeholder.text @lines={{2}} />
+                    </ContentPlaceholders>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>

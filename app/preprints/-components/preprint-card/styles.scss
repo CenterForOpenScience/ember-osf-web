@@ -1,0 +1,187 @@
+.preprint-card {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.card-contents {
+    display: flex;
+    flex-direction: row;
+}
+
+.heading {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.ember-content-placeholders-heading__title {
+    height: 1em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    &:first-child {
+        width: 100%;
+    }
+}
+
+.label-danger {
+    background-color: $brand-danger;
+}
+
+.heading > span {
+    line-height: 1.5;
+}
+
+.label-info {
+    background-color: darken($brand-info, 15%);
+}
+
+.label-primary {
+    background-color: #337ab7;
+}
+
+.label {
+    padding: 0.2em 0.6em 0.3em;
+    font-size: 75%;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+    display: block;
+    margin-top: 5px;
+}
+
+.osf-link {
+    margin-left: 5px;
+    margin-top: 2px;
+    font-weight: bold;
+}
+
+.osf-link.mobile {
+    margin-left: 0;
+}
+
+.body {
+    width: 80%;
+
+    &.mobile {
+        width: 90%;
+    }
+}
+
+.preprint-body {
+    width: 100%;
+}
+
+.ember-content-placeholders-text__line {
+    height: 1em;
+    margin-bottom: 5px;
+}
+
+dl {
+    margin-bottom: 10px;
+}
+
+dl div {
+    display: flex;
+}
+
+dl dt {
+    width: 100px;
+    margin-right: 5px;
+}
+
+dl dd {
+    flex: 1;
+}
+
+.tags {
+    margin-top: 2px;
+}
+
+.description {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: calc(100% - 100px);
+}
+
+.link {
+    composes: Button from 'osf-components/components/button/styles.scss';
+    composes: SecondaryButton from 'osf-components/components/button/styles.scss';
+    composes: MediumButton from 'osf-components/components/button/styles.scss';
+
+    &:hover {
+        text-decoration: none !important;
+    }
+}
+
+.open-badges {
+    width: 20%;
+    border-left-width: thin;
+    border-left-color: $color-bg-gray-light;
+    border-left-style: solid;
+    padding-left: 10px;
+}
+
+.open-badges.mobile {
+    width: 10%;
+    padding-left: 0;
+}
+
+.dropdown {
+    padding-left: 5px;
+}
+
+.dropdown-button {
+    padding: 4px 12px;
+    line-height: 0;
+}
+
+.dropdown-list {
+    background-color: $color-bg-gray-light;
+    min-width: 180px;
+}
+
+.dropdown-list ul {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+.dropdown-list li {
+    margin: 10px 0;
+}
+
+.dropdown-link {
+    color: $color-link-black;
+    border-color: transparent;
+    background-color: $color-bg-gray-light;
+    min-width: 180px;
+    text-align: left;
+    padding: 3px 20px;
+}
+
+.dropdown-link:hover,
+.dropdown-link:focus {
+    cursor: pointer;
+    background-image: none;
+    background-color: $color-bg-gray-dark;
+}
+
+.list-group-item-heading {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.update-button {
+    color: $color-text-blue-dark;
+}
