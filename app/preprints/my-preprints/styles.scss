@@ -1,0 +1,92 @@
+// stylelint-disable declaration-property-value-blacklist
+// stylelint-disable selector-no-qualifying-type
+
+.ContentBackground {
+    display: flex;
+    flex-grow: 1;
+    z-index: 1;
+    justify-content: center;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('img/bg-light.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        filter: grayscale(1);
+    }
+
+    :global(.list-group-item) {
+        margin-bottom: 20px;
+    }
+
+    :global(.media-desktop),
+    :global(.media-tablet),
+    :global(.media-mobile) {
+        margin-top: -38px;
+    }
+}
+
+.Title {
+    min-height: 150px;
+}
+
+.NavTabs {
+    ul {
+        margin-left: 15px;
+        margin-bottom: 10px;
+        line-height: 20px;
+        list-style-image: none;
+        list-style-position: outside;
+        list-style-type: none;
+        padding: 0 0 41px;
+        box-sizing: border-box;
+    }
+
+    .NavItem {
+        border: none;
+        color: #fff;
+        background: none;
+        padding: 10px 15px;
+        float: left;
+
+        &:hover {
+            border: none;
+            color: #333;
+            background-color: #e4e4e4;
+        }
+    }
+
+    :global(.ember-tabs__tab--selected) {
+        border: none;
+        color: #333;
+        background-color: #e4e4e4;
+
+        &:focus {
+            border: none;
+            background-color: #e4e4e4;
+        }
+
+        &:hover {
+            border: none;
+            background-color: #e4e4e4;
+        }
+    }
+
+    .TabPane {
+        &:global(.active) {
+            display: block;
+        }
+    }
+}
+
+.SortDescription {
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 15px;
+}
