@@ -9,6 +9,16 @@ export default class InstitutionUserModel extends OsfModel {
     @attr('fixstring') department?: string;
     @attr('number') publicProjects!: number;
     @attr('number') privateProjects!: number;
+    @attr('number') publicRegistrationCount!: number;
+    @attr('number') embargoedRegistrationCount!: number;
+    @attr('number') publishedPreprintCount!: number;
+    @attr('number') publicFileCount!: number;
+    @attr('number') storageByteCount!: number;
+    @attr('number') totalObjectCount!: number;
+    @attr('date') monthLastLogin!: Date;
+    @attr('date') monthLastActive!: Date;
+    @attr('date') accountCreationDate!: Date;
+    @attr('fixstring') orcidId?: string;
 
     @belongsTo('user', { async: true })
     user!: AsyncBelongsTo<UserModel> & UserModel;
