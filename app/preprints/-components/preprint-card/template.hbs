@@ -59,7 +59,7 @@
                                 {{t 'preprints.preprint_card.date_created'}}
                             </dt>
                             <dd data-test-created-timestamp-value>
-                                {{moment @preprint.dateCreated}}
+                                {{moment-format @preprint.dateCreated 'YYYY-MM-DD'}}
                             </dd>
                         </div>
                         <div>
@@ -67,7 +67,7 @@
                                 {{t 'preprints.preprint_card.date_modified'}}
                             </dt>
                             <dd data-test-updated-timestamp-value>
-                                {{moment @preprint.dateModified}}
+                                {{moment-format @preprint.dateModified 'YYYY-MM-DD'}}
                             </dd>
                         </div>
                         <div>
@@ -79,14 +79,6 @@
                                     @model={{@preprint}}
                                     @shouldLinkUsers={{true}}
                                 />
-                            </dd>
-                        </div>
-                        <div>
-                            <dt data-test-description-label>
-                                {{t 'preprints.preprint_card.description'}}
-                            </dt>
-                            <dd data-test-description local-class='description'>
-                                {{@preprint.description}}
                             </dd>
                         </div>
                         {{#if (and this.showTags @preprint.tags)}}
