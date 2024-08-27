@@ -1,0 +1,14 @@
+<div local-class='wrapper-container {{if (is-mobile) 'mobile'}}'>
+    {{#if this.isLoading}}
+        <div local-class='loading'>
+            <LoadingIndicator data-test-loading-indicator-total-count-kpi-wrapper @dark={{true}} />
+        </div>
+    {{else}}
+        {{#each this.totalCountKpis as |totalCountKpi index|}}
+            <Institutions::Dashboard::-Components::TotalCountKpiWrapper::TotalCountKpi
+                data-test-total-count-kpi={{index}}
+                @data={{totalCountKpi}}
+            />
+        {{/each}}
+    {{/if}}
+</div>

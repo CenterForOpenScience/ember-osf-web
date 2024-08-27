@@ -821,7 +821,11 @@ institutions:
             month_last_active: 'Last Action'
             has_orcid: 'Has ORCID'
             select_columns: 'Customize'
-        users_connected_panel: 'SSO Users Connected'
+        panel:
+            users: 'Total Users'
+            projects: 'OSF Projects'
+            registrations: 'OSF Registrations'
+            preprints: 'OSF Preprints'
         projects_panel: 'Total Projects'
         departments_panel: Departments
         public: Public
