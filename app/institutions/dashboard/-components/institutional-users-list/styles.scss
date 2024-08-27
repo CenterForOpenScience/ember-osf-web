@@ -5,7 +5,7 @@
     border-color: #ddd;
     border-radius: 2px;
     color: #337ab7;
-    text-align: center; /* Center text */
+    text-align: center;
 }
 
 .table {
@@ -16,7 +16,7 @@
         margin-bottom: 15px;
         table-layout: fixed;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-collapse: collapse; /* Ensure no gaps between cells */
+        border-collapse: collapse;
     }
 
     th,
@@ -25,7 +25,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        text-align: center; /* Center text in table headers and cells */
+        text-align: center;
     }
 
     :global(.text-center) {
@@ -42,10 +42,10 @@
         background: #365063;
         color: #fff;
         vertical-align: middle;
-        white-space: normal; /* Allow line breaks */
-        word-wrap: break-word; /* Break long words */
-        word-break: break-word; /* Support older browsers */
-        text-align: center; /* Center text in header */
+        white-space: normal;
+        word-wrap: break-word;
+        word-break: break-word;
+        text-align: center;
         padding-left: 0;
 
     }
@@ -61,7 +61,7 @@
     td {
         border-right: 1px solid #ddd;
         border-top: 0;
-        text-align: center; /* Center text in table cells */
+        text-align: center;
 
         &:last-of-type {
             border-right: 0;
@@ -107,27 +107,26 @@
 
 .header-content {
     display: flex;
-    justify-content: space-between; /* Keep the text and sort button on opposite sides */
-    align-items: center; /* Vertically center the content */
-    white-space: nowrap; /* Prevent wrapping */
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .sort-button {
-    margin-left: auto; /* Automatically pushes the button to the far right */
+    margin-left: auto;
     display: inline-block;
-    text-align: right; /* Ensure the button itself aligns right */
+    text-align: right;
 }
 
 th {
-    position: relative; /* Keep this for absolute positioning */
-    padding-right: 16px; /* Ensure space for the sort button */
-    white-space: nowrap; /* Prevent wrapping */
+    position: relative;
+    padding-right: 16px;
+    white-space: nowrap;
 }
 
 th .sort-button {
     position: absolute;
-    right: 8px; /* Adjust to fine-tune the position relative to the edge */
+    right: 8px;
     top: 50%;
-    transform: translateY(-50%); /* Vertically center the sort button */
+    transform: translateY(-50%);
 }
-
