@@ -62,7 +62,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @waitFor
     async searchDepartment(name: string) {
         await timeout(500);
-        if (this.institution) {
+        if (this.args.institution) {
             const depts: InstitutionDepartmentsModel[] = await this.args.institution.queryHasMany('departmentMetrics', {
                 filter: {
                     name,
@@ -85,17 +85,16 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     sortInstitutionalUsers(sortBy: string) {
         if (this.sort === sortBy) {
             // If the current sort is the same, toggle the order
-            this.set('sort', `-${sortBy}`);
+            this.sort = `-${sortBy}`;
         } else if (this.sort === `-${sortBy}`) {
             // If the current sort is already descending, toggle to ascending
-            this.set('sort', sortBy);
+            this.sort = sortBy;
         } else {
             // Set to ascending if it's a new sort field
-            this.set('sort', sortBy);
+            this.sort = sortBy;
         }
         if (this.reloadUserList) {
             this.reloadUserList();
         }
     }
-
 }
