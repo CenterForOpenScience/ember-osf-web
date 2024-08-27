@@ -22,6 +22,8 @@ module(moduleName, hooks => {
             "Still at '/institutions/has-users/dashboard'.",
         );
 
+        assert.dom('[data-test-link-to-reports-archive]').exists('Link to download prior reports exists');
+
         assert.dom('[data-test-page-tab="summary"]').exists('Summary tab exists');
         assert.dom('[data-test-page-tab="users"]').exists('Users tab exists');
         assert.dom('[data-test-page-tab="projects"]').exists('Projects tab exists');

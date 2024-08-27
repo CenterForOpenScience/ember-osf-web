@@ -2,7 +2,8 @@
     <wrapper.main>
         <div local-class='panel-wrapper' data-analytics-scope='Users tab'>
             <Institutions::Dashboard::-Components::InstitutionalUsersList
-                @modelTaskInstance={{this.model.taskInstance}}
+                @institution={{this.model.institution}}
+                @departmentMetrics={{this.model.departmentMetrics}}
             />
         </div>
     </wrapper.main>
