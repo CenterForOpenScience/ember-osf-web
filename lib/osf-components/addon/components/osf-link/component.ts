@@ -35,6 +35,7 @@ export default class OsfLink extends Component {
     href?: string;
     queryParams?: Record<string, unknown>;
     fragment?: string;
+    fakeButton?: boolean;
 
     rel: AnchorRel = 'noopener noreferrer';
     target: AnchorTarget = '_self';

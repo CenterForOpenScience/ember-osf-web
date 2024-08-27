@@ -9,7 +9,7 @@
                     <OsfLink
                         data-test-link-to-reports-archive
                         data-analytics-name='Link to archived reports'
-                        local-class='download-button'
+                        @fakeButton={{true}}
                         @href={{@institution.linkToExternalReportsArchive}}
                     >
                         <EmberTooltip @side='bottom'>
