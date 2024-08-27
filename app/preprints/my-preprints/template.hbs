@@ -1,7 +1,7 @@
 {{page-title (t 'preprints.my_preprints.header')}}
 
-<OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
-    <layout.heading>
+<OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
+    <layout.heading local-class = 'Hero'>
         <div local-class='Title'>
             <h1>
                 {{t 'preprints.my_preprints.header'}}
@@ -9,10 +9,12 @@
         </div>
     </layout.heading>
     <layout.main>
-        {{#if this.preprints.length}}
-            {{#each this.preprints as |preprint|}}
-                <Preprints::-Components::PreprintCard @preprint={{preprint}} />
-            {{/each}}
-        {{/if}}
+        <div local-class='GutterBody'>
+            {{#if this.preprints.length}}
+                {{#each this.preprints as |preprint|}}
+                    <Preprints::-Components::PreprintCard @preprint={{preprint}} />
+                {{/each}}
+            {{/if}}
+        </div>
     </layout.main>
 </OsfLayout>

@@ -1439,9 +1439,7 @@ preprints:
             pending: 'Pending'
             accepted: 'Accepted'
             rejected: 'Rejected'
-        timestamp_label: 'Date Created'
-        last_updated: 'Last Updated'
-        contributors: 'Contributors'
+        contributors: 'Contributors:'
         description: 'Description'
         private_tooltip: 'This preprint is private'
         options: 'Options'
@@ -1450,9 +1448,9 @@ preprints:
         update_button: 'Edit'
         settings: 'Settings'
         delete: 'Delete'
-        provider: 'Provider'
-        date_created: 'Date Created'
-        date_modified: 'Date Modified'
+        provider: 'Provider:'
+        date_created: 'Date Created:'
+        date_modified: 'Date Modified:'
 registries:
     header:
         osf_registrations: 'OSF Registrations'
