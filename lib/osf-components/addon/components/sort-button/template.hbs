@@ -3,6 +3,7 @@
     data-analytics-name={{concat 'Sort ' this.sortBy}}
     local-class='sort-button'
     title={{if (eq @sort this.sortBy) (t 'general.sort_desc') (t 'general.sort_asc')}}
+    aria-label={{if (eq @sort this.sortBy) (t 'general.sort_desc') (t 'general.sort_asc')}}
     {{on 'click' (action @sortAction this.sortBy)}}
 >
     {{#if (eq @sort this.sortBy)}}
