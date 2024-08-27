@@ -1,6 +1,6 @@
 import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
-
 import UserModel from 'ember-osf-web/models/user';
+import humanFileSize from 'ember-osf-web/utils/human-file-size';
 
 import OsfModel from './osf-model';
 
@@ -25,6 +25,10 @@ export default class InstitutionUserModel extends OsfModel {
 
     get userGuid() {
         return (this as InstitutionUserModel).belongsTo('user').id();
+    }
+
+    get userDataUsage() {
+        return humanFileSize(this.storageByteCount);
     }
 }
 
