@@ -13,7 +13,6 @@ import Toast from 'ember-toastr/services/toast';
 
 import RouterService from '@ember/routing/router-service';
 import Intl from 'ember-intl/services/intl';
-import Media from 'ember-responsive';
 import template from './template';
 import styles from './styles';
 
@@ -27,7 +26,6 @@ export default class PreprintCard extends Component {
     @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
-    @service media!: Media;
 
     preprint?: Preprint;
     delete?: (preprint: Preprint) => void;
@@ -35,10 +33,6 @@ export default class PreprintCard extends Component {
     readOnly = false;
 
     searchUrl = pathJoin(baseURL, 'search');
-
-    get isMobile() {
-        return this.media.isMobile;
-    }
 
     get shouldShowUpdateButton() {
         return this.preprint && this.preprint.currentUserPermissions.includes(Permission.Admin);

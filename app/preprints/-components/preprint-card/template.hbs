@@ -5,7 +5,7 @@
 >
     <div local-class='card-contents'>
         <div
-            local-class='card-body {{if this.isMobile 'mobile'}}'
+            local-class='card-body {{if (is-mobile) 'mobile'}}'
         >
             <h4 local-class='list-group-item-heading heading' data-test-preprint-card-heading>
                 {{#if @preprint}}
@@ -18,7 +18,7 @@
                         </span> |
                     {{/unless}}
                     <OsfLink
-                        local-class='osf-link {{if this.isMobile 'mobile'}}'
+                        local-class='osf-link {{if (is-mobile) 'mobile'}}'
                         data-analytics-name='Title'
                         data-test-preprint-title='{{@preprint.id}}'
                         @route='resolve-guid'
