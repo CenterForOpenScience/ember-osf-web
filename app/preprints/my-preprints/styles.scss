@@ -15,7 +15,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: url('img/bg-light.jpg');
+        background-image: url('images/preprints/bg-light.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         filter: grayscale(1);
@@ -30,63 +30,34 @@
     :global(.media-mobile) {
         margin-top: -38px;
     }
+
 }
 
-.Title {
-    min-height: 150px;
-}
+.Hero {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    position: relative;
+    background: url('images/default-brand/bg-dark.jpg');
+    background-size: cover;
 
-.NavTabs {
-    ul {
-        margin-left: 15px;
-        margin-bottom: 10px;
-        line-height: 20px;
-        list-style-image: none;
-        list-style-position: outside;
-        list-style-type: none;
-        padding: 0 0 41px;
-        box-sizing: border-box;
-    }
+    .Title {
+        min-height: 150px;
 
-    .NavItem {
-        border: none;
-        color: #fff;
-        background: none;
-        padding: 10px 15px;
-        float: left;
-
-        &:hover {
-            border: none;
-            color: #333;
-            background-color: #e4e4e4;
-        }
-    }
-
-    :global(.ember-tabs__tab--selected) {
-        border: none;
-        color: #333;
-        background-color: #e4e4e4;
-
-        &:focus {
-            border: none;
-            background-color: #e4e4e4;
-        }
-
-        &:hover {
-            border: none;
-            background-color: #e4e4e4;
-        }
-    }
-
-    .TabPane {
-        &:global(.active) {
-            display: block;
+        h1 {
+            color: $color-text-white;
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding: 1em 2em;
         }
     }
 }
 
-.SortDescription {
-    text-align: right;
-    margin-top: 10px;
-    margin-right: 15px;
+.GutterBody {
+    padding-top: 85px;
+    padding-bottom: 85px;
 }

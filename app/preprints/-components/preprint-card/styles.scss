@@ -1,29 +1,37 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
 .preprint-card {
     width: 100%;
-    margin: 10px 0;
-}
+    margin: 1px 0;
 
-.card-contents {
-    display: block;
-    flex-direction: row;
-}
+    .card-contents {
+        display: block;
+        flex-direction: row;
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid #ddd;
 
-.heading {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 100%;
-}
+        .heading {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
 
-.ember-content-placeholders-heading__title {
-    height: 1em;
-    margin-top: 5px;
-    margin-bottom: 5px;
+            :global .ember-content-placeholders-heading__title {
+                height: 1em;
+                margin-top: 5px;
+                margin-bottom: 5px;
 
-    &:first-child {
-        width: 100%;
+                &:first-child {
+                    width: 100%;
+                }
+            }
+        }
     }
 }
 
@@ -85,30 +93,23 @@
 
 dl {
     margin-bottom: 10px;
-}
 
-dl div {
-    display: flex;
-}
+    div {
+        display: flex;
 
-dl dt {
-    width: 100px;
-    margin-right: 5px;
-}
+        dt {
+            width: 110px; // Preserved as originally
+            margin-right: 5px;
+        }
 
-dl dd {
-    flex: 1;
+        dd {
+            flex: 1;
+        }
+    }
 }
 
 .tags {
     margin-top: 2px;
-}
-
-.description {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: calc(100% - 100px);
 }
 
 .link {
@@ -132,45 +133,6 @@ dl dd {
 .open-badges.mobile {
     width: 10%;
     padding-left: 0;
-}
-
-.dropdown {
-    padding-left: 5px;
-}
-
-.dropdown-button {
-    padding: 4px 12px;
-    line-height: 0;
-}
-
-.dropdown-list {
-    background-color: $color-bg-gray-light;
-    min-width: 180px;
-}
-
-.dropdown-list ul {
-    list-style: none;
-    padding-inline-start: 0;
-}
-
-.dropdown-list li {
-    margin: 10px 0;
-}
-
-.dropdown-link {
-    color: $color-link-black;
-    border-color: transparent;
-    background-color: $color-bg-gray-light;
-    min-width: 180px;
-    text-align: left;
-    padding: 3px 20px;
-}
-
-.dropdown-link:hover,
-.dropdown-link:focus {
-    cursor: pointer;
-    background-image: none;
-    background-color: $color-bg-gray-dark;
 }
 
 .list-group-item-heading {
