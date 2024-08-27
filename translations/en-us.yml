@@ -814,6 +814,12 @@ institutions:
             private_registration_count: 'Private Registrations'
             published_preprint_count: 'Preprints'
             osf_link: 'OSF Link'
+            public_file_count: 'Files on OSF'
+            storage_byte_count: 'Total Data Stored on OSF'
+            account_created: 'Account Created'
+            month_last_login: 'Last Login'
+            month_last_active: 'Last Action'
+            last_action: 'Last Log Action'
         users_connected_panel: 'SSO Users Connected'
         projects_panel: 'Total Projects'
         departments_panel: Departments

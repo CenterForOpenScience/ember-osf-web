@@ -60,6 +60,30 @@
                             {{t 'institutions.dashboard.users_list.published_preprint_count'}}
                             <SortButton @sortBy='published_preprint_count' />
                         </th>
+                        <th>
+                            {{t 'institutions.dashboard.users_list.public_file_count'}}
+                            <SortButton @sortBy='public_file_count' />
+                        </th>
+                        <th>
+                            {{t 'institutions.dashboard.users_list.storage_byte_count'}}
+                            <SortButton @sortBy='storage_byte_count' />
+                        </th>
+                        <th>
+                            {{t 'institutions.dashboard.users_list.account_created'}}
+                            <SortButton @sortBy='account_created' />
+                        </th>
+                        <th>
+                            {{t 'institutions.dashboard.users_list.month_last_login'}}
+                            <SortButton @sortBy='month_last_login' />
+                        </th>
+                        <th>
+                            {{t 'institutions.dashboard.users_list.month_last_active'}}
+                            <SortButton @sortBy='month_last_active' />
+                        </th>
+                        <th>
+                            {{t 'institutions.dashboard.users_list.last_action'}}
+                            <SortButton @sortBy='last_log_action' />
+                        </th>
                     </tr>
                 {{/let}}
             </list.header>
@@ -81,6 +105,12 @@
                     <td data-test-item-public-registration-count>{{institutionalUser.publicRegistrationCount}}</td>
                     <td data-test-item-embargoed-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
                     <td data-test-item-published-preprint-count>{{institutionalUser.publishedPreprintCount}}</td>
+                    <td data-test-item-files-on-osf>{{institutionalUser.publicFileCount}}</td>
+                    <td data-test-item-total-data-stored-on-osf>{{institutionalUser.storageByteCount}}</td>
+                    <td data-test-item-total-data-stored-on-osf>{{institutionalUser.totalObjectCount}}</td>
+                    <td data-test-item-last-login>{{institutionalUser.monthLastLogin}}</td>
+                    <td data-test-item-last-login>{{institutionalUser.monthLastActive}}</td>
+                    <td data-test-item-account-created>{{institutionalUser.lastLogAction}}</td>
                 {{/if}}
             </list.item>
             <list.empty local-class='empty'>

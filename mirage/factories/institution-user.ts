@@ -8,6 +8,9 @@ export default Factory.extend<InstitutionUser>({
     department() {
         return faker.random.arrayElement(['Architecture', 'Biology', 'Psychology']);
     },
+    lastLogAction() {
+        return faker.random.arrayElement(['Created Project', 'Deleted File', 'Uploaded File']);
+    },
     publicProjects() {
         return faker.random.number({ min: 0, max: 99 });
     },
