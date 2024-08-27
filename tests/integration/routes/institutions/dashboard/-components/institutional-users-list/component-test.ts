@@ -111,23 +111,23 @@ module('Integration | routes | institutions | dashboard | -components | institut
         assert.dom('[data-test-item-name]')
             .exists({ count: 3 }, '3 users');
 
-        await click('[data-test-ascending-sort="user_name"]');
         assert.dom('[data-test-item-name]')
-            .containsText('Hulk Hogan', 'Sorts by name ascendening');
+            .containsText('Hulk Hogan', 'Sorts by name ascending by default');
 
         assert.dom('[data-test-item-name] a:first-of-type')
             .hasAttribute('href');
 
         await click('[data-test-descending-sort="user_name"]');
         assert.dom('[data-test-item-name]')
-            .containsText('John Doe', 'Sorts by name descendening');
-
-        await click('[data-test-ascending-sort="department"]');
-        assert.dom('[data-test-item-department]')
-            .hasText('Architecture', 'Sorts by department ascendening');
+            .containsText('John Doe', 'Sorts by name descending');
 
         await click('[data-test-descending-sort="department"]');
         assert.dom('[data-test-item-department]')
-            .hasText('Psychology', 'Sorts by department descendening');
+            .hasText('Psychology', 'Sorts by department descending');
+
+        await click('[data-test-ascending-sort="department"]');
+        assert.dom('[data-test-item-department]')
+            .hasText('Architecture', 'Sorts by department ascending');
+
     });
 });

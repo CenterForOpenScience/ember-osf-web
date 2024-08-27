@@ -23,62 +23,62 @@
             @query={{this.queryUsers}} as |list|
         >
             <list.header local-class='header'>
-                {{#let (component 'sort-button'
-                    class=(local-class 'sort-button')
+                {{#let (component 'sort-arrow'
+                    class=(local-class 'sort-arrow')
                     sortAction=(action this.sortInstitutionalUsers)
                     sort=this.sort
-                ) as |SortButton|}}
+                ) as |SortArrow|}}
                     <tr>
                         <th data-test-header-name rowspan='2'>
                             <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
-                            <SortButton @sortBy='user_name' />
+                            <SortArrow @sortBy='user_name' />
                         </th>
                         <th data-test-header-department rowspan='2'>
                             <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
-                            <SortButton @sortBy='department' />
+                            <SortArrow @sortBy='department' />
                         </th>
                         <th>
                             {{t 'institutions.dashboard.users_list.osf_link'}}
                         </th>
-                        <th>
+                        <th data-test-header-public-projects>
                             <span>{{t 'institutions.dashboard.users_list.public_projects'}}</span>
-                            <SortButton @sortBy='public_projects' />
+                            <SortArrow @sortBy='public_projects' />
                         </th>
                         <th>
                             <span>{{t 'institutions.dashboard.users_list.private_projects'}}</span>
-                            <SortButton @sortBy='private_projects' />
+                            <SortArrow @sortBy='private_projects' />
                         </th>
-                        <th>
+                        <th data-test-header-private-projects>
                             {{t 'institutions.dashboard.users_list.public_registration_count'}}
-                            <SortButton @sortBy='public_registration_count' />
+                            <SortArrow @sortBy='public_registration_count' />
                         </th>
                         <th>
                             {{t 'institutions.dashboard.users_list.private_registration_count'}}
-                            <SortButton @sortBy='embargoed_registration_count' />
+                            <SortArrow @sortBy='embargoed_registration_count' />
                         </th>
                         <th>
                             {{t 'institutions.dashboard.users_list.published_preprint_count'}}
-                            <SortButton @sortBy='published_preprint_count' />
+                            <SortArrow @sortBy='published_preprint_count' />
                         </th>
                         <th>
                             {{t 'institutions.dashboard.users_list.public_file_count'}}
-                            <SortButton @sortBy='public_file_count' />
+                            <SortArrow @sortBy='public_file_count' />
                         </th>
                         <th>
                             {{t 'institutions.dashboard.users_list.storage_byte_count'}}
-                            <SortButton @sortBy='storage_byte_count' />
+                            <SortArrow @sortBy='storage_byte_count' />
                         </th>
                         <th>
                             {{t 'institutions.dashboard.users_list.account_created'}}
-                            <SortButton @sortBy='account_created' />
+                            <SortArrow @sortBy='account_created' />
                         </th>
                         <th>
                             {{t 'institutions.dashboard.users_list.month_last_login'}}
-                            <SortButton @sortBy='month_last_login' />
+                            <SortArrow @sortBy='month_last_login' />
                         </th>
                         <th>
                             {{t 'institutions.dashboard.users_list.month_last_active'}}
-                            <SortButton @sortBy='month_last_active' />
+                            <SortArrow @sortBy='month_last_active' />
                         </th>
                     </tr>
                 {{/let}}
@@ -102,8 +102,8 @@
                     <td data-test-item-embargoed-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
                     <td data-test-item-published-preprint-count>{{institutionalUser.publishedPreprintCount}}</td>
                     <td data-test-item-files-on-osf>{{institutionalUser.publicFileCount}}</td>
-                    <td data-test-item-total-data-stored-on-osf>{{institutionalUser.userDataUsage}}</td>
-                    <td data-test-item-total-data-stored-on-osf>{{institutionalUser.totalObjectCount}}</td>
+                    <td data-test-item-data-usage-on-osf>{{institutionalUser.userDataUsage}}</td>
+                    <td data-test-item-account-created>{{moment-format institutionalUser.accountCreationDate 'MM/DD/YYYY HH:mm:SS'}}</td>
                     <td data-test-item-last-login>{{moment-format institutionalUser.monthLastLogin 'MM/DD/YYYY HH:mm:SS'}}</td>
                     <td data-test-item-last-active>{{moment-format institutionalUser.monthLastActive 'MM/DD/YYYY HH:mm:SS'}}</td>
                 {{/if}}
