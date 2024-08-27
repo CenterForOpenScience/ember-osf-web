@@ -7,7 +7,6 @@ import OsfModel from './osf-model';
 export default class InstitutionUserModel extends OsfModel {
     @attr('fixstring') userName!: string;
     @attr('fixstring') department?: string;
-    @attr('fixstring') lastLogAction?: string;
     @attr('number') publicProjects!: number;
     @attr('number') privateProjects!: number;
     @attr('number') publicRegistrationCount!: number;
