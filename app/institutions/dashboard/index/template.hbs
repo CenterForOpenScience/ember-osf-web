@@ -1,15 +1,11 @@
-<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{this.model.institution}} as |wrapper|>
-    <wrapper.main>
-        <div local-class='panel-wrapper' data-analytics-scope='Summary tab'>
-            <Institutions::Dashboard::-Components::Panel
-                @title={{t 'institutions.dashboard.users_connected_panel'}}
-            >
-                {{#if this.model.summaryMetrics}}
-                    <h3>{{this.model.summaryMetrics.userCount}}</h3>
-                {{else}}
-                    {{t 'institutions.dashboard.empty'}}
-                {{/if}}
-            </Institutions::Dashboard::-Components::Panel>
+<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper 
+    @institution={{this.model.taskInstance.institution}} as |wrapper|
+>
+    <wrapper.main local-class='main-container'>
+        <Institutions::Dashboard::-Components::TotalCountKpiWrapper
+        @model={{this.model}}
+        />
+        {{!-- <div local-class='panel-wrapper' data-analytics-scope='Summary tab'>
             <Institutions::Dashboard::-Components::Panel
                 @title={{t 'institutions.dashboard.projects_panel'}}
             >
@@ -17,6 +13,8 @@
                     @summaryMetrics={{this.model.summaryMetrics}}
                 />
             </Institutions::Dashboard::-Components::Panel>
+        </div>
+        <div local-class='panel-wrapper' data-analytics-scope='Summary tab'>
             <Institutions::Dashboard::-Components::Panel
                 @title={{t 'institutions.dashboard.departments_panel'}}
             >
@@ -25,6 +23,6 @@
                     @totalUsers={{this.model.totalUsers}}
                 />
             </Institutions::Dashboard::-Components::Panel>
-        </div>
+        </div> --}}
     </wrapper.main>
 </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
