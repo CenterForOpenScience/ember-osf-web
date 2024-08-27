@@ -1,7 +1,7 @@
 <Button
-    data-test-sort-button={{this.sortBy}}
+    data-test-ascending-sort={{this.sortBy}}
     data-analytics-name={{concat 'Sort ' this.sortBy}}
-    local-class='sort-button'
+    local-class={{if (eq @sort this.sortBy) 'selected' 'not-selected'}}
     title={{if (eq @sort this.sortBy) (t 'general.sort_desc') (t 'general.sort_asc')}}
     aria-label={{if (eq @sort this.sortBy) (t 'general.sort_desc') (t 'general.sort_asc')}}
     {{on 'click' (action @sortAction this.sortBy)}}
