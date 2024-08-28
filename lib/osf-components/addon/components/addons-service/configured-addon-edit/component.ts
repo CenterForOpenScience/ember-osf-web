@@ -14,7 +14,8 @@ interface Args {
 
 export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked displayName = this.args.configuredStorageAddon.displayName;
-    @tracked selectedFolder = this.args.configuredStorageAddon.rootFolder;
+    @tracked selectedFolder =
+        this.args.configuredStorageAddon.rootFolder ? this.args.configuredStorageAddon.rootFolder : null;
     @tracked currentItems: Item[] = [];
 
     defaultKwargs = {

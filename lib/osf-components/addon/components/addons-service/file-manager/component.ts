@@ -98,7 +98,11 @@ export default class FileManager extends Component<Args> {
         kwargs.itemId = this.currentFolderId;
         kwargs.pageCursor = this.cursor;
         try {
-            const invocation = await taskFor(this.args.configuredStorageAddon.getFolderItems).perform(kwargs);
+            let invocation;
+            if (!this.currentFolderId) {
+                invocation = await taskFor(this.args.configuredStorageAddon.getFolderItems).perform();
+            }
+            invocation = await taskFor(this.args.configuredStorageAddon.getFolderItems).perform(kwargs);
             this.lastInvocation = invocation;
             const { operationResult } = invocation;
             this.currentItems = this.cursor ? [...this.currentItems, ...operationResult.items] : operationResult.items;
