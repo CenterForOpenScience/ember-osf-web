@@ -19,20 +19,6 @@
     justify-content: space-between;
 }
 
-.download-button {
-    display: inline-block;
-    border: 1px solid $color-border-gray;
-    border-radius: 2px;
-    padding: 6px 12px;
-}
-
-.download-button:focus,
-.download-button:hover {
-    color: $color-text-black;
-    background-color: $color-shadow-dark;
-    border-color: $color-border-gray-darker;
-}
-
 .tab-list {
     @include clamp-width;
     @include tab-list;
