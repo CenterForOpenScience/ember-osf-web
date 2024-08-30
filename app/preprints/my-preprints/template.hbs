@@ -10,11 +10,9 @@
     </layout.heading>
     <layout.main>
         <div local-class='GutterBody'>
-            {{#if this.preprints.length}}
-                {{#each this.preprints as |preprint|}}
-                    <Preprints::-Components::PreprintCard @preprint={{preprint}} />
-                {{/each}}
-            {{/if}}
+            {{#each this.model as |preprint|}}
+                <Preprints::-Components::PreprintCard @preprint={{preprint}} />
+            {{/each}}
         </div>
     </layout.main>
 </OsfLayout>
