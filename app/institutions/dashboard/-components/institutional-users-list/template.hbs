@@ -36,46 +36,46 @@
                         <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
                         <SortArrow @sortBy='department' />
                     </th>
-                    <th>
+                    <th data-test-header-osf-link>
                         {{t 'institutions.dashboard.users_list.osf_link'}}
                     </th>
                     <th data-test-header-public-projects>
                         <span>{{t 'institutions.dashboard.users_list.public_projects'}}</span>
                         <SortArrow @sortBy='public_projects' />
                     </th>
-                    <th>
+                    <th data-test-header-private-projects>
                         <span>{{t 'institutions.dashboard.users_list.private_projects'}}</span>
                         <SortArrow @sortBy='private_projects' />
                     </th>
-                    <th data-test-header-private-projects>
+                    <th data-test-header-public-registration-count>
                         {{t 'institutions.dashboard.users_list.public_registration_count'}}
                         <SortArrow @sortBy='public_registration_count' />
                     </th>
-                    <th>
+                    <th data-test-header-private-registration-count>
                         {{t 'institutions.dashboard.users_list.private_registration_count'}}
                         <SortArrow @sortBy='embargoed_registration_count' />
                     </th>
-                    <th>
+                    <th data-test-header-published-preprint-count>
                         {{t 'institutions.dashboard.users_list.published_preprint_count'}}
                         <SortArrow @sortBy='published_preprint_count' />
                     </th>
-                    <th>
+                    <th data-test-header-public-file-count>
                         {{t 'institutions.dashboard.users_list.public_file_count'}}
                         <SortArrow @sortBy='public_file_count' />
                     </th>
-                    <th>
+                    <th data-test-header-storage-byte-count>
                         {{t 'institutions.dashboard.users_list.storage_byte_count'}}
                         <SortArrow @sortBy='storage_byte_count' />
                     </th>
-                    <th>
+                    <th data-test-header-account-created>
                         {{t 'institutions.dashboard.users_list.account_created'}}
                         <SortArrow @sortBy='account_creation_date' />
                     </th>
-                    <th>
+                    <th data-test-header-month-last-login>
                         {{t 'institutions.dashboard.users_list.month_last_login'}}
                         <SortArrow @sortBy='month_last_login' />
                     </th>
-                    <th>
+                    <th data-test-header-month-last-active>
                         {{t 'institutions.dashboard.users_list.month_last_active'}}
                         <SortArrow @sortBy='month_last_active' />
                     </th>
@@ -90,7 +90,7 @@
                     </OsfLink>
                 </td>
                 <td data-test-item-department>{{institutionalUser.department}}</td>
-                <td data-test-item-user-guid>
+                <td data-test-item-osf-link>
                     <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                         {{institutionalUser.userGuid}}
                     </OsfLink>
@@ -98,10 +98,10 @@
                 <td data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
                 <td data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
                 <td data-test-item-public-registration-count>{{institutionalUser.publicRegistrationCount}}</td>
-                <td data-test-item-embargoed-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
+                <td data-test-item-private-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
                 <td data-test-item-published-preprint-count>{{institutionalUser.publishedPreprintCount}}</td>
-                <td data-test-item-files-on-osf>{{institutionalUser.publicFileCount}}</td>
-                <td data-test-item-data-usage-on-osf>{{institutionalUser.userDataUsage}}</td>
+                <td data-test-item-public-file-count>{{institutionalUser.publicFileCount}}</td>
+                <td data-test-item-storage-byte-count>{{institutionalUser.userDataUsage}}</td>
                 <td data-test-item-account-created>{{moment-format institutionalUser.accountCreationDate 'MM/YYYY'}}</td>
                 <td data-test-item-last-login>{{moment-format institutionalUser.monthLastLogin 'MM/YYYY'}}</td>
                 <td data-test-item-last-active>{{moment-format institutionalUser.monthLastActive 'MM/YYYY'}}</td>
