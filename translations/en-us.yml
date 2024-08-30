@@ -800,7 +800,7 @@ institutions:
             preprints: Preprints
         content-placeholder: Content coming soon # Delete this eventually pls
         title: '{institutionName} Dashboard'
-        download_past_reports_label: Reports
+        download_past_reports_label: 'Previous reports'
         download_csv: 'Download CSV'
         select_default: 'All Departments'
         users_list:
