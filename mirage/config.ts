@@ -354,6 +354,11 @@ export default function(this: Server) {
     osfResource(this, 'preprint');
     this.post('/preprints', createPreprint);
 
+    this.get('/preprints/:id', (schema, request) => {
+        const id = request.params.id;
+        return schema.preprints.find(id);
+    });
+
     osfNestedResource(this, 'preprint', 'contributors', {
         path: '/preprints/:parentID/contributors/',
         defaultSortKey: 'index',
