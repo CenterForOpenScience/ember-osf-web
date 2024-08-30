@@ -12,105 +12,103 @@
     >
         {{department}}
     </PowerSelect>
-    <ContentPlaceholders>
-        <PaginatedList::HasMany
-            local-class='table'
-            @isTable={{true}}
-            @model={{@institution}}
-            @usePlaceholders={{false}}
-            @relationshipName='userMetrics'
-            @bindReload={{action (mut this.reloadUserList)}}
-            @query={{this.queryUsers}} as |list|
-        >
-            <list.header local-class='header'>
-                {{#let (component 'sort-arrow'
-                    class=(local-class 'sort-arrow')
-                    sortAction=(action this.sortInstitutionalUsers)
-                    sort=this.sort
-                ) as |SortArrow|}}
-                    <tr>
-                        <th data-test-header-name rowspan='2'>
-                            <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
-                            <SortArrow @sortBy='user_name' />
-                        </th>
-                        <th data-test-header-department rowspan='2'>
-                            <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
-                            <SortArrow @sortBy='department' />
-                        </th>
-                        <th>
-                            {{t 'institutions.dashboard.users_list.osf_link'}}
-                        </th>
-                        <th data-test-header-public-projects>
-                            <span>{{t 'institutions.dashboard.users_list.public_projects'}}</span>
-                            <SortArrow @sortBy='public_projects' />
-                        </th>
-                        <th>
-                            <span>{{t 'institutions.dashboard.users_list.private_projects'}}</span>
-                            <SortArrow @sortBy='private_projects' />
-                        </th>
-                        <th data-test-header-private-projects>
-                            {{t 'institutions.dashboard.users_list.public_registration_count'}}
-                            <SortArrow @sortBy='public_registration_count' />
-                        </th>
-                        <th>
-                            {{t 'institutions.dashboard.users_list.private_registration_count'}}
-                            <SortArrow @sortBy='embargoed_registration_count' />
-                        </th>
-                        <th>
-                            {{t 'institutions.dashboard.users_list.published_preprint_count'}}
-                            <SortArrow @sortBy='published_preprint_count' />
-                        </th>
-                        <th>
-                            {{t 'institutions.dashboard.users_list.public_file_count'}}
-                            <SortArrow @sortBy='public_file_count' />
-                        </th>
-                        <th>
-                            {{t 'institutions.dashboard.users_list.storage_byte_count'}}
-                            <SortArrow @sortBy='storage_byte_count' />
-                        </th>
-                        <th>
-                            {{t 'institutions.dashboard.users_list.account_created'}}
-                            <SortArrow @sortBy='account_created' />
-                        </th>
-                        <th>
-                            {{t 'institutions.dashboard.users_list.month_last_login'}}
-                            <SortArrow @sortBy='month_last_login' />
-                        </th>
-                        <th>
-                            {{t 'institutions.dashboard.users_list.month_last_active'}}
-                            <SortArrow @sortBy='month_last_active' />
-                        </th>
-                    </tr>
-                {{/let}}
-            </list.header>
-            <list.item local-class='item' as |institutionalUser|>
-                {{#if institutionalUser}}
-                    <td data-test-item-name>
-                        <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
-                            {{institutionalUser.userName}}
-                        </OsfLink>
-                    </td>
-                    <td data-test-item-department>{{institutionalUser.department}}</td>
-                    <td data-test-item-user-guid>
-                        <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
-                            {{institutionalUser.userGuid}}
-                        </OsfLink>
-                    </td>
-                    <td data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
-                    <td data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
-                    <td data-test-item-public-registration-count>{{institutionalUser.publicRegistrationCount}}</td>
-                    <td data-test-item-embargoed-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
-                    <td data-test-item-published-preprint-count>{{institutionalUser.publishedPreprintCount}}</td>
-                    <td data-test-item-files-on-osf>{{institutionalUser.publicFileCount}}</td>
-                    <td data-test-item-data-usage-on-osf>{{institutionalUser.userDataUsage}}</td>
-                    <td data-test-item-account-created>{{moment-format institutionalUser.accountCreationDate 'MM/DD/YYYY HH:mm:SS'}}</td>
-                    <td data-test-item-last-login>{{moment-format institutionalUser.monthLastLogin 'MM/DD/YYYY HH:mm:SS'}}</td>
-                    <td data-test-item-last-active>{{moment-format institutionalUser.monthLastActive 'MM/DD/YYYY HH:mm:SS'}}</td>
-                {{/if}}
-            </list.item>
-            <list.empty local-class='empty'>
-                {{t 'institutions.dashboard.users_list.empty'}}
-            </list.empty>
-        </PaginatedList::HasMany>
-    </ContentPlaceholders>
+    <PaginatedList::HasMany
+        local-class='table'
+        @isTable={{true}}
+        @model={{@institution}}
+        @usePlaceholders={{false}}
+        @relationshipName='userMetrics'
+        @bindReload={{action (mut this.reloadUserList)}}
+        @query={{this.queryUsers}} as |list|
+    >
+        <list.header local-class='header'>
+            {{#let (component 'sort-arrow'
+                class=(local-class 'sort-arrow')
+                sortAction=(action this.sortInstitutionalUsers)
+                sort=this.sort
+            ) as |SortArrow|}}
+                <tr>
+                    <th data-test-header-name rowspan='2'>
+                        <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
+                        <SortArrow @sortBy='user_name' />
+                    </th>
+                    <th data-test-header-department rowspan='2'>
+                        <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
+                        <SortArrow @sortBy='department' />
+                    </th>
+                    <th>
+                        {{t 'institutions.dashboard.users_list.osf_link'}}
+                    </th>
+                    <th data-test-header-public-projects>
+                        <span>{{t 'institutions.dashboard.users_list.public_projects'}}</span>
+                        <SortArrow @sortBy='public_projects' />
+                    </th>
+                    <th>
+                        <span>{{t 'institutions.dashboard.users_list.private_projects'}}</span>
+                        <SortArrow @sortBy='private_projects' />
+                    </th>
+                    <th data-test-header-private-projects>
+                        {{t 'institutions.dashboard.users_list.public_registration_count'}}
+                        <SortArrow @sortBy='public_registration_count' />
+                    </th>
+                    <th>
+                        {{t 'institutions.dashboard.users_list.private_registration_count'}}
+                        <SortArrow @sortBy='embargoed_registration_count' />
+                    </th>
+                    <th>
+                        {{t 'institutions.dashboard.users_list.published_preprint_count'}}
+                        <SortArrow @sortBy='published_preprint_count' />
+                    </th>
+                    <th>
+                        {{t 'institutions.dashboard.users_list.public_file_count'}}
+                        <SortArrow @sortBy='public_file_count' />
+                    </th>
+                    <th>
+                        {{t 'institutions.dashboard.users_list.storage_byte_count'}}
+                        <SortArrow @sortBy='storage_byte_count' />
+                    </th>
+                    <th>
+                        {{t 'institutions.dashboard.users_list.account_created'}}
+                        <SortArrow @sortBy='account_created_date' />
+                    </th>
+                    <th>
+                        {{t 'institutions.dashboard.users_list.month_last_login'}}
+                        <SortArrow @sortBy='month_last_login' />
+                    </th>
+                    <th>
+                        {{t 'institutions.dashboard.users_list.month_last_active'}}
+                        <SortArrow @sortBy='month_last_active' />
+                    </th>
+                </tr>
+            {{/let}}
+        </list.header>
+        <list.item local-class='item' as |institutionalUser|>
+            {{#if institutionalUser}}
+                <td data-test-item-name>
+                    <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
+                        {{institutionalUser.userName}}
+                    </OsfLink>
+                </td>
+                <td data-test-item-department>{{institutionalUser.department}}</td>
+                <td data-test-item-user-guid>
+                    <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
+                        {{institutionalUser.userGuid}}
+                    </OsfLink>
+                </td>
+                <td data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
+                <td data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
+                <td data-test-item-public-registration-count>{{institutionalUser.publicRegistrationCount}}</td>
+                <td data-test-item-embargoed-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
+                <td data-test-item-published-preprint-count>{{institutionalUser.publishedPreprintCount}}</td>
+                <td data-test-item-files-on-osf>{{institutionalUser.publicFileCount}}</td>
+                <td data-test-item-data-usage-on-osf>{{institutionalUser.userDataUsage}}</td>
+                <td data-test-item-account-created>{{moment-format institutionalUser.accountCreationDate 'MM/YYYY'}}</td>
+                <td data-test-item-last-login>{{moment-format institutionalUser.monthLastLogin 'MM/YYYY'}}</td>
+                <td data-test-item-last-active>{{moment-format institutionalUser.monthLastActive 'MM/YYYY'}}</td>
+            {{/if}}
+        </list.item>
+        <list.empty local-class='empty'>
+            {{t 'institutions.dashboard.users_list.empty'}}
+        </list.empty>
+    </PaginatedList::HasMany>
 {{/if}}
