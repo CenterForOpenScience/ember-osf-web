@@ -34,7 +34,10 @@ export default Factory.extend<Institution & InstitutionTraits>({
     withMetrics: trait<Institution>({
         afterCreate(institution, server) {
             const userMetrics = server.createList('institution-user', 15);
-            const departmentMetrics = server.createList('institution-department', 12);
+            const departmentNames = ['Architecture', 'Biology', 'Psychology'];
+            const departmentMetrics = departmentNames.map(name =>
+                server.create('institution-department', { name })
+            );
             const userCount = userMetrics.length;
             let publicProjectCount = 0;
             let privateProjectCount = 0;

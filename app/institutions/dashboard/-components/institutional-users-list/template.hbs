@@ -1,17 +1,56 @@
 {{#if this.modelTaskInstance.isRunning}}
     <LoadingIndicator data-test-loading-indicator @dark={{true}} />
 {{else}}
-    <PowerSelect
-        @options={{this.departments}}
-        @searchEnabled={{true}}
-        @selected={{this.department}}
-        @triggerClass={{local-class 'select'}}
-        @search={{perform this.searchDepartment}}
-        @onChange={{action this.onSelectChange}}
-        as |department|
-    >
-        {{department}}
-    </PowerSelect>
+      <div local-class="filter-container">
+        <BasicDropdown
+          @renderInPlace={{true}}
+          @onClose={{this.onDropdownClose}}
+          @preventScroll={{true}}
+          @eventType="mousedown"
+          local-class="dropdown"
+          as |dd|
+        >
+          <button
+            type="button"
+            local-class="dropdown-trigger"
+            {{on "click" dd.actions.toggle}}
+          >
+            Department
+            <span local-class="caret-icon">▾</span>
+          </button>
+
+          {{#if dd.isOpen}}
+            <div local-class="dropdown-panel">
+              <div local-class="dropdown-content">
+                <label>
+                  <input
+                    type="checkbox"
+                    value="all"
+                    checked={{this.isAllSelected}}
+                    {{on "change" this.toggleAllDepartments}}
+                  />
+                  All departments
+                </label>
+                {{#each this.departments as |department|}}
+                  <label>
+                    <input
+                      type="checkbox"
+                      value={{department}}
+                      checked={{includes this.selectedDepartments department}}
+                      {{on "change" (fn this.toggleDepartmentSelection department)}}
+                    />
+                    {{department}}
+                  </label>
+                {{/each}}
+              </div>
+              <div local-class="dropdown-actions">
+                <button type="button" {{on "click" dd.actions.close}}>Cancel</button>
+                <button type="button" local-class="apply-button" {{on "click" this.applyDepartmentSelection}}>Apply</button>
+              </div>
+            </div>
+          {{/if}}
+        </BasicDropdown>
+      </div>
     <ContentPlaceholders>
         <PaginatedList::HasMany
             local-class='table'
