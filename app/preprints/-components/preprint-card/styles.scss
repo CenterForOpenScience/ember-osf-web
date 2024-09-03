@@ -82,15 +82,6 @@
     }
 }
 
-.preprint-body {
-    width: 100%;
-}
-
-.ember-content-placeholders-text__line {
-    height: 1em;
-    margin-bottom: 5px;
-}
-
 dl {
     margin-bottom: 10px;
 
@@ -98,7 +89,7 @@ dl {
         display: flex;
 
         dt {
-            width: 110px; // Preserved as originally
+            width: 110px;
             margin-right: 5px;
         }
 
@@ -122,26 +113,9 @@ dl {
     }
 }
 
-.open-badges {
-    width: 20%;
-    border-left-width: thin;
-    border-left-color: $color-bg-gray-light;
-    border-left-style: solid;
-    padding-left: 10px;
-}
-
-.open-badges.mobile {
-    width: 10%;
-    padding-left: 0;
-}
-
 .list-group-item-heading {
     margin-top: 0;
     margin-bottom: 5px;
-}
-
-.pull-right {
-    float: right !important;
 }
 
 .update-button {
