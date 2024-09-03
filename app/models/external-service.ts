@@ -1,7 +1,7 @@
 import Model, { attr } from '@ember-data/model';
 
 export enum CredentialsFormat {
-    OAUTH = 'OAUTH1',
+    OAUTH = 'OAUTH1A',
     OAUTH2 = 'OAUTH2',
     USERNAME_PASSWORD = 'USERNAME_PASSWORD',
     ACCESS_SECRET_KEYS = 'ACCESS_KEY_SECRET_KEY',

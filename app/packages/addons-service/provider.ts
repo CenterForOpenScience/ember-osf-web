@@ -291,8 +291,9 @@ export default class Provider {
         const configuredCitationAddon = this.store.createRecord('configured-citation-addon', {
             externalCitationService: this.provider,
             accountOwner: this.userReference,
-            authorizedResource: this.serviceNode,
+            authorizedResourceUri: this.node!.links.iri,
             baseAccount: account,
+            connectedCapabilities: ['ACCESS', 'UPDATE'],
         });
         return await configuredCitationAddon.save();
     }
