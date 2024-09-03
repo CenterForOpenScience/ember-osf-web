@@ -1,0 +1,15 @@
+{{#paginated-list/layout
+    isTable=this.isTable
+    items=this.items
+    page=this.page
+    pageSize=this.pageSize
+    totalCount=this.totalCount
+    loading=this.loadItemsWrapperTask.isRunning
+    errorShown=this.errorShown
+    next=(action this.next)
+    previous=(action this.previous)
+    doReload=(action this._doReload)
+    as |list|
+}}
+    {{yield list}}
+{{/paginated-list/layout}}
