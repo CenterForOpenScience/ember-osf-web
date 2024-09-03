@@ -1,0 +1,9 @@
+{{#if this.isTable}}
+    <thead ...attributes>
+        {{yield}}
+    </thead>
+{{else}}
+    <li ...attributes>
+        {{yield}}
+    </li>
+{{/if}}
