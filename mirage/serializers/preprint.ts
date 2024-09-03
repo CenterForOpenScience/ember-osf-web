@@ -15,8 +15,10 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
     }
 
     buildRelationships(model: ModelInstance<PreprintMirageModel>) {
-        const relationships: SerializedRelationships<PreprintMirageModel> = {
-            provider: {
+        const relationships: SerializedRelationships<PreprintMirageModel> = {};
+
+        if (model.provider) {
+            relationships.provider = {
                 data: {
                     id: model.provider.id,
                     type: 'preprint-providers',
@@ -27,32 +29,44 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                         meta: {},
                     },
                 },
-            },
-            contributors: {
+            };
+        }
+
+        if (model.contributors) {
+            relationships.contributors = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/contributors`,
                         meta: this.buildRelatedLinkMeta(model, 'contributors'),
                     },
                 },
-            },
-            bibliographicContributors: {
+            };
+        }
+
+        if (model.bibliographicContributors) {
+            relationships.bibliographicContributors = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/bibliographic_contributors/`,
                         meta: this.buildRelatedLinkMeta(model, 'bibliographicContributors'),
                     },
                 },
-            },
-            files: {
+            };
+        }
+
+        if (model.files) {
+            relationships.files = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/files/`,
                         meta: this.buildRelatedLinkMeta(model, 'files'),
                     },
                 },
-            },
-            subjects: {
+            };
+        }
+
+        if (model.subjects) {
+            relationships.subjects = {
                 links: {
                     self: {
                         href: `${apiUrl}/v2/preprints/${model.id}/relationships/subjects/`,
@@ -63,43 +77,55 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                         meta: this.buildRelatedLinkMeta(model, 'subjects'),
                     },
                 },
-            },
-            reviewActions: {
+            };
+        }
+
+        if (model.reviewActions) {
+            relationships.reviewActions = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/review_actions/`,
                         meta: this.buildRelatedLinkMeta(model, 'reviewActions'),
                     },
                 },
-            },
-            requests: {
+            };
+        }
+
+        if (model.requests) {
+            relationships.requests = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/requests/`,
                         meta: this.buildRelatedLinkMeta(model, 'requests'),
                     },
                 },
-            },
-            citation: {
+            };
+        }
+
+        if (model.citation) {
+            relationships.citation = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/citation/`,
                         meta: {},
                     },
                 },
-            },
-            identifiers: {
+            };
+        }
+
+        if (model.identifiers) {
+            relationships.identifiers = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/identifiers/`,
                         meta: this.buildRelatedLinkMeta(model, 'identifiers'),
                     },
                 },
-            },
-        };
+            };
+        }
 
         if (model.node) {
-            relationships['node'] = {
+            relationships.node = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/nodes/${model.nodeId}`,
@@ -110,7 +136,7 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
         }
 
         if (model.primaryFile) {
-            relationships['primaryFile'] = {
+            relationships.primaryFile = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/files/${model.primaryFile.id}/`,
@@ -120,7 +146,7 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
             };
         }
 
-        if (model.license !== null) {
+        if (model.license) {
             const { id } = model.license;
             relationships.license = {
                 data: {

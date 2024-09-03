@@ -1,3 +1,18 @@
-<div data-analytics-scope='my-preprints'>
-    {{outlet}}
-</div>
+{{page-title (t 'preprints.my_preprints.header')}}
+
+<OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
+    <layout.heading local-class = 'Hero'>
+        <div local-class='Title'>
+            <h1>
+                {{t 'preprints.my_preprints.header'}}
+            </h1>
+        </div>
+    </layout.heading>
+    <layout.main>
+        <div local-class='GutterBody'>
+            {{#each this.model as |preprint|}}
+                <Preprints::-Components::PreprintCard @preprint={{preprint}} />
+            {{/each}}
+        </div>
+    </layout.main>
+</OsfLayout>

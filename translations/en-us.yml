@@ -1432,6 +1432,25 @@ preprints:
         advisory:
             heading: 'Advisory Group'
             paragraph: 'Our advisory group includes leaders in preprints and scholarly communication'
+    my_preprints:
+        header: 'My Preprints'
+    preprint_card:
+        statuses:
+            pending: 'Pending'
+            accepted: 'Accepted'
+            rejected: 'Rejected'
+        contributors: 'Contributors:'
+        description: 'Description'
+        private_tooltip: 'This preprint is private'
+        options: 'Options'
+        manage_contributors: 'Manage Contributors'
+        view_button: 'View'
+        update_button: 'Edit'
+        settings: 'Settings'
+        delete: 'Delete'
+        provider: 'Provider:'
+        date_created: 'Date Created:'
+        date_modified: 'Date Modified:'
 registries:
     header:
         osf_registrations: 'OSF Registrations'

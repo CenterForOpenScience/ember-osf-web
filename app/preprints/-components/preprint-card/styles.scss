@@ -1,0 +1,123 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.preprint-card {
+    width: 100%;
+    margin: 1px 0;
+
+    .card-contents {
+        display: block;
+        flex-direction: row;
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        margin-bottom: -1px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+
+        .heading {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
+
+            :global .ember-content-placeholders-heading__title {
+                height: 1em;
+                margin-top: 5px;
+                margin-bottom: 5px;
+
+                &:first-child {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+.label-danger {
+    background-color: $brand-danger;
+}
+
+.heading > span {
+    line-height: 1.5;
+}
+
+.label-info {
+    background-color: darken($brand-info, 15%);
+}
+
+.label-primary {
+    background-color: #337ab7;
+}
+
+.label {
+    padding: 0.2em 0.6em 0.3em;
+    font-size: 75%;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25em;
+    display: block;
+    margin-top: 5px;
+}
+
+.osf-link {
+    margin-left: 5px;
+    margin-top: 2px;
+    font-weight: bold;
+}
+
+.osf-link.mobile {
+    margin-left: 0;
+}
+
+.body {
+    width: 80%;
+
+    &.mobile {
+        width: 90%;
+    }
+}
+
+dl {
+    margin-bottom: 10px;
+
+    div {
+        display: flex;
+
+        dt {
+            width: 110px;
+            margin-right: 5px;
+        }
+
+        dd {
+            flex: 1;
+        }
+    }
+}
+
+.tags {
+    margin-top: 2px;
+}
+
+.link {
+    composes: Button from 'osf-components/components/button/styles.scss';
+    composes: SecondaryButton from 'osf-components/components/button/styles.scss';
+    composes: MediumButton from 'osf-components/components/button/styles.scss';
+
+    &:hover {
+        text-decoration: none !important;
+    }
+}
+
+.list-group-item-heading {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.update-button {
+    color: $color-text-blue-dark;
+}
