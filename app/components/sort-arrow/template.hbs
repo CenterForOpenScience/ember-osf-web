@@ -1,0 +1,16 @@
+<span local-class="sort-arrow-container">
+    <a
+        data-test-sort={{this.args.sortBy}}
+        data-analytics-name={{concat 'Sort ' this.args.sortBy}}
+        local-class="arrow-button {{if this.isSelected 'selected' 'not-selected'}}"
+        title={{if this.isCurrentAscending (t 'general.sort_desc') (t 'general.sort_asc')}}
+        aria-label={{if this.isCurrentAscending (t 'general.sort_desc') (t 'general.sort_asc')}}
+        {{on 'click' this.handleSort}}
+    >
+        {{#if this.isCurrentAscending}}
+            <FaIcon @icon='arrow-up' />
+        {{else}}
+            <FaIcon @icon='arrow-down' />
+        {{/if}}
+    </a>
+</span>

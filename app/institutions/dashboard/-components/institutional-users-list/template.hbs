@@ -28,56 +28,106 @@
                 sort=this.sort
             ) as |SortArrow|}}
                 <tr>
-                    <th data-test-header-name rowspan='2'>
-                        <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
-                        <SortArrow @sortBy='user_name' />
+                    <th data-test-header-name rowspan="2">
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.name'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="user_name" />
+                            </span>
+                        </div>
                     </th>
-                    <th data-test-header-department rowspan='2'>
-                        <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
-                        <SortArrow @sortBy='department' />
+                    <th data-test-header-department rowspan="2">
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.department'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="department" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-osf-link>
-                        {{t 'institutions.dashboard.users_list.osf_link'}}
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.osf_link'}}</span>
+                        </div>
                     </th>
                     <th data-test-header-public-projects>
-                        <span>{{t 'institutions.dashboard.users_list.public_projects'}}</span>
-                        <SortArrow @sortBy='public_projects' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.public_projects'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="public_projects" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-private-projects>
-                        <span>{{t 'institutions.dashboard.users_list.private_projects'}}</span>
-                        <SortArrow @sortBy='private_projects' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.private_projects'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="private_projects" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-public-registration-count>
-                        {{t 'institutions.dashboard.users_list.public_registration_count'}}
-                        <SortArrow @sortBy='public_registration_count' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.public_registration_count'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="public_registration_count" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-private-registration-count>
-                        {{t 'institutions.dashboard.users_list.private_registration_count'}}
-                        <SortArrow @sortBy='embargoed_registration_count' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.private_registration_count'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="embargoed_registration_count" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-published-preprint-count>
-                        {{t 'institutions.dashboard.users_list.published_preprint_count'}}
-                        <SortArrow @sortBy='published_preprint_count' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.published_preprint_count'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="published_preprint_count" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-public-file-count>
-                        {{t 'institutions.dashboard.users_list.public_file_count'}}
-                        <SortArrow @sortBy='public_file_count' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.public_file_count'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="public_file_count" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-storage-byte-count>
-                        {{t 'institutions.dashboard.users_list.storage_byte_count'}}
-                        <SortArrow @sortBy='storage_byte_count' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.storage_byte_count'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="storage_byte_count" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-account-created>
-                        {{t 'institutions.dashboard.users_list.account_created'}}
-                        <SortArrow @sortBy='account_creation_date' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.account_created'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="account_creation_date" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-month-last-login>
-                        {{t 'institutions.dashboard.users_list.month_last_login'}}
-                        <SortArrow @sortBy='month_last_login' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.month_last_login'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="month_last_login" />
+                            </span>
+                        </div>
                     </th>
                     <th data-test-header-month-last-active>
-                        {{t 'institutions.dashboard.users_list.month_last_active'}}
-                        <SortArrow @sortBy='month_last_active' />
+                        <div local-class="header-content">
+                            <span local-class="header-text">{{t 'institutions.dashboard.users_list.month_last_active'}}</span>
+                            <span local-class="sort-arrow-container">
+                                <SortArrow @sortBy="month_last_active" />
+                            </span>
+                        </div>
                     </th>
                 </tr>
             {{/let}}
