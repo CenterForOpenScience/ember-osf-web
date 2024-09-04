@@ -33,10 +33,6 @@ export default class PaginatedHasMany extends BaseDataComponent {
         const model = await taskFor(this.getModelTask).perform();
         if (this.usePlaceholders) {
             await taskFor(this.loadRelatedCountTask).perform(reloading);
-            // Don't bother querying if we already know there's nothing there.
-            if (this.totalCount === 0) {
-                return;
-            }
         }
         const items = await model.queryHasMany(
             this.relationshipName,
