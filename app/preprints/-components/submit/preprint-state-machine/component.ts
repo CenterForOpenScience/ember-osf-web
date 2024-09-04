@@ -678,4 +678,9 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public isElementDisabled(): boolean {
         return !this.isAdmin();
     }
+
+    public isAffiliatedInstitutionsDisabled(): boolean {
+        return !(this.isAdmin() ||
+        this.preprint.currentUserPermissions.includes(Permission.Write));
+    }
 }
