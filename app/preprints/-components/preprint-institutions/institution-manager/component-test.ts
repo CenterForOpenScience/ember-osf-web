@@ -56,6 +56,12 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             resetAffiliatedInstitutions: (): void => {
                 this.set('affiliatedInstitutions', []);
             },
+            isAffiliatedInstitutionsDisabled(): boolean {
+                return !(
+                    this.preprint.currentUserPermissions.includes(Permission.Admin) ||
+                    this.preprint.currentUserPermissions.includes(Permission.Write)
+                );
+            },
             isElementDisabled(): boolean {
                 return !(this.preprint.currentUserPermissions).includes(Permission.Admin);
             },
@@ -228,10 +234,39 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             assert.true(isInstitutionAffiliatedFound, 'The second institution is now affiliated');
         });
 
-    test('it renders with the institutions as disabled',
+    test('it renders with the institutions enabled for write users',
         async function(assert) {
             const managerMock = this.get('managerMock');
             managerMock.preprint.currentUserPermissions = [Permission.Write, Permission.Read];
+            this.set('managerMock', managerMock);
+
+            // When the component is rendered
+            await render(hbs`
+<Preprints::-Components::PreprintInstitutions::InstitutionManager
+        @manager={{this.managerMock}} as |manager|>
+    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                @manager={{manager}} />
+</Preprints::-Components::PreprintInstitutions::InstitutionManager> `);
+
+            // Then the first attribute is verified by name and selected
+            assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
+            assert.dom('[data-test-institution-input="0"]').isChecked();
+            assert.dom('[data-test-institution-input="0"]').isEnabled();
+
+            // And the other institutions are verified as not selected
+            assert.dom('[data-test-institution-input="1"]').isNotChecked();
+            assert.dom('[data-test-institution-input="1"]').isEnabled();
+            assert.dom('[data-test-institution-input="2"]').isNotChecked();
+            assert.dom('[data-test-institution-input="2"]').isEnabled();
+            assert.dom('[data-test-institution-input="3"]').isNotChecked();
+            assert.dom('[data-test-institution-input="3"]').isEnabled();
+            assert.dom('[data-test-institution-input="4"]').doesNotExist();
+        });
+
+    test('it renders with the institutions as disabled for read users',
+        async function(assert) {
+            const managerMock = this.get('managerMock');
+            managerMock.preprint.currentUserPermissions = [Permission.Read];
             this.set('managerMock', managerMock);
 
             // When the component is rendered
