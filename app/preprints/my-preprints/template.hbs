@@ -1,7 +1,7 @@
 {{page-title (t 'preprints.my_preprints.header')}}
 
 <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
-    <layout.heading local-class = 'Hero'>
+    <layout.heading local-class='Hero'>
         <div local-class='Title'>
             <h1>
                 {{t 'preprints.my_preprints.header'}}
@@ -10,9 +10,32 @@
     </layout.heading>
     <layout.main>
         <div local-class='GutterBody'>
-            {{#each this.model as |preprint|}}
-                <Preprints::-Components::PreprintCard @preprint={{preprint}} />
-            {{/each}}
+            <div data-test-my-preprints-sort-description local-class='SortDescription'>
+                {{t 'preprints.my_preprints.sorted'}}
+            </div>
+            <ContentPlaceholders as |placeholder|>
+                <PaginatedList::HasMany
+                    @model={{this.model}}
+                    @relationshipName='preprints'
+                    @pageSize={{10}}
+                    @usePlaceholders={{false}}
+                    as |list|
+                >
+                    <list.item as |preprint|>
+                        {{#if preprint}}
+                            <Preprints::-Components::PreprintCard @preprint={{preprint}} />
+                        {{else}}
+                            {{placeholder.text lines=1}}
+                        {{/if}}
+                    </list.item>
+
+                    <list.empty local-class='FlexContainer'>
+                        <div local-class='NoContentContainer'>
+                            <p>{{t 'preprints.noPreprints'}}</p>
+                        </div>
+                    </list.empty>
+                </PaginatedList::HasMany>
+            </ContentPlaceholders>
         </div>
     </layout.main>
 </OsfLayout>

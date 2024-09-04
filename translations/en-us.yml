@@ -1434,6 +1434,7 @@ preprints:
             paragraph: 'Our advisory group includes leaders in preprints and scholarly communication'
     my_preprints:
         header: 'My Preprints'
+        sorted: 'Sorted by last updated'
     preprint_card:
         statuses:
             pending: 'Pending'
