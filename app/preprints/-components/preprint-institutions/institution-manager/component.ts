@@ -95,6 +95,6 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
     }
 
     public get isElementDisabled(): boolean {
-        return this.manager.isElementDisabled();
+        return this.manager.isAffiliatedInstitutionsDisabled();
     }
 }
