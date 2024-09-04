@@ -1,11 +1,11 @@
-import { Factory, Trait, trait } from 'ember-cli-mirage';
+import { Factory, ModelInstance, Trait, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
 import PreprintModel from 'ember-osf-web/models/preprint';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
-
+import UserModel from 'ember-osf-web/models/user';
 import { guid, guidAfterCreate} from './utils';
 
 function buildLicenseText(): string {
@@ -170,11 +170,14 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
     isContributor: trait<PreprintModel>({
         afterCreate(preprint, server) {
-            const { currentUserId } = server.schema.roots.first();
-            server.create('contributor', {
+            const contributors = preprint.contributors.models;
+            const firstContributor = server.create('contributor', {
                 preprint,
-                id: currentUserId,
+                index:0,
+                users: server.schema.roots.first().currentUser as ModelInstance<UserModel>,
             });
+            contributors.splice(0,1,firstContributor);
+            preprint.update({ contributors, bibliographicContributors:contributors });
         },
     }),
 
