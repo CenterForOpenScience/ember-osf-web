@@ -1,5 +1,7 @@
 {{#if this.displayComponent}}
-    <div local-class='institution-list-container {{if (is-mobile) 'mobile'}}'>
+    <div data-test-affiliated-institution
+        local-class='institution-list-container {{if (is-mobile) 'mobile'}}'
+    >
         <label data-test-affiliated-institutions-label>
             {{t 'preprints.submit.step-metadata.institutions.label'}}
         </label>
