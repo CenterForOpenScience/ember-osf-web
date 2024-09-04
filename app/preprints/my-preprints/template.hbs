@@ -14,10 +14,10 @@
                 {{t 'preprints.my_preprints.sorted'}}
             </div>
             <ContentPlaceholders as |placeholder|>
-                <Preprints::-Components::PaginatedList::HasMany
-                    @modelName='preprint'
+                <PaginatedList::HasMany
+                    @model={{this.model}}
+                    @relationshipName='preprints'
                     @pageSize={{10}}
-                    @query={{this.queryParams}}
                     as |list|
                 >
                     <list.item as |preprint|>
@@ -33,7 +33,7 @@
                             <p>{{t 'preprints.noPreprints'}}</p>
                         </div>
                     </list.empty>
-                </Preprints::-Components::PaginatedList::HasMany>
+                </PaginatedList::HasMany>
             </ContentPlaceholders>
         </div>
     </layout.main>
