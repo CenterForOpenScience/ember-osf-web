@@ -42,7 +42,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
     addLicenseName: true,
 
-    currentUserPermissions: [Permission.Admin],
+    currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
 
     reviewsState: ReviewsState.REJECTED,
 
