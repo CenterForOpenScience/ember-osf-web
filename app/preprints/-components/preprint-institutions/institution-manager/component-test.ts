@@ -57,10 +57,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
                 this.set('affiliatedInstitutions', []);
             },
             isAffiliatedInstitutionsDisabled(): boolean {
-                return !(
-                    this.preprint.currentUserPermissions.includes(Permission.Admin) ||
-                    this.preprint.currentUserPermissions.includes(Permission.Write)
-                );
+                return ! this.preprint.currentUserPermissions.includes(Permission.Write);
             },
             isElementDisabled(): boolean {
                 return !(this.preprint.currentUserPermissions).includes(Permission.Admin);
