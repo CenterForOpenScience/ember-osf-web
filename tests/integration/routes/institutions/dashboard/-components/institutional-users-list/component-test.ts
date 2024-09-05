@@ -117,15 +117,15 @@ module('Integration | routes | institutions | dashboard | -components | institut
         assert.dom('[data-test-item-name] a:first-of-type')
             .hasAttribute('href');
 
-        await click('[data-test-descending-sort="user_name"]');
+        await click('[data-test-sort="user_name"]');
         assert.dom('[data-test-item-name]')
             .containsText('John Doe', 'Sorts by name descending');
 
-        await click('[data-test-descending-sort="department"]');
+        await click('[data-test-sort="department"]');
         assert.dom('[data-test-item-department]')
             .hasText('Psychology', 'Sorts by department descending');
 
-        await click('[data-test-ascending-sort="department"]');
+        await click('[data-test-sort="department"]');
         assert.dom('[data-test-item-department]')
             .hasText('Architecture', 'Sorts by department ascending');
 

@@ -52,7 +52,7 @@ const {
     CLIENT_ID: clientId,
     COLLECTIONS_ENABLED = false,
     REGISTRIES_ENABLED = true,
-    TESTS_ENABLED = true,
+    TESTS_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
     GOOGLE_ANALYTICS_ID,
@@ -60,7 +60,7 @@ const {
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     WATER_BUTLER_ENABLED = true,
-    MIRAGE_ENABLED = true,
+    MIRAGE_ENABLED = false,
     MIRAGE_SCENARIOS = [
         'cedar',
         'collections',
