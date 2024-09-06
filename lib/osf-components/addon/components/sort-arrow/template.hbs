@@ -1,6 +1,6 @@
 <span local-class='sort-arrow-container'>
-    <div
-        role='button'
+    <button
+        type='button'
         data-test-sort={{@sortBy}}
         data-analytics-name={{concat 'Sort ' @sortBy}}
         local-class='arrow-button {{if this.isSelected 'selected' 'not-selected'}}'
@@ -13,5 +13,5 @@
         {{else}}
             <FaIcon @icon='arrow-down' />
         {{/if}}
-    </div>
+    </button>
 </span>

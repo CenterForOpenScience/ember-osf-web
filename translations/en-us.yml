@@ -819,7 +819,6 @@ institutions:
             account_created: 'Account Created'
             month_last_login: 'Last Login'
             month_last_active: 'Last Action'
-            last_action: 'Last Log Action'
         users_connected_panel: 'SSO Users Connected'
         projects_panel: 'Total Projects'
         departments_panel: Departments
