@@ -13,6 +13,7 @@ import PreprintEdit from 'ember-osf-web/preprints/edit/controller';
 import Intl from 'ember-intl/services/intl';
 import Transition from '@ember/routing/-private/transition';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import Toast from 'ember-toastr/services/toast';
 
 @requireAuth()
 export default class PreprintEditRoute extends Route.extend(ConfirmationMixin, {}) {
@@ -21,6 +22,7 @@ export default class PreprintEditRoute extends Route.extend(ConfirmationMixin, {
     @service router!: RouterService;
     @service intl!: Intl;
     @service metaTags!: MetaTags;
+    @service toast!: Toast;
     headTags?: HeadTagDef[];
 
     // This does NOT work on chrome and I'm going to leave it just in case
@@ -46,9 +48,13 @@ export default class PreprintEditRoute extends Route.extend(ConfirmationMixin, {
                 !preprint.currentUserPermissions.includes(Permission.Write) ||
                 preprint.isWithdrawn
             ) {
-                throw new Error('User does not have permission to edit this preprint');
+                const errorMessage = this.intl.t('preprints.submit.edit-permission-error',
+                    {
+                        singularPreprintWord: provider.documentType.singular,
+                    });
+                this.toast.error(errorMessage);
+                throw new Error(errorMessage);
             }
-
 
             return {
                 provider,
