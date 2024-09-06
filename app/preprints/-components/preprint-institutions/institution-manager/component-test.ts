@@ -100,6 +100,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
 
     test('it renders with 4 user institutions and 0 affiliated preprint institution - create flow',
         async function(assert) {
+            // Given the mock is instantiated
             const managerMock = this.get('managerMock');
 
             // And retrieve the preprint from the store
@@ -111,6 +112,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             managerMock.preprint.affiliatedInstitutions = [];
             await managerMock.preprint.save();
 
+            // When the component is rendered
             await render(hbs`
 <Preprints::-Components::PreprintInstitutions::InstitutionManager
         @manager={{this.managerMock}} as |manager|>
@@ -127,11 +129,14 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             assert.dom('[data-test-institution-input="2"]').isChecked();
             assert.dom('[data-test-institution-input="3"]').isChecked();
             assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+            // Finally the affiliatedInstitutions on the manager is verified
+            assert.equal(this.get('affiliatedInstitutions').length, 4);
         });
 
     test('it renders with 4 user institutions and 1 affiliated preprint institution - edit flow',
         async function(assert) {
-            // When the component is rendered
+            // Given the mock is instantiated
             const managerMock = this.get('managerMock');
 
             const affiliatedInstitutions = [] as any[];
@@ -141,6 +146,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
                 }
             });
 
+            // When the component is rendered
             managerMock.preprint.affiliatedInstitutions = affiliatedInstitutions;
             this.set('managerMock', managerMock);
             await render(hbs`
@@ -159,6 +165,9 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             assert.dom('[data-test-institution-input="2"]').isNotChecked();
             assert.dom('[data-test-institution-input="3"]').isNotChecked();
             assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+            // Finally the affiliatedInstitutions on the manager is verified
+            assert.equal(this.get('affiliatedInstitutions').length, 1);
         });
 
     test('it removes affiliated preprint institution',
@@ -189,6 +198,9 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             affiliatedInstitutions.forEach((institution: InstitutionModel) => {
                 assert.notEqual(institution.id, 'osf', 'The osf institution is found.');
             });
+
+            // Finally the affiliatedInstitutions on the manager is verified
+            assert.equal(this.get('affiliatedInstitutions').length, 0);
         });
 
     test('it adds affiliated preprint institution',
@@ -229,10 +241,14 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             });
 
             assert.true(isInstitutionAffiliatedFound, 'The second institution is now affiliated');
+
+            // Finally the affiliatedInstitutions on the manager is verified
+            assert.equal(this.get('affiliatedInstitutions').length, 2);
         });
 
     test('it renders with the institutions enabled for write users',
         async function(assert) {
+            // Given the mock is instantiated
             const managerMock = this.get('managerMock');
             managerMock.preprint.currentUserPermissions = [Permission.Write, Permission.Read];
             this.set('managerMock', managerMock);
@@ -258,10 +274,14 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             assert.dom('[data-test-institution-input="3"]').isNotChecked();
             assert.dom('[data-test-institution-input="3"]').isEnabled();
             assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+            // Finally the affiliatedInstitutions on the manager is verified
+            assert.equal(this.get('affiliatedInstitutions').length, 1);
         });
 
     test('it renders with the institutions as disabled for read users',
         async function(assert) {
+            // Given the mock is instantiated
             const managerMock = this.get('managerMock');
             managerMock.preprint.currentUserPermissions = [Permission.Read];
             this.set('managerMock', managerMock);
@@ -287,5 +307,8 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             assert.dom('[data-test-institution-input="3"]').isNotChecked();
             assert.dom('[data-test-institution-input="3"]').isDisabled();
             assert.dom('[data-test-institution-input="4"]').doesNotExist();
+
+            // Finally the affiliatedInstitutions on the manager is verified
+            assert.equal(this.get('affiliatedInstitutions').length, 1);
         });
 });
