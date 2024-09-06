@@ -1179,6 +1179,7 @@ preprints:
         paragraph: 'A preprint is a version of a scholarly or scientific paper that is posted online before it has undergone formal peer review and published in a scientific journal. <a href={link}>Learn More</a>.'
         create_button: 'Create Preprint'
     submit:
+        edit-permission-error: 'User does not have permission to edit this {singularPreprintWord}'
         title-submit: 'New {documentType}'
         title-edit: 'Edit {documentType}'
         step-title:
