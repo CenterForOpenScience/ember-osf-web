@@ -263,7 +263,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         ) {
             await this.saveOnStep();
 
-            if (this.isAdmin()) {
+            if (this.isAdmin() || this.isWrite()) {
                 try {
                     await this.preprint.updateM2MRelationship(
                         'affiliatedInstitutions',
@@ -673,6 +673,10 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
 
     public isAdmin(): boolean {
         return this.preprint.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    public isWrite(): boolean {
+        return this.preprint.currentUserPermissions.includes(Permission.Write);
     }
 
     public isElementDisabled(): boolean {
