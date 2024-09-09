@@ -42,7 +42,7 @@ export default Factory.extend<InstitutionUser>({
         return faker.date.past(10); // Any date within the past 10 years
     },
     orcidId() {
-        return faker.random.uuid(); // Simulate an ORCID ID
+        return faker.random.arrayElement([faker.random.uuid(), null]); // Simulate an ORCID ID
     },
     afterCreate(institutionUser, server) {
         if (!institutionUser.userName && !institutionUser.userGuid) {
