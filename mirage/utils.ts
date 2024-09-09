@@ -1,7 +1,7 @@
 import faker from 'faker';
 
 export function placekitten(width: number, height: number, n = 12) {
-    return `https://placekitten.com/${width}/${height}?image=${n % 17}`;
+    return `https://placecats.com/${width}/${height}?image=${n % 17}`;
 }
 
 export function randomGravatar(size?: number) {
