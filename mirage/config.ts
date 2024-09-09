@@ -68,10 +68,9 @@ export default function(this: Server) {
     this.namespace = '/api/v3/';
     this.get('/index-card-search', cardSearch);
     this.get('/index-value-search', valueSearch);
-    // this.get('/index-card/:id', Detail);
+    this.namespace = '/trove/';  // share's /api/v3/ is the same as /trove/
     this.get('/index-card-searches', cardSearch);
     this.get('/index-value-searches', valueSearch);
-    // this.get('/index-cards/:id', Detail);
 
     this.urlPrefix = osfUrl;
     this.namespace = '/api/v1/';

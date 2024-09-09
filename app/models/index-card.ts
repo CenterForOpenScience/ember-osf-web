@@ -16,6 +16,21 @@ export interface LanguageText {
     '@value': string;
 }
 
+export enum ShareResourceTypes {
+    Project = 'Project',
+    ProjectComponent = 'ProjectComponent',
+    Registration = 'Registration',
+    RegistrationComponent = 'RegistrationComponent',
+    Preprint = 'Preprint',
+    File = 'File',
+    Person = 'Person',
+    Agent = 'Agent',
+    Organization = 'Organization',
+    Concept = 'Concept',
+    ConceptScheme = 'Concept:Scheme',
+}
+
+
 export default class IndexCardModel extends Model {
     @service intl!: IntlService;
 
@@ -36,7 +51,8 @@ export default class IndexCardModel extends Model {
     }
 
     get osfModelType() {
-        const types = this.resourceMetadata.resourceType.map( (item: any) => item['@id']);
+        const types: ShareResourceTypes = this.resourceMetadata.resourceType
+            .map((item: Record<'@id', ShareResourceTypes>) => item['@id']);
         if (types.includes('Project') || types.includes('ProjectComponent')) {
             return 'node';
         } else if (types.includes('Registration') || types.includes('RegistrationComponent')) {
@@ -74,7 +90,7 @@ export default class IndexCardModel extends Model {
     async getOsfModel(options?: object) {
         const identifier = this.resourceIdentifier;
         if (identifier && this.osfModelType) {
-            const guid = this.guidFromIdentifierList(identifier);
+            const guid = this.guidFromIdentifierList();
             if (guid) {
                 const osfModel = await this.store.findRecord(this.osfModelType, guid, options);
                 this.osfModel = osfModel;
