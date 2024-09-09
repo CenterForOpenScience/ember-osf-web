@@ -55,28 +55,39 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
 
                 await this.manager.preprint.affiliatedInstitutions;
 
+                userInstitutions.map((institution: PreprintInstitutionModel) => {
+                    this.institutions.push(institution);
+                });
+
                 /**
                  * The affiliated institutions of a preprint is in
                  * "edit" mode if there are institutions on the
-                 * preprint model. Since the affiliated institutions
+                 * preprint model or the flow is in edit mode.
+                 * Since the affiliated institutions
                  * are persisted by clicking the next button, the
                  * affiliated institutions can be in "Edit mode" even
                  * when the manager is not in edit mode.
                  */
-                let isEditMode = false;
+                let isEditMode = this.manager.isEditFlow;
                 this.manager.preprint.affiliatedInstitutions.map((institution: PreprintInstitutionModel) => {
                     isEditMode = true;
-                    institution.isSelected = true;
-                    this.manager.updateAffiliatedInstitution(institution);
-                });
-
-                userInstitutions.forEach((institution: PreprintInstitutionModel) => {
-                    if (!isEditMode) {
+                    if(this.isAffiliatedInstitutionOwnerByUser(institution.id)) {
                         institution.isSelected = true;
                         this.manager.updateAffiliatedInstitution(institution);
                     }
-                    this.institutions.push(institution);
                 });
+
+                /**
+                 * The business rule is during the create flow or
+                 * "non-edit-flow" all of the institutions should be
+                 * checked by default
+                 */
+                if (!isEditMode) {
+                    userInstitutions.map((institution: PreprintInstitutionModel) => {
+                        institution.isSelected = true;
+                        this.manager.updateAffiliatedInstitution(institution);
+                    });
+                }
 
                 notifyPropertyChange(this, 'institutions');
 
@@ -87,6 +98,12 @@ export default class InstitutionsManagerComponent extends Component<InstitutionA
                 throw e;
             }
         }
+    }
+
+    private isAffiliatedInstitutionOwnerByUser(id: string): boolean {
+        return this.institutions.find(
+            institution => institution.id === id,
+        ) !== undefined;
     }
 
     @action
