@@ -22,20 +22,8 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         this.store = this.owner.lookup('service:store');
         const osf = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProvider>;
 
-        // And create a preprint with affiliated institutions
-        const preprintMock = server.create('preprint', { provider: osf }, 'withAffiliatedInstitutions');
-
-        // And retrieve the preprint from the store
-        const preprint: PreprintModel = await this.store.findRecord('preprint', preprintMock.id);
-
         // And create a user for the service with institutions
-        const user = server.create('user', { id: 'institution-user' }, 'withInstitutions');
-
-        // And find the osf institutions from the preprint
-        const institution = server.schema.institutions.find('osf');
-        // And update the user with the union
-        user.institutions.models.push(institution);
-        user.save();
+        server.create('user', { id: 'institution-user' }, 'withInstitutions');
 
         // And find and set the user for the service
         const currentUserModel = await this.store.findRecord('user', 'institution-user');
@@ -43,6 +31,12 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
         this.owner.lookup('service:current-user').setProperties({
             testUser: currentUserModel, currentUserId: currentUserModel.id,
         });
+
+        // And create a preprint with affiliated institutions
+        const preprintMock = server.create('preprint', { provider: osf }, 'withAffiliatedInstitutions');
+
+        // And retrieve the preprint from the store
+        const preprint: PreprintModel = await this.store.findRecord('preprint', preprintMock.id);
 
         this.set('affiliatedInstitutions', []);
 

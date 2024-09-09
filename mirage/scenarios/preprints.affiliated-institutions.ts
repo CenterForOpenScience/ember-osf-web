@@ -15,7 +15,6 @@ export function preprintsAffiliatedInstitutionsScenario(
     currentUser: ModelInstance<User>,
 ) {
     buildOSF(server, currentUser);
-    // }, 'withAffiliatedInstitutions');
 }
 
 function buildOSF(
@@ -62,7 +61,7 @@ function buildOSF(
 
     const affiliatedInstitutionsPreprint = server.create('preprint', {
         provider: osf,
-        id: 'osf-no-affiliated-institutions',
+        id: 'osf-affiliated-institutions',
         title: 'Preprint RWF: Pre-moderation, Admin and Approved',
         currentUserPermissions: [Permission.Admin,Permission.Write,Permission.Read],
         reviewsState: ReviewsState.ACCEPTED,
@@ -80,7 +79,7 @@ function buildOSF(
             'http://www.datalink.com/3',
         ],
         hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
-    });
+    }, 'withAffiliatedInstitutions');
 
     const subjects = server.createList('subject', 7);
 
