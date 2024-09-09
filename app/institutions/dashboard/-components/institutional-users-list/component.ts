@@ -82,7 +82,19 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     }
 
     @action
-    sortInstitutionalUsers(sort: string) {
-        this.sort = sort;
+    sortInstitutionalUsers(sortBy: string) {
+        if (this.sort === sortBy) {
+            // If the current sort is ascending, toggle to descending
+            this.sort = `-${sortBy}`;
+        } else if (this.sort === `-${sortBy}`) {
+            // If the current sort is descending, toggle to ascending
+            this.sort = sortBy;
+        } else {
+            // Set to descending if it's a new sort field
+            this.sort = `-${sortBy}`;
+        }
+        if (this.reloadUserList) {
+            this.reloadUserList();
+        }
     }
 }
