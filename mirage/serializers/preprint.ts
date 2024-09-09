@@ -38,6 +38,10 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
             },
             affiliatedInstitutions: {
                 links: {
+                    self: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/relationships/institutions/`,
+                        meta: {},
+                    },
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/institutions/`,
                         meta: this.buildRelatedLinkMeta(model, 'affiliatedInstitutions'),
