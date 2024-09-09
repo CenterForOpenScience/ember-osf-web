@@ -17,73 +17,24 @@ const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
                 '@type': rdfString,
             }],
         }],
-        creator: [{
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Person }, { '@id': ShareResourceTypes.Agent }],
-            identifier: [{
-                '@value': 'https://orcid.org/0000-0000-0000-0000',
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.name.findName(),
-                '@type': rdfString,
-            }],
-        }],
-        dateAvailable: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateCopyrighted: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateCreated: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateModified: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
+        creator: [_sharePersonField()],
+        dateAvailable: [_shareDateField()],
+        dateCopyrighted: [_shareDateField()],
+        dateCreated: [_shareDateField()],
+        dateModified: [_shareDateField()],
         description: [{
             '@value': faker.lorem.sentence(),
             '@type': rdfString,
         }],
         hasPart: [{}], // RegistrationComponent
-        hostingInstition: [{
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Agent }, { '@id': ShareResourceTypes.Organization }],
-            identifier: [{
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.company.companyName(),
-                '@type': rdfString,
-            }],
-            // sameAs: [{}], // some ROR
-        }],
-        identifier: [{
-            '@value': faker.internet.url(),
-            '@type': rdfString,
-        }],
+        hostingInstition: [_shareOrganizationField()],
+        identifier: [_shareIdentifierField()],
         isVersionOf: [{}], // if this is from a project
         keyword: [{ // tags
             '@value': faker.random.word(),
             '@type': rdfString,
         }],
-        publisher: [{ // Registration Provider
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Organization }, { '@id': ShareResourceTypes.Agent }],
-            identifier: [{
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.company.companyName(),
-                '@type': rdfString,
-            }],
-        }],
+        publisher: [_shareOrganizationField()], // Registration Provider
         resourceNature: [{ // Registration Category
             '@id': 'https://schema.datacite.org/meta/kernel-4/#StudyRegistration',
             displayLabel: [{
@@ -92,34 +43,9 @@ const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
             }],
         }],
         resourceType: [{ '@id': 'Registration' }],
-        rights: [{ // License
-            '@id': 'http://creativecommons.org/licenses/by/4.0/',
-            identifier: [{
-                '@value': 'http://creativecommons.org/licenses/by/4.0/',
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': 'CC-BY-4.0',
-                '@type': rdfString,
-            }],
-        }],
+        rights: [_shareLicneseField()],
         sameAs: [{}], // some DOI
-        subject: [{
-            '@id': 'https://api.osf.io/v2/subjects/584240da54be81056cecac48',
-            resourceType: [{ '@id': ShareResourceTypes.Concept }],
-            inScheme: [{
-                '@id': 'https://api.osf.io/v2/schemas/subjects/',
-                resourceType: [{ '@id': ShareResourceTypes.ConceptScheme }],
-                title: [{
-                    '@value': 'bepress Digital Commons Three-Tiered Taxonomy',
-                    '@type': rdfString,
-                }],
-            }],
-            prefLabel: [{
-                '@value': 'Social and Behavioral Sciences',
-                '@type': rdfString,
-            }],
-        }],
+        subject: [_shareSubjectField()],
         title: [{
             '@value': faker.lorem.words(3),
             '@type': rdfString,
@@ -128,97 +54,26 @@ const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
     Project: () => ({
         '@id': faker.internet.url(),
         // accessService: [{}],
-        creator: [{
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Person }, { '@id': ShareResourceTypes.Agent }],
-            identifier: [{
-                '@value': 'https://orcid.org/0000-0000-0000-0000',
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.name.findName(),
-                '@type': rdfString,
-            }],
-        }],
-        dateCopyrighted: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateCreated: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateModified: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
+        creator: [_sharePersonField()],
+        dateCopyrighted: [_shareDateField()],
+        dateCreated: [_shareDateField()],
+        dateModified: [_shareDateField()],
         description: [{
             '@value': faker.lorem.sentence(),
             '@type': rdfString,
         }],
         hasPart: [{}], // ProjectComponent
-        hostingInstition: [{
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Agent }, { '@id': ShareResourceTypes.Organization }],
-            identifier: [{
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.company.companyName(),
-                '@type': rdfString,
-            }],
-            // sameAs: [{}], // some ROR
-        }],
-        identifier: [{
-            '@value': faker.internet.url(),
-            '@type': rdfString,
-        }],
+        hostingInstition: [_shareOrganizationField()],
+        identifier: [_shareIdentifierField()],
         keyword: [{ // tags
             '@value': faker.random.word(),
             '@type': rdfString,
         }],
-        publisher: [{ // Project Provider
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Organization }, { '@id': ShareResourceTypes.Agent }],
-            identifier: [{
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.company.companyName(),
-                '@type': rdfString,
-            }],
-        }],
+        publisher: [_shareOrganizationField()],
         resourceType: [{ '@id': 'Project' }],
-        rights: [{ // License
-            '@id': 'http://creativecommons.org/licenses/by/4.0/',
-            identifier: [{
-                '@value': 'http://creativecommons.org/licenses/by/4.0/',
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': 'CC-BY-4.0',
-                '@type': rdfString,
-            }],
-        }],
+        rights: [_shareLicneseField()],
         sameAs: [{}], // some DOI
-        subject: [{
-            '@id': 'https://api.osf.io/v2/subjects/584240da54be81056cecac48',
-            resourceType: [{ '@id': ShareResourceTypes.Concept }],
-            inScheme: [{
-                '@id': 'https://api.osf.io/v2/schemas/subjects/',
-                resourceType: [{ '@id': ShareResourceTypes.ConceptScheme }],
-                title: [{
-                    '@value': 'bepress Digital Commons Three-Tiered Taxonomy',
-                    '@type': rdfString,
-                }],
-            }],
-            prefLabel: [{
-                '@value': 'Social and Behavioral Sciences',
-                '@type': rdfString,
-            }],
-        }],
+        subject: [_shareSubjectField()],
         title: [{
             '@value': faker.lorem.words(3),
             '@type': rdfString,
@@ -227,60 +82,19 @@ const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
     Preprint: () => ({
         '@id': faker.internet.url(),
         // accessService: [{}],
-        creator: [{
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Person }, { '@id': ShareResourceTypes.Agent }],
-            identifier: [{
-                '@value': 'https://orcid.org/0000-0000-0000-0000',
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.name.findName(),
-                '@type': rdfString,
-            }],
-        }],
-        dateAccepted: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateCopyrighted: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateCreated: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateSubmitted: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateModified: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
+        creator: [_sharePersonField()],
+        dateAccepted: [_shareDateField()],
+        dateCopyrighted: [_shareDateField()],
+        dateCreated: [_shareDateField()],
+        dateSubmitted: [_shareDateField()],
+        dateModified: [_shareDateField()],
         description: [{
             '@value': faker.lorem.sentence(),
             '@type': rdfString,
         }],
         hasPart: [{}], // File
-        hostingInstition: [{
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Agent }, { '@id': ShareResourceTypes.Organization }],
-            identifier: [{
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.company.companyName(),
-                '@type': rdfString,
-            }],
-            // sameAs: [{}], // some ROR
-        }],
-        identifier: [{
-            '@value': faker.internet.url(),
-            '@type': rdfString,
-        }],
+        hostingInstition: [_shareOrganizationField()],
+        identifier: [_shareIdentifierField()],
         // isSupplementedBy: [{}], // if this links a project
         keyword: [{ // tags
             '@value': faker.random.word(),
@@ -292,18 +106,7 @@ const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
                 { '@id': 'hasPreregisteredAnalysisPlan' },
             ],
         }],
-        publisher: [{ // Preprint Provider
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Organization }, { '@id': ShareResourceTypes.Agent }],
-            identifier: [{
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.company.companyName(),
-                '@type': rdfString,
-            }],
-        }],
+        publisher: [_shareOrganizationField()], // Preprint Provider
         resourceNature: [{
             '@id': 'https://schema.datacite.org/meta/kernel-4/#Preprint',
             displayLabel: [{
@@ -312,94 +115,12 @@ const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
             }],
         }],
         resourceType: [{ '@id': 'Preprint' }],
-        rights: [{ // License
-            '@id': 'http://creativecommons.org/licenses/by/4.0/',
-            identifier: [{
-                '@value': 'http://creativecommons.org/licenses/by/4.0/',
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': 'CC-BY-4.0',
-                '@type': rdfString,
-            }],
-        }],
+        rights: [_shareLicneseField()],
         sameAs: [{}], // some DOI
         statedConflictOfInterest: [{
             '@id': 'no-confict-of-interest',
         }],
-        subject: [{
-            '@id': 'https://api.osf.io/v2/subjects/584240da54be81056cecac48',
-            resourceType: [{ '@id': ShareResourceTypes.Concept }],
-            inScheme: [{
-                '@id': 'https://api.osf.io/v2/schemas/subjects/',
-                resourceType: [{ '@id': ShareResourceTypes.ConceptScheme }],
-                title: [{
-                    '@value': 'bepress Digital Commons Three-Tiered Taxonomy',
-                    '@type': rdfString,
-                }],
-            }],
-            prefLabel: [{
-                '@value': 'Social and Behavioral Sciences',
-                '@type': rdfString,
-            }],
-        }],
-        title: [{
-            '@value': faker.lorem.words(3),
-            '@type': rdfString,
-        }],
-    }),
-    File: () => ({
-        '@id': faker.internet.url(),
-        // accessService: [{}],
-        dateCreated: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        dateModified: [{
-            '@value': _randomPastYearMonthDay(),
-            '@type': rdfString,
-        }],
-        description: [{
-            '@value': faker.lorem.sentence(),
-            '@type': rdfString,
-        }],
-        fileName: [{
-            '@value': faker.system.fileName(),
-            '@type': rdfString,
-        }],
-        filePath: [{
-            '@value': faker.system.filePath(),
-            '@type': rdfString,
-        }],
-        identifier: [{
-            '@value': faker.internet.url(),
-            '@type': rdfString,
-        }],
-        isContainedBy: [{ // Parent Project
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Project }],
-            identifier: [{
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            }],
-            title: [{
-                '@value': faker.lorem.words(3),
-                '@type': rdfString,
-            }],
-        }],
-        language: [{
-            '@value': 'eng',
-            '@type': rdfString,
-        }],
-        // 'osf:hasFileVersion': [{}], // FileVersion
-        resourceNature: [{
-            '@id': 'https://schema.datacite.org/meta/kernel-4/#Dataset',
-            displayLabel: [{
-                '@value': 'Dataset',
-                '@language': 'en',
-            }],
-        }],
-        resourceType: [{ '@id': 'File' }],
+        subject: [_shareSubjectField()],
         title: [{
             '@value': faker.lorem.words(3),
             '@type': rdfString,
@@ -408,24 +129,9 @@ const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
     Agent: () => ({
         '@id': faker.internet.url(),
         // accessService: [{}],
-        affiliation: [{
-            '@id': faker.internet.url(),
-            resourceType: [{ '@id': ShareResourceTypes.Organization }, { '@id': ShareResourceTypes.Agent }],
-            identifier: [{
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            }],
-            name: [{
-                '@value': faker.company.companyName(),
-                '@type': rdfString,
-            }],
-            // sameAs: [{}], // some ROR
-        }],
+        affiliation: [_shareOrganizationField()],
         identifier: [
-            {
-                '@value': faker.internet.url(),
-                '@type': rdfString,
-            },
+            _shareIdentifierField(),
             {
                 '@value': 'https://orcid.org/0000-0000-0000-0000',
                 '@type': rdfString,
@@ -461,6 +167,47 @@ resourceMetadataByType.RegistrationComponent = function() {
         }],
         hasRoot: [{ // Root Registration
             ...resourceMetadataByType.Registration(),
+        }],
+    };
+};
+resourceMetadataByType.File = function() {
+    return {
+        '@id': faker.internet.url(),
+        // accessService: [{}],
+        dateCreated: [_shareDateField()],
+        dateModified: [_shareDateField()],
+        description: [{
+            '@value': faker.lorem.sentence(),
+            '@type': rdfString,
+        }],
+        fileName: [{
+            '@value': faker.system.fileName(),
+            '@type': rdfString,
+        }],
+        filePath: [{
+            '@value': faker.system.filePath(),
+            '@type': rdfString,
+        }],
+        identifier: [_shareIdentifierField()],
+        isContainedBy: [{ // Parent Project
+            ...resourceMetadataByType.Project(),
+        }],
+        language: [{
+            '@value': 'eng',
+            '@type': rdfString,
+        }],
+        // 'osf:hasFileVersion': [{}], // FileVersion
+        resourceNature: [{
+            '@id': 'https://schema.datacite.org/meta/kernel-4/#Dataset',
+            displayLabel: [{
+                '@value': 'Dataset',
+                '@language': 'en',
+            }],
+        }],
+        resourceType: [{ '@id': 'File' }],
+        title: [{
+            '@value': faker.lorem.words(3),
+            '@type': rdfString,
         }],
     };
 };
@@ -830,6 +577,85 @@ export function valueSearch(_: Schema, __: Request) {
                 },
             },
         ],
+    };
+}
+
+function _sharePersonField() {
+    const fakeIdentifier = faker.internet.url();
+    return {
+        '@id': fakeIdentifier,
+        resourceType: [{ '@id': ShareResourceTypes.Person }, { '@id': ShareResourceTypes.Agent }],
+        identifier: [{
+            '@value': 'https://orcid.org/0000-0000-0000-0000', // hard-coded as search-result looks for orcid URL
+            '@type': rdfString,
+        },
+        _shareIdentifierField(fakeIdentifier),
+        ],
+        name: [{
+            '@value': faker.name.findName(),
+            '@type': rdfString,
+        }],
+    };
+}
+
+function _shareOrganizationField() {
+    const fakeIdentifier = faker.internet.url();
+    return {
+        '@id': fakeIdentifier,
+        resourceType: [{ '@id': ShareResourceTypes.Organization }, { '@id': ShareResourceTypes.Agent }],
+        identifier: [_shareIdentifierField(fakeIdentifier)],
+        name: [{
+            '@value': faker.company.companyName(),
+            '@type': rdfString,
+        }],
+        // sameAs: [{}], // some ROR
+    };
+}
+
+function _shareIdentifierField(idValue?: string) {
+    return {
+        '@value': idValue || faker.internet.url(),
+        '@type': rdfString,
+    };
+}
+
+function _shareDateField() {
+    return {
+        '@value': _randomPastYearMonthDay(),
+        '@type': rdfString,
+    };
+}
+
+function _shareLicneseField() {
+    return {
+        '@id': 'http://creativecommons.org/licenses/by/4.0/',
+        identifier: [{
+            '@value': 'http://creativecommons.org/licenses/by/4.0/',
+            '@type': rdfString,
+        }],
+        name: [{
+            '@value': 'CC-BY-4.0',
+            '@type': rdfString,
+        }],
+    };
+}
+
+function _shareSubjectField() {
+    return {
+        '@id': 'https://api.osf.io/v2/subjects/584240da54be81056cecac48',
+        resourceType: [{ '@id': ShareResourceTypes.Concept }],
+        inScheme: [{
+            '@id': 'https://api.osf.io/v2/schemas/subjects/',
+            resourceType: [{ '@id': ShareResourceTypes.ConceptScheme }],
+            title: [{
+                '@value': 'bepress Digital Commons Three-Tiered Taxonomy',
+                '@type': rdfString,
+            }],
+        }],
+        prefLabel: [{
+            '@value': 'Social and Behavioral Sciences',
+            '@type': rdfString,
+        }],
     };
 }
 
