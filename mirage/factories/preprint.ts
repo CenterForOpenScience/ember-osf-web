@@ -224,11 +224,17 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
     withAffiliatedInstitutions: trait<PreprintModel>({
         afterCreate(preprint, server) {
+            const currentUser = server.schema.users.first();
             const affiliatedInstitutions = server.createList('institution', 3);
-            affiliatedInstitutions.unshift(server.create('institution', {
+            const osfInstitution = server.create('institution', {
                 id: 'osf',
                 name: 'Main OSF Test Institution',
-            }));
+            });
+            affiliatedInstitutions.unshift(osfInstitution);
+
+            const institutions = currentUser.institutions;
+            institutions.models.push(osfInstitution);
+            currentUser.update({institutions});
             preprint.update({ affiliatedInstitutions });
         },
     }),
