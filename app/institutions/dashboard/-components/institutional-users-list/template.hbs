@@ -2,41 +2,31 @@
     <LoadingIndicator data-test-loading-indicator @dark={{true}} />
 {{else}}
     <div local-class='table-filters'>
-        <div local-class='orcid-switch'>
-            <label for='switches-container' local-class='orcid-toggle-label'>{{t 'institutions.dashboard.users_list.has_orcid'}}</label>
-            <div local-class='switches-container'>
-                <input type='radio' id='switchOrcidNo' name='switchPlan' value='No' checked={{not this.hasOrcid}} {{on 'change' (fn this.toggleOrcidFilter false)}} />
-                <input type='radio' id='switchOrcidYes' name='switchPlan' value='Yes' checked={{this.hasOrcid}} {{on 'change' (fn this.toggleOrcidFilter true)}} />
-                <label for='switchOrcidNo'><span></span></label>
-                <label for='switchOrcidYes'><span></span></label>
-                <div local-class='switch-wrapper'>
-                    <div local-class='switch'>
-                        <div>
-                            <button type='button' {{on 'click' (fn this.clickToggleOrcidFilter this.hasOrcid)}}>
-                                <span></span>
-                            </button>
-                        </div>
-                        <div>
-                            <button type='button' {{on 'click' (fn this.clickToggleOrcidFilter this.hasOrcid)}}>
-                                <span></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <div local-class='filter-controls'>
+            <div local-class='orcid-switch'>
+                <label for='switches-container' local-class='orcid-toggle-label'>{{t 'institutions.dashboard.users_list.has_orcid'}}</label>
+                <label local-class='switch'>
+                    <input type='checkbox' checked={{this.hasOrcid}} {{on 'change' (fn this.toggleOrcidFilter (not this.hasOrcid))}}>
+                    <span local-class='slider round'></span>
+                </label>
+            </div>
+
+            <div local-class='department-filter'>
+                <PowerSelect
+                    @options={{this.departments}}
+                    @searchEnabled={{true}}
+                    @selected={{this.department}}
+                    @triggerClass={{local-class 'select'}}
+                    @search={{perform this.searchDepartment}}
+                    @onChange={{action this.onSelectChange}}
+                    as |department|
+                >
+                    {{department}}
+                </PowerSelect>
             </div>
         </div>
-        <PowerSelect
-            @options={{this.departments}}
-            @searchEnabled={{true}}
-            @selected={{this.department}}
-            @triggerClass={{local-class 'select'}}
-            @search={{perform this.searchDepartment}}
-            @onChange={{action this.onSelectChange}}
-            as |department|
-        >
-            {{department}}
-        </PowerSelect>
     </div>
+
     <PaginatedList::HasMany
         local-class='table'
         @isTable={{true}}

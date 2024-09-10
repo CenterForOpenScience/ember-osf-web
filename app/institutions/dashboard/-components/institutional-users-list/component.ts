@@ -54,7 +54,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             query['filter[department]'] = this.department;
         }
         if (this.hasOrcid) {
-            query['filter[orcid_id][ne]'] = ''
+            query['filter[orcid_id][ne]'] = '';
         }
         if (this.sort) {
             query.sort = this.sort;
