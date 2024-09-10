@@ -51,13 +51,13 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         { key: 'month_last_active', label: this.intl.t('institutions.dashboard.users_list.month_last_active'), default: false },
     ];
 
-    @tracked selectedColumns: string[] = this.columns.filter((col) => col.default).map((col) => col.key);
+    @tracked selectedColumns: string[] = this.columns.filter(col => col.default).map(col => col.key);
 
     reloadUserList?: () => void;
 
     @action
     toggleColumnSelection(columnKey: string) {
-        const column = this.columns.find((col) => col.key === columnKey);
+        const column = this.columns.find(col => col.key === columnKey);
         if (column) {
             column.default = !column.default;
         }
@@ -146,8 +146,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     applyDepartmentSelection() {
         if (this.selectedDepartments.length && !this.isAllSelected) {
             this.filteredUsers = this.args.departmentMetrics.filter(user =>
-                this.selectedDepartments.includes(user.department)
-            );
+                this.selectedDepartments.includes(user.department));
         } else {
             this.filteredUsers = this.args.departmentMetrics;
         }
@@ -165,7 +164,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
 
     @action
     applyColumnSelection() {
-        this.selectedColumns = this.columns.filter((col) => col.default).map((col) => col.key);
+        this.selectedColumns = this.columns.filter(col => col.default).map(col => col.key);
         if (this.reloadUserList) {
             this.reloadUserList();
         }
