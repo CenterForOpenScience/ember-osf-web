@@ -16,7 +16,7 @@ export interface LanguageText {
     '@value': string;
 }
 
-export enum ShareResourceTypes {
+export enum OsfmapResourceTypes {
     Project = 'Project',
     ProjectComponent = 'ProjectComponent',
     Registration = 'Registration',
@@ -51,8 +51,8 @@ export default class IndexCardModel extends Model {
     }
 
     get osfModelType() {
-        const types: ShareResourceTypes = this.resourceMetadata.resourceType
-            .map((item: Record<'@id', ShareResourceTypes>) => item['@id']);
+        const types: OsfmapResourceTypes = this.resourceMetadata.resourceType
+            .map((item: Record<'@id', OsfmapResourceTypes>) => item['@id']);
         if (types.includes('Project') || types.includes('ProjectComponent')) {
             return 'node';
         } else if (types.includes('Registration') || types.includes('RegistrationComponent')) {

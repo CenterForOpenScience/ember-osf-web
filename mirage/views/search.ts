@@ -2,10 +2,10 @@ import { Request, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
 import { PaginationLinks } from 'jsonapi-typescript';
 
-import { ShareResourceTypes } from 'ember-osf-web/models/index-card';
+import { OsfmapResourceTypes } from 'ember-osf-web/models/index-card';
 
 const rdfString = 'https://www.w3.org/1999/02/22-rdf-syntax-ns#string';
-const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
+const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
     Registration: () => ({
         '@id': faker.random.uuid(),
         // accessService: [{}],
@@ -141,7 +141,7 @@ const resourceMetadataByType: Partial<Record<ShareResourceTypes, any>> = {
             '@value': faker.name.findName(),
             '@type': rdfString,
         }],
-        resourceType: [{ '@id': ShareResourceTypes.Person }, { '@id': ShareResourceTypes.Agent }],
+        resourceType: [{ '@id': OsfmapResourceTypes.Person }, { '@id': OsfmapResourceTypes.Agent }],
         sameAs: [{ '@id': 'https://orcid.org/0000-0000-0000-0000' }], // some ORCID
     }),
 };
@@ -218,9 +218,9 @@ export function cardSearch(_: Schema, request: Request) {
     const pageSize = queryParams['page[size]'] ? parseInt(queryParams['page[size]'], 10) : 10;
 
     // cardSearchFilter[resourceType] is a comma-separated list (e.g. 'Project,ProjectComponent') or undefined
-    let requestedResourceTypes = queryParams['cardSearchFilter[resourceType]']?.split(',') as ShareResourceTypes[];
+    let requestedResourceTypes = queryParams['cardSearchFilter[resourceType]']?.split(',') as OsfmapResourceTypes[];
     if (!requestedResourceTypes) {
-        requestedResourceTypes = Object.keys(resourceMetadataByType) as ShareResourceTypes[];
+        requestedResourceTypes = Object.keys(resourceMetadataByType) as OsfmapResourceTypes[];
     }
 
     const indexCardSearch = {
@@ -429,7 +429,7 @@ export function cardSearch(_: Schema, request: Request) {
             },
         });
         // pick a random resource type among the possible ones requested
-        const requestedResourceType: ShareResourceTypes
+        const requestedResourceType: OsfmapResourceTypes
             = requestedResourceTypes[Math.floor(Math.random() * requestedResourceTypes.length)];
         const resourceTypeMetadata = resourceMetadataByType[requestedResourceType];
         includedIndexCard.push({
@@ -584,7 +584,7 @@ function _sharePersonField() {
     const fakeIdentifier = faker.internet.url();
     return {
         '@id': fakeIdentifier,
-        resourceType: [{ '@id': ShareResourceTypes.Person }, { '@id': ShareResourceTypes.Agent }],
+        resourceType: [{ '@id': OsfmapResourceTypes.Person }, { '@id': OsfmapResourceTypes.Agent }],
         identifier: [{
             '@value': 'https://orcid.org/0000-0000-0000-0000', // hard-coded as search-result looks for orcid URL
             '@type': rdfString,
@@ -602,7 +602,7 @@ function _shareOrganizationField() {
     const fakeIdentifier = faker.internet.url();
     return {
         '@id': fakeIdentifier,
-        resourceType: [{ '@id': ShareResourceTypes.Organization }, { '@id': ShareResourceTypes.Agent }],
+        resourceType: [{ '@id': OsfmapResourceTypes.Organization }, { '@id': OsfmapResourceTypes.Agent }],
         identifier: [_shareIdentifierField(fakeIdentifier)],
         name: [{
             '@value': faker.company.companyName(),
@@ -643,10 +643,10 @@ function _shareLicneseField() {
 function _shareSubjectField() {
     return {
         '@id': 'https://api.osf.io/v2/subjects/584240da54be81056cecac48',
-        resourceType: [{ '@id': ShareResourceTypes.Concept }],
+        resourceType: [{ '@id': OsfmapResourceTypes.Concept }],
         inScheme: [{
             '@id': 'https://api.osf.io/v2/schemas/subjects/',
-            resourceType: [{ '@id': ShareResourceTypes.ConceptScheme }],
+            resourceType: [{ '@id': OsfmapResourceTypes.ConceptScheme }],
             title: [{
                 '@value': 'bepress Digital Commons Three-Tiered Taxonomy',
                 '@type': rdfString,
