@@ -265,7 +265,7 @@ export function cardSearch(_: Schema, request: Request) {
                     ],
                     links: {
                         next: {
-                            href: 'https://staging-share.osf.io/api/v3/index-card-search?page%5Bcursor%5D=lmnop',
+                            href: 'https://staging-share.osf.io/trove/index-card-search?page%5Bcursor%5D=lmnop',
                         },
                     },
                 },
@@ -503,7 +503,7 @@ export function valueSearch(_: Schema, __: Request) {
                     ],
                     links: {
                         next: {
-                            href: 'https://staging-share.osf.io/api/v3/index-value-search?page%5Bcursor%5D=lmnop',
+                            href: 'https://staging-share.osf.io/trove/index-value-search?page%5Bcursor%5D=lmnop',
                         },
                     },
                 },
