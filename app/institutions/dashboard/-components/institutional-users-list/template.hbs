@@ -1,6 +1,7 @@
 {{#if this.modelTaskInstance.isRunning}}
     <LoadingIndicator data-test-loading-indicator @dark={{true}} />
 {{else}}
+  <div local-class='filter-container'>
     <PowerSelect
         @options={{this.departments}}
         @searchEnabled={{true}}
@@ -12,153 +13,152 @@
     >
         {{department}}
     </PowerSelect>
-    <PaginatedList::HasMany
-        local-class='table'
-        @isTable={{true}}
-        @model={{@institution}}
-        @usePlaceholders={{false}}
-        @relationshipName='userMetrics'
-        @bindReload={{action (mut this.reloadUserList)}}
-        @query={{this.queryUsers}} as |list|
+    <BasicDropdown
+      @renderInPlace={{true}}
+      @onClose={{this.onDropdownClose}}
+      @preventScroll={{true}}
+      @eventType='mousedown'
+      local-class='dropdown'
+      as |dd|
     >
-        <list.header local-class='header'>
-            {{#let (component 'sort-arrow'
-                class=(local-class 'sort-arrow')
-                sortAction=(action this.sortInstitutionalUsers)
-                sort=this.sort
-            ) as |SortArrow|}}
-                <tr>
-                    <th data-test-header-name rowspan='2'>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.name'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='user_name' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-department rowspan='2'>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.department'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='department' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-osf-link>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.osf_link'}}</span>
-                        </div>
-                    </th>
-                    <th data-test-header-public-projects>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.public_projects'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='public_projects' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-private-projects>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.private_projects'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='private_projects' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-public-registration-count>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.public_registration_count'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='public_registration_count' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-private-registration-count>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.private_registration_count'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='embargoed_registration_count' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-published-preprint-count>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.published_preprint_count'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='published_preprint_count' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-public-file-count>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.public_file_count'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='public_file_count' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-storage-byte-count>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.storage_byte_count'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='storage_byte_count' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-account-created>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.account_created'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='account_creation_date' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-month-last-login>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.month_last_login'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='month_last_login' />
-                            </span>
-                        </div>
-                    </th>
-                    <th data-test-header-month-last-active>
-                        <div local-class='header-content'>
-                            <span local-class='header-text'>{{t 'institutions.dashboard.users_list.month_last_active'}}</span>
-                            <span local-class='sort-arrow-container'>
-                                <SortArrow @sortBy='month_last_active' />
-                            </span>
-                        </div>
-                    </th>
-                </tr>
-            {{/let}}
-        </list.header>
-        <list.item local-class='item' as |institutionalUser|>
-            {{#if institutionalUser}}
-                <td data-test-item-name>
-                    <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
-                        {{institutionalUser.userName}}
-                    </OsfLink>
-                </td>
-                <td data-test-item-department>{{institutionalUser.department}}</td>
-                <td data-test-item-osf-link>
-                    <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
-                        {{institutionalUser.userGuid}}
-                    </OsfLink>
-                </td>
-                <td data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
-                <td data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
-                <td data-test-item-public-registration-count>{{institutionalUser.publicRegistrationCount}}</td>
-                <td data-test-item-private-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
-                <td data-test-item-published-preprint-count>{{institutionalUser.publishedPreprintCount}}</td>
-                <td data-test-item-public-file-count>{{institutionalUser.publicFileCount}}</td>
-                <td data-test-item-storage-byte-count>{{institutionalUser.userDataUsage}}</td>
-                <td data-test-item-account-created>{{moment-format institutionalUser.accountCreationDate 'MM/YYYY'}}</td>
-                <td data-test-item-last-login>{{moment-format institutionalUser.monthLastLogin 'MM/YYYY'}}</td>
-                <td data-test-item-last-active>{{moment-format institutionalUser.monthLastActive 'MM/YYYY'}}</td>
+      <button
+        type='button'
+        local-class='dropdown-trigger'
+        {{on 'click' dd.actions.toggle}}
+      >
+        <FaIcon local-class='icon-columns' @icon='columns' />
+        Customize
+      </button>
+
+      {{#if dd.isOpen}}
+        <div local-class='dropdown-panel'>
+          <div local-class='dropdown-content'>
+            {{#each this.columns as |column|}}
+              <label>
+                <input
+                  type='checkbox'
+                  value={{column.key}}
+                  checked={{column.default}}
+                  {{on 'change' (fn this.toggleColumnSelection column.key)}}
+                />
+                {{column.label}}
+              </label>
+            {{/each}}
+          </div>
+          <div local-class='dropdown-actions'>
+            <button type='button' {{on 'click' dd.actions.close}}>Cancel</button>
+            <button type='button' local-class='apply-button' {{on 'click' this.applyColumnSelection}}>Apply</button>
+          </div>
+        </div>
+      {{/if}}
+    </BasicDropdown>
+  </div>
+
+  <PaginatedList::HasMany
+    local-class='table'
+    @isTable={{true}}
+    @model={{@institution}}
+    @usePlaceholders={{false}}
+    @relationshipName='userMetrics'
+    @bindReload={{action (mut this.reloadUserList)}}
+    @query={{this.queryUsers}} as |list|
+  >
+    <list.header local-class='header'>
+        {{#let (component 'sort-arrow'
+            class=(local-class 'sort-arrow')
+            sortAction=(action this.sortInstitutionalUsers)
+            sort=this.sort
+            ) as |SortArrow|
+        }}
+          <tr>
+            {{#each this.columns as |column|}}
+              {{#if (includes column.key this.selectedColumns)}}
+                <th data-test-header-name='{{column.key}}'>
+                  <div local-class='header-content'>
+                    <span local-class='header-text'>{{column.label}}</span>
+                    <span local-class='sort-arrow-container'>
+                        <SortArrow @sortBy='{{column.key}}' />
+                    </span>
+                  </div>
+                </th>
+              {{/if}}
+            {{/each}}
+          </tr>
+    {{/let}}
+
+    </list.header>
+
+    <list.item local-class='item' as |institutionalUser|>
+      {{#if institutionalUser}}
+        {{#each this.columns as |column|}}
+          {{#if (includes column.key this.selectedColumns)}}
+            {{#if (eq column.key 'user_name')}}
+              <td data-test-column-name='user_name' data-test-item-name>
+                <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
+                  {{institutionalUser.userName}}
+                </OsfLink>
+              </td>
             {{/if}}
-        </list.item>
-        <list.empty local-class='empty'>
-            {{t 'institutions.dashboard.users_list.empty'}}
-        </list.empty>
-    </PaginatedList::HasMany>
+
+            {{#if (eq column.key 'department')}}
+              <td data-test-item-department>{{institutionalUser.department}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'osf_link')}}
+              <td data-test-item-osf-link>
+                <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
+                  {{institutionalUser.userGuid}}
+                </OsfLink>
+              </td>
+            {{/if}}
+
+            {{#if (eq column.key 'public_projects')}}
+              <td data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'private_projects')}}
+              <td data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'public_registration_count')}}
+              <td data-test-item-public-registration-count>{{institutionalUser.publicRegistrationCount}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'private_registration_count')}}
+              <td data-test-item-private-registration-count>{{institutionalUser.embargoedRegistrationCount}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'published_preprint_count')}}
+              <td data-test-item-published-preprint-count>{{institutionalUser.publishedPreprintCount}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'public_file_count')}}
+              <td data-test-item-public-file-count>{{institutionalUser.publicFileCount}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'storage_byte_count')}}
+              <td data-test-item-storage-byte-count>{{institutionalUser.userDataUsage}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'account_creation_date')}}
+              <td data-test-item-account-created>{{moment-format institutionalUser.accountCreationDate 'MM/YYYY'}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'month_last_login')}}
+              <td data-test-item-last-login>{{moment-format institutionalUser.monthLastLogin 'MM/YYYY'}}</td>
+            {{/if}}
+
+            {{#if (eq column.key 'month_last_active')}}
+              <td data-test-item-last-active>{{moment-format institutionalUser.monthLastActive 'MM/YYYY'}}</td>
+            {{/if}}
+
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    </list.item>
+
+    <list.empty local-class='empty'>
+      {{t 'institutions.dashboard.users_list.empty'}}
+    </list.empty>
+  </PaginatedList::HasMany>
 {{/if}}
