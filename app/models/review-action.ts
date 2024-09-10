@@ -63,7 +63,7 @@ export default class ReviewActionModel extends Action {
     @attr('string') fromState!: RegistrationReviewStates;
     @attr('string') toState!: RegistrationReviewStates;
 
-    @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
+    @belongsTo('abstract-node', { inverse: 'reviewActions', polymorphic: true })
     target!: (AsyncBelongsTo<RegistrationModel> & RegistrationModel
         ) | (AsyncBelongsTo<PreprintModel> & PreprintModel);
 

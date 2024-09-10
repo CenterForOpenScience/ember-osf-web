@@ -30,6 +30,23 @@ export function userRegistrationList(this: HandlerContext, schema: Schema, reque
     return json;
 }
 
+export function userPreprintList(this: HandlerContext, schema: Schema, request: Request) {
+    const user = schema.users.find(request.params.id);
+    const preprints = [];
+    const { contributorIds } = user;
+
+    for (const contributorId of contributorIds as string[]) {
+        const contributor = schema.contributors.find(contributorId);
+        const preprint = contributor.preprint;
+        if (preprint && filter(preprint, request)) {
+            preprints.push(this.serialize(preprint).data);
+        }
+    }
+
+    const json = process(schema, request, this, preprints, { defaultSortKey: 'last_logged' });
+    return json;
+}
+
 export function claimUnregisteredUser(this: HandlerContext) {
     return new Response(204);
 }
