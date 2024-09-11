@@ -9,10 +9,6 @@ interface SortArrowArgs {
 
 export default class SortArrow extends Component<SortArrowArgs> {
 
-    get sortBy() {
-        return this.args.sortBy || 'user_name';
-    }
-
     get isCurrentAscending() {
         return this.args.sort === this.args.sortBy;
     }

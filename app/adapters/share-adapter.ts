@@ -5,7 +5,7 @@ const osfUrl = config.OSF.url;
 
 export default class ShareAdapter extends JSONAPIAdapter {
     host = config.OSF.shareBaseUrl.replace(/\/$/, ''); // Remove trailing slash to avoid // in URLs
-    namespace = 'api/v3';
+    namespace = 'trove';
 
     queryRecord(store: any, type: any, query: any) {
         // check if we aren't serving locally, otherwise add accessService query param to card/value searches

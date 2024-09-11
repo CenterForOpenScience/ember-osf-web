@@ -1,7 +1,6 @@
 .select {
     max-width: 320px;
     padding: 7px 16px 7px 14px;
-    margin-bottom: 15px;
     border-color: #ddd;
     border-radius: 2px;
     color: #337ab7;
@@ -20,7 +19,7 @@
 
     th,
     td {
-        padding: 15px;
+        padding: 10px;
         text-overflow: ellipsis;
     }
 
@@ -120,7 +119,6 @@ th .sort-arrow {
 }
 
 .filter-container {
-    position: relative;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -207,4 +205,86 @@ th .sort-arrow {
 
 .icon-columns {
     padding-right: 5px;
+}
+
+.filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.orcid-switch {
+    display: flex;
+    align-items: center;
+}
+
+.orcid-toggle-label {
+    margin-right: 10px;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    font-weight: lighter;
+}
+
+.switch {
+    position: relative;
+    display: inline-flex;
+    width: 60px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    border-radius: 34px;
+    transition: background-color 0.4s;
+    background-color: #ccc;
+    cursor: pointer;
+    position: flex;
+}
+
+.slider::before {
+    content: '';
+    height: 24px;
+    width: 24px;
+    background-color: $color-bg-gray;
+    margin-left: 3px;
+    border-radius: 50%;
+    transition: transform 0.4s, background-color 0.4s;
+    position: flex;
+}
+
+/* Change handle color when checked */
+input:checked + .slider::before {
+    background-color: $color-green;
+}
+
+/* Hover effects for handle */
+input:not(:checked) + .slider:hover::before {
+    background-color: $color-bg-gray-darker;
+}
+
+input:checked + .slider:hover::before {
+    background-color: $color-green-light;
+}
+
+input:checked + .slider::before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round::before {
+    border-radius: 50%;
 }

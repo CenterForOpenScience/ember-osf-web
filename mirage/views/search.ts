@@ -1,13 +1,233 @@
 import { Request, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
+import { PaginationLinks } from 'jsonapi-typescript';
 
-export function cardSearch(_: Schema, __: Request) {
-    // TODO: replace with a real index-card-search and use request to populate attrs
+import { OsfmapResourceTypes } from 'ember-osf-web/models/index-card';
+
+const rdfString = 'https://www.w3.org/1999/02/22-rdf-syntax-ns#string';
+const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
+    Registration: () => ({
+        '@id': faker.random.uuid(),
+        // accessService: [{}],
+        archivedAt: [{}], // archive.org URL
+        conformsTo: [{ // Registration Schema
+            '@id': 'https://api.osf.io/v2/schemas/registrations/564d31db8c5e4a7c9694b2be/',
+            title: [{
+                '@value': 'Open-Ended Registration',
+                '@type': rdfString,
+            }],
+        }],
+        creator: [_sharePersonField()],
+        dateAvailable: [_shareDateField()],
+        dateCopyrighted: [_shareDateField()],
+        dateCreated: [_shareDateField()],
+        dateModified: [_shareDateField()],
+        description: [{
+            '@value': faker.lorem.sentence(),
+            '@type': rdfString,
+        }],
+        hasPart: [{}], // RegistrationComponent
+        hostingInstition: [_shareOrganizationField()],
+        identifier: [_shareIdentifierField()],
+        isVersionOf: [{}], // if this is from a project
+        keyword: [{ // tags
+            '@value': faker.random.word(),
+            '@type': rdfString,
+        }],
+        publisher: [_shareOrganizationField()], // Registration Provider
+        resourceNature: [{ // Registration Category
+            '@id': 'https://schema.datacite.org/meta/kernel-4/#StudyRegistration',
+            displayLabel: [{
+                '@value': 'StudyRegistration',
+                '@language': 'en',
+            }],
+        }],
+        resourceType: [{ '@id': 'Registration' }],
+        rights: [_shareLicneseField()],
+        sameAs: [{}], // some DOI
+        subject: [_shareSubjectField()],
+        title: [{
+            '@value': faker.lorem.words(3),
+            '@type': rdfString,
+        }],
+    }),
+    Project: () => ({
+        '@id': faker.internet.url(),
+        // accessService: [{}],
+        creator: [_sharePersonField()],
+        dateCopyrighted: [_shareDateField()],
+        dateCreated: [_shareDateField()],
+        dateModified: [_shareDateField()],
+        description: [{
+            '@value': faker.lorem.sentence(),
+            '@type': rdfString,
+        }],
+        hasPart: [{}], // ProjectComponent
+        hostingInstition: [_shareOrganizationField()],
+        identifier: [_shareIdentifierField()],
+        keyword: [{ // tags
+            '@value': faker.random.word(),
+            '@type': rdfString,
+        }],
+        publisher: [_shareOrganizationField()],
+        resourceType: [{ '@id': 'Project' }],
+        rights: [_shareLicneseField()],
+        sameAs: [{}], // some DOI
+        subject: [_shareSubjectField()],
+        title: [{
+            '@value': faker.lorem.words(3),
+            '@type': rdfString,
+        }],
+    }),
+    Preprint: () => ({
+        '@id': faker.internet.url(),
+        // accessService: [{}],
+        creator: [_sharePersonField()],
+        dateAccepted: [_shareDateField()],
+        dateCopyrighted: [_shareDateField()],
+        dateCreated: [_shareDateField()],
+        dateSubmitted: [_shareDateField()],
+        dateModified: [_shareDateField()],
+        description: [{
+            '@value': faker.lorem.sentence(),
+            '@type': rdfString,
+        }],
+        hasPart: [{}], // File
+        hostingInstition: [_shareOrganizationField()],
+        identifier: [_shareIdentifierField()],
+        // isSupplementedBy: [{}], // if this links a project
+        keyword: [{ // tags
+            '@value': faker.random.word(),
+            '@type': rdfString,
+        }],
+        omits: [{
+            ommittedMetadataProperty: [
+                { '@id': 'hasPreregisteredStudyDesign' },
+                { '@id': 'hasPreregisteredAnalysisPlan' },
+            ],
+        }],
+        publisher: [_shareOrganizationField()], // Preprint Provider
+        resourceNature: [{
+            '@id': 'https://schema.datacite.org/meta/kernel-4/#Preprint',
+            displayLabel: [{
+                '@value': 'Preprint',
+                '@language': 'en',
+            }],
+        }],
+        resourceType: [{ '@id': 'Preprint' }],
+        rights: [_shareLicneseField()],
+        sameAs: [{}], // some DOI
+        statedConflictOfInterest: [{
+            '@id': 'no-confict-of-interest',
+        }],
+        subject: [_shareSubjectField()],
+        title: [{
+            '@value': faker.lorem.words(3),
+            '@type': rdfString,
+        }],
+    }),
+    Agent: () => ({
+        '@id': faker.internet.url(),
+        // accessService: [{}],
+        affiliation: [_shareOrganizationField()],
+        identifier: [
+            _shareIdentifierField(),
+            {
+                '@value': 'https://orcid.org/0000-0000-0000-0000',
+                '@type': rdfString,
+            },
+        ],
+        name: [{
+            '@value': faker.name.findName(),
+            '@type': rdfString,
+        }],
+        resourceType: [{ '@id': OsfmapResourceTypes.Person }, { '@id': OsfmapResourceTypes.Agent }],
+        sameAs: [{ '@id': 'https://orcid.org/0000-0000-0000-0000' }], // some ORCID
+    }),
+};
+
+resourceMetadataByType.ProjectComponent = function() {
     return {
+        ...resourceMetadataByType.Project(),
+        resourceType: [{ '@id': 'ProjectComponent' }],
+        isPartOf: [{ // Parent Project
+            ...resourceMetadataByType.Project(),
+        }],
+        hasRoot: [{ // Root Project
+            ...resourceMetadataByType.Project(),
+        }],
+    };
+};
+resourceMetadataByType.RegistrationComponent = function() {
+    return {
+        ...resourceMetadataByType.Registration(),
+        resourceType: [{ '@id': 'RegistrationComponent' }],
+        isPartOf: [{ // Parent Registration
+            ...resourceMetadataByType.Registration(),
+        }],
+        hasRoot: [{ // Root Registration
+            ...resourceMetadataByType.Registration(),
+        }],
+    };
+};
+resourceMetadataByType.File = function() {
+    return {
+        '@id': faker.internet.url(),
+        // accessService: [{}],
+        dateCreated: [_shareDateField()],
+        dateModified: [_shareDateField()],
+        description: [{
+            '@value': faker.lorem.sentence(),
+            '@type': rdfString,
+        }],
+        fileName: [{
+            '@value': faker.system.fileName(),
+            '@type': rdfString,
+        }],
+        filePath: [{
+            '@value': faker.system.filePath(),
+            '@type': rdfString,
+        }],
+        identifier: [_shareIdentifierField()],
+        isContainedBy: [{ // Parent Project
+            ...resourceMetadataByType.Project(),
+        }],
+        language: [{
+            '@value': 'eng',
+            '@type': rdfString,
+        }],
+        // 'osf:hasFileVersion': [{}], // FileVersion
+        resourceNature: [{
+            '@id': 'https://schema.datacite.org/meta/kernel-4/#Dataset',
+            displayLabel: [{
+                '@value': 'Dataset',
+                '@language': 'en',
+            }],
+        }],
+        resourceType: [{ '@id': 'File' }],
+        title: [{
+            '@value': faker.lorem.words(3),
+            '@type': rdfString,
+        }],
+    };
+};
+
+export function cardSearch(_: Schema, request: Request) {
+    const {queryParams} = request;
+    const pageCursor = queryParams['page[cursor]'];
+    const pageSize = queryParams['page[size]'] ? parseInt(queryParams['page[size]'], 10) : 10;
+
+    // cardSearchFilter[resourceType] is a comma-separated list (e.g. 'Project,ProjectComponent') or undefined
+    let requestedResourceTypes = queryParams['cardSearchFilter[resourceType]']?.split(',') as OsfmapResourceTypes[];
+    if (!requestedResourceTypes) {
+        requestedResourceTypes = Object.keys(resourceMetadataByType) as OsfmapResourceTypes[];
+    }
+
+    const indexCardSearch = {
         data: {
             type: 'index-card-search',
-            id: 'zzzzzz',
-            attributes:{
+            id: faker.random.uuid(),
+            attributes: {
                 cardSearchText: 'hello',
                 cardSearchFilter: [
                     {
@@ -28,27 +248,6 @@ export function cardSearch(_: Schema, __: Request) {
                 totalResultCount: 3,
             },
             relationships: {
-                searchResultPage: {
-                    data: [
-                        {
-                            type: 'search-result',
-                            id: 'abc',
-                        },
-                        {
-                            type: 'search-result',
-                            id: 'def',
-                        },
-                        {
-                            type: 'search-result',
-                            id: 'ghi',
-                        },
-                    ],
-                    links: {
-                        next: {
-                            href: 'https://staging-share.osf.io/api/v3/index-card-search?page%5Bcursor%5D=lmnop',
-                        },
-                    },
-                },
                 relatedProperties: {
                     data: [
                         {
@@ -66,238 +265,14 @@ export function cardSearch(_: Schema, __: Request) {
                     ],
                     links: {
                         next: {
-                            href: 'https://staging-share.osf.io/api/v3/index-card-search?page%5Bcursor%5D=lmnop',
+                            href: 'https://staging-share.osf.io/trove/index-card-search?page%5Bcursor%5D=lmnop',
                         },
                     },
                 },
+                searchResultPage: {},
             },
         },
         included: [
-            {
-                type: 'search-result',
-                id: 'abc',
-                attributes: {
-                    matchEvidence: [
-                        {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
-                            osfmapPropertyPath: 'description',
-                            matchingHighlight: '... say <em>hello</em>!',
-                        },
-                        {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
-                            osfmapPropertyPath: 'title',
-                            matchingHighlight: '... shout <em>hello</em>!',
-                        },
-                    ],
-                },
-                relationships: {
-                    indexCard: {
-                        data: {
-                            type: 'index-card',
-                            id: 'abc',
-                        },
-                        links: {
-                            related: 'https://share.osf.io/api/v2/index-card/abc',
-                        },
-                    },
-                },
-            },
-            {
-                type: 'search-result',
-                id: 'def',
-                attributes: {
-                    matchEvidence: [
-                        {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
-                            osfmapPropertyPath: 'description',
-                            matchingHighlight: '... computer said <em>hello</em> world!',
-                        },
-                    ],
-                },
-                relationships: {
-                    indexCard: {
-                        data: {
-                            type: 'index-card',
-                            id: 'def',
-                        },
-                        links: {
-                            related: 'https://share.osf.io/api/v2/index-card/def',
-                        },
-                    },
-                },
-            },
-            {
-                type: 'search-result',
-                id: 'ghi',
-                attributes: {
-                    matchEvidence: [
-                        {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
-                            osfmapPropertyPath: 'title',
-                            matchingHighlight: '... you said <em>hello</em>!',
-                        },
-                    ],
-                },
-                relationships: {
-                    indexCard: {
-                        data: {
-                            type: 'index-card',
-                            id: 'ghi',
-                        },
-                        links: {
-                            related: 'https://share.osf.io/api/v2/index-card/abc',
-                        },
-                    },
-                },
-            },
-            {
-                type: 'index-card',
-                id: 'abc',
-                attributes: {
-                    resourceIdentifier: [
-                        'https://osf.example/abcfoo',
-                        'https://doi.org/10.0000/osf.example/abcfoo',
-                    ],
-                    resourceMetadata: {
-                        resourceType: [
-                            'osf:Registration',
-                            'dcterms:Dataset',
-                        ],
-                        '@id': 'https://osf.example/abcfoo',
-                        '@type': 'osf:Registration',
-                        title: [
-                            {
-                                '@value': 'I shout hello!',
-                                '@language': 'en',
-                            },
-                        ],
-                        description: [
-                            {
-                                '@value': 'I say hello!',
-                                '@language': 'en',
-                            },
-                        ],
-                        isPartOf: [
-                            {
-                                '@id': 'https://osf.example/xyzfoo',
-                                '@type': 'osf:Registration',
-                                title: [
-                                    {
-                                        '@value': 'a parent!',
-                                        '@language': 'en',
-                                    },
-                                ],
-                            },
-                        ],
-                        hasPart: [
-                            {
-                                '@id': 'https://osf.example/deffoo',
-                                '@type': 'osf:Registration',
-                                title: [
-                                    {
-                                        '@value': 'a child!',
-                                        '@language': 'en',
-                                    },
-                                ],
-                            },
-                            {
-                                '@id': 'https://osf.example/ghifoo',
-                                '@type': 'osf:Registration',
-                                title: [
-                                    {
-                                        '@value': 'another child!',
-                                        '@language': 'en',
-                                    },
-                                ],
-                            },
-                        ],
-                        subject: [
-                            {
-                                '@id': 'https://subjects.org/subjectId',
-                                '@type': 'dcterms:Subject',
-                                label: [
-                                    {
-                                        '@value': 'wibbleplop',
-                                        '@language': 'wi-bl',
-                                    },
-                                ],
-                            },
-                        ],
-                        creator: [{
-                            '@id': 'https://osf.example/person',
-                            '@type': 'dcterms:Agent',
-                            specificType: 'foaf:Person',
-                            name: 'person person, prsn',
-                        }],
-                    },
-                },
-                links: {
-                    self: 'https://share.osf.io/api/v2/index-card/abc',
-                    resource: 'https://osf.example/abcfoo',
-                },
-            },
-            {
-                type: 'index-card',
-                id: 'def',
-                attributes: {
-                    resourceIdentifier: [
-                        'https://osf.example/abcfoo',
-                        'https://doi.org/10.0000/osf.example/abcfoo',
-                    ],
-                    resourceMetadata: {
-                        resourceType: [
-                            'osf:Registration',
-                            'dcterms:Dataset',
-                        ],
-                        '@id': 'https://osf.example/abcfoo',
-                        '@type': 'osf:Registration',
-                        title: [
-                            {
-                                '@value': 'Hi!',
-                                '@language': 'en',
-                            },
-                        ],
-                    },
-                },
-                links: {
-                    self: 'https://share.osf.io/api/v2/index-card/ghi',
-                    resource: 'https://osf.example/abcfoo',
-                },
-            },
-            {
-                type: 'index-card',
-                id: 'ghi',
-                attributes: {
-                    resourceIdentifier: [
-                        'https://osf.example/abcfoo',
-                        'https://doi.org/10.0000/osf.example/abcfoo',
-                    ],
-                    resourceMetadata: {
-                        resourceType: [
-                            'osf:Registration',
-                            'dcterms:Dataset',
-                        ],
-                        '@id': 'https://osf.example/abcfoo',
-                        '@type': 'osf:Registration',
-                        title: [
-                            {
-                                '@value': 'Ahoj! That\'s hello in Czech!',
-                                '@language': 'en',
-                            },
-                        ],
-                        description: [
-                            {
-                                '@value': 'Some description',
-                                '@language': 'en',
-                            },
-                        ],
-                    },
-                },
-                links: {
-                    self: 'https://share.osf.io/api/v2/index-card/ghi',
-                    resource: 'https://osf.example/abcfoo',
-                },
-            },
             // Related properties
             {
                 type: 'related-property-path',
@@ -415,6 +390,83 @@ export function cardSearch(_: Schema, __: Request) {
             },
         ],
     };
+
+    const searchResultPageRelationship = { data: [] as any[], links: {} as PaginationLinks};
+    const includedSearchResultPage: any[] = [];
+    const includedIndexCard: any[] = [];
+    Array.from({ length: pageSize }).forEach(() => {
+        const searchResultId = faker.random.uuid();
+        const indexCardId = faker.random.uuid();
+        const indexCardURL = `https://share.osf.io/api/v2/index-card/${indexCardId}`;
+        searchResultPageRelationship.data.push({
+            type: 'search-result',
+            id: searchResultId,
+        });
+        includedSearchResultPage.push({
+            type: 'search-result',
+            id: searchResultId,
+            attributes: {
+                matchEvidence: [
+                    {
+                        '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
+                        evidenceCardIdentifier: indexCardURL,
+                        matchingHighlight: [`...<em>${faker.lorem.word()}</em>...`],
+                        osfmapPropertyPath: ['description'],
+                        propertyPathKey: 'description',
+                    },
+                ],
+            },
+            relationships: {
+                indexCard: {
+                    data: {
+                        type: 'index-card',
+                        id: indexCardId,
+                    },
+                    links: {
+                        related: indexCardURL,
+                    },
+                },
+            },
+        });
+        // pick a random resource type among the possible ones requested
+        const requestedResourceType: OsfmapResourceTypes
+            = requestedResourceTypes[Math.floor(Math.random() * requestedResourceTypes.length)];
+        const resourceTypeMetadata = resourceMetadataByType[requestedResourceType];
+        includedIndexCard.push({
+            type: 'index-card',
+            id: indexCardId,
+            attributes: {
+                resourceIdentifier: [
+                    indexCardURL,
+                    `https://doi.org/10.0000/osf.example/${indexCardId}`,
+                ],
+                resourceMetadata: resourceTypeMetadata(),
+            },
+            links: {
+                self: indexCardURL,
+                resource: `https://osf.example/${indexCardId}`,
+            },
+        });
+    });
+
+    const cursorizedUrl = new URL(request.url);
+    cursorizedUrl.searchParams.set('page[cursor]', faker.random.uuid());
+    searchResultPageRelationship.links = {
+        next: {
+            href: cursorizedUrl.toString(),
+        },
+    };
+    if (pageCursor) {
+        searchResultPageRelationship.links.prev = {
+            href: cursorizedUrl.toString(),
+        };
+        searchResultPageRelationship.links.first = {
+            href: cursorizedUrl.toString(),
+        };
+    }
+    indexCardSearch.data.relationships.searchResultPage = searchResultPageRelationship;
+    indexCardSearch.included.push(...includedSearchResultPage, ...includedIndexCard);
+    return indexCardSearch;
 }
 
 export function valueSearch(_: Schema, __: Request) {
@@ -451,7 +503,7 @@ export function valueSearch(_: Schema, __: Request) {
                     ],
                     links: {
                         next: {
-                            href: 'https://staging-share.osf.io/api/v3/index-value-search?page%5Bcursor%5D=lmnop',
+                            href: 'https://staging-share.osf.io/trove/index-value-search?page%5Bcursor%5D=lmnop',
                         },
                     },
                 },
@@ -526,4 +578,87 @@ export function valueSearch(_: Schema, __: Request) {
             },
         ],
     };
+}
+
+function _sharePersonField() {
+    const fakeIdentifier = faker.internet.url();
+    return {
+        '@id': fakeIdentifier,
+        resourceType: [{ '@id': OsfmapResourceTypes.Person }, { '@id': OsfmapResourceTypes.Agent }],
+        identifier: [{
+            '@value': 'https://orcid.org/0000-0000-0000-0000', // hard-coded as search-result looks for orcid URL
+            '@type': rdfString,
+        },
+        _shareIdentifierField(fakeIdentifier),
+        ],
+        name: [{
+            '@value': faker.name.findName(),
+            '@type': rdfString,
+        }],
+    };
+}
+
+function _shareOrganizationField() {
+    const fakeIdentifier = faker.internet.url();
+    return {
+        '@id': fakeIdentifier,
+        resourceType: [{ '@id': OsfmapResourceTypes.Organization }, { '@id': OsfmapResourceTypes.Agent }],
+        identifier: [_shareIdentifierField(fakeIdentifier)],
+        name: [{
+            '@value': faker.company.companyName(),
+            '@type': rdfString,
+        }],
+        // sameAs: [{}], // some ROR
+    };
+}
+
+function _shareIdentifierField(idValue?: string) {
+    return {
+        '@value': idValue || faker.internet.url(),
+        '@type': rdfString,
+    };
+}
+
+function _shareDateField() {
+    return {
+        '@value': _randomPastYearMonthDay(),
+        '@type': rdfString,
+    };
+}
+
+function _shareLicneseField() {
+    return {
+        '@id': 'http://creativecommons.org/licenses/by/4.0/',
+        identifier: [{
+            '@value': 'http://creativecommons.org/licenses/by/4.0/',
+            '@type': rdfString,
+        }],
+        name: [{
+            '@value': 'CC-BY-4.0',
+            '@type': rdfString,
+        }],
+    };
+}
+
+function _shareSubjectField() {
+    return {
+        '@id': 'https://api.osf.io/v2/subjects/584240da54be81056cecac48',
+        resourceType: [{ '@id': OsfmapResourceTypes.Concept }],
+        inScheme: [{
+            '@id': 'https://api.osf.io/v2/schemas/subjects/',
+            resourceType: [{ '@id': OsfmapResourceTypes.ConceptScheme }],
+            title: [{
+                '@value': 'bepress Digital Commons Three-Tiered Taxonomy',
+                '@type': rdfString,
+            }],
+        }],
+        prefLabel: [{
+            '@value': 'Social and Behavioral Sciences',
+            '@type': rdfString,
+        }],
+    };
+}
+
+function _randomPastYearMonthDay(): string {
+    return faker.date.past().toISOString().split('T')[0];
 }

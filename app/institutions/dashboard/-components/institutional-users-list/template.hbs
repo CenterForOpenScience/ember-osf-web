@@ -2,6 +2,13 @@
     <LoadingIndicator data-test-loading-indicator @dark={{true}} />
 {{else}}
     <div local-class='filter-container'>
+        <div local-class='orcid-switch'>
+            <label for='switches-container' local-class='orcid-toggle-label'>{{t 'institutions.dashboard.users_list.has_orcid'}}</label>
+            <label local-class='switch'>
+                <input id='switches-container' type='checkbox' checked={{this.hasOrcid}} {{on 'change' (fn this.toggleOrcidFilter (not this.hasOrcid))}}>
+                <span local-class='slider round'></span>
+            </label>
+        </div>
         <PowerSelect
             @options={{this.departments}}
             @searchEnabled={{true}}
@@ -14,45 +21,40 @@
             {{department}}
         </PowerSelect>
         <BasicDropdown
-          @renderInPlace={{true}}
-          @onClose={{this.onDropdownClose}}
-          @preventScroll={{true}}
-          @eventType='mousedown'
-          local-class='dropdown'
-          as |dd|
-       >
-        <button
-            type='button'
-            local-class='dropdown-trigger'
-            {{on 'click' dd.actions.toggle}}
+            @renderInPlace={{true}}
+            @onClose={{this.onDropdownClose}}
+            @preventScroll={{true}}
+            @eventType='mousedown'
+            local-class='dropdown'
+            as |dd|
         >
-            <FaIcon local-class='icon-columns' @icon='columns' />
-            Customize
-        </button>
-        {{#if dd.isOpen}}
-            <div local-class='dropdown-panel'>
-                <div local-class='dropdown-content'>
-                    {{#each this.columns as |column|}}
-                        <label>
-                            <input
-                                type='checkbox'
-                                value={{column.key}}
-                                checked={{column.value}}
-                                {{on 'change' (fn this.toggleColumnSelection column.key)}}
-                            />
-                            {{column.label}}
-                        </label>
-                    {{/each}}
+            <button type='button' local-class='dropdown-trigger' {{on 'click' dd.actions.toggle}}>
+                <FaIcon local-class='icon-columns' @icon='columns' />
+                Customize
+            </button>
+            {{#if dd.isOpen}}
+                <div local-class='dropdown-panel'>
+                    <div local-class='dropdown-content'>
+                        {{#each this.columns as |column|}}
+                            <label>
+                                <input
+                                    type='checkbox'
+                                    value={{column.key}}
+                                    checked={{column.value}}
+                                    {{on 'change' (fn this.toggleColumnSelection column.key)}}
+                                />
+                                {{column.label}}
+                            </label>
+                        {{/each}}
+                    </div>
+                    <div local-class='dropdown-actions'>
+                        <button type='button' {{on 'click' dd.actions.close}}>Cancel</button>
+                        <button type='button' local-class='apply-button' {{on 'click' this.applyColumnSelection}}>Apply</button>
+                    </div>
                 </div>
-                <div local-class='dropdown-actions'>
-                    <button type='button' {{on 'click' dd.actions.close}}>Cancel</button>
-                    <button type='button' local-class='apply-button' {{on 'click' this.applyColumnSelection}}>Apply</button>
-                </div>
-            </div>
-        {{/if}}
-    </BasicDropdown>
+            {{/if}}
+        </BasicDropdown>
   </div>
-
   <PaginatedList::HasMany
     local-class='table'
     @isTable={{true}}

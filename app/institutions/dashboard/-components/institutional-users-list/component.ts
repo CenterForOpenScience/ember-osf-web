@@ -128,6 +128,10 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
   ];
 
   @tracked selectedColumns: string[] = this.columns.filter(col => col.value).map(col => col.key);
+  // Private properties
+  @tracked department = this.intl.t('institutions.dashboard.select_default');
+  @tracked sort = 'user_name';
+  @tracked hasOrcid = false;
 
   reloadUserList?: () => void;
 
@@ -157,20 +161,24 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
       return this.department === this.defaultDepartment;
   }
 
-  get queryUsers() {
-      const query = {} as Record<string, string>;
-      if (this.department && !this.isDefaultDepartment) {
-          query['filter[department]'] = this.department;
-      }
-      if (this.sort) {
-          query.sort = this.sort;
-      }
-      return query;
-  }
+    get queryUsers() {
+        const query = {} as Record<string, string>;
+        if (this.department && !this.isDefaultDepartment) {
+            query['filter[department]'] = this.department;
+        }
+        if (this.hasOrcid) {
+            query['filter[orcid_id][ne]'] = '';
+        }
+        if (this.sort) {
+            query.sort = this.sort;
+        }
+        return query;
+    }
 
   get filteredColumns() {
       return this.columns.filter(column => this.selectedColumns.includes(column.key));
   }
+
 
   @restartableTask
   @waitFor
@@ -235,5 +243,15 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
   @action
   applyColumnSelection() {
       this.selectedColumns = this.columns.filter(col => col.value).map(col => col.key);
+  }
+
+  @action
+  toggleOrcidFilter(hasOrcid: boolean) {
+    this.hasOrcid = hasOrcid;
+  }
+
+  @action
+  clickToggleOrcidFilter(hasOrcid: boolean) {
+    this.hasOrcid = !hasOrcid;
   }
 }
