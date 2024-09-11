@@ -132,7 +132,7 @@ th .sort-arrow {
 
 .switch {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
     width: 60px;
     height: 30px;
 }
@@ -141,7 +141,6 @@ th .sort-arrow {
     opacity: 0;
     width: 0;
     height: 0;
-    display: none;
 }
 
 .slider {
@@ -154,7 +153,7 @@ th .sort-arrow {
     transition: background-color 0.4s;
     background-color: #ccc;
     cursor: pointer;
-    position: relative;
+    position: flex;
 }
 
 .slider::before {
@@ -165,7 +164,7 @@ th .sort-arrow {
     margin-left: 3px;
     border-radius: 50%;
     transition: transform 0.4s, background-color 0.4s;
-    position: relative;
+    position: flex;
 }
 
 /* Change handle color when checked */
@@ -183,7 +182,7 @@ input:checked + .slider:hover::before {
 }
 
 input:checked + .slider::before {
-    transform: translateX(30px);
+    transform: translateX(26px);
 }
 
 .slider.round {
