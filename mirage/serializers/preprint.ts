@@ -64,17 +64,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
             };
         }
 
-        if (model.contributors) {
-            relationships.contributors = {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/preprints/${model.id}/contributors`,
-                        meta: this.buildRelatedLinkMeta(model, 'contributors'),
-                    },
-                },
-            };
-        }
-
         if (model.bibliographicContributors) {
             relationships.bibliographicContributors = {
                 links: {
@@ -129,17 +118,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/requests/`,
                         meta: this.buildRelatedLinkMeta(model, 'requests'),
-                    },
-                },
-            };
-        }
-
-        if (model.citation) {
-            relationships.citation = {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/preprints/${model.id}/citation/`,
-                        meta: {},
                     },
                 },
             };
