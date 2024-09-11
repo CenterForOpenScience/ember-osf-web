@@ -77,9 +77,11 @@
               <th data-test-header-name='{{column.key}}'>
                 <div local-class='header-content'>
                   <span local-class='header-text'>{{column.label}}</span>
-                  <span local-class='sort-arrow-container'>
-                    <SortArrow @sortBy='{{column.key}}' />
-                  </span>
+                  {{#if column.sort_key}}
+                      <span local-class='sort-arrow-container'>
+                        <SortArrow @sortBy='{{column.sort_key}}' />
+                      </span>
+                  {{/if}}
                 </div>
               </th>
             {{/if}}
