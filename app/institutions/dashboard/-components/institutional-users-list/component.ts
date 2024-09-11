@@ -11,9 +11,10 @@ import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-depart
 import Analytics from 'ember-osf-web/services/analytics';
 
 interface Column {
-    key: string;
-    label: string;
-    default: boolean;
+  key: string;
+  value: boolean;
+  label: string;
+  type: 'string' | 'date_by_month' | 'osf_link' | 'user_name';
 }
 
 interface InstitutionalUsersListArgs {
@@ -25,33 +26,30 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @service analytics!: Analytics;
     @service intl!: Intl;
 
-    institution?: InstitutionModel;
-
-    departmentMetrics?: InstitutionDepartmentsModel[];
-
-    // Private properties
-    @tracked department = this.intl.t('institutions.dashboard.select_default');
+    // Properties
+    @tracked department = this.defaultDepartment;
     @tracked sort = 'user_name';
     @tracked selectedDepartments: string[] = [];
-    @tracked isAllSelected = false;
+    @tracked selectedColumns: string[] = this.defaultSelectedColumns;
     @tracked filteredUsers = [];
+
     @tracked columns: Column[] = [
-        { key: 'user_name', label: this.intl.t('institutions.dashboard.users_list.name'), default: true },
-        { key: 'department', label: this.intl.t('institutions.dashboard.users_list.department'), default: true },
-        { key: 'osf_link', label: this.intl.t('institutions.dashboard.users_list.osf_link'), default: true },
-        { key: 'public_projects', label: this.intl.t('institutions.dashboard.users_list.public_projects'), default: true },
-        { key: 'private_projects', label: this.intl.t('institutions.dashboard.users_list.private_projects'), default: true },
-        { key: 'public_registration_count', label: this.intl.t('institutions.dashboard.users_list.public_registration_count'), default: true },
-        { key: 'private_registration_count', label: this.intl.t('institutions.dashboard.users_list.private_registration_count'), default: true },
-        { key: 'published_preprint_count', label: this.intl.t('institutions.dashboard.users_list.published_preprint_count'), default: true },
-        { key: 'public_file_count', label: this.intl.t('institutions.dashboard.users_list.public_file_count'), default: false },
-        { key: 'storage_byte_count', label: this.intl.t('institutions.dashboard.users_list.storage_byte_count'), default: false },
-        { key: 'account_creation_date', label: this.intl.t('institutions.dashboard.users_list.account_created'), default: false },
-        { key: 'month_last_login', label: this.intl.t('institutions.dashboard.users_list.month_last_login'), default: false },
-        { key: 'month_last_active', label: this.intl.t('institutions.dashboard.users_list.month_last_active'), default: false },
+      { key: 'user_name', label: this.intl.t('institutions.dashboard.users_list.name'), value: true, type: 'user_name' },
+      { key: 'department', label: this.intl.t('institutions.dashboard.users_list.department'), value: true, type: 'string' },
+      { key: 'osf_link', label: this.intl.t('institutions.dashboard.users_list.osf_link'), value: true, type: 'osf_link' },
+      { key: 'publicProjects', label: this.intl.t('institutions.dashboard.users_list.public_projects'), value: true, type: 'string' },
+      { key: 'privateProjects', label: this.intl.t('institutions.dashboard.users_list.private_projects'), value: true, type: 'string' },
+      { key: 'publicRegistrationCount', label: this.intl.t('institutions.dashboard.users_list.public_registration_count'), value: true, type: 'string' },
+      { key: 'embargoedRegistrationCount', label: this.intl.t('institutions.dashboard.users_list.private_registration_count'), value: true, type: 'string' },
+      { key: 'publishedPreprintCount', label: this.intl.t('institutions.dashboard.users_list.published_preprint_count'), value: true, type: 'string' },
+      { key: 'publicFileCount', label: this.intl.t('institutions.dashboard.users_list.public_file_count'), value: false, type: 'string' },
+      { key: 'userDataUsage', label: this.intl.t('institutions.dashboard.users_list.storage_byte_count'), value: false, type: 'string' },
+      { key: 'accountCreationDate', label: this.intl.t('institutions.dashboard.users_list.account_created'), value: false, type: 'date_by_month' },
+      { key: 'monthLastLogin', label: this.intl.t('institutions.dashboard.users_list.month_last_login'), value: false, type: 'date_by_month' },
+      { key: 'monthLastActive', label: this.intl.t('institutions.dashboard.users_list.month_last_active'), value: false, type: 'date_by_month' },
     ];
 
-    @tracked selectedColumns: string[] = this.columns.filter(col => col.default).map(col => col.key);
+    @tracked selectedColumns: string[] = this.columns.filter(col => col.value).map(col => col.key);
 
     reloadUserList?: () => void;
 
@@ -59,7 +57,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     toggleColumnSelection(columnKey: string) {
         const column = this.columns.find(col => col.key === columnKey);
         if (column) {
-            column.default = !column.default;
+            column.value = !column.value;
         }
     }
 
@@ -92,6 +90,10 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         return query;
     }
 
+    get filteredColumns() {
+      return this.columns.filter((column) => this.selectedColumns.includes(column.key));
+    }
+
     @restartableTask
     @waitFor
     async searchDepartment(name: string) {
@@ -115,9 +117,6 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             this.sort = sortBy; // Toggle to ascending
         } else {
             this.sort = `-${sortBy}`; // New field, default to descending
-        }
-        if (this.reloadUserList) {
-            this.reloadUserList();
         }
     }
 
@@ -150,10 +149,6 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         } else {
             this.filteredUsers = this.args.departmentMetrics;
         }
-
-        if (this.reloadUserList) {
-            this.reloadUserList();
-        }
     }
 
     @action
@@ -164,10 +159,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
 
     @action
     applyColumnSelection() {
-        this.selectedColumns = this.columns.filter(col => col.default).map(col => col.key);
-        if (this.reloadUserList) {
-            this.reloadUserList();
-        }
+        this.selectedColumns = this.columns.filter(col => col.value).map(col => col.key);
     }
 
 }
