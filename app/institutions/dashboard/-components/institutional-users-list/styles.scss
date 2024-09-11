@@ -72,7 +72,6 @@
     }
 }
 
-
 .header-content {
     display: flex;
     align-items: center;
@@ -91,7 +90,7 @@
     margin-left: 4px;
 }
 
-th .sort-arrow {
+.sort-arrow {
     display: inline-block;
     vertical-align: middle;
     color: #fff;
@@ -114,7 +113,7 @@ th .sort-arrow {
     margin: 15px;
 
     span {
-        margin-left: 0px;
+        margin-left: 0;
     }
 }
 
@@ -170,7 +169,7 @@ th .sort-arrow {
     font-weight: lighter;
 }
 
-.dropdown-content input[type='checkbox'] {
+.dropdown-content [type='checkbox'] {
     margin-right: 8px;
     cursor: pointer;
 }
