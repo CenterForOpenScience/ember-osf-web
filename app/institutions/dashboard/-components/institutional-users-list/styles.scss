@@ -21,7 +21,6 @@
     th,
     td {
         padding: 15px;
-        overflow: hidden;
         text-overflow: ellipsis;
     }
 
@@ -80,14 +79,11 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    overflow: hidden;
 }
 
 .header-text {
     text-overflow: ellipsis;
     flex-grow: 1;
-    overflow: hidden;
-    white-space: nowrap;
 }
 
 .sort-arrow-container {
@@ -127,14 +123,12 @@ th .sort-arrow {
     position: relative;
     display: flex;
     justify-content: flex-end;
-    /* Aligns items horizontally to the right */
     align-items: center;
-    /* Aligns items vertically */
     width: 100%;
 }
 
 .dropdown-trigger {
-    background-color: #ffffff;
+    background-color: #fff;
     border: 1px solid #ddd;
     color: #007bff;
     border-radius: 4px;
@@ -156,12 +150,11 @@ th .sort-arrow {
     position: absolute;
     top: calc(100% + 5px);
     right: 0;
-    background-color: #ffffff;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
     width: 220px;
 }
 
@@ -179,10 +172,9 @@ th .sort-arrow {
     font-weight: lighter;
 }
 
-.dropdown-content input[type="checkbox"] {
+.dropdown-content input[type='checkbox'] {
     margin-right: 8px;
     cursor: pointer;
-
 }
 
 .dropdown-actions {
@@ -211,17 +203,6 @@ th .sort-arrow {
 
 .apply-button:hover {
     background-color: #0056b3;
-}
-
-.dropdown-actions button[type="button"]:first-of-type {
-    background-color: #ffffff;
-    color: #007bff;
-    border: 1px solid #ddd;
-}
-
-.dropdown-actions button[type="button"]:first-of-type:hover {
-    background-color: #e6e6e6;
-    color: #0056b3;
 }
 
 .icon-columns {
