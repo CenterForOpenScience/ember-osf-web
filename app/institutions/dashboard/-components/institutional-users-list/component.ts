@@ -26,6 +26,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     // Private properties
     @tracked department = this.intl.t('institutions.dashboard.select_default');
     @tracked sort = 'user_name';
+    @tracked hasOrcid = false;
 
     reloadUserList?: () => void;
 
@@ -51,6 +52,9 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         const query = {} as Record<string, string>;
         if (this.department && !this.isDefaultDepartment) {
             query['filter[department]'] = this.department;
+        }
+        if (this.hasOrcid) {
+            query['filter[orcid_id][ne]'] = '';
         }
         if (this.sort) {
             query.sort = this.sort;
@@ -97,4 +101,15 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             this.reloadUserList();
         }
     }
+
+    @action
+    toggleOrcidFilter(hasOrcid: boolean) {
+        this.hasOrcid = hasOrcid;
+    }
+
+    @action
+    clickToggleOrcidFilter(hasOrcid: boolean) {
+        this.hasOrcid = !hasOrcid;
+    }
+
 }
