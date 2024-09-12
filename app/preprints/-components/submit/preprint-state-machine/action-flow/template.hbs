@@ -118,7 +118,7 @@
             </div>
         {{/if}}
     {{/if}}
-    {{#if @manager.isEditFlow}}
+    {{!-- {{#if @manager.isEditFlow}}
         {{#if (is-mobile)}}
             <div local-class='mobile-button-container'>
                 <DeleteButton
@@ -149,8 +149,7 @@
                 />
             </div>
         {{/if}}
-
-    {{/if}}
+    {{/if}} --}}
     {{#if @manager.isWithdrawalButtonDisplayed}}
         <div local-class='{{if (is-mobile) 'mobile-button-container' 'desktop-button-container'}}'>
             <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow::WithdrawalPreprint
