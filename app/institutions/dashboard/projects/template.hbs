@@ -1,8 +1,5 @@
-<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{this.model.institution}} as |wrapper|>
-    <wrapper.main>
-        <div>
-            {{t 'institutions.dashboard.tabs.projects'}}
-        </div>
-        {{t 'institutions.dashboard.content-placeholder'}}
-    </wrapper.main>
-</Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
+<Institutions::Dashboard::-Components::ObjectList
+    @institution={{this.model.institution}}
+    @defaultQueryOptions={{this.defaultQueryOptions}}
+    @columns={{this.columns}}
+/>
