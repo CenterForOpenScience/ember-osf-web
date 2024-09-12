@@ -40,7 +40,7 @@
                                 <input
                                     type='checkbox'
                                     value={{column.key}}
-                                    checked={{column.value}}
+                                    checked={{column.selected}}
                                     {{on 'change' (fn this.toggleColumnSelection column.key)}}
                                 />
                                 {{column.label}}
