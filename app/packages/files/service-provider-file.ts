@@ -13,6 +13,7 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 import { ErrorDocument } from 'osf-api';
 import ConfiguredStorageAddonModel, { ConnectedCapabilities, ConnectedOperationNames}
     from 'ember-osf-web/models/configured-storage-addon';
+import ServiceFile from 'ember-osf-web/packages/files/service-file';
 
 export default class ServiceProviderFile {
     @tracked fileModel: FileProviderModel;
@@ -116,21 +117,18 @@ export default class ServiceProviderFile {
     }
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
-        if (this.fileModel.isFolder) {
-            const queryResult = await this.fileModel.queryHasMany('files',
-                {
-                    page,
-                    sort,
-                    'filter[name]': filter,
-                });
-            this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => Reflect.construct(this.constructor, [
-                this.currentUser,
-                fileModel,
-                this.configuredStorageAddon,
-            ]));
-        }
-        return [];
+        const queryResult = await this.fileModel.queryHasMany('files',
+            {
+                page,
+                sort,
+                'filter[name]': filter,
+            });
+        this.totalFileCount = queryResult.meta.total;
+        return queryResult.map(fileModel => new ServiceFile(
+            this.currentUser,
+            fileModel,
+            this.configuredStorageAddon,
+        ));
     }
 
     handleFetchError(e: ErrorDocument) {

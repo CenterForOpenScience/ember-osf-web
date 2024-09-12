@@ -132,7 +132,7 @@ export default class StorageManager extends Component<Args> {
     @restartableTask
     @waitFor
     async getRootFolderItems() {
-        if(this.args.provider) {
+        if (this.args.provider) {
             await taskFor(this.getRootFolder).perform();
             await taskFor(this.getCurrentFolderItems).perform();
         } else {
