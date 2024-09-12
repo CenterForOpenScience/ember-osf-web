@@ -1,0 +1,39 @@
+<IndexCardSearcher
+    @queryOptions={{@defaultQueryOptions}}
+    @sort={{this.sort}}
+    @page={{this.page}}
+as |list|>
+    <Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{@institution}} as |wrapper|>
+        <wrapper.main>
+            <table>
+                <thead>
+                    <tr>
+                        {{#each @columns as |column|}}
+                            <th>
+                                {{column.name}}
+                            </th>
+                        {{/each}}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#if list.searchObjectsTask.isRunning}}
+                        <ContentPlaceholders as |placeholder|>
+                            {{placeholder.list items=8}}
+                        </ContentPlaceholders>
+                    {{else}}
+                        {{#each list.searchResults as |result|}}
+                            <tr>
+                                {{#each @columns as |column|}}
+                                    <td>
+                                        {{get result column.valuePath}}
+                                    </td>
+                                {{/each}}
+                            </tr>
+                        {{/each}}
+                    {{/if}}
+                </tbody>
+            </table>
+        </wrapper.main>
+    </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
+</IndexCardSearcher>
