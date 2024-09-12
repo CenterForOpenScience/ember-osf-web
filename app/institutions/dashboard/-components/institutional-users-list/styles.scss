@@ -3,7 +3,7 @@
     padding: 7px 16px 7px 14px;
     border-color: #ddd;
     border-radius: 2px;
-    color: #337ab7;
+    color: $color-select;
 }
 
 .table {
@@ -19,10 +19,8 @@
 
     th,
     td {
-        padding: 15px;
-        overflow: hidden;
+        padding: 10px;
         text-overflow: ellipsis;
-        white-space: nowrap;
     }
 
     :global(.text-center) {
@@ -74,20 +72,16 @@
     }
 }
 
-
 .header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    overflow: hidden;
 }
 
 .header-text {
     text-overflow: ellipsis;
     flex-grow: 1;
-    overflow: hidden;
-    white-space: nowrap;
 }
 
 .sort-arrow-container {
@@ -96,19 +90,80 @@
     margin-left: 4px;
 }
 
-th .sort-arrow {
+.sort-arrow {
     display: inline-block;
     vertical-align: middle;
     color: #fff;
 }
 
-.table-filters {
+.select-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    float: right;
+}
+
+.select {
+    min-width: 120px;
+    padding: 7px 16px 7px 14px;
+    border-color: $color-border-gray;
+    border-radius: 2px;
+    color: $color-select;
+    text-align: center;
+    margin: 15px;
+
+    span {
+        margin-left: 0;
+    }
+}
+
+.filter-container {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     width: 100%;
-    padding: 10px 0;
+}
+
+.dropdown-panel {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    background-color: $color-bg-white;
+    border: 1px solid $color-border-gray;
+    border-radius: 4px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 220px;
+}
+
+.dropdown-content {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 10px;
+}
+
+.dropdown-content label {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+.dropdown-content [type='checkbox'] {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.dropdown-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+    border-top: 1px solid $color-light;
+}
+
+.icon-columns {
+    padding-right: 5px;
 }
 
 .filter-controls {

@@ -820,6 +820,7 @@ institutions:
             month_last_login: 'Last Login'
             month_last_active: 'Last Action'
             has_orcid: 'Has ORCID'
+            select_columns: 'Customize'
         users_connected_panel: 'SSO Users Connected'
         projects_panel: 'Total Projects'
         departments_panel: Departments

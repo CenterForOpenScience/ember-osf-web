@@ -18,7 +18,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 
-    test('it renders and paginates', async function(assert) {
+    test('it renders and paginates 8 default columns', async function(assert) {
         server.create('institution', {
             id: 'testinstitution',
         }, 'withMetrics');
@@ -40,33 +40,33 @@ module('Integration | routes | institutions | dashboard | -components | institut
                 @institution={{this.model.taskInstance.institution}}
             />
         `);
-        assert.dom('[data-test-header-name]')
-            .exists({ count: 1 }, '1 name header');
-        assert.dom('[data-test-header-department]')
+        assert.dom('[data-test-header]')
+            .exists({ count: 8 }, '8 default headers');
+        assert.dom('[data-test-header="department"]')
             .exists({ count: 1 }, '1 departments header');
-        assert.dom('[data-test-header-public-projects]')
+        assert.dom('[data-test-header="publicProjects"]')
             .exists({ count: 1 }, '1 public projects header');
-        assert.dom('[data-test-header-private-projects]')
+        assert.dom('[data-test-header="privateProjects"]')
             .exists({ count: 1 }, '1 private projects header');
 
-        assert.dom('[data-test-item-name]')
-            .exists({ count: 10 }, '10 in the list with a name');
-        assert.dom('[data-test-item-department]')
+        assert.dom('[data-test-item]')
+            .exists({ count: 80 }, '80 items 10 rows and 8 columns by default');
+        assert.dom('[data-test-item="department"]')
             .exists({ count: 10 }, '10 in the list with department');
-        assert.dom('[data-test-item-public-projects]')
+        assert.dom('[data-test-item="publicProjects"]')
             .exists({ count: 10 }, '10 in the list with public project');
-        assert.dom('[data-test-item-private-projects]')
+        assert.dom('[data-test-item="privateProjects"]')
             .exists({ count: 10 }, '10 in the list with private projects');
 
         await click('[data-test-next-page-button]');
 
-        assert.dom('[data-test-item-name]')
+        assert.dom('[data-test-item="user_name"]')
             .exists({ count: 5 }, '5 in the list with a name');
-        assert.dom('[data-test-item-department]')
+        assert.dom('[data-test-item="department"]')
             .exists({ count: 5 }, '5 in the list with department');
-        assert.dom('[data-test-item-public-projects]')
+        assert.dom('[data-test-item="publicProjects"]')
             .exists({ count: 5 }, '5 in the list with public project');
-        assert.dom('[data-test-item-private-projects]')
+        assert.dom('[data-test-item="privateProjects"]')
             .exists({ count: 5 }, '5 in the list with private projects');
     });
 
@@ -108,25 +108,25 @@ module('Integration | routes | institutions | dashboard | -components | institut
                 @institution={{this.model.taskInstance.institution}}
             />
         `);
-        assert.dom('[data-test-item-name]')
+        assert.dom('[data-test-item="user_name"]')
             .exists({ count: 3 }, '3 users');
 
-        assert.dom('[data-test-item-name]')
+        assert.dom('[data-test-item="user_name"]')
             .containsText('Hulk Hogan', 'Sorts by name ascending by default');
 
-        assert.dom('[data-test-item-name] a:first-of-type')
+        assert.dom('[data-test-item] a:first-of-type')
             .hasAttribute('href');
 
         await click('[data-test-sort="user_name"]');
-        assert.dom('[data-test-item-name]')
+        assert.dom('[data-test-item]')
             .containsText('John Doe', 'Sorts by name descending');
 
         await click('[data-test-sort="department"]');
-        assert.dom('[data-test-item-department]')
+        assert.dom('[data-test-item="department"]')
             .hasText('Psychology', 'Sorts by department descending');
 
         await click('[data-test-sort="department"]');
-        assert.dom('[data-test-item-department]')
+        assert.dom('[data-test-item="department"]')
             .hasText('Architecture', 'Sorts by department ascending');
 
     });
