@@ -3,7 +3,7 @@
     padding: 7px 16px 7px 14px;
     border-color: #ddd;
     border-radius: 2px;
-    color: #337ab7;
+    color: $color-select;
 }
 
 .table {
@@ -106,7 +106,7 @@
 .select {
     min-width: 120px;
     padding: 7px 16px 7px 14px;
-    border-color: #ddd;
+    border-color: $color-border-gray;
     border-radius: 2px;
     color: #337ab7;
     text-align: center;
@@ -125,8 +125,8 @@
 }
 
 .dropdown-trigger {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color:$color-bg-white;
+    border: 1px solid $color-border-gray;
     color: #007bff;
     border-radius: 4px;
     padding: 9px;
@@ -178,7 +178,7 @@
     display: flex;
     justify-content: flex-end;
     padding-top: 10px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid $color-light;
 }
 
 .dropdown-actions button {
