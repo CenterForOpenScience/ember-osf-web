@@ -28,10 +28,10 @@
             local-class='dropdown'
             as |dd|
         >
-            <button type='button' local-class='dropdown-trigger' {{on 'click' dd.actions.toggle}}>
+            <Button local-class='dropdown-trigger' {{on 'click' dd.actions.toggle}}>
                 <FaIcon local-class='icon-columns' @icon='columns' />
                 {{t 'institutions.dashboard.users_list.select_columns'}}
-            </button>
+            </Button>
             {{#if dd.isOpen}}
                 <div local-class='dropdown-panel'>
                     <div local-class='dropdown-content'>
@@ -48,12 +48,12 @@
                         {{/each}}
                     </div>
                     <div local-class='dropdown-actions'>
-                        <button type='button' {{on 'click' dd.actions.close}}>
+                        <Button @type='secondary' {{on 'click' dd.actions.close}}>
                             {{t 'general.cancel'}}
-                        </button>
-                        <button type='button' local-class='apply-button' {{on 'click' this.applyColumnSelection}}>
+                        </Button>
+                        <Button @type='primary' {{on 'click' this.applyColumnSelection}}>
                             {{t 'general.apply'}}
-                        </button>
+                        </Button>
                     </div>
                 </div>
             {{/if}}
