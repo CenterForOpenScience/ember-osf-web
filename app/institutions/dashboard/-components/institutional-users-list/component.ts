@@ -20,6 +20,7 @@ interface Column {
 interface InstitutionalUsersListArgs {
     institution: InstitutionModel;
     departmentMetrics: InstitutionDepartmentsModel[];
+    totalUsers: number;
 }
 
 export default class InstitutionalUsersList extends Component<InstitutionalUsersListArgs> {
@@ -29,6 +30,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     institution?: InstitutionModel;
 
     departmentMetrics?: InstitutionDepartmentsModel[];
+    totalUsers?: number;
 
     // Properties
     @tracked department = this.defaultDepartment;

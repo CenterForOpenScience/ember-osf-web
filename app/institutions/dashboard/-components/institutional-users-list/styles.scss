@@ -252,3 +252,21 @@ input:checked + .slider::before {
 .slider.round::before {
     border-radius: 50%;
 }
+
+.total-users {
+    margin-right: auto; /* Aligns text to the left */
+    display: flex; /* Allows for consistent alignment with other elements */
+    align-items: center;
+}
+
+.total-users label {
+    font-size: 18px;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.total-users-count {
+    font-size: 24px;
+    margin-right: 5px;
+    font-weight: bold;
+}
