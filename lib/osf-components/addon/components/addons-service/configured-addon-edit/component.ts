@@ -25,14 +25,8 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         return this.displayName?.trim().length === 0;
     }
 
-    get folderChanged() {
-        return this.selectedFolder !== this.args.configuredStorageAddon.rootFolder;
-    }
-
     get disableSave() {
-        const folderValid = this.folderChanged;
-        const nameValid = this.displayName !== this.args.configuredStorageAddon.displayName && !this.invalidDisplayName;
-        return !(folderValid || nameValid) || this.args.onSave.isRunning;
+        return this.invalidDisplayName || this.args.onSave.isRunning;
     }
 
     get onSaveArgs() {
