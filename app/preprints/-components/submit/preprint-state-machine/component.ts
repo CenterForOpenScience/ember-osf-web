@@ -213,8 +213,9 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                 await this.preprint.save();
             }
 
-            await this.preprint.reload();
         }
+
+        await this.preprint.reload();
 
         await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
     }
