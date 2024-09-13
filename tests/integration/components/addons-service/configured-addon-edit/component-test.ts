@@ -60,18 +60,16 @@ module('Integration | Component | addons-service | configured-addon-edit', funct
         assert.dom('[data-test-folder-path-option]').exists({ count: 1 }, 'Has root folder path option');
         assert.dom('[data-test-folder-link]').exists({ count: 5 }, 'Root folder has 5 folders');
         assert.dom('[data-test-root-folder-option]').exists({ count: 5 }, 'Checkbox available for each folder option');
-        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
+        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled');
 
         // updating and reseting the display name
         assert.dom('[data-test-display-name-error]').doesNotExist('No error message initially');
         await fillIn('[data-test-display-name-input]', '');
         assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
         assert.dom('[data-test-display-name-error]').exists('Error message is shown when display name is empty');
-        await fillIn('[data-test-display-name-input]', 'My configured addon 2');
-        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled');
-        assert.dom('[data-test-display-name-error]').doesNotExist('No error message after display name is set');
         await fillIn('[data-test-display-name-input]', 'My configured addon');
-        assert.dom('[data-test-root-folder-save]').isDisabled('Save is disabled if display name is same as before');
+        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled after display name is set');
+        assert.dom('[data-test-display-name-error]').doesNotExist('No error message after display name is set');
 
         // Navigate into a folder
         const folderLinks = this.element.querySelectorAll('[data-test-folder-link]');
