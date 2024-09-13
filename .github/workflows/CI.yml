@@ -42,7 +42,7 @@ jobs:
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
         restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - run: yarn build:test
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: dist
         path: ./dist
@@ -67,7 +67,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
         name: dist
         path: ./dist
@@ -91,7 +91,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
         name: dist
         path: ./dist
@@ -115,7 +115,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
         name: dist
         path: ./dist
@@ -139,7 +139,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
         name: dist
         path: ./dist
