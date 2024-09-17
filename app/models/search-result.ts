@@ -20,6 +20,17 @@ export interface TextMatchEvidence {
     osfmapPropertyPath: string[];
 }
 
+export const CardLabelTranslationKeys = {
+    project: 'osf-components.search-result-card.project',
+    project_component: 'osf-components.search-result-card.project_component',
+    registration: 'osf-components.search-result-card.registration',
+    registration_component: 'osf-components.search-result-card.registration_component',
+    preprint: 'osf-components.search-result-card.preprint',
+    file: 'osf-components.search-result-card.file',
+    user: 'osf-components.search-result-card.user',
+    unknown: 'osf-components.search-result-card.unknown',
+};
+
 export default class SearchResultModel extends Model {
     @service intl!: IntlService;
 
@@ -240,6 +251,10 @@ export default class SearchResultModel extends Model {
             return 'file';
         }
         return 'unknown';
+    }
+
+    get intlResourceType() {
+        return this.intl.t(CardLabelTranslationKeys[this.resourceType]);
     }
 
     get orcids() {
