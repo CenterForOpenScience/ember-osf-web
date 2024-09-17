@@ -3,6 +3,10 @@ import faker from 'faker';
 import { PaginationLinks } from 'jsonapi-typescript';
 
 import { OsfmapResourceTypes } from 'ember-osf-web/models/index-card';
+import config from 'ember-osf-web/config/environment';
+import { guid } from '../factories/utils';
+
+const osfUrl = config.OSF.url;
 
 const rdfString = 'https://www.w3.org/1999/02/22-rdf-syntax-ns#string';
 const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
@@ -28,7 +32,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         }],
         hasPart: [{}], // RegistrationComponent
         hostingInstition: [_shareOrganizationField()],
-        identifier: [_shareIdentifierField()],
+        identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
         isVersionOf: [{}], // if this is from a project
         keyword: [{ // tags
             '@value': faker.random.word(),
@@ -64,7 +68,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         }],
         hasPart: [{}], // ProjectComponent
         hostingInstition: [_shareOrganizationField()],
-        identifier: [_shareIdentifierField()],
+        identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
         keyword: [{ // tags
             '@value': faker.random.word(),
             '@type': rdfString,
@@ -82,7 +86,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
     Preprint: () => ({
         '@id': faker.internet.url(),
         // accessService: [{}],
-        creator: [_sharePersonField()],
+        creator: [_sharePersonField('http://ror.org/has-users')],
         dateAccepted: [_shareDateField()],
         dateCopyrighted: [_shareDateField()],
         dateCreated: [_shareDateField()],
@@ -94,7 +98,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         }],
         hasPart: [{}], // File
         hostingInstition: [_shareOrganizationField()],
-        identifier: [_shareIdentifierField()],
+        identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
         // isSupplementedBy: [{}], // if this links a project
         keyword: [{ // tags
             '@value': faker.random.word(),
@@ -136,6 +140,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
                 '@value': 'https://orcid.org/0000-0000-0000-0000',
                 '@type': rdfString,
             },
+            _shareOsfIdentifier(),
         ],
         name: [{
             '@value': faker.name.findName(),
@@ -188,7 +193,7 @@ resourceMetadataByType.File = function() {
             '@value': faker.system.filePath(),
             '@type': rdfString,
         }],
-        identifier: [_shareIdentifierField()],
+        identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
         isContainedBy: [{ // Parent Project
             ...resourceMetadataByType.Project(),
         }],
@@ -432,6 +437,7 @@ export function cardSearch(_: Schema, request: Request) {
         const requestedResourceType: OsfmapResourceTypes
             = requestedResourceTypes[Math.floor(Math.random() * requestedResourceTypes.length)];
         const resourceTypeMetadata = resourceMetadataByType[requestedResourceType];
+        const osfGuid = fakeOsfIdentifier();
         includedIndexCard.push({
             type: 'index-card',
             id: indexCardId,
@@ -439,6 +445,7 @@ export function cardSearch(_: Schema, request: Request) {
                 resourceIdentifier: [
                     indexCardURL,
                     `https://doi.org/10.0000/osf.example/${indexCardId}`,
+                    osfGuid,
                 ],
                 resourceMetadata: resourceTypeMetadata(),
             },
@@ -591,6 +598,7 @@ function _sharePersonField() {
         },
         _shareIdentifierField(fakeIdentifier),
         ],
+        affiliation: [_shareOrganizationField('http://ror.org/has-users')],
         name: [{
             '@value': faker.name.findName(),
             '@type': rdfString,
@@ -598,12 +606,12 @@ function _sharePersonField() {
     };
 }
 
-function _shareOrganizationField() {
-    const fakeIdentifier = faker.internet.url();
+function _shareOrganizationField(orgId?: string) {
+    const identifier = orgId || faker.internet.url();
     return {
-        '@id': fakeIdentifier,
+        '@id': identifier,
         resourceType: [{ '@id': OsfmapResourceTypes.Organization }, { '@id': OsfmapResourceTypes.Agent }],
-        identifier: [_shareIdentifierField(fakeIdentifier)],
+        identifier: [_shareIdentifierField(identifier)],
         name: [{
             '@value': faker.company.companyName(),
             '@type': rdfString,
@@ -615,6 +623,17 @@ function _shareOrganizationField() {
 function _shareIdentifierField(idValue?: string) {
     return {
         '@value': idValue || faker.internet.url(),
+        '@type': rdfString,
+    };
+}
+function fakeOsfIdentifier() {
+    const id = guid('share-result')(Math.random());
+    return osfUrl + '/' + id;
+}
+
+function _shareOsfIdentifier(identifier?: string) {
+    return {
+        '@value': identifier || fakeOsfIdentifier(),
         '@type': rdfString,
     };
 }
