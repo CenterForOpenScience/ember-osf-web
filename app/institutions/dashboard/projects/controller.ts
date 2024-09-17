@@ -3,22 +3,25 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 
 import { ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
+import { ObjectListColumn } from '../-components/object-list/component';
 
 export default class InstitutionDashboardProjects extends Controller {
     @service intl!: Intl;
 
-    columns = [
+    columns: ObjectListColumn[] = [
         { // Title
             name: this.intl.t('institutions.dashboard.object_list.table_headers.title'),
             valuePath: 'displayTitle',
         },
         { // Link
             name: this.intl.t('institutions.dashboard.object_list.table_headers.link'),
-            valuePath: 'absoluteUrl',
+            type: 'link',
+            hrefValuePath: 'indexCard.osfUrl',
+            linkText: 'indexCard.guidFromIdentifierList',
         },
         { // Object type
             name: this.intl.t('institutions.dashboard.object_list.table_headers.object_type'),
-            valuePath: 'displayType',
+            valuePath: 'intlResourceType',
         },
         { // Date created
             name: this.intl.t('institutions.dashboard.object_list.table_headers.created_date'),
@@ -30,7 +33,7 @@ export default class InstitutionDashboardProjects extends Controller {
         },
         { // DOI
             name: this.intl.t('institutions.dashboard.object_list.table_headers.doi'),
-            valuePath: 'doi',
+            type: 'doi',
         },
         { // Storage location
             name: this.intl.t('institutions.dashboard.object_list.table_headers.storage_location'),
@@ -40,13 +43,9 @@ export default class InstitutionDashboardProjects extends Controller {
             name: this.intl.t('institutions.dashboard.object_list.table_headers.total_data_stored'),
             valuePath: 'totalDataStored', // TODO: Update when OsfMap representation is available
         },
-        { // Contributor name
+        { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object_list.table_headers.contributor_name'),
-            valuePath: 'contributors', // TODO: type of contributors?
-        },
-        { // Contributor permissions
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.contributor_permissions'),
-            valuePath: 'contributors', // TODO: Update when OsfMap representation is available
+            type: 'contributors',
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object_list.table_headers.view_count'),

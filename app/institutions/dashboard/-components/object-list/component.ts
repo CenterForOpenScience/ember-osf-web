@@ -3,9 +3,12 @@ import { tracked } from '@glimmer/tracking';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
 
-interface ObjectListColumn {
+export interface ObjectListColumn {
     name: string;
-    valuePath: string;
+    type?: 'link' | 'doi' | 'contributors';
+    valuePath?: string; // if no type is specified, this is the value to display
+    hrefValuePath?: string; // for links
+    linkText?: string; // for links
 }
 
 interface InstitutionalObjectListArgs {

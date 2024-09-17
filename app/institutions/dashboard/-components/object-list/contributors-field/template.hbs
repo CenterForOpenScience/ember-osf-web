@@ -1,0 +1,8 @@
+{{#each this.topInstitutionAffiliatedContributors as |contributor|}}
+    <OsfLink
+        @href={{contributor.url}}
+    >
+        {{contributor.name}}
+    </OsfLink>
+    {{!-- TODO: add permission level later --}}
+{{/each}}

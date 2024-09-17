@@ -4,36 +4,49 @@
     @page={{this.page}}
 as |list|>
     <Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{@institution}} as |wrapper|>
-        <wrapper.main>
-            <table>
-                <thead>
-                    <tr>
-                        {{#each @columns as |column|}}
-                            <th>
-                                {{column.name}}
-                            </th>
-                        {{/each}}
-                    </tr>
-                </thead>
+        <wrapper.main local-class='main-column'>
+            {{#if list.searchObjectsTask.isRunning}}
+                <LoadingIndicator @dark={{true}} />
+            {{else}}
+                <table local-class='object-table'>
+                    <thead local-class='object-table-head'>
+                        <tr>
+                            {{#each @columns as |column|}}
+                                <th local-class='object-table-header'>
+                                    {{column.name}}
+                                </th>
+                            {{/each}}
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    {{#if list.searchObjectsTask.isRunning}}
-                        <ContentPlaceholders as |placeholder|>
-                            {{placeholder.list items=8}}
-                        </ContentPlaceholders>
-                    {{else}}
+                    <tbody>
                         {{#each list.searchResults as |result|}}
                             <tr>
                                 {{#each @columns as |column|}}
                                     <td>
-                                        {{get result column.valuePath}}
+                                        {{#if (eq column.type 'link')}}
+                                            <OsfLink @href={{get result column.hrefValuePath}}>
+                                                {{get result column.linkText}}
+                                            </OsfLink>
+                                        {{else if (eq column.type 'doi')}}
+                                            <Institutions::Dashboard::-Components::ObjectList::DoiField
+                                                @searchResult={{result}}
+                                            />
+                                        {{else if (eq column.type 'contributors')}}
+                                            <Institutions::Dashboard::-Components::ObjectList::ContributorsField
+                                                @searchResult={{result}}
+                                                @institution={{@institution}}
+                                            />
+                                        {{else}}
+                                            {{get result column.valuePath}}
+                                        {{/if}}
                                     </td>
                                 {{/each}}
                             </tr>
                         {{/each}}
-                    {{/if}}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            {{/if}}
         </wrapper.main>
     </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
 </IndexCardSearcher>

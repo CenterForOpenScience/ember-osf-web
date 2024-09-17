@@ -86,7 +86,6 @@ export default class SearchResultModel extends Model {
 
     // returns list of affilated institutions for users
     // returns list of contributors for osf objects
-    // returns list of affiliated institutions for osf users
     get affiliatedEntities() {
         if (this.resourceType === 'user') {
             if (this.resourceMetadata.affiliation) {
