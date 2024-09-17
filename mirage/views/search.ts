@@ -598,6 +598,9 @@ function _sharePersonField() {
         },
         _shareIdentifierField(fakeIdentifier),
         ],
+        // Pass an IRI to the _shareOrganizationField to create an organization with the same IRI
+        // as one specified in your mirage scenario
+        // e.g. in mirage scenario: server.create('institution', { iris: ['http://ror.org/has-users']});
         affiliation: [_shareOrganizationField('http://ror.org/has-users')],
         name: [{
             '@value': faker.name.findName(),
