@@ -213,7 +213,23 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @waitFor
     public async onSubmit(): Promise<void> {
         this.args.resetPageDirty();
-        if (!this.isEditFlow) {
+
+        if (this.isEditFlow) {
+            if (this.preprint.reviewsState !== ReviewsState.ACCEPTED) {
+                if (this.provider.reviewsWorkflow) {
+                    const reviewAction = this.store.createRecord('review-action', {
+                        actionTrigger: 'submit',
+                        target: this.preprint,
+                    });
+                    await reviewAction.save();
+                } else {
+                    this.preprint.isPublished = true;
+                    await this.preprint.save();
+                }
+            } else {
+                await this.preprint.save();
+            }
+        } else {
             if (this.provider.reviewsWorkflow) {
                 const reviewAction = this.store.createRecord('review-action', {
                     actionTrigger: 'submit',
@@ -224,11 +240,9 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                 this.preprint.isPublished = true;
                 await this.preprint.save();
             }
-
         }
 
         await this.preprint.reload();
-
         await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
     }
 
