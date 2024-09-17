@@ -99,10 +99,10 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
 
             // And retrieve the preprint from the store
             const preprint: PreprintModel = await this.store.findRecord('preprint', managerMock.preprint.id);
-            // And I remove the affiliated insitutios
+            // And I remove the affiliated insitutions
             preprint.affiliatedInstitutions = [] as any;
             await preprint.save();
-            // And I remove the affiliated insitutios
+            // And I remove the affiliated insitutions
             managerMock.preprint.affiliatedInstitutions = [];
             await managerMock.preprint.save();
 
@@ -118,7 +118,7 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             assert.dom('[data-test-institution-name="0"]').hasText('Main OSF Test Institution');
             assert.dom('[data-test-institution-input="0"]').isChecked();
 
-            // And the other institutions are verified as not selected
+            // And the other institutions are verified as checked
             assert.dom('[data-test-institution-input="1"]').isChecked();
             assert.dom('[data-test-institution-input="2"]').isChecked();
             assert.dom('[data-test-institution-input="3"]').isChecked();
@@ -214,12 +214,12 @@ module('Integration | Preprint | Component | Institution Manager', hooks => {
             // When I click the second affiliated preprint
             await click('[data-test-institution-input="1"]');
 
-
-            // Then the first attribute is verified by name and unselected
+            // Then the second attribute is verified selected
             assert.dom('[data-test-institution-input="1"]').isChecked();
 
-            // And the other institutions are verified as not selected
+            // And the first institution is verified as selected
             assert.dom('[data-test-institution-input="0"]').isChecked();
+            // And the other institutions are verified as not selected
             assert.dom('[data-test-institution-input="2"]').isNotChecked();
             assert.dom('[data-test-institution-input="3"]').isNotChecked();
             assert.dom('[data-test-institution-input="4"]').doesNotExist();
