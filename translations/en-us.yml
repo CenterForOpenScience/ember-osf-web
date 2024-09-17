@@ -823,7 +823,7 @@ institutions:
             select_columns: 'Customize'
         panel:
             users: 'Total Users'
-            projects: 'OSF Projects'
+            projects: 'OSF Public and Private Projects'
             registrations: 'OSF Registrations'
             preprints: 'OSF Preprints'
         projects_panel: 'Total Projects'
