@@ -32,7 +32,7 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
     @task
     @waitFor
     private async loadData(): Promise<void> {
-        const metrics = await this.model.taskInstance;
+        const metrics = await this.model;
 
         this.totalCountKpis.push(
             {
