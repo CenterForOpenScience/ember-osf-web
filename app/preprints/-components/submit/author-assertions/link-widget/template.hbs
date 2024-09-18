@@ -7,18 +7,21 @@
                 @value={{link}}
                 @index={{index}}
                 @placeholder={{@placeholder}}
+                @disabled={{@disabled}}
             />
         </div>
     {{/each}}
 
-    <Button
-        data-test-add-another-link
-        aria-label={{t 'preprints.submit.step-assertions.public-link-add-button'}}
-        local-class='add-another-link'
-        @layout='fake-link'
-        {{on 'click' this.addLink}}
-    >
-        <FaIcon @icon='plus' local-class='plus-icon' />
-        {{t 'preprints.submit.step-assertions.public-link-add-button'}}
-    </Button>
+    {{#unless @disabled}}
+        <Button
+            data-test-add-another-link
+            aria-label={{t 'preprints.submit.step-assertions.public-link-add-button'}}
+            local-class='add-another-link'
+            @layout='fake-link'
+            {{on 'click' this.addLink}}
+        >
+            <FaIcon @icon='plus' local-class='plus-icon' />
+            {{t 'preprints.submit.step-assertions.public-link-add-button'}}
+        </Button>
+    {{/unless}}
 </div>

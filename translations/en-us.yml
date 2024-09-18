@@ -1179,6 +1179,7 @@ preprints:
         paragraph: 'A preprint is a version of a scholarly or scientific paper that is posted online before it has undergone formal peer review and published in a scientific journal. <a href={link}>Learn More</a>.'
         create_button: 'Create Preprint'
     submit:
+        edit-permission-error: 'User does not have permission to edit this {singularPreprintWord}'
         title-submit: 'New {documentType}'
         title-edit: 'Edit {documentType}'
         step-title:
@@ -1215,6 +1216,11 @@ preprints:
             publication-doi-input: 'Publication DOI'
             publication-date-input: 'Publication Date'
             publication-citation-input: 'Publication Citation'
+            institutions:
+                label: 'Affiliated Institutions'
+                save-institutions-error: 'Failed to save affiliated institutions'
+                load-institutions-error: 'Failed to load affiliated institutions'
+                description: 'You can affiliate your {singularPreprintWord} with your institution if it is an <a href="https://www.cos.io/products/osf-institutions" target="_blank" rel="noopener noreferrer">OSF institutional member</a> and has worked with the Center for Open Science to create a dedicated <a href="https://help.osf.io/article/191-view-institutional-landing-pages" target="_blank" rel="noopener noreferrer">institutional OSF landing page</a>.'
         step-assertions:
             title: 'Author Assertions'
             conflict-of-interest-input: 'Conflict of Interest'
@@ -1284,6 +1290,9 @@ preprints:
             step-supplements: 'Supplements'
             step-review: 'Review'
         action-flow:
+            cancel: 'Cancel'
+            cancel-modal-body: 'Are you sure you want to cancel editing? The updates on this page will not be saved.'
+            cancel-modal-title: 'Cancel Edit'
             delete: 'Delete'
             delete-modal-body: 'Are you sure you want to delete the {singularPreprintWord}? This action CAN NOT be undone.'
             delete-modal-title: 'Delete {singularPreprintWord}'
@@ -1341,6 +1350,7 @@ preprints:
             views: 'Views'
             metrics_disclaimer: 'Metrics collected since:'
         supplemental_materials: 'Supplemental Materials'
+        affiliated_institutions: 'Affiliated Institutions'
         tags: 'Tags'
         withdrawn_title: 'Withdrawn: {title}'
         reason_for_withdrawal: 'Reason for withdrawal'
@@ -1432,6 +1442,26 @@ preprints:
         advisory:
             heading: 'Advisory Group'
             paragraph: 'Our advisory group includes leaders in preprints and scholarly communication'
+    my_preprints:
+        header: 'My Preprints'
+        sorted: 'Sorted by last updated'
+    preprint_card:
+        statuses:
+            pending: 'Pending'
+            accepted: 'Accepted'
+            rejected: 'Rejected'
+        contributors: 'Contributors:'
+        description: 'Description'
+        private_tooltip: 'This preprint is private'
+        options: 'Options'
+        manage_contributors: 'Manage Contributors'
+        view_button: 'View'
+        update_button: 'Edit'
+        settings: 'Settings'
+        delete: 'Delete'
+        provider: 'Provider:'
+        date_created: 'Date Created:'
+        date_modified: 'Date Modified:'
 registries:
     header:
         osf_registrations: 'OSF Registrations'
@@ -2671,6 +2701,7 @@ osf-components:
                 button: 'Remove contributor'
             success: 'You have successfully removed {contributorName}.'
             errorHeading: 'Could not remove contributor. '
+        permissionsNotEditable: 'Only Admins may edit permissions.'
     reviewActionsList:
         failedToLoadActions: 'Failed to load moderation history'
         noActionsFound: 'No moderation history found'

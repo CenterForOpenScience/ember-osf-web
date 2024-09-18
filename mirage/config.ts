@@ -354,6 +354,11 @@ export default function(this: Server) {
     osfResource(this, 'preprint');
     this.post('/preprints', createPreprint);
 
+    this.get('/preprints/:id', (schema, request) => {
+        const id = request.params.id;
+        return schema.preprints.find(id);
+    });
+
     osfNestedResource(this, 'preprint', 'contributors', {
         path: '/preprints/:parentID/contributors/',
         defaultSortKey: 'index',
@@ -371,6 +376,17 @@ export default function(this: Server) {
         path: '/preprints/:parentID/files/',
         defaultSortKey: 'index',
         relatedModelName: 'file',
+    });
+
+    osfNestedResource(this, 'preprint', 'affiliatedInstitutions', {
+        path: '/preprints/:parentID/institutions/',
+        defaultSortKey: 'index',
+        relatedModelName: 'institution',
+    });
+
+    osfToManyRelationship(this, 'preprint', 'affiliatedInstitutions', {
+        only: ['related', 'update', 'add', 'remove'],
+        path: '/preprints/:parentID/relationships/institutions',
     });
 
     this.put('/preprints/:parentID/files/:fileProviderId/upload', uploadToRoot); // Upload to file provider

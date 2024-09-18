@@ -16,6 +16,7 @@ interface PublicDataArgs {
     manager: PreprintStateMachine;
     changeSet: BufferedChangeset;
     preprintWord: string;
+    disabled: boolean;
     validate: () => {};
 }
 
@@ -64,11 +65,11 @@ export default class PublicData extends Component<PublicDataArgs>{
     public updatePublicDataOptions(): void {
         if (this.args.changeSet.get('hasDataLinks') === PreprintDataLinksEnum.AVAILABLE) {
             this.args.changeSet.set('whyNoData', null);
-            this.isPublicDataWhyNoStatementDisabled = false;
+            this.isPublicDataWhyNoStatementDisabled = false || !this.args.manager.isAdmin();
         } else if (this.args.changeSet.get('hasDataLinks') === PreprintDataLinksEnum.NO) {
             this.args.changeSet.set('dataLinks', []);
             this.args.changeSet.set('whyNoData', null);
-            this.isPublicDataWhyNoStatementDisabled = false;
+            this.isPublicDataWhyNoStatementDisabled = false || !this.args.manager.isAdmin();
             this.placeholder = this.intl.t('preprints.submit.step-assertions.public-data-no-placeholder');
         } else {
             this.args.changeSet.set('dataLinks', []);

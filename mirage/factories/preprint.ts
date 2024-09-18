@@ -1,11 +1,11 @@
-import { Factory, Trait, trait } from 'ember-cli-mirage';
+import { Factory, ModelInstance, Trait, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
 import PreprintModel from 'ember-osf-web/models/preprint';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
-
+import UserModel from 'ember-osf-web/models/user';
 import { guid, guidAfterCreate} from './utils';
 
 function buildLicenseText(): string {
@@ -31,6 +31,7 @@ export interface PreprintTraits {
     acceptedWithdrawalComment: Trait;
     rejectedWithdrawalNoComment: Trait;
     reviewAction: Trait;
+    withAffiliatedInstitutions: Trait;
 }
 
 export default Factory.extend<PreprintMirageModel & PreprintTraits>({
@@ -41,7 +42,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
     addLicenseName: true,
 
-    currentUserPermissions: [Permission.Admin],
+    currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
 
     reviewsState: ReviewsState.REJECTED,
 
@@ -170,11 +171,14 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
     isContributor: trait<PreprintModel>({
         afterCreate(preprint, server) {
-            const { currentUserId } = server.schema.roots.first();
-            server.create('contributor', {
+            const contributors = preprint.contributors.models;
+            const firstContributor = server.create('contributor', {
                 preprint,
-                id: currentUserId,
+                index:0,
+                users: server.schema.roots.first().currentUser as ModelInstance<UserModel>,
             });
+            contributors.splice(0,1,firstContributor);
+            preprint.update({ contributors, bibliographicContributors:contributors });
         },
     }),
 
@@ -215,6 +219,23 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                 target: preprint,
             }, 'rejectNoComment');
             preprint.update({ requests: [preprintRequest ]});
+        },
+    }),
+
+    withAffiliatedInstitutions: trait<PreprintModel>({
+        afterCreate(preprint, server) {
+            const currentUser = server.schema.users.first();
+            const affiliatedInstitutions = server.createList('institution', 3);
+            const osfInstitution = server.create('institution', {
+                id: 'osf',
+                name: 'Main OSF Test Institution',
+            });
+            affiliatedInstitutions.unshift(osfInstitution);
+
+            const institutions = currentUser.institutions;
+            institutions.models.push(osfInstitution);
+            currentUser.update({institutions});
+            preprint.update({ affiliatedInstitutions });
         },
     }),
 
