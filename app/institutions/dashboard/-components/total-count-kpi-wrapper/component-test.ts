@@ -18,6 +18,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
                 privateProjectCount: 10,
                 publicProjectCount: 10,
                 publicRegistrationCount: 100,
+                preprintCount: 1000,
             },
         });
 
@@ -67,7 +68,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
             .exists('The Preprint Widget exists');
 
         assert.dom('[data-test-total-count-kpi="3"]')
-            .hasText('10000 OSF Preprints');
+            .hasText('1000 OSF Preprints');
 
         assert.dom('[data-test-total-count-kpi="3"] [data-test-kpi-icon]')
             .hasAttribute('data-icon', 'file-alt');
