@@ -59,8 +59,7 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
             },
             {
                 title: this.intl.t('institutions.dashboard.panel.registrations'),
-                // total: metrics.summaryMetrics.userCount,
-                total: 1000,
+                total: metrics.summaryMetrics.publicRegistrationCount,
                 icon: 'flag',
             },
             {
