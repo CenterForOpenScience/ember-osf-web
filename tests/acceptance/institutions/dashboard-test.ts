@@ -11,7 +11,7 @@ module(moduleName, hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('institutions dashboard', async function(assert) {
+    test('institutions dashboard: page layout', async function(assert) {
         server.create('institution', {
             id: 'has-users',
         }, 'withMetrics');
@@ -54,4 +54,17 @@ module(moduleName, hooks => {
         await percySnapshot(`${moduleName} - preprints`);
         assert.dom('[data-test-page-tab="preprints"]').hasClass('active', 'Preprints tab is active');
     });
+
+    test('institutions dashboard: projects tab', async function(assert) {
+        server.create('institution', {
+            id: 'has-users',
+        }, 'withMetrics');
+
+        await visit('/institutions/has-users/dashboard/projects');
+
+        assert.dom('[data-test-page-tab="projects"]').hasClass('active', 'Projects tab is active');
+        assert.dom('[data-test-object-list-table]').exists('Object list exists');
+        await percySnapshot(assert);
+    });
 });
+

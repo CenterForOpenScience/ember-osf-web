@@ -8,7 +8,7 @@ as |list|>
             {{#if list.searchObjectsTask.isRunning}}
                 <LoadingIndicator @dark={{true}} />
             {{else}}
-                <table local-class='object-table'>
+                <table data-test-object-list-table local-class='object-table'>
                     <thead local-class='object-table-head'>
                         <tr>
                             {{#each @columns as |column|}}
