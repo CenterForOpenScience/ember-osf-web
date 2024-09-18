@@ -1,6 +1,6 @@
 <div local-class='wrapper-container {{if (is-mobile) 'mobile'}}'>
     {{#if this.isLoading}}
-        <div local-class='loading'>
+        <div local-class='loading' data-test-kpi-wrapper-loading>
             <LoadingIndicator data-test-loading-indicator-total-count-kpi-wrapper @dark={{true}} />
         </div>
     {{else}}
