@@ -68,7 +68,7 @@ function buildOSF(
             'http://www.datalink.com/3',
         ],
         hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
-    });
+    }, 'withAffiliatedInstitutions');
 
     const osfApprovedAdminIdentifier = server.create('identifier');
 

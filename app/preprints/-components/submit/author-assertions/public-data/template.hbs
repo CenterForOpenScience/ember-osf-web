@@ -20,6 +20,7 @@
                 @valuePath={{'hasDataLinks'}}
                 @class='radio-group {{if (is-mobile) 'mobile'}}'
                 @isRequired={{true}}
+                @disabled={{@disabled}}
                 @options={{this.publicDataOptions}}
                 @onchange={{this.updatePublicDataOptions}}
                 as |radioGroup|
@@ -33,6 +34,7 @@
                 <Preprints::-Components::Submit::AuthorAssertions::LinkWidget
                 @update={{this.updatePublicDataLinks}}
                 @placeholder={{t 'preprints.submit.step-assertions.public-data-link-placeholder'}}
+                @disabled={{@disabled}}
                 @links={{@manager.preprint.dataLinks}}
             />
             </div>

@@ -29,6 +29,7 @@
                         @class='radio-group {{if (is-mobile) 'mobile'}}'
                         @isRequired={{true}}
                         @options={{this.coiOptions}}
+                        @disabled={{this.isElementDisabled}}
                         @onchange={{this.updateCoi}}
                         as |radioGroup|
                     >
@@ -52,6 +53,7 @@
                     @changeSet={{this.authorAssertionFormChangeset}}
                     @preprintWord={{@manager.provider.documentType.singular}}
                     @validate={{this.validate}}
+                    @disabled={{this.isElementDisabled}}
                     @manager={{@manager}}
                 />
             </div>
@@ -61,6 +63,7 @@
                     @changeSet={{this.authorAssertionFormChangeset}}
                     @preprintWord={{@manager.provider.documentType.singular}}
                     @validate={{this.validate}}
+                    @disabled={{this.isElementDisabled}}
                     @manager={{@manager}}
                 />
             </div>
