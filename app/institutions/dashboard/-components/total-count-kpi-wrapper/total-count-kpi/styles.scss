@@ -1,47 +1,65 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
 .kpi-container {
     margin-right: 12px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    width: 321px;
+    align-items: flex-start;
+    width: 290px;
     height: 140px;
     background-color: $color-bg-white;
 
-    .left-container {
-        width: 221px;
-        padding-left: 15px;
+    .top-container {
+        width: 100%;
+        display: flex;
+        margin-bottom: 10px;
 
-        .data {
+        .left-container {
+            padding-left: 5px;
             height: 75px;
-            width: 100%;
-            font-size: 84px;
-            font-style: normal;
-            font-weight: bolder;
+            width: calc(220px - 5px);
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            margin-bottom: 10px;
+
+            .total-container {
+                font-size: 84px;
+                font-style: normal;
+                font-weight: bolder;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
         }
 
-        .title {
-            width: 100%;
-            font-size: 14px;
-            font-weight: normal;
-            height: 25px;
+        .right-container {
+            padding-right: 10px;
+            height: 75px;
+            width: 75px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+
+            .icon {
+                font-size: 60px;
+                color: $color-text-slate-gray;
+            }
         }
+
     }
 
-    .right-container {
-        width: 100px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+    .title {
+        padding-left: 15px;
+        width: calc(100% - 15px);
+        font-size: 14px;
+        font-weight: normal;
+        height: 25px;
+    }
 
-        .icon {
-            font-size: 60px;
-            color: $color-text-slate-gray;
-        }
+    &.mobile {
+        margin-right: 0;
+        margin-bottom: 12px;
     }
 }

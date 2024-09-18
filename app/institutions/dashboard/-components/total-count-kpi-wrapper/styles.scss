@@ -3,8 +3,10 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
+    width: calc(100% - 24px);
     height: 145px;
+    margin-left: 12px;
+    margin-right: 12px;
 
     .loading {
         display: flex;

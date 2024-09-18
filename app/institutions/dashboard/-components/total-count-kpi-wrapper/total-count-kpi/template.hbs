@@ -1,15 +1,23 @@
-<div local-class='kpi-container' ...attributes>
-    <div local-class='left-container'>
-        <div local-class='data' data-test-kpi-data>
+<div
+    local-class='kpi-container {{if (is-mobile) 'mobile'}}'
+    ...attributes 
+>
+    <div local-class='top-container'>
+        <div local-class='left-container' data-test-kpi-data>
             {{#if @data.total}}
-                {{@data.total}}
+                <div local-class='total-container'>
+                    {{@data.total}}
+                </div>
+                <EmberTooltip>
+                    {{@data.title}} - {{@data.total}}
+                </EmberTooltip>
             {{else}}
                 {{t 'institutions.dashboard.empty'}}
             {{/if}}
         </div>
-        <span data-test-kpi-title local-class='title'>{{@data.title}}</span>
+        <div local-class='right-container'>
+            <FaIcon data-test-kpi-icon @icon='{{@data.icon}}' local-class='icon'/>
+        </div>
     </div>
-    <div local-class='right-container'>
-        <FaIcon data-test-kpi-icon @icon='{{@data.icon}}' local-class='icon'/>
-    </div>
+    <div data-test-kpi-title local-class='title'>{{@data.title}}</div>
 </div>
