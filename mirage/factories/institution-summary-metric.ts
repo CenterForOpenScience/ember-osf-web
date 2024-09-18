@@ -13,6 +13,12 @@ export default Factory.extend<InstitutionSummaryMetricModel>({
     userCount() {
         return faker.random.number({ min: 100, max: 1000 });
     },
+    publicRegistrationCount() {
+        return faker.random.number({ min: 100, max: 1000 });
+    },
+    preprintCount() {
+        return faker.random.number({ min: 100, max: 1000 });
+    },
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
