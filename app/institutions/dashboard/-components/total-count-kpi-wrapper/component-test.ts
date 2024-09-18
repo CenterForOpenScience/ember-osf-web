@@ -17,6 +17,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
                 userCount: 10,
                 privateProjectCount: 10,
                 publicProjectCount: 10,
+                publicRegistrationCount: 100,
             },
         });
 
@@ -56,7 +57,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
             .exists('The Registration Widget exists');
 
         assert.dom('[data-test-total-count-kpi="2"]')
-            .hasText('1000 OSF Registrations');
+            .hasText('100 OSF Registrations');
 
         assert.dom('[data-test-total-count-kpi="2"] [data-test-kpi-icon]')
             .hasAttribute('data-icon', 'flag');
