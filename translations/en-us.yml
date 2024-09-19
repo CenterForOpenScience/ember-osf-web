@@ -822,11 +822,11 @@ institutions:
             has_orcid: 'Has ORCID'
             select_columns: 'Customize'
             total_users: 'total users'
-          panel:
-              users: 'Total Users'
-              projects: 'OSF Projects'
-              registrations: 'OSF Registrations'
-              preprints: 'OSF Preprints'
+        panel:
+            users: 'Total Users'
+            projects: 'OSF Public and Private Projects'
+            registrations: 'OSF Registrations'
+            preprints: 'OSF Preprints'
         projects_panel: 'Total Projects'
         departments_panel: Departments
         public: Public

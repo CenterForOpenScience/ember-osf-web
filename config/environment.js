@@ -60,7 +60,7 @@ const {
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     WATER_BUTLER_ENABLED = true,
-    MIRAGE_ENABLED = true,
+    MIRAGE_ENABLED = false,
     MIRAGE_SCENARIOS = [
         'cedar',
         'collections',

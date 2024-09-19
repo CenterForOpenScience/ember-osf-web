@@ -270,3 +270,20 @@ input:checked + .slider::before {
     margin-right: 5px;
     font-weight: bold;
 }
+
+/* Add media query for mobile devices */
+@media (max-width: 1000px) {
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    }
+
+    .table table {
+        min-width: 1000px; /* Set the table's width to be wider than the viewport */
+    }
+
+    .table th,
+    .table td {
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+}
