@@ -207,7 +207,8 @@
                                 </div>
                             {{/each}}
                         </div>
-                        <div local-class='float-right'>
+                        {{!-- Remove ability to add a new configured addon for now --}}
+                        {{!-- <div local-class='float-right'>
                             <Button
                                 data-test-add-another-location-button
                                 data-analytics-name='Add another location'
@@ -219,7 +220,7 @@
                             >
                                 {{t 'addons.list.add-another-location'}}
                             </Button>
-                        </div>
+                        </div> --}}
                         <OsfDialog
                             @isOpen={{manager.confirmRemoveConnectedLocation}}
                             @onClose={{action (mut manager.confirmRemoveConnectedLocation) false}}

@@ -1,4 +1,4 @@
-import { click as untrackedClick, fillIn } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -301,41 +301,42 @@ module('Acceptance | guid-node/addons', hooks => {
         await click('[data-test-addons-tab-connected-accounts]');
         assert.dom('[data-test-addon-card]').exists({ count: 2 }, '2 providers with configured accounts are present');
 
-        // Add new Box account from configured accounts list page
-        await click('[data-test-addon-card="Box"] [data-test-addon-card-configure]');
-        await click('[data-test-add-another-location-button]');
-        // Terms page
-        assert.dom('[data-test-addon-accept-terms-button]').exists('Terms shown first for new account');
-        await click('[data-test-addon-accept-terms-button]');
-        // New or existing account page
-        assert.dom('[data-test-addon-existing-account-button]')
-            .exists('Existing account button is present for a provider with authorized account');
-        assert.dom('[data-test-addon-new-account-button]').exists('New account button is present');
-        await click('[data-test-addon-existing-account-button]');
-        // Existing account page
-        assert.dom('[data-test-existing-authorized-accounts-input]')
-            .exists({ count: 1 }, 'Options for choosing existing authorized account present');
-        assert.dom('[data-test-addon-authorize-button]')
-            .doesNotExist('Authorize button is not present before choosing an account');
-        await untrackedClick('[data-test-existing-authorized-accounts-input]');
-        assert.dom('[data-test-addon-authorize-button]')
-            .exists('Authorize button is present after choosing an account');
-        await percySnapshot('Acceptance | guid-node/addons | Adding new configured addons | existing account page');
-        await click('[data-test-addon-authorize-button]');
-        // Confirm setup page
-        assert.dom('[data-test-addon-confirm-setup-button]').exists('Confirm setup button is present');
-        await percySnapshot('Acceptance | guid-node/addons | Adding new configured addons | confirm setup page');
-        await click('[data-test-addon-confirm-setup-button]');
-        // Configure page
-        assert.dom('[data-test-display-name-input]').exists('Name input is present');
-        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
-        await fillIn('[data-test-display-name-input]', 'New Box Account Display Name');
-        await click('[data-test-root-folder-option]:first-child');
-        await click('[data-test-root-folder-save]');
+        // Skip adding new account, as this is no longer part of the requirements
+        // // Add new Box account from configured accounts list page
+        // await click('[data-test-addon-card="Box"] [data-test-addon-card-configure]');
+        // await click('[data-test-add-another-location-button]');
+        // // Terms page
+        // assert.dom('[data-test-addon-accept-terms-button]').exists('Terms shown first for new account');
+        // await click('[data-test-addon-accept-terms-button]');
+        // // New or existing account page
+        // assert.dom('[data-test-addon-existing-account-button]')
+        //     .exists('Existing account button is present for a provider with authorized account');
+        // assert.dom('[data-test-addon-new-account-button]').exists('New account button is present');
+        // await click('[data-test-addon-existing-account-button]');
+        // // Existing account page
+        // assert.dom('[data-test-existing-authorized-accounts-input]')
+        //     .exists({ count: 1 }, 'Options for choosing existing authorized account present');
+        // assert.dom('[data-test-addon-authorize-button]')
+        //     .doesNotExist('Authorize button is not present before choosing an account');
+        // await untrackedClick('[data-test-existing-authorized-accounts-input]');
+        // assert.dom('[data-test-addon-authorize-button]')
+        //     .exists('Authorize button is present after choosing an account');
+        // await percySnapshot('Acceptance | guid-node/addons | Adding new configured addons | existing account page');
+        // await click('[data-test-addon-authorize-button]');
+        // // Confirm setup page
+        // assert.dom('[data-test-addon-confirm-setup-button]').exists('Confirm setup button is present');
+        // await percySnapshot('Acceptance | guid-node/addons | Adding new configured addons | confirm setup page');
+        // await click('[data-test-addon-confirm-setup-button]');
+        // // Configure page
+        // assert.dom('[data-test-display-name-input]').exists('Name input is present');
+        // assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
+        // await fillIn('[data-test-display-name-input]', 'New Box Account Display Name');
+        // await click('[data-test-root-folder-option]:first-child');
+        // await click('[data-test-root-folder-save]');
 
-        // check to see if new account is added
-        await click('[data-test-addon-card="Box"] [data-test-addon-card-configure]');
-        assert.dom('[data-test-edit-connected-location]').exists({ count: 2 }, 'Two editable accounts are present');
-        assert.dom('[data-test-remove-connected-location]').exists({ count: 2 }, 'Two remove buttons are present');
+        // // check to see if new account is added
+        // await click('[data-test-addon-card="Box"] [data-test-addon-card-configure]');
+        // assert.dom('[data-test-edit-connected-location]').exists({ count: 2 }, 'Two editable accounts are present');
+        // assert.dom('[data-test-remove-connected-location]').exists({ count: 2 }, 'Two remove buttons are present');
     });
 });
