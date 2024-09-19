@@ -11,25 +11,25 @@ export default class InstitutionDashboardProjects extends Controller {
     columns: ObjectListColumn[] = [
         { // Title
             name: this.intl.t('institutions.dashboard.object_list.table_headers.title'),
-            valuePath: 'displayTitle',
+            getValue: searchResult => searchResult.displayTitle,
         },
         { // Link
             name: this.intl.t('institutions.dashboard.object_list.table_headers.link'),
             type: 'link',
-            hrefValuePath: 'indexCard.osfUrl',
-            linkText: 'indexCard.guidFromIdentifierList',
+            getHref: searchResult => searchResult.indexCard.get('osfUrl'),
+            getLinkText: searchResult => searchResult.indexCard.get('guidFromIdentifierList'),
         },
         { // Object type
             name: this.intl.t('institutions.dashboard.object_list.table_headers.object_type'),
-            valuePath: 'intlResourceType',
+            getValue: searchResult => searchResult.intlResourceType,
         },
         { // Date created
             name: this.intl.t('institutions.dashboard.object_list.table_headers.created_date'),
-            valuePath: 'dateFields.0.date', // this feels quite brittle...
+            getValue : searchResult => searchResult.dateFields[0].date,
         },
         { // Date modified
             name: this.intl.t('institutions.dashboard.object_list.table_headers.modified_date'),
-            valuePath: 'dateFields.1.date', // this feels quite brittle...
+            getValue : searchResult => searchResult.dateFields[1].date, // this feels quite brittle...
         },
         { // DOI
             name: this.intl.t('institutions.dashboard.object_list.table_headers.doi'),
@@ -37,11 +37,13 @@ export default class InstitutionDashboardProjects extends Controller {
         },
         { // Storage location
             name: this.intl.t('institutions.dashboard.object_list.table_headers.storage_location'),
-            valuePath: 'storageLocation', // TODO: Update when OsfMap representation is available
+            // TODO: Update when OsfMap representation is available
+            getValue: searchResult => searchResult.storageLocation,
         },
         { // Total data stored
             name: this.intl.t('institutions.dashboard.object_list.table_headers.total_data_stored'),
-            valuePath: 'totalDataStored', // TODO: Update when OsfMap representation is available
+            // TODO: Update when OsfMap representation is available
+            getValue: searchResult => searchResult.totalDataStored,
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object_list.table_headers.contributor_name'),
@@ -49,15 +51,18 @@ export default class InstitutionDashboardProjects extends Controller {
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object_list.table_headers.view_count'),
-            valuePath: 'viewCount', // TODO: Update when OsfMap representation is available
+            // TODO: Update when OsfMap representation is available
+            getValue: searchResult => searchResult.viewCount,
         },
         { // Download count
             name: this.intl.t('institutions.dashboard.object_list.table_headers.download_count'),
-            valuePath: 'downloadCount', // TODO: Update when OsfMap representation is available
+            // TODO: Update when OsfMap representation is available
+            getValue: searchResult => searchResult.downloadCount,
         },
         { // Has metadata
             name: this.intl.t('institutions.dashboard.object_list.table_headers.has_metadata'),
-            valuePath: 'hasMetadata', // TODO: Update when OsfMap representation is available
+            // TODO: Update when OsfMap representation is available
+            getValue: searchResult => searchResult.hasMetadata,
         },
     ];
 

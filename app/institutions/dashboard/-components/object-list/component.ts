@@ -2,14 +2,26 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
+import SearchResultModel from 'ember-osf-web/models/search-result';
 
-export interface ObjectListColumn {
+interface ValueColumn {
     name: string;
-    type?: 'link' | 'doi' | 'contributors';
-    valuePath?: string; // if no type is specified, this is the value to display
-    hrefValuePath?: string; // for links
-    linkText?: string; // for links
+    getValue(searchResult: SearchResultModel): string;
 }
+
+interface LinkColumn {
+    name: string;
+    getHref(searchResult: SearchResultModel): string;
+    getLinkText(searchResult: SearchResultModel): string;
+    type: 'link';
+}
+
+interface ComponentColumn {
+    name: string;
+    type: 'doi' | 'contributors';
+}
+
+export type ObjectListColumn = ValueColumn | LinkColumn | ComponentColumn;
 
 interface InstitutionalObjectListArgs {
     institution: InstitutionModel;

@@ -115,7 +115,7 @@ export default class IndexCardModel extends Model {
                 }
             }
         }
-        return null;
+        return '';
     }
 }
 

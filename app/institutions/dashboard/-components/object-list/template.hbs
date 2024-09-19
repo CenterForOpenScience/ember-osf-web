@@ -25,9 +25,11 @@ as |list|>
                                 {{#each @columns as |column|}}
                                     <td>
                                         {{#if (eq column.type 'link')}}
-                                            <OsfLink @href={{get result column.hrefValuePath}}>
-                                                {{get result column.linkText}}
-                                            </OsfLink>
+                                            <Institutions::Dashboard::-Components::ObjectList::LinkField
+                                                @searchResult={{result}}
+                                                @getHref={{column.getHref}}
+                                                @getLinkText={{column.getLinkText}}
+                                            />
                                         {{else if (eq column.type 'doi')}}
                                             <Institutions::Dashboard::-Components::ObjectList::DoiField
                                                 @searchResult={{result}}
@@ -38,7 +40,10 @@ as |list|>
                                                 @institution={{@institution}}
                                             />
                                         {{else}}
-                                            {{get result column.valuePath}}
+                                            <Institutions::Dashboard::-Components::ObjectList::TextField
+                                                @searchResult={{result}}
+                                                @getterFunction={{column.getValue}}
+                                            />
                                         {{/if}}
                                     </td>
                                 {{/each}}
