@@ -5,6 +5,7 @@ import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import { inject as service } from '@ember/service';
+import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 
 interface TotalCountKpiWrapperArgs {
     model: any;
@@ -28,6 +29,17 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
         taskFor(this.loadData).perform();
     }
 
+    /**
+     * calculateProjects
+     *
+     * @description Abstracted method to calculate the private and public projects
+     * @param summaryMetrics The institutional summary metrics object
+     *
+     * @returns The total of private and public projects
+     */
+    private calculateProjects(summaryMetrics: InstitutionSummaryMetricModel): number {
+        return summaryMetrics.privateProjectCount + summaryMetrics.publicProjectCount;
+    }
 
     @task
     @waitFor
@@ -42,8 +54,7 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
             },
             {
                 title: this.intl.t('institutions.dashboard.panel.projects'),
-                // total: metrics.summaryMetrics.userCount,
-                total: 100,
+                total: this.calculateProjects(metrics.summaryMetrics),
                 icon: 'atom',
             },
             {
