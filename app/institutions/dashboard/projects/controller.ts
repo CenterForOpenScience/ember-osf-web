@@ -25,11 +25,11 @@ export default class InstitutionDashboardProjects extends Controller {
         },
         { // Date created
             name: this.intl.t('institutions.dashboard.object_list.table_headers.created_date'),
-            getValue : searchResult => searchResult.dateFields[0].date,
+            getValue : searchResult => searchResult.getResourceMetadataField('dateCreated'),
         },
         { // Date modified
             name: this.intl.t('institutions.dashboard.object_list.table_headers.modified_date'),
-            getValue : searchResult => searchResult.dateFields[1].date, // this feels quite brittle...
+            getValue : searchResult => searchResult.getResourceMetadataField('dateModified'),
         },
         { // DOI
             name: this.intl.t('institutions.dashboard.object_list.table_headers.doi'),

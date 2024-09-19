@@ -297,6 +297,10 @@ export default class SearchResultModel extends Model {
     get isWithdrawn() {
         return this.resourceMetadata.dateWithdrawn || this.resourceMetadata['https://osf.io/vocab/2022/withdrawal'];
     }
+
+    getResourceMetadataField(field: string) {
+        return this.resourceMetadata[field]?.[0]?.['@value'];
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
