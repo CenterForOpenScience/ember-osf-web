@@ -193,13 +193,15 @@ module('Acceptance | guid-node/addons', hooks => {
         assert.dom('[data-test-display-name-input]')
             .hasValue(s3AccountsDisplayNamesAndRootFolders[0].displayName, 'Name input has correct value');
         assert.dom('[data-test-folder-path-option]').exists({ count: 1 }, 'Folder path shown');
-        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
+        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled when name is present');
         assert.dom('[data-test-root-folder-cancel]').exists('Cancel button is present');
         // Edit first account display name
+        await fillIn('[data-test-display-name-input]', '');
+        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled when name is empty');
         await fillIn('[data-test-display-name-input]', 'New S3 Account Display Name');
-        assert.dom('[data-test-root-folder-save]').isNotDisabled('Save button is enabled after displayName change');
+        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled with displayName present');
         await fillIn('[data-test-display-name-input]', s3AccountsDisplayNamesAndRootFolders[0].displayName);
-        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled after displayName reset');
+        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled with original displayName');
         // Edit first account root folder
         await click('[data-test-folder-link]:first-child');
         assert.dom('[data-test-folder-path-option]').exists({ count: 2 }, '2 folders in path');
@@ -291,7 +293,8 @@ module('Acceptance | guid-node/addons', hooks => {
         await click('[data-test-addon-connect-account-button]');
         // Configure page
         assert.dom('[data-test-display-name-input]').exists('Name input is present');
-        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
+        assert.dom('[data-test-display-name-input]').hasNoText('Name input is empty');
+        assert.dom('[data-test-root-folder-save]').isDisabled('Save button disabled when no display name is present');
         await percySnapshot('Acceptance | guid-node/addons | Adding new configured addons | configure page');
         await fillIn('[data-test-display-name-input]', 'New S3 Account Display Name');
         await click('[data-test-root-folder-option]:first-child');
