@@ -16,8 +16,8 @@ export default class InstitutionDashboardProjects extends Controller {
         { // Link
             name: this.intl.t('institutions.dashboard.object_list.table_headers.link'),
             type: 'link',
-            getHref: searchResult => searchResult.indexCard.get('osfUrl'),
-            getLinkText: searchResult => searchResult.indexCard.get('guidFromIdentifierList'),
+            getHref: searchResult => searchResult.indexCard.get('osfIdentifier'),
+            getLinkText: searchResult => searchResult.indexCard.get('osfGuid'),
         },
         { // Object type
             name: this.intl.t('institutions.dashboard.object_list.table_headers.object_type'),

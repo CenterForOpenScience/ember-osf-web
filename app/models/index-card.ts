@@ -90,7 +90,7 @@ export default class IndexCardModel extends Model {
     async getOsfModel(options?: object) {
         const identifier = this.resourceIdentifier;
         if (identifier && this.osfModelType) {
-            const guid = this.guidFromIdentifierList;
+            const guid = this.osfGuid;
             if (guid) {
                 const osfModel = await this.store.findRecord(this.osfModelType, guid, options);
                 this.osfModel = osfModel;
@@ -98,22 +98,19 @@ export default class IndexCardModel extends Model {
         }
     }
 
-    get osfUrl() {
-        const guid = this.guidFromIdentifierList;
-        if (guid) {
-            return `${osfUrl}${guid}/`;
+    get osfIdentifier() {
+        for (const iri of this.resourceIdentifier) {
+            if (iri && iri.startsWith(osfUrl)) {
+                return iri;
+            }
         }
         return '';
     }
 
-    get guidFromIdentifierList() {
-        for (const iri of this.resourceIdentifier) {
-            if (iri && iri.startsWith(osfUrl)) {
-                const pathSegments = iri.slice(osfUrl.length).split('/').filter(Boolean);
-                if (pathSegments.length === 1) {
-                    return pathSegments[0];  // one path segment; looks like osf-id
-                }
-            }
+    get osfGuid() {
+        const pathSegments = this.osfIdentifier.slice(osfUrl.length).split('/').filter(Boolean);
+        if (pathSegments.length === 1) {
+            return pathSegments[0];  // one path segment; looks like osf-id
         }
         return '';
     }
