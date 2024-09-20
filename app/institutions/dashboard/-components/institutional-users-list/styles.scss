@@ -6,13 +6,18 @@
     color: $color-select;
 }
 
+.table-wrapper {
+    overflow-x: auto;
+    display: block;
+}
+
 .table {
     margin-bottom: 45px;
 
     table {
         width: 100%;
         margin-bottom: 15px;
-        table-layout: fixed;
+        table-layout: auto;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-collapse: collapse;
     }
@@ -21,6 +26,7 @@
     td {
         padding: 10px;
         text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     :global(.text-center) {
@@ -33,7 +39,6 @@
 }
 
 .header {
-    width: 100%;
     background: #365063;
     color: #fff;
 }
@@ -269,21 +274,4 @@ input:checked + .slider::before {
     font-size: 24px;
     margin-right: 5px;
     font-weight: bold;
-}
-
-/* Add media query for mobile devices */
-@media (max-width: 1000px) {
-    .table-wrapper {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
-    }
-
-    .table table {
-        min-width: 1000px; /* Set the table's width to be wider than the viewport */
-    }
-
-    .table th,
-    .table td {
-        white-space: nowrap; /* Prevent text from wrapping */
-    }
 }
