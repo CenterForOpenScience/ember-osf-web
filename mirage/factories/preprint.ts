@@ -31,6 +31,7 @@ export interface PreprintTraits {
     acceptedWithdrawalComment: Trait;
     rejectedWithdrawalNoComment: Trait;
     reviewAction: Trait;
+    withAffiliatedInstitutions: Trait;
 }
 
 export default Factory.extend<PreprintMirageModel & PreprintTraits>({
@@ -41,7 +42,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
 
     addLicenseName: true,
 
-    currentUserPermissions: [Permission.Admin],
+    currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
 
     reviewsState: ReviewsState.REJECTED,
 
@@ -218,6 +219,23 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                 target: preprint,
             }, 'rejectNoComment');
             preprint.update({ requests: [preprintRequest ]});
+        },
+    }),
+
+    withAffiliatedInstitutions: trait<PreprintModel>({
+        afterCreate(preprint, server) {
+            const currentUser = server.schema.users.first();
+            const affiliatedInstitutions = server.createList('institution', 3);
+            const osfInstitution = server.create('institution', {
+                id: 'osf',
+                name: 'Main OSF Test Institution',
+            });
+            affiliatedInstitutions.unshift(osfInstitution);
+
+            const institutions = currentUser.institutions;
+            institutions.models.push(osfInstitution);
+            currentUser.update({institutions});
+            preprint.update({ affiliatedInstitutions });
         },
     }),
 

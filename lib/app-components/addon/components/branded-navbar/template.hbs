@@ -82,7 +82,7 @@
                         {{else if (eq this.theme.providerType 'preprint')}}
                             <li>
                                 <OsfLink
-                                    @href={{concat this.myProjectsUrl '#preprints'}}
+                                    @route='preprints.my-preprints'
                                 >
                                     <span role='button'>{{t 'navbar.my_preprints'}}</span>
                                 </OsfLink>

@@ -15,7 +15,24 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
     }
 
     buildRelationships(model: ModelInstance<PreprintMirageModel>) {
-        const relationships: SerializedRelationships<PreprintMirageModel> = {};
+        const relationships: SerializedRelationships<PreprintMirageModel> = {
+            contributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/contributors`,
+                        meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                    },
+                },
+            },
+            citation: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/citation/`,
+                        meta: {},
+                    },
+                },
+            },
+        };
 
         if (model.provider) {
             relationships.provider = {
@@ -32,12 +49,16 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
             };
         }
 
-        if (model.contributors) {
-            relationships.contributors = {
+        if (model.affiliatedInstitutions) {
+            relationships.affiliatedInstitutions = {
                 links: {
+                    self: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/relationships/institutions/`,
+                        meta: {},
+                    },
                     related: {
-                        href: `${apiUrl}/v2/preprints/${model.id}/contributors`,
-                        meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                        href: `${apiUrl}/v2/preprints/${model.id}/institutions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'affiliatedInstitutions'),
                     },
                 },
             };
@@ -97,17 +118,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     related: {
                         href: `${apiUrl}/v2/preprints/${model.id}/requests/`,
                         meta: this.buildRelatedLinkMeta(model, 'requests'),
-                    },
-                },
-            };
-        }
-
-        if (model.citation) {
-            relationships.citation = {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/preprints/${model.id}/citation/`,
-                        meta: {},
                     },
                 },
             };

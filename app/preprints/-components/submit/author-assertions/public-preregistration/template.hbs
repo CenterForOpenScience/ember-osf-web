@@ -20,6 +20,7 @@
                 @valuePath={{'hasPreregLinks'}}
                 @class='radio-group {{if (is-mobile) 'mobile'}}'
                 @isRequired={{true}}
+                @disabled={{@disabled}}
                 @options={{this.publicPreregistrationOptions}}
                 @onchange={{this.updatePublicPreregistrationOptions}}
                 as |radioGroup|
@@ -33,6 +34,7 @@
                 <select
                     onchange={{action 'updatePreregistrationLinkInfo' value='target.value'}}
                     local-class='select'
+                    disabled={{@disabled}}
                     class='form-control'
                 >
                     {{#each this.publicPreregLinkInfoOptions as |infoOption|}}
@@ -54,6 +56,7 @@
             <div local-class='input-container'>
                 <Preprints::-Components::Submit::AuthorAssertions::LinkWidget
                 @update={{this.updatePublicPreregistrationLinks}}
+                @disabled={{@disabled}}
                 @placeholder={{t 'preprints.submit.step-assertions.public-preregistration-link-placeholder'}}
                 @links={{@manager.preprint.preregLinks}}
             />
