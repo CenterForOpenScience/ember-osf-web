@@ -1,0 +1,71 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.preprint-input-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .title {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .supplement-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+
+        .supplement {
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+
+    .button-container {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .btn-width {
+            width: calc(50% - 20px);
+
+            &.selected {
+                background-color: $secondary-blue;
+                color: $color-text-white;
+            }
+        }
+
+        &.mobile {
+            flex-direction: column;
+
+            .btn-width {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .cancel-button-container {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+
+    &.mobile {
+        height: fit-content;
+    }
+}

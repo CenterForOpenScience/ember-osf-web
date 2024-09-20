@@ -1,0 +1,63 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.submit-page-container {
+    background-color: $color-bg-gray-lighter;
+}
+
+.header-container {
+    padding: 30px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: $color-text-white;
+    background: url('assets/images/preprints/preprints-detail-header-overlay.png') top center $color-bg-color-grey;
+
+    .header {
+        max-width: 1140px;
+        width: 100%;
+        font-size: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        &.mobile {
+            margin-left: 10px;
+            width: calc(100% - 10px);
+        }
+    }
+}
+
+.top-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+
+    .top-left,
+    .top-right {
+        width: calc(50% - 10px);
+        margin-right: 10px;
+    }
+
+    .top-right {
+        border-left: 1px solid $color-border-gray;
+    }
+}
+
+.main-container {
+    background-color: $color-bg-white;
+    padding: 20px;
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &.mobile {
+        padding: 10px;
+        padding-top: 0;
+    }
+}

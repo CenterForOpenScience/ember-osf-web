@@ -1,0 +1,19 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+
+.data-link-container {
+    .data-link {
+        margin-bottom: 20px;
+    }
+
+    .add-another-link {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+
+        .plus-icon {
+            margin-right: 10px;
+        }
+    }
+}

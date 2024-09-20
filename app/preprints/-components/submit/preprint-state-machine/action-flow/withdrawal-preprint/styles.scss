@@ -1,0 +1,29 @@
+.btn {
+    width: 145px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.withdrawal-button {
+    color: $brand-danger;
+}
+
+.explanation-container {
+    margin-bottom: 20px;
+}
+
+.form-container {
+    width: 100%;
+
+    .required {
+        color: $brand-danger;
+    }
+
+    .textarea-container {
+        textarea {
+            height: 150px;
+        }
+    }
+}

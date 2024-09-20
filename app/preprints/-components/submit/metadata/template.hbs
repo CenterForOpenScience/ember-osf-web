@@ -1,0 +1,170 @@
+<div local-class='preprint-input-container  {{if (is-mobile) 'mobile'}}'>
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-metadata.title'}}
+    </h3>
+    {{#if this.loadLicenses.isRunning}}
+        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+    {{else}}
+        <div local-class='form-container'>
+            <div local-class='input-container'>
+                <label data-test-contributors-label>
+                    {{t 'preprints.submit.step-metadata.contributors-input'}}
+                </label>
+                <Contributors::Widget
+                    @preprint={{@manager.preprint}}
+                    @shouldShowAdd={{this.showAddContributorWidget}}
+                    @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
+                    @widgetMode={{this.widgetMode}}
+                    @displayPermissionWarning={{this.displayPermissionWarning}}
+                />
+            </div>
+
+            <div local-class='input-container'>
+                <Preprints::-Components::PreprintInstitutions::InstitutionManager
+                    @manager={{@manager}} as |institutionsManager|
+                >
+                    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                         @manager={{institutionsManager}} />
+                </Preprints::-Components::PreprintInstitutions::InstitutionManager>
+            </div>
+
+            <FormControls
+                @changeset={{this.metadataFormChangeset}}
+                data-test-form
+                as |form|
+            >
+                {{#let (unique-id 'license') as |licenseId|}}
+                    <label for={{licenseId}}
+                        data-test-license-label
+                    >
+                        {{t 'preprints.submit.step-metadata.license-input'}}
+                        <span local-class='required'>*</span>
+                    </label>
+                    <p>
+                        {{t 'preprints.submit.step-metadata.license-description' htmlSafe=true}}
+                    </p>
+                    <form.select
+                        data-test-license-input
+                        @ariaLabel={{ t 'preprints.submit.step-metadata.license-placeholder'}}
+                        @valuePath={{'license'}}
+                        @options={{this.licenses}}
+                        @onchange={{this.validate}}
+                        local-class='input-container'
+                        @placeholder={{ t 'preprints.submit.step-metadata.license-placeholder'}}
+                        as |license|
+                    >
+                        {{license.name}}
+                    </form.select>
+
+                    {{#if this.displayRequiredLicenseFields}}
+                        <form.text
+                            data-test-license-copyright-input
+                            @label={{t 'preprints.submit.step-metadata.license-copyright-input'}}
+                            @ariaLabel={{t 'preprints.submit.step-metadata.license-copyright-input'}}
+                            @valuePath={{'licenseCopyrights'}}
+                            {{on 'change' this.validate}}
+                            {{on 'focusout' this.validate}}
+                            local-class='input-container'
+                            @placeholder={{t 'preprints.submit.step-metadata.license-copyright-input'}}
+                        />
+
+                        <form.text
+                            data-test-license-year-input
+                            @label={{t 'preprints.submit.step-metadata.license-year-input'}}
+                            @ariaLabel={{t 'preprints.submit.step-metadata.license-year-input'}}
+                            @valuePath={{'licenseYear'}}
+                            {{on 'change' this.validate}}
+                            {{on 'focusout' this.validate}}
+                            local-class='input-container'
+                            @placeholder={{t 'preprints.submit.step-metadata.license-year-input'}}
+                        />
+                    {{/if}}
+                {{/let}}
+                <div local-class='input-container'>
+                    {{#let (unique-id) 'subjects' as |subjectsFieldId|}}
+                        <label for={{subjectsFieldId}}
+                            data-test-subjects-label
+                        >
+                            {{ t 'preprints.submit.step-metadata.subjects-input'}}
+                            <span local-class='required'>*</span>
+                        </label>
+                        <Subjects::Manager
+                            @model={{@manager.preprint}}
+                            @provider={{@manager.provider}}
+                            @metadataChangeset={{this.metadataFormChangeset}} 
+                            @doesAutosave={{true}}
+                            @hasSubjects={{action this.hasSubjects}}
+                            @onchange={{action this.validate}}
+                            id={{subjectsFieldId}}
+                            as |subjectsManager|
+                        >
+                            <Subjects::Widget
+                                @subjectsManager={{subjectsManager}}
+                            />
+                            <ValidationErrors 
+                            @changeset={{this.metadataFormChangeset}} @key='subjects'
+                            @isValidating={{subjectsManager.isSaving}} />
+                        </Subjects::Manager>
+                    {{/let}}
+                </div>
+                <div local-class='input-container'>
+                    {{#let (unique-id) 'tags' as |tagsFieldId|}}
+                        <label for={{tagsFieldId}}
+                            data-test-tags-label
+                        >
+                            {{t 'preprints.submit.step-metadata.tags-input'}}
+                        </label>
+                        <TagsWidget
+                            @taggable={{@manager.preprint}}
+                            @readOnly={{false}}
+                            @inline={{true}}
+                            id={{tagsFieldId}}
+                            local-class='tags-border'
+                            @isTagClickable={{false}}
+                        />
+                    {{/let}}
+                </div>
+
+                <form.text
+                    data-test-publication-doi-input
+                    @label={{t 'preprints.submit.step-metadata.publication-doi-input'}}
+                    @ariaLabel={{t 'preprints.submit.step-metadata.publication-doi-input'}}
+                    @valuePath={{'doi'}}
+                    {{on 'change' this.validate}}
+                    {{on 'focusout' this.validate}}
+                    local-class='input-container'
+                    @placeholder={{t 'preprints.submit.step-metadata.publication-doi-input'}}
+                />
+
+                <div local-class='input-container'>
+                    <ValidatedInput::Date
+                        local-class='read-only'
+                        @label={{t 'preprints.submit.step-metadata.publication-date-input'}}
+                        @ariaLabel={{t 'preprints.submit.step-metadata.publication-date-input'}}
+                        data-test-publication-date-input
+                        @value={{@manager.preprint.originalPublicationDate}}
+                        @placeholder={{t 'preprints.submit.step-metadata.publication-date-input'}}
+                        @date={{@manager.preprint.originalPublicationDate}}
+                        {{on 'change' this.validate}}
+                        {{on 'focusout' this.validate}}
+                        @minDate={{this.originalPublicationDateMin}}
+                        @maxDate={{this.originalPublicationDateMax}}
+                    />
+                </div>
+
+                <form.text
+                    data-test-publication-citation-input
+                    @label={{t 'preprints.submit.step-metadata.publication-citation-input'}}
+                    @ariaLabel={{t 'preprints.submit.step-metadata.publication-citation-input'}}
+                    @valuePath={{'customPublicationCitation'}}
+                    {{on 'change' this.validate}}
+                    {{on 'focusout' this.validate}}
+                    local-class='input-container'
+                    @placeholder={{t 'preprints.submit.step-metadata.publication-citation-input'}}
+                />
+            </FormControls>
+        </div>
+    {{/if}}
+</div>

@@ -124,7 +124,7 @@
                     data-test-start-registration-button
                     data-analytics-name={{if this.isBasedOnProject 'Create new draft registration' 'Create new no-project draft registration'}}
                     local-class='createDraftButton'
-                    disabled={{this.disableCreateDraft}}
+                    disabled={{or this.disableCreateDraft this.createNewDraftRegistration.isRunning}}
                     @type='primary'
                     @layout='medium'
                     {{on 'click' (perform this.createNewDraftRegistration)}}

@@ -1,34 +1,55 @@
-.CardContainer {
+.card-container {
     composes: CardContainer from '../styles.scss';
 }
 
-.MainSection {
+.main-section {
     composes: MainSection from '../styles.scss';
+
+    &.mobile {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        height: 80px;
+        padding-left: 0;
+    }
 }
 
-.CardSection {
-    composes: CardSection from '../styles.scss';
-    width: 34%;
+.name-section {
+    composes: NameSection from '../styles.scss';
+
+    &.mobile {
+        width: 100%;
+        height: 40px;
+        padding-left: 5px;
+    }
 }
 
-.CardSectionSmall {
-    composes: CardSection from '../styles.scss';
-    overflow: hidden;
+.permission-container {
+    composes: PermissionContainer from '../styles.scss';
+
+    &.mobile {
+        width: 100%;
+        height: 40px;
+        padding-left: 5px;
+    }
 }
 
-.CardSectionXS {
-    composes: CardSection from '../styles.scss';
-    max-width: 4%;
+.permission-section {
+    composes: PermissionSection from '../styles.scss';
 }
 
-.DropdownSection {
+.action-section {
+    composes: ActionSection from '../styles.scss';
+}
+
+.action-container {
+    composes: ActionContainer from '../styles.scss';
+}
+
+.dropdown-section {
     composes: DropdownSection from '../styles.scss';
 }
 
-.DropdownList {
+.dropdown-list {
     composes: DropdownList from '../styles.scss';
-}
-
-.m-r-xs {
-    margin-right: 5px;
 }

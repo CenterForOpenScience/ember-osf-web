@@ -1,0 +1,56 @@
+<div local-class='form-container'>
+    <FormControls
+        @changeset={{@changeSet}}
+        data-test-form
+        as |form|
+    >
+        {{#let (unique-id 'publicData') as |publicDataId|}}
+            <label for={{publicDataId}}
+                data-test-public-data-label
+            >
+                {{t 'preprints.submit.step-assertions.public-data-input'}}
+                <span local-class='required'>*</span>
+            </label>
+            <p>
+                {{t 'preprints.submit.step-assertions.public-data-description'}}
+            </p>
+
+            <form.radioGroup
+                @id={{publicDataId}}
+                @valuePath={{'hasDataLinks'}}
+                @class='radio-group {{if (is-mobile) 'mobile'}}'
+                @isRequired={{true}}
+                @disabled={{@disabled}}
+                @options={{this.publicDataOptions}}
+                @onchange={{this.updatePublicDataOptions}}
+                as |radioGroup|
+            >
+                {{radioGroup}}
+            </form.radioGroup>
+        {{/let}}
+
+        {{#if this.displayPublicDataLinks}}
+            <div local-class='input-container'>
+                <Preprints::-Components::Submit::AuthorAssertions::LinkWidget
+                @update={{this.updatePublicDataLinks}}
+                @placeholder={{t 'preprints.submit.step-assertions.public-data-link-placeholder'}}
+                @disabled={{@disabled}}
+                @links={{@manager.preprint.dataLinks}}
+            />
+            </div>
+        {{/if}}
+
+        {{#if this.displayPublicDataWhyNoStatement}}
+            <div local-class='input-container'>
+                <form.textarea
+                    data-test-public-data-description-input
+                    @disabled={{this.isPublicDataWhyNoStatementDisabled}}
+                    @valuePath={{'whyNoData'}}
+                    @onKeyUp={{@validate}}
+                    local-class='input-container textarea-container'
+                    @placeholder={{this.placeholder}}
+                />
+            </div>
+        {{/if}}
+    </FormControls>
+</div>

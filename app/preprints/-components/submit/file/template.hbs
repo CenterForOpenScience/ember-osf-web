@@ -1,0 +1,130 @@
+<div local-class='preprint-input-container {{if (is-mobile) 'mobile'}}'>
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-file.title'}}
+    </h3>
+    {{#if this.isSelectProjectButtonDisplayed}}
+        <p>
+            {{t 'preprints.submit.step-file.upload-warning'}}
+        </p>
+    {{/if}}
+    {{#if this.loadFiles.isRunning}}
+        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+    {{else}}
+        {{#if this.isFileAttached}}
+            <div local-class='file-container'>
+                <div local-class='file'>
+                    <Preprints::-Components::PreprintFileDisplay
+                        @file={{this.file}}
+                        @addNewFile={{this.addNewfile}}
+                        @preprintWord={{@manager.provider.documentType.singular}}
+
+                    />
+                </div>
+            </div>
+        {{else}}
+            <div local-class='upload-container'>
+                <label data-test-upload-label>
+                    {{this.getUploadText}}
+                    <span local-class='required'>*</span>
+                </label>
+                <div local-class='button-container'>
+                    <Button
+                        data-test-upload-button
+                        data-analytics-name='Upload button'
+                        {{on 'click' this.displayFileUpload}}
+                        local-class='btn {{if this.isFileUploadDisplayed 'selected'}}'
+                        disabled={{this.isButtonDisabled}}
+                    >
+                        {{ t 'preprints.submit.step-file.file-upload-label'}}
+                        <EmberTooltip>
+                            {{t 'preprints.submit.step-file.file-upload-help-text' singularPreprintWord=@manager.provider.documentType.singular}}
+                        </EmberTooltip>
+                    </Button>
+                    {{#if this.isSelectProjectButtonDisplayed}}
+                        <Button
+                            data-test-select-button
+                            data-analytics-name='Select button'
+                            {{on 'click' this.displayFileSelect}}
+                            local-class='btn'
+                            disabled={{this.isSelectProjectButtonDisabled}}
+                        >
+                            {{ t 'preprints.submit.step-file.file-select-label'}}
+                            <EmberTooltip>
+                                {{t 'preprints.submit.step-file.file-select-help-text' singularPreprintWord=@manager.provider.documentType.singular}}
+                            </EmberTooltip>
+                            {{#if this.isEdit}}
+                                <EmberTooltip>
+                                    {{this.getSelectExplanationText}}
+                                </EmberTooltip>
+                            {{/if}}
+                        </Button>
+                    {{/if}}
+                </div>
+                {{#if this.isFileUploadDisplayed}}
+                    {{#let (unique-id 'preprint-upload-files-dropzone') as |id|}}
+                        <Preprints::-Components::Submit::file::UploadFile
+                            @manager={{@manager}}
+                            @preprint={{@manager.preprint}}
+                            @clickableElementId={{id}}
+                            @enable={{true}}
+                            @dragEnter={{fn (mut this.dragging) true}}
+                            @dragOver={{fn (mut this.dragging) true}}
+                            @dragLeave={{fn (mut this.dragging) false}}
+                            @drop={{fn (mut this.dragging) false}}
+                            @validate={{action this.validate}}
+                            @isEdit={{this.isEdit}}
+                        >
+                            <div
+                                data-test-file-drag-and-drop-area
+                                local-class='upload-file {{if this.dragging 'highlight'}}'
+                                id={{id}}
+                            >
+                                <div
+                                    data-test-file-upload-label-one
+                                >
+                                    {{ t 'preprints.submit.step-file.file-upload-label-one'}}
+                                </div>
+                                <div
+                                    data-test-file-upload-label-two
+                                >
+                                    {{ t 'preprints.submit.step-file.file-upload-label-two'}}
+                                </div>
+                            </div>
+                        </Preprints::-Components::Submit::file::UploadFile>
+                    {{/let}}
+
+                {{/if}}
+                {{#if this.isProjectSelectDisplayed}}
+                    {{ t 'preprints.submit.step-file.file-select-label'}}
+                    <Preprints::-Components::PreprintExistingNodeWidget
+                        @projectSelected={{this.projectSelected}}
+                        data-test-select-project
+                    />
+
+                    {{#if this.isFileSelectDisplayed}}
+                        <Files::Widget
+                            data-test-file-widget
+                            local-class='files-widget'
+                            @node={{this.selectedProjectNode}}
+                            @onSelectFile={{perform this.onSelectFile}}
+                            @canEdit={{false}}
+                            disabled={{false}}
+                        />
+                    {{/if}}
+                {{/if}}
+                {{#if this.isButtonDisabled}}
+                    <div local-class='cancel-button-container'>
+                        <Button
+                            data-test-cancel-button
+                            {{on 'click' this.onCancelSelectAction}}
+                        >
+                            {{t 'general.cancel'}}
+                        </Button>
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
+    {{/if}}
+</div>

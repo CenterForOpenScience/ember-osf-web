@@ -79,6 +79,7 @@ export default class DropzoneWidget extends Component.extend({
     defaultMessage = this.intl.t('dropzone_widget.drop_files');
 
     @requiredAction buildUrl!: (files: File[]) => void;
+    success?: (context: any, drop: any, file: any) => Promise<any>;
     preUpload?: (context: any, drop: any, file: any) => Promise<any>;
 
     didInsertElement() {

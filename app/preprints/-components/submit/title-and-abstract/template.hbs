@@ -1,0 +1,53 @@
+<div local-class='preprint-input-container {{if (is-mobile) 'mobile'}}'>
+
+    <h3 local-class='title'
+        data-test-title
+    >
+        {{t 'preprints.submit.step-title.title'}}
+    </h3>
+    <div local-class='form-container'>
+        <FormControls
+            @changeset={{this.titleAndAbstractFormChangeset}}
+            data-test-form
+            as |form|
+        >
+            {{#let (unique-id 'title') as |titleFieldId|}}
+                <label for={{titleFieldId}}
+                    data-test-title-label
+                >
+                    {{t 'preprints.submit.step-title.title-input'}}
+                    <span local-class='required'>*</span>
+                </label>
+                <form.text
+                    data-test-title-input
+                    @valuePath={{'title'}}
+                    @isRequired={{true}}
+                    {{on 'change' this.validate}}
+                    local-class='input-container'
+                    @placeholder={{t 'preprints.submit.step-title.title-input'}}
+                    @maxlength={{512}}
+                    @uniqueID={{titleFieldId}} 
+                    @onKeyUp={{this.validate}}
+                />
+            {{/let}}
+            {{#let (unique-id 'abstract') as |abstractFieldId|}}
+                <label for={{abstractFieldId}}
+                    data-test-abstract-label
+                >
+                    {{t 'preprints.submit.step-title.abstract-input'}}
+                    <span local-class='required'>*</span>
+                </label>
+                <form.textarea
+                    data-test-abstract-input
+                    @valuePath={{'description'}}
+                    @isRequired={{true}}
+                    {{on 'change' this.validate}}
+                    local-class='input-container textarea-container'
+                    @placeholder={{t 'preprints.submit.step-title.abstract-input'}}
+                    @uniqueID={{abstractFieldId}} 
+                    @onKeyUp={{this.validate}}
+                />
+            {{/let}}
+        </FormControls>
+    </div>
+</div>

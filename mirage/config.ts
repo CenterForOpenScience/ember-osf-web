@@ -10,7 +10,7 @@ import { createCollectionSubmission, getCollectionSubmissions } from './views/co
 import { createSubmissionAction } from './views/collection-submission-action';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
-import { addContributor, createBibliographicContributor } from './views/contributor';
+import { addContributor, addPreprintContributor, createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, updateDeveloperApp } from './views/developer-app';
 import { createDraftRegistration } from './views/draft-registration';
 import {
@@ -28,7 +28,8 @@ import { postCountedUsage, getNodeAnalytics } from './views/metrics';
 import { addCollectionModerator, addRegistrationModerator } from './views/moderator';
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
-import { getProviderSubjects } from './views/provider-subjects';
+import { getPreprintProviderSubjects, getProviderSubjects } from './views/provider-subjects';
+import { getSubjectsAcceptable } from './views/subjects-acceptable';
 import {
     createRegistration,
     forkRegistration,
@@ -46,11 +47,13 @@ import {
     claimUnregisteredUser,
     userNodeList,
     userRegistrationList,
+    userPreprintList,
 } from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as addons from './views/addons';
 import * as wb from './views/wb';
+import { createPreprint } from './views/preprint';
 
 const { OSF: { addonServiceUrl, apiUrl, shareBaseUrl, url: osfUrl } } = config;
 
@@ -125,6 +128,7 @@ export default function(this: Server) {
     osfResource(this, 'subject', { only: ['show'] });
     osfNestedResource(this, 'subject', 'children', { only: ['index'] });
     osfNestedResource(this, 'node', 'children');
+    this.get('/nodes/:parentID/subjectsAcceptable', getSubjectsAcceptable);
     osfNestedResource(this, 'node', 'contributors', {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,
@@ -315,6 +319,7 @@ export default function(this: Server) {
     this.get('/users/:id/nodes', userNodeList);
     this.get('/sparse/users/:id/nodes', userNodeList);
     this.get('/users/:id/registrations', userRegistrationList);
+    this.get('/users/:id/preprints', userPreprintList);
     osfNestedResource(this, 'user', 'draftRegistrations', {
         only: ['index'],
     });
@@ -328,10 +333,19 @@ export default function(this: Server) {
         path: '/providers/preprints/:parentID/subjects/highlighted/',
         relatedModelName: 'subject',
     });
+
+    osfNestedResource(this, 'preprint-provider', 'licensesAcceptable', {
+        only: ['index'],
+        path: '/providers/preprints/:parentID/licenses/',
+        relatedModelName: 'license',
+    });
+
     osfNestedResource(this, 'preprint-provider', 'preprints', {
         path: '/providers/preprints/:parentID/preprints/',
         relatedModelName: 'preprint',
     });
+
+    this.get('/providers/preprints/:parentID/subjects/', getPreprintProviderSubjects);
 
     osfNestedResource(this, 'preprint-provider', 'citationStyles', {
         only: ['index'],
@@ -344,11 +358,21 @@ export default function(this: Server) {
      */
 
     osfResource(this, 'preprint');
+    this.post('/preprints', createPreprint);
+
+    this.get('/preprints/:id', (schema, request) => {
+        const id = request.params.id;
+        return schema.preprints.find(id);
+    });
+
     osfNestedResource(this, 'preprint', 'contributors', {
         path: '/preprints/:parentID/contributors/',
         defaultSortKey: 'index',
-        relatedModelName: 'contributor',
+        except: ['create'],
     });
+
+    this.post('/preprints/:preprintID/contributors/', addPreprintContributor);
+
     osfNestedResource(this, 'preprint', 'bibliographicContributors', {
         path: '/preprints/:parentID/bibliographic_contributors/',
         defaultSortKey: 'index',
@@ -359,16 +383,30 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'file',
     });
+
+    osfNestedResource(this, 'preprint', 'affiliatedInstitutions', {
+        path: '/preprints/:parentID/institutions/',
+        defaultSortKey: 'index',
+        relatedModelName: 'institution',
+    });
+
+    osfToManyRelationship(this, 'preprint', 'affiliatedInstitutions', {
+        only: ['related', 'update', 'add', 'remove'],
+        path: '/preprints/:parentID/relationships/institutions',
+    });
+
+    this.put('/preprints/:parentID/files/:fileProviderId/upload', uploadToRoot); // Upload to file provider
+
     osfNestedResource(this, 'preprint', 'primaryFile', {
         path: '/wb/files/:fileID/',
         defaultSortKey: 'index',
         relatedModelName: 'file',
     });
-    osfNestedResource(this, 'preprint', 'subjects', {
-        path: '/preprints/:parentID/subjects/',
-        defaultSortKey: 'index',
-        relatedModelName: 'subject',
+
+    osfToManyRelationship(this, 'preprint', 'subjects', {
+        only: ['related', 'self', 'update'],
     });
+
     osfNestedResource(this, 'preprint', 'identifiers', {
         path: '/preprints/:parentID/identifiers/',
         defaultSortKey: 'index',

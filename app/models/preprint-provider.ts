@@ -20,6 +20,7 @@ export default class PreprintProviderModel extends ProviderModel {
 
     @attr('fixstring') email_support!: string | null;
     @attr('array') subjectsAcceptable!: string[];
+    @attr('boolean') assertionsEnabled!: boolean;
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
     @attr('string') preprintWord!: PreprintWord;

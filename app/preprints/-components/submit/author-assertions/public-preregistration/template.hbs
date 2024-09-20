@@ -1,0 +1,79 @@
+<div local-class='form-container'>
+    <FormControls
+        @changeset={{@changeSet}}
+        data-test-form
+        as |form|
+    >
+        {{#let (unique-id 'publicPreregistration') as |publicPreregistrationId|}}
+            <label for={{publicPreregistrationId}}
+                data-test-public-preregistration-label
+            >
+                {{t 'preprints.submit.step-assertions.public-preregistration-input'}}
+                <span local-class='required'>*</span>
+            </label>
+            <p>
+                {{t 'preprints.submit.step-assertions.public-preregistration-description'}}
+            </p>
+
+            <form.radioGroup
+                @id={{publicPreregistrationId}}
+                @valuePath={{'hasPreregLinks'}}
+                @class='radio-group {{if (is-mobile) 'mobile'}}'
+                @isRequired={{true}}
+                @disabled={{@disabled}}
+                @options={{this.publicPreregistrationOptions}}
+                @onchange={{this.updatePublicPreregistrationOptions}}
+                as |radioGroup|
+            >
+                {{radioGroup}}
+            </form.radioGroup>
+        {{/let}}
+
+        {{#if this.displayPublicPreregistrationLinks}}
+            <div local-class='input-container'>
+                <select
+                    onchange={{action 'updatePreregistrationLinkInfo' value='target.value'}}
+                    local-class='select'
+                    disabled={{@disabled}}
+                    class='form-control'
+                >
+                    {{#each this.publicPreregLinkInfoOptions as |infoOption|}}
+                        <option
+                            value={{infoOption.key}}
+                            selected={{if (eq this.selectedValue infoOption.key) 'selected'}}
+                        >
+                            {{infoOption.value}}
+                        </option>
+                    {{/each}}
+                </select>
+
+                <ValidationErrors
+                    local-class='validation-error'
+                    @changeset={{@changeSet}}
+                    @key={{'preregLinkInfo'}}
+                />
+            </div>
+            <div local-class='input-container'>
+                <Preprints::-Components::Submit::AuthorAssertions::LinkWidget
+                @update={{this.updatePublicPreregistrationLinks}}
+                @disabled={{@disabled}}
+                @placeholder={{t 'preprints.submit.step-assertions.public-preregistration-link-placeholder'}}
+                @links={{@manager.preprint.preregLinks}}
+            />
+            </div>
+        {{/if}}
+
+        {{#if this.displayPublicPreregistrationWhyNoStatement}}
+            <div local-class='input-container'>
+                <form.textarea
+                    data-test-public-preregistration-description-input
+                    @disabled={{this.isPublicPreregistrationWhyNoStatementDisabled}}
+                    @valuePath={{'whyNoPrereg'}}
+                    local-class='input-container textarea-container'
+                    @onKeyUp={{@validate}}
+                    @placeholder={{this.placeholder}}
+                />
+            </div>
+        {{/if}}
+    </FormControls>
+</div>

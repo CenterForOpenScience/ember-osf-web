@@ -14,6 +14,8 @@ import { registrationFullScenario as registrationsFullScenario } from './registr
 import { settingsScenario } from './settings';
 import { registrationsLiteScenario } from './registrations.lite';
 import { registrationsManyProjectsScenario} from './registrations.many-projects';
+import { userScenario } from './user';
+import { preprintsAffiliatedInstitutionsScenario } from './preprints.affiliated-institutions';
 
 const {
     mirageScenarios,
@@ -46,6 +48,9 @@ export default function(server: Server) {
         ];
     const currentUser = server.create('user', ...userTraits);
 
+    // Add a bunch of users
+    userScenario(server);
+
     // Optional Scenarios
     if (mirageScenarios.includes('dashboard')) {
         dashboardScenario(server, currentUser);
@@ -75,7 +80,9 @@ export default function(server: Server) {
     if (mirageScenarios.includes('preprints')) {
         preprintsScenario(server, currentUser);
     }
-
+    if (mirageScenarios.includes('preprints::affiliated-institutions')) {
+        preprintsAffiliatedInstitutionsScenario(server, currentUser);
+    }
     if (mirageScenarios.includes('cedar')) {
         cedarMetadataRecordsScenario(server);
     }

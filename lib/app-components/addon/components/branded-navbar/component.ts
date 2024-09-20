@@ -49,10 +49,6 @@ export default class BrandedNavbar extends Component {
         return `${osfURL}reviews`;
     }
 
-    get submitPreprintUrl() {
-        return this.theme.isProvider ? `${osfURL}preprints/${this.theme.id}/submit/` : `${osfURL}preprints/submit/`;
-    }
-
     @alias('theme.provider') provider!: ProviderModel;
     @alias('theme.provider.id') providerId!: string;
     @alias('theme.provider.brand.primaryColor') brandPrimaryColor!: BrandModel;

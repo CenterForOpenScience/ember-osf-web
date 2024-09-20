@@ -331,25 +331,27 @@
             </dl>
         {{/if}}
     </FormControls>
-    {{#if @manager.node.isRegistration}}
-        <div local-class='subjects' data-test-subjects-list>
-            <dl>
-                <dt>{{t 'osf-components.node-metadata-form.subjects'}}</dt>
-                <dd>
-                    <Subjects::Manager
-                        @model={{@manager.node}}
-                        @provider={{@manager.node.provider}}
-                        @doesAutosave={{true}}
-                        as |subjectsManager|
-                    >
+    <div local-class='subjects' data-test-subjects-list>
+        <dl>
+            <dt>{{t 'osf-components.node-metadata-form.subjects'}}</dt>
+            <dd>
+                <Subjects::Manager
+                    @model={{@manager.node}}
+                    @provider={{@manager.node.provider}}
+                    @doesAutosave={{true}}
+                    as |subjectsManager|
+                >
+                    {{#if subjectsManager.loadingNodeSubjects}}
+                        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+                    {{else}}
                         <Subjects::Widget
                             @subjectsManager={{subjectsManager}}
                         />
-                    </Subjects::Manager>
-                </dd>
-            </dl>
-        </div>
-    {{/if}}
+                    {{/if}}
+                </Subjects::Manager>
+            </dd>
+        </dl>
+    </div>
     <div local-class='tags'>
         <dl>
             <dt>{{t 'osf-components.node-metadata-form.tags'}}</dt>

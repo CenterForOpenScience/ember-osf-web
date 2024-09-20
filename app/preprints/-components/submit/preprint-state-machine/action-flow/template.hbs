@@ -1,0 +1,160 @@
+<div local-class='action-flow-container  {{if (is-mobile) 'mobile'}} {{if @manager.isEditFlow 'edit'}}'>
+    {{#if this.isSubmit}}
+        {{#if (is-mobile)}}
+            <div local-class='mobile-button-container'>
+                <Button
+                    data-test-previous-button
+                    data-analytics-name='Previous button'
+                    {{on 'click' (action this.onPrevious)}}
+                    local-class='{{if @manager.isPreviousButtonDisabled 'mobile-disabled'}}'
+                    disabled={{@manager.isPreviousButtonDisabled}}
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='arrow-left' />
+                </Button>
+            </div>
+            <div local-class='mobile-button-container'>
+                <Button
+                    data-test-submit-button
+                    data-analytics-name='Submit button'
+                    {{on 'click' (perform this.onSubmit)}}
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='arrow-right' />
+                </Button>
+            </div>
+        {{else}}
+            <div local-class='desktop-button-container'>
+                <Button
+                    data-test-submit-button
+                    data-analytics-name='Submit button'
+                    {{on 'click' (perform this.onSubmit)}}
+                    local-class='btn white'
+                    @layout='large'
+                    @type='primary'
+                >
+                    {{ t 'preprints.submit.action-flow.submit'}}
+                </Button>
+            </div>
+        {{/if}}
+    {{else}}
+        {{#if (is-mobile)}}
+            <div local-class='mobile-button-container'>
+                <Button
+                    data-test-previous-button
+                    data-analytics-name='Previous button'
+                    {{on 'click' (action this.onPrevious)}}
+                    local-class='{{if @manager.isPreviousButtonDisabled 'mobile-disabled'}}'
+                    disabled={{@manager.isPreviousButtonDisabled}}
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='arrow-left' />
+                </Button>
+            </div>
+            <div local-class='mobile-button-container'>
+                <Button
+                    data-test-next-button
+                    data-analytics-name='Next button'
+                    {{on 'click' (perform this.onNext)}}
+                    local-class='{{if @manager.isNextButtonDisabled 'mobile-disabled'}}'
+                    disabled={{@manager.isNextButtonDisabled}}
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='arrow-right' />
+                    {{#if @manager.isNextButtonDisabled}}
+                        <EmberTooltip>
+                            {{t 'preprints.submit.action-flow.next-disabled-tooltip'}}
+                        </EmberTooltip>
+                    {{/if}}
+                </Button>
+            </div>
+        {{else}}
+            <div local-class='desktop-button-container'>
+                <Button
+                    data-test-next-button
+                    data-analytics-name='Next button'
+                    {{on 'click' (perform this.onNext)}}
+                    local-class='btn white {{if @manager.isNextButtonDisabled 'disabled'}}'
+                    disabled={{@manager.isNextButtonDisabled}}
+                    @layout='large'
+                    @type='primary'
+                >
+                    {{ t 'preprints.submit.action-flow.next'}}
+                    <FaIcon @icon='arrow-right' />
+                    {{#if @manager.isNextButtonDisabled}}
+                        <EmberTooltip>
+                            {{t 'preprints.submit.action-flow.next-disabled-tooltip'}}
+                        </EmberTooltip>
+                    {{/if}}
+                </Button>
+            </div>
+        {{/if}}
+    {{/if}}
+    {{#if @manager.isDeleteButtonDisplayed}}
+        {{#if (is-mobile)}}
+            <div local-class='mobile-button-container'>
+                <DeleteButton
+                    data-test-delete-button
+                    @small={{true}}
+                    @icon='trash'
+                    @noBackground={{true}}
+                    @delete={{perform this.onDelete }}
+                    @modalTitle={{this.modalTitle}}
+                    @modalBody={{this.modalBody}}
+                />
+            </div>
+        {{else}}
+            <div local-class='desktop-button-container'>
+                <DeleteButton
+                    data-test-delete-button
+                    class='btn-destroy'
+                    local-class='btn'
+                    @buttonLayout='large'
+                    @noBackground={{true}}
+                    @delete={{perform this.onDelete }}
+                    @modalTitle={{this.modalTitle}}
+                    @modalBody={{this.modalBody}}
+                />
+            </div>
+        {{/if}}
+    {{/if}}
+    {{!-- {{#if @manager.isEditFlow}}
+        {{#if (is-mobile)}}
+            <div local-class='mobile-button-container'>
+                <DeleteButton
+                    data-test-cancel-button
+                    @small={{true}}
+                    @icon='times'
+                    @noBackground={{true}}
+                    @delete={{perform @manager.onCancel}}
+                    @modalTitle={{t 'preprints.submit.action-flow.cancel-modal-title'}}
+                    @modalBody={{t 'preprints.submit.action-flow.cancel-modal-body'}}
+                    @buttonLabel={{t 'preprints.submit.action-flow.cancel'}}
+                    @confirmButtonText={{t 'general.ok'}}
+                />
+            </div>
+        {{else}}
+            <div local-class='desktop-button-container'>
+                <DeleteButton
+                    data-test-cancel-button
+                    class='btn-destroy'
+                    local-class='btn'
+                    @buttonLayout='large'
+                    @noBackground={{true}}
+                    @delete={{perform @manager.onCancel}}
+                    @modalTitle={{t 'preprints.submit.action-flow.cancel-modal-title'}}
+                    @modalBody={{t 'preprints.submit.action-flow.cancel-modal-body'}}
+                    @buttonLabel={{t 'preprints.submit.action-flow.cancel'}}
+                    @confirmButtonText={{t 'general.ok'}}
+                />
+            </div>
+        {{/if}}
+    {{/if}} --}}
+    {{#if @manager.isWithdrawalButtonDisplayed}}
+        <div local-class='{{if (is-mobile) 'mobile-button-container' 'desktop-button-container'}}'>
+            <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow::WithdrawalPreprint
+                @manager={{@manager}}
+            />
+        </div>
+    {{/if}}
+</div>

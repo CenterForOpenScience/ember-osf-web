@@ -1,0 +1,25 @@
+{{#if (or this.preUrl.isRunning this.success.isRunning)}}
+    <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+{{else}}
+    <div ...attributes>
+        {{#let (unique-id 'upload-files-dropzone') as |id|}}
+            <DropzoneWidget
+                local-class='upload-file-widget'
+                @buildUrl={{this.buildUrl}}
+                @options={{this.dropzoneOptions}}
+                @dropzone={{false}}
+                @dragenter={{@dragEnter}}
+                @dragleave={{@dragLeave}}
+                @dragover={{@dragOver}}
+                @drop={{@drop}}
+                @enable={{@enable}}
+                @id={{id}}
+                @clickable={{this.clickableElementSelectors}}
+                @preUpload={{this.preUpload}}
+                @success={{perform this.success}}
+            >
+                {{yield}}
+            </DropzoneWidget>
+        {{/let}}
+    </div>
+{{/if}}

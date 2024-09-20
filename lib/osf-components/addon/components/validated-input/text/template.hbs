@@ -19,7 +19,9 @@
                 local-class='PrefixedInput'
                 @type={{if this.password 'password' 'text'}}
                 @value={{this.value}}
+                maxlength={{@maxlength}}
                 {{on 'keyup' (if @onKeyUp @onKeyUp this.noop)}}
+                ...attributes
             />
         </div>
     {{else}}
@@ -32,7 +34,9 @@
             class='form-control'
             @type={{if this.password 'password' 'text'}}
             @value={{this.value}}
+            maxlength={{@maxlength}}
             {{on 'keyup' (if @onKeyUp @onKeyUp this.noop)}}
+            ...attributes
         />
     {{/if}}
 {{/validated-input/x-input-wrapper}}

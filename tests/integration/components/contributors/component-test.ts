@@ -69,7 +69,6 @@ module('Integration | Component | contributors', hooks => {
 
             assert.dom('[data-test-contributor-card]').exists();
             assert.dom('[data-test-contributor-card-main]').exists();
-            assert.dom('[data-test-contributor-gravatar]').exists();
             assert.dom(`[data-test-contributor-link="${contributor.id}"]`)
                 .hasText(contributor.users.get('fullName'));
             assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
@@ -97,7 +96,6 @@ module('Integration | Component | contributors', hooks => {
 
         assert.dom('[data-test-contributor-card]').exists();
         assert.dom('[data-test-contributor-card-main]').exists();
-        assert.dom('[data-test-contributor-gravatar]').exists();
         assert.dom('[data-test-contributor-link]').doesNotExist();
         assert.dom('[data-test-contributor-card-main]')
             .containsText(unregContributor.unregisteredContributor!);
@@ -172,7 +170,6 @@ module('Integration | Component | contributors', hooks => {
 
         assert.dom('[data-test-contributor-card]').exists();
         assert.dom('[data-test-contributor-card-main]').exists();
-        assert.dom('[data-test-contributor-gravatar]').exists();
         assert.dom(`[data-test-contributor-link="${contributor.id}"]`)
             .hasText(contributor.users.fullName);
         assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
@@ -321,7 +318,7 @@ module('Integration | Component | contributors', hooks => {
 
         assert.dom('[data-test-user-search-input]').exists('User serach button renders');
         assert.dom('[data-test-add-unregistered-contributor-button]').exists('Add unregistered contrib button renders');
-        assert.dom('[data-test-user-search-results]').exists('Search result continer renders');
+        assert.dom('[data-test-user-search-results]').doesNotExist('Search result container does not exist');
         assert.dom('[data-test-contributor-card]').doesNotExist('No contributors are on the draft');
         await fillIn('[data-test-user-search-input]', 'Bae');
         await click('[data-test-user-search-button]');
