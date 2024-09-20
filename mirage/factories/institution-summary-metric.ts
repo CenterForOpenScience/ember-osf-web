@@ -19,6 +19,21 @@ export default Factory.extend<InstitutionSummaryMetricModel>({
     preprintCount() {
         return faker.random.number({ min: 100, max: 1000 });
     },
+    embargoedRegistrationCount() {
+        return faker.random.number({ min: 100, max: 1000 });
+    },
+    storageByteCount() {
+        return faker.random.number({ min: 100, max: 1000 });
+    },
+    publicFileCount() {
+        return faker.random.number({ min: 100, max: 1000 });
+    },
+    monthlyActiveUserCount() {
+        return faker.random.number({ min: 100, max: 1000 });
+    },
+    monthlyLoggedInUserCount() {
+        return faker.random.number({ min: 100, max: 1000 });
+    },
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
