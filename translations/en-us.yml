@@ -32,6 +32,8 @@ general:
     api: API
     apply: Apply
     asc_paren: (asc)
+    authenticate: Authenticate
+    authorize: Authorize
     available: 'Available'
     back: Back
     bookmark: Bookmark
@@ -39,6 +41,7 @@ general:
     caution: Caution
     close: Close
     component: component
+    confirm: Confirm
     contributors: Contributors
     copy: Copy
     cos: 'Center for Open Science'
@@ -54,13 +57,6 @@ general:
     edit: Edit
     ellipsis: …
     embed: Embed
-    add: Add
-    confirm: Confirm
-    authorize: Authorize
-    authenticate: Authenticate
-    ok: OK
-    apply: Apply
-    revisions: Revisions
     engineering: 'engineering'
     filter: Filter
     help: Help
