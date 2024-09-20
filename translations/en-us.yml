@@ -821,6 +821,7 @@ institutions:
             month_last_active: 'Last Action'
             has_orcid: 'Has ORCID'
             select_columns: 'Customize'
+            total_users: 'total users'
         panel:
             users: 'Total Users'
             projects: 'OSF Public and Private Projects'
