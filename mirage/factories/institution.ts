@@ -55,6 +55,11 @@ export default Factory.extend<Institution & InstitutionTraits>({
                 userCount,
                 publicRegistrationCount: 1250,
                 preprintCount: 11250,
+                embargoedRegistrationCount: 456,
+                storageByteCount: 47382032,
+                publicFileCount: 87,
+                monthlyLoggedInUserCount: 24563,
+                monthlyActiveUserCount:456,
             });
 
             institution.update({ userMetrics, departmentMetrics, summaryMetrics });
