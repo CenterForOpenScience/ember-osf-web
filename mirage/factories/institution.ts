@@ -39,28 +39,7 @@ export default Factory.extend<Institution & InstitutionTraits>({
             const departmentMetrics = departmentNames.map(name =>
                 server.create('institution-department', { name }));
 
-            const userCount = userMetrics.length;
-            let publicProjectCount = 0;
-            let privateProjectCount = 0;
-            userMetrics.forEach(({ publicProjects, privateProjects }) => {
-                publicProjectCount += publicProjects;
-                privateProjectCount += privateProjects;
-            });
-
             const summaryMetrics = server.create('institution-summary-metric', { id: institution.id });
-
-            summaryMetrics.update({
-                publicProjectCount,
-                privateProjectCount,
-                userCount,
-                publicRegistrationCount: 1250,
-                preprintCount: 11250,
-                embargoedRegistrationCount: 456,
-                storageByteCount: 47382032,
-                publicFileCount: 87,
-                monthlyLoggedInUserCount: 24563,
-                monthlyActiveUserCount:456,
-            });
 
             institution.update({ userMetrics, departmentMetrics, summaryMetrics });
         },
