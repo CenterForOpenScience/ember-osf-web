@@ -11,28 +11,28 @@ export default Factory.extend<InstitutionSummaryMetricModel>({
         return faker.random.number({ min: 10, max: 100 });
     },
     userCount() {
-        return faker.random.number({ min: 100, max: 1000 });
+        return faker.random.number({ min: 10, max: 50});
     },
     publicRegistrationCount() {
         return faker.random.number({ min: 100, max: 1000 });
     },
-    preprintCount() {
-        return faker.random.number({ min: 100, max: 1000 });
-    },
     embargoedRegistrationCount() {
-        return faker.random.number({ min: 100, max: 1000 });
+        return faker.random.number({ min: 0, max: 25});
+    },
+    preprintCount() {
+        return faker.random.number({ min: 15, max: 175});
     },
     storageByteCount() {
-        return faker.random.number({ min: 100, max: 1000 });
+        return faker.random.number({ min: 1000 * 100, max: 1000 * 1000 * 100 });
     },
     publicFileCount() {
-        return faker.random.number({ min: 100, max: 1000 });
+        return faker.random.number({ min: 15, max: 1000 });
     },
     monthlyActiveUserCount() {
-        return faker.random.number({ min: 100, max: 1000 });
+        return faker.random.number({ min: 10, max: 100 * 10 });
     },
     monthlyLoggedInUserCount() {
-        return faker.random.number({ min: 100, max: 1000 });
+        return faker.random.number({ min: 10, max: 100 * 100 });
     },
 });
 
