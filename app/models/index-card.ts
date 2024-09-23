@@ -99,12 +99,7 @@ export default class IndexCardModel extends Model {
     }
 
     get osfIdentifier() {
-        for (const iri of this.resourceIdentifier) {
-            if (iri && iri.startsWith(osfUrl)) {
-                return iri;
-            }
-        }
-        return '';
+        return this.resourceIdentifier.find(iri => iri.startsWith(osfUrl)) || '';
     }
 
     get osfGuid() {
