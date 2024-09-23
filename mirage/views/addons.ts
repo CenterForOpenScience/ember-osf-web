@@ -451,7 +451,7 @@ function fakeCheckCredentials(
         }
         break;
     case CredentialsFormat.ACCESS_SECRET_KEYS:
-        if (!credentials.accessKey || !credentials.secretKey) {
+        if (!credentials.access_key || !credentials.secret_key) {
             throw new Error('Access key and secret key is required');
         }
         break;

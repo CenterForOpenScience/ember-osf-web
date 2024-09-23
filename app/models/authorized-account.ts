@@ -4,8 +4,9 @@ export interface AddonCredentialFields {
     username?: string;
     password?: string;
     token?: string;
-    accessKey?: string;
-    secretKey?: string;
+    access_key?: string;
+    secret_key?: string;
+    repo?: string;
 }
 
 export interface AccountCreationArgs {
