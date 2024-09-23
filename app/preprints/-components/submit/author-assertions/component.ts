@@ -132,7 +132,6 @@ const AuthorAssertionsFormValidation: ValidationObject<AuthorAssertionsForm> = {
 export default class PublicData extends Component<AuthorAssertionsArgs>{
     @service intl!: Intl;
     @tracked isConflictOfInterestStatementDisabled = true;
-    @tracked isPublicDataStatementDisabled = true;
     authorAssertionFormChangeset = buildChangeset(
         this.args.manager.preprint,
         AuthorAssertionsFormValidation,
@@ -169,7 +168,7 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
                 this.intl.t('preprints.submit.step-assertions.conflict-of-interest-none'));
             this.isConflictOfInterestStatementDisabled = true;
         } else {
-            this.isConflictOfInterestStatementDisabled = false;
+            this.isConflictOfInterestStatementDisabled = false || !this.args.manager.isAdmin();
         }
     }
 
@@ -177,7 +176,7 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
     public updateCoi(): void {
         if (this.authorAssertionFormChangeset.get('hasCoi')) {
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement', null);
-            this.isConflictOfInterestStatementDisabled = false;
+            this.isConflictOfInterestStatementDisabled = false || !this.args.manager.isAdmin();
         } else {
             this.authorAssertionFormChangeset.set('conflictOfInterestStatement',
                 this.intl.t('preprints.submit.step-assertions.conflict-of-interest-none'));
@@ -197,5 +196,9 @@ export default class PublicData extends Component<AuthorAssertionsArgs>{
         }
         this.authorAssertionFormChangeset.execute();
         this.args.manager.validateAuthorAssertions(true);
+    }
+
+    public get isElementDisabled(): boolean {
+        return this.args.manager.isElementDisabled();
     }
 }

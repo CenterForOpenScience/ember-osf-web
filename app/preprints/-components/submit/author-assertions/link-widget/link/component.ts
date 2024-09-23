@@ -15,6 +15,7 @@ import { tracked } from '@glimmer/tracking';
 interface LinkArgs {
     remove: (__:number) => {};
     update: (_: string, __:number) => {};
+    disabled: boolean;
     value: string;
     placeholder: string;
     index: number;

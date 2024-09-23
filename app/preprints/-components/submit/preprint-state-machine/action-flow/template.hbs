@@ -1,4 +1,4 @@
-<div local-class='action-flow-container  {{if (is-mobile) 'mobile'}}'>
+<div local-class='action-flow-container  {{if (is-mobile) 'mobile'}} {{if @manager.isEditFlow 'edit'}}'>
     {{#if this.isSubmit}}
         {{#if (is-mobile)}}
             <div local-class='mobile-button-container'>
@@ -118,6 +118,38 @@
             </div>
         {{/if}}
     {{/if}}
+    {{!-- {{#if @manager.isEditFlow}}
+        {{#if (is-mobile)}}
+            <div local-class='mobile-button-container'>
+                <DeleteButton
+                    data-test-cancel-button
+                    @small={{true}}
+                    @icon='times'
+                    @noBackground={{true}}
+                    @delete={{perform @manager.onCancel}}
+                    @modalTitle={{t 'preprints.submit.action-flow.cancel-modal-title'}}
+                    @modalBody={{t 'preprints.submit.action-flow.cancel-modal-body'}}
+                    @buttonLabel={{t 'preprints.submit.action-flow.cancel'}}
+                    @confirmButtonText={{t 'general.ok'}}
+                />
+            </div>
+        {{else}}
+            <div local-class='desktop-button-container'>
+                <DeleteButton
+                    data-test-cancel-button
+                    class='btn-destroy'
+                    local-class='btn'
+                    @buttonLayout='large'
+                    @noBackground={{true}}
+                    @delete={{perform @manager.onCancel}}
+                    @modalTitle={{t 'preprints.submit.action-flow.cancel-modal-title'}}
+                    @modalBody={{t 'preprints.submit.action-flow.cancel-modal-body'}}
+                    @buttonLabel={{t 'preprints.submit.action-flow.cancel'}}
+                    @confirmButtonText={{t 'general.ok'}}
+                />
+            </div>
+        {{/if}}
+    {{/if}} --}}
     {{#if @manager.isWithdrawalButtonDisplayed}}
         <div local-class='{{if (is-mobile) 'mobile-button-container' 'desktop-button-container'}}'>
             <Preprints::-Components::Submit::PreprintStateMachine::ActionFlow::WithdrawalPreprint

@@ -39,6 +39,7 @@ Router.map(function() {
         this.route('submit', { path: '/:provider_id/submit' });
         this.route('edit', { path: '/:provider_id/edit/:guid' });
         this.route('select');
+        this.route('my-preprints');
     });
 
 

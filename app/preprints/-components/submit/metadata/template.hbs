@@ -16,9 +16,18 @@
                     @preprint={{@manager.preprint}}
                     @shouldShowAdd={{this.showAddContributorWidget}}
                     @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
-                    @widgetMode={{'editable'}}
+                    @widgetMode={{this.widgetMode}}
                     @displayPermissionWarning={{this.displayPermissionWarning}}
                 />
+            </div>
+
+            <div local-class='input-container'>
+                <Preprints::-Components::PreprintInstitutions::InstitutionManager
+                    @manager={{@manager}} as |institutionsManager|
+                >
+                    <Preprints::-Components::PreprintInstitutions::InstitutionSelectList
+                         @manager={{institutionsManager}} />
+                </Preprints::-Components::PreprintInstitutions::InstitutionManager>
             </div>
 
             <FormControls

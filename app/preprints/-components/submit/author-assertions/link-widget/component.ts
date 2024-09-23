@@ -10,6 +10,7 @@ import { tracked } from '@glimmer/tracking';
  */
 interface LinkWidgetArgs {
     update: (_: string[]) => {};
+    disabled: boolean;
     links: string[];
 }
 

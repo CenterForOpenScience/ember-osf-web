@@ -11,10 +11,11 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import FileModel from 'ember-osf-web/models/file';
 import Toast from 'ember-toastr/services/toast';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import { taskFor } from 'ember-concurrency-ts';
+import InstitutionModel from 'ember-osf-web/models/institution';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -58,6 +59,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     displayAuthorAssertions = false;
     @tracked statusFlowIndex = 1;
     @tracked isEditFlow = false;
+    affiliatedInstitutions = [] as InstitutionModel[];
 
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
@@ -98,7 +100,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             }
         }
 
-        this.isWithdrawalButtonDisplayed = this.preprint.currentUserPermissions.includes(Permission.Admin) &&
+        this.isWithdrawalButtonDisplayed = this.isAdmin() &&
         (this.preprint.reviewsState === ReviewsState.ACCEPTED ||
         this.preprint.reviewsState === ReviewsState.PENDING) && !isWithdrawalRejected;
 
@@ -122,6 +124,16 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         await this.preprint.deleteRecord();
         await this.router.transitionTo('preprints.discover', this.provider.id);
     }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @task
+    @waitFor
+    public async onCancel(): Promise<void> {
+        await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
+    }
+
 
     /**
      * Callback for the action-flow component
@@ -201,15 +213,18 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @waitFor
     public async onSubmit(): Promise<void> {
         this.args.resetPageDirty();
-        if (this.provider.reviewsWorkflow) {
-            const reviewAction = this.store.createRecord('review-action', {
-                actionTrigger: 'submit',
-                target: this.preprint,
-            });
-            await reviewAction.save();
-        } else {
-            this.preprint.isPublished = true;
-            await this.preprint.save();
+        if (!this.isEditFlow) {
+            if (this.provider.reviewsWorkflow) {
+                const reviewAction = this.store.createRecord('review-action', {
+                    actionTrigger: 'submit',
+                    target: this.preprint,
+                });
+                await reviewAction.save();
+            } else {
+                this.preprint.isPublished = true;
+                await this.preprint.save();
+            }
+
         }
 
         await this.preprint.reload();
@@ -250,6 +265,23 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.metadataValidation
         ) {
             await this.saveOnStep();
+
+            if (this.preprint.currentUserPermissions.includes(Permission.Write)) {
+                try {
+                    await this.preprint.updateM2MRelationship(
+                        'affiliatedInstitutions',
+                        this.affiliatedInstitutions,
+                    );
+                    await this.preprint.reload();
+                } catch (e) {
+                    // eslint-disable-next-line max-len
+                    const errorMessage = this.intl.t('preprints.submit.step-metadata.institutions.save-institutions-error');
+                    captureException(e, { errorMessage });
+                    this.toast.error(getApiErrorMessage(e), errorMessage);
+                    throw e;
+                }
+            }
+
             if (this.displayAuthorAssertions) {
                 this.isNextButtonDisabled = !this.authorAssertionValidation;
             } else {
@@ -620,5 +652,37 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         const rootFolder = await theFiles.firstObject!.rootFolder;
         const primaryFile = await rootFolder!.files;
         this.preprint.set('primaryFile', primaryFile.lastObject);
+    }
+
+    @action
+    public updateAffiliatedInstitution(institution: InstitutionModel): void {
+        if (this.isInstitutionAffiliated(institution.id)) {
+            this.affiliatedInstitutions.removeObject(institution);
+        } else {
+            this.affiliatedInstitutions.addObject(institution);
+        }
+    }
+
+    private isInstitutionAffiliated(id: string): boolean {
+        return this.affiliatedInstitutions.find(
+            institution => institution.id === id,
+        ) !== undefined;
+    }
+
+    @action
+    public resetAffiliatedInstitutions(): void {
+        this.affiliatedInstitutions.length = 0;
+    }
+
+    public isAdmin(): boolean {
+        return this.preprint.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    public isElementDisabled(): boolean {
+        return !this.isAdmin();
+    }
+
+    public isAffiliatedInstitutionsDisabled(): boolean {
+        return !this.preprint.currentUserPermissions.includes(Permission.Write);
     }
 }
