@@ -1,0 +1,55 @@
+<IndexCardSearcher
+    @queryOptions={{@defaultQueryOptions}}
+    @sort={{this.sort}}
+    @page={{this.page}}
+as |list|>
+    <Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{@institution}} as |wrapper|>
+        <wrapper.main local-class='main-column'>
+            {{#if list.searchObjectsTask.isRunning}}
+                <LoadingIndicator @dark={{true}} />
+            {{else}}
+                <table data-test-object-list-table local-class='object-table'>
+                    <thead local-class='object-table-head'>
+                        <tr>
+                            {{#each @columns as |column|}}
+                                <th local-class='object-table-header'>
+                                    {{column.name}}
+                                </th>
+                            {{/each}}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {{#each list.searchResults as |result|}}
+                            <tr>
+                                {{#each @columns as |column|}}
+                                    <td>
+                                        {{#if (eq column.type 'link')}}
+                                            <OsfLink
+                                                @href={{call (fn column.getHref result)}}
+                                                @target='_blank'
+                                            >
+                                                {{call (fn column.getLinkText result)}}
+                                            </OsfLink>
+                                        {{else if (eq column.type 'doi')}}
+                                            <Institutions::Dashboard::-Components::ObjectList::DoiField
+                                                @searchResult={{result}}
+                                            />
+                                        {{else if (eq column.type 'contributors')}}
+                                            <Institutions::Dashboard::-Components::ObjectList::ContributorsField
+                                                @searchResult={{result}}
+                                                @institution={{@institution}}
+                                            />
+                                        {{else}}
+                                            {{call (fn column.getValue result)}}
+                                        {{/if}}
+                                    </td>
+                                {{/each}}
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+        </wrapper.main>
+    </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
+</IndexCardSearcher>

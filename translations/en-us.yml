@@ -827,6 +827,22 @@ institutions:
             projects: 'OSF Public and Private Projects'
             registrations: 'OSF Registrations'
             preprints: 'OSF Preprints'
+        object_list:
+            table_headers:
+                title: Title
+                link: Link
+                object_type: Type
+                created_date: 'Created Date'
+                modified_date: 'Modified Date'
+                # is_public: 'Is Public' # Not currently used
+                doi: DOI
+                storage_location: 'Storage Location'
+                total_data_stored: 'Total Data Stored on OSF'
+                contributor_name: 'Contributor Name'
+                contributor_permissions: 'Contributor Permissions'
+                view_count: Views (last 30 days)
+                download_count: Downloads (last 30 days)
+                has_metadata: 'Has Metadata'
         projects_panel: 'Total Projects'
         departments_panel: Departments
         public: Public

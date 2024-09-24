@@ -20,6 +20,17 @@ export interface TextMatchEvidence {
     osfmapPropertyPath: string[];
 }
 
+export const CardLabelTranslationKeys = {
+    project: 'osf-components.search-result-card.project',
+    project_component: 'osf-components.search-result-card.project_component',
+    registration: 'osf-components.search-result-card.registration',
+    registration_component: 'osf-components.search-result-card.registration_component',
+    preprint: 'osf-components.search-result-card.preprint',
+    file: 'osf-components.search-result-card.file',
+    user: 'osf-components.search-result-card.user',
+    unknown: 'osf-components.search-result-card.unknown',
+};
+
 export default class SearchResultModel extends Model {
     @service intl!: IntlService;
 
@@ -75,7 +86,6 @@ export default class SearchResultModel extends Model {
 
     // returns list of affilated institutions for users
     // returns list of contributors for osf objects
-    // returns list of affiliated institutions for osf users
     get affiliatedEntities() {
         if (this.resourceType === 'user') {
             if (this.resourceMetadata.affiliation) {
@@ -242,6 +252,10 @@ export default class SearchResultModel extends Model {
         return 'unknown';
     }
 
+    get intlResourceType() {
+        return this.intl.t(CardLabelTranslationKeys[this.resourceType]);
+    }
+
     get orcids() {
         if (this.resourceMetadata.identifier) {
             const orcids = this.resourceMetadata.identifier.filter(
@@ -282,6 +296,10 @@ export default class SearchResultModel extends Model {
 
     get isWithdrawn() {
         return this.resourceMetadata.dateWithdrawn || this.resourceMetadata['https://osf.io/vocab/2022/withdrawal'];
+    }
+
+    getResourceMetadataField(field: string) {
+        return this.resourceMetadata[field]?.[0]?.['@value'];
     }
 }
 
