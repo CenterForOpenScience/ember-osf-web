@@ -1,5 +1,5 @@
 <IndexCardSearcher
-    @queryOptions={{@defaultQueryOptions}}
+    @queryOptions={{this.queryOptions}}
     @sort={{this.sort}}
     @page={{this.page}}
 as |list|>
@@ -51,5 +51,45 @@ as |list|>
                 </table>
             {{/if}}
         </wrapper.main>
+        {{#if list.relatedProperties}}
+            <wrapper.right local-class='left-wrapper'>
+                {{#if this.activeFilters}}
+                    <ul
+                        data-test-active-filters-list
+                        local-class='active-filter-list'
+                    >
+                        {{#each this.activeFilters as |filter|}}
+                            <li
+                                data-test-active-filter='{{filter.propertyVisibleLabel}}-{{filter.value}}'
+                                local-class='active-filter-item'
+                            >
+                                <span>
+                                    {{filter.propertyVisibleLabel}}:
+                                    {{filter.label}}
+                                </span>
+                                <Button
+                                    data-analytics-name='remove filter'
+                                    data-test-remove-active-filter='{{filter.propertyVisibleLabel}}-{{filter.label}}'
+                                    aria-label={{t 'search.active-filters.remove-filter' property=filter.propertyVisibleLabel label=filter.label}}
+                                    @layout='fake-link'
+                                    {{on 'click' (queue (fn this.toggleFilter filter) (perform list.searchObjectsTask))}}
+                                >
+                                    <FaIcon @icon='times' />
+                                </Button>
+                            </li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+
+                {{#each list.relatedProperties as |property|}}
+                    <SearchPage::FilterFacet
+                        @cardSearchText={{this.cardSearchText}}
+                        @cardSearchFilter={{this.queryOptions}}
+                        @property={{property}}
+                        @toggleFilter={{queue this.toggleFilter (perform list.searchObjectsTask)}}
+                    />
+                {{/each}}
+            </wrapper.right>
+        {{/if}}
     </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
 </IndexCardSearcher>
