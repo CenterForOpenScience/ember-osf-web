@@ -1,12 +1,34 @@
-.main-column {
-    width: 100%;
-    height: 100%;
+@import 'app/styles/layout';
+
+.top-bar-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.total-object-count {
+    align-self: center;
+    font-size: large;
+    
+    .total-object-number {
+        font-weight: bold;
+    }
+}
+
+.top-bar-button-wrapper {
+    button {
+        margin-left: 0.5rem;
+    }
+}
+
+.table-wrapper {
     overflow: auto;
 }
 
 .object-table {
     border-collapse: collapse;
-
+    
     th,
     td {
         padding: 10px 15px;
@@ -23,4 +45,35 @@
 .object-table-head {
     background: $color-bg-gray-blue-dark;
     color: $color-text-white;
+}
+
+.right-wrapper {
+    min-width: 300px;
+    padding: 0.5rem;
+}
+
+.right-panel-header {
+    font-size: 1.5rem;
+}
+
+.close-button {
+    float: right;
+}
+
+.active-filter-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+    border-top: 1px solid $color-border-gray;
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.active-filter-item {
+    display: flex;
+    margin: 0.5rem 0.2rem;
+    justify-content: space-between;
+    
+    button {
+        margin-right: -5px;
+    }
 }

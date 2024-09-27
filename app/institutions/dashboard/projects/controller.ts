@@ -10,57 +10,57 @@ export default class InstitutionDashboardProjects extends Controller {
 
     columns: ObjectListColumn[] = [
         { // Title
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.title'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.title'),
             getValue: searchResult => searchResult.displayTitle,
         },
         { // Link
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.link'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.link'),
             type: 'link',
             getHref: searchResult => searchResult.indexCard.get('osfIdentifier'),
             getLinkText: searchResult => searchResult.indexCard.get('osfGuid'),
         },
         { // Object type
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.object_type'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.object_type'),
             getValue: searchResult => searchResult.intlResourceType,
         },
         { // Date created
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.created_date'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.created_date'),
             getValue : searchResult => searchResult.getResourceMetadataField('dateCreated'),
         },
         { // Date modified
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.modified_date'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.modified_date'),
             getValue : searchResult => searchResult.getResourceMetadataField('dateModified'),
         },
         { // DOI
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.doi'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.doi'),
             type: 'doi',
         },
         { // Storage location
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.storage_location'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.storage_location'),
             // TODO: Update when OsfMap representation is available
             getValue: searchResult => searchResult.storageLocation,
         },
         { // Total data stored
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.total_data_stored'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.total_data_stored'),
             // TODO: Update when OsfMap representation is available
             getValue: searchResult => searchResult.totalDataStored,
         },
         { // Contributor name + permissions
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.contributor_name'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
             type: 'contributors',
         },
         { // View count
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.view_count'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
             // TODO: Update when OsfMap representation is available
             getValue: searchResult => searchResult.viewCount,
         },
         { // Download count
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.download_count'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.download_count'),
             // TODO: Update when OsfMap representation is available
             getValue: searchResult => searchResult.downloadCount,
         },
         { // Has metadata
-            name: this.intl.t('institutions.dashboard.object_list.table_headers.has_metadata'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.has_metadata'),
             // TODO: Update when OsfMap representation is available
             getValue: searchResult => searchResult.hasMetadata,
         },

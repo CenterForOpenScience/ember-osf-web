@@ -29,6 +29,7 @@ interface InstitutionalObjectListArgs {
     institution: InstitutionModel;
     defaultQueryOptions: Record<'cardSearchFilter', Record<string, string[]>>;
     columns: ObjectListColumn[];
+    objectType: string;
 }
 
 export default class InstitutionalObjectList extends Component<InstitutionalObjectListArgs> {
