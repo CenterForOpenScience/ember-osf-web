@@ -26,11 +26,22 @@ as |list|>
                     <table data-test-object-list-table local-class='object-table'>
                         <thead local-class='object-table-head'>
                             <tr>
-                                {{#each @columns as |column|}}
-                                    <th local-class='object-table-header'>
-                                        {{column.name}}
-                                    </th>
-                                {{/each}}
+                                {{#let (component 'sort-arrow'
+                                    sort=this.sort
+                                    ) as |SortArrow|
+                                }}
+                                    {{#each @columns as |column|}}
+                                        <th local-class='object-table-header'>
+                                            {{column.name}}
+                                            {{#if column.sortKey}}
+                                                <SortArrow
+                                                    @sortBy={{column.sortKey}}
+                                                    @sortAction={{queue (fn this.updateSortKey column.sortKey) (perform list.searchObjectsTask)}}
+                                                />
+                                            {{/if}}
+                                        </th>
+                                    {{/each}}
+                                {{/let}}
                             </tr>
                         </thead>
 
@@ -64,6 +75,21 @@ as |list|>
                             {{/each}}
                         </tbody>
                     </table>
+                    {{#if list.showFirstPageOption}}
+                        <Button {{on 'click' (queue (fn this.updatePage list.firtPageCursor) (perform list.searchObjectsTask))}}>
+                            {{t 'institutions.dashboard.object-list.first'}}
+                        </Button>
+                    {{/if}}
+                    {{#if list.hasPrevPage}}
+                        <Button {{on 'click' (queue (fn this.updatePage list.prevPageCursor) (perform list.searchObjectsTask))}}>
+                            {{t 'institutions.dashboard.object-list.prev'}}
+                        </Button>
+                    {{/if}}
+                    {{#if list.hasNextPage}}
+                        <Button {{on 'click' (queue (fn this.updatePage list.nextPageCursor) (perform list.searchObjectsTask))}}>
+                            {{t 'institutions.dashboard.object-list.next'}}
+                        </Button>
+                    {{/if}}
                 </div>
             {{/if}}
         </wrapper.main>
