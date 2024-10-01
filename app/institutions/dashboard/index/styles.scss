@@ -6,4 +6,48 @@
     padding-top: 12px;
     background-color: $color-bg-gray;
     width: 100%;
+
+    .kpi-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        width: 100%;
+        height: 140px;
+    }
+
+    .chart-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        width: 100%;
+        min-height: 290px;
+        height: fit-content;
+    }
 }
+
+
+// Example to be used later
+// .parent {
+//     display: grid;
+//     grid-template-columns: 1fr;
+//   }
+  
+//   .parent div {
+//    padding: 50px;
+//    background-color: rgba(0,0,0,0.5);
+//    grid-row-start: 1;
+//    grid-column-start: 1;
+//   }
+
+//   <div class="parent">
+//   <div class="child1">
+//   1
+//   </div>
+//   <div class="child2">
+//   2
+//   </div>
+// </div>
