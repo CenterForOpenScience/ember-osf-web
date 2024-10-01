@@ -2,27 +2,20 @@
     @institution={{this.model.institution}} as |wrapper|
 >
     <wrapper.main local-class='main-container'>
-        <Institutions::Dashboard::-Components::TotalCountKpiWrapper
-        @model={{this.model}}
-        />
-        {{!-- <div local-class='panel-wrapper' data-analytics-scope='Summary tab'>
-            <Institutions::Dashboard::-Components::Panel
-                @title={{t 'institutions.dashboard.projects_panel'}}
-            >
-                <Institutions::Dashboard::-Components::ProjectsPanel
-                    @summaryMetrics={{this.model.summaryMetrics}}
-                />
-            </Institutions::Dashboard::-Components::Panel>
+        <div local-class='kpi-container'>
+            <Institutions::Dashboard::-Components::TotalCountKpiWrapper
+            @model={{this.model}}
+            />
         </div>
-        <div local-class='panel-wrapper' data-analytics-scope='Summary tab'>
-            <Institutions::Dashboard::-Components::Panel
-                @title={{t 'institutions.dashboard.departments_panel'}}
-            >
-                <Institutions::Dashboard::-Components::DepartmentsPanel
-                    @topDepartments={{this.model.departmentMetrics}}
-                    @totalUsers={{this.model.totalUsers}}
-                />
-            </Institutions::Dashboard::-Components::Panel>
-        </div> --}}
+        <div local-class='chart-container'>
+            <Institutions::Dashboard::-Components::DoughnutChartKpiWrapper
+            @model={{this.model}}
+            />
+        </div>
+        <div local-class='chart-container'>
+            <Institutions::Dashboard::-Components::DoughnutChartKpiWrapper
+            @model={{this.model}}
+            />
+        </div>
     </wrapper.main>
 </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
