@@ -18,7 +18,7 @@ interface TotalCountKpiModel {
     chart: string;
 }
 
-export default class DoughnutChartKpiWrapperComponent extends Component<TotalCountKpiWrapperArgs> {
+export default class ChartKpiWrapperComponent extends Component<TotalCountKpiWrapperArgs> {
     @service intl!: Intl;
     @tracked model = this.args.model;
     @tracked totalCountKpis = [] as TotalCountKpiModel[];
