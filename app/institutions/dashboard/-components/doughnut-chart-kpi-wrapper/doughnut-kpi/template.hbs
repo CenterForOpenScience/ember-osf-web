@@ -8,7 +8,7 @@
             local-class='ember-chart'
         >
             <EmberChart
-                @type='doughnut'
+                @type={{@data.chart}}
                 @data={{this.chartData}}
                 @options={{this.chartOptions}}
             />

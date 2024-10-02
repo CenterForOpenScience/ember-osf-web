@@ -8,6 +8,7 @@
     height: fit-content;
     margin-left: 12px;
     margin-right: 12px;
+    margin-bottom: 12px;
 
     .loading {
         display: flex;
@@ -21,5 +22,7 @@
     &.mobile {
         flex-direction: column;
         height: fit-content;
+        align-items: center;
+        margin-bottom: 0;
     }
 }
