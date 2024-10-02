@@ -2,6 +2,7 @@ declare module 'ember-cli-chart' {
     interface DataSet {
         data?: number[];
         backgroundColor?: string[];
+        fill?: boolean;
     }
 
     export interface ChartData {
@@ -15,6 +16,20 @@ declare module 'ember-cli-chart' {
             display?: boolean,
         };
         onHover?: (_: MouseEvent, shapes: Shape[]) => void;
+        scales?: {
+            xAxes?: [
+                {
+                    display?: boolean
+                }
+
+            ],
+            yAxes?: [
+                {
+                    display?: boolean
+                }
+
+            ]
+        }
     }
 
     export interface Shape {
