@@ -2,35 +2,48 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
+import { ChartData, ChartOptions } from 'ember-cli-chart';
 import Intl from 'ember-intl/services/intl';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 
-export default class DoughnutKpi extends Component {
+interface DataModel {
+    name: string;
+    count: number;
+    color: string;
+}
+
+export default class ChartKpi extends Component {
     @service intl!: Intl;
 
     @tracked collapsed = true;
+    @tracked expandedData = [] as DataModel[];
     topDepartments!: InstitutionDepartmentsModel[];
     totalUsers!: number;
 
     chartHoverIndex = 0;
 
-    get chartOptions(): ChartOptions {
+    /**
+     * chartOptions
+     *
+     * @description A getter for the chartjs options
+     *
+     * @returns a ChartOptions model which is custom to COS
+     */
+    get chartOptions(): ChartOptions{
         return {
             aspectRatio: 1,
             legend: {
                 display: false,
             },
-            onHover: this.onChartHover,
+            scales: {
+                xAxes: [{
+                    display: false,
+                }],
+                yAxes: [{
+                    display: false,
+                }],
+            },
         };
-    }
-
-    @action
-    onChartHover(_: MouseEvent, shapes: Shape[]) {
-        if (shapes.length === 0 || this.chartHoverIndex === shapes[0]._index) {
-            return;
-        }
-        this.set('chartHoverIndex', shapes[0]._index);
     }
 
     @computed('topDepartments', 'totalUsers')
@@ -42,7 +55,31 @@ export default class DoughnutKpi extends Component {
         return [...departments, { name: this.intl.t('general.other'), numberOfUsers: otherDepartmentNumber }];
     }
 
-    @computed('chartHoverIndex', 'displayDepartments.[]')
+    /**
+     * getColor
+     *
+     * @description Gets a specific color using a modulus
+     *
+     * @param index The index to retrieve
+     *
+     * @returns the color
+     */
+    private getColor(index: number): string {
+        const backgroundColors = [
+            '#00D1FF',
+            '#009CEF',
+            '#0063EF',
+            '#00568D',
+            '#004673',
+            '#00375A',
+            '#263947',
+        ];
+
+        return backgroundColors[index % backgroundColors.length];
+
+    }
+
+    @computed('chartHoverIndex', 'displayDepartments.[]', 'expandedData.[]')
     get chartData(): ChartData {
         /*
         const backgroundColors = this.displayDepartments.map((_, i) => {
@@ -56,23 +93,45 @@ export default class DoughnutKpi extends Component {
         const displayDepartmentNumbers = this.displayDepartments.map(({ numberOfUsers }) => numberOfUsers);
         */
 
-        const backgroundColors = [
-            '#00D1FF',
-            '#009CEF',
-            '#0063EF',
-            '#00568D',
-            '#004673',
-            '#00375A',
-            '#263947',
+        const backgroundColors = [] as string[];
+
+        const displayDepartmentNames = ['a very long data set title that needs to be handled', 'b', 'c',
+            'd', 'e', 'brian', 'g', 'repeated color'];
+        const displayDepartmentNumbers = [100000, 50000,
+            25000,
+            10000,
+            5000,
+            500,
+            50,
+            5,
         ];
 
-        const displayDepartmentNames = ['a', 'b', 'c'];
-        const displayDepartmentNumbers = [1, 2, 3];
+        displayDepartmentNames.map((departmentName: string, $index: number) => {
+            backgroundColors.push(this.getColor($index));
+
+            this.expandedData.push({
+                name: departmentName ,
+                count: displayDepartmentNumbers[$index],
+                color: this.getColor($index),
+            });
+        });
 
         return {
-            labels: displayDepartmentNames,
+            // labels: displayDepartmentNames,
+            labels: ['a',
+                'b',
+                'b',
+                'b',
+                'b',
+                'b',
+                'b',
+                'b',
+                'b',
+
+            ],
             datasets: [{
                 data: displayDepartmentNumbers,
+                fill: false,
                 backgroundColor: backgroundColors,
             }],
         };
@@ -94,7 +153,7 @@ export default class DoughnutKpi extends Component {
 
 
     @action
-    toggleFacet() {
+    public toggleExpandedData() {
         this.collapsed = !this.collapsed;
     }
 }

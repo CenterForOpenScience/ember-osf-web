@@ -24,29 +24,28 @@
                     @layout='fake-link'
                     local-class='facet-expand-button'
                     aria-expanded={{not this.collapsed}}
-                    {{on 'click' this.toggleFacet}}
+                    {{on 'click' this.toggleExpandedData}}
                 >
                     <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
                 </Button>
             </div>
         </div>
-        <div local-class='data-container'>
-            <ul
-                local-class='facet-list {{if this.collapsed 'collapsed'}}'
-            >
-                <li
-                    local-class='facet-value'
-                >
-                    <span local-class='facet-color'>
-                        {{@data.icon}}
-                    </span>
-                    <span local-class='facet-link'>
-                        {{@data.title}}
-                    </span>
-                    <span local-class='facet-count'>
-                        {{@data.total}}
-                    </span>
-                </li>
+        <div local-class='expanded-data-container {{if this.collapsed 'collapsed'}}'>
+            <ul local-class='data-list'>
+                {{#each this.expandedData as |data|}}
+                    <li
+                        local-class='data-container'
+                    >
+                        <div local-class='color' style={{html-safe (concat 'background-color:' data.color )}}>
+                        </div>
+                        <div local-class='name'>
+                            {{data.name}}
+                        </div>
+                        <div local-class='count'>
+                            {{data.count}}
+                        </div>
+                    </li>
+                {{/each}}
             </ul>
         </div>
     </div>

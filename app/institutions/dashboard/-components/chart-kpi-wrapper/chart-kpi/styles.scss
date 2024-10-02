@@ -68,38 +68,45 @@
             }
         }
         
-        .data-container {
+        .expanded-data-container {
             width: 100%;
+            border-top: 2px solid $color-bg-gray;
+            padding-top: 10px;
 
-            .facet-list {
+            &.collapsed {
+                border-top: 0;
+                display: none;
+            }
+
+            .data-list {
                 list-style: none;
-                max-height: 300px;
-                overflow-y: auto;
                 margin: 0;
                 padding: 0.2rem;
                 width: 100%;
 
-                &.collapsed {
-                    display: none;
-                }
-
-                .facet-value {
+                .data-container {
                     display: flex;
+                    flex-direction: row;
                     justify-content: flex-start;
                     align-items: center;
-                    margin: 10px 0;
+                    width: 282px;
 
-                    .facet-link {
+                    .name {
                         margin: 0 5px;
-                        width: 80%;
+                        width: calc(282px - 100px);
                         text-overflow: ellipsis;
                         white-space: nowrap;
                         overflow: hidden;
                     }
 
-                    .facet-color,
-                    .facet-count {
-                        flex-shrink: 0;
+                    .color {
+                        width: 20px;
+                        height: 20px;
+                    }
+
+                    .count {
+                        width: 80px;
+                        text-align: right;
                     }
                 }
             }
