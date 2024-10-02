@@ -1,7 +1,7 @@
 <Institutions::Dashboard::-Components::InstitutionalDashboardWrapper 
     @institution={{this.model.institution}} as |wrapper|
 >
-    <wrapper.main local-class='main-container'>
+    <wrapper.main local-class='main-container {{if (is-mobile) 'mobile'}}'>
         <div local-class='kpi-container'>
             <Institutions::Dashboard::-Components::TotalCountKpiWrapper
             @model={{this.model}}
@@ -11,8 +11,6 @@
             <Institutions::Dashboard::-Components::DoughnutChartKpiWrapper
             @model={{this.model}}
             />
-        </div>
-        <div local-class='chart-container'>
             <Institutions::Dashboard::-Components::DoughnutChartKpiWrapper
             @model={{this.model}}
             />

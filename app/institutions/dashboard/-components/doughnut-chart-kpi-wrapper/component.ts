@@ -15,6 +15,7 @@ interface TotalCountKpiModel {
     title: string;
     total: number;
     icon: string;
+    chart: string;
 }
 
 export default class DoughnutChartKpiWrapperComponent extends Component<TotalCountKpiWrapperArgs> {
@@ -51,21 +52,25 @@ export default class DoughnutChartKpiWrapperComponent extends Component<TotalCou
                 title: this.intl.t('institutions.dashboard.panel.users'),
                 total: metrics.summaryMetrics.userCount,
                 icon: 'building',
+                chart: 'doughnut',
             },
             {
                 title: this.intl.t('institutions.dashboard.panel.projects'),
                 total: this.calculateProjects(metrics.summaryMetrics),
                 icon: 'atom',
+                chart: 'pie',
             },
             {
                 title: this.intl.t('institutions.dashboard.panel.registrations'),
                 total: metrics.summaryMetrics.publicRegistrationCount,
                 icon: 'flag',
+                chart: 'bar',
             },
             {
                 title: this.intl.t('institutions.dashboard.panel.preprints'),
                 total: metrics.summaryMetrics.preprintCount,
                 icon: 'file-alt',
+                chart: 'line',
             },
         );
 

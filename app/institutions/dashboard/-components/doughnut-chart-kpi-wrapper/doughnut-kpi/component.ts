@@ -61,7 +61,6 @@ export default class DoughnutKpi extends Component {
             '#009CEF',
             '#0063EF',
             '#00568D',
-            '#00568D',
             '#004673',
             '#00375A',
             '#263947',
