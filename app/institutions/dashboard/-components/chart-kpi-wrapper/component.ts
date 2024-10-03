@@ -7,24 +7,23 @@ import Intl from 'ember-intl/services/intl';
 import { inject as service } from '@ember/service';
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 
-interface TotalCountKpiWrapperArgs {
+interface TotalCountChartWrapperArgs {
     model: any;
 }
 
-interface TotalCountKpiModel {
+interface TotalCountChartModel {
     title: string;
     total: number;
-    icon: string;
     chart: string;
 }
 
-export default class ChartKpiWrapperComponent extends Component<TotalCountKpiWrapperArgs> {
+export default class ChartKpiWrapperComponent extends Component<TotalCountChartWrapperArgs> {
     @service intl!: Intl;
     @tracked model = this.args.model;
-    @tracked totalCountKpis = [] as TotalCountKpiModel[];
+    @tracked totalCountCharts = [] as TotalCountChartModel[];
     @tracked isLoading = true;
 
-    constructor(owner: unknown, args: TotalCountKpiWrapperArgs) {
+    constructor(owner: unknown, args: TotalCountChartWrapperArgs) {
         super(owner, args);
 
         taskFor(this.loadData).perform();
@@ -47,29 +46,25 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountKpiWra
     private async loadData(): Promise<void> {
         const metrics = await this.model;
 
-        this.totalCountKpis.push(
+        this.totalCountCharts.push(
             {
                 title: this.intl.t('institutions.dashboard.panel.users'),
                 total: metrics.summaryMetrics.userCount,
-                icon: 'building',
                 chart: 'doughnut',
             },
             {
                 title: this.intl.t('institutions.dashboard.panel.projects'),
                 total: this.calculateProjects(metrics.summaryMetrics),
-                icon: 'atom',
                 chart: 'pie',
             },
             {
                 title: this.intl.t('institutions.dashboard.panel.registrations'),
                 total: metrics.summaryMetrics.publicRegistrationCount,
-                icon: 'flag',
                 chart: 'bar',
             },
             {
                 title: this.intl.t('institutions.dashboard.panel.preprints'),
                 total: metrics.summaryMetrics.preprintCount,
-                icon: 'file-alt',
                 chart: 'line',
             },
         );

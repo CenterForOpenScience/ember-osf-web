@@ -6,7 +6,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
-module('Integration | institutions | dashboard | -components | total-count-kpi-wrapper', hooks => {
+module('Integration | institutions | dashboard | -components | total-count-chart-wrapper', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
     setupIntl(hooks);
@@ -25,56 +25,48 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
         this.set('model', model);
     });
 
-    test('it renders the dashboard total kpis correctly', async assert => {
+    test('it renders the dashboard total charts correctly', async assert => {
         // Given the component is rendered
         await render(hbs`
-<Institutions::Dashboard::-Components::TotalCountKpiWrapper
+<Institutions::Dashboard::-Components::ChartKpiWrapper
 @model={{this.model}}
 />
 `);
 
-        // Then the first total kpi is tested
-        assert.dom('[data-test-total-count-kpi="0"]')
-            .exists('The User Widget exists');
+        // Then the first total chart is tested
+        assert.dom('[data-test-total-count-chart="0"]')
+            .exists('The User Chart exists');
 
-        assert.dom('[data-test-total-count-kpi="0"]')
-            .hasText('10 Total Users');
+        assert.dom('[data-test-total-count-chart="0"]')
+            // eslint-disable-next-line max-len
+            .hasText('Total Users a very long data set title that needs to be handled 100000 b 50000 c 25000 d 10000 e 5000 brian 500 g 50 repeated color 5');
 
-        assert.dom('[data-test-total-count-kpi="0"] [data-test-kpi-icon]')
-            .hasAttribute('data-icon', 'building');
-
-        // And the second total kpi is tested
-        assert.dom('[data-test-total-count-kpi="1"]')
+        // And the second total chart is tested
+        assert.dom('[data-test-total-count-chart="1"]')
             .exists('The Project Widget exists');
 
-        assert.dom('[data-test-total-count-kpi="1"]')
-            .hasText('20 OSF Public and Private Projects');
+        assert.dom('[data-test-total-count-chart="1"]')
+            // eslint-disable-next-line max-len
+            .hasText('OSF Public and Private Projects a very long data set title that needs to be handled 100000 b 50000 c 25000 d 10000 e 5000 brian 500 g 50 repeated color 5');
 
-        assert.dom('[data-test-total-count-kpi="1"] [data-test-kpi-icon]')
-            .hasAttribute('data-icon', 'atom');
-
-        // And the third total kpi is tested
-        assert.dom('[data-test-total-count-kpi="2"]')
+        // And the third total chart is tested
+        assert.dom('[data-test-total-count-chart="2"]')
             .exists('The Registration Widget exists');
 
-        assert.dom('[data-test-total-count-kpi="2"]')
-            .hasText('100 OSF Registrations');
+        assert.dom('[data-test-total-count-chart="2"]')
+            // eslint-disable-next-line max-len
+            .hasText('OSF Registrations a very long data set title that needs to be handled 100000 b 50000 c 25000 d 10000 e 5000 brian 500 g 50 repeated color 5');
 
-        assert.dom('[data-test-total-count-kpi="2"] [data-test-kpi-icon]')
-            .hasAttribute('data-icon', 'flag');
-
-        // And the fourth total kpi is tested
-        assert.dom('[data-test-total-count-kpi="3"]')
+        // And the fourth total chart is tested
+        assert.dom('[data-test-total-count-chart="3"]')
             .exists('The Preprint Widget exists');
 
-        assert.dom('[data-test-total-count-kpi="3"]')
-            .hasText('1000 OSF Preprints');
-
-        assert.dom('[data-test-total-count-kpi="3"] [data-test-kpi-icon]')
-            .hasAttribute('data-icon', 'file-alt');
+        assert.dom('[data-test-total-count-chart="3"]')
+            // eslint-disable-next-line max-len
+            .hasText('OSF Preprints a very long data set title that needs to be handled 100000 b 50000 c 25000 d 10000 e 5000 brian 500 g 50 repeated color 5');
 
         // Finally there are only 4 widgets
-        assert.dom('[data-test-total-count-kpi="4"]')
+        assert.dom('[data-test-total-count-chart="4"]')
             .doesNotExist('There are only 4 widgets');
     });
 });
