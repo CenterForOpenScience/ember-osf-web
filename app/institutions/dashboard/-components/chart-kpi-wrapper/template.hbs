@@ -1,13 +1,13 @@
 <div local-class='wrapper-container {{if (is-mobile) 'mobile'}}'>
     {{#if this.isLoading}}
-        <div local-class='loading' data-test-kpi-wrapper-loading>
-            <LoadingIndicator data-test-loading-indicator-total-count-kpi-wrapper @dark={{true}} />
+        <div local-class='loading' data-test-chart-wrapper-loading>
+            <LoadingIndicator data-test-loading-indicator-total-count-chart-wrapper @dark={{true}} />
         </div>
     {{else}}
-        {{#each this.totalCountKpis as |totalCountKpi index|}}
+        {{#each this.totalCountCharts as |totalCountChart index|}}
             <Institutions::Dashboard::-Components::ChartKpiWrapper::ChartKpi
-                data-test-total-count-kpi={{index}}
-                @data={{totalCountKpi}}
+                data-test-total-count-chart={{index}}
+                @data={{totalCountChart}}
             />
         {{/each}}
     {{/if}}
