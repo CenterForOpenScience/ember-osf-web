@@ -16,37 +16,45 @@
     </div>
     <div local-class='bottom-container'>
         <div local-class='title-container'>
-            <div data-test-kpi-title local-class='title'>{{@data.title}}</div>
+            <div data-test-chart-title local-class='title'>{{@data.title}}</div>
             <div local-class='button-container'>
                 <Button
-                    data-analytics-name='Toggle boolean filters'
-                    data-test-filter-boolean-filters
+                    data-analytics-name='Expand additional data'
+                    data-test-expand-additional-data
                     @layout='fake-link'
-                    local-class='facet-expand-button'
-                    aria-expanded={{not this.collapsed}}
+                    aria-expanded={{this.expanded}}
                     {{on 'click' this.toggleExpandedData}}
                 >
-                    <FaIcon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
+                    <FaIcon data-test-toggle-icon @icon={{if this.expanded 'caret-up' 'caret-down'}} />
                 </Button>
             </div>
         </div>
-        <div local-class='expanded-data-container {{if this.collapsed 'collapsed'}}'>
-            <ul local-class='data-list'>
-                {{#each this.expandedData as |data|}}
-                    <li
-                        local-class='data-container'
-                    >
-                        <div local-class='color' style={{html-safe (concat 'background-color:' data.color )}}>
-                        </div>
-                        <div local-class='name'>
-                            {{data.name}}
-                        </div>
-                        <div local-class='count'>
-                            {{data.count}}
-                        </div>
-                    </li>
-                {{/each}}
-            </ul>
-        </div>
+        {{#if this.expanded }}
+            <div local-class='expanded-data-container'>
+                <ul local-class='data-list' data-test-expansion-data>
+                    {{#each this.expandedData as |data index |}}
+                        <li
+                            local-class='data-container'
+                        >
+                            <div
+                                local-class='color'
+                                data-test-expanded-color='{{index}}'
+                                style={{html-safe (concat 'background-color:' data.color )}}>
+                            </div>
+                            <div local-class='name'
+                                data-test-expanded-name='{{index}}'
+                            >
+                                {{data.name}}
+                            </div>
+                            <div local-class='total'
+                                data-test-expanded-total='{{index}}'
+                            >
+                                {{data.total}}
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
     </div>
 </div>
