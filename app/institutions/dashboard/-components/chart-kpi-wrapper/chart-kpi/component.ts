@@ -1,4 +1,4 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -6,16 +6,22 @@ import { ChartData, ChartOptions } from 'ember-cli-chart';
 import Intl from 'ember-intl/services/intl';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 
+interface KPIChartWrapperArgs {
+    title: string;
+    total: number;
+    chart: string;
+}
+
 interface DataModel {
     name: string;
-    count: number;
+    total: number;
     color: string;
 }
 
-export default class ChartKpi extends Component {
+export default class ChartKpi extends Component<KPIChartWrapperArgs> {
     @service intl!: Intl;
 
-    @tracked collapsed = true;
+    @tracked expanded = false;
     @tracked expandedData = [] as DataModel[];
     topDepartments!: InstitutionDepartmentsModel[];
     totalUsers!: number;
@@ -111,7 +117,7 @@ export default class ChartKpi extends Component {
 
             this.expandedData.push({
                 name: departmentName ,
-                count: displayDepartmentNumbers[$index],
+                total: displayDepartmentNumbers[$index],
                 color: this.getColor($index),
             });
         });
@@ -154,6 +160,6 @@ export default class ChartKpi extends Component {
 
     @action
     public toggleExpandedData() {
-        this.collapsed = !this.collapsed;
+        this.expanded = !this.expanded;
     }
 }
