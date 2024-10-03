@@ -39,7 +39,7 @@ module('Integration | institutions | dashboard | -components | total-count-chart
 
         assert.dom('[data-test-total-count-chart="0"]')
             // eslint-disable-next-line max-len
-            .hasText('Total Users a very long data set title that needs to be handled 100000 b 50000 c 25000 d 10000 e 5000 brian 500 g 50 repeated color 5');
+            .hasText('Total Users');
 
         // And the second total chart is tested
         assert.dom('[data-test-total-count-chart="1"]')
@@ -47,7 +47,7 @@ module('Integration | institutions | dashboard | -components | total-count-chart
 
         assert.dom('[data-test-total-count-chart="1"]')
             // eslint-disable-next-line max-len
-            .hasText('OSF Public and Private Projects a very long data set title that needs to be handled 100000 b 50000 c 25000 d 10000 e 5000 brian 500 g 50 repeated color 5');
+            .hasText('OSF Public and Private Projects');
 
         // And the third total chart is tested
         assert.dom('[data-test-total-count-chart="2"]')
@@ -55,7 +55,7 @@ module('Integration | institutions | dashboard | -components | total-count-chart
 
         assert.dom('[data-test-total-count-chart="2"]')
             // eslint-disable-next-line max-len
-            .hasText('OSF Registrations a very long data set title that needs to be handled 100000 b 50000 c 25000 d 10000 e 5000 brian 500 g 50 repeated color 5');
+            .hasText('OSF Registrations');
 
         // And the fourth total chart is tested
         assert.dom('[data-test-total-count-chart="3"]')
@@ -63,7 +63,7 @@ module('Integration | institutions | dashboard | -components | total-count-chart
 
         assert.dom('[data-test-total-count-chart="3"]')
             // eslint-disable-next-line max-len
-            .hasText('OSF Preprints a very long data set title that needs to be handled 100000 b 50000 c 25000 d 10000 e 5000 brian 500 g 50 repeated color 5');
+            .hasText('OSF Preprints');
 
         // Finally there are only 4 widgets
         assert.dom('[data-test-total-count-chart="4"]')
