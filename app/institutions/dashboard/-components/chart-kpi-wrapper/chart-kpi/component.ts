@@ -1,15 +1,14 @@
 import Component from '@glimmer/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { ChartData, ChartOptions } from 'ember-cli-chart';
 import Intl from 'ember-intl/services/intl';
-import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
+// eslint-disable-next-line max-len
+import { ChartDataModel, KpiChartModel } from 'ember-osf-web/institutions/dashboard/-components/chart-kpi-wrapper/component';
 
 interface KPIChartWrapperArgs {
-    title: string;
-    total: number;
-    chart: string;
+    data: KpiChartModel;
 }
 
 interface DataModel {
@@ -23,10 +22,6 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
 
     @tracked expanded = false;
     @tracked expandedData = [] as DataModel[];
-    topDepartments!: InstitutionDepartmentsModel[];
-    totalUsers!: number;
-
-    chartHoverIndex = 0;
 
     /**
      * chartOptions
@@ -35,7 +30,7 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
      *
      * @returns a ChartOptions model which is custom to COS
      */
-    get chartOptions(): ChartOptions{
+    get chartOptions(): ChartOptions {
         return {
             aspectRatio: 1,
             legend: {
@@ -50,15 +45,6 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
                 }],
             },
         };
-    }
-
-    @computed('topDepartments', 'totalUsers')
-    get displayDepartments() {
-        const departments = this.topDepartments.map(({ name, numberOfUsers }) => ({ name, numberOfUsers }));
-        const departmentNumbers = this.topDepartments.map(x => x.numberOfUsers);
-        const otherDepartmentNumber = this.totalUsers - departmentNumbers.reduce((a, b) => a + b);
-
-        return [...departments, { name: this.intl.t('general.other'), numberOfUsers: otherDepartmentNumber }];
     }
 
     /**
@@ -82,81 +68,42 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
         ];
 
         return backgroundColors[index % backgroundColors.length];
-
     }
 
-    @computed('chartHoverIndex', 'displayDepartments.[]', 'expandedData.[]')
+    /**
+     * chartData
+     *
+     * @description Transforms the standard chart data into data the charts can display
+     *
+     * @returns void
+     */
     get chartData(): ChartData {
-        /*
-        const backgroundColors = this.displayDepartments.map((_, i) => {
-            if (i === this.chartHoverIndex) {
-                return '#15a5eb';
-            }
-            return '#a5b3bd';
-        });
-
-        const displayDepartmentNames = this.displayDepartments.map(({ name }) => name);
-        const displayDepartmentNumbers = this.displayDepartments.map(({ numberOfUsers }) => numberOfUsers);
-        */
-
         const backgroundColors = [] as string[];
+        const data = [] as number[];
+        const labels =  [] as string[];
 
-        const displayDepartmentNames = ['a very long data set title that needs to be handled', 'b', 'c',
-            'd', 'e', 'brian', 'g', 'repeated color'];
-        const displayDepartmentNumbers = [100000, 50000,
-            25000,
-            10000,
-            5000,
-            500,
-            50,
-            5,
-        ];
-
-        displayDepartmentNames.map((departmentName: string, $index: number) => {
+        this.args.data.chartData.map((chartData: ChartDataModel, $index: number) => {
             backgroundColors.push(this.getColor($index));
 
+            data.push(chartData.total);
+            labels.push(chartData.label);
+
             this.expandedData.push({
-                name: departmentName ,
-                total: displayDepartmentNumbers[$index],
+                name: chartData.label,
+                total: chartData.total,
                 color: this.getColor($index),
             });
         });
 
         return {
-            // labels: displayDepartmentNames,
-            labels: ['a',
-                'b',
-                'b',
-                'b',
-                'b',
-                'b',
-                'b',
-                'b',
-                'b',
-
-            ],
+            labels,
             datasets: [{
-                data: displayDepartmentNumbers,
+                data,
                 fill: false,
                 backgroundColor: backgroundColors,
             }],
         };
     }
-
-    /*
-    @computed('chartHoverIndex', 'displayDepartments.[]')
-    get activeDepartment(): Department {
-        return this.displayDepartments[this.chartHoverIndex];
-    }
-
-    @computed('activeDepartment.numberOfUsers', 'displayDepartments')
-    get activeDepartmentPercentage(): string {
-        const numUsersArray = this.displayDepartments.map(({ numberOfUsers }) => numberOfUsers);
-        const count = numUsersArray.reduce((a, b) => a + b);
-        return ((this.activeDepartment.numberOfUsers / count) * 100).toFixed(2);
-    }
-    */
-
 
     @action
     public toggleExpandedData() {
