@@ -1,55 +1,123 @@
 <IndexCardSearcher
-    @queryOptions={{@defaultQueryOptions}}
+    @queryOptions={{this.queryOptions}}
     @sort={{this.sort}}
     @page={{this.page}}
 as |list|>
     <Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{@institution}} as |wrapper|>
-        <wrapper.main local-class='main-column'>
+        <wrapper.main local-class='main-column' as |main|>
             {{#if list.searchObjectsTask.isRunning}}
                 <LoadingIndicator @dark={{true}} />
             {{else}}
-                <table data-test-object-list-table local-class='object-table'>
-                    <thead local-class='object-table-head'>
-                        <tr>
-                            {{#each @columns as |column|}}
-                                <th local-class='object-table-header'>
-                                    {{column.name}}
-                                </th>
-                            {{/each}}
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {{#each list.searchResults as |result|}}
+                <div local-class='top-bar-wrapper'>
+                    <span local-class='total-object-count'>
+                        <span local-class='total-object-number'>{{list.totalResultCount}}</span>
+                        {{t 'institutions.dashboard.object-list.total-objects' objectType=@objectType}}
+                    </span>
+                    <div local-class='top-bar-button-wrapper'>
+                        <Button
+                            {{on 'click' main.toggleMetadata}}
+                        >
+                            <FaIcon @icon='filter' />
+                            {{t 'institutions.dashboard.object-list.filter-button-label'}}
+                        </Button>
+                    </div>
+                </div>
+                <div local-class='table-wrapper'>
+                    <table data-test-object-list-table local-class='object-table'>
+                        <thead local-class='object-table-head'>
                             <tr>
                                 {{#each @columns as |column|}}
-                                    <td>
-                                        {{#if (eq column.type 'link')}}
-                                            <OsfLink
-                                                @href={{call (fn column.getHref result)}}
-                                                @target='_blank'
-                                            >
-                                                {{call (fn column.getLinkText result)}}
-                                            </OsfLink>
-                                        {{else if (eq column.type 'doi')}}
-                                            <Institutions::Dashboard::-Components::ObjectList::DoiField
-                                                @searchResult={{result}}
-                                            />
-                                        {{else if (eq column.type 'contributors')}}
-                                            <Institutions::Dashboard::-Components::ObjectList::ContributorsField
-                                                @searchResult={{result}}
-                                                @institution={{@institution}}
-                                            />
-                                        {{else}}
-                                            {{call (fn column.getValue result)}}
-                                        {{/if}}
-                                    </td>
+                                    <th local-class='object-table-header'>
+                                        {{column.name}}
+                                    </th>
                                 {{/each}}
                             </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {{#each list.searchResults as |result|}}
+                                <tr>
+                                    {{#each @columns as |column|}}
+                                        <td>
+                                            {{#if (eq column.type 'link')}}
+                                                <OsfLink
+                                                    @href={{call (fn column.getHref result)}}
+                                                    @target='_blank'
+                                                >
+                                                    {{call (fn column.getLinkText result)}}
+                                                </OsfLink>
+                                            {{else if (eq column.type 'doi')}}
+                                                <Institutions::Dashboard::-Components::ObjectList::DoiField
+                                                    @searchResult={{result}}
+                                                />
+                                            {{else if (eq column.type 'contributors')}}
+                                                <Institutions::Dashboard::-Components::ObjectList::ContributorsField
+                                                    @searchResult={{result}}
+                                                    @institution={{@institution}}
+                                                />
+                                            {{else}}
+                                                {{call (fn column.getValue result)}}
+                                            {{/if}}
+                                        </td>
+                                    {{/each}}
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
             {{/if}}
         </wrapper.main>
+        {{#if list.relatedProperties}}
+            <wrapper.right local-class='right-wrapper' as |right|>
+                <span local-class='right-panel-header'>
+                    {{t 'institutions.dashboard.object-list.filter-heading'}}
+                </span>
+                <Button
+                    aria-label={{t 'general.close'}}
+                    @layout='fake-link'
+                    @size='large'
+                    local-class='close-button'
+                    {{on 'click' right.toggleMetadata}}
+                >
+                    <FaIcon @icon='times' />
+                </Button>
+                {{#if this.activeFilters}}
+                    <ul
+                        data-test-active-filters-list
+                        local-class='active-filter-list'
+                    >
+                        {{#each this.activeFilters as |filter|}}
+                            <li
+                                data-test-active-filter='{{filter.propertyVisibleLabel}}-{{filter.value}}'
+                                local-class='active-filter-item'
+                            >
+                                <span>
+                                    {{filter.propertyVisibleLabel}}:
+                                    {{filter.label}}
+                                </span>
+                                <Button
+                                    data-analytics-name='remove filter'
+                                    data-test-remove-active-filter='{{filter.propertyVisibleLabel}}-{{filter.label}}'
+                                    aria-label={{t 'search.active-filters.remove-filter' property=filter.propertyVisibleLabel label=filter.label}}
+                                    @layout='fake-link'
+                                    {{on 'click' (queue (fn this.toggleFilter filter) (perform list.searchObjectsTask))}}
+                                >
+                                    <FaIcon @icon='times' />
+                                </Button>
+                            </li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+
+                {{#each list.relatedProperties as |property|}}
+                    <SearchPage::FilterFacet
+                        @cardSearchText={{this.cardSearchText}}
+                        @cardSearchFilter={{this.queryOptions}}
+                        @property={{property}}
+                        @toggleFilter={{queue this.toggleFilter (perform list.searchObjectsTask)}}
+                    />
+                {{/each}}
+            </wrapper.right>
+        {{/if}}
     </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
 </IndexCardSearcher>

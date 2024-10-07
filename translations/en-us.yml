@@ -798,6 +798,10 @@ institutions:
             projects: Projects
             registrations: Registrations
             preprints: Preprints
+        object-type-word:
+            projects: projects
+            registrations: registrations
+            preprints: preprints
         content-placeholder: Content coming soon # Delete this eventually pls
         title: '{institutionName} Dashboard'
         download_past_reports_label: 'Previous reports'
@@ -827,14 +831,16 @@ institutions:
             projects: 'OSF Public and Private Projects'
             registrations: 'OSF Registrations'
             preprints: 'OSF Preprints'
-        object_list:
-            table_headers:
+        object-list:
+            filter-button-label: 'Filter'
+            filter-heading: 'Filter by:'
+            total-objects: 'total {objectType}'
+            table-headers:
                 title: Title
                 link: Link
                 object_type: Type
                 created_date: 'Created Date'
                 modified_date: 'Modified Date'
-                # is_public: 'Is Public' # Not currently used
                 doi: DOI
                 storage_location: 'Storage Location'
                 total_data_stored: 'Total Data Stored on OSF'

@@ -62,7 +62,7 @@ export default class IndexCardSearcher extends Component<IndexCardSearcherArgs> 
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
-            this.totalResultCount = searchResult.totalResults;
+            this.totalResultCount = searchResult.totalResultCount;
 
             return searchResult;
         } catch (error) {

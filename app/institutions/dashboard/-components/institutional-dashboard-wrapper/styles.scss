@@ -5,6 +5,18 @@
     display: flex;
     flex-direction: row;
     flex-grow: 1;
+
+    > div {
+        // override OsfLayout styles for forcing drawer mode
+        max-width: none;
+        position: inherit;
+    }
+
+    > :global(.media-mobile),
+    > :global(.media-tablet) {
+        // allow drawer to be hidden offscreen
+        position: relative;
+    }
 }
 
 .heading-wrapper {

@@ -562,7 +562,7 @@ export function valueSearch(_: Schema, __: Request) {
                 id: property1Id,
                 attributes: {
                     resourceType: 'osf:Funder',
-                    resourceIdentifier: 'http://dx.doi.org/10.10000/505000005050',
+                    resourceIdentifier: ['http://dx.doi.org/10.10000/505000005050'],
                     resourceMetadata: {
                         '@id': 'http://dx.doi.org/10.10000/505000005050',
                         '@type': 'datacite:Funder',
@@ -575,7 +575,7 @@ export function valueSearch(_: Schema, __: Request) {
                 id: property2Id,
                 attributes: {
                     resourceType: 'osf:Funder',
-                    resourceIdentifier: 'https://doi.org/10.10000/100000001',
+                    resourceIdentifier: ['https://doi.org/10.10000/100000001'],
                     resourceMetadata: {
                         '@id': 'http://dx.doi.org/10.10000/100000001',
                         '@type': 'datacite:Funder',
