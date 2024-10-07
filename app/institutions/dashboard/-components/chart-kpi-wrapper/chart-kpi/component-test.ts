@@ -13,9 +13,14 @@ module('Integration | institutions | dashboard | -components | chart-kpi', hooks
 
     hooks.beforeEach(function(this: TestContext) {
         const data = Object({
-            total: 200,
             title: 'This is the title',
-            chart: 'pie',
+            chartData: [
+                Object({
+                    label: 'a very long data set title that needs to be handled',
+                    total: 100000,
+                }),
+            ],
+            chartType: 'pie',
         });
 
         this.set('data', data);

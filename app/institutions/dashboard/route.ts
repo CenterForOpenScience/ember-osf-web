@@ -27,6 +27,7 @@ export default class InstitutionsDashboardRoute extends Route {
                 },
             });
             const departmentMetrics = await institution.queryHasMany('departmentMetrics');
+
             const summaryMetrics = await institution.summaryMetrics;
             const userMetricInfo: QueryHasManyResult<never> = await institution.queryHasMany(
                 'userMetrics',

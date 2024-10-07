@@ -48,22 +48,22 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
 
         this.totalCountKpis.push(
             {
-                title: this.intl.t('institutions.dashboard.panel.users'),
+                title: this.intl.t('institutions.dashboard.kpi-panel.users'),
                 total: metrics.summaryMetrics.userCount,
                 icon: 'users',
             },
             {
-                title: this.intl.t('institutions.dashboard.panel.projects'),
+                title: this.intl.t('institutions.dashboard.kpi-panel.projects'),
                 total: this.calculateProjects(metrics.summaryMetrics),
                 icon: 'flask',
             },
             {
-                title: this.intl.t('institutions.dashboard.panel.registrations'),
+                title: this.intl.t('institutions.dashboard.kpi-panel.registrations'),
                 total: metrics.summaryMetrics.publicRegistrationCount,
                 icon: 'archive',
             },
             {
-                title: this.intl.t('institutions.dashboard.panel.preprints'),
+                title: this.intl.t('institutions.dashboard.kpi-panel.preprints'),
                 total: metrics.summaryMetrics.preprintCount,
                 icon: 'file-alt',
             },

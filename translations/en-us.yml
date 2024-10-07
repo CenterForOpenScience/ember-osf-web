@@ -822,9 +822,17 @@ institutions:
             has_orcid: 'Has ORCID'
             select_columns: 'Customize'
             total_users: 'total users'
-        panel:
+        kpi-panel:
             users: 'Total Users'
             projects: 'OSF Public and Private Projects'
+            registrations: 'OSF Registrations'
+            preprints: 'OSF Preprints'
+        kpi-chart:
+            users-by-department: 'Total Users by Department'
+            public-vs-private-projects:
+                title: 'Public vs Private Projects'
+                public: 'Public Projects' 
+                private: 'Private Projects' 
             registrations: 'OSF Registrations'
             preprints: 'OSF Preprints'
         object_list:
