@@ -845,9 +845,8 @@ institutions:
                 private: 'Private Registrations' 
             total-osf-objects:
                 title: 'Total OSF Objects'
-                public: 'Public Registrations' 
-                private: 'Private Registrations' 
-            preprints: 'OSF Preprints'
+                preprints: 'Preprints' 
+            licenses: 'Licenses'
         object-list:
             filter-button-label: 'Filter'
             filter-heading: 'Filter by:'
