@@ -61,21 +61,12 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
                 chartData: this.calculateProjects(metrics.summaryMetrics),
                 chartType: 'pie',
             },
-            /*
             {
-                title: this.intl.t('institutions.dashboard.panel.registrations'),
-                chartData: [
-                    {
-                        label: 'a',
-                        total: metrics.summaryMetrics.userCount,
-                    } as ChartDataModel,
-                    {
-                        label: 'a',
-                        total: metrics.summaryMetrics.userCount,
-                    } as ChartDataModel,
-                ],
+                title: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-registrations.title'),
+                chartData: this.calculateRegistrations(metrics.summaryMetrics),
                 chartType: 'bar',
             },
+            /*
             {
                 title: this.intl.t('institutions.dashboard.panel.preprints'),
                 chartData: [
@@ -116,6 +107,27 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             );
         });
         return departmentData;
+    }
+
+    /**
+     * calculateRegistrations
+     *
+     * @description Abstracted method to calculate the private and public registrations
+     * @param summaryMetrics The institutional summary metrics object
+     *
+     * @returns The total of private and public registrations
+     */
+    private calculateRegistrations(summaryMetrics: InstitutionSummaryMetricModel): ChartDataModel[] {
+        return [
+            {
+                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-registrations.public'),
+                total: summaryMetrics.publicRegistrationCount,
+            } as ChartDataModel,
+            {
+                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-registrations.private'),
+                total: summaryMetrics.embargoedRegistrationCount,
+            } as ChartDataModel,
+        ];
     }
 
     /**
