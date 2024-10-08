@@ -1,4 +1,4 @@
-import { click, pauseTest, render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl } from 'ember-intl/test-support';
@@ -48,9 +48,6 @@ module('Integration | institutions | dashboard | -components | chart-kpi', hooks
         // Finally the expanded data is not visible
         assert.dom('[data-test-expansion-data]')
             .hasStyle({display: 'none'});
-        // eslint-disable-next-line ember/no-pause-test
-        await pauseTest();
-
     });
 
     test('it renders the expanded data correctly', async assert => {
