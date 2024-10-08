@@ -847,6 +847,8 @@ institutions:
                 title: 'Total OSF Objects'
                 preprints: 'Preprints' 
             licenses: 'Licenses'
+            add-ons: 'Add-ons'
+            storage-regions: 'Storage Regions'
         object-list:
             filter-button-label: 'Filter'
             filter-heading: 'Filter by:'
