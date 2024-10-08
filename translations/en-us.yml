@@ -839,7 +839,10 @@ institutions:
                 title: 'Public vs Private Projects'
                 public: 'Public Projects' 
                 private: 'Private Projects' 
-            registrations: 'OSF Registrations'
+            public-vs-private-registrations:
+                title: 'Public vs Private Registrations'
+                public: 'Public Registrations' 
+                private: 'Private Registrations' 
             preprints: 'OSF Preprints'
         object-list:
             filter-button-label: 'Filter'
