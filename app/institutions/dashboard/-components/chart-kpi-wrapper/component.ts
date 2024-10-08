@@ -71,6 +71,11 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
                 chartData: this.calculateOSFObjects(metrics.summaryMetrics),
                 chartType: 'line',
             },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-chart.licenses'),
+                chartData: this.calculateLicenses(metrics.departmentMetrics),
+                chartType: 'radar',
+            },
         );
 
         this.isLoading = false;
@@ -79,7 +84,7 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
     /**
      * calculateUserByDepartments
      *
-     * @description Abstracted method to build the ChartData model for deparments
+     * @description Abstracted method to build the ChartData model for departments
      * @param departmentMetrics The department metrics object
      *
      * @returns The users by department ChartData model
@@ -129,16 +134,18 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
      * @returns The total OSF objects
      */
     private calculateOSFObjects(summaryMetrics: InstitutionSummaryMetricModel): ChartDataModel[] {
-        return [
+        let chartData = [
             {
-                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-projects.public'),
-                total: summaryMetrics.publicProjectCount,
-            } as ChartDataModel,
-            {
-                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-projects.private'),
-                total: summaryMetrics.privateProjectCount,
+                label: this.intl.t('institutions.dashboard.kpi-chart.total-osf-objects.preprints'),
+                total: summaryMetrics.preprintCount,
             } as ChartDataModel,
         ];
+
+        chartData = chartData.concat(this.calculateProjects(summaryMetrics));
+
+        chartData = chartData.concat(this.calculateRegistrations(summaryMetrics));
+
+        return chartData;
     }
 
     /**
@@ -160,6 +167,28 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
                 total: summaryMetrics.privateProjectCount,
             } as ChartDataModel,
         ];
+    }
+
+    /**
+     * calculateLicenses
+     *
+     * @description Abstracted method to build the ChartData model for licenses
+     * @param licenseMetrics The license metrics object
+     *
+     * @returns The users by department ChartData model
+     */
+    private calculateLicenses(licenseMetrics: InstitutionDepartmentModel[]): ChartDataModel[] {
+        const licenseData = [] as ChartDataModel[];
+
+        licenseMetrics.forEach((metric: InstitutionDepartmentModel ) => {
+            licenseData.push(
+                {
+                    label: metric.name,
+                    total: metric.numberOfUsers,
+                } as ChartDataModel,
+            );
+        });
+        return licenseData;
     }
 }
 
