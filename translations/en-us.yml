@@ -832,6 +832,8 @@ institutions:
             registrations: 'OSF Registrations'
             preprints: 'OSF Preprints'
         kpi-chart:
+            open-expanded-data: 'Expand Additionnal Data'
+            close-expanded-data: 'Collapse Additionnal Data'
             users-by-department: 'Total Users by Department'
             public-vs-private-projects:
                 title: 'Public vs Private Projects'
