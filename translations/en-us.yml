@@ -849,6 +849,10 @@ institutions:
             licenses: 'Licenses'
             add-ons: 'Add-ons'
             storage-regions: 'Storage Regions'
+            public-vs-private-data-storage:
+                title: 'Public vs Private Data Storage'
+                public: 'Public Data Storage' 
+                private: 'Private Data Storage' 
         object-list:
             filter-button-label: 'Filter'
             filter-heading: 'Filter by:'

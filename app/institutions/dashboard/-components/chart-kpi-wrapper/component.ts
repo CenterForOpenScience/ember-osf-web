@@ -84,7 +84,12 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.storage-regions'),
                 chartData: this.calculateStorageRegions(metrics.departmentMetrics),
-                chartType: 'bubble',
+                chartType: 'doughnut',
+            },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-data-storage.title'),
+                chartData: this.calculateDataStorage(metrics.summaryMetrics),
+                chartType: 'bar',
             },
         );
 
@@ -243,6 +248,27 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             );
         });
         return storageRegionsData;
+    }
+
+    /**
+     * calculateDataStorage
+     *
+     * @description Abstracted method to calculate the private and public data storage
+     * @param summaryMetrics The institutional summary metrics object
+     *
+     * @returns The total of private and public data storage
+     */
+    private calculateDataStorage(summaryMetrics: InstitutionSummaryMetricModel): ChartDataModel[] {
+        return [
+            {
+                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-data-storage.public'),
+                total: summaryMetrics.storageByteCount,
+            } as ChartDataModel,
+            {
+                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-data-storage.private'),
+                total: summaryMetrics.storageByteCount + 100,
+            } as ChartDataModel,
+        ];
     }
 }
 

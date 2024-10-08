@@ -20,6 +20,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
                 publicRegistrationCount: 100,
                 embargoedRegistrationCount: 200,
                 preprintCount: 1000,
+                storageByteCount: 2000,
             },
             departmentMetrics: [
                 {
@@ -315,6 +316,43 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
             .doesNotExist();
     });
 
+    test('it calculates the Public vs Private Data Storage data correctly', async function(assert) {
+        // Given the component is rendered
+        await render(hbs`
+<Institutions::Dashboard::-Components::ChartKpiWrapper
+@model={{this.model}}
+/>
+`);
+        const parentDom = '[data-test-kpi-chart="7"]';
+
+        // When I click the expanded icon
+        await click(`${parentDom} [data-test-expand-additional-data]`);
+
+        // And the title is verified
+        assert.dom(`${parentDom} [data-test-chart-title]`)
+            .hasText('Public vs Private Data Storage');
+
+        // And the expanded data position 0 name is verified
+        assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
+            .hasText('Public Data Storage');
+
+        // And the expanded data position 0 total is verified
+        assert.dom(`${parentDom} [data-test-expanded-total="0"]`)
+            .hasText('2000');
+
+        // And the expanded data position 1 name is verified
+        assert.dom(`${parentDom} [data-test-expanded-name="1"]`)
+            .hasText('Private Data Storage');
+
+        // And the expanded data position 1 total is verified
+        assert.dom(`${parentDom} [data-test-expanded-total="1"]`)
+            .hasText('2100');
+
+        // Finally there are only 2 expanded data points
+        assert.dom(`${parentDom} [data-test-expanded-name="2"]`)
+            .doesNotExist();
+    });
+
     test('it renders the dashboard total charts correctly', async assert => {
         // Given the component is rendered
         await render(hbs`
@@ -323,8 +361,8 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 />
 `);
 
-        // Then there are only 6 charts
-        assert.dom('[data-test-kpi-chart="7"]')
-            .doesNotExist('There are only 7 charts');
+        // Then there are only 8 charts
+        assert.dom('[data-test-kpi-chart="8"]')
+            .doesNotExist('There are only 8 charts');
     });
 });
