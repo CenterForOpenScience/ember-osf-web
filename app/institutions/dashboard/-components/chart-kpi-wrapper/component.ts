@@ -66,22 +66,11 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
                 chartData: this.calculateRegistrations(metrics.summaryMetrics),
                 chartType: 'bar',
             },
-            /*
             {
-                title: this.intl.t('institutions.dashboard.panel.preprints'),
-                chartData: [
-                    {
-                        label: 'a',
-                        total: metrics.summaryMetrics.userCount,
-                    } as ChartDataModel,
-                    {
-                        label: 'a',
-                        total: metrics.summaryMetrics.userCount,
-                    } as ChartDataModel,
-                ],
+                title: this.intl.t('institutions.dashboard.kpi-chart.total-osf-objects.title'),
+                chartData: this.calculateOSFObjects(metrics.summaryMetrics),
                 chartType: 'line',
             },
-            */
         );
 
         this.isLoading = false;
@@ -126,6 +115,28 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             {
                 label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-registrations.private'),
                 total: summaryMetrics.embargoedRegistrationCount,
+            } as ChartDataModel,
+        ];
+    }
+
+    /**
+     * calculateOSFObjects
+     *
+     * @description Abstracted method to calculate the osf objects
+     *
+     * @param summaryMetrics The institutional summary metrics object
+     *
+     * @returns The total OSF objects
+     */
+    private calculateOSFObjects(summaryMetrics: InstitutionSummaryMetricModel): ChartDataModel[] {
+        return [
+            {
+                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-projects.public'),
+                total: summaryMetrics.publicProjectCount,
+            } as ChartDataModel,
+            {
+                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-projects.private'),
+                total: summaryMetrics.privateProjectCount,
             } as ChartDataModel,
         ];
     }
