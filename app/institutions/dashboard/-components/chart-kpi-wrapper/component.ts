@@ -76,6 +76,16 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
                 chartData: this.calculateLicenses(metrics.departmentMetrics),
                 chartType: 'radar',
             },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-chart.add-ons'),
+                chartData: this.calculateAddons(metrics.departmentMetrics),
+                chartType: 'polarArea',
+            },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-chart.storage-regions'),
+                chartData: this.calculateStorageRegions(metrics.departmentMetrics),
+                chartType: 'bubble',
+            },
         );
 
         this.isLoading = false;
@@ -175,7 +185,7 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
      * @description Abstracted method to build the ChartData model for licenses
      * @param licenseMetrics The license metrics object
      *
-     * @returns The users by department ChartData model
+     * @returns The licenses ChartData model
      */
     private calculateLicenses(licenseMetrics: InstitutionDepartmentModel[]): ChartDataModel[] {
         const licenseData = [] as ChartDataModel[];
@@ -189,6 +199,50 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             );
         });
         return licenseData;
+    }
+
+    /**
+     * calculateAddons
+     *
+     * @description Abstracted method to build the ChartData model for add-ons
+     * @param addonMetrics The add-on metrics object
+     *
+     * @returns The add-ons ChartData model
+     */
+    private calculateAddons(addonMetrics: InstitutionDepartmentModel[]): ChartDataModel[] {
+        const addonData = [] as ChartDataModel[];
+
+        addonMetrics.forEach((metric: InstitutionDepartmentModel ) => {
+            addonData.push(
+                {
+                    label: metric.name,
+                    total: metric.numberOfUsers,
+                } as ChartDataModel,
+            );
+        });
+        return addonData;
+    }
+
+    /**
+     * calculateStorageRegions
+     *
+     * @description Abstracted method to build the Storage Regions ChartData
+     * @param storageRegionsMetrics The storage regions metrics object
+     *
+     * @returns The storage regions ChartData model
+     */
+    private calculateStorageRegions(storageRegionsMetrics: InstitutionDepartmentModel[]): ChartDataModel[] {
+        const storageRegionsData = [] as ChartDataModel[];
+
+        storageRegionsMetrics.forEach((metric: InstitutionDepartmentModel ) => {
+            storageRegionsData.push(
+                {
+                    label: metric.name,
+                    total: metric.numberOfUsers,
+                } as ChartDataModel,
+            );
+        });
+        return storageRegionsData;
     }
 }
 
