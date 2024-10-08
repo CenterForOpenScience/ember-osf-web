@@ -107,7 +107,7 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
     private calculateUsersByDepartment(departmentMetrics: InstitutionDepartmentModel[]): ChartDataModel[] {
         const departmentData = [] as ChartDataModel[];
 
-        departmentMetrics.map((metric: InstitutionDepartmentModel ) => {
+        departmentMetrics.forEach((metric: InstitutionDepartmentModel ) => {
             departmentData.push(
                 {
                     label: metric.name,

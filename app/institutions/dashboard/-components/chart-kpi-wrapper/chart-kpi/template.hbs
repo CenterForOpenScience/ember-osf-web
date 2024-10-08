@@ -15,23 +15,32 @@
         </div>
     </div>
     <div local-class='bottom-container'>
-        <div local-class='title-container'>
-            <div data-test-chart-title local-class='title'>{{@data.title}}</div>
-            <div local-class='button-container'>
-                <Button
-                    data-analytics-name='Expand additional data'
-                    data-test-expand-additional-data
-                    @layout='fake-link'
-                    aria-expanded={{this.expanded}}
-                    {{on 'click' this.toggleExpandedData}}
-                >
-                    <FaIcon data-test-toggle-icon @icon={{if this.expanded 'caret-up' 'caret-down'}} />
-                </Button>
+        {{#let (unique-id 'expanded-data') as |expandedDataId|}}
+            <div local-class='title-container'>
+                <div data-test-chart-title local-class='title'>{{@data.title}}</div>
+                <div local-class='button-container'>
+                    <Button
+                        data-analytics-name='Expand additional data'
+                        data-test-expand-additional-data
+                        @layout='fake-link'
+                        aria-controls={{expandedDataId}}
+                        aria-expanded={{this.expanded}}
+                        aria-label={{if this.expanded
+                        (t 'institutions.dashboard.kpi-chart.close-expanded-data')
+                        (t 'institutions.dashboard.kpi-chart.open-expanded-data')
+                        }}
+                        {{on 'click' this.toggleExpandedData}}
+                    >
+                        <FaIcon data-test-toggle-icon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
+                    </Button>
+                </div>
             </div>
-        </div>
-        {{#if this.expanded }}
-            <div local-class='expanded-data-container'>
-                <ul local-class='data-list' data-test-expansion-data>
+            <div 
+                local-class='expanded-data-container {{if this.collapsed 'collapsed'}}'
+                data-test-expansion-data
+                id={{expandedDataId}}
+            >
+                <ul local-class='data-list'>
                     {{#each this.expandedData as |data index |}}
                         <li
                             local-class='data-container'
@@ -55,6 +64,6 @@
                     {{/each}}
                 </ul>
             </div>
-        {{/if}}
+        {{/let}}
     </div>
 </div>

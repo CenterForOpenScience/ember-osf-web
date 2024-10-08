@@ -20,7 +20,7 @@ interface DataModel {
 export default class ChartKpi extends Component<KPIChartWrapperArgs> {
     @service intl!: Intl;
 
-    @tracked expanded = false;
+    @tracked collapsed = true;
     @tracked expandedData = [] as DataModel[];
 
     /**
@@ -107,6 +107,6 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
 
     @action
     public toggleExpandedData() {
-        this.expanded = !this.expanded;
+        this.collapsed = !this.collapsed;
     }
 }

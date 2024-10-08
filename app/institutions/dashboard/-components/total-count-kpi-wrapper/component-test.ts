@@ -41,7 +41,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
             .hasText('10 Total Users');
 
         assert.dom('[data-test-total-count-kpi="0"] [data-test-kpi-icon]')
-            .hasAttribute('data-icon', 'building');
+            .hasAttribute('data-icon', 'users');
 
         // And the second total kpi is tested
         assert.dom('[data-test-total-count-kpi="1"]')
@@ -51,7 +51,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
             .hasText('20 OSF Public and Private Projects');
 
         assert.dom('[data-test-total-count-kpi="1"] [data-test-kpi-icon]')
-            .hasAttribute('data-icon', 'atom');
+            .hasAttribute('data-icon', 'flask');
 
         // And the third total kpi is tested
         assert.dom('[data-test-total-count-kpi="2"]')
@@ -61,7 +61,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
             .hasText('100 OSF Registrations');
 
         assert.dom('[data-test-total-count-kpi="2"] [data-test-kpi-icon]')
-            .hasAttribute('data-icon', 'flag');
+            .hasAttribute('data-icon', 'archive');
 
         // And the fourth total kpi is tested
         assert.dom('[data-test-total-count-kpi="3"]')

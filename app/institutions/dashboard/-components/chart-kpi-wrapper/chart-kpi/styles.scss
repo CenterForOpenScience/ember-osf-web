@@ -55,16 +55,6 @@
                 flex-direction: row;
                 justify-content: center;
                 align-items: center;
-
-                .facet-expand-button {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-
-                    &:active {
-                        box-shadow: none;
-                    }
-                }
             }
         }
         
@@ -74,6 +64,10 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
+
+            &.collapsed {
+                display: none;
+            }
 
             .data-list {
                 list-style: none;
