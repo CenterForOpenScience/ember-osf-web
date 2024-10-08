@@ -3,11 +3,13 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     width: calc(100% - 24px);
-    height: 145px;
+    min-height: 145px;
+    height: fit-content;
     margin-left: 12px;
     margin-right: 12px;
+    margin-bottom: 12px;
 
     .loading {
         display: flex;
