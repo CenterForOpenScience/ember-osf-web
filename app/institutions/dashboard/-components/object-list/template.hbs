@@ -31,14 +31,19 @@ as |list|>
                                     ) as |SortArrow|
                                 }}
                                     {{#each @columns as |column|}}
-                                        <th local-class='object-table-header'>
-                                            {{column.name}}
-                                            {{#if column.sortKey}}
-                                                <SortArrow
-                                                    @sortBy={{column.sortKey}}
-                                                    @sortAction={{queue (fn this.updateSortKey column.sortKey) (perform list.searchObjectsTask)}}
-                                                />
-                                            {{/if}}
+                                        <th
+                                            title={{column.name}}
+                                            local-class='object-table-header'
+                                        >
+                                            <span>
+                                                {{column.name}}
+                                                {{#if column.sortKey}}
+                                                    <SortArrow
+                                                        @sortBy={{column.sortKey}}
+                                                        @sortAction={{queue (fn this.updateSortKey column.sortKey) (perform list.searchObjectsTask)}}
+                                                    />
+                                                {{/if}}
+                                            </span>
                                         </th>
                                     {{/each}}
                                 {{/let}}
@@ -75,6 +80,8 @@ as |list|>
                             {{/each}}
                         </tbody>
                     </table>
+                </div>
+                <div local-class='bottom-bar-wrapper'>
                     {{#if list.showFirstPageOption}}
                         <Button {{on 'click' (queue (fn this.updatePage list.firtPageCursor) (perform list.searchObjectsTask))}}>
                             {{t 'institutions.dashboard.object-list.first'}}

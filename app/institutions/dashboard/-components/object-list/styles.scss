@@ -29,15 +29,23 @@
 .object-table {
     border-collapse: collapse;
     
-    th,
-    td {
+    th {
         padding: 10px 15px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+
+        span {
+            display: flex;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     }
 
     td {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 10px 15px;
+
         border: 1px solid $color-border-gray;
     }
 }
@@ -45,6 +53,16 @@
 .object-table-head {
     background: $color-bg-gray-blue-dark;
     color: $color-text-white;
+}
+
+.bottom-bar-wrapper {
+    display: flex;
+    justify-content: end;
+    margin: 1rem 0;
+
+    button {
+        margin-left: 0.5rem;
+    }
 }
 
 .right-wrapper {
