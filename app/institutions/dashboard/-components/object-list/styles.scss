@@ -10,16 +10,35 @@
 .total-object-count {
     align-self: center;
     font-size: large;
-    
+
     .total-object-number {
         font-weight: bold;
     }
 }
 
 .top-bar-button-wrapper {
+    display: flex;
+
     button {
-        margin-left: 0.5rem;
+        margin-right: 0.5rem;
     }
+}
+
+.customize-menu-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    border: 1px solid $color-border-gray;
+    width: 240px;
+
+    label {
+        text-wrap: nowrap;
+    }
+}
+
+.customize-menu-button-wrapper {
+    display: flex;
+    justify-content: end;
 }
 
 .table-wrapper {
@@ -94,4 +113,8 @@
     button {
         margin-right: -5px;
     }
+}
+
+.blue-text-button {
+    color: $color-link-dark;
 }

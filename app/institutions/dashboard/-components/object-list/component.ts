@@ -37,6 +37,8 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     @tracked activeFilters: Filter[] = [];
     @tracked page = '';
     @tracked sort = '-dateModified';
+    @tracked visibleColumns = this.args.columns.map(column => column.name);
+    @tracked dirtyVisibleColumns = [...this.visibleColumns]; // track changes to visible columns before they are saved
 
     get queryOptions() {
         const options = {
@@ -53,6 +55,25 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             return acc;
         }, options);
         return fullQueryOptions;
+    }
+
+    @action
+    updateVisibleColumns() {
+        this.visibleColumns = [...this.dirtyVisibleColumns];
+    }
+
+    @action
+    resetColumns() {
+        this.dirtyVisibleColumns = [...this.visibleColumns];
+    }
+
+    @action
+    toggleColumnVisibility(columnName: string) {
+        if (this.dirtyVisibleColumns.includes(columnName)) {
+            this.dirtyVisibleColumns.removeObject(columnName);
+        } else {
+            this.dirtyVisibleColumns.pushObject(columnName);
+        }
     }
 
     @action
