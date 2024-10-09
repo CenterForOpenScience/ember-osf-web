@@ -6,20 +6,21 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { Filter } from 'osf-components/components/search-page/component';
 
-interface ValueColumn {
+interface Column {
     name: string;
+    sortKey?: string;
+}
+interface ValueColumn extends Column {
     getValue(searchResult: SearchResultModel): string;
 }
 
-interface LinkColumn {
-    name: string;
+interface LinkColumn extends Column {
     getHref(searchResult: SearchResultModel): string;
     getLinkText(searchResult: SearchResultModel): string;
     type: 'link';
 }
 
-interface ComponentColumn {
-    name: string;
+interface ComponentColumn extends Column {
     type: 'doi' | 'contributors';
 }
 
@@ -34,14 +35,14 @@ interface InstitutionalObjectListArgs {
 
 export default class InstitutionalObjectList extends Component<InstitutionalObjectListArgs> {
     @tracked activeFilters: Filter[] = [];
-    @tracked page = ''; // TODO: ENG-6184 Implement pagination
-    @tracked sort = '-relevance'; // TODO: ENG-6184 Implement sorting
+    @tracked page = '';
+    @tracked sort = '-dateModified';
 
     get queryOptions() {
         const options = {
             ... this.args.defaultQueryOptions,
             'page[cursor]': this.page,
-            'page[size]': 10, // TODO: ENG-6184 Implement pagination
+            'page[size]': 10,
             sort: this.sort,
 
         };
@@ -61,5 +62,19 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         } else {
             this.activeFilters.pushObject(property);
         }
+    }
+
+    @action
+    updateSortKey(newSortKey: string) {
+        if (this.sort === newSortKey) {
+            this.sort = '-' + newSortKey;
+        } else {
+            this.sort = newSortKey;
+        }
+    }
+
+    @action
+    updatePage(newPage: string) {
+        this.page = newPage;
     }
 }

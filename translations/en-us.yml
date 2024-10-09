@@ -845,6 +845,9 @@ institutions:
             filter-button-label: 'Filter'
             filter-heading: 'Filter by:'
             total-objects: 'total {objectType}'
+            first: First
+            prev: Prev
+            next: Next
             table-headers:
                 title: Title
                 link: Link

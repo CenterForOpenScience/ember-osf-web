@@ -14,7 +14,7 @@ export default class SortArrow extends Component<SortArrowArgs> {
     }
 
     get isCurrentDescending() {
-        return this.args.sort === `-${this.sortBy}`;
+        return this.args.sort === `-${this.args.sortBy}`;
     }
 
     get isSelected() {
