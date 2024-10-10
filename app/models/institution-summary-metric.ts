@@ -1,4 +1,5 @@
 import { attr } from '@ember-data/model';
+import humanFileSize from 'ember-osf-web/utils/human-file-size';
 import OsfModel from './osf-model';
 
 export default class InstitutionSummaryMetricModel extends OsfModel {
@@ -13,6 +14,10 @@ export default class InstitutionSummaryMetricModel extends OsfModel {
     @attr('number') monthlyLoggedInUserCount!: number;
     @attr('number') monthlyActiveUserCount!: number;
 
+
+    get convertedStorageCount(): string {
+        return humanFileSize(this.storageByteCount);
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
