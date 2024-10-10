@@ -59,27 +59,27 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-projects.title'),
                 chartData: this.calculateProjects(metrics.summaryMetrics),
-                chartType: 'pie',
+                chartType: 'doughnut',
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-registrations.title'),
                 chartData: this.calculateRegistrations(metrics.summaryMetrics),
-                chartType: 'bar',
+                chartType: 'doughnut',
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.total-osf-objects.title'),
                 chartData: this.calculateOSFObjects(metrics.summaryMetrics),
-                chartType: 'line',
+                chartType: 'doughnut',
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.licenses'),
                 chartData: this.calculateLicenses(metrics.departmentMetrics),
-                chartType: 'radar',
+                chartType: 'bar',
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.add-ons'),
                 chartData: this.calculateAddons(metrics.departmentMetrics),
-                chartType: 'polarArea',
+                chartType: 'bar',
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.storage-regions'),
@@ -89,7 +89,7 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-data-storage.title'),
                 chartData: this.calculateDataStorage(metrics.summaryMetrics),
-                chartType: 'bar',
+                chartType: 'doughnut',
             },
         );
 
