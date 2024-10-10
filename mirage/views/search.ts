@@ -250,7 +250,7 @@ export function cardSearch(_: Schema, request: Request) {
                         ],
                     },
                 ],
-                totalResultCount: 3,
+                totalResultCount: 10,
             },
             relationships: {
                 relatedProperties: {

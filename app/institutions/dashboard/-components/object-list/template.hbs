@@ -9,12 +9,16 @@ as |list|>
                 <LoadingIndicator @dark={{true}} />
             {{else}}
                 <div local-class='top-bar-wrapper'>
-                    <span local-class='total-object-count'>
+                    <span
+                        data-test-object-count
+                        local-class='total-object-count'
+                    >
                         <span local-class='total-object-number'>{{list.totalResultCount}}</span>
                         {{t 'institutions.dashboard.object-list.total-objects' objectType=@objectType}}
                     </span>
                     <div local-class='top-bar-button-wrapper'>    
                         <Button
+                            data-test-toggle-filter-button
                             local-class='blue-text-button'
                             {{on 'click' main.toggleMetadata}}
                         >
@@ -26,7 +30,10 @@ as |list|>
                             @buttonStyling={{true}}
                             as |dd|
                         >
-                            <dd.trigger local-class='blue-text-button'>
+                            <dd.trigger
+                                data-test-customize-columns-button
+                                local-class='blue-text-button'
+                            >
                                 <FaIcon @icon='columns' />
                                 {{t 'institutions.dashboard.object-list.customize'}}
                             </dd.trigger>
@@ -34,6 +41,7 @@ as |list|>
                                 {{#each @columns as |column|}}
                                     <label local-class='visibility-toggle-label'>
                                         <Input
+                                            data-test-column-toggle-input={{column.name}}
                                             @type='checkbox'
                                             @checked={{includes column.name this.visibleColumns}}
                                             {{on 'change' (fn this.toggleColumnVisibility column.name)}}
@@ -43,11 +51,13 @@ as |list|>
                                 {{/each}}
                                 <div local-class='customize-menu-button-wrapper'>
                                     <Button
+                                        data-test-reset-columns-button
                                         {{on 'click' (queue this.resetColumns dd.close)}}
                                     >
                                         {{t 'general.reset'}}
                                     </Button>
                                     <Button
+                                        data-test-save-columns-button
                                         @type='primary'
                                         {{on 'click' (queue this.updateVisibleColumns dd.close)}}
                                     >
@@ -69,6 +79,7 @@ as |list|>
                                     {{#each @columns as |column|}}
                                         {{#if (includes column.name this.visibleColumns)}}
                                             <th
+                                                data-test-column-header={{column.name}}
                                                 title={{column.name}}
                                                 local-class='object-table-header'
                                             >
@@ -90,7 +101,7 @@ as |list|>
 
                         <tbody>
                             {{#each list.searchResults as |result|}}
-                                <tr>
+                                <tr data-test-object-table-body-row>
                                     {{#each @columns as |column|}}
                                         {{#if (includes column.name this.visibleColumns)}}
                                             <td>
