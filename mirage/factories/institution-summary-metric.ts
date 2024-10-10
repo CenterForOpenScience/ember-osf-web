@@ -14,7 +14,7 @@ export default Factory.extend<InstitutionSummaryMetricModel>({
         return faker.random.number({ min: 10, max: 50});
     },
     publicRegistrationCount() {
-        return faker.random.number({ min: 100, max: 1000 });
+        return faker.random.number({ min: 1000, max: 10000 });
     },
     embargoedRegistrationCount() {
         return faker.random.number({ min: 0, max: 25});

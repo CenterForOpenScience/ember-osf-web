@@ -831,6 +831,11 @@ institutions:
             projects: 'OSF Public and Private Projects'
             registrations: 'OSF Registrations'
             preprints: 'OSF Preprints'
+            storage: 'Total Storage'
+            file-count: 'Total Public File Count'
+            fileCount: 'Total Public File Count'
+            logged-in-users: 'Total Monthly Logged in Users'
+            active-users: 'Total Monthly Active Users'
         kpi-chart:
             open-expanded-data: 'Expand Additionnal Data'
             close-expanded-data: 'Collapse Additionnal Data'

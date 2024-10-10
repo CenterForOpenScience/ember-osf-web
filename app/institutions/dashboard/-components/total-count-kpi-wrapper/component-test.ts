@@ -14,11 +14,16 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
     hooks.beforeEach(function(this: TestContext) {
         const model = Object({
             summaryMetrics: {
-                userCount: 10,
-                privateProjectCount: 10,
                 publicProjectCount: 10,
+                privateProjectCount: 10,
+                userCount: 10,
                 publicRegistrationCount: 100,
                 preprintCount: 1000,
+                embargoedRegistrationCount: 200,
+                storageByteCount: 104593230,
+                publicFileCount: 1567,
+                monthlyLoggedInUserCount: 300,
+                monthlyActiveUserCount:40,
             },
         });
 
@@ -64,17 +69,62 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
             .hasAttribute('data-icon', 'archive');
 
         // And the fourth total kpi is tested
-        assert.dom('[data-test-total-count-kpi="3"]')
+        let parentContainer = '[data-test-total-count-kpi="3"]';
+        assert.dom(parentContainer)
             .exists('The Preprint Widget exists');
 
-        assert.dom('[data-test-total-count-kpi="3"]')
+        assert.dom(parentContainer)
             .hasText('1000 OSF Preprints');
 
-        assert.dom('[data-test-total-count-kpi="3"] [data-test-kpi-icon]')
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
             .hasAttribute('data-icon', 'file-alt');
 
-        // Finally there are only 4 widgets
-        assert.dom('[data-test-total-count-kpi="4"]')
-            .doesNotExist('There are only 4 widgets');
+        // And the total storage kpi is tested
+        parentContainer = '[data-test-total-count-kpi="4"]';
+        assert.dom(parentContainer)
+            .exists('The Total Storage Widget exists');
+
+        assert.dom(parentContainer)
+            .hasText('104593230 Total Storage');
+
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
+            .hasAttribute('data-icon', 'database');
+
+        // And the total file count kpi is tested
+        parentContainer = '[data-test-total-count-kpi="5"]';
+        assert.dom(parentContainer)
+            .exists('The Total File Widget exists');
+
+        assert.dom(parentContainer)
+            .hasText('1567 Total Public File Count');
+
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
+            .hasAttribute('data-icon', 'file-alt');
+
+        // And the total logged in users kpi is tested
+        parentContainer = '[data-test-total-count-kpi="6"]';
+        assert.dom(parentContainer)
+            .exists('The Total Monthly Logged in Users Widget exists');
+
+        assert.dom(parentContainer)
+            .hasText('300 Total Monthly Logged in Users');
+
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
+            .hasAttribute('data-icon', 'users');
+
+        // And the total active users kpi is tested
+        parentContainer = '[data-test-total-count-kpi="7"]';
+        assert.dom(parentContainer)
+            .exists('The Total Active Usesrs Widget exists');
+
+        assert.dom(parentContainer)
+            .hasText('40 Total Monthly Active Users');
+
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
+            .hasAttribute('data-icon', 'users');
+
+        // Finally there are only 8 widgets
+        assert.dom('[data-test-total-count-kpi="8"]')
+            .doesNotExist('There are only 8 widgets');
     });
 });

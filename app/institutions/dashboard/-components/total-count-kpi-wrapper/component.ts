@@ -67,6 +67,26 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
                 total: metrics.summaryMetrics.preprintCount,
                 icon: 'file-alt',
             },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-panel.storage'),
+                total: metrics.summaryMetrics.storageByteCount,
+                icon: 'database',
+            },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-panel.file-count'),
+                total: metrics.summaryMetrics.publicFileCount,
+                icon: 'file-alt',
+            },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-panel.logged-in-users'),
+                total: metrics.summaryMetrics.monthlyLoggedInUserCount,
+                icon: 'users',
+            },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-panel.active-users'),
+                total: metrics.summaryMetrics.monthlyActiveUserCount,
+                icon: 'users',
+            },
         );
 
         this.isLoading = false;
