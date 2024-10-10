@@ -24,6 +24,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
                 publicFileCount: 1567,
                 monthlyLoggedInUserCount: 300,
                 monthlyActiveUserCount:40,
+                convertedStorageCount: 104,
             },
         });
 
@@ -85,7 +86,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
             .exists('The Total Storage Widget exists');
 
         assert.dom(parentContainer)
-            .hasText('104593230 Total Storage');
+            .hasText('104 Total Storage');
 
         assert.dom(`${parentContainer} [data-test-kpi-icon]`)
             .hasAttribute('data-icon', 'database');

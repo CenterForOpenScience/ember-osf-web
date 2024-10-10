@@ -69,7 +69,7 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-panel.storage'),
-                total: metrics.summaryMetrics.storageByteCount,
+                total: metrics.summaryMetrics.convertedStorageCount,
                 icon: 'database',
             },
             {
