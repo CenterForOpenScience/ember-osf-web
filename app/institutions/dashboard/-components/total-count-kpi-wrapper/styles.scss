@@ -23,5 +23,7 @@
     &.mobile {
         flex-direction: column;
         height: fit-content;
+        align-items: center;
+        margin-bottom: 0;
     }
 }
