@@ -27,6 +27,7 @@ export default class RegistriesMetadata extends Component {
     extendedFields?: boolean;
 
     @tracked provider?: RegistrationProviderModel;
+    hideCategories = true;
     // Private properties
     expandCitations = false;
 

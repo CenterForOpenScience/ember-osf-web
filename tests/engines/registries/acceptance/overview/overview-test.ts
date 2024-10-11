@@ -1,4 +1,3 @@
-import { capitalize } from '@ember/string';
 import { click as untrackedClick, fillIn, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -322,7 +321,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-edit-button="description"]').isNotVisible();
     });
 
-    test('editable registration category', async function(assert) {
+    test('categories section is hidden on registration page', async function(assert) {
         const reg = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             category: NodeCategory.Project,
@@ -330,30 +329,14 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await visit(`/${reg.id}/`);
 
-        await click('[data-test-edit-button="category"]');
-        assert.dom('[data-test-select-category] div[class~="ember-power-select-trigger"]')
-            .hasText(capitalize(reg.category));
-
-        await untrackedClick('[data-test-select-category] div[class~="ember-power-select-trigger"]');
-        assert.dom('.ember-power-select-option').exists({ count: Object.values(NodeCategory).length - 1 });
-
-        await selectChoose('[data-test-select-category]', capitalize(NodeCategory.Instrumentation));
-        await click('[data-test-save-edits]');
-
-        reg.reload();
-        assert.equal(reg.category, NodeCategory.Instrumentation);
-
-        // Read user cannot edit
-        reg.update({ currentUserPermissions: [Permission.Read] });
-
-        await visit(`/${reg.id}/`);
         assert.dom('[data-test-edit-button="category"]').doesNotExist();
+        assert.dom('[data-test-select-category]').doesNotExist();
 
-        // Write user can edit
         reg.update({ currentUserPermissions: [Permission.Read, Permission.Write] });
 
         await visit(`/${reg.id}/`);
-        assert.dom('[data-test-edit-button="category"]').exists();
+        assert.dom('[data-test-edit-button="category"]').doesNotExist();
+        assert.dom('[data-test-select-category]').doesNotExist();
     });
 
     test('editable publication doi', async function(assert) {
