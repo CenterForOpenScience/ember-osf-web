@@ -87,6 +87,7 @@ general:
     registration: registration
     rename: Rename
     required: Required
+    reset: Reset
     revert: Revert
     revisions: Revisions
     save: Save
@@ -862,6 +863,7 @@ institutions:
             filter-button-label: 'Filter'
             filter-heading: 'Filter by:'
             total-objects: 'total {objectType}'
+            customize: 'Customize'
             first: First
             prev: Prev
             next: Next

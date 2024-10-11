@@ -9,17 +9,63 @@ as |list|>
                 <LoadingIndicator @dark={{true}} />
             {{else}}
                 <div local-class='top-bar-wrapper'>
-                    <span local-class='total-object-count'>
+                    <span
+                        data-test-object-count
+                        local-class='total-object-count'
+                    >
                         <span local-class='total-object-number'>{{list.totalResultCount}}</span>
                         {{t 'institutions.dashboard.object-list.total-objects' objectType=@objectType}}
                     </span>
                     <div local-class='top-bar-button-wrapper'>
                         <Button
+                            data-test-toggle-filter-button
+                            local-class='blue-text-button'
                             {{on 'click' main.toggleMetadata}}
                         >
                             <FaIcon @icon='filter' />
                             {{t 'institutions.dashboard.object-list.filter-button-label'}}
                         </Button>
+                        <ResponsiveDropdown
+                            @renderInPlace={{true}}
+                            @buttonStyling={{true}}
+                            as |dd|
+                        >
+                            <dd.trigger
+                                data-test-customize-columns-button
+                                local-class='blue-text-button'
+                            >
+                                <FaIcon @icon='columns' />
+                                {{t 'institutions.dashboard.object-list.customize'}}
+                            </dd.trigger>
+                            <dd.content local-class='customize-menu-wrapper'>
+                                {{#each @columns as |column|}}
+                                    <label local-class='visibility-toggle-label'>
+                                        <Input
+                                            data-test-column-toggle-input={{column.name}}
+                                            @type='checkbox'
+                                            @checked={{includes column.name this.visibleColumns}}
+                                            {{on 'change' (fn this.toggleColumnVisibility column.name)}}
+                                        />
+                                        {{column.name}}
+                                    </label>
+                                {{/each}}
+                                <div local-class='customize-menu-button-wrapper'>
+                                    <Button
+                                        data-test-reset-columns-button
+                                        {{on 'click' (queue this.resetColumns dd.close)}}
+                                    >
+                                        {{t 'general.reset'}}
+                                    </Button>
+                                    <Button
+                                        data-test-save-columns-button
+                                        @type='primary'
+                                        {{on 'click' (queue this.updateVisibleColumns dd.close)}}
+                                    >
+                                        {{t 'general.save'}}
+                                    </Button>
+                                </div>
+                            </dd.content>
+                        </ResponsiveDropdown>
                     </div>
                 </div>
                 <div local-class='table-wrapper'>
@@ -31,20 +77,23 @@ as |list|>
                                     ) as |SortArrow|
                                 }}
                                     {{#each @columns as |column|}}
-                                        <th
-                                            title={{column.name}}
-                                            local-class='object-table-header'
-                                        >
-                                            <span>
-                                                {{column.name}}
-                                                {{#if column.sortKey}}
-                                                    <SortArrow
-                                                        @sortBy={{column.sortKey}}
-                                                        @sortAction={{queue (fn this.updateSortKey column.sortKey) (perform list.searchObjectsTask)}}
-                                                    />
-                                                {{/if}}
-                                            </span>
-                                        </th>
+                                        {{#if (includes column.name this.visibleColumns)}}
+                                            <th
+                                                data-test-column-header={{column.name}}
+                                                title={{column.name}}
+                                                local-class='object-table-header'
+                                            >
+                                                <span>
+                                                    {{column.name}}
+                                                    {{#if column.sortKey}}
+                                                        <SortArrow
+                                                            @sortBy={{column.sortKey}}
+                                                            @sortAction={{queue (fn this.updateSortKey column.sortKey) (perform list.searchObjectsTask)}}
+                                                        />
+                                                    {{/if}}
+                                                </span>
+                                            </th>
+                                        {{/if}}
                                     {{/each}}
                                 {{/let}}
                             </tr>
@@ -52,29 +101,31 @@ as |list|>
 
                         <tbody>
                             {{#each list.searchResults as |result|}}
-                                <tr>
+                                <tr data-test-object-table-body-row>
                                     {{#each @columns as |column|}}
-                                        <td>
-                                            {{#if (eq column.type 'link')}}
-                                                <OsfLink
-                                                    @href={{call (fn column.getHref result)}}
-                                                    @target='_blank'
-                                                >
-                                                    {{call (fn column.getLinkText result)}}
-                                                </OsfLink>
-                                            {{else if (eq column.type 'doi')}}
-                                                <Institutions::Dashboard::-Components::ObjectList::DoiField
-                                                    @searchResult={{result}}
-                                                />
-                                            {{else if (eq column.type 'contributors')}}
-                                                <Institutions::Dashboard::-Components::ObjectList::ContributorsField
-                                                    @searchResult={{result}}
-                                                    @institution={{@institution}}
-                                                />
-                                            {{else}}
-                                                {{call (fn column.getValue result)}}
-                                            {{/if}}
-                                        </td>
+                                        {{#if (includes column.name this.visibleColumns)}}
+                                            <td>
+                                                {{#if (eq column.type 'link')}}
+                                                    <OsfLink
+                                                        @href={{call (fn column.getHref result)}}
+                                                        @target='_blank'
+                                                    >
+                                                        {{call (fn column.getLinkText result)}}
+                                                    </OsfLink>
+                                                {{else if (eq column.type 'doi')}}
+                                                    <Institutions::Dashboard::-Components::ObjectList::DoiField
+                                                        @searchResult={{result}}
+                                                    />
+                                                {{else if (eq column.type 'contributors')}}
+                                                    <Institutions::Dashboard::-Components::ObjectList::ContributorsField
+                                                        @searchResult={{result}}
+                                                        @institution={{@institution}}
+                                                    />
+                                                {{else}}
+                                                    {{call (fn column.getValue result)}}
+                                                {{/if}}
+                                            </td>
+                                        {{/if}}
                                     {{/each}}
                                 </tr>
                             {{/each}}
