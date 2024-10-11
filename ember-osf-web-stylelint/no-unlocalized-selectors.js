@@ -6,7 +6,7 @@ const stylelint = require('stylelint');
     * Bare element selectors are selectors that are not wrapped in  or paired with a class or id
 */
 
-const ruleName = 'ember-osf-web-stylelint-plugin/no-unlocalized-selectors';
+const ruleName = 'ember-osf-web-stylelint/no-unlocalized-selectors';
 const messages = stylelint.utils.ruleMessages(ruleName, {
     expected: selector => `Rule "${selector}" should be wrapped in or paired with a local-class or ID`,
 });
