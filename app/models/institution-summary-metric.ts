@@ -7,7 +7,7 @@ export default class InstitutionSummaryMetricModel extends OsfModel {
     @attr('number') privateProjectCount!: number;
     @attr('number') userCount!: number;
     @attr('number') publicRegistrationCount!: number;
-    @attr('number') preprintCount!: number;
+    @attr('number') publishedPreprintCount!: number;
     @attr('number') embargoedRegistrationCount!: number;
     @attr('number') storageByteCount!: number;
     @attr('number') publicFileCount!: number;

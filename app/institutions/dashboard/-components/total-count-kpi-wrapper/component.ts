@@ -64,7 +64,7 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-panel.preprints'),
-                total: metrics.summaryMetrics.preprintCount,
+                total: metrics.summaryMetrics.publishedPreprintCount,
                 icon: 'file-alt',
             },
             {
