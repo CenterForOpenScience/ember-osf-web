@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
 import SearchResultModel from 'ember-osf-web/models/search-result';
+import { AttributionRoles } from 'ember-osf-web/models/index-card';
 
 interface ContributorsFieldArgs {
     searchResult: SearchResultModel;
@@ -12,21 +13,30 @@ export default class InstitutionalObjectListContributorsField extends Component<
     // Return two contributors affiliated with the institution given with highest permission levels
     get topInstitutionAffiliatedContributors() {
         const { searchResult, institution } = this.args;
-        const contributors: any[] = searchResult.resourceMetadata.creator;
+        const contributors: any[] = searchResult.resourceMetadata.qualifiedAttribution;
         const institutionIris = institution.iris;
         const affiliatedContributors = contributors
             .filter((contributor: any) => hasInstitutionAffiliation(contributor, institutionIris));
-        // TODO: get the two users with the highest permission level and add permission to the return object
-        return affiliatedContributors.slice(0, 2).map((contributor: any) => ({
-            name: contributor.name[0]['@value'],
-            url: contributor['@id'],
+        const adminContributors = affiliatedContributors
+            .filter(contributor => contributor.hadRole[0]['name'][0]['@value'] === AttributionRoles.Admin);
+        const writeContributors = affiliatedContributors
+            .filter(contributor => contributor.hadRole[0]['name'][0]['@value'] === AttributionRoles.Write);
+        const readContributors = affiliatedContributors
+            .filter(contributor => contributor.hadRole[0]['name'][0]['@value'] === AttributionRoles.Read);
+
+        const prioritizedContributors = adminContributors.concat(writeContributors, readContributors);
+
+        return prioritizedContributors.slice(0, 2).map((contributor: any) => ({
+            name: contributor.agent[0].name[0]['@value'],
+            url: contributor.agent[0]['@id'],
+            permissionLevel: contributor.hadRole[0]['name'][0]['@value'],
         }));
     }
 
 }
 
 function hasInstitutionAffiliation(contributor: any, institutionIris: string[]) {
-    return contributor.affiliation.some(
+    return contributor.agent[0].affiliation.some(
         (affiliation: any) => affiliation.identifier.some(
             (affiliationIdentifier: any) => institutionIris.includes(affiliationIdentifier['@value']),
         ),

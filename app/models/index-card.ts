@@ -30,6 +30,11 @@ export enum OsfmapResourceTypes {
     ConceptScheme = 'Concept:Scheme',
 }
 
+export enum AttributionRoles {
+    Admin = 'Admin',
+    Write = 'Write',
+    Read = 'Read',
+}
 
 export default class IndexCardModel extends Model {
     @service intl!: IntlService;

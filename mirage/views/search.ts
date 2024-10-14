@@ -2,13 +2,16 @@ import { Request, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
 import { PaginationLinks } from 'jsonapi-typescript';
 
-import { OsfmapResourceTypes } from 'ember-osf-web/models/index-card';
+import { AttributionRoles, OsfmapResourceTypes } from 'ember-osf-web/models/index-card';
 import config from 'ember-osf-web/config/environment';
+
 import { guid } from '../factories/utils';
 
 const osfUrl = config.OSF.url;
 
 const rdfString = 'https://www.w3.org/1999/02/22-rdf-syntax-ns#string';
+const sampleStorageRegions = ['United States', 'Australia - Sydney', 'Germany - Frankfurt'];
+
 const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
     Registration: () => ({
         '@id': faker.random.uuid(),
@@ -30,6 +33,14 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             '@value': faker.lorem.sentence(),
             '@type': rdfString,
         }],
+        hasOsfAddon: [ // CR question: do registrations have addons?
+            {
+                prefLabel: [{
+                    '@value': 'OSF Storage',
+                    '@type': rdfString,
+                }],
+            },
+        ],
         hasPart: [{}], // RegistrationComponent
         hostingInstition: [_shareOrganizationField()],
         identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
@@ -39,6 +50,18 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             '@type': rdfString,
         }],
         publisher: [_shareOrganizationField()], // Registration Provider
+        qualifiedAttribution: [{
+            agent: [_sharePersonField()],
+            hadRole: [
+                {
+                    '@id': 'https://schema.org/author',
+                    name: [{
+                        '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
+                        '@type': rdfString,
+                    }],
+                },
+            ],
+        }],
         resourceNature: [{ // Registration Category
             '@id': 'https://schema.datacite.org/meta/kernel-4/#StudyRegistration',
             displayLabel: [{
@@ -47,13 +70,24 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             }],
         }],
         resourceType: [{ '@id': 'Registration' }],
-        rights: [_shareLicneseField()],
+        rights: [_shareLicenseField()],
         sameAs: [{}], // some DOI
+        storageByteCount: [{
+            '@value': faker.random.number(),
+            '@type': rdfString,
+        }],
+        storageRegion: [{
+            prefLabel: [{
+                '@value': faker.random.arrayElement(sampleStorageRegions),
+                '@type': rdfString,
+            }],
+        }],
         subject: [_shareSubjectField()],
         title: [{
             '@value': faker.lorem.words(3),
             '@type': rdfString,
         }],
+        usage: [_shareUsageReportField()],
     }),
     Project: () => ({
         '@id': faker.internet.url(),
@@ -66,6 +100,21 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             '@value': faker.lorem.sentence(),
             '@type': rdfString,
         }],
+        funder: [_shareOrganizationField()],
+        hasOsfAddon: [
+            {
+                prefLabel: [{
+                    '@value': 'OSF Storage', // CR question: do we need to include osf storage as addons?
+                    '@type': rdfString,
+                }],
+            },
+            {
+                prefLabel: [{
+                    '@value': 'Box',
+                    '@type': rdfString,
+                }],
+            },
+        ],
         hasPart: [{}], // ProjectComponent
         hostingInstition: [_shareOrganizationField()],
         identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
@@ -74,14 +123,46 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             '@type': rdfString,
         }],
         publisher: [_shareOrganizationField()],
+        qualifiedAttribution: [{
+            agent: [_sharePersonField()],
+            hadRole: [
+                {
+                    '@id': 'https://schema.org/author',
+                    name: [{
+                        '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
+                        '@type': rdfString,
+                    }],
+                },
+            ],
+        }],
+        resourceNature: [{
+            '@id': 'https://schema.datacite.org/meta/kernel-4/#Dataset',
+            displayLabel:[
+                {
+                    '@value': faker.random.arrayElement(['Dataset', 'JournalArticle', 'Book']),
+                    '@language': 'en',
+                },
+            ],
+        }],
         resourceType: [{ '@id': 'Project' }],
-        rights: [_shareLicneseField()],
+        rights: [_shareLicenseField()],
         sameAs: [{}], // some DOI
+        storageByteCount: [{
+            '@value': faker.random.number(),
+            '@type': rdfString,
+        }],
+        storageRegion: [{
+            prefLabel: [{
+                '@value': faker.random.arrayElement(sampleStorageRegions),
+                '@type': rdfString,
+            }],
+        }],
         subject: [_shareSubjectField()],
         title: [{
             '@value': faker.lorem.words(3),
             '@type': rdfString,
         }],
+        usage: [_shareUsageReportField()],
     }),
     Preprint: () => ({
         '@id': faker.internet.url(),
@@ -111,6 +192,18 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             ],
         }],
         publisher: [_shareOrganizationField()], // Preprint Provider
+        qualifiedAttribution: [{
+            agent: [_sharePersonField()],
+            hadRole: [
+                {
+                    '@id': 'https://schema.org/author',
+                    name: [{
+                        '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
+                        '@type': rdfString,
+                    }],
+                },
+            ],
+        }],
         resourceNature: [{
             '@id': 'https://schema.datacite.org/meta/kernel-4/#Preprint',
             displayLabel: [{
@@ -119,7 +212,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             }],
         }],
         resourceType: [{ '@id': 'Preprint' }],
-        rights: [_shareLicneseField()],
+        rights: [_shareLicenseField()],
         sameAs: [{}], // some DOI
         statedConflictOfInterest: [{
             '@id': 'no-confict-of-interest',
@@ -129,6 +222,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             '@value': faker.lorem.words(3),
             '@type': rdfString,
         }],
+        usage: [_shareUsageReportField()],
     }),
     Agent: () => ({
         '@id': faker.internet.url(),
@@ -648,7 +742,7 @@ function _shareDateField() {
     };
 }
 
-function _shareLicneseField() {
+function _shareLicenseField() {
     return {
         '@id': 'http://creativecommons.org/licenses/by/4.0/',
         identifier: [{
@@ -676,6 +770,31 @@ function _shareSubjectField() {
         }],
         prefLabel: [{
             '@value': 'Social and Behavioral Sciences',
+            '@type': rdfString,
+        }],
+    };
+}
+
+function _shareUsageReportField() {
+    return {
+        temporalCoverage: [{
+            '@value': _randomPastYearMonthDay().slice(0, 7), // YYYY-MM
+            '@type': rdfString,
+        }],
+        viewCount: [{
+            '@value': faker.random.number(),
+            '@type': rdfString,
+        }],
+        downloadCount: [{
+            '@value': faker.random.number(),
+            '@type': rdfString,
+        }],
+        viewSessionCount: [{
+            '@value': faker.random.number(),
+            '@type': rdfString,
+        }],
+        downloadSessionCount: [{
+            '@value': faker.random.number(),
             '@type': rdfString,
         }],
     };
