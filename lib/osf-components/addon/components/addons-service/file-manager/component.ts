@@ -8,7 +8,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import { Item } from 'ember-osf-web/models/addon-operation-invocation';
+import { GetItemInfoResult, Item, ListItemsResult } from 'ember-osf-web/models/addon-operation-invocation';
 import ConfiguredStorageAddonModel, { OperationKwargs } from 'ember-osf-web/models/configured-storage-addon';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -24,7 +24,7 @@ export default class FileManager extends Component<Args> {
 
     @tracked currentPath: Item[] = [];
     @tracked currentItems: Item[] = [];
-    @tracked currentFolderId = this.args.startingFolderId;
+    @tracked currentFolderId = '';
 
     @tracked cursor = '';
     @tracked hasMore = false;
@@ -82,7 +82,9 @@ export default class FileManager extends Component<Args> {
         const { startingFolderId, configuredStorageAddon } = this.args;
         try {
             const invocation = await taskFor(configuredStorageAddon.getItemInfo).perform(startingFolderId);
-            this.currentPath = [invocation.operationResult];
+            const result = invocation.operationResult as GetItemInfoResult;
+            this.currentFolderId = result.itemId;
+            this.currentPath = [result];
         } catch (e) {
             captureException(e);
             const errorMessage = this.intl.t('osf-components.addons-service.file-manager.get-item-error');
@@ -105,9 +107,9 @@ export default class FileManager extends Component<Args> {
                 invocation = await taskFor(this.args.configuredStorageAddon.getFolderItems).perform(kwargs);
             }
             this.lastInvocation = invocation;
-            const { operationResult } = invocation;
+            const operationResult = invocation.operationResult as ListItemsResult;
             this.currentItems = this.cursor ? [...this.currentItems, ...operationResult.items] : operationResult.items;
-            this.hasMore = Boolean(invocation.operationResult.cursor);
+            this.hasMore = Boolean(operationResult.nextSampleCursor);
         } catch (e) {
             captureException(e);
             const errorMessage = this.intl.t('osf-components.addons-service.file-manager.get-items-error');

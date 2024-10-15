@@ -16,15 +16,28 @@ export enum ItemType {
     File = 'FILE',
 }
 
-export interface OperationResult{
+export type OperationResult = ListItemsResult | GetItemInfoResult;
+
+export interface ListItemsResult {
     items: Item[];
-    cursor?: string; // TODO: name??
+    thisSampleCursor?: string;
+    nextSampleCursor?: string;
+    prevSampleCursor?: string;
+    firstSampleCursor?: string;
+    totalCount?: number;
 }
+
+export interface GetItemInfoResult {
+    itemId: string;
+    itemName: string;
+    itemType: ItemType;
+}
+
 export interface Item {
     itemId: string;
     itemName: string;
     itemType: ItemType;
-    itemPath: string;
+    itemPath?: Item[];
 }
 
 export default class AddonOperationInvocationModel extends Model {
