@@ -7,19 +7,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    width: 290px;
+    width: 350px;
     height: 140px;
     background-color: $color-bg-white;
 
     .top-container {
         width: 100%;
         display: flex;
+        justify-content: space-between;
+        padding: 0 15px;
         margin-bottom: 10px;
 
         .left-container {
             padding-left: 5px;
             height: 75px;
-            width: calc(220px - 5px);
             display: flex;
             justify-content: flex-start;
             align-items: center;
