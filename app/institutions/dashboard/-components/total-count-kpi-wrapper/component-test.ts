@@ -18,7 +18,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
                 privateProjectCount: 10,
                 userCount: 10,
                 publicRegistrationCount: 100,
-                preprintCount: 1000,
+                publishedPreprintCount: 1000,
                 embargoedRegistrationCount: 200,
                 storageByteCount: 104593230,
                 publicFileCount: 1567,
