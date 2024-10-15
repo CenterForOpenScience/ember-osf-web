@@ -13,7 +13,7 @@ interface TotalCountKpiWrapperArgs {
 
 interface TotalCountKpiModel {
     title: string;
-    total: number;
+    total: number | string;
     icon: string;
 }
 
@@ -44,12 +44,22 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
     @task
     @waitFor
     private async loadData(): Promise<void> {
-        const metrics = await this.model;
+        const metrics: { summaryMetrics: InstitutionSummaryMetricModel } = await this.model;
 
         this.totalCountKpis.push(
             {
                 title: this.intl.t('institutions.dashboard.kpi-panel.users'),
                 total: metrics.summaryMetrics.userCount,
+                icon: 'users',
+            },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-panel.logged-in-users'),
+                total: metrics.summaryMetrics.monthlyLoggedInUserCount,
+                icon: 'users',
+            },
+            {
+                title: this.intl.t('institutions.dashboard.kpi-panel.active-users'),
+                total: metrics.summaryMetrics.monthlyActiveUserCount,
                 icon: 'users',
             },
             {
@@ -68,24 +78,14 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
                 icon: 'file-alt',
             },
             {
-                title: this.intl.t('institutions.dashboard.kpi-panel.storage'),
-                total: metrics.summaryMetrics.convertedStorageCount,
-                icon: 'database',
-            },
-            {
                 title: this.intl.t('institutions.dashboard.kpi-panel.file-count'),
                 total: metrics.summaryMetrics.publicFileCount,
                 icon: 'file-alt',
             },
             {
-                title: this.intl.t('institutions.dashboard.kpi-panel.logged-in-users'),
-                total: metrics.summaryMetrics.monthlyLoggedInUserCount,
-                icon: 'users',
-            },
-            {
-                title: this.intl.t('institutions.dashboard.kpi-panel.active-users'),
-                total: metrics.summaryMetrics.monthlyActiveUserCount,
-                icon: 'users',
+                title: this.intl.t('institutions.dashboard.kpi-panel.storage'),
+                total: metrics.summaryMetrics.convertedStorageCount,
+                icon: 'database',
             },
         );
 
