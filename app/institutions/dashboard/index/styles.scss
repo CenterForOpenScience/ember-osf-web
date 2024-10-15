@@ -8,24 +8,11 @@
     width: 100%;
 
     .kpi-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: flex-start;
         margin-bottom: 12px;
-        width: 100%;
-        height: fit-content;
     }
 
     .chart-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: flex-start;
         margin-bottom: 20px;
-        width: 100%;
-        min-height: 290px;
-        height: fit-content;
     }
 
     &.mobile {

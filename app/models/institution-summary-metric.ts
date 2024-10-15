@@ -16,7 +16,7 @@ export default class InstitutionSummaryMetricModel extends OsfModel {
 
 
     get convertedStorageCount(): string {
-        return humanFileSize(this.storageByteCount);
+        return humanFileSize(parseFloat(this.storageByteCount.toFixed(1)));
     }
 }
 
