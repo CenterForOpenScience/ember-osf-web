@@ -9,7 +9,6 @@ import { guid } from '../factories/utils';
 
 const osfUrl = config.OSF.url;
 
-const rdfString = 'https://www.w3.org/1999/02/22-rdf-syntax-ns#string';
 const sampleStorageRegions = ['United States', 'Australia - Sydney', 'Germany - Frankfurt'];
 
 const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
@@ -21,7 +20,6 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             '@id': 'https://api.osf.io/v2/schemas/registrations/564d31db8c5e4a7c9694b2be/',
             title: [{
                 '@value': 'Open-Ended Registration',
-                '@type': rdfString,
             }],
         }],
         creator: [_sharePersonField()],
@@ -31,23 +29,13 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         dateModified: [_shareDateField()],
         description: [{
             '@value': faker.lorem.sentence(),
-            '@type': rdfString,
         }],
-        hasOsfAddon: [ // CR question: do registrations have addons?
-            {
-                prefLabel: [{
-                    '@value': 'OSF Storage',
-                    '@type': rdfString,
-                }],
-            },
-        ],
         hasPart: [{}], // RegistrationComponent
         hostingInstition: [_shareOrganizationField()],
         identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
         isVersionOf: [{}], // if this is from a project
         keyword: [{ // tags
             '@value': faker.random.word(),
-            '@type': rdfString,
         }],
         publisher: [_shareOrganizationField()], // Registration Provider
         qualifiedAttribution: [{
@@ -57,7 +45,6 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
                     '@id': 'https://schema.org/author',
                     name: [{
                         '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
-                        '@type': rdfString,
                     }],
                 },
             ],
@@ -74,18 +61,15 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         sameAs: [{}], // some DOI
         storageByteCount: [{
             '@value': faker.random.number(),
-            '@type': rdfString,
         }],
         storageRegion: [{
             prefLabel: [{
                 '@value': faker.random.arrayElement(sampleStorageRegions),
-                '@type': rdfString,
             }],
         }],
         subject: [_shareSubjectField()],
         title: [{
             '@value': faker.lorem.words(3),
-            '@type': rdfString,
         }],
         usage: [_shareUsageReportField()],
     }),
@@ -98,20 +82,12 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         dateModified: [_shareDateField()],
         description: [{
             '@value': faker.lorem.sentence(),
-            '@type': rdfString,
         }],
         funder: [_shareOrganizationField()],
         hasOsfAddon: [
             {
                 prefLabel: [{
-                    '@value': 'OSF Storage', // CR question: do we need to include osf storage as addons?
-                    '@type': rdfString,
-                }],
-            },
-            {
-                prefLabel: [{
                     '@value': 'Box',
-                    '@type': rdfString,
                 }],
             },
         ],
@@ -120,7 +96,6 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
         keyword: [{ // tags
             '@value': faker.random.word(),
-            '@type': rdfString,
         }],
         publisher: [_shareOrganizationField()],
         qualifiedAttribution: [{
@@ -130,7 +105,6 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
                     '@id': 'https://schema.org/author',
                     name: [{
                         '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
-                        '@type': rdfString,
                     }],
                 },
             ],
@@ -149,18 +123,15 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         sameAs: [{}], // some DOI
         storageByteCount: [{
             '@value': faker.random.number(),
-            '@type': rdfString,
         }],
         storageRegion: [{
             prefLabel: [{
                 '@value': faker.random.arrayElement(sampleStorageRegions),
-                '@type': rdfString,
             }],
         }],
         subject: [_shareSubjectField()],
         title: [{
             '@value': faker.lorem.words(3),
-            '@type': rdfString,
         }],
         usage: [_shareUsageReportField()],
     }),
@@ -175,7 +146,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         dateModified: [_shareDateField()],
         description: [{
             '@value': faker.lorem.sentence(),
-            '@type': rdfString,
+
         }],
         hasPart: [{}], // File
         hostingInstition: [_shareOrganizationField()],
@@ -183,7 +154,6 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         // isSupplementedBy: [{}], // if this links a project
         keyword: [{ // tags
             '@value': faker.random.word(),
-            '@type': rdfString,
         }],
         omits: [{
             ommittedMetadataProperty: [
@@ -199,7 +169,6 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
                     '@id': 'https://schema.org/author',
                     name: [{
                         '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
-                        '@type': rdfString,
                     }],
                 },
             ],
@@ -220,7 +189,6 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         subject: [_shareSubjectField()],
         title: [{
             '@value': faker.lorem.words(3),
-            '@type': rdfString,
         }],
         usage: [_shareUsageReportField()],
     }),
@@ -232,13 +200,11 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
             _shareIdentifierField(),
             {
                 '@value': 'https://orcid.org/0000-0000-0000-0000',
-                '@type': rdfString,
             },
             _shareOsfIdentifier(),
         ],
         name: [{
             '@value': faker.name.findName(),
-            '@type': rdfString,
         }],
         resourceType: [{ '@id': OsfmapResourceTypes.Person }, { '@id': OsfmapResourceTypes.Agent }],
         sameAs: [{ '@id': 'https://orcid.org/0000-0000-0000-0000' }], // some ORCID
@@ -277,15 +243,12 @@ resourceMetadataByType.File = function() {
         dateModified: [_shareDateField()],
         description: [{
             '@value': faker.lorem.sentence(),
-            '@type': rdfString,
         }],
         fileName: [{
             '@value': faker.system.fileName(),
-            '@type': rdfString,
         }],
         filePath: [{
             '@value': faker.system.filePath(),
-            '@type': rdfString,
         }],
         identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
         isContainedBy: [{ // Parent Project
@@ -293,7 +256,6 @@ resourceMetadataByType.File = function() {
         }],
         language: [{
             '@value': 'eng',
-            '@type': rdfString,
         }],
         // 'osf:hasFileVersion': [{}], // FileVersion
         resourceNature: [{
@@ -306,7 +268,6 @@ resourceMetadataByType.File = function() {
         resourceType: [{ '@id': 'File' }],
         title: [{
             '@value': faker.lorem.words(3),
-            '@type': rdfString,
         }],
     };
 };
@@ -686,11 +647,11 @@ function _sharePersonField() {
     return {
         '@id': fakeIdentifier,
         resourceType: [{ '@id': OsfmapResourceTypes.Person }, { '@id': OsfmapResourceTypes.Agent }],
-        identifier: [{
-            '@value': 'https://orcid.org/0000-0000-0000-0000', // hard-coded as search-result looks for orcid URL
-            '@type': rdfString,
-        },
-        _shareIdentifierField(fakeIdentifier),
+        identifier: [
+            {
+                '@value': 'https://orcid.org/0000-0000-0000-0000', // hard-coded as search-result looks for orcid URL
+            },
+            _shareIdentifierField(fakeIdentifier),
         ],
         // Pass an IRI to the _shareOrganizationField to create an organization with the same IRI
         // as one specified in your mirage scenario
@@ -698,7 +659,6 @@ function _sharePersonField() {
         affiliation: [_shareOrganizationField('http://ror.org/has-users')],
         name: [{
             '@value': faker.name.findName(),
-            '@type': rdfString,
         }],
     };
 }
@@ -711,7 +671,6 @@ function _shareOrganizationField(orgId?: string) {
         identifier: [_shareIdentifierField(identifier)],
         name: [{
             '@value': faker.company.companyName(),
-            '@type': rdfString,
         }],
         // sameAs: [{}], // some ROR
     };
@@ -720,7 +679,6 @@ function _shareOrganizationField(orgId?: string) {
 function _shareIdentifierField(idValue?: string) {
     return {
         '@value': idValue || faker.internet.url(),
-        '@type': rdfString,
     };
 }
 function fakeOsfIdentifier() {
@@ -731,14 +689,12 @@ function fakeOsfIdentifier() {
 function _shareOsfIdentifier(identifier?: string) {
     return {
         '@value': identifier || fakeOsfIdentifier(),
-        '@type': rdfString,
     };
 }
 
 function _shareDateField() {
     return {
         '@value': _randomPastYearMonthDay(),
-        '@type': rdfString,
     };
 }
 
@@ -747,11 +703,9 @@ function _shareLicenseField() {
         '@id': 'http://creativecommons.org/licenses/by/4.0/',
         identifier: [{
             '@value': 'http://creativecommons.org/licenses/by/4.0/',
-            '@type': rdfString,
         }],
         name: [{
             '@value': 'CC-BY-4.0',
-            '@type': rdfString,
         }],
     };
 }
@@ -765,12 +719,10 @@ function _shareSubjectField() {
             resourceType: [{ '@id': OsfmapResourceTypes.ConceptScheme }],
             title: [{
                 '@value': 'bepress Digital Commons Three-Tiered Taxonomy',
-                '@type': rdfString,
             }],
         }],
         prefLabel: [{
             '@value': 'Social and Behavioral Sciences',
-            '@type': rdfString,
         }],
     };
 }
@@ -779,23 +731,18 @@ function _shareUsageReportField() {
     return {
         temporalCoverage: [{
             '@value': _randomPastYearMonthDay().slice(0, 7), // YYYY-MM
-            '@type': rdfString,
         }],
         viewCount: [{
             '@value': faker.random.number(),
-            '@type': rdfString,
         }],
         downloadCount: [{
             '@value': faker.random.number(),
-            '@type': rdfString,
         }],
         viewSessionCount: [{
             '@value': faker.random.number(),
-            '@type': rdfString,
         }],
         downloadSessionCount: [{
             '@value': faker.random.number(),
-            '@type': rdfString,
         }],
     };
 }
