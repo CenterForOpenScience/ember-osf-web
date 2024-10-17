@@ -298,6 +298,22 @@ export default class SearchResultModel extends Model {
         return this.resourceMetadata.dateWithdrawn || this.resourceMetadata['https://osf.io/vocab/2022/withdrawal'];
     }
 
+    get configuredAddonNames() {
+        return this.resourceMetadata.hasOsfAddon?.map((item: any) => item.prefLabel[0]['@value']);
+    }
+
+    get storageRegion() {
+        return this.resourceMetadata.storageRegion?.[0]?.prefLabel[0]['@value'];
+    }
+
+    get usageMetrics() {
+        return {
+            period: this.resourceMetadata.usage[0]['temporalCoverage'][0]['@value'],
+            viewCount: this.resourceMetadata.usage[0]['viewCount'][0]['@value'],
+            downloadCount: this.resourceMetadata.usage[0]['downloadCount'][0]['@value'],
+        };
+    }
+
     getResourceMetadataField(field: string) {
         return this.resourceMetadata[field]?.[0]?.['@value'];
     }

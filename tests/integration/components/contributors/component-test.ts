@@ -64,7 +64,7 @@ module('Integration | Component | contributors', hooks => {
             hbs`<Contributors::Widget @draftRegistration={{this.draftRegistration}} @widgetMode='readonly' />`,
         );
         contributors.forEach(contributor => {
-            const userPermission = t(`osf-components.contributors.permissions.${contributor.permission}`);
+            const userPermission = t(`general.permissions.${contributor.permission}`);
             const userCitation = t(`osf-components.contributors.citation.${contributor.bibliographic}`);
 
             assert.dom('[data-test-contributor-card]').exists();
@@ -91,7 +91,7 @@ module('Integration | Component | contributors', hooks => {
         await render(
             hbs`<Contributors::Widget @draftRegistration={{this.draftRegistration}} @widgetMode='readonly' />`,
         );
-        const userPermission = t(`osf-components.contributors.permissions.${unregContributor.permission}`);
+        const userPermission = t(`general.permissions.${unregContributor.permission}`);
         const userCitation = t(`osf-components.contributors.citation.${unregContributor.bibliographic}`);
 
         assert.dom('[data-test-contributor-card]').exists();

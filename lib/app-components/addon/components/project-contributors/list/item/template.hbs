@@ -48,11 +48,11 @@
                     @selected={{@contributor.permission}}
                     as |option|
                 >
-                    {{t (concat 'app_components.project_contributors.list.item.permissions.' option)}}
+                    {{t (concat 'general.permissions.' option)}}
                 </PowerSelect>
             {{else}}
                 <div data-test-project-contributors-list-item-permissions-display local-class='text-smaller'>
-                    {{t (concat 'app_components.project_contributors.list.item.permissions.' @contributor.permission)}}
+                    {{t (concat 'general.permissions.' @contributor.permission)}}
                 </div>
             {{/if}}
         </div>
