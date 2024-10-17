@@ -281,12 +281,12 @@ module('Acceptance | guid-node/addons', hooks => {
         await percySnapshot('Acceptance | guid-node/addons | Adding new configured addons | terms page');
         await click('[data-test-addon-accept-terms-button]');
         // New account setup page
-        assert.dom('[data-test-input="accessKey"]').exists('Access key input is present');
-        assert.dom('[data-test-input="secretKey"]').exists('Secret key input is present');
+        assert.dom('[data-test-input="access_key"]').exists('Access key input is present');
+        assert.dom('[data-test-input="secret_key"]').exists('Secret key input is present');
         assert.dom('[data-test-display-name-input]').exists('Display name input is present');
         await percySnapshot('Acceptance | guid-node/addons | Adding new configured addons | new account setup page');
-        await fillIn('[data-test-input="accessKey"]', 'access');
-        await fillIn('[data-test-input="secretKey"]', 'secret');
+        await fillIn('[data-test-input="access_key"]', 'access');
+        await fillIn('[data-test-input="secret_key"]', 'secret');
         await fillIn('[data-test-display-name-input]', 'New S3 Account Display Name');
         await click('[data-test-addon-connect-account-button]');
         // Configure page
