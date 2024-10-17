@@ -149,18 +149,18 @@ export default class AddonAccountSetupComponent extends Component<Args> {
         case CredentialsFormat.ACCESS_SECRET_KEYS: {
             return [
                 {
-                    name: 'accessKey',
+                    name: 'access_key',
                     labelText: t('addons.accountCreate.access-key-label'),
                     inputType: 'text',
                     inputPlaceholder: t('addons.accountCreate.access-key-placeholder'),
-                    inputValue: credentials.accessKey,
+                    inputValue: credentials.access_key,
                 },
                 {
-                    name: 'secretKey',
+                    name: 'secret_key',
                     labelText: t('addons.accountCreate.secret-key-label'),
                     inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.secret-key-placeholder'),
-                    inputValue: credentials.secretKey,
+                    inputValue: credentials.secret_key,
                 },
             ];
         }
