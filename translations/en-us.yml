@@ -64,6 +64,7 @@ general:
     hosted_on_the_osf: 'Hosted on OSF'
     last_modified: 'Last modified'
     loading: Loading...
+    load_more: 'Load more'
     md5: MD5
     modified: Modified
     more: more

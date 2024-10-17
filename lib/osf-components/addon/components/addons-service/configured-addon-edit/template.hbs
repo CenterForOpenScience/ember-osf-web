@@ -54,43 +54,59 @@
                 </tr>
             </thead>
             <tbody local-class='table-body'>
-                {{#each fileManager.currentItems as |folder|}}
-                    <tr>
-                        <td>
-                            <Button
-                                data-test-folder-link='{{folder.itemName}}'
-                                data-analytics-name='Go to folder'
-                                @layout='fake-link'
-                                aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
-                                {{on 'click' (fn fileManager.goToFolder folder)}}
-                            >
-                                <FaIcon @icon='folder' />
-                                {{folder.itemName}}
-                            </Button>
-                        </td>
-                        <td>
-                            <input
-                                data-test-root-folder-option='{{folder.itemName}}'
-                                data-analytics-name='Select folder'
-                                type='radio'
-                                name='folder'
-                                value={{folder.itemName}}
-                                aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
-                                {{on 'change'(fn this.selectFolder folder)}}
-                            >
-                        </td>
-                    </tr>
-                {{else if fileManager.isLoading}}
+                {{#if fileManager.isLoading}}
                     <LoadingIndicator @dark={{true}} />
                 {{else if fileManager.isError}}
                     <tr>
                         <td colspan='2'>{{t 'addons.configure.error-loading-items'}}</td>
                     </tr>
                 {{else}}
-                    <tr>
-                        <td colspan='2'>{{t 'addons.configure.no-folders'}}</td>
-                    </tr>
-                {{/each}}
+                    {{#each fileManager.currentItems as |folder|}}
+                        <tr>
+                            <td>
+                                <Button
+                                    data-test-folder-link='{{folder.itemName}}'
+                                    data-analytics-name='Go to folder'
+                                    @layout='fake-link'
+                                    aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
+                                    {{on 'click' (fn fileManager.goToFolder folder)}}
+                                >
+                                    <FaIcon @icon='folder' />
+                                    {{folder.itemName}}
+                                </Button>
+                            </td>
+                            <td>
+                                <input
+                                    data-test-root-folder-option='{{folder.itemName}}'
+                                    data-analytics-name='Select folder'
+                                    type='radio'
+                                    name='folder'
+                                    value={{folder.itemName}}
+                                    aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
+                                    {{on 'change'(fn this.selectFolder folder)}}
+                                >
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan='2'>{{t 'addons.configure.no-folders'}}</td>
+                        </tr>
+                    {{/each}}
+                    {{#if fileManager.hasMore}}
+                        <tr>
+                            <td colspan='2'>
+                                <Button
+                                    data-test-load-more-folders
+                                    data-analytics-name='Load more folders'
+                                    @layout='fake-link'
+                                    {{on 'click' fileManager.getMore}}
+                                >
+                                    {{t 'general.load_more'}}
+                                </Button>
+                            </td>
+                        </tr>
+                    {{/if}}
+                {{/if}}
             </tbody>
         </table>
         <div local-class='footer-buttons-wrapper'>

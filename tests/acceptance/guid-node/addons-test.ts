@@ -223,7 +223,7 @@ module('Acceptance | guid-node/addons', hooks => {
         const firstRootFolder = document.querySelectorAll('[data-test-configured-addon-root-folder]')[0];
         assert.dom(firstDisplayName)
             .containsText('New S3 Account Display Name', 'Display name change is saved');
-        assert.dom(firstRootFolder).containsText('s3root-1-1', 'Root folder change is saved');
+        assert.dom(firstRootFolder).containsText('root-1-1', 'Root folder change is saved');
 
         // Remove other account
         await click('[data-test-remove-connected-location]:last-child');
