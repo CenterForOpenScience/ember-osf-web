@@ -971,10 +971,6 @@ app_components:
                 img_alt: Gravatar
                 in_citation_label: 'In citation:'
                 permissions_label: 'Permissions:'
-                permissions:
-                    admin: Administrator
-                    write: 'Read + Write'
-                    read: Read
                 remove: Remove
                 remove_author: 'Remove author'
             load_more_contributors: 'Load more contributors'
@@ -2748,10 +2744,6 @@ osf-components:
             name: 'Name'
             permission: 'Permission'
             citation: 'Citation'
-        permissions:
-            admin: 'Administrator'
-            write: 'Read + Write'
-            read: 'Read'
         citation:
             true: 'Yes'
             false: 'No'
