@@ -16,7 +16,7 @@ export enum ItemType {
     File = 'FILE',
 }
 
-export type OperationResult = ListItemsResult | GetItemInfoResult;
+export type OperationResult = ListItemsResult | Item;
 
 export interface ListItemsResult {
     items: Item[];
@@ -25,12 +25,6 @@ export interface ListItemsResult {
     prevSampleCursor?: string;
     firstSampleCursor?: string;
     totalCount?: number;
-}
-
-export interface GetItemInfoResult {
-    itemId: string;
-    itemName: string;
-    itemType: ItemType;
 }
 
 export interface Item {

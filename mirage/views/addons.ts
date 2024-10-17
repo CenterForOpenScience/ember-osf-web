@@ -261,12 +261,14 @@ export function createAddonOperationInvocation(this: HandlerContext, schema: Sch
     let result: any = null;
     const folderId = kwargs.item_id || 'root';
     const item_type = kwargs.item_type || ItemType.Folder;
+    const fakePath = folderId.split('-')
+        .map((folder: string) => ({ item_id: folder, item_name: folder, item_type: ItemType.Folder }));
     if (attrs.operationName === ConnectedOperationNames.GetItemInfo) {
         result = {
             item_id: folderId,
-            item_name: `Item with ID ${folderId}`,
+            item_name: `Folder with ID ${folderId}`,
             item_type,
-            item_path: folderId,
+            item_path: folderId === 'root' ? undefined : fakePath,
         };
     } else {
         result = {
@@ -274,7 +276,7 @@ export function createAddonOperationInvocation(this: HandlerContext, schema: Sch
                 item_id: `${folderId}-${i}`,
                 item_name: `${item_type}${i} in ${folderId}`,
                 item_type,
-                item_path: folderId,
+                item_path: folderId === 'root' ? undefined : fakePath,
             })),
         };
     }

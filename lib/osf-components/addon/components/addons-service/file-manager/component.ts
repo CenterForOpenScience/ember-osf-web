@@ -8,7 +8,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import { GetItemInfoResult, Item, ListItemsResult } from 'ember-osf-web/models/addon-operation-invocation';
+import { Item, ListItemsResult } from 'ember-osf-web/models/addon-operation-invocation';
 import ConfiguredStorageAddonModel, { OperationKwargs } from 'ember-osf-web/models/configured-storage-addon';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -43,10 +43,15 @@ export default class FileManager extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        taskFor(this.getStartingFolder).perform();
-        taskFor(this.getItems).perform();
+        taskFor(this.initialize).perform();
     }
 
+    @task
+    @waitFor
+    async initialize() {
+        await taskFor(this.getStartingFolder).perform();
+        await taskFor(this.getItems).perform();
+    }
 
     @action
     goToRoot() {
@@ -82,9 +87,9 @@ export default class FileManager extends Component<Args> {
         const { startingFolderId, configuredStorageAddon } = this.args;
         try {
             const invocation = await taskFor(configuredStorageAddon.getItemInfo).perform(startingFolderId);
-            const result = invocation.operationResult as GetItemInfoResult;
+            const result = invocation.operationResult as Item;
             this.currentFolderId = result.itemId;
-            this.currentPath = [result];
+            this.currentPath = result.itemPath ? [...result.itemPath] : [];
         } catch (e) {
             captureException(e);
             const errorMessage = this.intl.t('osf-components.addons-service.file-manager.get-item-error');
