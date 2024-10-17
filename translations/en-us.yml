@@ -77,6 +77,10 @@ general:
     optional: Optional
     optional_paren: (optional)
     period: .
+    permissions:
+        admin: Administrator
+        read: Read
+        write: 'Read + Write'
     please_confirm: 'Please confirm'
     presented_by_osf: 'Presented by OSF'
     previous: previous

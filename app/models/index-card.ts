@@ -30,10 +30,10 @@ export enum OsfmapResourceTypes {
     ConceptScheme = 'Concept:Scheme',
 }
 
-export enum AttributionRoles {
-    Admin = 'Admin',
-    Write = 'Write',
-    Read = 'Read',
+export enum AttributionRoleIris {
+    Admin = 'osf:admin-contributor',
+    Write = 'osf:write-contributor',
+    Read = 'osf:readonly-contributor',
 }
 
 export default class IndexCardModel extends Model {

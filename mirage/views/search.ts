@@ -2,7 +2,7 @@ import { Request, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
 import { PaginationLinks } from 'jsonapi-typescript';
 
-import { AttributionRoles, OsfmapResourceTypes } from 'ember-osf-web/models/index-card';
+import { AttributionRoleIris, OsfmapResourceTypes } from 'ember-osf-web/models/index-card';
 import config from 'ember-osf-web/config/environment';
 
 import { guid } from '../factories/utils';
@@ -40,14 +40,9 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         publisher: [_shareOrganizationField()], // Registration Provider
         qualifiedAttribution: [{
             agent: [_sharePersonField()],
-            hadRole: [
-                {
-                    '@id': 'https://schema.org/author',
-                    name: [{
-                        '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
-                    }],
-                },
-            ],
+            hadRole: [{
+                '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
+            }],
         }],
         resourceNature: [{ // Registration Category
             '@id': 'https://schema.datacite.org/meta/kernel-4/#StudyRegistration',
@@ -100,14 +95,9 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         publisher: [_shareOrganizationField()],
         qualifiedAttribution: [{
             agent: [_sharePersonField()],
-            hadRole: [
-                {
-                    '@id': 'https://schema.org/author',
-                    name: [{
-                        '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
-                    }],
-                },
-            ],
+            hadRole: [{
+                '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
+            }],
         }],
         resourceNature: [{
             '@id': 'https://schema.datacite.org/meta/kernel-4/#Dataset',
@@ -164,14 +154,9 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         publisher: [_shareOrganizationField()], // Preprint Provider
         qualifiedAttribution: [{
             agent: [_sharePersonField()],
-            hadRole: [
-                {
-                    '@id': 'https://schema.org/author',
-                    name: [{
-                        '@value': faker.random.arrayElement(Object.values(AttributionRoles)),
-                    }],
-                },
-            ],
+            hadRole: [{
+                '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
+            }],
         }],
         resourceNature: [{
             '@id': 'https://schema.datacite.org/meta/kernel-4/#Preprint',
