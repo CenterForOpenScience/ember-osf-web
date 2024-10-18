@@ -20,7 +20,6 @@ interface Column {
 interface InstitutionalUsersListArgs {
     institution: InstitutionModel;
     departmentMetrics: InstitutionDepartmentsModel[];
-    totalUsers: number;
 }
 
 export default class InstitutionalUsersList extends Component<InstitutionalUsersListArgs> {
@@ -30,7 +29,6 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     institution?: InstitutionModel;
 
     departmentMetrics?: InstitutionDepartmentsModel[];
-    totalUsers?: number;
 
     // Properties
     @tracked department = this.defaultDepartment;
@@ -138,8 +136,8 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @tracked department = this.intl.t('institutions.dashboard.select_default');
     @tracked sort = 'user_name';
     @tracked hasOrcid = false;
+    @tracked totalUsers = 0;
 
-    reloadUserList?: () => void;
 
     @action
     toggleColumnSelection(columnKey: string) {
