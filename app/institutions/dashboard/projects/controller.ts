@@ -2,6 +2,8 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 
+
+import humanFileSize from 'ember-osf-web/utils/human-file-size';
 import { ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
 import { ObjectListColumn } from '../-components/object-list/component';
 
@@ -19,10 +21,6 @@ export default class InstitutionDashboardProjects extends Controller {
             getHref: searchResult => searchResult.indexCard.get('osfIdentifier'),
             getLinkText: searchResult => searchResult.indexCard.get('osfGuid'),
         },
-        { // Object type
-            name: this.intl.t('institutions.dashboard.object-list.table-headers.object_type'),
-            getValue: searchResult => searchResult.intlResourceType,
-        },
         { // Date created
             name: this.intl.t('institutions.dashboard.object-list.table-headers.created_date'),
             getValue: searchResult => searchResult.getResourceMetadataField('dateCreated'),
@@ -39,13 +37,11 @@ export default class InstitutionDashboardProjects extends Controller {
         },
         { // Storage location
             name: this.intl.t('institutions.dashboard.object-list.table-headers.storage_location'),
-            // TODO: Update when OsfMap representation is available
-            getValue: searchResult => searchResult.storageLocation,
+            getValue: searchResult => searchResult.storageRegion,
         },
         { // Total data stored
             name: this.intl.t('institutions.dashboard.object-list.table-headers.total_data_stored'),
-            // TODO: Update when OsfMap representation is available
-            getValue: searchResult => searchResult.totalDataStored,
+            getValue: searchResult => humanFileSize(searchResult.getResourceMetadataField('storageByteCount')),
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
@@ -53,18 +49,23 @@ export default class InstitutionDashboardProjects extends Controller {
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
-            // TODO: Update when OsfMap representation is available
-            getValue: searchResult => searchResult.viewCount,
+            getValue: searchResult => searchResult.usageMetrics.viewCount,
         },
-        { // Download count
-            name: this.intl.t('institutions.dashboard.object-list.table-headers.download_count'),
-            // TODO: Update when OsfMap representation is available
-            getValue: searchResult => searchResult.downloadCount,
+        { // Resource type
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.resource_nature'),
+            getValue: searchResult => searchResult.resourceNature,
         },
-        { // Has metadata
-            name: this.intl.t('institutions.dashboard.object-list.table-headers.has_metadata'),
-            // TODO: Update when OsfMap representation is available
-            getValue: searchResult => searchResult.hasMetadata,
+        { // License
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
+            getValue: searchResult => searchResult.license?.name,
+        },
+        { // addons associated
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.addons'),
+            getValue: searchResult => searchResult.configuredAddonNames,
+        },
+        { // Funder name
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.funder_name'),
+            getValue: searchResult => searchResult.funders.map((funder: {name: string}) => funder.name).join(', '),
         },
     ];
 
