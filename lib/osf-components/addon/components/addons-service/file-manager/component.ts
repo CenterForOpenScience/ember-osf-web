@@ -18,11 +18,13 @@ interface Args {
     startingFolderId: string;
 }
 
+type PathItem = Item | { itemName: string };
+
 export default class FileManager extends Component<Args> {
     @service intl!: IntlService;
     @service toast!: Toast;
 
-    @tracked currentPath: Item[] = [];
+    @tracked currentPath: PathItem[] = [];
     @tracked currentItems: Item[] = [];
     @tracked currentFolderId?: string;
 
@@ -92,7 +94,7 @@ export default class FileManager extends Component<Args> {
                 this.currentFolderId = result.itemId;
                 this.currentPath = result.itemPath ? [...result.itemPath] : [];
             } else {
-                this.currentPath = [];
+                this.currentPath = [{itemName: 'Root'}];
             }
         } catch (e) {
             captureException(e);
