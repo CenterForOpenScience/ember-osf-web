@@ -72,7 +72,6 @@ export default class ConfiguredStorageAddonModel extends ConfiguredAddonModel {
 
     get externalServiceId() {
         return (this as ConfiguredStorageAddonModel).belongsTo('externalStorageService').id();
-        return this.get('baseAccount').get('externalStorageService').get('id');
     }
 }
 
