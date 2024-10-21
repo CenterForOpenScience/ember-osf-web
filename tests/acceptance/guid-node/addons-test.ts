@@ -192,6 +192,7 @@ module('Acceptance | guid-node/addons', hooks => {
         assert.dom('[data-test-display-name-input]').exists('Name input is present');
         assert.dom('[data-test-display-name-input]')
             .hasValue(s3AccountsDisplayNamesAndRootFolders[0].displayName, 'Name input has correct value');
+        assert.dom('[data-test-go-to-root]').exists('Go to root button is present');
         assert.dom('[data-test-folder-path-option]').exists({ count: 1 }, 'Folder path shown');
         assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled when name is present');
         assert.dom('[data-test-root-folder-cancel]').exists('Cancel button is present');

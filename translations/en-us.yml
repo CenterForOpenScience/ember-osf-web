@@ -352,6 +352,7 @@ addons:
     configure:
         heading: 'Configure {providerName}'
         display-name: 'Display name'
+        go-to-root: 'Go to root'
         go-to-folder: 'Go to folder {folderName}'
         select-folder: 'Select {folderName} as root folder'
         table-headings:

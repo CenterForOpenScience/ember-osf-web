@@ -27,23 +27,27 @@
         as |fileManager|
     >
         <div local-class='current-path'>
-            {{#each fileManager.currentPath as |pathItem index|}}
-                <span>
-                    <Button
-                        data-test-folder-path-option='{{pathItem.itemName}}'
-                        data-analytics-name='Go to ancestor folder'
-                        @layout='fake-link'
-                        aria-label={{t 'addons.configure.go-to-folder' folderName=pathItem.itemName}}
-                        {{on 'click' (fn fileManager.goToFolder pathItem)}}
-                    >
-                        {{#if (eq index 0)}}
-                            <FaIcon @icon='home' />
-                        {{else}}
-                            <FaIcon @icon='chevron-right' />
-                        {{/if}}
-                        {{pathItem.itemName}}
-                    </Button>
-                </span>
+            <Button
+                data-test-go-to-root
+                data-analytics-name='Go to root folder'
+                @layout='fake-link'
+                aria-label={{t 'addons.configure.go-to-root'}}
+                {{on 'click' fileManager.goToRoot}}
+            >
+                <FaIcon @icon='home' />
+                {{t 'general.home'}}
+            </Button>
+            {{#each fileManager.currentPath as |pathItem|}}
+                <Button
+                    data-test-folder-path-option='{{pathItem.itemName}}'
+                    data-analytics-name='Go to ancestor folder'
+                    @layout='fake-link'
+                    aria-label={{t 'addons.configure.go-to-folder' folderName=pathItem.itemName}}
+                    {{on 'click' (fn fileManager.goToFolder pathItem)}}
+                >
+                    <FaIcon @icon='chevron-right' />
+                    {{pathItem.itemName}}
+                </Button>
             {{/each}}
         </div>
         <table local-class='file-tree-table'>
