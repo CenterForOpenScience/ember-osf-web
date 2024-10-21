@@ -8,7 +8,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import { Item } from 'ember-osf-web/models/addon-operation-invocation';
+import { Item, ListItemsResult } from 'ember-osf-web/models/addon-operation-invocation';
 import ConfiguredStorageAddonModel, { OperationKwargs } from 'ember-osf-web/models/configured-storage-addon';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -24,9 +24,9 @@ export default class FileManager extends Component<Args> {
 
     @tracked currentPath: Item[] = [];
     @tracked currentItems: Item[] = [];
-    @tracked currentFolderId = this.args.startingFolderId;
+    @tracked currentFolderId?: string;
 
-    @tracked cursor = '';
+    @tracked cursor?: string;
     @tracked hasMore = false;
 
     private lastInvocation: any = null;
@@ -43,22 +43,27 @@ export default class FileManager extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        taskFor(this.getStartingFolder).perform();
-        taskFor(this.getItems).perform();
+        taskFor(this.initialize).perform();
     }
 
+    @task
+    @waitFor
+    async initialize() {
+        await taskFor(this.getStartingFolder).perform();
+        await taskFor(this.getItems).perform();
+    }
 
     @action
     goToRoot() {
-        this.cursor = '';
-        this.currentPath = this.currentPath.slice(0, 1);
-        this.currentFolderId = this.args.startingFolderId;
+        this.cursor = undefined;
+        this.currentPath = this.currentPath = [];
+        this.currentFolderId = undefined;
         taskFor(this.getItems).perform();
     }
 
     @action
     goToFolder(folder: Item) {
-        this.cursor = '';
+        this.cursor = undefined;
         this.currentItems = [];
         if (this.currentPath.includes(folder)) {
             this.currentPath = this.currentPath.slice(0, this.currentPath.indexOf(folder) + 1);
@@ -71,7 +76,7 @@ export default class FileManager extends Component<Args> {
 
     @action
     getMore() {
-        this.cursor = this.lastInvocation?.operationResult.cursor;
+        this.cursor = this.lastInvocation?.operationResult.nextSampleCursor;
         taskFor(this.getItems).perform();
     }
 
@@ -81,8 +86,12 @@ export default class FileManager extends Component<Args> {
     async getStartingFolder() {
         const { startingFolderId, configuredStorageAddon } = this.args;
         try {
-            const invocation = await taskFor(configuredStorageAddon.getItemInfo).perform(startingFolderId);
-            this.currentPath = [invocation.operationResult];
+            if (startingFolderId) {
+                const invocation = await taskFor(configuredStorageAddon.getItemInfo).perform(startingFolderId);
+                const result = invocation.operationResult as Item;
+                this.currentFolderId = result.itemId;
+                this.currentPath = result.itemPath ? [...result.itemPath] : [];
+            }
         } catch (e) {
             captureException(e);
             const errorMessage = this.intl.t('osf-components.addons-service.file-manager.get-item-error');
@@ -98,16 +107,15 @@ export default class FileManager extends Component<Args> {
         kwargs.itemId = this.currentFolderId;
         kwargs.pageCursor = this.cursor;
         try {
-            let invocation;
-            if (!this.currentFolderId) {
-                invocation = await taskFor(this.args.configuredStorageAddon.getFolderItems).perform();
-            } else {
-                invocation = await taskFor(this.args.configuredStorageAddon.getFolderItems).perform(kwargs);
-            }
+            const getFolderArgs = !this.currentFolderId ? {} : kwargs;
+            const invocation = await taskFor(this.args.configuredStorageAddon.getFolderItems).perform(getFolderArgs);
             this.lastInvocation = invocation;
-            const { operationResult } = invocation;
+            const operationResult = invocation.operationResult as ListItemsResult;
+            if (!this.currentFolderId) {
+                this.currentFolderId = operationResult.items[0].itemId;
+            }
             this.currentItems = this.cursor ? [...this.currentItems, ...operationResult.items] : operationResult.items;
-            this.hasMore = Boolean(invocation.operationResult.cursor);
+            this.hasMore = Boolean(operationResult.nextSampleCursor);
         } catch (e) {
             captureException(e);
             const errorMessage = this.intl.t('osf-components.addons-service.file-manager.get-items-error');

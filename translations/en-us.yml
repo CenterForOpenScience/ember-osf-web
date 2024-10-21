@@ -64,6 +64,7 @@ general:
     hosted_on_the_osf: 'Hosted on OSF'
     last_modified: 'Last modified'
     loading: Loading...
+    load_more: 'Load more'
     md5: MD5
     modified: Modified
     more: more
@@ -351,6 +352,7 @@ addons:
     configure:
         heading: 'Configure {providerName}'
         display-name: 'Display name'
+        go-to-root: 'Go to home folder'
         go-to-folder: 'Go to folder {folderName}'
         select-folder: 'Select {folderName} as root folder'
         table-headings:

@@ -260,20 +260,23 @@ export function createAddonOperationInvocation(this: HandlerContext, schema: Sch
     const invocation = schema.addonOperationInvocations.create(attrs) as ModelInstance<MirageAddonOperationInvocation>;
     let result: any = null;
     const folderId = kwargs.item_id || 'root';
+    const item_type = kwargs.item_type || ItemType.Folder;
+    const fakePath = folderId.split('-')
+        .map((folder: string) => ({ item_id: folder, item_name: folder, item_type: ItemType.Folder }));
     if (attrs.operationName === ConnectedOperationNames.GetItemInfo) {
         result = {
             item_id: folderId,
-            item_name: `Item with ID ${folderId}`,
-            item_type: kwargs.item_type || ItemType.Folder,
-            item_path: folderId,
+            item_name: `Folder with ID ${folderId}`,
+            item_type,
+            item_path: folderId === 'root' ? undefined : fakePath,
         };
     } else {
         result = {
             items: '12345'.split('').map(i => ({
                 item_id: `${folderId}-${i}`,
-                item_name: `${kwargs.item_type}${i} in ${folderId}`,
-                item_type: kwargs.item_type,
-                item_path: folderId,
+                item_name: `${item_type}${i} in ${folderId}`,
+                item_type,
+                item_path: folderId === 'root' ? undefined : fakePath,
             })),
         };
     }
