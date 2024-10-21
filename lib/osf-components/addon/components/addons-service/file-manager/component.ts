@@ -76,7 +76,7 @@ export default class FileManager extends Component<Args> {
 
     @action
     getMore() {
-        this.cursor = this.lastInvocation?.operationResult.cursor;
+        this.cursor = this.lastInvocation?.operationResult.nextSampleCursor;
         taskFor(this.getItems).perform();
     }
 
