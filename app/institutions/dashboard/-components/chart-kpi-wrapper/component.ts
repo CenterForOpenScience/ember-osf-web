@@ -207,8 +207,7 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
      * @param dataPointerProperty The property on this component to store the data in
      * @param index The index to store the data in the kpiCharts array
      * @param translationKey The translation key to use for the title of the chart
-     *
-     * @returns The total of private and public projects
+     * @param graphType Optional: The type of graph to render
      */
     @task
     @waitFor
