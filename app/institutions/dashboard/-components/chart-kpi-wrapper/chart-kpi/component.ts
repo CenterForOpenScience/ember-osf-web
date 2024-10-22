@@ -31,7 +31,7 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
      * @returns a ChartOptions model which is custom to COS
      */
     get chartOptions(): ChartOptions {
-        return {
+        const options = {
             aspectRatio: 1,
             legend: {
                 display: false,
@@ -42,9 +42,14 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
                 }],
                 yAxes: [{
                     display: false,
+                    ticks: { min: 0 },
                 }],
             },
         };
+        if (this.args.data.chartType === 'bar') {
+            options.scales.yAxes[0].display = true;
+        }
+        return options;
     }
 
     /**

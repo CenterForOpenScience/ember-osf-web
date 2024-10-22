@@ -20,14 +20,18 @@ declare module 'ember-cli-chart' {
             xAxes?: [
                 {
                     display?: boolean
+                    ticks?: {
+                        min?: number
+                    }
                 }
-
             ],
             yAxes?: [
                 {
                     display?: boolean
+                    ticks?: {
+                        min?: number
+                    }
                 }
-
             ]
         }
     }

@@ -859,6 +859,7 @@ institutions:
                 title: 'Public vs Private Data Storage'
                 public: 'Public Data Storage' 
                 private: 'Private Data Storage' 
+            error: 'Error loading data'
         object-list:
             filter-button-label: 'Filter'
             filter-heading: 'Filter by:'
