@@ -228,21 +228,10 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
         });
         const resultPage = valueSearch.searchResultPage.toArray();
 
-        let runningTotal = 0;
-        const chartData = resultPage.map((result: SearchResultModel) => {
-            runningTotal += result.cardSearchResultCount;
-            return {
-                label: result.indexCard.get('label'),
-                total: result.cardSearchResultCount,
-            };
-        });
-
-        if (runningTotal < valueSearch.totalResultCount) {
-            chartData.push({
-                label: this.intl.t('general.other'),
-                total: valueSearch.totalResultCount - runningTotal,
-            });
-        }
+        const chartData = resultPage.map((result: SearchResultModel) => ({
+            total: result.cardSearchResultCount,
+            label: result.indexCard.get('label'),
+        }));
 
         const kpiChartObject = {
             title: this.intl.t('institutions.dashboard.kpi-chart.' + translationKey),

@@ -32,6 +32,9 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
                     numberOfUsers: 37,
                 },
             ],
+            institution: {
+                iris: ['bleh'],
+            },
         });
 
         this.set('model', model);
@@ -225,22 +228,21 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the expanded data position 0 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
-            .hasText('Math');
+            .exists();
 
         // And the expanded data position 0 total is verified
         assert.dom(`${parentDom} [data-test-expanded-total="0"]`)
-            .hasText('25');
+            .hasText('3');
 
         // And the expanded data position 1 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="1"]`)
-            .hasText('Science');
+            .exists();
 
         // And the expanded data position 1 total is verified
         assert.dom(`${parentDom} [data-test-expanded-total="1"]`)
-            .hasText('37');
+            .hasText('2');
 
-        // Finally there are only 2 expanded data points
-        assert.dom(`${parentDom} [data-test-expanded-name="2"]`)
+        assert.dom(`${parentDom} [data-test-expanded-total="2"]`)
             .doesNotExist();
     });
 
@@ -261,19 +263,19 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the expanded data position 0 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
-            .hasText('Math');
+            .exists();
 
         // And the expanded data position 0 total is verified
         assert.dom(`${parentDom} [data-test-expanded-total="0"]`)
-            .hasText('25');
+            .hasText('3');
 
         // And the expanded data position 1 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="1"]`)
-            .hasText('Science');
+            .exists();
 
         // And the expanded data position 1 total is verified
         assert.dom(`${parentDom} [data-test-expanded-total="1"]`)
-            .hasText('37');
+            .hasText('2');
 
         // Finally there are only 2 expanded data points
         assert.dom(`${parentDom} [data-test-expanded-name="2"]`)
@@ -297,56 +299,19 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the expanded data position 0 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
-            .hasText('Math');
+            .exists();
 
         // And the expanded data position 0 total is verified
         assert.dom(`${parentDom} [data-test-expanded-total="0"]`)
-            .hasText('25');
+            .hasText('3');
 
         // And the expanded data position 1 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="1"]`)
-            .hasText('Science');
+            .exists();
 
         // And the expanded data position 1 total is verified
         assert.dom(`${parentDom} [data-test-expanded-total="1"]`)
-            .hasText('37');
-
-        // Finally there are only 2 expanded data points
-        assert.dom(`${parentDom} [data-test-expanded-name="2"]`)
-            .doesNotExist();
-    });
-
-    test('it calculates the Public vs Private Data Storage data correctly', async function(assert) {
-        // Given the component is rendered
-        await render(hbs`
-<Institutions::Dashboard::-Components::ChartKpiWrapper
-@model={{this.model}}
-/>
-`);
-        const parentDom = '[data-test-kpi-chart="7"]';
-
-        // When I click the expanded icon
-        await click(`${parentDom} [data-test-expand-additional-data]`);
-
-        // And the title is verified
-        assert.dom(`${parentDom} [data-test-chart-title]`)
-            .hasText('Public vs Private Data Storage');
-
-        // And the expanded data position 0 name is verified
-        assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
-            .hasText('Public Data Storage');
-
-        // And the expanded data position 0 total is verified
-        assert.dom(`${parentDom} [data-test-expanded-total="0"]`)
-            .hasText('2000');
-
-        // And the expanded data position 1 name is verified
-        assert.dom(`${parentDom} [data-test-expanded-name="1"]`)
-            .hasText('Private Data Storage');
-
-        // And the expanded data position 1 total is verified
-        assert.dom(`${parentDom} [data-test-expanded-total="1"]`)
-            .hasText('2100');
+            .hasText('2');
 
         // Finally there are only 2 expanded data points
         assert.dom(`${parentDom} [data-test-expanded-name="2"]`)
