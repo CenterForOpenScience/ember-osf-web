@@ -29,7 +29,7 @@ export interface KpiChartModel {
     chartType: string;
     // Either chartData or taskInstance should be defined
     chartData?: ChartDataModel[];
-    taskInstance?: TaskInstance<void>;
+    taskInstance?: TaskInstance<ChartDataModel[]>;
 }
 
 export default class ChartKpiWrapperComponent extends Component<TotalCountChartWrapperArgs> {

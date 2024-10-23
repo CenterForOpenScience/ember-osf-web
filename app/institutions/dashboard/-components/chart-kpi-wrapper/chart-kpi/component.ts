@@ -88,13 +88,9 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
         const labels = [] as string[];
         const { taskInstance, chartData } = this.args.data;
 
-        let rawData = chartData ? chartData : [];
-        if (taskInstance) {
-            if (taskInstance.value) {
-                rawData = taskInstance.value;
-            }
-        }
-        rawData.map((rawChartData: ChartDataModel, $index: number) => {
+        const rawData = taskInstance?.value || chartData || [];
+
+        rawData.forEach((rawChartData: ChartDataModel, $index: number) => {
             backgroundColors.push(this.getColor($index));
 
             data.push(rawChartData.total);
