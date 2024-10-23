@@ -1,12 +1,16 @@
+import Store from '@ember-data/store';
+import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
+import { task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
-import { inject as service } from '@ember/service';
+
 import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
+import SearchResultModel from 'ember-osf-web/models/search-result';
+
 /*
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 */
@@ -22,12 +26,16 @@ interface TotalCountChartWrapperArgs {
 
 export interface KpiChartModel {
     title: string;
-    chartData: ChartDataModel[];
     chartType: string;
+    // Either chartData or taskInstance should be defined
+    chartData?: ChartDataModel[];
+    taskInstance?: TaskInstance<ChartDataModel[]>;
 }
 
 export default class ChartKpiWrapperComponent extends Component<TotalCountChartWrapperArgs> {
     @service intl!: Intl;
+    @service store!: Store;
+
     @tracked model = this.args.model;
     @tracked kpiCharts = [] as KpiChartModel[];
     @tracked isLoading = true;
@@ -49,6 +57,11 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
     @waitFor
     private async loadData(): Promise<void> {
         const metrics = await this.model;
+
+        const getLicenseTask = taskFor(this.getShareData).perform('rights');
+        const getAddonsTask = taskFor(this.getShareData).perform('hasOsfAddon');
+        const getRegionTask = taskFor(this.getShareData)
+            .perform('storageRegion');
 
         this.kpiCharts.push(
             {
@@ -73,23 +86,18 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.licenses'),
-                chartData: this.calculateLicenses(metrics.departmentMetrics),
                 chartType: 'bar',
+                taskInstance: getLicenseTask,
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.add-ons'),
-                chartData: this.calculateAddons(metrics.departmentMetrics),
                 chartType: 'bar',
+                taskInstance: getAddonsTask,
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.storage-regions'),
-                chartData: this.calculateStorageRegions(metrics.departmentMetrics),
                 chartType: 'doughnut',
-            },
-            {
-                title: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-data-storage.title'),
-                chartData: this.calculateDataStorage(metrics.summaryMetrics),
-                chartType: 'doughnut',
+                taskInstance: getRegionTask,
             },
         );
 
@@ -152,7 +160,7 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
         let chartData = [
             {
                 label: this.intl.t('institutions.dashboard.kpi-chart.total-osf-objects.preprints'),
-                total: summaryMetrics.preprintCount,
+                total: summaryMetrics.publishedPreprintCount,
             } as ChartDataModel,
         ];
 
@@ -185,91 +193,32 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
     }
 
     /**
-     * calculateLicenses
+     * getShareData
      *
-     * @description Abstracted method to build the ChartData model for licenses
-     * @param licenseMetrics The license metrics object
+     * @description Abstracted task to fetch data associated with the institution from SHARE
+     * @param propertyPath The property path to search for
+     * (e.g. propertyPathKey in the `related-property-path` of an index-card-search)
      *
-     * @returns The licenses ChartData model
+     * @returns ChartDataModel[] The labels and totals for each section
+     *
      */
-    private calculateLicenses(licenseMetrics: InstitutionDepartmentModel[]): ChartDataModel[] {
-        const licenseData = [] as ChartDataModel[];
-
-        licenseMetrics.forEach((metric: InstitutionDepartmentModel ) => {
-            licenseData.push(
-                {
-                    label: metric.name,
-                    total: metric.numberOfUsers,
-                } as ChartDataModel,
-            );
+    @task
+    @waitFor
+    private async getShareData(
+        propertyPath: string,
+    ): Promise<ChartDataModel[]> {
+        const valueSearch = await this.store.queryRecord('index-value-search', {
+            cardSearchFilter: {
+                affiliation: this.args.model.institution.iris.join(','),
+            },
+            'page[size]': 10,
+            valueSearchPropertyPath: propertyPath,
         });
-        return licenseData;
-    }
+        const resultPage = valueSearch.searchResultPage.toArray();
 
-    /**
-     * calculateAddons
-     *
-     * @description Abstracted method to build the ChartData model for add-ons
-     * @param addonMetrics The add-on metrics object
-     *
-     * @returns The add-ons ChartData model
-     */
-    private calculateAddons(addonMetrics: InstitutionDepartmentModel[]): ChartDataModel[] {
-        const addonData = [] as ChartDataModel[];
-
-        addonMetrics.forEach((metric: InstitutionDepartmentModel ) => {
-            addonData.push(
-                {
-                    label: metric.name,
-                    total: metric.numberOfUsers,
-                } as ChartDataModel,
-            );
-        });
-        return addonData;
-    }
-
-    /**
-     * calculateStorageRegions
-     *
-     * @description Abstracted method to build the Storage Regions ChartData
-     * @param storageRegionsMetrics The storage regions metrics object
-     *
-     * @returns The storage regions ChartData model
-     */
-    private calculateStorageRegions(storageRegionsMetrics: InstitutionDepartmentModel[]): ChartDataModel[] {
-        const storageRegionsData = [] as ChartDataModel[];
-
-        storageRegionsMetrics.forEach((metric: InstitutionDepartmentModel ) => {
-            storageRegionsData.push(
-                {
-                    label: metric.name,
-                    total: metric.numberOfUsers,
-                } as ChartDataModel,
-            );
-        });
-        return storageRegionsData;
-    }
-
-    /**
-     * calculateDataStorage
-     *
-     * @description Abstracted method to calculate the private and public data storage
-     * @param summaryMetrics The institutional summary metrics object
-     *
-     * @returns The total of private and public data storage
-     */
-    private calculateDataStorage(summaryMetrics: InstitutionSummaryMetricModel): ChartDataModel[] {
-        return [
-            {
-                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-data-storage.public'),
-                total: summaryMetrics.storageByteCount,
-            } as ChartDataModel,
-            {
-                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-data-storage.private'),
-                total: summaryMetrics.storageByteCount + 100,
-            } as ChartDataModel,
-        ];
+        return resultPage.map((result: SearchResultModel) => ({
+            total: result.cardSearchResultCount,
+            label: result.indexCard.get('label'),
+        }));
     }
 }
-
-

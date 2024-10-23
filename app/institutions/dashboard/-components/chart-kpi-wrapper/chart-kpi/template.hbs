@@ -2,68 +2,74 @@
     local-class='chart-container {{if (is-mobile) 'mobile'}}'
     ...attributes 
 >
-    <div local-class='top-container'>
-        <div
-            data-test-chart
-            local-class='ember-chart'
-        >
-            <EmberChart
-                @type={{@data.chartType}}
-                @options={{this.chartOptions}}
-                @data={{this.chartData}}
-            />
-        </div>
-    </div>
-    <div local-class='bottom-container'>
-        {{#let (unique-id 'expanded-data') as |expandedDataId|}}
-            <div local-class='title-container'>
-                <div data-test-chart-title local-class='title'>{{@data.title}}</div>
-                <div local-class='button-container'>
-                    <Button
-                        data-analytics-name='Expand additional data'
-                        data-test-expand-additional-data
-                        @layout='fake-link'
-                        aria-controls={{expandedDataId}}
-                        aria-expanded={{this.expanded}}
-                        aria-label={{if this.expanded
-                        (t 'institutions.dashboard.kpi-chart.close-expanded-data')
-                        (t 'institutions.dashboard.kpi-chart.open-expanded-data')
-                        }}
-                        {{on 'click' this.toggleExpandedData}}
-                    >
-                        <FaIcon data-test-toggle-icon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
-                    </Button>
-                </div>
-            </div>
-            <div 
-                local-class='expanded-data-container {{if this.collapsed 'collapsed'}}'
-                data-test-expansion-data
-                id={{expandedDataId}}
+    {{#if @data.taskInstance.isRunning}}
+        <LoadingIndicator @dark={{true}} />
+    {{else if @data.taskInstance.isError}}
+        {{t 'institutions.dashboard.kpi-chart.error'}}
+    {{else}}
+        <div local-class='top-container'>
+            <div
+                data-test-chart
+                local-class='ember-chart'
             >
-                <ul local-class='data-list'>
-                    {{#each this.expandedData as |data index |}}
-                        <li
-                            local-class='data-container'
-                        >
-                            <div
-                                local-class='color'
-                                data-test-expanded-color='{{index}}'
-                                style={{html-safe (concat 'background-color:' data.color )}}>
-                            </div>
-                            <div local-class='name'
-                                data-test-expanded-name='{{index}}'
-                            >
-                                {{data.name}}
-                            </div>
-                            <div local-class='total'
-                                data-test-expanded-total='{{index}}'
-                            >
-                                {{data.total}}
-                            </div>
-                        </li>
-                    {{/each}}
-                </ul>
+                <EmberChart
+                    @type={{@data.chartType}}
+                    @options={{this.chartOptions}}
+                    @data={{this.chartData}}
+                />
             </div>
-        {{/let}}
-    </div>
+        </div>
+        <div local-class='bottom-container'>
+            {{#let (unique-id 'expanded-data') as |expandedDataId|}}
+                <div local-class='title-container'>
+                    <div data-test-chart-title local-class='title'>{{@data.title}}</div>
+                    <div local-class='button-container'>
+                        <Button
+                            data-analytics-name='Expand additional data'
+                            data-test-expand-additional-data
+                            @layout='fake-link'
+                            aria-controls={{expandedDataId}}
+                            aria-expanded={{this.expanded}}
+                            aria-label={{if this.expanded
+                            (t 'institutions.dashboard.kpi-chart.close-expanded-data')
+                            (t 'institutions.dashboard.kpi-chart.open-expanded-data')
+                            }}
+                            {{on 'click' this.toggleExpandedData}}
+                        >
+                            <FaIcon data-test-toggle-icon @icon={{if this.collapsed 'caret-down' 'caret-up'}} />
+                        </Button>
+                    </div>
+                </div>
+                <div 
+                    local-class='expanded-data-container {{if this.collapsed 'collapsed'}}'
+                    data-test-expansion-data
+                    id={{expandedDataId}}
+                >
+                    <ul local-class='data-list'>
+                        {{#each this.expandedData as |data index |}}
+                            <li
+                                local-class='data-container'
+                            >
+                                <div
+                                    local-class='color'
+                                    data-test-expanded-color='{{index}}'
+                                    style={{html-safe (concat 'background-color:' data.color )}}>
+                                </div>
+                                <div local-class='name'
+                                    data-test-expanded-name='{{index}}'
+                                >
+                                    {{data.name}}
+                                </div>
+                                <div local-class='total'
+                                    data-test-expanded-total='{{index}}'
+                                >
+                                    {{data.total}}
+                                </div>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/let}}
+        </div>
+    {{/if}}
 </div>
