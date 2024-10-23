@@ -166,7 +166,7 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
         let chartData = [
             {
                 label: this.intl.t('institutions.dashboard.kpi-chart.total-osf-objects.preprints'),
-                total: summaryMetrics.preprintCount,
+                total: summaryMetrics.publishedPreprintCount,
             } as ChartDataModel,
         ];
 
@@ -221,7 +221,6 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             cardSearchFilter: {
                 affiliation: this.args.model.institution.iris.join(','),
             },
-            sort: '-relevance',
             'page[size]': 10,
             valueSearchPropertyPath: propertyPath,
         });
