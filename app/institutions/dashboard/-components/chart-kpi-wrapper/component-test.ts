@@ -19,7 +19,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
                 publicProjectCount: 20,
                 publicRegistrationCount: 100,
                 embargoedRegistrationCount: 200,
-                preprintCount: 1000,
+                publishedPreprintCount: 1000,
                 storageByteCount: 2000,
             },
             departmentMetrics: [
