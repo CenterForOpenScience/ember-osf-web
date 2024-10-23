@@ -77,6 +77,10 @@ general:
     optional: Optional
     optional_paren: (optional)
     period: .
+    permissions:
+        admin: Administrator
+        read: Read
+        write: 'Read + Write'
     please_confirm: 'Please confirm'
     presented_by_osf: 'Presented by OSF'
     previous: previous
@@ -871,7 +875,6 @@ institutions:
             table-headers:
                 title: Title
                 link: Link
-                object_type: Type
                 created_date: 'Created Date'
                 modified_date: 'Modified Date'
                 doi: DOI
@@ -881,7 +884,12 @@ institutions:
                 contributor_permissions: 'Contributor Permissions'
                 view_count: Views (last 30 days)
                 download_count: Downloads (last 30 days)
-                has_metadata: 'Has Metadata'
+                resource_nature: 'Resource Type'
+                license: License
+                addons: Add-ons
+                funder_name: Funder Name
+            table-items:
+                permission-level: '({permissionLevel})'
         projects_panel: 'Total Projects'
         departments_panel: Departments
         public: Public
@@ -964,10 +972,6 @@ app_components:
                 img_alt: Gravatar
                 in_citation_label: 'In citation:'
                 permissions_label: 'Permissions:'
-                permissions:
-                    admin: Administrator
-                    write: 'Read + Write'
-                    read: Read
                 remove: Remove
                 remove_author: 'Remove author'
             load_more_contributors: 'Load more contributors'
@@ -2741,10 +2745,6 @@ osf-components:
             name: 'Name'
             permission: 'Permission'
             citation: 'Citation'
-        permissions:
-            admin: 'Administrator'
-            write: 'Read + Write'
-            read: 'Read'
         citation:
             true: 'Yes'
             false: 'No'
