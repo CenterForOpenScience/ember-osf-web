@@ -26,14 +26,11 @@ interface TotalCountChartWrapperArgs {
 
 export interface KpiChartModel {
     title: string;
-    chartData: ChartDataModel[];
     chartType: string;
+    // Either chartData or taskInstance should be defined
+    chartData?: ChartDataModel[];
     taskInstance?: TaskInstance<void>;
 }
-
-const licenseIndex = 4;
-const addonIndex = 5;
-const regionIndex = 6;
 
 export default class ChartKpiWrapperComponent extends Component<TotalCountChartWrapperArgs> {
     @service intl!: Intl;
@@ -61,10 +58,10 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
     private async loadData(): Promise<void> {
         const metrics = await this.model;
 
-        const getLicenseTask = taskFor(this.getShareData).perform('rights', licenseIndex, 'licenses', 'bar');
-        const getAddonsTask = taskFor(this.getShareData).perform('hasOsfAddon', addonIndex, 'add-ons', 'bar');
+        const getLicenseTask = taskFor(this.getShareData).perform('rights');
+        const getAddonsTask = taskFor(this.getShareData).perform('hasOsfAddon');
         const getRegionTask = taskFor(this.getShareData)
-            .perform('storageRegion', regionIndex, 'storage-regions', 'doughnut');
+            .perform('storageRegion');
 
         this.kpiCharts.push(
             {
@@ -89,19 +86,16 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.licenses'),
-                chartData: [],
                 chartType: 'bar',
                 taskInstance: getLicenseTask,
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.add-ons'),
-                chartData: [],
                 chartType: 'bar',
                 taskInstance: getAddonsTask,
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-chart.storage-regions'),
-                chartData: [],
                 chartType: 'doughnut',
                 taskInstance: getRegionTask,
             },
@@ -204,19 +198,15 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
      * @description Abstracted task to fetch data associated with the institution from SHARE
      * @param propertyPath The property path to search for
      * (e.g. propertyPathKey in the `related-property-path` of an index-card-search)
-     * @param dataPointerProperty The property on this component to store the data in
-     * @param index The index to store the data in the kpiCharts array
-     * @param translationKey The translation key to use for the title of the chart
-     * @param graphType Optional: The type of graph to render
+     *
+     * @returns ChartDataModel[] The labels and totals for each section
+     *
      */
     @task
     @waitFor
     private async getShareData(
         propertyPath: string,
-        index: number,
-        translationKey: string,
-        graphType?: string,
-    ) {
+    ): Promise<ChartDataModel[]> {
         const valueSearch = await this.store.queryRecord('index-value-search', {
             cardSearchFilter: {
                 affiliation: this.args.model.institution.iris.join(','),
@@ -226,19 +216,9 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
         });
         const resultPage = valueSearch.searchResultPage.toArray();
 
-        const chartData = resultPage.map((result: SearchResultModel) => ({
+        return resultPage.map((result: SearchResultModel) => ({
             total: result.cardSearchResultCount,
             label: result.indexCard.get('label'),
         }));
-
-        const kpiChartObject = {
-            title: this.intl.t('institutions.dashboard.kpi-chart.' + translationKey),
-            chartData,
-            chartType: graphType ? graphType : 'bar',
-
-        };
-        this.kpiCharts[index] = kpiChartObject;
-
-        this.kpiCharts = [...this.kpiCharts]; // re-set the array to trigger a re-render
     }
 }

@@ -85,21 +85,26 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
     get chartData(): ChartData {
         const backgroundColors = [] as string[];
         const data = [] as number[];
-        const labels =  [] as string[];
+        const labels = [] as string[];
+        const { taskInstance, chartData } = this.args.data;
 
-        this.args.data.chartData.map((chartData: ChartDataModel, $index: number) => {
+        let rawData = chartData ? chartData : [];
+        if (taskInstance) {
+            if (taskInstance.value) {
+                rawData = taskInstance.value;
+            }
+        }
+        rawData.map((rawChartData: ChartDataModel, $index: number) => {
             backgroundColors.push(this.getColor($index));
 
-            data.push(chartData.total);
-            labels.push(chartData.label);
-
+            data.push(rawChartData.total);
+            labels.push(rawChartData.label);
             this.expandedData.push({
-                name: chartData.label,
-                total: chartData.total,
+                name: rawChartData.label,
+                total: rawChartData.total,
                 color: this.getColor($index),
             });
         });
-
         return {
             labels,
             datasets: [{
