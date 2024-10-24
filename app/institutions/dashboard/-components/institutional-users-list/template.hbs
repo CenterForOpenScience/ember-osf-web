@@ -4,7 +4,7 @@
     <div local-class='filter-container'>
         <div local-class='total-users'>
             <span local-class='total-users-count'>
-                {{@totalUsers}}
+                {{this.totalUsers}}
             </span>
             {{t 'institutions.dashboard.users_list.total_users'}}
         </div>
@@ -72,8 +72,8 @@
             @model={{@institution}}
             @usePlaceholders={{false}}
             @relationshipName='userMetrics'
-            @bindReload={{this.reloadUserList}}
             @query={{this.queryUsers}}
+            @totalCount={{this.totalUsers}}
             as |list|
         >
             <list.header local-class='header'>

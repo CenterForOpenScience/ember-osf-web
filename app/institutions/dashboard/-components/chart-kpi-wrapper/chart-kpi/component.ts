@@ -31,7 +31,7 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
      * @returns a ChartOptions model which is custom to COS
      */
     get chartOptions(): ChartOptions {
-        return {
+        const options = {
             aspectRatio: 1,
             legend: {
                 display: false,
@@ -42,9 +42,14 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
                 }],
                 yAxes: [{
                     display: false,
+                    ticks: { min: 0 },
                 }],
             },
         };
+        if (this.args.data.chartType === 'bar') {
+            options.scales.yAxes[0].display = true;
+        }
+        return options;
     }
 
     /**
@@ -80,21 +85,22 @@ export default class ChartKpi extends Component<KPIChartWrapperArgs> {
     get chartData(): ChartData {
         const backgroundColors = [] as string[];
         const data = [] as number[];
-        const labels =  [] as string[];
+        const labels = [] as string[];
+        const { taskInstance, chartData } = this.args.data;
 
-        this.args.data.chartData.map((chartData: ChartDataModel, $index: number) => {
+        const rawData = taskInstance?.value || chartData || [];
+
+        rawData.forEach((rawChartData: ChartDataModel, $index: number) => {
             backgroundColors.push(this.getColor($index));
 
-            data.push(chartData.total);
-            labels.push(chartData.label);
-
+            data.push(rawChartData.total);
+            labels.push(rawChartData.label);
             this.expandedData.push({
-                name: chartData.label,
-                total: chartData.total,
+                name: rawChartData.label,
+                total: rawChartData.total,
                 color: this.getColor($index),
             });
         });
-
         return {
             labels,
             datasets: [{

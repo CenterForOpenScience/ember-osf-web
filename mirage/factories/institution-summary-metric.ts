@@ -19,7 +19,7 @@ export default Factory.extend<InstitutionSummaryMetricModel>({
     embargoedRegistrationCount() {
         return faker.random.number({ min: 0, max: 25});
     },
-    preprintCount() {
+    publishedPreprintCount() {
         return faker.random.number({ min: 15, max: 175});
     },
     storageByteCount() {
