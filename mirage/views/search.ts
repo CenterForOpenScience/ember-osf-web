@@ -30,6 +30,7 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         description: [{
             '@value': faker.lorem.sentence(),
         }],
+        funder: [_shareOrganizationField()],
         hasPart: [{}], // RegistrationComponent
         hostingInstition: [_shareOrganizationField()],
         identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
@@ -136,7 +137,6 @@ const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
         dateModified: [_shareDateField()],
         description: [{
             '@value': faker.lorem.sentence(),
-
         }],
         hasPart: [{}], // File
         hostingInstition: [_shareOrganizationField()],

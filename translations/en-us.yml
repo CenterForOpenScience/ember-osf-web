@@ -888,6 +888,7 @@ institutions:
                 license: License
                 addons: Add-ons
                 funder_name: Funder Name
+                registration_schema: 'Registration Schema'
             table-items:
                 permission-level: '({permissionLevel})'
         projects_panel: 'Total Projects'
