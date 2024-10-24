@@ -1,53 +1,57 @@
-.AdjustablePaginator__element {
+.paginator__control {
     display: inline-flex;
-    align-items: center;
-    padding-left: 10px;
+    align-items: right;
 
     &:first-of-type {
         padding-left: 0;
     }
 }
 
-.AdjustablePaginator__btn {
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    color: #333;
+.paginator__button {
+    background-color: #fff; // White background for default buttons
+    border: 1px solid #ddd; // Light gray border
+    color: $color-text-blue-dark;
     padding: 7px 16px;
     font-size: 14px;
-    border-radius: 2px;
+    border-radius: 4px; // Slightly rounded corners
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 
     &:hover {
-        background-color: #e2e6ea;
-        border-color: #ccc;
+        background-color: #e6e6e6; // Light gray background on hover
+        border-color: #ccc; // Slightly darker border on hover
     }
 
     &:disabled {
-        color: #adb5bd;
-        background-color: #f8f9fa;
+        color: $color-text-blue-dark;
+        background-color: #f8f9fa; // Disabled button background
         cursor: not-allowed;
         border-color: #ddd;
     }
 
     &:focus {
         outline: none;
-        border-color: #007bff;
+        border-color: #80bdff; // Blue border for focus
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); // Focus shadow effect
     }
 }
 
-.AdjustablePaginator__text {
-    font-size: 14px;
-    color: #333;
-    margin: 0 10px;
+/* Styles for the current (active) page button */
+.paginator__button--current {
+    background-color: #f1f1f1; // Light gray background for current page
+    border: 1px solid #007bff; // Blue border for current page
+    color: $color-text-blue-dark;
+    font-weight: bold;
+    cursor: default;
 }
 
-.AdjustablePaginator__select {
-    padding: 7px 16px 7px 14px;
+/* For the page size dropdown */
+.paginator__select {
+    padding: 7px 16px;
     border: 1px solid #ddd;
-    border-radius: 2px;
+    border-radius: 4px;
     font-size: 14px;
-    color: #333;
+    color: $color-text-blue-dark;
     max-width: 150px;
     background-color: #fff;
     transition: border-color 0.3s ease;
@@ -58,6 +62,13 @@
 
     &:focus {
         outline: none;
-        border-color: #007bff;
+        border-color: #80bdff; // Blue border for focused select
     }
+}
+
+/* Style for ellipsis */
+.paginator__ellipsis {
+    color: $color-text-blue-dark; // Slightly darker text for ellipsis
+    margin: 0 8px;
+    font-size: 14px;
 }
