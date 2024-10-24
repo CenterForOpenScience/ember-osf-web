@@ -10,19 +10,16 @@ import template from './template';
 @tagName('span')
 @classNames('sort-group')
 export default class AdjustablePaginator extends Component {
-    // Optional arguments
     page?: number;
     maxPage?: number;
-    totalCount?: number; // Total number of items
+    totalCount?: number;
     previousPage?: () => unknown;
     nextPage?: () => unknown;
     selectedPageSize = 10;
 
-    // Default page size options
     defaultPageSizeOptions = [10, 25, 50, 100];
 
-    // Compute dynamic pageSizeOptions based on totalCount
-    @computed('totalCount')
+    @computed('totalCount', 'defaultPageSizeOptions')
     get pageSizeOptions(): number[] {
         if (this.totalCount) {
             // Filter options smaller or equal to totalCount and include the next higher option
@@ -38,10 +35,9 @@ export default class AdjustablePaginator extends Component {
             return filteredOptions;
         }
 
-        return this.defaultPageSizeOptions; // Return default options if totalCount is undefined or 0
+        return this.defaultPageSizeOptions;
     }
 
-    // Check if the next page exists
     @computed('page', 'maxPage')
     get hasNext(): boolean {
         return Boolean(this.page && this.maxPage && this.page < this.maxPage);
@@ -61,13 +57,10 @@ export default class AdjustablePaginator extends Component {
         return this.maxPage + 1;
     }
 
-    // Check if the previous page exists
     @gt('page', 1) hasPrev!: boolean;
 
-    // Check if there are multiple pages
     @gt('maxPage', 1) hasMultiplePages!: boolean;
 
-    // Action to go to the previous page
     @action
     _previous() {
         if (this.previousPage) {
@@ -75,7 +68,6 @@ export default class AdjustablePaginator extends Component {
         }
     }
 
-    // Action to go to the next page
     @action
     _next() {
         if (this.nextPage) {
@@ -83,7 +75,6 @@ export default class AdjustablePaginator extends Component {
         }
     }
 
-    // Action to handle page size changes
     @action
     onPageSizeChange(value: int) {
         this.set('pageSize', value);

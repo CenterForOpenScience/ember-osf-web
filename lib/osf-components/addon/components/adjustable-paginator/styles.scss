@@ -1,74 +1,76 @@
 .paginator__control {
     display: inline-flex;
-    align-items: right;
+    align-items: center;
+    margin: 0;
 
     &:first-of-type {
         padding-left: 0;
     }
 }
 
-.paginator__button {
-    background-color: #fff; // White background for default buttons
-    border: 1px solid #ddd; // Light gray border
+.paginator__button,
+.paginator__select {
+    background-color: #fff;
+    border: 1px solid #ddd;
     color: $color-text-blue-dark;
     padding: 7px 16px;
     font-size: 14px;
-    border-radius: 4px; // Slightly rounded corners
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;  // Setting height to ensure the same for both buttons and select
+    box-sizing: border-box;  // Ensures padding and borders are included in the height
 
     &:hover {
-        background-color: #e6e6e6; // Light gray background on hover
-        border-color: #ccc; // Slightly darker border on hover
+        background-color: #e6e6e6;
+        border-color: #ccc;
     }
 
     &:disabled {
         color: $color-text-blue-dark;
-        background-color: #f8f9fa; // Disabled button background
+        background-color: #f8f9fa;
         cursor: not-allowed;
         border-color: #ddd;
     }
 
     &:focus {
         outline: none;
-        border-color: #80bdff; // Blue border for focus
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); // Focus shadow effect
+        border-color: #80bdff;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
     }
 }
 
-/* Styles for the current (active) page button */
 .paginator__button--current {
-    background-color: #f1f1f1; // Light gray background for current page
-    border: 1px solid #007bff; // Blue border for current page
+    background-color: #f1f1f1;
+    border: 1px solid #007bff;
     color: $color-text-blue-dark;
     font-weight: bold;
     cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* For the page size dropdown */
+/* Special styling for next/previous buttons */
+.paginator__button--prev,
+.paginator__button--next {
+    font-weight: bolder;
+    padding: 5px 12px;
+}
+
 .paginator__select {
-    padding: 7px 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    color: $color-text-blue-dark;
-    max-width: 150px;
-    background-color: #fff;
-    transition: border-color 0.3s ease;
-
-    &:hover {
-        border-color: #ccc;
-    }
-
-    &:focus {
-        outline: none;
-        border-color: #80bdff; // Blue border for focused select
-    }
+    max-width: 160px;
+    margin-top: -5px;
+    font-weight: bolder;
 }
 
-/* Style for ellipsis */
 .paginator__ellipsis {
-    color: $color-text-blue-dark; // Slightly darker text for ellipsis
+    color: $color-text-blue-dark;
     margin: 0 8px;
     font-size: 14px;
+    display: inline-flex;
+    align-items: center;
 }

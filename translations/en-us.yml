@@ -779,6 +779,7 @@ delete_modal:
     type_this: 'Type the following to continue:'
     input_label: 'Scientist name verification'
 paginator:
+    first: '1'
     next: 'Next page'
     previous: 'Previous page'
     page: 'Page {page} of {max}'
@@ -837,7 +838,7 @@ institutions:
             projects: 'OSF Public and Private Projects'
             registrations: 'OSF Registrations'
             preprints: 'OSF Preprints'
-            storage: 'Total Storage in {unit}'
+            storage: 'Total Storage'
             file-count: 'Total Public File Count'
             fileCount: 'Total Public File Count'
             logged-in-users: 'Total Monthly Logged in Users'
