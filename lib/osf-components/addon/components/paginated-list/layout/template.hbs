@@ -51,11 +51,14 @@
     {{/if}}
     {{#if this.paginatorShown}}
         <div local-class='text-center'>
-            {{simple-paginator
+            {{adjustable-paginator
                 maxPage=this.maxPage
                 nextPage=(action @next)
                 previousPage=(action @previous)
-                curPage=@page
+                page=@page
+                doReload=@doReload
+                pageSize=@pageSize
+                totalCount=@totalCount
             }}
         </div>
     {{/if}}
