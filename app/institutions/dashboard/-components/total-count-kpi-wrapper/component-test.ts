@@ -24,7 +24,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
                 publicFileCount: 1567,
                 monthlyLoggedInUserCount: 300,
                 monthlyActiveUserCount:40,
-                convertedStorageCount: 104,
+                convertedStorageCount: '104 GB',
             },
         });
 
@@ -39,90 +39,77 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
 />
 `);
 
-        // Then the first total kpi is tested
-        assert.dom('[data-test-total-count-kpi="0"]')
+        let parentContainer = '[data-test-total-count-kpi="0"]';
+        // Then the total users kpi is tested
+        assert.dom(parentContainer)
             .exists('The User Widget exists');
-
-        assert.dom('[data-test-total-count-kpi="0"]')
+        assert.dom(parentContainer)
             .hasText('10 Total Users');
-
-        assert.dom('[data-test-total-count-kpi="0"] [data-test-kpi-icon]')
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
             .hasAttribute('data-icon', 'users');
 
-        // And the second total kpi is tested
-        assert.dom('[data-test-total-count-kpi="1"]')
+        // And the total logged in user kpi is tested
+        parentContainer = '[data-test-total-count-kpi="1"]';
+        assert.dom(parentContainer)
+            .exists('The Total Monthly Logged in Users Widget exists');
+        assert.dom(parentContainer)
+            .hasText('300 Total Monthly Logged in Users');
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
+            .hasAttribute('data-icon', 'users');
+
+        // And the total active in user kpi is tested
+        parentContainer = '[data-test-total-count-kpi="2"]';
+        assert.dom(parentContainer)
+            .exists('The Total Monthly Active Users Widget exists');
+        assert.dom(parentContainer)
+            .hasText('40 Total Monthly Active Users');
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
+            .hasAttribute('data-icon', 'users');
+
+        // And the total project kpi is tested
+        parentContainer = '[data-test-total-count-kpi="3"]';
+        assert.dom(parentContainer)
             .exists('The Project Widget exists');
-
-        assert.dom('[data-test-total-count-kpi="1"]')
+        assert.dom(parentContainer)
             .hasText('20 OSF Public and Private Projects');
-
-        assert.dom('[data-test-total-count-kpi="1"] [data-test-kpi-icon]')
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
             .hasAttribute('data-icon', 'flask');
 
-        // And the third total kpi is tested
-        assert.dom('[data-test-total-count-kpi="2"]')
-            .exists('The Registration Widget exists');
-
-        assert.dom('[data-test-total-count-kpi="2"]')
+        // And the total registration kpi is tested
+        parentContainer = '[data-test-total-count-kpi="4"]';
+        assert.dom(parentContainer)
+            .exists('The Total Registration Widget exists');
+        assert.dom(parentContainer)
             .hasText('100 OSF Registrations');
-
-        assert.dom('[data-test-total-count-kpi="2"] [data-test-kpi-icon]')
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
             .hasAttribute('data-icon', 'archive');
 
-        // And the fourth total kpi is tested
-        let parentContainer = '[data-test-total-count-kpi="3"]';
+        // And the total preprint kpi is tested
+        parentContainer = '[data-test-total-count-kpi="5"]';
         assert.dom(parentContainer)
-            .exists('The Preprint Widget exists');
-
+            .exists('The Total Preprint Widget exists');
         assert.dom(parentContainer)
             .hasText('1000 OSF Preprints');
+        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
+            .hasAttribute('data-icon', 'file-alt');
 
+        // And the total file count kpi is tested
+        parentContainer = '[data-test-total-count-kpi="6"]';
+        assert.dom(parentContainer)
+            .exists('The Total File Widget exists');
+        assert.dom(parentContainer)
+            .hasText('1567 Total Public File Count');
         assert.dom(`${parentContainer} [data-test-kpi-icon]`)
             .hasAttribute('data-icon', 'file-alt');
 
         // And the total storage kpi is tested
-        parentContainer = '[data-test-total-count-kpi="4"]';
-        assert.dom(parentContainer)
-            .exists('The Total Storage Widget exists');
-
-        assert.dom(parentContainer)
-            .hasText('104 Total Storage');
-
-        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
-            .hasAttribute('data-icon', 'database');
-
-        // And the total file count kpi is tested
-        parentContainer = '[data-test-total-count-kpi="5"]';
-        assert.dom(parentContainer)
-            .exists('The Total File Widget exists');
-
-        assert.dom(parentContainer)
-            .hasText('1567 Total Public File Count');
-
-        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
-            .hasAttribute('data-icon', 'file-alt');
-
-        // And the total logged in users kpi is tested
-        parentContainer = '[data-test-total-count-kpi="6"]';
-        assert.dom(parentContainer)
-            .exists('The Total Monthly Logged in Users Widget exists');
-
-        assert.dom(parentContainer)
-            .hasText('300 Total Monthly Logged in Users');
-
-        assert.dom(`${parentContainer} [data-test-kpi-icon]`)
-            .hasAttribute('data-icon', 'users');
-
-        // And the total active users kpi is tested
         parentContainer = '[data-test-total-count-kpi="7"]';
         assert.dom(parentContainer)
-            .exists('The Total Active Usesrs Widget exists');
-
+            .exists('The Total Storage Widget exists');
         assert.dom(parentContainer)
-            .hasText('40 Total Monthly Active Users');
-
+            .hasText('104 Total Storage in GB');
         assert.dom(`${parentContainer} [data-test-kpi-icon]`)
-            .hasAttribute('data-icon', 'users');
+            .hasAttribute('data-icon', 'database');
 
         // Finally there are only 8 widgets
         assert.dom('[data-test-total-count-kpi="8"]')
