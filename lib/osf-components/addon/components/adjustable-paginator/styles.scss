@@ -1,0 +1,63 @@
+.AdjustablePaginator__element {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 10px;
+
+    &:first-of-type {
+        padding-left: 0;
+    }
+}
+
+.AdjustablePaginator__btn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 7px 16px;
+    font-size: 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    &:hover {
+        background-color: #e2e6ea;
+        border-color: #ccc;
+    }
+
+    &:disabled {
+        color: #adb5bd;
+        background-color: #f8f9fa;
+        cursor: not-allowed;
+        border-color: #ddd;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+}
+
+.AdjustablePaginator__text {
+    font-size: 14px;
+    color: #333;
+    margin: 0 10px;
+}
+
+.AdjustablePaginator__select {
+    padding: 7px 16px 7px 14px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font-size: 14px;
+    color: #333;
+    max-width: 150px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+
+    &:hover {
+        border-color: #ccc;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+}

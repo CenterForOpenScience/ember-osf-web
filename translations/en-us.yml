@@ -778,6 +778,7 @@ paginator:
     next: 'Next page'
     previous: 'Previous page'
     page: 'Page {page} of {max}'
+    itemsPerPage: 'Items per page'
 social:
     email: Email
     twitter: Twitter
@@ -843,22 +844,22 @@ institutions:
             users-by-department: 'Total Users by Department'
             public-vs-private-projects:
                 title: 'Public vs Private Projects'
-                public: 'Public Projects' 
-                private: 'Private Projects' 
+                public: 'Public Projects'
+                private: 'Private Projects'
             public-vs-private-registrations:
                 title: 'Public vs Private Registrations'
-                public: 'Public Registrations' 
-                private: 'Private Registrations' 
+                public: 'Public Registrations'
+                private: 'Private Registrations'
             total-osf-objects:
                 title: 'Total OSF Objects'
-                preprints: 'Preprints' 
+                preprints: 'Preprints'
             licenses: 'Licenses'
             add-ons: 'Add-ons'
             storage-regions: 'Storage Regions'
             public-vs-private-data-storage:
                 title: 'Public vs Private Data Storage'
-                public: 'Public Data Storage' 
-                private: 'Private Data Storage' 
+                public: 'Public Data Storage'
+                private: 'Private Data Storage'
         object-list:
             filter-button-label: 'Filter'
             filter-heading: 'Filter by:'
