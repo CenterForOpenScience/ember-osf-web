@@ -11,7 +11,7 @@ interface TotalCountKpiWrapperArgs {
     model: any;
 }
 
-interface TotalCountKpiModel {
+export interface TotalCountKpiModel {
     title: string;
     total: number | string;
     icon: string;
@@ -45,6 +45,7 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
     @waitFor
     private async loadData(): Promise<void> {
         const metrics: { summaryMetrics: InstitutionSummaryMetricModel } = await this.model;
+        const [storageAmount, storageUnit] = metrics.summaryMetrics.convertedStorageCount.split(' ');
 
         this.totalCountKpis.push(
             {
@@ -83,8 +84,8 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
                 icon: 'file-alt',
             },
             {
-                title: this.intl.t('institutions.dashboard.kpi-panel.storage'),
-                total: metrics.summaryMetrics.convertedStorageCount,
+                title: this.intl.t('institutions.dashboard.kpi-panel.storage', { unit: storageUnit }),
+                total: storageAmount,
                 icon: 'database',
             },
         );
