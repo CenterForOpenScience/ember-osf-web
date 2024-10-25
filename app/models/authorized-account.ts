@@ -3,7 +3,7 @@ import Model, { attr } from '@ember-data/model';
 export interface AddonCredentialFields {
     username?: string;
     password?: string;
-    token?: string;
+    access_token?: string;
     access_key?: string;
     secret_key?: string;
     repo?: string;
