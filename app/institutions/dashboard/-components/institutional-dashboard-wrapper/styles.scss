@@ -35,16 +35,17 @@
     @include clamp-width;
     @include tab-list;
     white-space: nowrap;
+    display: flex;
+    flex-wrap: wrap;
     position: relative;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: visible;
     margin-bottom: 0;
     border-bottom: 0;
 
     li {
-        display: inline-block;
-    
-        // match style in app/styles/_component.scss for selected tab
+        display: inline-flex;
+        padding: 5px 10px;
+
         &:has(a:global(.active)) {
             background-color: $bg-light;
             border-bottom: 2px solid $color-blue;
