@@ -70,7 +70,7 @@ export default class AddonAccountSetupComponent extends Component<Args> {
 
     get showRepoOptions() {
         const { provider } = this.args;
-        return provider.credentialsFormat === CredentialsFormat.REPO_TOKEN;
+        return provider.credentialsFormat in [CredentialsFormat.REPO_TOKEN, CredentialsFormat.DATAVERSE_API_TOKEN];
     }
 
     get repoOptions() {
@@ -103,7 +103,6 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     }
 
     get inputFields(): InputFieldObject[] {
-        const { provider } = this.args;
         const credentials = this.credentialsObject;
         const t = this.intl.t.bind(this.intl);
         switch (this.args.provider.credentialsFormat) {
@@ -130,19 +129,24 @@ export default class AddonAccountSetupComponent extends Component<Args> {
             ];
         }
         case CredentialsFormat.REPO_TOKEN: {
-            const label = provider.id === 'dataverse' ?
-                t('addons.accountCreate.api-token-label') :
-                t('addons.accountCreate.personal-access-token-label');
-            const placeholder = provider.id === 'dataverse' ?
-                t('addons.accountCreate.api-token-placeholder') :
-                t('addons.accountCreate.personal-access-token-placeholder');
             return [
                 {
-                    name: 'token',
-                    labelText: label,
+                    name: 'access_token',
+                    labelText: t('addons.accountCreate.api-token-label') ,
                     inputType: 'text',
-                    inputPlaceholder: placeholder,
-                    inputValue: credentials.token,
+                    inputPlaceholder:  t('addons.accountCreate.api-token-placeholder'),
+                    inputValue: credentials.access_token,
+                },
+            ];
+        }
+        case CredentialsFormat.DATAVERSE_API_TOKEN:{
+            return [
+                {
+                    name: 'access_token',
+                    labelText: t('addons.accountCreate.personal-access-token-label'),
+                    inputType: 'text',
+                    inputPlaceholder:  t('addons.accountCreate.personal-access-token-placeholder'),
+                    inputValue: credentials.access_token,
                 },
             ];
         }

@@ -449,7 +449,7 @@ function fakeCheckCredentials(
     const credentials = attrs.credentials as AddonCredentialFields;
     switch (credentialsFormat) {
     case CredentialsFormat.REPO_TOKEN:
-        if (!credentials.token || !attrs.apiBaseUrl) {
+        if (!credentials.access_token || !attrs.apiBaseUrl) {
             throw new Error('Token and repo is required');
         }
         break;
