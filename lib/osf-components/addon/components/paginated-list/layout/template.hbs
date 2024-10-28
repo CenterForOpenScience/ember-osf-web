@@ -51,7 +51,7 @@
     {{/if}}
     {{#if this.paginatorShown}}
         {{#if (eq this.pagination 'adjustable')}}
-            <div local-class='text-center'>
+            <div local-class='align-right'>
                 {{adjustable-paginator
                     maxPage=this.maxPage
                     nextPage=(action @next)
