@@ -1,0 +1,76 @@
+.paginator__control {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+
+    &:first-of-type {
+        padding-left: 0;
+    }
+}
+
+.paginator__button,
+.paginator__select {
+    background-color: $color-bg-white;
+    border: $border-light;
+    color: $color-text-blue-dark;
+    padding: 7px 16px;
+    font-size: 14px;
+    border-radius: $radius;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;  // Setting height to ensure the same for both buttons and select
+    box-sizing: border-box;  // Ensures padding and borders are included in the height
+
+    &:hover {
+        background-color: $color-bg-gray-light;
+        border-color: $color-border-gray-dark;
+    }
+
+    &:disabled {
+        color: $color-text-blue-dark;
+        background-color: $bg-light;
+        cursor: not-allowed;
+        border-color: $color-border-gray;
+    }
+
+    &:focus {
+        outline: none;
+        border-color: $secondary-blue;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+}
+
+.paginator__button--current {
+    background-color: $color-bg-gray-lighter;
+    border: 1px solid $color-osf-primary;
+    color: $color-text-blue-dark;
+    font-weight: bold;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Special styling for next/previous buttons */
+.paginator__button--prev,
+.paginator__button--next {
+    font-weight: bolder;
+    padding: 5px 12px;
+}
+
+.paginator__select {
+    max-width: 160px;
+    margin-top: -5px;
+    font-weight: bolder;
+}
+
+.paginator__ellipsis {
+    color: $color-text-blue-dark;
+    margin: 0 8px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+}

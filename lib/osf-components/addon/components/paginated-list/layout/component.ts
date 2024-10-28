@@ -14,6 +14,7 @@ export default class PaginatedList extends Component {
     @requiredAction next!: () => void;
     @requiredAction previous!: () => void;
     @requiredAction doReload!: () => void;
+    pagination?: string;
 
     // Optional arguments
     loading = false;
