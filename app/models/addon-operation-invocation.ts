@@ -1,9 +1,8 @@
 import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
-import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
+import ConfiguredAddonModel, { ConnectedOperationNames } from 'ember-osf-web/models/configured-addon';
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
-import { ConnectedOperationNames } from 'ember-osf-web/models/configured-storage-addon';
 
 export enum InvocationStatus {
     STARTING = 'STARTING',

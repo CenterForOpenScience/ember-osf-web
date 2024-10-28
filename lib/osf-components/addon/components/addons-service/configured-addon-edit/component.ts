@@ -4,17 +4,17 @@ import { tracked } from '@glimmer/tracking';
 import { TaskInstance } from 'ember-concurrency';
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
-import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 
 
 interface Args {
-    configuredStorageAddon: ConfiguredStorageAddonModel;
+    configuredAddon: ConfiguredAddonModel;
     onSave: TaskInstance<void>;
 }
 
 export default class ConfiguredAddonEdit extends Component<Args> {
-    @tracked displayName = this.args.configuredStorageAddon.displayName;
-    @tracked selectedFolder = this.args.configuredStorageAddon.rootFolder;
+    @tracked displayName = this.args.configuredAddon.displayName;
+    @tracked selectedFolder = this.args.configuredAddon.rootFolder;
     @tracked currentItems: Item[] = [];
 
     defaultKwargs = {

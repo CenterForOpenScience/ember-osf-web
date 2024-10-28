@@ -8,12 +8,13 @@ import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
+import { OperationKwargs } from 'ember-osf-web/models/configured-addon';
 import { Item, ListItemsResult } from 'ember-osf-web/models/addon-operation-invocation';
-import ConfiguredStorageAddonModel, { OperationKwargs } from 'ember-osf-web/models/configured-storage-addon';
+import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface Args {
-    configuredStorageAddon: ConfiguredStorageAddonModel;
+    configuredAddon: ConfiguredAddonModel;
     defaultKwargs?: OperationKwargs;
     startingFolderId: string;
 }
@@ -32,12 +33,12 @@ export default class FileManager extends Component<Args> {
     private lastInvocation: any = null;
 
     get isLoading() {
-        return taskFor(this.args.configuredStorageAddon.getFolderItems).isRunning ||
+        return taskFor(this.args.configuredAddon.getFolderItems).isRunning ||
             taskFor(this.getStartingFolder).isRunning;
     }
 
     get isError() {
-        return taskFor(this.args.configuredStorageAddon.getFolderItems).lastPerformed?.error ||
+        return taskFor(this.args.configuredAddon.getFolderItems).lastPerformed?.error ||
             taskFor(this.getStartingFolder).lastPerformed?.error;
     }
 
@@ -84,10 +85,10 @@ export default class FileManager extends Component<Args> {
     @task
     @waitFor
     async getStartingFolder() {
-        const { startingFolderId, configuredStorageAddon } = this.args;
+        const { startingFolderId, configuredAddon } = this.args;
         try {
             if (startingFolderId) {
-                const invocation = await taskFor(configuredStorageAddon.getItemInfo).perform(startingFolderId);
+                const invocation = await taskFor(configuredAddon.getItemInfo).perform(startingFolderId);
                 const result = invocation.operationResult as Item;
                 this.currentFolderId = result.itemId;
                 this.currentPath = result.itemPath ? [...result.itemPath] : [];
@@ -108,7 +109,7 @@ export default class FileManager extends Component<Args> {
         kwargs.pageCursor = this.cursor;
         try {
             const getFolderArgs = !this.currentFolderId ? {} : kwargs;
-            const invocation = await taskFor(this.args.configuredStorageAddon.getFolderItems).perform(getFolderArgs);
+            const invocation = await taskFor(this.args.configuredAddon.getFolderItems).perform(getFolderArgs);
             this.lastInvocation = invocation;
             const operationResult = invocation.operationResult as ListItemsResult;
             if (!this.currentFolderId) {

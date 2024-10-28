@@ -267,7 +267,7 @@
                         </OsfDialog>
                     {{else if (eq manager.pageMode 'configure')}}
                         <AddonsService::ConfiguredAddonEdit
-                            @configuredStorageAddon={{manager.selectedConfiguration}}
+                            @configuredAddon={{manager.selectedConfiguration}}
                             @onSave={{perform manager.saveConfiguration}}
                             @onCancel={{manager.cancelSetup}}
                         />

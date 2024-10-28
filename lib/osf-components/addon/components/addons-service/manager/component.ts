@@ -18,8 +18,7 @@ import Provider, {
 } from 'ember-osf-web/packages/addons-service/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import { ConfiguredAddonEditableAttrs } from 'ember-osf-web/models/configured-addon';
-import ConfiguredStorageAddonModel,
-{ ConfiguredStorageAddonEditableAttrs } from 'ember-osf-web/models/configured-storage-addon';
+import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import { AccountCreationArgs} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 
@@ -238,7 +237,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     async saveConfiguration(args: ConfiguredAddonEditableAttrs) {
         try {
             if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredStorageAddonModel) {
-                this.selectedConfiguration.rootFolder = (args as ConfiguredStorageAddonEditableAttrs).rootFolder;
+                this.selectedConfiguration.rootFolder = (args as ConfiguredAddonEditableAttrs).rootFolder;
                 this.selectedConfiguration.displayName = args.displayName;
                 await this.selectedConfiguration.save();
                 this.toast.success(this.intl.t('addons.configure.success', {
