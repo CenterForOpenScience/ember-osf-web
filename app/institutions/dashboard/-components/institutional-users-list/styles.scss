@@ -260,7 +260,7 @@ input:checked + .slider::before {
 
 .total-users {
     margin-right: auto; /* Aligns text to the left */
-    display: flex; /* Allows for consistent alignment with other elements */
+    display: block ruby;
     align-items: center;
 }
 

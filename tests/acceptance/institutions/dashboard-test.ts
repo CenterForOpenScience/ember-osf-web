@@ -55,16 +55,22 @@ module(moduleName, hooks => {
         assert.dom('[data-test-page-tab="preprints"]').hasClass('active', 'Preprints tab is active');
     });
 
-    test('institutions dashboard: projects tab', async function(assert) {
+    test('institutions dashboard: projects and registrations tab', async function(assert) {
         server.create('institution', {
             id: 'has-users',
         }, 'withMetrics');
 
-        await visit('/institutions/has-users/dashboard/projects');
+        await visit('/institutions/has-users/dashboard');
 
-        assert.dom('[data-test-page-tab="projects"]').hasClass('active', 'Projects tab is active');
-        assert.dom('[data-test-object-list-table]').exists('Object list exists');
-        await percySnapshot(assert);
+        for (const tab of ['projects', 'registrations']) {
+            await click(`[data-test-page-tab=${tab}]`);
+
+            assert.dom(`[data-test-page-tab=${tab}]`).hasClass('active', `${tab} tab is active`);
+            assert.dom('[data-test-object-list-table]').exists('Object list exists');
+            assert.dom('[data-test-object-count]').exists('Object count exists');
+            assert.dom('[data-test-toggle-filter-button]').exists('Filter button exists');
+            assert.dom('[data-test-customize-columns-button]').exists('Customize columns button exists');
+        }
     });
 });
 
