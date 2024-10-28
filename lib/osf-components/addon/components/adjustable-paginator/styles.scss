@@ -10,12 +10,12 @@
 
 .paginator__button,
 .paginator__select {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: $color-bg-white;
+    border: $border-light;
     color: $color-text-blue-dark;
     padding: 7px 16px;
     font-size: 14px;
-    border-radius: 4px;
+    border-radius: $radius;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
     display: inline-flex;
@@ -25,27 +25,27 @@
     box-sizing: border-box;  // Ensures padding and borders are included in the height
 
     &:hover {
-        background-color: #e6e6e6;
-        border-color: #ccc;
+        background-color: $color-bg-gray-light;
+        border-color: $color-border-gray-dark;
     }
 
     &:disabled {
         color: $color-text-blue-dark;
-        background-color: #f8f9fa;
+        background-color: $bg-light;
         cursor: not-allowed;
-        border-color: #ddd;
+        border-color: $color-border-gray;
     }
 
     &:focus {
         outline: none;
-        border-color: #80bdff;
+        border-color: $secondary-blue;
         box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
     }
 }
 
 .paginator__button--current {
-    background-color: #f1f1f1;
-    border: 1px solid #007bff;
+    background-color: $color-bg-gray-lighter;
+    border: 1px solid $color-osf-primary;
     color: $color-text-blue-dark;
     font-weight: bold;
     cursor: default;
