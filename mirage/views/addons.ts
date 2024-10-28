@@ -6,7 +6,7 @@ import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-cita
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
-import { ConnectedOperationNames } from 'ember-osf-web/models/configured-storage-addon';
+import { ConnectedOperationNames } from 'ember-osf-web/models/configured-addon';
 import { CredentialsFormat } from 'ember-osf-web/models/external-service';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';

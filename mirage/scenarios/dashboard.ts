@@ -7,7 +7,7 @@ import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import User from 'ember-osf-web/models/user';
-import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-storage-addon';
+import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-addon';
 
 const {
     dashboard: {
