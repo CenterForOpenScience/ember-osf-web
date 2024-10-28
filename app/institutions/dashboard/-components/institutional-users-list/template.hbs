@@ -39,7 +39,7 @@
                 {{t 'institutions.dashboard.users_list.select_columns'}}
             </Button>
             {{#if dd.isOpen}}
-                <div local-class='dropdown-panel'>
+                <div local-class='dropdown-panel {{if (is-mobile) 'mobile'}}'>
                     <div local-class='dropdown-content'>
                         {{#each this.columns as |column|}}
                             <label>
