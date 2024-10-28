@@ -40,12 +40,12 @@ export default class ConfiguredCitationAddonSerializer extends AddonServiceSeria
             baseAccount: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}authorized-storage-accounts/${model.baseAccountId}/`,
+                        href: `${addonServiceAPIUrl}authorized-citation-accounts/${model.baseAccountId}/`,
                     },
                 },
                 data: {
                     id: model.baseAccountId,
-                    type: 'authorized-storage-accounts',
+                    type: 'authorized-citation-accounts',
                 },
             },
             externalCitationService: {
