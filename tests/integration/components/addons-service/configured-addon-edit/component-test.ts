@@ -50,7 +50,7 @@ module('Integration | Component | addons-service | configured-addon-edit', funct
         this.onCancel = sinon.fake();
         await render(hbs`
 <AddonsService::ConfiguredAddonEdit
-    @configuredStorageAddon={{this.configuredAddon}}
+    @configuredAddon={{this.configuredAddon}}
     @onSave={{this.onSave}}
     @onCancel={{this.onCancel}}
 />

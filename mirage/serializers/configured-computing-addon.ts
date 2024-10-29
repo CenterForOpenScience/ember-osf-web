@@ -40,12 +40,12 @@ export default class ConfiguredComputingAddonSerializer extends AddonServiceSeri
             baseAccount: {
                 links: {
                     related: {
-                        href: `${addonServiceAPIUrl}authorized-storage-accounts/${model.baseAccountId}/`,
+                        href: `${addonServiceAPIUrl}authorized-computing-accounts/${model.baseAccountId}/`,
                     },
                 },
                 data: {
                     id: model.baseAccountId,
-                    type: 'authorized-storage-accounts',
+                    type: 'authorized-computing-accounts',
                 },
             },
             externalComputingService: {
