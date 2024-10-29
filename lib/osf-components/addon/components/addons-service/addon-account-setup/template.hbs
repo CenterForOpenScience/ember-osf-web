@@ -6,7 +6,16 @@
             {{#if this.pendingOauth}}
                 <p>
                     {{t 'addons.accountCreate.oauth-pending'}}
+                    {{t 'addons.accountCreate.oauth-pending-secondary' htmlSafe=true}}
                 </p>
+                <OsfLink
+                    data-test-start-oauth-button
+                    data-analytics-name='Start OAuth'
+                    @target='_blank'
+                    @href={{this.newAccount.authUrl}}
+                >
+                    {{t 'addons.accountCreate.oauth-start'}}
+                </OsfLink>
             {{else}}
                 <div local-class='oauth-wrapper'>
                     {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}
