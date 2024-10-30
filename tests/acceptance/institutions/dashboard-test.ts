@@ -55,14 +55,14 @@ module(moduleName, hooks => {
         assert.dom('[data-test-page-tab="preprints"]').hasClass('active', 'Preprints tab is active');
     });
 
-    test('institutions dashboard: projects and registrations tab', async function(assert) {
+    test('institutions dashboard: projects, registrations, and preprints tab', async function(assert) {
         server.create('institution', {
             id: 'has-users',
         }, 'withMetrics');
 
         await visit('/institutions/has-users/dashboard');
 
-        for (const tab of ['projects', 'registrations']) {
+        for (const tab of ['projects', 'registrations', 'preprints']) {
             await click(`[data-test-page-tab=${tab}]`);
 
             assert.dom(`[data-test-page-tab=${tab}]`).hasClass('active', `${tab} tab is active`);
