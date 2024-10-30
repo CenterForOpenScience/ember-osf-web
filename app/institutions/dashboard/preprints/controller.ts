@@ -46,7 +46,7 @@ export default class InstitutionDashboardPreprints extends Controller {
             getValue: searchResult => searchResult.usageMetrics.viewCount,
         },
         { // Download count
-            name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
+            name: this.intl.t('institutions.dashboard.object-list.table-headers.download_count'),
             getValue: searchResult => searchResult.usageMetrics.downloadCount,
         },
     ];
