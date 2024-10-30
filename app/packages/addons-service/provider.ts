@@ -289,6 +289,7 @@ export default class Provider {
     @waitFor
     private async createConfiguredCitationAddon(account: AuthorizedCitationAccountModel) {
         const configuredCitationAddon = this.store.createRecord('configured-citation-addon', {
+            rootFolder: '',
             externalCitationService: this.provider,
             accountOwner: this.userReference,
             authorizedResourceUri: this.node!.links.iri,
@@ -302,6 +303,7 @@ export default class Provider {
     @waitFor
     private async createConfiguredComputingAddon(account: AuthorizedComputingAccount) {
         const configuredComputingAddon = this.store.createRecord('configured-computing-addon', {
+            rootFolder: '',
             computingService: this.provider,
             accountOwner: this.userReference,
             authorizedResource: this.serviceNode,
