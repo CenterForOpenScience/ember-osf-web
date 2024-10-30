@@ -245,13 +245,9 @@ export default class AddonAccountSetupComponent extends Component<Args> {
             apiBaseUrl: '',
         });
         if (this.newAccount) { // returned account should have authUrl
-            const oauthWindow = window.open(this.newAccount.authUrl, '_blank');
-            if (oauthWindow) {
-                document.addEventListener('visibilitychange', this.onVisibilityChange);
-                this.pendingOauth = true;
-            } else {
-                this.toast.error(this.intl.t('addons.accountCreate.oauth-window-blocked'));
-            }
+            this.pendingOauth = true;
+            window.open(this.newAccount.authUrl, '_blank');
+            document.addEventListener('visibilitychange', this.onVisibilityChange);
         }
     }
 

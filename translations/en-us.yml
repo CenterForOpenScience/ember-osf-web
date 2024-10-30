@@ -334,7 +334,8 @@ addons:
         secret-key-label: 'Secret Key'
         secret-key-placeholder: 'Secret Key'
         oauth-pending: 'Complete the OAuth process in the new window before returning to this page.'
-        oauth-window-blocked: "The OAuth window was blocked. Please disable adblock for this site or check your browser's security setting and try again."
+        oauth-pending-secondary: 'If you do not see a new window, please click the <b>Start Oauth</b> link below.'
+        oauth-start: 'Start OAuth'
         oauth-reconnect-error: 'Error reconnecting account'
         oauth-description: 'Use OAuth to connect your {providerName} account'
         error: 'Error creating account'
