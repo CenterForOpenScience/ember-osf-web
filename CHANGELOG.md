@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [24.08.0] - 2024-10-30
+### Added
+- Hide categories section for draft registrations
+
 ## [24.07.0] - 2024-09-18
 ### Added
 - Preprints Affiliation Project - FE Release
