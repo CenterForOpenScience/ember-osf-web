@@ -1,6 +1,6 @@
-import GravyValetSerializer from './gravy-valet-serializer';
+import ConfiguredAddonSerializer from './configured-addon';
 
-export default class ConfiguredCitationAddonSerializer extends GravyValetSerializer {
+export default class ConfiguredCitationAddonSerializer extends ConfiguredAddonSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
