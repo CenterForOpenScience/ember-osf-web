@@ -6,15 +6,12 @@
     color: $color-select;
 }
 
-.table-wrapper {
-    overflow-x: auto;
-    display: block;
-}
-
 .table {
     margin-bottom: 45px;
 
     table {
+        overflow-x: auto;
+        display: block;
         width: 100%;
         margin-bottom: 15px;
         table-layout: auto;

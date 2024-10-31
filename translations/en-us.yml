@@ -833,6 +833,7 @@ institutions:
             has_orcid: 'Has ORCID'
             select_columns: 'Customize'
             total_users: 'total users'
+            not_found: 'N/A'
         kpi-panel:
             users: 'Total Users'
             projects: 'OSF Public and Private Projects'
