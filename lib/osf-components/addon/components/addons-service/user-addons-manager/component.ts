@@ -319,10 +319,15 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async oauthFlowRefocus() {
-        this.cancelSetup();
-        this.changeTab(1);
-        await taskFor(this.getAuthorizedAccounts).perform();
+    async oauthFlowRefocus(newAccount: AllAuthorizedAccountTypes): Promise<boolean> {
+        await newAccount.reload();
+        if (newAccount.credentialsAvailable) {
+            this.cancelSetup();
+            this.changeTab(1);
+            await taskFor(this.getAuthorizedAccounts).perform();
+            return true;
+        }
+        return false;
     }
 
     @task

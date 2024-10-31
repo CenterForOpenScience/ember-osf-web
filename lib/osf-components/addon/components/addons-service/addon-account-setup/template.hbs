@@ -16,6 +16,11 @@
                 >
                     {{t 'addons.accountCreate.oauth-start'}}
                 </OsfLink>
+                {{#if this.connectAccountError}}
+                    <p local-class='connect-error'>
+                        {{t 'addons.accountCreate.oauth-error' htmlSafe=true}}
+                    </p>
+                {{/if}}
             {{else}}
                 <div local-class='oauth-wrapper'>
                     {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}

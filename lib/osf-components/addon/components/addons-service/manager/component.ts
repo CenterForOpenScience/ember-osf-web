@@ -207,11 +207,15 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async oauthFlowRefocus(newAccount: AllAuthorizedAccountTypes) {
+    async oauthFlowRefocus(newAccount: AllAuthorizedAccountTypes): Promise<boolean> {
         await newAccount.reload();
-        await taskFor(this.selectedProvider!.getAuthorizedAccounts).perform();
-        this.selectedAccount = undefined;
-        this.chooseExistingAccount();
+        if (newAccount.credentialsAvailable) {
+            await taskFor(this.selectedProvider!.getAuthorizedAccounts).perform();
+            this.selectedAccount = undefined;
+            this.chooseExistingAccount();
+            return true;
+        }
+        return false;
     }
 
     @task
