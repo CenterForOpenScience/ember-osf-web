@@ -65,70 +65,68 @@
             {{/if}}
         </BasicDropdown>
     </div>
-    <div local-class='table-wrapper'>
-        <PaginatedList::HasMany
-            local-class='table'
-            @isTable={{true}}
-            @model={{@institution}}
-            @usePlaceholders={{false}}
-            @relationshipName='userMetrics'
-            @query={{this.queryUsers}}
-            @totalCount={{this.totalUsers}}
-            @pagination='adjustable'
-            as |list|
-        >
-            <list.header local-class='header'>
-                {{#let (component 'sort-arrow'
-                    class=(local-class 'sort-arrow')
-                    sortAction=this.sortInstitutionalUsers
-                    sort=this.sort
-                    ) as |SortArrow|}}
-                    <tr>
-                        {{#each this.columns as |column|}}
-                            {{#if (includes column.key this.selectedColumns)}}
-                                <th data-test-header='{{column.key}}'>
-                                    <div local-class='header-content'>
-                                        <span local-class='header-text'>{{column.label}}</span>
-                                        {{#if column.sort_key}}
-                                            <span local-class='sort-arrow-container'>
-                                                <SortArrow @sortBy='{{column.sort_key}}' />
-                                            </span>
-                                        {{/if}}
-                                    </div>
-                                </th>
-                            {{/if}}
-                        {{/each}}
-                    </tr>
-                {{/let}}
-            </list.header>
-            <list.item local-class='item' as |institutionalUser|>
-                {{#each this.columns as |column|}}
-                    {{#if (includes column.key this.selectedColumns)}}
-                        <td data-test-item={{column.key}}>
-                            {{#if (eq column.type 'user_name')}}
-                                <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
-                                    {{institutionalUser.userName}}
-                                </OsfLink>
-                            {{else if (eq column.type 'osf_link')}}
-                                <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
-                                    {{institutionalUser.userGuid}}
-                                </OsfLink>
-                            {{else if (eq column.type 'date_by_month')}}
-                                {{#if (get institutionalUser column.key)}}
-                                    {{moment-format (get institutionalUser column.key) 'MM/YYYY'}}
-                                {{else}}
-                                    N/A
-                                {{/if}}
+    <PaginatedList::HasMany
+        local-class='table'
+        @isTable={{true}}
+        @model={{@institution}}
+        @usePlaceholders={{false}}
+        @relationshipName='userMetrics'
+        @query={{this.queryUsers}}
+        @totalCount={{this.totalUsers}}
+        @pagination='adjustable'
+        as |list|
+    >
+        <list.header local-class='header'>
+            {{#let (component 'sort-arrow'
+                class=(local-class 'sort-arrow')
+                sortAction=this.sortInstitutionalUsers
+                sort=this.sort
+                ) as |SortArrow|}}
+                <tr>
+                    {{#each this.columns as |column|}}
+                        {{#if (includes column.key this.selectedColumns)}}
+                            <th data-test-header='{{column.key}}'>
+                                <div local-class='header-content'>
+                                    <span local-class='header-text'>{{column.label}}</span>
+                                    {{#if column.sort_key}}
+                                        <span local-class='sort-arrow-container'>
+                                            <SortArrow @sortBy='{{column.sort_key}}' />
+                                        </span>
+                                    {{/if}}
+                                </div>
+                            </th>
+                        {{/if}}
+                    {{/each}}
+                </tr>
+            {{/let}}
+        </list.header>
+        <list.item local-class='item' as |institutionalUser|>
+            {{#each this.columns as |column|}}
+                {{#if (includes column.key this.selectedColumns)}}
+                    <td data-test-item={{column.key}}>
+                        {{#if (eq column.type 'user_name')}}
+                            <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
+                                {{institutionalUser.userName}}
+                            </OsfLink>
+                        {{else if (eq column.type 'osf_link')}}
+                            <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
+                                {{institutionalUser.userGuid}}
+                            </OsfLink>
+                        {{else if (eq column.type 'date_by_month')}}
+                            {{#if (get institutionalUser column.key)}}
+                                {{moment-format (get institutionalUser column.key) 'MM/YYYY'}}
                             {{else}}
-                                {{get institutionalUser column.key}}
+                                {{t 'institutions.dashboard.users_list.not_found'}}
                             {{/if}}
-                        </td>
-                    {{/if}}
-                {{/each}}
-            </list.item>
-            <list.empty local-class='empty'>
-                {{t 'institutions.dashboard.users_list.empty'}}
-            </list.empty>
-        </PaginatedList::HasMany>
-    </div>
+                        {{else}}
+                            {{get institutionalUser column.key}}
+                        {{/if}}
+                    </td>
+                {{/if}}
+            {{/each}}
+        </list.item>
+        <list.empty local-class='empty'>
+            {{t 'institutions.dashboard.users_list.empty'}}
+        </list.empty>
+    </PaginatedList::HasMany>
 {{/if}}
