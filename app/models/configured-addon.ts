@@ -36,7 +36,7 @@ export default class ConfiguredAddonModel extends Model {
     @attr('fixstring') externalUserDisplayName!: string;
 
     @attr('string') iconUrl!: string;
-    @attr('string') authorizedResourceUri!: string;
+    @attr('string') authorizedResourceUri?: string;
 
     @attr('array') connectedCapabilities!: ConnectedCapabilities[];
     @attr('array') connectedOperationNames!: ConnectedOperationNames[];
