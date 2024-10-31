@@ -336,6 +336,7 @@ addons:
         oauth-pending: 'Complete the OAuth process in the new window before returning to this page.'
         oauth-pending-secondary: 'If you do not see a new window, please click the <b>Start Oauth</b> link below.'
         oauth-start: 'Start OAuth'
+        oauth-error: 'Error connecting account. Please try again.'
         oauth-reconnect-error: 'Error reconnecting account'
         oauth-description: 'Use OAuth to connect your {providerName} account'
         error: 'Error creating account'

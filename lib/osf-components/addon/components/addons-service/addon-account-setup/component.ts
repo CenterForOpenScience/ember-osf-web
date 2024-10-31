@@ -231,11 +231,22 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     @action
     onVisibilityChange() {
         if (document.visibilityState === 'visible') {
-            taskFor(this.args.manager.oauthFlowRefocus).perform(this.newAccount!);
-            this.pendingOauth = false;
-            document.removeEventListener('visibilitychange', this.onVisibilityChange);
+            taskFor(this.checkOauthSuccess).perform();
         }
     }
+
+    @task
+    @waitFor
+    async checkOauthSuccess() {
+        const oauthSuccesful = await taskFor(this.args.manager.oauthFlowRefocus).perform(this.newAccount!);
+        if (oauthSuccesful) {
+            this.pendingOauth = false;
+            document.removeEventListener('visibilitychange', this.onVisibilityChange);
+        } else {
+            this.connectAccountError = true;
+        }
+    }
+
     @task
     @waitFor
     async startOauthFlow() {
