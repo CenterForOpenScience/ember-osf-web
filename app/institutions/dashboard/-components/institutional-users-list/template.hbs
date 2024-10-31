@@ -114,7 +114,11 @@
                                     {{institutionalUser.userGuid}}
                                 </OsfLink>
                             {{else if (eq column.type 'date_by_month')}}
-                                {{moment-format (get institutionalUser column.key) 'MM/YYYY'}}
+                                {{#if (get institutionalUser column.key)}}
+                                    {{moment-format (get institutionalUser column.key) 'MM/YYYY'}}
+                                {{else}}
+                                    N/A
+                                {{/if}}
                             {{else}}
                                 {{get institutionalUser column.key}}
                             {{/if}}
