@@ -8,6 +8,7 @@ import InstitutionDepartmentModel from 'ember-osf-web/models/institution-departm
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import captureException from 'ember-osf-web/utils/capture-exception';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 
 export interface InstitutionsDashboardModel {
     institution: InstitutionModel;
@@ -42,7 +43,7 @@ export default class InstitutionsDashboardRoute extends Route {
             };
         } catch (error) {
             captureException(error);
-            this.transitionTo('not-found', this.router.get('currentURL').slice(1));
+            this.transitionTo('not-found', notFoundURL(window.location.pathname));
             return undefined;
         }
     }
