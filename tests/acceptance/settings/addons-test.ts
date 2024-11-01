@@ -5,7 +5,7 @@ import { module, test } from 'qunit';
 
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 import { TestContext } from 'ember-test-helpers';
-import { CredentialsFormat, TermsOfServiceCapabilities } from 'ember-osf-web/models/external-service';
+import { CredentialsFormat, ExternalServiceCapabilities } from 'ember-osf-web/models/external-service';
 
 module('Acceptance | settings | addons', hooks => {
     setupOSFApplicationTest(hooks);
@@ -20,13 +20,13 @@ module('Acceptance | settings | addons', hooks => {
                 displayName: 'Box',
                 credentialsFormat: CredentialsFormat.OAUTH2,
                 supportedFeatures: [
-                    TermsOfServiceCapabilities.ADD_UPDATE_FILES,
-                    TermsOfServiceCapabilities.DELETE_FILES,
-                    TermsOfServiceCapabilities.FORKING,
-                    TermsOfServiceCapabilities.LOGS,
-                    TermsOfServiceCapabilities.PERMISSIONS,
-                    TermsOfServiceCapabilities.REGISTERING,
-                    TermsOfServiceCapabilities.FILE_VERSIONS,
+                    ExternalServiceCapabilities.ADD_UPDATE_FILES,
+                    ExternalServiceCapabilities.DELETE_FILES,
+                    ExternalServiceCapabilities.FORKING,
+                    ExternalServiceCapabilities.LOGS,
+                    ExternalServiceCapabilities.PERMISSIONS,
+                    ExternalServiceCapabilities.REGISTERING,
+                    ExternalServiceCapabilities.FILE_VERSIONS,
                 ],
                 configurableApiRoot: false,
                 maxConcurrentDownloads: 1,
@@ -39,8 +39,8 @@ module('Acceptance | settings | addons', hooks => {
                 displayName: 'Mendeley',
                 credentialsFormat: CredentialsFormat.OAUTH2,
                 supportedFeatures: [
-                    TermsOfServiceCapabilities.FORKING_PARTIAL,
-                    TermsOfServiceCapabilities.PERMISSIONS_PARTIAL,
+                    ExternalServiceCapabilities.FORKING_PARTIAL,
+                    ExternalServiceCapabilities.PERMISSIONS_PARTIAL,
                 ],
                 iconUrl: 'https://osf.io/static/addons/mendeley/comicon.png',
             });
@@ -92,12 +92,12 @@ module('Acceptance | settings | addons', hooks => {
                 displayName: 'ownCloud',
                 credentialsFormat: CredentialsFormat.URL_USERNAME_PASSWORD,
                 supportedFeatures: [
-                    TermsOfServiceCapabilities.ADD_UPDATE_FILES,
-                    TermsOfServiceCapabilities.DELETE_FILES,
-                    TermsOfServiceCapabilities.FORKING,
-                    TermsOfServiceCapabilities.LOGS,
-                    TermsOfServiceCapabilities.PERMISSIONS,
-                    TermsOfServiceCapabilities.REGISTERING,
+                    ExternalServiceCapabilities.ADD_UPDATE_FILES,
+                    ExternalServiceCapabilities.DELETE_FILES,
+                    ExternalServiceCapabilities.FORKING,
+                    ExternalServiceCapabilities.LOGS,
+                    ExternalServiceCapabilities.PERMISSIONS,
+                    ExternalServiceCapabilities.REGISTERING,
                 ],
                 configurableApiRoot: true,
                 maxConcurrentDownloads: 1,

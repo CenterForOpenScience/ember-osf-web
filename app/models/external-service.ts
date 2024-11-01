@@ -10,7 +10,7 @@ export enum CredentialsFormat {
     URL_USERNAME_PASSWORD = 'url_username_password',
 }
 
-export enum TermsOfServiceCapabilities {
+export enum ExternalServiceCapabilities {
     ADD_UPDATE_FILES = 'ADD_UPDATE_FILES',
     ADD_UPDATE_FILES_PARTIAL = 'ADD_UPDATE_FILES_PARTIAL',
     DELETE_FILES = 'DELETE_FILES',
@@ -30,6 +30,6 @@ export default class ExternalServiceModel extends Model {
     @attr('fixstring') displayName!: string;
     @attr('string') iconUrl!: string;
     @attr('string') credentialsFormat!: CredentialsFormat;
-    @attr('array') supportedFeatures!: TermsOfServiceCapabilities[];
+    @attr('array') supportedFeatures!: ExternalServiceCapabilities[];
     @attr('boolean') configurableApiRoot!: boolean;
 }

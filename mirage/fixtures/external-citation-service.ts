@@ -1,4 +1,4 @@
-import { CredentialsFormat, TermsOfServiceCapabilities } from 'ember-osf-web/models/external-service';
+import { CredentialsFormat, ExternalServiceCapabilities } from 'ember-osf-web/models/external-service';
 
 export default [
     {
@@ -6,8 +6,8 @@ export default [
         displayName: 'Mendeley',
         credentialsFormat: CredentialsFormat.OAUTH2,
         supportedFeatures: [
-            TermsOfServiceCapabilities.FORKING_PARTIAL,
-            TermsOfServiceCapabilities.PERMISSIONS_PARTIAL,
+            ExternalServiceCapabilities.FORKING_PARTIAL,
+            ExternalServiceCapabilities.PERMISSIONS_PARTIAL,
         ],
         iconUrl: 'https://osf.io/static/addons/mendeley/comicon.png',
     },
@@ -16,8 +16,8 @@ export default [
         displayName: 'Zotero',
         credentialsFormat: CredentialsFormat.OAUTH,
         supportedFeatures: [
-            TermsOfServiceCapabilities.FORKING_PARTIAL,
-            TermsOfServiceCapabilities.PERMISSIONS_PARTIAL,
+            ExternalServiceCapabilities.FORKING_PARTIAL,
+            ExternalServiceCapabilities.PERMISSIONS_PARTIAL,
         ],
         iconUrl: 'https://zbib.org/static/favicon.ico',
     },
