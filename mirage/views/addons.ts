@@ -269,6 +269,8 @@ export function createAddonOperationInvocation(this: HandlerContext, schema: Sch
             item_name: `Folder with ID ${folderId}`,
             item_type,
             item_path: folderId === 'root' ? undefined : fakePath,
+            canBeRoot: item_type === ItemType.Folder,
+            mayContainRootCandidates: item_type === ItemType.Folder,
         };
     } else {
         result = {
@@ -277,6 +279,8 @@ export function createAddonOperationInvocation(this: HandlerContext, schema: Sch
                 item_name: `${item_type}${i} in ${folderId}`,
                 item_type,
                 item_path: folderId === 'root' ? undefined : fakePath,
+                canBeRoot: item_type === ItemType.Folder,
+                mayContainRootCandidates: item_type === ItemType.Folder,
             })),
         };
     }
