@@ -11,25 +11,25 @@ export enum CredentialsFormat {
 }
 
 export enum TermsOfServiceCapabilities {
-    ADD_UPDATE_FILES = 'add_update_files',
-    ADD_UPDATE_FILES_PARTIAL = 'add_update_files_partial',
-    DELETE_FILES = 'delete_files',
-    DELETE_FILES_PARTIAL = 'delete_files_partial',
-    FORKING = 'forking',
-    FORKING_PARTIAL = 'forking_partial',
-    LOGS = 'logs',
-    LOGS_PARTIAL = 'logs_partial',
-    PERMISSIONS = 'permissions',
-    PERMISSIONS_PARTIAL = 'permissions_partial',
-    REGISTERING = 'registering',
-    REGISTERING_PARTIAL = 'registering_partial',
-    FILE_VERSIONS = 'file_versions',
+    ADD_UPDATE_FILES = 'ADD_UPDATE_FILES',
+    ADD_UPDATE_FILES_PARTIAL = 'ADD_UPDATE_FILES_PARTIAL',
+    DELETE_FILES = 'DELETE_FILES',
+    DELETE_FILES_PARTIAL = 'DELETE_FILES_PARTIAL',
+    FORKING = 'FORKING',
+    FORKING_PARTIAL = 'FORKING_PARTIAL',
+    LOGS = 'LOGS',
+    LOGS_PARTIAL = 'LOGS_PARTIAL',
+    PERMISSIONS = 'PERMISSIONS',
+    PERMISSIONS_PARTIAL = 'PERMISSIONS_PARTIAL',
+    REGISTERING = 'REGISTERING',
+    REGISTERING_PARTIAL = 'REGISTERING_PARTIAL',
+    FILE_VERSIONS = 'FILE_VERSIONS',
 }
 
 export default class ExternalServiceModel extends Model {
     @attr('fixstring') displayName!: string;
     @attr('string') iconUrl!: string;
     @attr('string') credentialsFormat!: CredentialsFormat;
-    @attr('array') termsOfService!: TermsOfServiceCapabilities[];
+    @attr('array') supportedFeatures!: TermsOfServiceCapabilities[];
     @attr('boolean') configurableApiRoot!: boolean;
 }

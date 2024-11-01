@@ -134,7 +134,7 @@ export default class TermsOfServiceComponent extends Component<Args> {
     }
 
     get sections() {
-        const providerCapabilities = this.args.provider.termsOfService;
+        const providerCapabilities = this.args.provider.supportedFeatures;
         const providerName = this.args.provider.displayName;
         return this.applicableCapabilities.map((capability: CapabilityCategory) => {
             const textTranslationChoices = capabilitiesToTextKeyMap[this.baseTranslationKey][capability];

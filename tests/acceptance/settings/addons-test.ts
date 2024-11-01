@@ -19,7 +19,7 @@ module('Acceptance | settings | addons', hooks => {
                 id: 'box',
                 displayName: 'Box',
                 credentialsFormat: CredentialsFormat.OAUTH2,
-                termsOfService: [
+                supportedFeatures: [
                     TermsOfServiceCapabilities.ADD_UPDATE_FILES,
                     TermsOfServiceCapabilities.DELETE_FILES,
                     TermsOfServiceCapabilities.FORKING,
@@ -38,7 +38,7 @@ module('Acceptance | settings | addons', hooks => {
                 id: 'mendeley',
                 displayName: 'Mendeley',
                 credentialsFormat: CredentialsFormat.OAUTH2,
-                termsOfService: [
+                supportedFeatures: [
                     TermsOfServiceCapabilities.FORKING_PARTIAL,
                     TermsOfServiceCapabilities.PERMISSIONS_PARTIAL,
                 ],
@@ -91,7 +91,7 @@ module('Acceptance | settings | addons', hooks => {
                 id: 'owncloud',
                 displayName: 'ownCloud',
                 credentialsFormat: CredentialsFormat.URL_USERNAME_PASSWORD,
-                termsOfService: [
+                supportedFeatures: [
                     TermsOfServiceCapabilities.ADD_UPDATE_FILES,
                     TermsOfServiceCapabilities.DELETE_FILES,
                     TermsOfServiceCapabilities.FORKING,

@@ -5,7 +5,7 @@ export default [
         id: 'mendeley',
         displayName: 'Mendeley',
         credentialsFormat: CredentialsFormat.OAUTH2,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.FORKING_PARTIAL,
             TermsOfServiceCapabilities.PERMISSIONS_PARTIAL,
         ],
@@ -15,7 +15,7 @@ export default [
         id: 'zotero',
         displayName: 'Zotero',
         credentialsFormat: CredentialsFormat.OAUTH,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.FORKING_PARTIAL,
             TermsOfServiceCapabilities.PERMISSIONS_PARTIAL,
         ],

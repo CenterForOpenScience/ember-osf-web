@@ -4,7 +4,7 @@ export default [
         id: 'box',
         displayName: 'Box',
         credentialsFormat: CredentialsFormat.OAUTH2,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
             TermsOfServiceCapabilities.DELETE_FILES,
             TermsOfServiceCapabilities.FORKING,
@@ -22,7 +22,7 @@ export default [
         id: 'bitbucket',
         displayName: 'Bitbucket',
         credentialsFormat: CredentialsFormat.OAUTH2,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.FORKING,
             TermsOfServiceCapabilities.PERMISSIONS,
             TermsOfServiceCapabilities.REGISTERING,
@@ -38,7 +38,7 @@ export default [
         id: 'dataverse',
         displayName: 'Dataverse',
         credentialsFormat: CredentialsFormat.REPO_TOKEN,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
             TermsOfServiceCapabilities.DELETE_FILES,
             TermsOfServiceCapabilities.FORKING,
@@ -55,7 +55,7 @@ export default [
         id: 'dropbox',
         displayName: 'Dropbox',
         credentialsFormat: CredentialsFormat.OAUTH2,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
             TermsOfServiceCapabilities.DELETE_FILES,
             TermsOfServiceCapabilities.FORKING,
@@ -73,7 +73,7 @@ export default [
         id: 'figshare',
         displayName: 'figshare',
         credentialsFormat: CredentialsFormat.OAUTH2,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES_PARTIAL,
             TermsOfServiceCapabilities.DELETE_FILES_PARTIAL,
             TermsOfServiceCapabilities.FORKING,
@@ -90,7 +90,7 @@ export default [
         id: 'gitlab',
         displayName: 'GitLab',
         credentialsFormat: CredentialsFormat.REPO_TOKEN,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.FORKING,
             TermsOfServiceCapabilities.PERMISSIONS,
             TermsOfServiceCapabilities.REGISTERING,
@@ -105,7 +105,7 @@ export default [
         id: 'onedrive',
         displayName: 'OneDrive',
         credentialsFormat: CredentialsFormat.OAUTH2,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
             TermsOfServiceCapabilities.DELETE_FILES,
             TermsOfServiceCapabilities.FORKING,
@@ -123,7 +123,7 @@ export default [
         id: 'owncloud',
         displayName: 'ownCloud',
         credentialsFormat: CredentialsFormat.URL_USERNAME_PASSWORD,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
             TermsOfServiceCapabilities.DELETE_FILES,
             TermsOfServiceCapabilities.FORKING,
@@ -141,7 +141,7 @@ export default [
         id: 's3',
         displayName: 'Amazon S3',
         credentialsFormat: CredentialsFormat.ACCESS_SECRET_KEYS,
-        termsOfService: [
+        supportedFeatures: [
             TermsOfServiceCapabilities.ADD_UPDATE_FILES,
             TermsOfServiceCapabilities.DELETE_FILES,
             TermsOfServiceCapabilities.FORKING,
