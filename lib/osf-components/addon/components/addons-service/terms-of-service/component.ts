@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import IntlService from 'ember-intl/services/intl';
 
 import { AllProviderTypes } from 'ember-osf-web/packages/addons-service/provider';
-import { TermsOfServiceCapabilities } from 'ember-osf-web/models/external-service';
+import { ExternalServiceCapabilities } from 'ember-osf-web/models/external-service';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
@@ -13,82 +13,82 @@ interface Args {
 }
 
 type CapabilityCategory =
-    TermsOfServiceCapabilities.ADD_UPDATE_FILES |
-    TermsOfServiceCapabilities.DELETE_FILES |
-    TermsOfServiceCapabilities.FORKING |
-    TermsOfServiceCapabilities.LOGS |
-    TermsOfServiceCapabilities.PERMISSIONS |
-    TermsOfServiceCapabilities.REGISTERING |
-    TermsOfServiceCapabilities.FILE_VERSIONS;
+    ExternalServiceCapabilities.ADD_UPDATE_FILES |
+    ExternalServiceCapabilities.DELETE_FILES |
+    ExternalServiceCapabilities.FORKING |
+    ExternalServiceCapabilities.LOGS |
+    ExternalServiceCapabilities.PERMISSIONS |
+    ExternalServiceCapabilities.REGISTERING |
+    ExternalServiceCapabilities.FILE_VERSIONS;
 
 type ServiceTranslationKey = 'storage' | 'computing' | 'citation';
 
 
 const capabilitiesToLabelKeyMap: Record<CapabilityCategory, string> = {
-    [TermsOfServiceCapabilities.ADD_UPDATE_FILES]: 'addons.terms.labels.add-update-files',
-    [TermsOfServiceCapabilities.DELETE_FILES]: 'addons.terms.labels.delete-files',
-    [TermsOfServiceCapabilities.FORKING]: 'addons.terms.labels.forking',
-    [TermsOfServiceCapabilities.LOGS]: 'addons.terms.labels.logs',
-    [TermsOfServiceCapabilities.PERMISSIONS]: 'addons.terms.labels.permissions',
-    [TermsOfServiceCapabilities.REGISTERING]: 'addons.terms.labels.registering',
-    [TermsOfServiceCapabilities.FILE_VERSIONS]: 'addons.terms.labels.file-versions',
+    [ExternalServiceCapabilities.ADD_UPDATE_FILES]: 'addons.terms.labels.add-update-files',
+    [ExternalServiceCapabilities.DELETE_FILES]: 'addons.terms.labels.delete-files',
+    [ExternalServiceCapabilities.FORKING]: 'addons.terms.labels.forking',
+    [ExternalServiceCapabilities.LOGS]: 'addons.terms.labels.logs',
+    [ExternalServiceCapabilities.PERMISSIONS]: 'addons.terms.labels.permissions',
+    [ExternalServiceCapabilities.REGISTERING]: 'addons.terms.labels.registering',
+    [ExternalServiceCapabilities.FILE_VERSIONS]: 'addons.terms.labels.file-versions',
 };
 
 const capabilitiesToTextKeyMap: Record<ServiceTranslationKey, Partial<Record<CapabilityCategory, any>>> = {
     storage: {
-        [TermsOfServiceCapabilities.ADD_UPDATE_FILES]: {
+        [ExternalServiceCapabilities.ADD_UPDATE_FILES]: {
             true: 'addons.terms.storage.add-update-files-true',
             false: 'addons.terms.storage.add-update-files-false',
             partial: 'addons.terms.storage.add-update-files-partial',
         },
-        [TermsOfServiceCapabilities.DELETE_FILES]: {
+        [ExternalServiceCapabilities.DELETE_FILES]: {
             true: 'addons.terms.storage.delete-files-true',
             false: 'addons.terms.storage.delete-files-false',
             partial: 'addons.terms.storage.delete-files-partial',
         },
-        [TermsOfServiceCapabilities.FORKING]: {
+        [ExternalServiceCapabilities.FORKING]: {
             true: 'addons.terms.storage.forking-true',
         },
-        [TermsOfServiceCapabilities.LOGS]: {
+        [ExternalServiceCapabilities.LOGS]: {
             true: 'addons.terms.storage.logs-true',
             false: 'addons.terms.storage.logs-false',
         },
-        [TermsOfServiceCapabilities.PERMISSIONS]: {
+        [ExternalServiceCapabilities.PERMISSIONS]: {
             true: 'addons.terms.storage.permissions-true',
         },
-        [TermsOfServiceCapabilities.REGISTERING]: {
+        [ExternalServiceCapabilities.REGISTERING]: {
             true: 'addons.terms.storage.registering-true',
         },
-        [TermsOfServiceCapabilities.FILE_VERSIONS]: {
+        [ExternalServiceCapabilities.FILE_VERSIONS]: {
             true: 'addons.terms.storage.file-versions-true',
             false: 'addons.terms.storage.file-versions-false',
         },
     },
     citation: {
-        [TermsOfServiceCapabilities.FORKING]: {
+        [ExternalServiceCapabilities.FORKING]: {
             partial: 'addons.terms.citation.forking-partial',
         },
-        [TermsOfServiceCapabilities.PERMISSIONS]: {
+        [ExternalServiceCapabilities.PERMISSIONS]: {
             partial: 'addons.terms.citation.permissions-partial',
         },
-        [TermsOfServiceCapabilities.REGISTERING]: {
+        [ExternalServiceCapabilities.REGISTERING]: {
             false: 'addons.terms.citation.registering-false',
         },
     },
     computing: {
-        [TermsOfServiceCapabilities.ADD_UPDATE_FILES]: {
+        [ExternalServiceCapabilities.ADD_UPDATE_FILES]: {
             partial: 'addons.terms.computing.add-update-files-partial',
         },
-        [TermsOfServiceCapabilities.FORKING]: {
+        [ExternalServiceCapabilities.FORKING]: {
             partial: 'addons.terms.computing.forking-partial',
         },
-        [TermsOfServiceCapabilities.LOGS]: {
+        [ExternalServiceCapabilities.LOGS]: {
             partial: 'addons.terms.computing.logs-partial',
         },
-        [TermsOfServiceCapabilities.PERMISSIONS]: {
+        [ExternalServiceCapabilities.PERMISSIONS]: {
             partial: 'addons.terms.computing.permissions-partial',
         },
-        [TermsOfServiceCapabilities.REGISTERING]: {
+        [ExternalServiceCapabilities.REGISTERING]: {
             partial: 'addons.terms.computing.registering-partial',
         },
     },
@@ -105,36 +105,36 @@ export default class TermsOfServiceComponent extends Component<Args> {
         super(owner, args);
         if (args.provider instanceof ExternalStorageServiceModel) {
             this.applicableCapabilities = [
-                TermsOfServiceCapabilities.ADD_UPDATE_FILES,
-                TermsOfServiceCapabilities.DELETE_FILES,
-                TermsOfServiceCapabilities.FORKING,
-                TermsOfServiceCapabilities.LOGS,
-                TermsOfServiceCapabilities.PERMISSIONS,
-                TermsOfServiceCapabilities.REGISTERING,
-                TermsOfServiceCapabilities.FILE_VERSIONS,
+                ExternalServiceCapabilities.ADD_UPDATE_FILES,
+                ExternalServiceCapabilities.DELETE_FILES,
+                ExternalServiceCapabilities.FORKING,
+                ExternalServiceCapabilities.LOGS,
+                ExternalServiceCapabilities.PERMISSIONS,
+                ExternalServiceCapabilities.REGISTERING,
+                ExternalServiceCapabilities.FILE_VERSIONS,
             ];
             this.baseTranslationKey = 'storage';
         } else if (args.provider instanceof ExternalComputingServiceModel) {
             this.applicableCapabilities = [
-                TermsOfServiceCapabilities.ADD_UPDATE_FILES,
-                TermsOfServiceCapabilities.FORKING,
-                TermsOfServiceCapabilities.LOGS,
-                TermsOfServiceCapabilities.PERMISSIONS,
-                TermsOfServiceCapabilities.REGISTERING,
+                ExternalServiceCapabilities.ADD_UPDATE_FILES,
+                ExternalServiceCapabilities.FORKING,
+                ExternalServiceCapabilities.LOGS,
+                ExternalServiceCapabilities.PERMISSIONS,
+                ExternalServiceCapabilities.REGISTERING,
             ];
             this.baseTranslationKey = 'computing';
         } else if (args.provider instanceof ExternalCitationServiceModel) {
             this.applicableCapabilities = [
-                TermsOfServiceCapabilities.FORKING,
-                TermsOfServiceCapabilities.PERMISSIONS,
-                TermsOfServiceCapabilities.REGISTERING,
+                ExternalServiceCapabilities.FORKING,
+                ExternalServiceCapabilities.PERMISSIONS,
+                ExternalServiceCapabilities.REGISTERING,
             ];
             this.baseTranslationKey = 'citation';
         }
     }
 
     get sections() {
-        const providerCapabilities = this.args.provider.termsOfService;
+        const providerCapabilities = this.args.provider.supportedFeatures;
         const providerName = this.args.provider.displayName;
         return this.applicableCapabilities.map((capability: CapabilityCategory) => {
             const textTranslationChoices = capabilitiesToTextKeyMap[this.baseTranslationKey][capability];
@@ -143,7 +143,7 @@ export default class TermsOfServiceComponent extends Component<Args> {
             if (providerCapabilities?.includes(capability)) {
                 textTranslationKey = textTranslationChoices.true;
                 localClass = 'success-bg';
-            } else if (providerCapabilities?.includes((capability + '_partial' as TermsOfServiceCapabilities))) {
+            } else if (providerCapabilities?.includes((capability + '_partial' as ExternalServiceCapabilities))) {
                 textTranslationKey = textTranslationChoices.partial;
                 localClass = 'warning-bg';
             }
