@@ -68,27 +68,36 @@
                     {{#each fileManager.currentItems as |folder|}}
                         <tr>
                             <td>
-                                <Button
-                                    data-test-folder-link='{{folder.itemName}}'
-                                    data-analytics-name='Go to folder'
-                                    @layout='fake-link'
-                                    aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
-                                    {{on 'click' (fn fileManager.goToFolder folder)}}
-                                >
-                                    <FaIcon @icon='folder' />
-                                    {{folder.itemName}}
-                                </Button>
+                                {{#if folder.mayContainRootCandidates}}
+                                    <Button
+                                        data-test-folder-link='{{folder.itemName}}'
+                                        data-analytics-name='Go to folder'
+                                        @layout='fake-link'
+                                        aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
+                                        {{on 'click' (fn fileManager.goToFolder folder)}}
+                                    >
+                                        <FaIcon @icon='folder' />
+                                        {{folder.itemName}}
+                                    </Button>
+                                {{else}}
+                                    <span>
+                                        <FaIcon @icon='folder' />
+                                        {{folder.itemName}}
+                                    </span>
+                                {{/if}}
                             </td>
                             <td>
-                                <input
-                                    data-test-root-folder-option='{{folder.itemName}}'
-                                    data-analytics-name='Select folder'
-                                    type='radio'
-                                    name='folder'
-                                    value={{folder.itemName}}
-                                    aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
-                                    {{on 'change'(fn this.selectFolder folder)}}
-                                >
+                                {{#if folder.canBeRoot}}
+                                    <input
+                                        data-test-root-folder-option='{{folder.itemName}}'
+                                        data-analytics-name='Select folder'
+                                        type='radio'
+                                        name='folder'
+                                        value={{folder.itemName}}
+                                        aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
+                                        {{on 'change'(fn this.selectFolder folder)}}
+                                    >
+                                {{/if}}
                             </td>
                         </tr>
                     {{else}}

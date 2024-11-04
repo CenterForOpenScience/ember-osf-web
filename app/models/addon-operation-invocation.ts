@@ -30,6 +30,8 @@ export interface Item {
     itemId: string;
     itemName: string;
     itemType: ItemType;
+    canBeRoot: boolean;
+    mayContainRootCandidates: boolean;
     itemPath?: Item[];
 }
 
