@@ -892,7 +892,11 @@ institutions:
                 funder_name: Funder Name
                 registration_schema: 'Registration Schema'
             table-items:
-                no-info: 'No {field} available'
+                no-info: 'No {field}'
+                no-storage-info: 'No Storage Info'
+                no-metrics: 'No metrics'
+                no-license-info: 'No License Info'
+                no-funder-info: 'No Funder info'
                 permission-level: '({permissionLevel})'
         projects_panel: 'Total Projects'
         departments_panel: Departments
