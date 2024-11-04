@@ -29,9 +29,10 @@ export default class InstitutionalObjectListContributorsField extends Component<
         const attributions: any[] = getOsfmapObjects(resourceMetadata, ['qualifiedAttribution']);
         const contributors = getOsfmapObjects(resourceMetadata, ['creator']);
         const institutionIris = institution.iris;
+
         const affiliatedAttributions = attributions
             .filter((attribution: any) => hasInstitutionAffiliation(contributors, attribution, institutionIris));
-        const adminAttributions = attributions.filter(
+        const adminAttributions = affiliatedAttributions.filter(
             attribution => hasOsfmapValue(attribution, ['hadRole'], AttributionRoleIris.Admin),
         );
         const writeAttributions = affiliatedAttributions.filter(
@@ -44,13 +45,11 @@ export default class InstitutionalObjectListContributorsField extends Component<
         const prioritizedAttributions = adminAttributions.concat(writeAttributions, readAttributions);
 
         return prioritizedAttributions.slice(0, 2).map(attribution => {
-            const attributedContributor = contributors.find(
-                (contributor: any) => contributor['@id'] === getSingleOsfmapValue(attribution,['agent']),
-            );
+            const contributor = getContributorById(contributors, getSingleOsfmapValue(attribution, ['agent']));
             const roleIri: AttributionRoleIris = getSingleOsfmapValue(attribution, ['hadRole']);
             return {
-                name: getSingleOsfmapValue(attributedContributor,['name']),
-                url: getSingleOsfmapValue(attributedContributor, ['identifier']),
+                name: getSingleOsfmapValue(contributor,['name']),
+                url: getSingleOsfmapValue(contributor, ['identifier']),
                 permissionLevel: this.intl.t(roleIriToTranslationKey[roleIri]),
             };
         });
@@ -58,12 +57,15 @@ export default class InstitutionalObjectListContributorsField extends Component<
 }
 
 function hasInstitutionAffiliation(contributors: any[], attribution: any, institutionIris: string[]) {
-    const attributedContributor = contributors
-        .filter((contributor: any) => contributor['@id'] === attribution.agent[0]['@id']);
+    const attributedContributor = getContributorById(contributors, getSingleOsfmapValue(attribution,['agent']));
 
-    return attributedContributor[0].affiliation.some(
+    return attributedContributor.affiliation.some(
         (affiliation: any) => affiliation.identifier.some(
             (affiliationIdentifier: any) => institutionIris.includes(affiliationIdentifier['@value']),
         ),
     );
+}
+
+function getContributorById(contributors: any[], contributorId: string) {
+    return contributors.find(contributor => contributor['@id'] === contributorId);
 }
