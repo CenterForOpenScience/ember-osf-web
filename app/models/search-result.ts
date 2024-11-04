@@ -307,10 +307,16 @@ export default class SearchResultModel extends Model {
     }
 
     get usageMetrics() {
+        if (!this.resourceMetadata.usage) {
+            return null;
+        }
+        const temporalCoverage = this.resourceMetadata.usage[0]['temporalCoverage'];
+        const viewCount = this.resourceMetadata.usage[0]['viewCount'];
+        const downloadCount = this.resourceMetadata.usage[0]['downloadCount'];
         return {
-            period: this.resourceMetadata.usage[0]['temporalCoverage'][0]['@value'],
-            viewCount: this.resourceMetadata.usage[0]['viewCount'][0]['@value'],
-            downloadCount: this.resourceMetadata.usage[0]['downloadCount'][0]['@value'],
+            period: temporalCoverage ? temporalCoverage[0]['@value'] : null,
+            viewCount: viewCount ? viewCount[0]['@value'] : null,
+            downloadCount: downloadCount ? downloadCount[0]['@value'] : null,
         };
     }
 
