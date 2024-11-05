@@ -196,7 +196,7 @@ as |list|>
                 {{#each list.relatedProperties as |property|}}
                     <SearchPage::FilterFacet
                         @cardSearchText={{this.cardSearchText}}
-                        @cardSearchFilter={{this.queryOptions}}
+                        @cardSearchFilter={{this.valueSearchQueryOptions}}
                         @property={{property}}
                         @toggleFilter={{queue this.toggleFilter (perform list.searchObjectsTask)}}
                     />

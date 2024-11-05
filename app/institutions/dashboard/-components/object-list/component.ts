@@ -57,6 +57,13 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         return fullQueryOptions;
     }
 
+    get valueSearchQueryOptions() {
+        const { defaultQueryOptions } = this.args;
+        return {
+            ...defaultQueryOptions.cardSearchFilter,
+        };
+    }
+
     @action
     updateVisibleColumns() {
         this.visibleColumns = [...this.dirtyVisibleColumns];
