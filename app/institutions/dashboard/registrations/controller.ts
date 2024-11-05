@@ -40,7 +40,11 @@ export default class InstitutionDashboardRegistrations extends Controller {
         },
         { // Total data stored
             name: this.intl.t('institutions.dashboard.object-list.table-headers.total_data_stored'),
-            getValue: searchResult => humanFileSize(searchResult.getResourceMetadataField('storageByteCount')),
+            getValue: searchResult => {
+                const byteCount = searchResult.getResourceMetadataField('storageByteCount');
+                return byteCount ? humanFileSize(byteCount) :
+                    this.intl.t('institutions.dashboard.object-list.table-items.no-storage-info');
+            },
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
@@ -48,19 +52,33 @@ export default class InstitutionDashboardRegistrations extends Controller {
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
-            getValue: searchResult => searchResult.usageMetrics.viewCount,
+            getValue: searchResult => {
+                const metrics = searchResult.usageMetrics;
+                return metrics ? metrics.viewCount :
+                    this.intl.t('institutions.dashboard.object-list.table-items.no-metrics');
+            },
         },
         { // Resource type
             name: this.intl.t('institutions.dashboard.object-list.table-headers.resource_nature'),
-            getValue: searchResult => searchResult.resourceNature,
+            getValue: searchResult => {
+                const field = this.intl.t('institutions.dashboard.object-list.table-headers.resource_nature');
+                return searchResult.resourceNature ||
+                    this.intl.t('institutions.dashboard.object-list.table-items.no-info', { field });
+            },
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
-            getValue: searchResult => searchResult.license?.name,
+            getValue: searchResult => searchResult.license?.name ||
+                this.intl.t('institutions.dashboard.object-list.table-items.no-license-info'),
         },
         { // Funder name
             name: this.intl.t('institutions.dashboard.object-list.table-headers.funder_name'),
-            getValue: searchResult => searchResult.funders.map((funder: {name: string}) => funder.name).join(', '),
+            getValue: searchResult => {
+                if (!searchResult.funders) {
+                    return this.intl.t('institutions.dashboard.object-list.table-items.no-funder-info');
+                }
+                return searchResult.funders.map((funder: { name: string }) => funder.name).join(', ');
+            },
         },
         { // schema
             name: this.intl.t('institutions.dashboard.object-list.table-headers.registration_schema'),
