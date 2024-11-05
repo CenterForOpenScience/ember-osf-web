@@ -11,8 +11,8 @@ import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { ErrorDocument } from 'osf-api';
-import ConfiguredStorageAddonModel, { ConnectedCapabilities, ConnectedOperationNames}
-    from 'ember-osf-web/models/configured-storage-addon';
+import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-addon';
 import ServiceFile from 'ember-osf-web/packages/files/service-file';
 
 export default class ServiceProviderFile {
