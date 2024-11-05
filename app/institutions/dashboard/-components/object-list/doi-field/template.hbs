@@ -1,3 +1,5 @@
 {{#each this.dois as |doi|}}
     <OsfLink @href={{doi.fullLink}} @target='_blank'>{{doi.displayText}}</OsfLink>
+{{else}}
+    {{t 'institutions.dashboard.object-list.table-items.no-info' field=(t 'institutions.dashboard.object-list.table-headers.doi')}}
 {{/each}}

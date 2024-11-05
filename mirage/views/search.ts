@@ -12,171 +12,180 @@ const osfUrl = config.OSF.url;
 const sampleStorageRegions = ['United States', 'Australia - Sydney', 'Germany - Frankfurt'];
 
 const resourceMetadataByType: Partial<Record<OsfmapResourceTypes, any>> = {
-    Registration: () => ({
-        '@id': faker.random.uuid(),
-        // accessService: [{}],
-        archivedAt: [{}], // archive.org URL
-        conformsTo: [{ // Registration Schema
-            '@id': 'https://api.osf.io/v2/schemas/registrations/564d31db8c5e4a7c9694b2be/',
-            title: [{
-                '@value': 'Open-Ended Registration',
-            }],
-        }],
-        creator: [_sharePersonField()],
-        dateAvailable: [_shareDateField()],
-        dateCopyrighted: [_shareDateField()],
-        dateCreated: [_shareDateField()],
-        dateModified: [_shareDateField()],
-        description: [{
-            '@value': faker.lorem.sentence(),
-        }],
-        funder: [_shareOrganizationField()],
-        hasPart: [{}], // RegistrationComponent
-        hostingInstition: [_shareOrganizationField()],
-        identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
-        isVersionOf: [{}], // if this is from a project
-        keyword: [{ // tags
-            '@value': faker.random.word(),
-        }],
-        publisher: [_shareOrganizationField()], // Registration Provider
-        qualifiedAttribution: [{
-            agent: [_sharePersonField()],
-            hadRole: [{
-                '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
-            }],
-        }],
-        resourceNature: [{ // Registration Category
-            '@id': 'https://schema.datacite.org/meta/kernel-4/#StudyRegistration',
-            displayLabel: [{
-                '@value': 'StudyRegistration',
-                '@language': 'en',
-            }],
-        }],
-        resourceType: [{ '@id': 'Registration' }],
-        rights: [_shareLicenseField()],
-        sameAs: [{}], // some DOI
-        storageByteCount: [{
-            '@value': faker.random.number(),
-        }],
-        storageRegion: [{
-            prefLabel: [{
-                '@value': faker.random.arrayElement(sampleStorageRegions),
-            }],
-        }],
-        subject: [_shareSubjectField()],
-        title: [{
-            '@value': faker.lorem.words(3),
-        }],
-        usage: [_shareUsageReportField()],
-    }),
-    Project: () => ({
-        '@id': faker.internet.url(),
-        // accessService: [{}],
-        creator: [_sharePersonField()],
-        dateCopyrighted: [_shareDateField()],
-        dateCreated: [_shareDateField()],
-        dateModified: [_shareDateField()],
-        description: [{
-            '@value': faker.lorem.sentence(),
-        }],
-        funder: [_shareOrganizationField()],
-        hasOsfAddon: [
-            {
-                prefLabel: [{
-                    '@value': 'Box',
+    Registration: () => {
+        const contributor = _sharePersonField();
+        return {
+            '@id': faker.random.uuid(),
+            // accessService: [{}],
+            archivedAt: [{}], // archive.org URL
+            conformsTo: [{ // Registration Schema
+                '@id': 'https://api.osf.io/v2/schemas/registrations/564d31db8c5e4a7c9694b2be/',
+                title: [{
+                    '@value': 'Open-Ended Registration',
                 }],
-            },
-        ],
-        hasPart: [{}], // ProjectComponent
-        hostingInstition: [_shareOrganizationField()],
-        identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
-        keyword: [{ // tags
-            '@value': faker.random.word(),
-        }],
-        publisher: [_shareOrganizationField()],
-        qualifiedAttribution: [{
-            agent: [_sharePersonField()],
-            hadRole: [{
-                '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
             }],
-        }],
-        resourceNature: [{
-            '@id': 'https://schema.datacite.org/meta/kernel-4/#Dataset',
-            displayLabel:[
-                {
-                    '@value': faker.random.arrayElement(['Dataset', 'JournalArticle', 'Book']),
+            creator: [contributor],
+            dateAvailable: [_shareDateField()],
+            dateCopyrighted: [_shareDateField()],
+            dateCreated: [_shareDateField()],
+            dateModified: [_shareDateField()],
+            description: [{
+                '@value': faker.lorem.sentence(),
+            }],
+            funder: [_shareOrganizationField()],
+            hasPart: [{}], // RegistrationComponent
+            hostingInstition: [_shareOrganizationField()],
+            identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
+            isVersionOf: [{}], // if this is from a project
+            keyword: [{ // tags
+                '@value': faker.random.word(),
+            }],
+            publisher: [_shareOrganizationField()], // Registration Provider
+            qualifiedAttribution: [{
+                agent: [contributor],
+                hadRole: [{
+                    '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
+                }],
+            }],
+            resourceNature: [{ // Registration Category
+                '@id': 'https://schema.datacite.org/meta/kernel-4/#StudyRegistration',
+                displayLabel: [{
+                    '@value': 'StudyRegistration',
                     '@language': 'en',
+                }],
+            }],
+            resourceType: [{ '@id': 'Registration' }],
+            rights: [_shareLicenseField()],
+            sameAs: [{}], // some DOI
+            storageByteCount: [{
+                '@value': faker.random.number(),
+            }],
+            storageRegion: [{
+                prefLabel: [{
+                    '@value': faker.random.arrayElement(sampleStorageRegions),
+                }],
+            }],
+            subject: [_shareSubjectField()],
+            title: [{
+                '@value': faker.lorem.words(3),
+            }],
+            usage: [_shareUsageReportField()],
+        };
+    },
+    Project: () => {
+        const contributor = _sharePersonField();
+        return {
+            '@id': faker.internet.url(),
+            // accessService: [{}],
+            creator: [contributor],
+            dateCopyrighted: [_shareDateField()],
+            dateCreated: [_shareDateField()],
+            dateModified: [_shareDateField()],
+            description: [{
+                '@value': faker.lorem.sentence(),
+            }],
+            funder: [_shareOrganizationField()],
+            hasOsfAddon: [
+                {
+                    prefLabel: [{
+                        '@value': 'Box',
+                    }],
                 },
             ],
-        }],
-        resourceType: [{ '@id': 'Project' }],
-        rights: [_shareLicenseField()],
-        sameAs: [{}], // some DOI
-        storageByteCount: [{
-            '@value': faker.random.number(),
-        }],
-        storageRegion: [{
-            prefLabel: [{
-                '@value': faker.random.arrayElement(sampleStorageRegions),
+            hasPart: [{}], // ProjectComponent
+            hostingInstition: [_shareOrganizationField()],
+            identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
+            keyword: [{ // tags
+                '@value': faker.random.word(),
             }],
-        }],
-        subject: [_shareSubjectField()],
-        title: [{
-            '@value': faker.lorem.words(3),
-        }],
-        usage: [_shareUsageReportField()],
-    }),
-    Preprint: () => ({
-        '@id': faker.internet.url(),
-        // accessService: [{}],
-        creator: [_sharePersonField('http://ror.org/has-users')],
-        dateAccepted: [_shareDateField()],
-        dateCopyrighted: [_shareDateField()],
-        dateCreated: [_shareDateField()],
-        dateSubmitted: [_shareDateField()],
-        dateModified: [_shareDateField()],
-        description: [{
-            '@value': faker.lorem.sentence(),
-        }],
-        hasPart: [{}], // File
-        hostingInstition: [_shareOrganizationField()],
-        identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
-        // isSupplementedBy: [{}], // if this links a project
-        keyword: [{ // tags
-            '@value': faker.random.word(),
-        }],
-        omits: [{
-            ommittedMetadataProperty: [
-                { '@id': 'hasPreregisteredStudyDesign' },
-                { '@id': 'hasPreregisteredAnalysisPlan' },
-            ],
-        }],
-        publisher: [_shareOrganizationField()], // Preprint Provider
-        qualifiedAttribution: [{
-            agent: [_sharePersonField()],
-            hadRole: [{
-                '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
+            publisher: [_shareOrganizationField()],
+            qualifiedAttribution: [{
+                agent: [contributor],
+                hadRole: [{
+                    '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
+                }],
             }],
-        }],
-        resourceNature: [{
-            '@id': 'https://schema.datacite.org/meta/kernel-4/#Preprint',
-            displayLabel: [{
-                '@value': 'Preprint',
-                '@language': 'en',
+            resourceNature: [{
+                '@id': 'https://schema.datacite.org/meta/kernel-4/#Dataset',
+                displayLabel: [
+                    {
+                        '@value': faker.random.arrayElement(['Dataset', 'JournalArticle', 'Book']),
+                        '@language': 'en',
+                    },
+                ],
             }],
-        }],
-        resourceType: [{ '@id': 'Preprint' }],
-        rights: [_shareLicenseField()],
-        sameAs: [{}], // some DOI
-        statedConflictOfInterest: [{
-            '@id': 'no-confict-of-interest',
-        }],
-        subject: [_shareSubjectField()],
-        title: [{
-            '@value': faker.lorem.words(3),
-        }],
-        usage: [_shareUsageReportField()],
-    }),
+            resourceType: [{ '@id': 'Project' }],
+            rights: [_shareLicenseField()],
+            sameAs: [{}], // some DOI
+            storageByteCount: [{
+                '@value': faker.random.number(),
+            }],
+            storageRegion: [{
+                prefLabel: [{
+                    '@value': faker.random.arrayElement(sampleStorageRegions),
+                }],
+            }],
+            subject: [_shareSubjectField()],
+            title: [{
+                '@value': faker.lorem.words(3),
+            }],
+            usage: [_shareUsageReportField()],
+        };
+    },
+    Preprint: () => {
+        const contributor = _sharePersonField();
+        return {
+            '@id': faker.internet.url(),
+            // accessService: [{}],
+            creator: [contributor],
+            dateAccepted: [_shareDateField()],
+            dateCopyrighted: [_shareDateField()],
+            dateCreated: [_shareDateField()],
+            dateSubmitted: [_shareDateField()],
+            dateModified: [_shareDateField()],
+            description: [{
+                '@value': faker.lorem.sentence(),
+            }],
+            hasPart: [{}], // File
+            hostingInstition: [_shareOrganizationField()],
+            identifier: [_shareIdentifierField(), _shareOsfIdentifier()],
+            // isSupplementedBy: [{}], // if this links a project
+            keyword: [{ // tags
+                '@value': faker.random.word(),
+            }],
+            omits: [{
+                ommittedMetadataProperty: [
+                    { '@id': 'hasPreregisteredStudyDesign' },
+                    { '@id': 'hasPreregisteredAnalysisPlan' },
+                ],
+            }],
+            publisher: [_shareOrganizationField()], // Preprint Provider
+            qualifiedAttribution: [{
+                agent: [contributor],
+                hadRole: [{
+                    '@id': faker.random.arrayElement(Object.values(AttributionRoleIris)),
+                }],
+            }],
+            resourceNature: [{
+                '@id': 'https://schema.datacite.org/meta/kernel-4/#Preprint',
+                displayLabel: [{
+                    '@value': 'Preprint',
+                    '@language': 'en',
+                }],
+            }],
+            resourceType: [{ '@id': 'Preprint' }],
+            rights: [_shareLicenseField()],
+            sameAs: [{}], // some DOI
+            statedConflictOfInterest: [{
+                '@id': 'no-confict-of-interest',
+            }],
+            subject: [_shareSubjectField()],
+            title: [{
+                '@value': faker.lorem.words(3),
+            }],
+            usage: [_shareUsageReportField()],
+        };
+    },
     Agent: () => ({
         '@id': faker.internet.url(),
         // accessService: [{}],

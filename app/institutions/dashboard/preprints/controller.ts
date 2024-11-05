@@ -35,7 +35,8 @@ export default class InstitutionDashboardPreprints extends Controller {
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
-            getValue: searchResult => searchResult.license?.name,
+            getValue: searchResult => searchResult.license?.name ||
+                this.intl.t('institutions.dashboard.object-list.table-items.no-license-info'),
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
@@ -43,11 +44,19 @@ export default class InstitutionDashboardPreprints extends Controller {
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
-            getValue: searchResult => searchResult.usageMetrics.viewCount,
+            getValue: searchResult => {
+                const metrics = searchResult.usageMetrics;
+                return metrics ? metrics.viewCount :
+                    this.intl.t('institutions.dashboard.object-list.table-items.no-metrics');
+            },
         },
         { // Download count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.download_count'),
-            getValue: searchResult => searchResult.usageMetrics.downloadCount,
+            getValue: searchResult => {
+                const metrics = searchResult.usageMetrics;
+                return metrics ? metrics.downloadCount :
+                    this.intl.t('institutions.dashboard.object-list.table-items.no-metrics');
+            },
         },
     ];
 

@@ -5,6 +5,7 @@ import Intl from 'ember-intl/services/intl';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { AttributionRoleIris } from 'ember-osf-web/models/index-card';
+import { getOsfmapObjects, getSingleOsfmapValue, hasOsfmapValue } from 'ember-osf-web/packages/osfmap/jsonld';
 
 interface ContributorsFieldArgs {
     searchResult: SearchResultModel;
@@ -24,34 +25,51 @@ export default class InstitutionalObjectListContributorsField extends Component<
     // Return two contributors affiliated with the institution given with highest permission levels
     get topInstitutionAffiliatedContributors() {
         const { searchResult, institution } = this.args;
-        const attributions: any[] = searchResult.resourceMetadata.qualifiedAttribution;
+        const {resourceMetadata} = searchResult;
+        const attributions: any[] = getOsfmapObjects(resourceMetadata, ['qualifiedAttribution']);
+        const contributors = getOsfmapObjects(resourceMetadata, ['creator']);
         const institutionIris = institution.iris;
+
         const affiliatedAttributions = attributions
-            .filter((attribution: any) => hasInstitutionAffiliation(attribution, institutionIris));
-        const adminAttributions = affiliatedAttributions
-            .filter(attribution => attribution.hadRole[0]['@id'] === AttributionRoleIris.Admin);
-        const writeAttributions = affiliatedAttributions
-            .filter(attribution => attribution.hadRole[0]['@id'] === AttributionRoleIris.Write);
-        const readAttributions = affiliatedAttributions
-            .filter(attribution => attribution.hadRole[0]['@id'] === AttributionRoleIris.Read);
+            .filter((attribution: any) => hasInstitutionAffiliation(contributors, attribution, institutionIris));
+        const adminAttributions = affiliatedAttributions.filter(
+            attribution => hasOsfmapValue(attribution, ['hadRole'], AttributionRoleIris.Admin),
+        );
+        const writeAttributions = affiliatedAttributions.filter(
+            attribution => hasOsfmapValue(attribution, ['hadRole'], AttributionRoleIris.Write),
+        );
+        const readAttributions = affiliatedAttributions.filter(
+            attribution => hasOsfmapValue(attribution, ['hadRole'], AttributionRoleIris.Read),
+        );
 
         const prioritizedAttributions = adminAttributions.concat(writeAttributions, readAttributions);
 
-        return prioritizedAttributions.slice(0, 2).map((attribution: any) => {
-            const roleIri: AttributionRoleIris = attribution.hadRole[0]['@id'];
+        return prioritizedAttributions.slice(0, 2).map(attribution => {
+            const contributor = getContributorById(contributors, getSingleOsfmapValue(attribution, ['agent']));
+            const roleIri: AttributionRoleIris = getSingleOsfmapValue(attribution, ['hadRole']);
             return {
-                name: attribution.agent[0].name[0]['@value'],
-                url: attribution.agent[0]['@id'],
+                name: getSingleOsfmapValue(contributor,['name']),
+                url: getSingleOsfmapValue(contributor, ['identifier']),
                 permissionLevel: this.intl.t(roleIriToTranslationKey[roleIri]),
             };
         });
     }
 }
 
-function hasInstitutionAffiliation(contributor: any, institutionIris: string[]) {
-    return contributor.agent[0].affiliation.some(
+function hasInstitutionAffiliation(contributors: any[], attribution: any, institutionIris: string[]) {
+    const attributedContributor = getContributorById(contributors, getSingleOsfmapValue(attribution, ['agent']));
+
+    if (!attributedContributor.affiliation) {
+        return false;
+    }
+
+    return attributedContributor.affiliation.some(
         (affiliation: any) => affiliation.identifier.some(
             (affiliationIdentifier: any) => institutionIris.includes(affiliationIdentifier['@value']),
         ),
     );
+}
+
+function getContributorById(contributors: any[], contributorId: string) {
+    return contributors.find(contributor => contributor['@id'] === contributorId);
 }
