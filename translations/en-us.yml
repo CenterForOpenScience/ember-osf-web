@@ -837,7 +837,7 @@ institutions:
         kpi-panel:
             users: 'Total Users'
             projects: 'OSF Public and Private Projects'
-            registrations: 'OSF Registrations'
+            registrations: 'OSF Public and Embargoed Registrations'
             preprints: 'OSF Preprints'
             storage: 'Total Storage in {unit}'
             file-count: 'Total Public File Count'
@@ -859,9 +859,9 @@ institutions:
             total-osf-objects:
                 title: 'Total OSF Objects'
                 preprints: 'Preprints'
-            licenses: 'Licenses'
-            add-ons: 'Add-ons'
-            storage-regions: 'Storage Regions'
+            licenses: 'Top 10 Licenses'
+            add-ons: 'Top 10 Add-ons'
+            storage-regions: 'Top Storage Regions'
             public-vs-private-data-storage:
                 title: 'Public vs Private Data Storage'
                 public: 'Public Data Storage'
