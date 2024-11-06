@@ -132,20 +132,20 @@ export default class AddonAccountSetupComponent extends Component<Args> {
             return [
                 {
                     name: 'access_token',
-                    labelText: t('addons.accountCreate.api-token-label') ,
+                    labelText: t('addons.accountCreate.api-token-label'),
                     inputType: 'text',
-                    inputPlaceholder:  t('addons.accountCreate.api-token-placeholder'),
+                    inputPlaceholder: t('addons.accountCreate.api-token-placeholder'),
                     inputValue: credentials.access_token,
                 },
             ];
         }
-        case CredentialsFormat.DATAVERSE_API_TOKEN:{
+        case CredentialsFormat.DATAVERSE_API_TOKEN: {
             return [
                 {
                     name: 'access_token',
                     labelText: t('addons.accountCreate.personal-access-token-label'),
                     inputType: 'text',
-                    inputPlaceholder:  t('addons.accountCreate.personal-access-token-placeholder'),
+                    inputPlaceholder: t('addons.accountCreate.personal-access-token-placeholder'),
                     inputValue: credentials.access_token,
                 },
             ];
@@ -281,6 +281,13 @@ export default class AddonAccountSetupComponent extends Component<Args> {
             } else {
                 this.toast.error(this.intl.t('addons.accountCreate.oauth-reconnect-error'));
             }
+        }
+    }
+
+    willDestroy() {
+        if (!this.args.account && this.newAccount && !this.newAccount.credentialsAvailable) {
+            this.newAccount.deleteRecord();
+            this.newAccount.save();
         }
     }
 }
