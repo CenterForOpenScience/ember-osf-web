@@ -224,7 +224,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the title is verified
         assert.dom(`${parentDom} [data-test-chart-title]`)
-            .hasText('Licenses');
+            .hasText('Top 10 Licenses');
 
         // And the expanded data position 0 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
@@ -259,7 +259,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the title is verified
         assert.dom(`${parentDom} [data-test-chart-title]`)
-            .hasText('Add-ons');
+            .hasText('Top 10 Add-ons');
 
         // And the expanded data position 0 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
@@ -295,7 +295,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the title is verified
         assert.dom(`${parentDom} [data-test-chart-title]`)
-            .hasText('Storage Regions');
+            .hasText('Top Storage Regions');
 
         // And the expanded data position 0 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
