@@ -12,7 +12,7 @@
                     data-test-start-oauth-button
                     data-analytics-name='Start OAuth'
                     @target='_blank'
-                    @href={{this.newAccount.authUrl}}
+                    @href={{if @account @account.authUrl this.newAccount.authUrl}}
                 >
                     {{t 'addons.accountCreate.oauth-start'}}
                 </OsfLink>
