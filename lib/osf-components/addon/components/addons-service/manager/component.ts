@@ -171,7 +171,11 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     authorizeSelectedAccount() {
-        this.pageMode = PageMode.CONFIRM;
+        if (this.selectedAccount && this.selectedAccount.credentialsAvailable) {
+            this.pageMode = PageMode.CONFIRM;
+        } else {
+            this.pageMode = PageMode.ACCOUNT_CREATE;
+        }
     }
 
     @task

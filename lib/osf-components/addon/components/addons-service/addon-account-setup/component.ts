@@ -132,20 +132,20 @@ export default class AddonAccountSetupComponent extends Component<Args> {
             return [
                 {
                     name: 'access_token',
-                    labelText: t('addons.accountCreate.api-token-label') ,
+                    labelText: t('addons.accountCreate.api-token-label'),
                     inputType: 'text',
-                    inputPlaceholder:  t('addons.accountCreate.api-token-placeholder'),
+                    inputPlaceholder: t('addons.accountCreate.api-token-placeholder'),
                     inputValue: credentials.access_token,
                 },
             ];
         }
-        case CredentialsFormat.DATAVERSE_API_TOKEN:{
+        case CredentialsFormat.DATAVERSE_API_TOKEN: {
             return [
                 {
                     name: 'access_token',
                     labelText: t('addons.accountCreate.personal-access-token-label'),
                     inputType: 'text',
-                    inputPlaceholder:  t('addons.accountCreate.personal-access-token-placeholder'),
+                    inputPlaceholder: t('addons.accountCreate.personal-access-token-placeholder'),
                     inputValue: credentials.access_token,
                 },
             ];
@@ -238,7 +238,8 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     @task
     @waitFor
     async checkOauthSuccess() {
-        const oauthSuccesful = await taskFor(this.args.manager.oauthFlowRefocus).perform(this.newAccount!);
+        const accountToCheck = this.args.account || this.newAccount;
+        const oauthSuccesful = await taskFor(this.args.manager.oauthFlowRefocus).perform(accountToCheck!);
         if (oauthSuccesful) {
             this.pendingOauth = false;
             document.removeEventListener('visibilitychange', this.onVisibilityChange);
@@ -267,20 +268,26 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     async startOauthReconnectFlow() {
         const { account } = this.args;
         if (account) {
-            account.initiateOauth = true;
-            account.displayName = this.displayName;
-            await account.save(); // returned account should have authUrl
+            if (!account.authUrl) {
+                account.initiateOauth = true;
+                account.displayName = this.displayName;
+                await account.save(); // returned account should have authUrl
+            }
+
             if (account.authUrl) {
-                const oauthWindow = window.open(account.authUrl, '_blank');
-                if (oauthWindow) {
-                    document.addEventListener('visibilitychange', this.onVisibilityChange);
-                    this.pendingOauth = true;
-                } else {
-                    this.toast.error(this.intl.t('addons.accountCreate.oauth-window-blocked'));
-                }
+                this.pendingOauth = true;
+                window.open(account.authUrl, '_blank');
+                document.addEventListener('visibilitychange', this.onVisibilityChange);
             } else {
                 this.toast.error(this.intl.t('addons.accountCreate.oauth-reconnect-error'));
             }
+        }
+    }
+
+    willDestroy() {
+        if (!this.args.account && this.newAccount && !this.newAccount.credentialsAvailable) {
+            this.newAccount.deleteRecord();
+            this.newAccount.save();
         }
     }
 }

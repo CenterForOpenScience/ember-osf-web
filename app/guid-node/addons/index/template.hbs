@@ -82,8 +82,8 @@
                                         />
                                         {{#if account.displayName}}
                                             {{account.displayName}}
-                                        {{else if (not account.credentialsAvailable)}}
-                                            {{t 'addons.accountSelect.unauthenticated-account'}}
+                                        {{else}}
+                                            {{t 'addons.accountSelect.unnamed-account'}}
                                         {{/if}}
                                     </label>
                                 </div>
@@ -128,6 +128,7 @@
                         <AddonsService::AddonAccountSetup
                             @provider={{provider.provider}}
                             @manager={{manager}}
+                            @account={{manager.selectedAccount}}
                             @onConnect={{manager.connectAccount}}
                         />
                     {{else if (eq manager.pageMode 'confirm')}}

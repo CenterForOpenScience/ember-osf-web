@@ -306,7 +306,7 @@ addons:
         new-account: 'Setup new account'
         reconnect-account: 'Reconnect account'
         existing-account: 'Choose existing account'
-        unauthenticated-account: 'Unconnected account'
+        unnamed-account: 'Unnamed account'
     accountCreate:
         display-name-label: 'Display name'
         display-name-placeholder: 'Account name'
