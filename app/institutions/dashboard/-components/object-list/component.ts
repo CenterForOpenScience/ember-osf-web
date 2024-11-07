@@ -42,7 +42,9 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
 
     get queryOptions() {
         const options = {
-            ... this.args.defaultQueryOptions,
+            cardSearchFilter: {
+                ...this.args.defaultQueryOptions.cardSearchFilter,
+            },
             'page[cursor]': this.page,
             'page[size]': 10,
             sort: this.sort,
