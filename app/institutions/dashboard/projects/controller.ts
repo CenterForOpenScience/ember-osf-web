@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import { getSingleOsfmapValue } from 'ember-osf-web/packages/osfmap/jsonld';
 
 
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
@@ -23,12 +24,12 @@ export default class InstitutionDashboardProjects extends Controller {
         },
         { // Date created
             name: this.intl.t('institutions.dashboard.object-list.table-headers.created_date'),
-            getValue: searchResult => searchResult.getResourceMetadataField('dateCreated'),
+            getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateCreated']),
             sortKey: 'dateCreated',
         },
         { // Date modified
             name: this.intl.t('institutions.dashboard.object-list.table-headers.modified_date'),
-            getValue: searchResult => searchResult.getResourceMetadataField('dateModified'),
+            getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateModified']),
             sortKey: 'dateModified',
         },
         { // DOI
@@ -42,7 +43,7 @@ export default class InstitutionDashboardProjects extends Controller {
         { // Total data stored
             name: this.intl.t('institutions.dashboard.object-list.table-headers.total_data_stored'),
             getValue: searchResult => {
-                const byteCount = searchResult.getResourceMetadataField('storageByteCount');
+                const byteCount = getSingleOsfmapValue(searchResult.resourceMetadata, ['storageByteCount']);
                 return byteCount ? humanFileSize(byteCount) :
                     this.intl.t('institutions.dashboard.object-list.table-items.no-storage-info');
             },
@@ -76,7 +77,7 @@ export default class InstitutionDashboardProjects extends Controller {
             name: this.intl.t('institutions.dashboard.object-list.table-headers.addons'),
             getValue: searchResult => {
                 const field = this.intl.t('institutions.dashboard.object-list.table-headers.addons');
-                return searchResult.configuredAddonNames ||
+                return searchResult.configuredAddonNames.length ?  searchResult.configuredAddonNames :
                     this.intl.t('institutions.dashboard.object-list.table-items.no-info', { field });
             },
         },

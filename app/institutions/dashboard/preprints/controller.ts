@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import { getSingleOsfmapValue } from 'ember-osf-web/packages/osfmap/jsonld';
 
 import { ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
 import { ObjectListColumn } from '../-components/object-list/component';
@@ -21,12 +22,12 @@ export default class InstitutionDashboardPreprints extends Controller {
         },
         { // Date created
             name: this.intl.t('institutions.dashboard.object-list.table-headers.created_date'),
-            getValue: searchResult => searchResult.getResourceMetadataField('dateCreated'),
+            getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateCreated']),
             sortKey: 'dateCreated',
         },
         { // Date modified
             name: this.intl.t('institutions.dashboard.object-list.table-headers.modified_date'),
-            getValue: searchResult => searchResult.getResourceMetadataField('dateModified'),
+            getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateModified']),
             sortKey: 'dateModified',
         },
         { // DOI
