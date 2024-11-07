@@ -80,7 +80,7 @@ module('Integration | institutions | dashboard | -components | total-count-kpi-w
         assert.dom(parentContainer)
             .exists('The Total Registration Widget exists');
         assert.dom(parentContainer)
-            .hasText('100 OSF Registrations');
+            .hasText('300 OSF Public and Embargoed Registrations');
         assert.dom(`${parentContainer} [data-test-kpi-icon]`)
             .hasAttribute('data-icon', 'archive');
 

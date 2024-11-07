@@ -41,6 +41,10 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
         return summaryMetrics.privateProjectCount + summaryMetrics.publicProjectCount;
     }
 
+    private calculateRegistrations(summaryMetrics: InstitutionSummaryMetricModel): number {
+        return summaryMetrics.embargoedRegistrationCount + summaryMetrics.publicRegistrationCount;
+    }
+
     @task
     @waitFor
     private async loadData(): Promise<void> {
@@ -70,7 +74,7 @@ export default class TotalCountKpiWrapperComponent extends Component<TotalCountK
             },
             {
                 title: this.intl.t('institutions.dashboard.kpi-panel.registrations'),
-                total: metrics.summaryMetrics.publicRegistrationCount,
+                total: this.calculateRegistrations(metrics.summaryMetrics),
                 icon: 'archive',
             },
             {
