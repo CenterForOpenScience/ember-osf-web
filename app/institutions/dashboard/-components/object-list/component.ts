@@ -53,7 +53,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         const fullQueryOptions = this.activeFilters.reduce((acc, filter: Filter) => {
             const currentValue = acc.cardSearchFilter[filter.propertyPathKey];
             acc.cardSearchFilter[filter.propertyPathKey] =
-                currentValue ? [...currentValue, filter.value] : [filter.value];
+                currentValue ? currentValue.concat(filter.value) : [filter.value];
             return acc;
         }, options);
         return fullQueryOptions;
