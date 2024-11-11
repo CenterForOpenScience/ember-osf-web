@@ -8,24 +8,6 @@
     >
         <div local-class='banner'>
             <img src='{{@institution.bannerUrl}}' alt='{{@institution.name}}'>
-            {{#if @institution.linkToExternalReportsArchive}}
-                <div>
-                    <OsfLink
-                        data-test-link-to-reports-archive
-                        data-analytics-name='Link to archived reports'
-                        @target='_blank'
-                        @fakeButton={{true}}
-                        @href={{@institution.linkToExternalReportsArchive}}
-                    >
-                        <EmberTooltip @side='bottom'>
-                            {{t 'institutions.dashboard.download_past_reports_label'}}
-                        </EmberTooltip>
-                        <FaIcon
-                            @icon='chart-pie'
-                        />
-                    </OsfLink>
-                </div>
-            {{/if}}
         </div>
         <ul
             data-analytics-scope='Dashboard tabs'

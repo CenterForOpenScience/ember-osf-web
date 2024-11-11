@@ -64,6 +64,43 @@
                 </div>
             {{/if}}
         </BasicDropdown>
+        <div local-class='download-button-group'>
+            {{#if @institution.linkToExternalReportsArchive}}
+                <OsfLink
+                    data-test-link-to-reports-archive
+                    data-analytics-name='Link to archived reports'
+                    @target='_blank'
+                    @fakeButton={{true}}
+                    @href={{@institution.linkToExternalReportsArchive}}
+                >
+                    <EmberTooltip @side='bottom'>
+                        {{t 'institutions.dashboard.download_past_reports_label'}}
+                    </EmberTooltip>
+                    <FaIcon @icon='chart-pie'/>
+                </OsfLink>
+            {{/if}}
+            <div local-class='download-dropdown'>
+                <ResponsiveDropdown @renderInPlace={{true}} @buttonStyling={{true}} as |dd| >
+                    <dd.trigger data-test-download-dropdown local-class='download-dropdown-trigger'>
+                        <FaIcon @icon='download' />
+                    </dd.trigger>
+                    <dd.content local-class='download-dropdown-content'>
+                        <Button local-class='download-option' {{on 'click' (queue this.downloadCsv dd.close)}}>
+                            {{t 'institutions.dashboard.format_labels.csv'}}
+                        </Button>
+                        <Button local-class='download-option' {{on 'click' (queue this.downloadTsv dd.close)}}>
+                            {{t 'institutions.dashboard.format_labels.tsv'}}
+                        </Button>
+                        <Button local-class='download-option' {{on 'click' (queue this.downloadJsonTable dd.close)}}>
+                            {{t 'institutions.dashboard.format_labels.json_table'}}
+                        </Button>
+                        <Button local-class='download-option' {{on 'click' (queue this.downloadJsonDirect dd.close)}}>
+                            {{t 'institutions.dashboard.format_labels.json_direct'}}
+                        </Button>
+                    </dd.content>
+                </ResponsiveDropdown>
+            </div>
+        </div>
     </div>
     <PaginatedList::HasMany
         local-class='table'
