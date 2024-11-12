@@ -65,7 +65,7 @@ export default class InstitutionDashboardPreprints extends Controller {
         const identifiers = this.model.institution.iris.join(',');
         return {
             cardSearchFilter: {
-                affiliation: identifiers,
+                affiliation: [identifiers],
                 resourceType: ResourceTypeFilterValue.Preprints,
             },
         };
