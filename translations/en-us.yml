@@ -813,6 +813,13 @@ institutions:
         title: '{institutionName} Dashboard'
         download_past_reports_label: 'Previous reports'
         download_csv: 'Download CSV'
+        download_tsv: 'Download TSV'
+        format_labels:
+          csv: '.csv'
+          tsv: '.tsv'
+          json_table: 'JSON (table)'
+          json_direct: 'JSON (direct)'
+        download: 'Download'
         select_default: 'All Departments'
         users_list:
             name: Name

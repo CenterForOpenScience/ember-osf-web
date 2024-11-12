@@ -62,7 +62,6 @@ module('Integration | institutions | dashboard | -components | object-list', hoo
         `);
 
         // Elements from InstitutionDashboarWrapper are present
-        assert.dom('[data-test-link-to-reports-archive]').exists('Link to download prior reports exists');
         assert.dom('[data-test-page-tab="summary"]').exists('Summary tab exists');
 
         // Elements in the top bar are present

@@ -22,8 +22,6 @@ module(moduleName, hooks => {
             "Still at '/institutions/has-users/dashboard'.",
         );
 
-        assert.dom('[data-test-link-to-reports-archive]').exists('Link to download prior reports exists');
-
         assert.dom('[data-test-page-tab="summary"]').exists('Summary tab exists');
         assert.dom('[data-test-page-tab="users"]').exists('Users tab exists');
         assert.dom('[data-test-page-tab="projects"]').exists('Projects tab exists');
@@ -38,21 +36,29 @@ module(moduleName, hooks => {
         await click('[data-test-page-tab="users"]');
         await percySnapshot(`${moduleName} - users`);
         assert.dom('[data-test-page-tab="users"]').hasClass('active', 'Users tab is active');
+        assert.dom('[data-test-link-to-reports-archive]').exists('Link to download prior reports exists');
+        assert.dom('[data-test-download-dropdown]').exists('Link to download file formats');
 
         // Projects tab
         await click('[data-test-page-tab="projects"]');
         await percySnapshot(`${moduleName} - projects`);
         assert.dom('[data-test-page-tab="projects"]').hasClass('active', 'Projects tab is active');
+        assert.dom('[data-test-link-to-reports-archive]').exists('Link to download prior reports exists');
+        assert.dom('[data-test-download-dropdown]').exists('Link to download file formats');
 
         // Registrations tab
         await click('[data-test-page-tab="registrations"]');
         await percySnapshot(`${moduleName} - registrations`);
         assert.dom('[data-test-page-tab="registrations"]').hasClass('active', 'Registrations tab is active');
+        assert.dom('[data-test-link-to-reports-archive]').exists('Link to download prior reports exists');
+        assert.dom('[data-test-download-dropdown]').exists('Link to download file formats');
 
         // Preprints tab
         await click('[data-test-page-tab="preprints"]');
         await percySnapshot(`${moduleName} - preprints`);
         assert.dom('[data-test-page-tab="preprints"]').hasClass('active', 'Preprints tab is active');
+        assert.dom('[data-test-link-to-reports-archive]').exists('Link to download prior reports exists');
+        assert.dom('[data-test-download-dropdown]').exists('Link to download file formats');
     });
 
     test('institutions dashboard: projects, registrations, and preprints tab', async function(assert) {
