@@ -60,9 +60,8 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     }
 
     get valueSearchQueryOptions() {
-        const { defaultQueryOptions } = this.args;
         return {
-            ...defaultQueryOptions.cardSearchFilter,
+            ...this.queryOptions.cardSearchFilter,
         };
     }
 
