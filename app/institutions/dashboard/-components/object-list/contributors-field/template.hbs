@@ -7,4 +7,8 @@
         </OsfLink>
         {{t 'institutions.dashboard.object-list.table-items.permission-level' permissionLevel=contributor.permissionLevel}}
     </div>
+{{else}}
+    <div>
+        {{t 'institutions.dashboard.object-list.table-items.missing-info'}}
+    </div>
 {{/each}}
