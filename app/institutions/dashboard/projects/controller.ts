@@ -48,6 +48,8 @@ export default class InstitutionDashboardProjects extends Controller {
                 const byteCount = getSingleOsfmapValue(searchResult.resourceMetadata, ['storageByteCount']);
                 return byteCount ? humanFileSize(byteCount) : this.missingItemPlaceholder;
             },
+            sortKey: 'storageByteCount',
+            sortParam: 'integer-value',
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),

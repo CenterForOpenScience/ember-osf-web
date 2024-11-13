@@ -127,7 +127,7 @@ as |list|>
                                                     {{#if column.sortKey}}
                                                         <SortArrow
                                                             @sortBy={{column.sortKey}}
-                                                            @sortAction={{queue (fn this.updateSortKey column.sortKey) (perform list.searchObjectsTask)}}
+                                                            @sortAction={{queue (fn this.updateSortKey column.sortKey column.sortParam) (perform list.searchObjectsTask)}}
                                                         />
                                                     {{/if}}
                                                 </span>
