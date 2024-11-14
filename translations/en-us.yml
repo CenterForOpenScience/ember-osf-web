@@ -901,6 +901,7 @@ institutions:
                 registration_schema: 'Registration Schema'
             table-items:
                 missing-info: '-'
+                no-contributors: 'Contributor no longer affiliated'
                 permission-level: '({permissionLevel})'
         projects_panel: 'Total Projects'
         departments_panel: Departments
