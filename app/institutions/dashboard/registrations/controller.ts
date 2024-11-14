@@ -10,6 +10,7 @@ import { ObjectListColumn } from '../-components/object-list/component';
 export default class InstitutionDashboardRegistrations extends Controller {
     @service intl!: Intl;
 
+    missingItemPlaceholder = this.intl.t('institutions.dashboard.object-list.table-items.missing-info');
     columns: ObjectListColumn[] = [
         { // Title
             name: this.intl.t('institutions.dashboard.object-list.table-headers.title'),
@@ -43,8 +44,7 @@ export default class InstitutionDashboardRegistrations extends Controller {
             name: this.intl.t('institutions.dashboard.object-list.table-headers.total_data_stored'),
             getValue: searchResult => {
                 const byteCount = getSingleOsfmapValue(searchResult.resourceMetadata, ['storageByteCount']);
-                return byteCount ? humanFileSize(byteCount) :
-                    this.intl.t('institutions.dashboard.object-list.table-items.no-storage-info');
+                return byteCount ? humanFileSize(byteCount) : this.missingItemPlaceholder;
             },
         },
         { // Contributor name + permissions
@@ -55,28 +55,22 @@ export default class InstitutionDashboardRegistrations extends Controller {
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
             getValue: searchResult => {
                 const metrics = searchResult.usageMetrics;
-                return metrics ? metrics.viewCount :
-                    this.intl.t('institutions.dashboard.object-list.table-items.no-metrics');
+                return metrics ? metrics.viewCount : this.missingItemPlaceholder;
             },
         },
         { // Resource type
             name: this.intl.t('institutions.dashboard.object-list.table-headers.resource_nature'),
-            getValue: searchResult => {
-                const field = this.intl.t('institutions.dashboard.object-list.table-headers.resource_nature');
-                return searchResult.resourceNature ||
-                    this.intl.t('institutions.dashboard.object-list.table-items.no-info', { field });
-            },
+            getValue: searchResult => searchResult.resourceNature || this.missingItemPlaceholder,
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
-            getValue: searchResult => searchResult.license?.name ||
-                this.intl.t('institutions.dashboard.object-list.table-items.no-license-info'),
+            getValue: searchResult => searchResult.license?.name || this.missingItemPlaceholder,
         },
         { // Funder name
             name: this.intl.t('institutions.dashboard.object-list.table-headers.funder_name'),
             getValue: searchResult => {
                 if (!searchResult.funders) {
-                    return this.intl.t('institutions.dashboard.object-list.table-items.no-funder-info');
+                    return this.missingItemPlaceholder;
                 }
                 return searchResult.funders.map((funder: { name: string }) => funder.name).join(', ');
             },

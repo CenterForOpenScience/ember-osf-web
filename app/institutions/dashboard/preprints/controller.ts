@@ -9,6 +9,8 @@ import { ObjectListColumn } from '../-components/object-list/component';
 export default class InstitutionDashboardPreprints extends Controller {
     @service intl!: Intl;
 
+    missingItemPlaceholder = this.intl.t('institutions.dashboard.object-list.table-items.missing-info');
+
     columns: ObjectListColumn[] = [
         { // Title
             name: this.intl.t('institutions.dashboard.object-list.table-headers.title'),
@@ -36,8 +38,7 @@ export default class InstitutionDashboardPreprints extends Controller {
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
-            getValue: searchResult => searchResult.license?.name ||
-                this.intl.t('institutions.dashboard.object-list.table-items.no-license-info'),
+            getValue: searchResult => searchResult.license?.name || this.missingItemPlaceholder,
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
@@ -47,16 +48,14 @@ export default class InstitutionDashboardPreprints extends Controller {
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
             getValue: searchResult => {
                 const metrics = searchResult.usageMetrics;
-                return metrics ? metrics.viewCount :
-                    this.intl.t('institutions.dashboard.object-list.table-items.no-metrics');
+                return metrics ? metrics.viewCount : this.missingItemPlaceholder;
             },
         },
         { // Download count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.download_count'),
             getValue: searchResult => {
                 const metrics = searchResult.usageMetrics;
-                return metrics ? metrics.downloadCount :
-                    this.intl.t('institutions.dashboard.object-list.table-items.no-metrics');
+                return metrics ? metrics.downloadCount : this.missingItemPlaceholder;
             },
         },
     ];

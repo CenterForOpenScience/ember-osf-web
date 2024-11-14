@@ -900,11 +900,8 @@ institutions:
                 funder_name: Funder Name
                 registration_schema: 'Registration Schema'
             table-items:
-                no-info: 'No {field}'
-                no-storage-info: 'No Storage Info'
-                no-metrics: 'No metrics'
-                no-license-info: 'No License Info'
-                no-funder-info: 'No Funder info'
+                missing-info: '-'
+                no-contributors: 'Contributor no longer affiliated'
                 permission-level: '({permissionLevel})'
         projects_panel: 'Total Projects'
         departments_panel: Departments
