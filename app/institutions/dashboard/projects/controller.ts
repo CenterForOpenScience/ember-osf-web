@@ -3,9 +3,7 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import { getSingleOsfmapValue } from 'ember-osf-web/packages/osfmap/jsonld';
 
-
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
-import { ResourceTypeFilterValue } from 'osf-components/components/search-page/component';
 import { ObjectListColumn } from '../-components/object-list/component';
 
 export default class InstitutionDashboardProjects extends Controller {
@@ -89,7 +87,7 @@ export default class InstitutionDashboardProjects extends Controller {
         return {
             cardSearchFilter: {
                 affiliation: [identifiers],
-                resourceType: ResourceTypeFilterValue.Projects,
+                resourceType: 'Project',
             },
         };
     }
