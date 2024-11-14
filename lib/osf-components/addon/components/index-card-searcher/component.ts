@@ -31,7 +31,7 @@ export default class IndexCardSearcher extends Component<IndexCardSearcherArgs> 
     @tracked prevPageCursor?: string;
 
     get showFirstPageOption() {
-        return this.prevPageCursor !== this.firstPageCursor;
+        return this.hasPrevPage && this.prevPageCursor !== this.firstPageCursor;
     }
 
     get hasNextPage() {

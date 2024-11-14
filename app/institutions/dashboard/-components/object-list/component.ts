@@ -88,6 +88,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
 
     @action
     toggleFilter(property: Filter) {
+        this.page = '';
         if (this.activeFilters.includes(property)) {
             this.activeFilters.removeObject(property);
         } else {
@@ -98,6 +99,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     @action
     updateSortKey(newSortKey: string, newSortParam?: string) {
         this.sortParam = newSortParam;
+        this.page = '';
         if (this.sort === newSortKey) {
             this.sort = '-' + newSortKey;
         } else {
