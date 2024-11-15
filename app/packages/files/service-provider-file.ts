@@ -101,7 +101,7 @@ export default class ServiceProviderFile {
     }
 
     get name() {
-        return this.configuredStorageAddon.displayName;
+        return this.configuredStorageAddon.externalStorageService.get('wbKey');
     }
 
     get iconLocation() {
