@@ -12,8 +12,6 @@ export enum ConnectedCapabilities {
 }
 
 export enum ConnectedOperationNames {
-    DownloadAsZip = 'download_as_zip',
-    CopyInto = 'copy_into',
     HasRevisions = 'has_revisions',
     ListRootItems = 'list_root_items',
     ListChildItems = 'list_child_items',
