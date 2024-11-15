@@ -48,7 +48,6 @@ export default class ServiceProviderFile {
 
     async getSupportedFeatures() {
         const externalStorageService = await this.configuredStorageAddon.externalStorageService;
-        // console.log((await externalStorageService).get())
         this.userCanDownloadAsZip = externalStorageService.get('supportedFeatures')
             .includes(ExternalServiceCapabilities.DOWNLOAD_AS_ZIP);
         this.canMoveToThisProvider = externalStorageService.get('supportedFeatures')
