@@ -292,3 +292,18 @@ input:checked + .slider::before {
     }
 }
 
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.top-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.right-button-group {
+    justify-content: flex-end;
+    margin-right: 15px;
+}

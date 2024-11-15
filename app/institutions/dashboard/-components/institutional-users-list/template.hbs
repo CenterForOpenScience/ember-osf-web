@@ -8,97 +8,103 @@
             </span>
             {{t 'institutions.dashboard.users_list.total_users'}}
         </div>
-        <div local-class='orcid-switch'>
-            <label for='switches-container' local-class='orcid-toggle-label'>{{t 'institutions.dashboard.users_list.has_orcid'}}</label>
-            <label local-class='switch'>
-                <input id='switches-container' type='checkbox' checked={{this.hasOrcid}} {{on 'change' (fn this.toggleOrcidFilter (not this.hasOrcid))}}>
-                <span local-class='slider round'></span>
-            </label>
-        </div>
-        <PowerSelect
-            @options={{this.departments}}
-            @searchEnabled={{true}}
-            @selected={{this.department}}
-            @triggerClass={{local-class 'select'}}
-            @search={{perform this.searchDepartment}}
-            @onChange={{this.onSelectChange}}
-            as |department|
-        >
-            {{department}}
-        </PowerSelect>
-        <BasicDropdown
-            @renderInPlace={{true}}
-            @onClose={{this.onDropdownClose}}
-            @preventScroll={{true}}
-            @eventType='mousedown'
-            local-class='dropdown'
-            as |dd|
-        >
-            <Button local-class='dropdown-trigger' {{on 'click' dd.actions.toggle}}>
-                <FaIcon local-class='icon-columns' @icon='columns' />
-                {{t 'institutions.dashboard.users_list.select_columns'}}
-            </Button>
-            {{#if dd.isOpen}}
-                <div local-class='dropdown-panel {{if (is-mobile) 'mobile'}}'>
-                    <div local-class='dropdown-content'>
-                        {{#each this.columns as |column|}}
-                            <label>
-                                <input
-                                    type='checkbox'
-                                    value={{column.key}}
-                                    checked={{column.selected}}
-                                    {{on 'change' (fn this.toggleColumnSelection column.key)}}
-                                />
-                                {{column.label}}
-                            </label>
-                        {{/each}}
-                    </div>
-                    <div local-class='dropdown-actions'>
-                        <Button @type='secondary' {{on 'click' dd.actions.close}}>
-                            {{t 'general.cancel'}}
-                        </Button>
-                        <Button @type='primary' {{on 'click' this.applyColumnSelection}} {{on 'click' dd.actions.close}}>
-                            {{t 'general.apply'}}
-                        </Button>
+        <div local-class='top-wrapper'>
+            <div local-class='flex'>
+                <div local-class='orcid-switch'>
+                    <label for='switches-container' local-class='orcid-toggle-label'>{{t 'institutions.dashboard.users_list.has_orcid'}}</label>
+                    <label local-class='switch'>
+                        <input id='switches-container' type='checkbox' checked={{this.hasOrcid}} {{on 'change' (fn this.toggleOrcidFilter (not this.hasOrcid))}}>
+                        <span local-class='slider round'></span>
+                    </label>
+                </div>
+                <PowerSelect
+                    @options={{this.departments}}
+                    @searchEnabled={{true}}
+                    @selected={{this.department}}
+                    @triggerClass={{local-class 'select'}}
+                    @search={{perform this.searchDepartment}}
+                    @onChange={{this.onSelectChange}}
+                    as |department|
+                >
+                    {{department}}
+                </PowerSelect>
+            </div>
+            <div local-class='flex right-button-group'>
+                <BasicDropdown
+                    @renderInPlace={{true}}
+                    @onClose={{this.onDropdownClose}}
+                    @preventScroll={{true}}
+                    @eventType='mousedown'
+                    local-class='dropdown'
+                    as |dd|
+                >
+                    <Button local-class='dropdown-trigger' {{on 'click' dd.actions.toggle}}>
+                        <FaIcon local-class='icon-columns' @icon='columns' />
+                        {{t 'institutions.dashboard.users_list.select_columns'}}
+                    </Button>
+                    {{#if dd.isOpen}}
+                        <div local-class='dropdown-panel {{if (is-mobile) 'mobile'}}'>
+                            <div local-class='dropdown-content'>
+                                {{#each this.columns as |column|}}
+                                    <label>
+                                        <input
+                                            type='checkbox'
+                                            value={{column.key}}
+                                            checked={{column.selected}}
+                                            {{on 'change' (fn this.toggleColumnSelection column.key)}}
+                                        />
+                                        {{column.label}}
+                                    </label>
+                                {{/each}}
+                            </div>
+                            <div local-class='dropdown-actions'>
+                                <Button @type='secondary' {{on 'click' dd.actions.close}}>
+                                    {{t 'general.cancel'}}
+                                </Button>
+                                <Button @type='primary' {{on 'click' this.applyColumnSelection}} {{on 'click' dd.actions.close}}>
+                                    {{t 'general.apply'}}
+                                </Button>
+                            </div>
+                        </div>
+                    {{/if}}
+                </BasicDropdown>
+                <div local-class='download-button-group'>
+                    {{#if @institution.linkToExternalReportsArchive}}
+                        <OsfLink
+                            data-test-link-to-reports-archive
+                            data-analytics-name='Link to archived reports'
+                            @target='_blank'
+                            @fakeButton={{true}}
+                            @href={{@institution.linkToExternalReportsArchive}}
+                        >
+                            <EmberTooltip @side='bottom'>
+                                {{t 'institutions.dashboard.download_past_reports_label'}}
+                            </EmberTooltip>
+                            <FaIcon @icon='chart-pie'/>
+                        </OsfLink>
+                    {{/if}}
+                    <div local-class='download-dropdown'>
+                        <ResponsiveDropdown @renderInPlace={{true}} @buttonStyling={{true}} as |dd| >
+                            <dd.trigger data-test-download-dropdown local-class='download-dropdown-trigger'>
+                                <FaIcon @icon='download' />
+                            </dd.trigger>
+                            <dd.content local-class='download-dropdown-content'>
+                                <Button local-class='download-option' {{on 'click' (queue this.downloadCsv dd.close)}}>
+                                    {{t 'institutions.dashboard.format_labels.csv'}}
+                                </Button>
+                                <Button local-class='download-option' {{on 'click' (queue this.downloadTsv dd.close)}}>
+                                    {{t 'institutions.dashboard.format_labels.tsv'}}
+                                </Button>
+                                <Button local-class='download-option' {{on 'click' (queue this.downloadJsonTable dd.close)}}>
+                                    {{t 'institutions.dashboard.format_labels.json_table'}}
+                                </Button>
+                                <Button local-class='download-option' {{on 'click' (queue this.downloadJsonDirect dd.close)}}>
+                                    {{t 'institutions.dashboard.format_labels.json_direct'}}
+                                </Button>
+                            </dd.content>
+                        </ResponsiveDropdown>
                     </div>
                 </div>
-            {{/if}}
-        </BasicDropdown>
-        <div local-class='download-button-group'>
-            {{#if @institution.linkToExternalReportsArchive}}
-                <OsfLink
-                    data-test-link-to-reports-archive
-                    data-analytics-name='Link to archived reports'
-                    @target='_blank'
-                    @fakeButton={{true}}
-                    @href={{@institution.linkToExternalReportsArchive}}
-                >
-                    <EmberTooltip @side='bottom'>
-                        {{t 'institutions.dashboard.download_past_reports_label'}}
-                    </EmberTooltip>
-                    <FaIcon @icon='chart-pie'/>
-                </OsfLink>
-            {{/if}}
-            <div local-class='download-dropdown'>
-                <ResponsiveDropdown @renderInPlace={{true}} @buttonStyling={{true}} as |dd| >
-                    <dd.trigger data-test-download-dropdown local-class='download-dropdown-trigger'>
-                        <FaIcon @icon='download' />
-                    </dd.trigger>
-                    <dd.content local-class='download-dropdown-content'>
-                        <Button local-class='download-option' {{on 'click' (queue this.downloadCsv dd.close)}}>
-                            {{t 'institutions.dashboard.format_labels.csv'}}
-                        </Button>
-                        <Button local-class='download-option' {{on 'click' (queue this.downloadTsv dd.close)}}>
-                            {{t 'institutions.dashboard.format_labels.tsv'}}
-                        </Button>
-                        <Button local-class='download-option' {{on 'click' (queue this.downloadJsonTable dd.close)}}>
-                            {{t 'institutions.dashboard.format_labels.json_table'}}
-                        </Button>
-                        <Button local-class='download-option' {{on 'click' (queue this.downloadJsonDirect dd.close)}}>
-                            {{t 'institutions.dashboard.format_labels.json_direct'}}
-                        </Button>
-                    </dd.content>
-                </ResponsiveDropdown>
             </div>
         </div>
     </div>
