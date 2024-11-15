@@ -13,6 +13,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
+import { ExternalServiceCapabilities } from 'ember-osf-web/models/external-service';
 
 
 export enum FileSortKey {
@@ -50,11 +51,11 @@ export default class ServiceFile {
     @tracked configuredStorageAddon: ConfiguredStorageAddonModel;
     @tracked totalFileCount = 0;
     @tracked waterButlerRevisions?: WaterButlerRevision[];
-    userCanDownloadAsZip: boolean;
+    @tracked userCanDownloadAsZip: boolean;
+    @tracked canMoveToThisProvider: boolean;
     shouldShowTags = false;
     shouldShowRevisions: boolean;
     providerHandlesVersioning: boolean;
-    canMoveToThisProvider: boolean;
     parallelUploadsLimit = 2;
 
     currentUser: CurrentUserService;
@@ -71,15 +72,22 @@ export default class ServiceFile {
         this.currentUser = currentUser;
         this.fileModel = fileModel;
         this.configuredStorageAddon = configuredStorageAddon;
-        this.userCanDownloadAsZip = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOperationNames.DownloadAsZip);
+        this.userCanDownloadAsZip = false;
+        this.canMoveToThisProvider = false;
+        this.getSupportedFeatures();
         this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
             .includes(ConnectedOperationNames.HasRevisions);
         this.shouldShowRevisions = configuredStorageAddon.connectedOperationNames
             .includes(ConnectedOperationNames.HasRevisions);
         this.parallelUploadsLimit = configuredStorageAddon.concurrentUploads;
-        this.canMoveToThisProvider = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOperationNames.CopyInto);
+    }
+
+    async getSupportedFeatures() {
+        const externalStorageService = await this.configuredStorageAddon.externalStorageService;
+        this.userCanDownloadAsZip = externalStorageService.get('supportedFeatures')
+            .includes(ExternalServiceCapabilities.DOWNLOAD_AS_ZIP);
+        this.canMoveToThisProvider = externalStorageService.get('supportedFeatures')
+            .includes(ExternalServiceCapabilities.COPY_INTO);
     }
 
     get isFile() {

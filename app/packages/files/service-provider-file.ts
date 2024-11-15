@@ -14,14 +14,15 @@ import { ErrorDocument } from 'osf-api';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-addon';
 import ServiceFile from 'ember-osf-web/packages/files/service-file';
+import { ExternalServiceCapabilities } from 'ember-osf-web/models/external-service';
 
 export default class ServiceProviderFile {
     @tracked fileModel: FileProviderModel;
     @tracked configuredStorageAddon: ConfiguredStorageAddonModel;
     @tracked totalFileCount = 0;
-    userCanDownloadAsZip: boolean;
+    @tracked userCanDownloadAsZip: boolean;
+    @tracked canMoveToThisProvider: boolean;
     providerHandlesVersioning: boolean;
-    canMoveToThisProvider: boolean;
     parallelUploadsLimit = 2;
 
     currentUser: CurrentUserService;
@@ -37,13 +38,21 @@ export default class ServiceProviderFile {
         this.currentUser = currentUser;
         this.fileModel = fileModel;
         this.configuredStorageAddon = configuredStorageAddon;
-        this.userCanDownloadAsZip = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOperationNames.DownloadAsZip);
+        this.userCanDownloadAsZip = false;
+        this.canMoveToThisProvider = false;
+        this.getSupportedFeatures();
         this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
             .includes(ConnectedOperationNames.HasRevisions);
         this.parallelUploadsLimit = configuredStorageAddon.concurrentUploads;
-        this.canMoveToThisProvider = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOperationNames.CopyInto);
+    }
+
+    async getSupportedFeatures() {
+        const externalStorageService = await this.configuredStorageAddon.externalStorageService;
+        // console.log((await externalStorageService).get())
+        this.userCanDownloadAsZip = externalStorageService.get('supportedFeatures')
+            .includes(ExternalServiceCapabilities.DOWNLOAD_AS_ZIP);
+        this.canMoveToThisProvider = externalStorageService.get('supportedFeatures')
+            .includes(ExternalServiceCapabilities.COPY_INTO);
     }
 
     get id() {

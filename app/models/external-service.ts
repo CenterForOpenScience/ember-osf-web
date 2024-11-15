@@ -24,6 +24,8 @@ export enum ExternalServiceCapabilities {
     REGISTERING = 'REGISTERING',
     REGISTERING_PARTIAL = 'REGISTERING_PARTIAL',
     FILE_VERSIONS = 'FILE_VERSIONS',
+    DOWNLOAD_AS_ZIP = 'DOWNLOAD_AS_ZIP',
+    COPY_INTO = 'COPY_INTO',
 }
 
 export default class ExternalServiceModel extends Model {
