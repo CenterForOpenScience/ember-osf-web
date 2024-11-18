@@ -8,7 +8,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { taskFor } from 'ember-concurrency-ts';
-import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path';
+import RelatedPropertyPathModel, { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 
 interface IndexCardSearcherArgs {
     queryOptions: Record<string, any>;
@@ -25,6 +25,7 @@ export default class IndexCardSearcher extends Component<IndexCardSearcherArgs> 
     @tracked totalResultCount = 0;
 
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
+    @tracked booleanFilters?: RelatedPropertyPathModel[] = [];
 
     @tracked firstPageCursor?: string;
     @tracked nextPageCursor?: string;
@@ -57,7 +58,12 @@ export default class IndexCardSearcher extends Component<IndexCardSearcherArgs> 
         try {
             const searchResult = await this.store.queryRecord('index-card-search', this.args.queryOptions);
 
-            this.relatedProperties = await searchResult.relatedProperties;
+            this.booleanFilters = searchResult.relatedProperties
+                .filterBy('suggestedFilterOperator', SuggestedFilterOperators.IsPresent);
+            this.relatedProperties = searchResult.relatedProperties.filter(
+                (property: RelatedPropertyPathModel) =>
+                    property.suggestedFilterOperator !== SuggestedFilterOperators.IsPresent, // AnyOf or AtDate
+            );
             this.firstPageCursor = searchResult.firstPageCursor;
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;

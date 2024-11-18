@@ -240,6 +240,14 @@ as |list|>
                         @toggleFilter={{queue this.toggleFilter (perform list.searchObjectsTask)}}
                     />
                 {{/each}}
+                {{#if list.booleanFilters.length}}
+                    <SearchPage::BooleanFilters
+                        @cardSearchText={{this.cardSearchText}}
+                        @cardSearchFilter={{this.valueSearchQueryOptions}}
+                        @properties={{list.booleanFilters}}
+                        @toggleFilter={{queue this.toggleFilter (perform list.searchObjectsTask)}}
+                    />
+                {{/if}}
             </wrapper.right>
         {{/if}}
     </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
