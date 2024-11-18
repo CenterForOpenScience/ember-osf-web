@@ -50,6 +50,8 @@ export default class InstitutionDashboardPreprints extends Controller {
                 const metrics = searchResult.usageMetrics;
                 return metrics ? metrics.viewCount : this.missingItemPlaceholder;
             },
+            sortKey: 'usage.viewCount',
+            sortParam: 'integer-value',
         },
         { // Download count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.download_count'),
@@ -57,6 +59,8 @@ export default class InstitutionDashboardPreprints extends Controller {
                 const metrics = searchResult.usageMetrics;
                 return metrics ? metrics.downloadCount : this.missingItemPlaceholder;
             },
+            sortKey: 'usage.downloadCount',
+            sortParam: 'integer-value',
         },
     ];
 
