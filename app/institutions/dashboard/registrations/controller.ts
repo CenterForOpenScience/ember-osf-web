@@ -58,6 +58,8 @@ export default class InstitutionDashboardRegistrations extends Controller {
                 const metrics = searchResult.usageMetrics;
                 return metrics ? metrics.viewCount : this.missingItemPlaceholder;
             },
+            sortKey: 'usage.viewCount',
+            sortParam: 'integer-value',
         },
         { // Resource type
             name: this.intl.t('institutions.dashboard.object-list.table-headers.resource_nature'),
