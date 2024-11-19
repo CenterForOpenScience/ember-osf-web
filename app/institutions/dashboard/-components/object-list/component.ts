@@ -3,6 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
+import { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { Filter } from 'osf-components/components/search-page/component';
 
@@ -29,7 +30,7 @@ export type ObjectListColumn = ValueColumn | LinkColumn | ComponentColumn;
 
 interface InstitutionalObjectListArgs {
     institution: InstitutionModel;
-    defaultQueryOptions: Record<'cardSearchFilter', Record<string, string[]>>;
+    defaultQueryOptions: Record<'cardSearchFilter', Record<string, string[] | any>>;
     columns: ObjectListColumn[];
     objectType: string;
 }
@@ -53,6 +54,11 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             sort: this.sortParam ? { [this.sortParam]: this.sort } : this.sort,
         };
         const fullQueryOptions = this.activeFilters.reduce((acc, filter: Filter) => {
+            if (filter.suggestedFilterOperator === SuggestedFilterOperators.IsPresent) {
+                acc.cardSearchFilter[filter.propertyPathKey] = {};
+                acc.cardSearchFilter[filter.propertyPathKey][filter.value] = true;
+                return acc;
+            }
             const currentValue = acc.cardSearchFilter[filter.propertyPathKey];
             acc.cardSearchFilter[filter.propertyPathKey] =
                 currentValue ? currentValue.concat(filter.value) : [filter.value];
