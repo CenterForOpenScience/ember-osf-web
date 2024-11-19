@@ -73,6 +73,7 @@
                         <OsfLink
                             data-test-link-to-reports-archive
                             data-analytics-name='Link to archived reports'
+                            aria-label={{t 'institutions.dashboard.download_past_reports_label'}}
                             @target='_blank'
                             @fakeButton={{true}}
                             @href={{@institution.linkToExternalReportsArchive}}
@@ -85,7 +86,11 @@
                     {{/if}}
                     <div local-class='download-dropdown'>
                         <ResponsiveDropdown @renderInPlace={{true}} @buttonStyling={{true}} as |dd| >
-                            <dd.trigger data-test-download-dropdown local-class='download-dropdown-trigger'>
+                            <dd.trigger
+                                data-test-download-dropdown
+                                aria-label={{t 'institutions.dashboard.download_dropdown_label'}}
+                                local-class='download-dropdown-trigger'
+                            >
                                 <FaIcon @icon='download' />
                             </dd.trigger>
                             <dd.content local-class='download-dropdown-content'>

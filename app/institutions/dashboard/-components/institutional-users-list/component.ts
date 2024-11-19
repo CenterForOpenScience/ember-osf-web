@@ -142,7 +142,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     // Private properties
     @tracked hasOrcid = false;
     @tracked totalUsers = 0;
-    orcidUrlPrefix = 'https://orcid.org/'; // Move to config?
+    orcidUrlPrefix = 'https://orcid.org/';
 
     @action
     toggleColumnSelection(columnKey: string) {

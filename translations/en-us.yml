@@ -812,6 +812,7 @@ institutions:
         content-placeholder: Content coming soon # Delete this eventually pls
         title: '{institutionName} Dashboard'
         download_past_reports_label: 'Previous reports'
+        download_dropdown_label: 'Download data'
         download_csv: 'Download CSV'
         download_tsv: 'Download TSV'
         format_labels:
