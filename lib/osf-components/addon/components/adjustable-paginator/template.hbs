@@ -1,6 +1,6 @@
 <span local-class='paginator__control'>
     <div local-class='paginator__select-wrapper'>
-        <select id='pageSizeSelect' local-class='paginator__select' onchange={{action this.onPageSizeChange value='target.value'}}>
+        <select title={{t 'paginator.itemsPerPage'}} local-class='paginator__select' onchange={{action this.onPageSizeChange value='target.value'}}>
             {{#each this.pageSizeOptions as |page_size_option|}}
                 <option value={{page_size_option}} selected={{eq page_size_option this.selectedPageSize}}>
                     {{t 'paginator.itemsPerPage'}} {{page_size_option}}
