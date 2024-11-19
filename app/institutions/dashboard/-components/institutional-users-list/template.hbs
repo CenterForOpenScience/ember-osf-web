@@ -155,6 +155,10 @@
                             <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                                 {{institutionalUser.userGuid}}
                             </OsfLink>
+                        {{else if (eq column.type 'orcid')}}
+                            <OsfLink @href={{concat this.orcidUrlPrefix institutionalUser.orcidId}}>
+                                {{institutionalUser.orcidId}}
+                            </OsfLink>
                         {{else if (eq column.type 'date_by_month')}}
                             {{#if (get institutionalUser column.key)}}
                                 {{moment-format (get institutionalUser column.key) 'MM/YYYY'}}

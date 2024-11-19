@@ -14,7 +14,8 @@ interface Column {
     key: string;
     selected: boolean;
     label: string;
-    type: 'string' | 'date_by_month' | 'osf_link' | 'user_name';
+    sort_key: string | false;
+    type: 'string' | 'date_by_month' | 'osf_link' | 'user_name' | 'orcid';
 }
 
 interface InstitutionalUsersListArgs {
@@ -34,7 +35,6 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @tracked department = this.defaultDepartment;
     @tracked sort = 'user_name';
     @tracked selectedDepartments: string[] = [];
-    @tracked selectedColumns: string[] = this.defaultSelectedColumns;
     @tracked filteredUsers = [];
 
     @tracked columns: Column[] = [
@@ -58,6 +58,13 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             label: this.intl.t('institutions.dashboard.users_list.osf_link'),
             selected: true,
             type: 'osf_link',
+        },
+        {
+            key: 'orcid',
+            sort_key: false,
+            label: this.intl.t('institutions.dashboard.users_list.orcid'),
+            selected: true,
+            type: 'orcid',
         },
         {
             key: 'publicProjects',
@@ -133,11 +140,9 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
 
     @tracked selectedColumns: string[] = this.columns.filter(col => col.selected).map(col => col.key);
     // Private properties
-    @tracked department = this.intl.t('institutions.dashboard.select_default');
-    @tracked sort = 'user_name';
     @tracked hasOrcid = false;
     @tracked totalUsers = 0;
-
+    orcidUrlPrefix = 'https://orcid.org/'; // Move to config?
 
     @action
     toggleColumnSelection(columnKey: string) {
@@ -216,7 +221,6 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @action
     cancelSelection() {
         this.selectedDepartments = [];
-        this.isAllSelected = false;
     }
 
     @action

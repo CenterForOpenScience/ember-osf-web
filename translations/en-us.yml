@@ -815,10 +815,10 @@ institutions:
         download_csv: 'Download CSV'
         download_tsv: 'Download TSV'
         format_labels:
-          csv: '.csv'
-          tsv: '.tsv'
-          json_table: 'JSON (table)'
-          json_direct: 'JSON (direct)'
+            csv: '.csv'
+            tsv: '.tsv'
+            json_table: 'JSON (table)'
+            json_direct: 'JSON (direct)'
         download: 'Download'
         select_default: 'All Departments'
         users_list:
@@ -831,6 +831,7 @@ institutions:
             public_registration_count: 'Public Registrations'
             private_registration_count: 'Private Registrations'
             published_preprint_count: 'Preprints'
+            orcid: ORCID
             osf_link: 'OSF Link'
             public_file_count: 'Files on OSF'
             storage_byte_count: 'Total Data Stored on OSF'
