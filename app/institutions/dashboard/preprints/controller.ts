@@ -14,7 +14,9 @@ export default class InstitutionDashboardPreprints extends Controller {
     columns: ObjectListColumn[] = [
         { // Title
             name: this.intl.t('institutions.dashboard.object-list.table-headers.title'),
-            getValue: searchResult => searchResult.displayTitle,
+            type: 'link',
+            getHref: searchResult => searchResult.indexCard.get('osfIdentifier'),
+            getLinkText: searchResult => searchResult.displayTitle,
         },
         { // Link
             name: this.intl.t('institutions.dashboard.object-list.table-headers.link'),
