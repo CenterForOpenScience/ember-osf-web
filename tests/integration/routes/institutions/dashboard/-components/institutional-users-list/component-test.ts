@@ -18,7 +18,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 
-    test('it renders and paginates 8 default columns', async function(assert) {
+    test('it renders and paginates 9 default columns', async function(assert) {
         server.create('institution', {
             id: 'testinstitution',
         }, 'withMetrics');
@@ -41,16 +41,18 @@ module('Integration | routes | institutions | dashboard | -components | institut
             />
         `);
         assert.dom('[data-test-header]')
-            .exists({ count: 8 }, '8 default headers');
+            .exists({ count: 9 }, '9 default headers');
         assert.dom('[data-test-header="department"]')
             .exists({ count: 1 }, '1 departments header');
+        assert.dom('[data-test-header="orcid"]')
+            .exists('1 orcid header');
         assert.dom('[data-test-header="publicProjects"]')
             .exists({ count: 1 }, '1 public projects header');
         assert.dom('[data-test-header="privateProjects"]')
             .exists({ count: 1 }, '1 private projects header');
 
         assert.dom('[data-test-item]')
-            .exists({ count: 80 }, '80 items 10 rows and 8 columns by default');
+            .exists({ count: 90 }, '90 items 10 rows and 9 columns by default');
         assert.dom('[data-test-item="department"]')
             .exists({ count: 10 }, '10 in the list with department');
         assert.dom('[data-test-item="publicProjects"]')
