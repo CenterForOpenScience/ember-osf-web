@@ -33,11 +33,5 @@ export function getSingleOsfmapObject(osfmapObject: any, propertyPath: string[])
 }
 
 export function hasOsfmapValue(osfmapObject: any, propertyPath: string[], expectedValue: any) {
-    // could use `Iterator.prototype.some()` instead, if polyfilled
-    for (const value of iterOsfmapValues(osfmapObject, propertyPath)) {
-        if (value === expectedValue) {
-            return true;
-        }
-    }
-    return false;
+    return Array.from(iterOsfmapValues(osfmapObject, propertyPath)).some(value => value === expectedValue);
 }
