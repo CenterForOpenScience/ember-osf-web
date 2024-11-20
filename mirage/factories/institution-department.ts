@@ -5,7 +5,7 @@ import InstitutionDepartmentModel from 'ember-osf-web/models/institution-departm
 
 export default Factory.extend<InstitutionDepartmentModel>({
     name() {
-        return faker.lorem.word();
+        return faker.random.arrayElement(['Architecture', 'Biology', 'Psychology']);
     },
     numberOfUsers() {
         return faker.random.number({ min: 100, max: 1000 });

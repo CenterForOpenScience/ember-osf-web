@@ -1,5 +1,7 @@
 <@gutters.body ...attributes local-class='Main'>
     {{yield (hash
         main=(element 'div')
+        toggleMetadata=(action @toggleMetadata)
+        metadataGutterClosed=@metadataGutterClosed
     )}}
 </@gutters.body>

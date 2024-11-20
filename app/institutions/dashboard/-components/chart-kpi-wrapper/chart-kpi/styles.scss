@@ -1,0 +1,116 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors
+
+.chart-container {
+    margin-right: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: flex-start;
+    width: 350px;
+    min-height: 290px;
+    height: fit-content;
+    background-color: $color-bg-white;
+
+    .top-container {
+        width: 100%;
+        height: 240px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .ember-chart {
+            max-width: 220px;
+            max-height: 220px;
+        }
+    }
+
+    .bottom-container {
+        width: 100%;
+        min-height: 50px;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .title-container {
+            width: 100%;
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            .title {
+                font-size: 14px;
+                font-weight: normal;
+                height: 25px;
+            }
+
+            .button-container {
+                margin-left: 5px;
+                height: 25px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+        
+        .expanded-data-container {
+            width: 100%;
+            padding-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+            &.collapsed {
+                display: none;
+            }
+
+            .data-list {
+                list-style: none;
+                margin: 0;
+                padding: 0.2rem;
+                width: calc(100% - 0.2rem);
+                border-top: 2px solid $color-bg-gray;
+
+                .data-container {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    width: 282px;
+
+                    .name {
+                        margin: 0 5px;
+                        width: calc(282px - 100px);
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                    }
+
+                    .color {
+                        width: 20px;
+                        height: 20px;
+                    }
+
+                    .total {
+                        width: 80px;
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+
+    &.mobile {
+        margin-right: 0;
+        margin-bottom: 12px;
+    }
+}
+
+

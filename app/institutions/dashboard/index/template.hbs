@@ -1,0 +1,16 @@
+<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper 
+    @institution={{this.model.institution}} as |wrapper|
+>
+    <wrapper.main local-class='main-container {{if (is-mobile) 'mobile'}}'>
+        <div local-class='kpi-container'>
+            <Institutions::Dashboard::-Components::TotalCountKpiWrapper
+                @model={{this.model}}
+            />
+        </div>
+        <div local-class='chart-container'>
+            <Institutions::Dashboard::-Components::ChartKpiWrapper
+                @model={{this.model}}
+            />
+        </div>
+    </wrapper.main>
+</Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>

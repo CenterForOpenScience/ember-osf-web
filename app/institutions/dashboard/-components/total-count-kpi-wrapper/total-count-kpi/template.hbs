@@ -1,0 +1,20 @@
+<div
+    local-class='kpi-container {{if (is-mobile) 'mobile'}}'
+    ...attributes 
+>
+    <div local-class='top-container'>
+        <div local-class='left-container' data-test-kpi-data>
+            {{#if @data.total}}
+                <div local-class='total-container'>
+                    {{@data.total}}
+                </div>
+            {{else}}
+                {{t 'institutions.dashboard.empty'}}
+            {{/if}}
+        </div>
+        <div local-class='right-container'>
+            <FaIcon data-test-kpi-icon @icon='{{@data.icon}}' local-class='icon'/>
+        </div>
+    </div>
+    <div data-test-kpi-title local-class='title'>{{@data.title}}</div>
+</div>
