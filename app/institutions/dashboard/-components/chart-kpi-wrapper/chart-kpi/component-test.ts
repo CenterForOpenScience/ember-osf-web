@@ -81,31 +81,4 @@ module('Integration | institutions | dashboard | -components | chart-kpi', hooks
         assert.dom('[data-test-expanded-total="0"]')
             .hasText('100000');
     });
-
-    /**
-     * I need to determine if this is going to be a feature or not
-    test('it renders the without data correctly', async function(this: EnginesIntlTestContext, assert) {
-        const data = Object({
-            total: 0,
-            title: 'This is the title',
-            icon: 'building',
-        });
-
-        this.set('data', data);
-
-
-        await render(hbs`
-<Institutions::Dashboard::-Components::ChartKpiWrapper::ChartKpi
-    @data={{this.data}}
-/>
-`);
-
-        assert.dom('[data-test-kpi-title]')
-            .hasText('This is the title');
-        assert.dom('[data-test-kpi-data]')
-            .hasText('No data for institution found.');
-        assert.dom('[data-test-kpi-icon]')
-            .hasAttribute('data-icon', 'building');
-    });
-     */
 });
