@@ -106,7 +106,7 @@ export default class AddonAccountSetupComponent extends Component<Args> {
         const credentials = this.credentialsObject;
         const t = this.intl.t.bind(this.intl);
         switch (this.args.provider.credentialsFormat) {
-        case CredentialsFormat.USERNAME_PASSWORD, CredentialsFormat.URL_USERNAME_PASSWORD: {
+        case CredentialsFormat.USERNAME_PASSWORD: {
             const passwordPostText = t('addons.accountCreate.password-post-text');
             return [
                 {

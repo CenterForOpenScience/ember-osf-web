@@ -7,7 +7,6 @@ export enum CredentialsFormat {
     ACCESS_SECRET_KEYS = 'ACCESS_KEY_SECRET_KEY',
     REPO_TOKEN = 'PERSONAL_ACCESS_TOKEN',
     DATAVERSE_API_TOKEN = 'DATAVERSE_API_TOKEN',
-    URL_USERNAME_PASSWORD = 'url_username_password',
 }
 
 export enum ExternalServiceCapabilities {

@@ -467,14 +467,6 @@ function fakeCheckCredentials(
             throw new Error('Username and password are required');
         }
         break;
-    case CredentialsFormat.URL_USERNAME_PASSWORD:
-        if (!attrs.apiBaseUrl || !credentials.username || !credentials.password) {
-            throw new Error('URL, username, and password are required');
-        }
-        if (attrs.apiBaseUrl.indexOf('http') < 0) {
-            throw new Error('Invalid URL');
-        }
-        break;
     default: // OAuth or OAuth2 should be authorized using the address found in authUrl. Faked below for mirage
         return false;
     }
