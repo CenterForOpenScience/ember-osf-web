@@ -11,10 +11,6 @@ import InstitutionDepartmentModel from 'ember-osf-web/models/institution-departm
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 
-/*
-import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
-*/
-
 export interface ChartDataModel {
     label: string;
     total: number;
