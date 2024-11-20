@@ -51,7 +51,7 @@ export default class AddonAccountSetupComponent extends Component<Args> {
 
     @tracked selectedRepo?: string;
     @tracked otherRepo?: string;
-    @tracked url?: string;
+    @tracked url?: string = this.args.account?.apiBaseUrl;
     @tracked newAccount?: AllAuthorizedAccountTypes;
     @tracked pendingOauth = false;
     @tracked credentialsObject: AddonCredentialFields = {};
@@ -63,7 +63,7 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     }
 
     get showUrlField() {
-        return this.args.provider.credentialsFormat === CredentialsFormat.URL_USERNAME_PASSWORD;
+        return this.args.provider.configurableApiRoot;
     }
 
     otherRepoLabel = this.intl.t('addons.accountCreate.other-repo-label');
