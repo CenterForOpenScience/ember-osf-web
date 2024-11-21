@@ -64,9 +64,14 @@ function hasInstitutionAffiliation(contributors: any[], attribution: any, instit
     }
 
     return attributedContributor.affiliation.some(
-        (affiliation: any) => affiliation.identifier.some(
-            (affiliationIdentifier: any) => institutionIris.includes(affiliationIdentifier['@value']),
-        ),
+        (affiliation: any) => {
+            if (affiliation.identifier) {
+                return affiliation.identifier.some(
+                    (affiliationIdentifier: any) => institutionIris.includes(affiliationIdentifier['@value']),
+                );
+            }
+            return institutionIris.includes(affiliation['@id']);
+        },
     );
 }
 
