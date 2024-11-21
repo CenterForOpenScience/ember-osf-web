@@ -93,14 +93,13 @@
                             {{t 'addons.accountCreate.url-label'}}
                         </label>
                         <div local-class='post-text'>
-                            {{t 'addons.accountCreate.owncloud-url-post-text' htmlSafe=true }}
+                            {{t 'addons.accountCreate.url-post-text' htmlSafe=true }}
                         </div>
                         <Input
                             id={{url-id}}
                             data-test-input='url'
                             local-class='input'
                             name='url'
-                            placeholder={{t 'addons.accountCreate.url-placeholder'}}
                             @type='text'
                             @value={{this.url}}
                         />

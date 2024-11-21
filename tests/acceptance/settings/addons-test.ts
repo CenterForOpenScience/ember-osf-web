@@ -90,7 +90,7 @@ module('Acceptance | settings | addons', hooks => {
             {
                 id: 'owncloud',
                 displayName: 'ownCloud',
-                credentialsFormat: CredentialsFormat.URL_USERNAME_PASSWORD,
+                credentialsFormat: CredentialsFormat.USERNAME_PASSWORD,
                 supportedFeatures: [
                     ExternalServiceCapabilities.ADD_UPDATE_FILES,
                     ExternalServiceCapabilities.DELETE_FILES,
