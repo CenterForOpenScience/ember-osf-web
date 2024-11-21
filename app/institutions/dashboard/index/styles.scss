@@ -1,0 +1,24 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 12px;
+    background-color: $color-bg-gray;
+    width: 100%;
+
+    .kpi-container {
+        margin-bottom: 12px;
+    }
+
+    .chart-container {
+        margin-bottom: 20px;
+    }
+
+    &.mobile {
+        .kpi-container,
+        .chart-container {
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,0 +1,54 @@
+@import 'app/styles/layout';
+@import 'app/styles/components';
+
+.container {
+    > div { // override OsfLayout styles for forcing drawer mode
+        overflow-x: hidden;
+    }
+}
+
+.heading-wrapper {
+    border-bottom: 1px solid #ddd;
+}
+
+.banner {
+    @include clamp-width;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.institution-banner {
+    max-width: 100%;
+    max-height: 300px;
+}
+
+.tab-list {
+    @include clamp-width;
+    @include tab-list;
+    white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
+    position: relative;
+    overflow-x: auto;
+    margin-bottom: 0;
+    border-bottom: 0;
+
+    li {
+        display: inline-flex;
+        padding: 5px 10px;
+
+        &:has(a:global(.active)) {
+            background-color: $bg-light;
+            border-bottom: 2px solid $color-blue;
+        }
+    
+        &:has(a:hover) {
+            border-color: transparent;
+            text-decoration: none;
+            background-color: $bg-light;
+            color: var(--primary-color);
+        }
+    }
+}

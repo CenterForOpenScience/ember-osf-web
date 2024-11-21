@@ -16,6 +16,26 @@ export interface LanguageText {
     '@value': string;
 }
 
+export enum OsfmapResourceTypes {
+    Project = 'Project',
+    ProjectComponent = 'ProjectComponent',
+    Registration = 'Registration',
+    RegistrationComponent = 'RegistrationComponent',
+    Preprint = 'Preprint',
+    File = 'File',
+    Person = 'Person',
+    Agent = 'Agent',
+    Organization = 'Organization',
+    Concept = 'Concept',
+    ConceptScheme = 'Concept:Scheme',
+}
+
+export enum AttributionRoleIris {
+    Admin = 'osf:admin-contributor',
+    Write = 'osf:write-contributor',
+    Read = 'osf:readonly-contributor',
+}
+
 export default class IndexCardModel extends Model {
     @service intl!: IntlService;
 
@@ -36,7 +56,8 @@ export default class IndexCardModel extends Model {
     }
 
     get osfModelType() {
-        const types = this.resourceMetadata.resourceType.map( (item: any) => item['@id']);
+        const types: OsfmapResourceTypes = this.resourceMetadata.resourceType
+            .map((item: Record<'@id', OsfmapResourceTypes>) => item['@id']);
         if (types.includes('Project') || types.includes('ProjectComponent')) {
             return 'node';
         } else if (types.includes('Registration') || types.includes('RegistrationComponent')) {
@@ -74,7 +95,7 @@ export default class IndexCardModel extends Model {
     async getOsfModel(options?: object) {
         const identifier = this.resourceIdentifier;
         if (identifier && this.osfModelType) {
-            const guid = this.guidFromIdentifierList(identifier);
+            const guid = this.osfGuid;
             if (guid) {
                 const osfModel = await this.store.findRecord(this.osfModelType, guid, options);
                 this.osfModel = osfModel;
@@ -82,16 +103,16 @@ export default class IndexCardModel extends Model {
         }
     }
 
-    guidFromIdentifierList() {
-        for (const iri of this.resourceIdentifier) {
-            if (iri && iri.startsWith(osfUrl)) {
-                const pathSegments = iri.slice(osfUrl.length).split('/').filter(Boolean);
-                if (pathSegments.length === 1) {
-                    return pathSegments[0];  // one path segment; looks like osf-id
-                }
-            }
+    get osfIdentifier() {
+        return this.resourceIdentifier.find(iri => iri.startsWith(osfUrl)) || '';
+    }
+
+    get osfGuid() {
+        const pathSegments = this.osfIdentifier.slice(osfUrl.length).split('/').filter(Boolean);
+        if (pathSegments.length === 1) {
+            return pathSegments[0];  // one path segment; looks like osf-id
         }
-        return null;
+        return '';
     }
 }
 

@@ -17,14 +17,19 @@ export default class OsfLayout extends Component {
     sidenavGutterClosed = true;
     metadataGutterClosed = true;
     backgroundClass?: string;
+    forceMetadataGutterMode?: 'page' | 'drawer' | 'column';
+    forceSidenavGutterMode?: 'page' | 'drawer' | 'column';
 
     init() {
         super.init();
         assert('@backgroundClass is required!', Boolean(this.backgroundClass));
     }
 
-    @computed('media.{isMobile,isTablet,isDesktop}')
+    @computed('media.{isMobile,isTablet,isDesktop}', 'forceMetadataGutterMode')
     get metadataGutterMode() {
+        if (this.forceMetadataGutterMode) {
+            return this.forceMetadataGutterMode;
+        }
         if (this.media.isMobile) {
             return 'page';
         }
@@ -34,8 +39,11 @@ export default class OsfLayout extends Component {
         return 'column';
     }
 
-    @computed('media.{isMobile,isTablet,isDesktop}')
+    @computed('media.{isMobile,isTablet,isDesktop}', 'forceSidenavGutterMode')
     get sidenavGutterMode() {
+        if (this.forceSidenavGutterMode) {
+            return this.forceSidenavGutterMode;
+        }
         if (this.media.isDesktop) {
             return 'column';
         }

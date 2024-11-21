@@ -6,3 +6,9 @@
         text-decoration: underline;
     }
 }
+
+.Button {
+    composes: Button from '../button/styles.scss';
+    composes: MediumButton from '../button/styles.scss';
+    composes: SecondaryButton from '../button/styles.scss';
+}

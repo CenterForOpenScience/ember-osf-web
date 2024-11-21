@@ -1,0 +1,14 @@
+{{#each this.topInstitutionAffiliatedContributors as |contributor|}}
+    <div>
+        <OsfLink
+            @href={{contributor.url}}
+        >
+            {{contributor.name}}
+        </OsfLink>
+        {{t 'institutions.dashboard.object-list.table-items.permission-level' permissionLevel=contributor.permissionLevel}}
+    </div>
+{{else}}
+    <div>
+        {{t 'institutions.dashboard.object-list.table-items.no-contributors'}}
+    </div>
+{{/each}}

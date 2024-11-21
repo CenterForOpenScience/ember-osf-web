@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [24.09.0] - 2024-11-21
+### Added
+- Institutional Dashboard Improvements Project - FE Release
+
 ## [24.08.0] - 2024-10-30
 ### Added
 - Hide categories section for draft registrations
@@ -2002,6 +2006,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[24.09.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.09.0
+[24.08.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.08.0
+[24.07.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.07.1
+[24.07.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.07.0
+[24.06.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.06.1
+[24.06.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.06.0
 [24.05.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.05.2
 [24.05.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.05.1
 [24.05.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/24.05.0

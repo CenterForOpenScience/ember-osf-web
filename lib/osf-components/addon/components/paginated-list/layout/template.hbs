@@ -50,14 +50,28 @@
         </ul>
     {{/if}}
     {{#if this.paginatorShown}}
-        <div local-class='text-center'>
-            {{simple-paginator
-                maxPage=this.maxPage
-                nextPage=(action @next)
-                previousPage=(action @previous)
-                curPage=@page
-            }}
-        </div>
+        {{#if (eq this.pagination 'adjustable')}}
+            <div local-class='align-right'>
+                {{adjustable-paginator
+                    maxPage=this.maxPage
+                    nextPage=(action @next)
+                    previousPage=(action @previous)
+                    page=@page
+                    doReload=@doReload
+                    pageSize=@pageSize
+                    totalCount=@totalCount
+                }}
+            </div>
+        {{else}}
+            <div local-class='text-center'>
+                {{simple-paginator
+                    maxPage=this.maxPage
+                    nextPage=(action @next)
+                    previousPage=(action @previous)
+                    curPage=@page
+                }}
+            </div>
+        {{/if}}
     {{/if}}
 {{else if this.loading}}
     {{loading-indicator dark=true}}

@@ -1,0 +1,11 @@
+<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{this.model.institution}} as |wrapper|>
+    <wrapper.main>
+        <div local-class='panel-wrapper' data-analytics-scope='Users tab'>
+            <Institutions::Dashboard::-Components::InstitutionalUsersList
+                @institution={{this.model.institution}}
+                @departmentMetrics={{this.model.departmentMetrics}}
+                @totalUsers={{this.model.totalUsers}}
+            />
+        </div>
+    </wrapper.main>
+</Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>

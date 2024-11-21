@@ -77,6 +77,10 @@ general:
     optional: Optional
     optional_paren: (optional)
     period: .
+    permissions:
+        admin: Administrator
+        read: Read
+        write: 'Read + Write'
     please_confirm: 'Please confirm'
     presented_by_osf: 'Presented by OSF'
     previous: previous
@@ -87,6 +91,7 @@ general:
     registration: registration
     rename: Rename
     required: Required
+    reset: Reset
     revert: Revert
     revisions: Revisions
     save: Save
@@ -774,9 +779,11 @@ delete_modal:
     type_this: 'Type the following to continue:'
     input_label: 'Scientist name verification'
 paginator:
+    first: '1'
     next: 'Next page'
     previous: 'Previous page'
     page: 'Page {page} of {max}'
+    itemsPerPage: 'Items per page'
 social:
     email: Email
     twitter: Twitter
@@ -792,9 +799,28 @@ institutions:
     search_placeholder: 'Search institutions'
     load_more: 'Load more institutions'
     dashboard:
+        tabs:
+            summary: Summary
+            users: Users
+            projects: Projects
+            registrations: Registrations
+            preprints: Preprints
+        object-type-word:
+            projects: projects
+            registrations: registrations
+            preprints: preprints
+        content-placeholder: Content coming soon # Delete this eventually pls
         title: '{institutionName} Dashboard'
-        last_update: 'Updated every 24 hours'
+        download_past_reports_label: 'Previous reports'
+        download_dropdown_label: 'Download data'
         download_csv: 'Download CSV'
+        download_tsv: 'Download TSV'
+        format_labels:
+            csv: '.csv'
+            tsv: '.tsv'
+            json_table: 'JSON (table)'
+            json_direct: 'JSON (direct)'
+        download: 'Download'
         select_default: 'All Departments'
         users_list:
             name: Name
@@ -803,7 +829,82 @@ institutions:
             public_projects: 'Public Projects'
             private_projects: 'Private Projects'
             empty: 'No users found matching search criteria.'
-        users_connected_panel: 'SSO Users Connected'
+            public_registration_count: 'Public Registrations'
+            private_registration_count: 'Private Registrations'
+            published_preprint_count: 'Preprints'
+            orcid: ORCID
+            osf_link: 'OSF Link'
+            public_file_count: 'Files on OSF'
+            storage_byte_count: 'Total Data Stored on OSF'
+            account_created: 'Account Created'
+            month_last_login: 'Last Login'
+            month_last_active: 'Last Action'
+            has_orcid: 'Has ORCID'
+            select_columns: 'Customize'
+            total_users: 'total users'
+            not_found: 'N/A'
+        kpi-panel:
+            users: 'Total Users'
+            projects: 'OSF Public and Private Projects'
+            registrations: 'OSF Public and Embargoed Registrations'
+            preprints: 'OSF Preprints'
+            storage: 'Total Storage in {unit}'
+            file-count: 'Total Public File Count'
+            fileCount: 'Total Public File Count'
+            logged-in-users: 'Total Monthly Logged in Users'
+            active-users: 'Total Monthly Active Users'
+        kpi-chart:
+            open-expanded-data: 'Expand Additionnal Data'
+            close-expanded-data: 'Collapse Additionnal Data'
+            users-by-department: 'Total Users by Department'
+            public-vs-private-projects:
+                title: 'Public vs Private Projects'
+                public: 'Public Projects'
+                private: 'Private Projects'
+            public-vs-private-registrations:
+                title: 'Public vs Private Registrations'
+                public: 'Public Registrations'
+                private: 'Private Registrations'
+            total-osf-objects:
+                title: 'Total OSF Objects'
+                preprints: 'Preprints'
+            licenses: 'Top 10 Licenses'
+            add-ons: 'Top 10 Add-ons'
+            storage-regions: 'Top Storage Regions'
+            public-vs-private-data-storage:
+                title: 'Public vs Private Data Storage'
+                public: 'Public Data Storage'
+                private: 'Private Data Storage'
+            error: 'Error loading data'
+        object-list:
+            filter-button-label: 'Filter'
+            filter-heading: 'Filter by:'
+            total-objects: 'total {objectType}'
+            customize: 'Customize'
+            first: First
+            prev: Prev
+            next: Next
+            table-headers:
+                title: Title
+                link: Link
+                created_date: 'Created Date'
+                modified_date: 'Modified Date'
+                doi: DOI
+                storage_location: 'Storage Location'
+                total_data_stored: 'Total Data Stored on OSF'
+                contributor_name: 'Contributor Name'
+                contributor_permissions: 'Contributor Permissions'
+                view_count: Views (last 30 days)
+                download_count: Downloads (last 30 days)
+                resource_nature: 'Resource Type'
+                license: License
+                addons: Add-ons
+                funder_name: Funder Name
+                registration_schema: 'Registration Schema'
+            table-items:
+                missing-info: '-'
+                no-contributors: 'Contributor no longer affiliated'
+                permission-level: '({permissionLevel})'
         projects_panel: 'Total Projects'
         departments_panel: Departments
         public: Public
@@ -886,10 +987,6 @@ app_components:
                 img_alt: Gravatar
                 in_citation_label: 'In citation:'
                 permissions_label: 'Permissions:'
-                permissions:
-                    admin: Administrator
-                    write: 'Read + Write'
-                    read: Read
                 remove: Remove
                 remove_author: 'Remove author'
             load_more_contributors: 'Load more contributors'
@@ -2663,10 +2760,6 @@ osf-components:
             name: 'Name'
             permission: 'Permission'
             citation: 'Citation'
-        permissions:
-            admin: 'Administrator'
-            write: 'Read + Write'
-            read: 'Read'
         citation:
             true: 'Yes'
             false: 'No'

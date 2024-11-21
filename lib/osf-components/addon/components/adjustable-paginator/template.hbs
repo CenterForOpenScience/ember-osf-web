@@ -1,0 +1,140 @@
+<span local-class='paginator__control'>
+    <div local-class='paginator__select-wrapper'>
+        <label>
+            {{t 'paginator.itemsPerPage'}}
+            <select local-class='paginator__select' onchange={{action this.onPageSizeChange value='target.value'}}>
+                {{#each this.pageSizeOptions as |page_size_option|}}
+                    <option value={{page_size_option}} selected={{eq page_size_option this.selectedPageSize}}>
+                        {{page_size_option}}
+                    </option>
+                {{/each}}
+            </select>
+        </label>
+    </div>
+</span>
+
+
+{{#if this.hasMultiplePages}}
+    <span local-class='paginator__control'>
+        <button
+            type='button'
+            data-test-previous-page-button
+            aria-label={{t 'paginator.previous'}}
+            disabled={{not this.hasPrev}}
+            local-class='paginator__button paginator__button--prev'
+            {{on 'click' this._previous}}>
+            {{t 'paginator.previous'}}
+        </button>
+    </span>
+
+    {{!-- Always show the first page button --}}
+    <span local-class='paginator__control'>
+        <button
+            type='button'
+            local-class='paginator__button'
+            disabled={{eq 1 this.page}}
+            {{on 'click' (fn this.setPage 1)}}>
+            {{t 'paginator.first'}}
+        </button>
+    </span>
+
+    {{#if (lte this.maxPage 3)}}
+        {{!-- If fewer than 3 pages, show all pages --}}
+        {{#each (range 2 3) as |page|}}
+            <span local-class='paginator__control'>
+                <button
+                    type='button'
+                    local-class='paginator__button'
+                    disabled={{eq page this.page}}
+                    {{on 'click' (fn this.setPage page)}}>
+                    {{page}}
+                </button>
+            </span>
+        {{/each}}
+    {{else}}
+        {{#if (gt this.prevPage 2)}}
+            <span local-class='paginator__control'>
+                <button
+                    type='button'
+                    local-class='paginator__button paginator__button--disabled'
+                    disabled='true'>
+                    ...
+                </button>
+            </span>
+        {{/if}}
+
+        {{!-- Conditionally show previous and current pages --}}
+        {{#if (not (eq this.prevPage 1))}}
+            {{#if (not (eq this.page 1))}}
+                <span local-class='paginator__control'>
+                    <button
+                        type='button'
+                        local-class='paginator__button'
+                        {{on 'click' (fn this.setPage this.prevPage)}}>
+                        {{this.prevPage}}
+                    </button>
+                </span>
+            {{/if}}
+        {{/if}}
+
+        {{#if (not (eq this.page 1))}}
+            <span local-class='paginator__control'>
+                <button
+                    type='button'
+                    local-class='paginator__button paginator__button--current'
+                    disabled='true'>
+                    {{this.page}}
+                </button>
+            </span>
+        {{/if}}
+
+        {{!-- Show nextPage only if it differs from maxPage --}}
+        {{#if (and this.hasNext (not (eq this.nextPage2 this.maxPage)))}}
+            <span local-class='paginator__control'>
+                <button
+                    type='button'
+                    local-class='paginator__button'
+                    {{on 'click' (fn this.setPage this.nextPage2)}}>
+                    {{this.nextPage2}}
+                </button>
+            </span>
+        {{/if}}
+
+        {{#if (not (gte this.nextPage2 this.maxPage))}}
+            {{#if (not (and (eq this.page 3) (eq this.maxPage 5))) }}
+                <span local-class='paginator__control'>
+                    <button
+                        type='button'
+                        local-class='paginator__button paginator__button--disabled'
+                        disabled='true'>
+                        ...
+                    </button>
+                </span>
+            {{/if}}
+        {{/if}}
+
+        {{!-- Always show the maxPage button --}}
+        {{#if (not (eq this.page this.maxPage))}}
+            <span local-class='paginator__control'>
+                <button
+                    type='button'
+                    local-class='paginator__button'
+                    {{on 'click' (fn this.setPage this.maxPage)}}>
+                    {{this.maxPage}}
+                </button>
+            </span>
+        {{/if}}
+    {{/if}}
+
+    <span local-class='paginator__control'>
+        <button
+            type='button'
+            local-class='paginator__button paginator__button--next'
+            data-test-next-page-button
+            aria-label={{t 'paginator.next'}}
+            disabled={{not this.hasNext}}
+            {{on 'click' this._next}}>
+            {{t 'paginator.next'}}
+        </button>
+    </span>
+{{/if}}
