@@ -2,27 +2,11 @@ import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 
-import { ItemType } from './addon-operation-invocation';
+import { ConnectedOperationNames, OperationKwargs } from './addon-operation-invocation';
 import ResourceReferenceModel from './resource-reference';
 import UserReferenceModel from './user-reference';
+import { ConnectedCapabilities } from './authorized-account';
 
-export enum ConnectedCapabilities {
-    Access = 'ACCESS',
-    Update = 'UPDATE',
-}
-
-export enum ConnectedOperationNames {
-    HasRevisions = 'has_revisions',
-    ListRootItems = 'list_root_items',
-    ListChildItems = 'list_child_items',
-    GetItemInfo = 'get_item_info',
-}
-
-export interface OperationKwargs {
-    itemId?: string;
-    itemType?: ItemType;
-    pageCursor?: string;
-}
 export interface ConfiguredAddonEditableAttrs {
     displayName: string;
     rootFolder: string;

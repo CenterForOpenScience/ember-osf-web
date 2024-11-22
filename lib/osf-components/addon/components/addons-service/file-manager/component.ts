@@ -8,8 +8,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import { OperationKwargs } from 'ember-osf-web/models/configured-addon';
-import { Item, ListItemsResult } from 'ember-osf-web/models/addon-operation-invocation';
+import { Item, ListItemsResult, OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
