@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -9,11 +10,13 @@ import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { Item, ListItemsResult, OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
+import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface Args {
-    configuredAddon: ConfiguredAddonModel;
+    configuredAddon?: ConfiguredAddonModel;
+    authorizedAccount?: AuthorizedAccountModel;
     defaultKwargs?: OperationKwargs;
     startingFolderId: string;
 }
@@ -21,6 +24,8 @@ interface Args {
 export default class FileManager extends Component<Args> {
     @service intl!: IntlService;
     @service toast!: Toast;
+
+    @tracked operationInvocableModel!: ConfiguredAddonModel | AuthorizedAccountModel;
 
     @tracked currentPath: Item[] = [];
     @tracked currentItems: Item[] = [];
@@ -32,17 +37,19 @@ export default class FileManager extends Component<Args> {
     private lastInvocation: any = null;
 
     get isLoading() {
-        return taskFor(this.args.configuredAddon.getFolderItems).isRunning ||
+        return taskFor(this.operationInvocableModel.getFolderItems).isRunning ||
             taskFor(this.getStartingFolder).isRunning;
     }
 
     get isError() {
-        return taskFor(this.args.configuredAddon.getFolderItems).lastPerformed?.error ||
+        return taskFor(this.operationInvocableModel.getFolderItems).lastPerformed?.error ||
             taskFor(this.getStartingFolder).lastPerformed?.error;
     }
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
+        assert('Must provide a configuredAddon or authorizedAccount', args.configuredAddon || args.authorizedAccount);
+        this.operationInvocableModel = (args.configuredAddon || args.authorizedAccount)!;
         taskFor(this.initialize).perform();
     }
 
@@ -84,10 +91,10 @@ export default class FileManager extends Component<Args> {
     @task
     @waitFor
     async getStartingFolder() {
-        const { startingFolderId, configuredAddon } = this.args;
+        const { startingFolderId } = this.args;
         try {
             if (startingFolderId) {
-                const invocation = await taskFor(configuredAddon.getItemInfo).perform(startingFolderId);
+                const invocation = await taskFor(this.operationInvocableModel.getItemInfo).perform(startingFolderId);
                 const result = invocation.operationResult as Item;
                 this.currentFolderId = result.itemId;
                 this.currentPath = result.itemPath ? [...result.itemPath] : [];
@@ -108,7 +115,7 @@ export default class FileManager extends Component<Args> {
         kwargs.pageCursor = this.cursor;
         try {
             const getFolderArgs = !this.currentFolderId ? {} : kwargs;
-            const invocation = await taskFor(this.args.configuredAddon.getFolderItems).perform(getFolderArgs);
+            const invocation = await taskFor(this.operationInvocableModel.getFolderItems).perform(getFolderArgs);
             this.lastInvocation = invocation;
             const operationResult = invocation.operationResult as ListItemsResult;
             if (!this.currentFolderId) {
