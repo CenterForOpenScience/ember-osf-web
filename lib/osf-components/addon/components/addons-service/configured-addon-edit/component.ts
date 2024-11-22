@@ -26,7 +26,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get disableSave() {
-        return this.invalidDisplayName || this.args.onSave.isRunning;
+        return !this.selectedFolder || this.invalidDisplayName || this.args.onSave.isRunning;
     }
 
     get onSaveArgs() {
