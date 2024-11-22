@@ -6,7 +6,7 @@ import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
-import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-addon';
+import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/addon-operation-invocation';
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';

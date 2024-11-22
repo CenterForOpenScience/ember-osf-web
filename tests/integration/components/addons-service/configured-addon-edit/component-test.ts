@@ -38,7 +38,7 @@ module('Integration | Component | addons-service | configured-addon-edit', funct
 
         const mirageConfiguredAddon = server.create('configured-storage-addon', {
             displayName: 'My configured addon',
-            rootFolder: 'rooty',
+            rootFolder: undefined,
             externalStorageService: boxAddon,
             accountOwner: userRef,
             authorizedResource:  resourceRef,
@@ -56,11 +56,13 @@ module('Integration | Component | addons-service | configured-addon-edit', funct
 />
         `);
 
+        // Initial state when no folder is selected
         assert.dom('[data-test-display-name-input]').hasValue('My configured addon', 'Display name is poopulated');
-        assert.dom('[data-test-folder-path-option]').exists({ count: 1 }, 'Has root folder path option');
+        assert.dom('[data-test-go-to-root]').exists('Go to root button exists');
+        assert.dom('[data-test-folder-path-option]').doesNotExist('No folder option when at root');
         assert.dom('[data-test-folder-link]').exists({ count: 5 }, 'Root folder has 5 folders');
         assert.dom('[data-test-root-folder-option]').exists({ count: 5 }, 'Checkbox available for each folder option');
-        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled');
+        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled when no folder is selected');
 
         // updating and reseting the display name
         assert.dom('[data-test-display-name-error]').doesNotExist('No error message initially');
@@ -68,13 +70,12 @@ module('Integration | Component | addons-service | configured-addon-edit', funct
         assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
         assert.dom('[data-test-display-name-error]').exists('Error message is shown when display name is empty');
         await fillIn('[data-test-display-name-input]', 'My configured addon');
-        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled after display name is set');
         assert.dom('[data-test-display-name-error]').doesNotExist('No error message after display name is set');
 
         // Navigate into a folder
         const folderLinks = this.element.querySelectorAll('[data-test-folder-link]');
         await click(folderLinks[0]);
-        assert.dom('[data-test-folder-path-option]').exists({ count: 2 }, 'Has root folder and subfolder path option');
+        assert.dom('[data-test-folder-path-option]').exists({ count: 1 }, 'Has root option and first folderoption');
 
         // Navigate back to root
         const navButtons = this.element.querySelectorAll('[data-test-folder-path-option]');
@@ -89,7 +90,7 @@ module('Integration | Component | addons-service | configured-addon-edit', funct
         // Save
         await click('[data-test-root-folder-save]');
         const args = {
-            rootFolder: 'rooty-1',
+            rootFolder: 'root-1-1',
             displayName: 'My configured addon',
         };
 

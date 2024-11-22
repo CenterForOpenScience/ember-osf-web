@@ -222,12 +222,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         return false;
     }
 
-    @task
-    @waitFor
-    async confirmAccountSetup(account: AllAuthorizedAccountTypes) {
-        if (this.selectedProvider && this.selectedAccount) {
-            this.selectedConfiguration = await taskFor(this.selectedProvider.createConfiguredAddon).perform(account);
-        }
+    @action
+    confirmAccountSetup() {
         this.pageMode = PageMode.CONFIGURE;
     }
 
@@ -242,8 +238,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async saveConfiguration(args: ConfiguredAddonEditableAttrs) {
+    async saveOrCreateConfiguration(args: ConfiguredAddonEditableAttrs) {
         try {
+            if (!this.selectedConfiguration && this.selectedProvider && this.selectedAccount) {
+                this.selectedConfiguration = await taskFor(this.selectedProvider.createConfiguredAddon)
+                    .perform(this.selectedAccount);
+            }
             if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredStorageAddonModel) {
                 this.selectedConfiguration.rootFolder = (args as ConfiguredAddonEditableAttrs).rootFolder;
                 this.selectedConfiguration.displayName = args.displayName;

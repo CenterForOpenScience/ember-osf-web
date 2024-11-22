@@ -148,11 +148,10 @@
                             <Button
                                 data-test-addon-confirm-setup-button
                                 data-analytics-name='Confirm Setup'
-                                disabled={{manager.confirmAccountSetup.isRunning}}
                                 @type='primary'
-                                {{on 'click' (perform manager.confirmAccountSetup manager.selectedAccount)}}
+                                {{on 'click' manager.confirmAccountSetup}}
                             >
-                                {{if manager.confirmAccountSetup.isRunning (t 'addons.confirm.authorizing') (t 'general.confirm')}}
+                                {{t 'general.confirm'}}
                             </Button>
                         </div>
                     {{else if (eq manager.pageMode 'configurationList')}}
@@ -269,7 +268,8 @@
                     {{else if (eq manager.pageMode 'configure')}}
                         <AddonsService::ConfiguredAddonEdit
                             @configuredAddon={{manager.selectedConfiguration}}
-                            @onSave={{perform manager.saveConfiguration}}
+                            @authorizedAccount={{manager.selectedAccount}}
+                            @onSave={{perform manager.saveOrCreateConfiguration}}
                             @onCancel={{manager.cancelSetup}}
                         />
                     {{/if}}

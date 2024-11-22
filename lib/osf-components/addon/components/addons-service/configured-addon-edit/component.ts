@@ -4,17 +4,19 @@ import { tracked } from '@glimmer/tracking';
 import { TaskInstance } from 'ember-concurrency';
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
+import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 
 
 interface Args {
-    configuredAddon: ConfiguredAddonModel;
+    configuredAddon?: ConfiguredAddonModel;
+    selectedAccount?: AuthorizedAccountModel;
     onSave: TaskInstance<void>;
 }
 
 export default class ConfiguredAddonEdit extends Component<Args> {
-    @tracked displayName = this.args.configuredAddon.displayName;
-    @tracked selectedFolder = this.args.configuredAddon.rootFolder;
+    @tracked displayName = this.args.configuredAddon?.displayName;
+    @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
     @tracked currentItems: Item[] = [];
 
     defaultKwargs = {
@@ -26,7 +28,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get disableSave() {
-        return this.invalidDisplayName || this.args.onSave.isRunning;
+        return !this.selectedFolder || this.invalidDisplayName || this.args.onSave.isRunning;
     }
 
     get onSaveArgs() {

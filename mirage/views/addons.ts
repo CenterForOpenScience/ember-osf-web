@@ -1,12 +1,11 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 import { timeout } from 'ember-concurrency';
 
-import { InvocationStatus, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
+import { ConnectedOperationNames, InvocationStatus, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
-import { ConnectedOperationNames } from 'ember-osf-web/models/configured-addon';
 import { CredentialsFormat } from 'ember-osf-web/models/external-service';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
