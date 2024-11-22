@@ -222,12 +222,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         return false;
     }
 
-    @task
-    @waitFor
-    async confirmAccountSetup(account: AllAuthorizedAccountTypes) {
-        if (this.selectedProvider && this.selectedAccount) {
-            this.selectedConfiguration = await taskFor(this.selectedProvider.createConfiguredAddon).perform(account);
-        }
+    @action
+    confirmAccountSetup() {
         this.pageMode = PageMode.CONFIGURE;
     }
 
