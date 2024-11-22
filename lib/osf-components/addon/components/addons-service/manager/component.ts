@@ -238,8 +238,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async saveConfiguration(args: ConfiguredAddonEditableAttrs) {
+    async saveOrCreateConfiguration(args: ConfiguredAddonEditableAttrs) {
         try {
+            if (!this.selectedConfiguration && this.selectedProvider && this.selectedAccount) {
+                this.selectedConfiguration = await taskFor(this.selectedProvider.createConfiguredAddon)
+                    .perform(this.selectedAccount);
+            }
             if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredStorageAddonModel) {
                 this.selectedConfiguration.rootFolder = (args as ConfiguredAddonEditableAttrs).rootFolder;
                 this.selectedConfiguration.displayName = args.displayName;

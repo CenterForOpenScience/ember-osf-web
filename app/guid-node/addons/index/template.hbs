@@ -268,7 +268,8 @@
                     {{else if (eq manager.pageMode 'configure')}}
                         <AddonsService::ConfiguredAddonEdit
                             @configuredAddon={{manager.selectedConfiguration}}
-                            @onSave={{perform manager.saveConfiguration}}
+                            @authorizedAccount={{manager.selectedAccount}}
+                            @onSave={{perform manager.saveOrCreateConfiguration}}
                             @onCancel={{manager.cancelSetup}}
                         />
                     {{/if}}
