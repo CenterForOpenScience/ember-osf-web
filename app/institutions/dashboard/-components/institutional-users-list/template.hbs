@@ -94,18 +94,27 @@
                                 <FaIcon @icon='download' />
                             </dd.trigger>
                             <dd.content local-class='download-dropdown-content'>
-                                <Button local-class='download-option' {{on 'click' (queue this.downloadCsv dd.close)}}>
+                                <OsfLink
+                                    {{on 'click' dd.close}}
+                                    @target='_blank'
+                                    @href={{this.downloadCsvUrl}}
+                                >
                                     {{t 'institutions.dashboard.format_labels.csv'}}
-                                </Button>
-                                <Button local-class='download-option' {{on 'click' (queue this.downloadTsv dd.close)}}>
+                                </OsfLink>
+                                <OsfLink
+                                    {{on 'click' dd.close}}
+                                    @target='_blank'
+                                    @href={{this.downloadTsvUrl}}
+                                >
                                     {{t 'institutions.dashboard.format_labels.tsv'}}
-                                </Button>
-                                <Button local-class='download-option' {{on 'click' (queue this.downloadJsonTable dd.close)}}>
-                                    {{t 'institutions.dashboard.format_labels.json_table'}}
-                                </Button>
-                                <Button local-class='download-option' {{on 'click' (queue this.downloadJsonDirect dd.close)}}>
-                                    {{t 'institutions.dashboard.format_labels.json_direct'}}
-                                </Button>
+                                </OsfLink>
+                                <OsfLink
+                                    {{on 'click' dd.close}}
+                                    @target='_blank'
+                                    @href={{this.downloadJsonUrl}}
+                                >
+                                    {{t 'institutions.dashboard.format_labels.json'}}
+                                </OsfLink>
                             </dd.content>
                         </ResponsiveDropdown>
                     </div>

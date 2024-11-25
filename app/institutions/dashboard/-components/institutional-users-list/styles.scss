@@ -6,6 +6,11 @@
     color: $color-select;
 }
 
+.download-dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
 .table {
     margin-bottom: 45px;
 

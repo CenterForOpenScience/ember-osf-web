@@ -818,6 +818,7 @@ institutions:
         format_labels:
             csv: '.csv'
             tsv: '.tsv'
+            json: 'JSON'
             json_table: 'JSON (table)'
             json_direct: 'JSON (direct)'
         download: 'Download'

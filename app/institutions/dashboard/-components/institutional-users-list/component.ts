@@ -9,6 +9,7 @@ import Intl from 'ember-intl/services/intl';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 import Analytics from 'ember-osf-web/services/analytics';
+import { RelationshipWithLinks } from 'osf-api';
 
 interface Column {
     key: string;
@@ -184,6 +185,27 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         return query;
     }
 
+    downloadUrl(format: string) {
+        const institutionRelationships = this.args.institution.links.relationships;
+        const usersLink = (institutionRelationships!.user_metrics as RelationshipWithLinks).links.related.href;
+        const userURL = new URL(usersLink!);
+        userURL.searchParams.set('format', format);
+        userURL.searchParams.set('page[size]', '10000');
+        return userURL.toString();
+    }
+
+    get downloadCsvUrl() {
+        return this.downloadUrl('csv');
+    }
+
+    get downloadTsvUrl() {
+        return this.downloadUrl('tsv');
+    }
+
+    get downloadJsonUrl() {
+        return this.downloadUrl('json');
+    }
+
     @restartableTask
     @waitFor
     async searchDepartment(name: string) {
@@ -237,5 +259,4 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     clickToggleOrcidFilter(hasOrcid: boolean) {
         this.hasOrcid = !hasOrcid;
     }
-
 }
