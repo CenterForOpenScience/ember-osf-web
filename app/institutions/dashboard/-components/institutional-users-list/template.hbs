@@ -95,6 +95,8 @@
                             </dd.trigger>
                             <dd.content local-class='download-dropdown-content'>
                                 <OsfLink
+                                    data-test-csv-download-button
+                                    data-analytics-name='Download CSV'
                                     {{on 'click' dd.close}}
                                     @target='_blank'
                                     @href={{this.downloadCsvUrl}}
@@ -102,6 +104,8 @@
                                     {{t 'institutions.dashboard.format_labels.csv'}}
                                 </OsfLink>
                                 <OsfLink
+                                    data-test-tsv-download-button
+                                    data-analytics-name='Download TSV'
                                     {{on 'click' dd.close}}
                                     @target='_blank'
                                     @href={{this.downloadTsvUrl}}
@@ -109,6 +113,8 @@
                                     {{t 'institutions.dashboard.format_labels.tsv'}}
                                 </OsfLink>
                                 <OsfLink
+                                    data-test-json-download-button
+                                    data-analytics-name='Download JSON'
                                     {{on 'click' dd.close}}
                                     @target='_blank'
                                     @href={{this.downloadJsonUrl}}
