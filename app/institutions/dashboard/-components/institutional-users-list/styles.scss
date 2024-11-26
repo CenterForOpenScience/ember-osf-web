@@ -9,6 +9,10 @@
 .download-dropdown-content {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
+    padding: 8px;
+    width: max-content;
 }
 
 .table {
