@@ -127,7 +127,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the title is verified
         assert.dom(`${parentDom} [data-test-chart-title]`)
-            .hasText('Public vs Private Registrations');
+            .hasText('Public vs Embargoed Registrations');
 
         // And the expanded data position 0 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="0"]`)
