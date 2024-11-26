@@ -98,6 +98,7 @@ as |list|>
                                     <OsfLink
                                         data-test-download-csv-link
                                         data-analytics-name='Download CSV'
+                                        {{on 'click' dd.close}}
                                         @href={{this.downloadCsvUrl}}
                                         @target='_blank'
                                     >
@@ -106,6 +107,7 @@ as |list|>
                                     <OsfLink
                                         data-test-download-tsv-link
                                         data-analytics-name='Download TSV'
+                                        {{on 'click' dd.close}}
                                         @href={{this.downloadTsvUrl}}
                                         @target='_blank'
                                     >
