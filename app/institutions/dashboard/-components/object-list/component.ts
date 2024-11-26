@@ -73,6 +73,17 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         };
     }
 
+    downloadUrl(format: string) {
+        return format; // TODO: implement
+    }
+    get downloadCsvUrl() {
+        return this.downloadUrl('csv');
+    }
+
+    get downloadTsvUrl() {
+        return this.downloadUrl('tsv');
+    }
+
     @action
     updateVisibleColumns() {
         this.visibleColumns = [...this.dirtyVisibleColumns];

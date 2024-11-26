@@ -81,6 +81,11 @@ module('Integration | institutions | dashboard | -components | object-list', hoo
 
         // The table data is not blatantly incorrect
         assert.dom('[data-test-object-table-body-row]').exists({ count: 10 }, 'There are 10 rows');
+
+        // Download buttons are present
+        await click('[data-test-download-dropdown]');
+        assert.dom('[data-test-download-csv-link]').exists('CSV download link exists');
+        assert.dom('[data-test-download-tsv-link]').exists('TSV download link exists');
     });
 
     test('the table supports filtering', async function(assert) {

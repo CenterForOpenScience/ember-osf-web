@@ -95,18 +95,22 @@ as |list|>
                                     <FaIcon @icon='download' />
                                 </dd.trigger>
                                 <dd.content local-class='download-dropdown-content'>
-                                    <Button
-                                        local-class='download-option'
-                                        {{on 'click' (queue this.downloadCsv dd.close)}}
+                                    <OsfLink
+                                        data-test-download-csv-link
+                                        data-analytics-name='Download CSV'
+                                        @href={{this.downloadCsvUrl}}
+                                        @target='_blank'
                                     >
                                         {{t 'institutions.dashboard.format_labels.csv'}}
-                                    </Button>
-                                    <Button
-                                        local-class='download-option'
-                                        {{on 'click' (queue this.downloadTsv dd.close)}}
+                                    </OsfLink>
+                                    <OsfLink
+                                        data-test-download-tsv-link
+                                        data-analytics-name='Download TSV'
+                                        @href={{this.downloadTsvUrl}}
+                                        @target='_blank'
                                     >
                                         {{t 'institutions.dashboard.format_labels.tsv'}}
-                                    </Button>
+                                    </OsfLink>
                                 </dd.content>
                             </ResponsiveDropdown>
                         </div>
