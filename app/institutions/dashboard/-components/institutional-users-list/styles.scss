@@ -282,13 +282,14 @@ input:checked + .slider::before {
     padding-left: 10px;
     align-content: center;
 
-    div {
-        color: #2d6a9f;
-    }
 
     .download-dropdown {
         margin-left: 3px;
     }
+}
+
+.download-dropdown-trigger {
+    color: $color-link-dark;
 }
 
 .flex {
