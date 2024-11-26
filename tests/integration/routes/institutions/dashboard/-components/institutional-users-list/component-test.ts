@@ -72,9 +72,9 @@ module('Integration | routes | institutions | dashboard | -components | institut
             .exists({ count: 5 }, '5 in the list with private projects');
 
         // Test download buttons
-        assert.dom('[data-test-download-csv]').exists('CSV download button');
-        assert.dom('[data-test-download-tsv]').exists('TSV download button');
-        assert.dom('[data-test-download-json]').exists('JSON download button');
+        assert.dom('[data-test-csv-download-button]').exists('CSV download button');
+        assert.dom('[data-test-tsv-download-button]').exists('TSV download button');
+        assert.dom('[data-test-json-download-button]').exists('JSON download button');
     });
 
     test('it sorts', async function(assert) {
