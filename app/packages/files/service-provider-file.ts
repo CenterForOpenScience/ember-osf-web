@@ -12,7 +12,8 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { ErrorDocument } from 'osf-api';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
-import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/addon-operation-invocation';
+import { ConnectedOperationNames } from 'ember-osf-web/models/addon-operation-invocation';
+import { ConnectedCapabilities } from 'ember-osf-web/models/authorized-account';
 import ServiceFile from 'ember-osf-web/packages/files/service-file';
 import { ExternalServiceCapabilities } from 'ember-osf-web/models/external-service';
 
