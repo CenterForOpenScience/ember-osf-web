@@ -819,8 +819,6 @@ institutions:
             csv: '.csv'
             tsv: '.tsv'
             json: 'JSON'
-            json_table: 'JSON (table)'
-            json_direct: 'JSON (direct)'
         download: 'Download'
         select_default: 'All Departments'
         users_list:
