@@ -11,8 +11,11 @@
     flex-direction: column;
     align-items: flex-start;
     border: 1px solid $color-border-gray;
-    padding: 8px;
     width: max-content;
+}
+
+.downlaod-link {
+    padding: 4px 8px;
 }
 
 .table {

@@ -98,6 +98,7 @@
                                 <OsfLink
                                     data-test-csv-download-button
                                     data-analytics-name='Download CSV'
+                                    local-class='downlaod-link'
                                     {{on 'click' dd.close}}
                                     @target='_blank'
                                     @href={{this.downloadCsvUrl}}
@@ -107,6 +108,7 @@
                                 <OsfLink
                                     data-test-tsv-download-button
                                     data-analytics-name='Download TSV'
+                                    local-class='downlaod-link'
                                     {{on 'click' dd.close}}
                                     @target='_blank'
                                     @href={{this.downloadTsvUrl}}
@@ -116,6 +118,7 @@
                                 <OsfLink
                                     data-test-json-download-button
                                     data-analytics-name='Download JSON'
+                                    local-class='downlaod-link'
                                     {{on 'click' dd.close}}
                                     @target='_blank'
                                     @href={{this.downloadJsonUrl}}
