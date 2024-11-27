@@ -203,7 +203,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     }
 
     get downloadJsonUrl() {
-        return this.downloadUrl('json');
+        return this.downloadUrl('json_report');
     }
 
     @restartableTask
