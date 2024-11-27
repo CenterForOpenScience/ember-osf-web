@@ -113,7 +113,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
             .doesNotExist();
     });
 
-    test('it calculates the Public vs Private Registration data correctly', async function(assert) {
+    test('it calculates the Public vs Embargoed Registration data correctly', async function(assert) {
         // Given the component is rendered
         await render(hbs`
 <Institutions::Dashboard::-Components::ChartKpiWrapper
@@ -139,7 +139,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the expanded data position 1 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="1"]`)
-            .hasText('Private Registrations');
+            .hasText('Embargoed Registrations');
 
         // And the expanded data position 1 total is verified
         assert.dom(`${parentDom} [data-test-expanded-total="1"]`)
@@ -200,7 +200,7 @@ module('Integration | institutions | dashboard | -components | kpi-chart-wrapper
 
         // And the expanded data position 4 name is verified
         assert.dom(`${parentDom} [data-test-expanded-name="4"]`)
-            .hasText('Private Registrations');
+            .hasText('Embargoed Registrations');
 
         // And the expanded data position 4 total is verified
         assert.dom(`${parentDom} [data-test-expanded-total="4"]`)
