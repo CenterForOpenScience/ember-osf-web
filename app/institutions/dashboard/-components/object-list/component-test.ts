@@ -86,6 +86,7 @@ module('Integration | institutions | dashboard | -components | object-list', hoo
         await click('[data-test-download-dropdown]');
         assert.dom('[data-test-download-csv-link]').exists('CSV download link exists');
         assert.dom('[data-test-download-tsv-link]').exists('TSV download link exists');
+        assert.dom('[data-test-download-json-link]').exists('JSON download link exists');
     });
 
     test('the table supports filtering', async function(assert) {

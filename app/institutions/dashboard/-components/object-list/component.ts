@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
+import IndexCardSearchAdapter from 'ember-osf-web/adapters/index-card-search';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import SearchResultModel from 'ember-osf-web/models/search-result';
@@ -74,10 +75,24 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     }
 
     downloadUrl(format: string) {
-        const searchUrl = new URL('test');
-        searchUrl.searchParams.append('acceptMediatype', format);
-        const fileName = `${this.args.institution.name}-${this.args.objectType}-search-results`; // Extension?
+        const adapter = new IndexCardSearchAdapter();
+        const searchUrl = new URL(adapter.urlForQueryRecord(this.queryOptions, 'index-card-search'));
+        searchUrl.searchParams.set('acceptMediatype', format);
+        const fileName = `${this.args.objectType}-search-results`; // Extension?
         searchUrl.searchParams.append('withFileName', fileName);
+        // add query params from queryOptions
+        Object.entries(this.queryOptions).forEach(([key, value]) => {
+            // cardSearchFilter is an object, so we need to iterate over its keys
+            if (key === 'cardSearchFilter') {
+                Object.entries(value).forEach(([filterKey, filterValue]) => {
+                    const cardSearchFilterKey = `cardSearchFilter[${filterKey}]`;
+                    searchUrl.searchParams.set(cardSearchFilterKey, filterValue.toString());
+                });
+            } else {
+                searchUrl.searchParams.set(key, value.toString());
+            }
+        });
+        searchUrl.searchParams.set('page[size]', '10000');
         return searchUrl.toString();
     }
 
