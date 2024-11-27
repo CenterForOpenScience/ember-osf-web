@@ -191,6 +191,9 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         const userURL = new URL(usersLink!);
         userURL.searchParams.set('format', format);
         userURL.searchParams.set('page[size]', '10000');
+        Object.entries(this.queryUsers).forEach(([key, value]) => {
+            userURL.searchParams.set(key, value);
+        });
         return userURL.toString();
     }
 
