@@ -35,10 +35,10 @@ module('Integration | routes | institutions | dashboard | -components | institut
 
         this.set('model', model);
         await render(hbs`
-            <Institutions::Dashboard::-Components::InstitutionalUsersList
-                @modelTaskInstance={{this.model.taskInstance}}
-                @institution={{this.model.taskInstance.institution}}
-            />
+<Institutions::Dashboard::-Components::InstitutionalUsersList
+    @modelTaskInstance={{this.model.taskInstance}}
+    @institution={{this.model.taskInstance.institution}}
+/>
         `);
         assert.dom('[data-test-header]')
             .exists({ count: 9 }, '9 default headers');
@@ -70,6 +70,12 @@ module('Integration | routes | institutions | dashboard | -components | institut
             .exists({ count: 5 }, '5 in the list with public project');
         assert.dom('[data-test-item="privateProjects"]')
             .exists({ count: 5 }, '5 in the list with private projects');
+
+        // Test download buttons
+        await click('[data-test-download-dropdown]');
+        assert.dom('[data-test-csv-download-button]').exists('CSV download button');
+        assert.dom('[data-test-tsv-download-button]').exists('TSV download button');
+        assert.dom('[data-test-json-download-button]').exists('JSON download button');
     });
 
     test('it sorts', async function(assert) {
@@ -105,10 +111,10 @@ module('Integration | routes | institutions | dashboard | -components | institut
 
         this.set('model', model);
         await render(hbs`
-            <Institutions::Dashboard::-Components::InstitutionalUsersList
-                @modelTaskInstance={{this.model.taskInstance}}
-                @institution={{this.model.taskInstance.institution}}
-            />
+<Institutions::Dashboard::-Components::InstitutionalUsersList
+    @modelTaskInstance={{this.model.taskInstance}}
+    @institution={{this.model.taskInstance.institution}}
+/>
         `);
         assert.dom('[data-test-item="user_name"]')
             .exists({ count: 3 }, '3 users');
