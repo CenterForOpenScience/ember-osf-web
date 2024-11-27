@@ -74,14 +74,23 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     }
 
     downloadUrl(format: string) {
-        return format; // TODO: implement
+        const searchUrl = new URL('test');
+        searchUrl.searchParams.append('acceptMediatype', format);
+        const fileName = `${this.args.institution.name}-${this.args.objectType}-search-results`; // Extension?
+        searchUrl.searchParams.append('withFileName', fileName);
+        return searchUrl.toString();
     }
+
     get downloadCsvUrl() {
-        return this.downloadUrl('csv');
+        return this.downloadUrl('text/csv');
     }
 
     get downloadTsvUrl() {
-        return this.downloadUrl('tsv');
+        return this.downloadUrl('text/tab-separated-values');
+    }
+
+    get downloadJsonUrl() {
+        return this.downloadUrl('application/json');
     }
 
     @action
