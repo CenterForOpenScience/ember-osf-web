@@ -86,6 +86,16 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             if (key === 'cardSearchFilter') {
                 Object.entries(value).forEach(([filterKey, filterValue]) => {
                     const cardSearchFilterKey = `cardSearchFilter[${filterKey}]`;
+                    // check if filterValue is an object, for boolean filters
+                    if (typeof filterValue === 'object' && !Array.isArray(filterValue)) {
+                        Object.entries(filterValue).forEach(([nestedFilterKey, nestedFilterValue]) => {
+                            searchUrl.searchParams.append(
+                                `${cardSearchFilterKey}[${nestedFilterKey}]`,
+                                (nestedFilterValue as boolean).toString(),
+                            );
+                        });
+                        return;
+                    }
                     searchUrl.searchParams.set(cardSearchFilterKey, filterValue.toString());
                 });
             } else {
