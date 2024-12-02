@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
+import IndexCardSearchModel from 'ember-osf-web/models/index-card-search';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import SearchResultModel from 'ember-osf-web/models/search-result';
@@ -71,6 +72,29 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         return {
             ...this.queryOptions.cardSearchFilter,
         };
+    }
+
+    downloadUrl(cardSearch: IndexCardSearchModel, format: string) {
+        if (!cardSearch.links.self) {
+            return '';
+        }
+        const cardSearchUrl = new URL((cardSearch.links.self as string));
+        cardSearchUrl.searchParams.set('page[size]', '10000');
+        cardSearchUrl.searchParams.set('acceptMediatype', format);
+        cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results`);
+        return cardSearchUrl.toString();
+    }
+
+    downloadCsvUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'text/csv');
+    }
+
+    downloadTsvUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'text/tab-separated-values');
+    }
+
+    downloadJsonUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'application/json');
     }
 
     @action
