@@ -91,7 +91,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         {
             key: 'embargoedRegistrationCount',
             sort_key: 'embargoed_registration_count',
-            label: this.intl.t('institutions.dashboard.users_list.private_registration_count'),
+            label: this.intl.t('institutions.dashboard.users_list.embargoed_registration_count'),
             selected: true,
             type: 'string',
         },
