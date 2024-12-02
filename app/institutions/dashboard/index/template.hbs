@@ -3,7 +3,10 @@
 >
     <wrapper.main local-class='main-container {{if (is-mobile) 'mobile'}}'>
         {{#if this.model.summaryMetrics.reportYearmonth}}
-            <div local-class='updated-at'>
+            <div
+                data-test-summary-report-year-month
+                local-class='updated-at'
+            >
                 {{t 'institutions.dashboard.updated' date=this.model.summaryMetrics.reportYearmonth}}
             </div>
         {{/if}}

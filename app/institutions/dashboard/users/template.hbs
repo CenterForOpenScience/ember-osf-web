@@ -1,7 +1,10 @@
 <Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{this.model.institution}} as |wrapper|>
     <wrapper.main>
         {{#if this.model.userMetric.reportYearmonth}}
-            <div local-class='updated-at'>
+            <div
+                data-test-user-report-year-month
+                local-class='updated-at'
+            >
                 {{t 'institutions.dashboard.updated' date=this.model.userMetric.reportYearmonth}}
             </div>
         {{/if}}
