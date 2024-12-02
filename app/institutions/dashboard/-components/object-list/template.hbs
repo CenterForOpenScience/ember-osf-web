@@ -100,7 +100,7 @@ as |list|>
                                         data-analytics-name='Download CSV'
                                         local-class='download-link'
                                         {{on 'click' dd.close}}
-                                        @href={{this.downloadCsvUrl}}
+                                        @href={{call (fn (action this.downloadCsvUrl list.latestIndexCardSearch))}}
                                         @target='_blank'
                                     >
                                         {{t 'institutions.dashboard.format_labels.csv'}}
@@ -110,7 +110,7 @@ as |list|>
                                         data-analytics-name='Download TSV'
                                         local-class='download-link'
                                         {{on 'click' dd.close}}
-                                        @href={{this.downloadTsvUrl}}
+                                        @href={{call (fn (action this.downloadTsvUrl list.latestIndexCardSearch))}}
                                         @target='_blank'
                                     >
                                         {{t 'institutions.dashboard.format_labels.tsv'}}
@@ -120,7 +120,7 @@ as |list|>
                                         data-analytics-name='Download JSON'
                                         local-class='download-link'
                                         {{on 'click' dd.close}}
-                                        @href={{this.downloadJsonUrl}}
+                                        @href={{call (fn (action this.downloadJsonUrl list.latestIndexCardSearch))}}
                                         @target='_blank'
                                     >
                                         {{t 'institutions.dashboard.format_labels.json'}}

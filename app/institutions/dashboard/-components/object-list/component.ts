@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import IndexCardSearchAdapter from 'ember-osf-web/adapters/index-card-search';
+import IndexCardSearchModel from 'ember-osf-web/models/index-card-search';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import SearchResultModel from 'ember-osf-web/models/search-result';
@@ -74,48 +74,27 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         };
     }
 
-    downloadUrl(format: string) {
-        const adapter = new IndexCardSearchAdapter();
-        const searchUrl = new URL(adapter.urlForQueryRecord(this.queryOptions, 'index-card-search'));
-        searchUrl.searchParams.set('acceptMediatype', format);
-        const fileName = `${this.args.objectType}-search-results`; // Extension?
-        searchUrl.searchParams.append('withFileName', fileName);
-        // add query params from queryOptions
-        Object.entries(this.queryOptions).forEach(([key, value]) => {
-            // cardSearchFilter is an object, so we need to iterate over its keys
-            if (key === 'cardSearchFilter') {
-                Object.entries(value).forEach(([filterKey, filterValue]) => {
-                    const cardSearchFilterKey = `cardSearchFilter[${filterKey}]`;
-                    // check if filterValue is an object, for boolean filters
-                    if (typeof filterValue === 'object' && !Array.isArray(filterValue)) {
-                        Object.entries(filterValue).forEach(([nestedFilterKey, nestedFilterValue]) => {
-                            searchUrl.searchParams.append(
-                                `${cardSearchFilterKey}[${nestedFilterKey}]`,
-                                (nestedFilterValue as boolean).toString(),
-                            );
-                        });
-                        return;
-                    }
-                    searchUrl.searchParams.set(cardSearchFilterKey, filterValue.toString());
-                });
-            } else {
-                searchUrl.searchParams.set(key, value.toString());
-            }
-        });
-        searchUrl.searchParams.set('page[size]', '10000');
-        return searchUrl.toString();
+    downloadUrl(cardSearch: IndexCardSearchModel, format: string, extension: string) {
+        if (!cardSearch.links.self) {
+            return '';
+        }
+        const cardSearchUrl = new URL((cardSearch.links.self as string));
+        cardSearchUrl.searchParams.set('page[size]', '10000');
+        cardSearchUrl.searchParams.set('acceptMediatype', format);
+        cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results.${extension}`);
+        return cardSearchUrl.toString();
     }
 
-    get downloadCsvUrl() {
-        return this.downloadUrl('text/csv');
+    downloadCsvUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'text/csv', 'csv');
     }
 
-    get downloadTsvUrl() {
-        return this.downloadUrl('text/tab-separated-values');
+    downloadTsvUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'text/tab-separated-values', 'tsv');
     }
 
-    get downloadJsonUrl() {
-        return this.downloadUrl('application/json');
+    downloadJsonUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'application/json', 'json');
     }
 
     @action
