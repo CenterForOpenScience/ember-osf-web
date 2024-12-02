@@ -74,27 +74,27 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         };
     }
 
-    downloadUrl(cardSearch: IndexCardSearchModel, format: string, extension: string) {
+    downloadUrl(cardSearch: IndexCardSearchModel, format: string) {
         if (!cardSearch.links.self) {
             return '';
         }
         const cardSearchUrl = new URL((cardSearch.links.self as string));
         cardSearchUrl.searchParams.set('page[size]', '10000');
         cardSearchUrl.searchParams.set('acceptMediatype', format);
-        cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results.${extension}`);
+        cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results`);
         return cardSearchUrl.toString();
     }
 
     downloadCsvUrl(cardSearch: IndexCardSearchModel) {
-        return this.downloadUrl(cardSearch, 'text/csv', 'csv');
+        return this.downloadUrl(cardSearch, 'text/csv');
     }
 
     downloadTsvUrl(cardSearch: IndexCardSearchModel) {
-        return this.downloadUrl(cardSearch, 'text/tab-separated-values', 'tsv');
+        return this.downloadUrl(cardSearch, 'text/tab-separated-values');
     }
 
     downloadJsonUrl(cardSearch: IndexCardSearchModel) {
-        return this.downloadUrl(cardSearch, 'application/json', 'json');
+        return this.downloadUrl(cardSearch, 'application/json');
     }
 
     @action
