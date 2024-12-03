@@ -4,6 +4,7 @@ import PreprintModel from 'ember-osf-web/models/preprint';
 import faker from 'faker';
 
 import { guid } from '../factories/utils';
+import { process } from './utils';
 
 
 export function createPreprint(this: HandlerContext, schema: Schema) {
@@ -35,6 +36,8 @@ export function createPreprint(this: HandlerContext, schema: Schema) {
         subjects: [],
         tags: [] as string[] ,
         currentUserPermission: [Permission.Admin, Permission.Read, Permission.Write],
+        versionNumber: 1,
+        isLatestVersion: true,
     };
     const preprint = schema.preprints.create(attrs) as ModelInstance<PreprintModel>;
 
@@ -80,4 +83,13 @@ export function updatePreprint(this: HandlerContext, schema: Schema, request: Re
     }
     resource.update(attributes);
     return this.serialize(resource);
+}
+
+export function getPreprintVersions(this: HandlerContext, schema: Schema) {
+    const preprintId = this.request.params.id as string;
+    const baseId = preprintId.split('_v')[0]; // assumes preprint id is of the form <baseId>_v<versionNumber>
+    const preprints = schema.preprints.all().models
+        .filter((preprint: ModelInstance<PreprintModel>) => preprint.id !== baseId && preprint.id.includes(baseId));
+    return process(schema, this.request, this,
+        preprints.map((preprint: ModelInstance) => this.serialize(preprint).data));
 }
