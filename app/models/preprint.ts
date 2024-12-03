@@ -70,6 +70,8 @@ export default class PreprintModel extends AbstractNodeModel {
     @attr('string') whyNoData!: string | null;
     @attr('string') whyNoPrereg!: string | null;
     @attr('string') preregLinkInfo!: PreprintPreregLinkInfoEnum;
+    @attr('number') preprintVersion!: number;
+    @attr('boolean') isLatestVersion!: boolean;
 
     @belongsTo('node', { inverse: 'preprints' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
@@ -106,6 +108,9 @@ export default class PreprintModel extends AbstractNodeModel {
 
     @hasMany('identifiers')
     identifiers!: AsyncHasMany<IdentifierModel>;
+
+    @hasMany('preprint', { inverse: null })
+    versions!: AsyncHasMany<PreprintModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
     @alias('links.preprint_doi') preprintDoiUrl!: string;
