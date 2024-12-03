@@ -156,6 +156,12 @@
                             <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                                 {{institutionalUser.userName}}
                             </OsfLink>
+                            <Button
+                                local-class='icon-message'
+                                {{on 'click' (fn this.openMessageModal institutionalUser.userGuid)}}
+                            >
+                                <FaIcon @icon='comment' />
+                            </Button>
                         {{else if (eq column.type 'osf_link')}}
                             <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                                 {{institutionalUser.userGuid}}
@@ -185,4 +191,44 @@
             {{t 'institutions.dashboard.users_list.empty'}}
         </list.empty>
     </PaginatedList::HasMany>
+    <OsfDialog
+        @isOpen={{this.messageModalShown}}
+        @onClose={{fn (mut this.messageModalShown) false}}
+        as |dialog|
+    >
+        <dialog.heading>
+            {{t 'institutions.dashboard.send_message_modal.title'}}
+        </dialog.heading>
+        <dialog.main>
+            <div >
+                <div for='message-text'>
+                    {{t 'institutions.dashboard.send_message_modal.opening_message_label'}}
+                </div>
+                <textarea
+                    id='message-text'
+                    local-class='message-textarea'
+                    value={{this.messageText}}
+                    {{on 'input' this.updateMessageText}}
+                ></textarea>
+                <div>
+                    {{t 'institutions.dashboard.send_message_modal.closing_message_label' adminName=this.currentUser.user.fullName}}
+                </div>
+            </div>
+        </dialog.main>
+        <dialog.footer>
+            <Button
+                @type='secondary'
+                {{on 'click' (fn (mut this.messageModalShown) false)}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                @type='primary'
+                @disabled={{not this.messageText}}
+                {{on 'click' (queue this.sendMessage dialog.close)}}
+            >
+                {{t 'institutions.dashboard.send_message_modal.send'}}
+            </Button>
+        </dialog.footer>
+    </OsfDialog>
 {{/if}}
