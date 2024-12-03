@@ -234,6 +234,15 @@ function buildOSF(
         hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
     });
 
+    const versionedPreprint = server.create('preprint', {
+        provider: osf,
+        id: 'versioned-preprint',
+        title: 'Versioned Preprint',
+        currentUserPermissions: Object.values(Permission),
+        reviewsState: ReviewsState.ACCEPTED,
+        isPublished: true,
+    }, 'withVersions');
+
     const subjects = server.createList('subject', 7);
 
     osf.update({
@@ -264,6 +273,7 @@ function buildOSF(
             acceptedWithdrawalPreprintComment,
             notContributorPreprint,
             publicDoiPreprint,
+            versionedPreprint,
         ],
         description: 'This is the description for osf',
     });
