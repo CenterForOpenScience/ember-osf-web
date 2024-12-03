@@ -76,6 +76,7 @@ export default class PreprintsDetail extends Route {
             const license = await preprint?.get('license');
 
             const subjects = await preprint?.queryHasMany('subjects');
+            const versions = await preprint?.queryHasMany('versions');
 
             return {
                 preprint,
@@ -85,6 +86,7 @@ export default class PreprintsDetail extends Route {
                 primaryFile,
                 license,
                 subjects,
+                versions,
             };
 
         } catch (error) {

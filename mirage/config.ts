@@ -51,7 +51,7 @@ import {
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
-import { createPreprint } from './views/preprint';
+import { createPreprint, getPreprintVersions } from './views/preprint';
 
 const { OSF: { apiUrl, shareBaseUrl, url: osfUrl } } = config;
 
@@ -354,6 +354,9 @@ export default function(this: Server) {
         const id = request.params.id;
         return schema.preprints.find(id);
     });
+
+    this.get('/preprints/:id/versions', getPreprintVersions);
+    // TODO: add post view
 
     osfNestedResource(this, 'preprint', 'contributors', {
         path: '/preprints/:parentID/contributors/',
