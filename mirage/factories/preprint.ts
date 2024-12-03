@@ -78,7 +78,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     dateWithdrawn: null,
 
     doi: null,
-    preprintVersion: 0,
+    preprintVersion: 1,
     isLatestVersion: true,
 
     tags() {
@@ -245,7 +245,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     withVersions: trait<PreprintModel>({
         afterCreate(preprint, server) {
             const baseId = preprint.id;
-            const versionedPreprints = [0, 1, 2, 3].map((version: number) => {
+            const versionedPreprints = [1, 2, 3].map((version: number) => {
                 server.create('preprint', {
                     title: preprint.title,
                     description: preprint.description,

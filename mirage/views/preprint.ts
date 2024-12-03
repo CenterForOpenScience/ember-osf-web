@@ -36,7 +36,7 @@ export function createPreprint(this: HandlerContext, schema: Schema) {
         subjects: [],
         tags: [] as string[] ,
         currentUserPermission: [Permission.Admin, Permission.Read, Permission.Write],
-        versionNumber: 0,
+        versionNumber: 1,
         isLatestVersion: true,
     };
     const preprint = schema.preprints.create(attrs) as ModelInstance<PreprintModel>;
