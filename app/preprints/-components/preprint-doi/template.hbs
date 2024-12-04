@@ -1,23 +1,48 @@
 <div>
-    <h4>{{t 'preprints.detail.preprint_doi' documentType=this.documentType}}</h4>
-    {{#if @preprint.preprintDoiUrl}}
-        {{#if @preprint.preprintDoiCreated}}
-            <OsfLink
-                data-test-article-doi
-                data-analytics-name='preprint doi'
-                @href={{@preprint.preprintDoiUrl}} 
+    <h4 data-test-preprint-doi-heading>
+        {{t 'preprints.detail.preprint_doi' documentType=this.documentType}}
+    </h4>
+    {{#if @versions}}
+        <PowerSelect
+            data-test-version-select-dropdown
+            @options={{@versions}}
+            @selected={{this.selectedVersion}}
+            @onChange={{this.selectVersion}}
+            as |version|
+        >
+            <span
+                data-test-preprint-version={{version.preprintVersion}}
             >
-                {{@preprint.preprintDoiUrl}}
-            </OsfLink>
-        {{else}}
-            <p> {{@preprint.preprintDoiUrl}} </p>
-            <p> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
-        {{/if}}
+                {{t 'preprints.detail.version_doi_title' number=version.preprintVersion}}
+            </span>
+        </PowerSelect>
     {{else}}
-        {{#if (not @preprint.public)}}
-            {{t 'preprints.detail.preprint_pending_doi' documentType=this.documentType}}
-        {{else if (and this.provider.reviewsWorkflow (not this.preprint.isPublished))}}
-            {{t 'preprints.detail.preprint_pending_doi_moderation'}}
+        <p>{{t 'preprints.detail.no_versions'}}</p>
+    {{/if}}
+    {{#if this.selectedVersion}}
+        {{#if this.selectedVersion.preprintDoiUrl}}
+            {{#if this.selectedVersion.preprintDoiCreated}}
+                <OsfLink
+                    data-test-linked-doi-url
+                    data-analytics-name='preprint doi'
+                    @href={{this.selectedVersion.preprintDoiUrl}}
+                >
+                    {{this.selectedVersion.preprintDoiUrl}}
+                </OsfLink>
+            {{else}}
+                <p data-test-unlinked-doi-url> {{this.selectedVersion.preprintDoiUrl}} </p>
+                <p data-test-unlinked-doi-description> {{t 'preprints.detail.preprint_pending_doi_minted'}} </p>
+            {{/if}}
+        {{else}}
+            <p data-test-no-doi-text>
+                {{#if (not this.selectedVersion.public)}}
+                    {{t 'preprints.detail.preprint_pending_doi' documentType=this.documentType}}
+                {{else if (and this.provider.reviewsWorkflow (not this.preprint.isPublished))}}
+                    {{t 'preprints.detail.preprint_pending_doi_moderation'}}
+                {{else}}
+                    {{t 'preprints.detail.no_doi'}}
+                {{/if}}
+            </p>
         {{/if}}
     {{/if}}
 </div>

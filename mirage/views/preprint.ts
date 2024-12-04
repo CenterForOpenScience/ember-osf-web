@@ -90,6 +90,7 @@ export function getPreprintVersions(this: HandlerContext, schema: Schema) {
     const baseId = preprintId.split('_v')[0]; // assumes preprint id is of the form <baseId>_v<versionNumber>
     const preprints = schema.preprints.all().models
         .filter((preprint: ModelInstance<PreprintModel>) => preprint.id !== baseId && preprint.id.includes(baseId));
+    const versions = preprints.sortBy('versionNumber').reverse();
     return process(schema, this.request, this,
-        preprints.map((preprint: ModelInstance) => this.serialize(preprint).data));
+        versions.map((version: ModelInstance) => this.serialize(version).data));
 }

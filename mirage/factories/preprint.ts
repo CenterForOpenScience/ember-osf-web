@@ -255,7 +255,9 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                     isLatestVersion: version === 3,
                 });
             });
-            preprint.provider.update({ preprints: versionedPreprints });
+            if (preprint.provider) {
+                preprint.provider.update({ preprints: versionedPreprints });
+            }
         },
     }),
 
