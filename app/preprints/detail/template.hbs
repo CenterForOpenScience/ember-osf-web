@@ -181,7 +181,10 @@
                             </OsfLink>
                         </div>
                     {{/if}}
-                    <Preprints::-Components::PreprintDoi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
+                    <Preprints::-Components::PreprintDoi
+                        @versions={{this.model.versions}}
+                        @provider={{this.model.provider}}
+                    />
                     {{#if this.model.preprint.articleDoiUrl}}
                         <div>
                             <h4>{{t 'preprints.detail.article_doi'}}</h4>

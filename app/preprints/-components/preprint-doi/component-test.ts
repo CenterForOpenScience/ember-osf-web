@@ -1,0 +1,82 @@
+import { click } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import { setupMirage } from 'ember-cli-mirage/test-support';
+import { ModelInstance } from 'ember-cli-mirage';
+
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
+import PreprintModel from 'ember-osf-web/models/preprint';
+
+module('Integration | Component | preprint-doi', function(hooks) {
+    setupRenderingTest(hooks);
+    setupMirage(hooks);
+
+    test('it renders', async function(assert) {
+        this.store = this.owner.lookup('service:store');
+        server.loadFixtures('preprint-providers');
+        const mirageProvider = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProviderModel>;
+        const miragePreprint = server.create('preprint', {
+            id: 'doied',
+            provider: mirageProvider,
+        }, 'withVersions');
+        // Version 1 has a DOI and has a preprintDoiCreated date
+        const version1 = server.schema.preprints.find('doied_v1') as ModelInstance<PreprintModel>;
+        version1.update({ preprintDoiCreated: new Date('2020-02-02') });
+        // Version 2 has a DOI but no preprintDoiCreated date
+        const version2 = server.schema.preprints.find('doied_v2') as ModelInstance<PreprintModel>;
+        version2.update({ preprintDoiCreated: null });
+        // Version 3 is pending moderator approval and is not published, therefore has no DOI
+        const version3 = server.schema.preprints.find('doied_v3') as ModelInstance<PreprintModel>;
+        version3.update({
+            preprintDoiCreated: null,
+            isPublished: false,
+            isPreprintDoi: false, // Mirage flag used to determine if a DOI should be created
+        });
+
+        const preprint = await this.store.findRecord('preprint', miragePreprint.id);
+        const versions = await preprint.queryHasMany('versions');
+
+        const provider = await this.store.findRecord('preprint-provider', mirageProvider.id);
+        this.set('versions', versions);
+        this.set('provider', provider);
+
+        await render(hbs`
+<Preprints::-Components::PreprintDoi
+    @versions={{this.versions}}
+    @provider={{this.provider}}
+/>
+        `);
+
+        // check headings exist
+        assert.dom('[data-test-preprint-doi-heading]').exists('Preprint DOI heading exists');
+        assert.dom('[data-test-preprint-doi-heading]').hasText('Preprint DOI', 'Preprint DOI heading has correct text');
+
+        // check dropdown exists
+        assert.dom('[data-test-version-select-dropdown]').exists('Version select dropdown exists');
+        assert.dom('[data-test-version-select-dropdown]')
+            .hasText('Version 3', 'Dropdown has latest version selected by default');
+
+        // check version3 has no DOI
+        assert.dom('[data-test-no-doi-text]').exists('No DOI text exists');
+        assert.dom('[data-test-no-doi-text]').hasText('DOI created after moderator approval', 'No DOI text is correct');
+
+        // check version2 has DOI, but no preprintDoiCreated date
+        await click('[data-test-version-select-dropdown]');
+        await click('[data-test-preprint-version="2"]');
+        assert.dom('[data-test-no-doi-text]').doesNotExist('No DOI text does not exist');
+        assert.dom('[data-test-unlinked-doi-url]').exists('Preprint DOI URL exists');
+        assert.dom('[data-test-unlinked-doi-description]').exists('Preprint DOI description exists');
+        assert.dom('[data-test-unlinked-doi-description]')
+            // eslint-disable-next-line max-len
+            .hasText('DOIs are minted by a third party, and may take up to 24 hours to be registered.', 'Description is correct');
+
+        // check version1 has DOI and preprintDoiCreated date
+        await click('[data-test-version-select-dropdown]');
+        await click('[data-test-preprint-version="1"]');
+        assert.dom('[data-test-unlinked-doi-url]').doesNotExist('Unlinked preprint DOI URL does not exist');
+        assert.dom('[data-test-unlinked-doi-description]').doesNotExist('Unlinked description does not exist');
+        assert.dom('[data-test-linked-doi-url]').exists('Preprint DOI URL exists');
+    });
+});
