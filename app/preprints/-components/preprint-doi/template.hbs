@@ -5,6 +5,7 @@
     {{#if @versions}}
         <PowerSelect
             data-test-version-select-dropdown
+            local-class='version-dropdown'
             @options={{@versions}}
             @selected={{this.selectedVersion}}
             @onChange={{this.selectVersion}}
