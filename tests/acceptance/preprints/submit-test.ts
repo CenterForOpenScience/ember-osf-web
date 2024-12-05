@@ -44,9 +44,13 @@ module('Acceptance | preprints | submit', hooks => {
         // Create preprint workflow
         await click('[data-test-create-preprints]');
         assert.equal(currentRouteName(), 'preprints.submit', 'Current route is preprints submit page');
+    });
 
-        // Preprint submit page leftnav
+    test('Preprint submit page with assertions', async function(this: PreprintIndexTestContext, assert) {
+        await visit('/preprints/osf/submit');
         assert.equal(currentRouteName(), 'preprints.submit', 'Current route is preprints submit page');
+
+        // Check leftnav items
         assert.dom('[data-test-preprint-submission-step="Title and Abstract"]')
             .exists('Title and Abstract step is displayed');
         assert.dom('[data-test-preprint-submission-step="File"]').exists('File step is displayed');
@@ -55,6 +59,27 @@ module('Acceptance | preprints | submit', hooks => {
             .exists('Author Assertions step is displayed');
         assert.dom('[data-test-preprint-submission-step="Supplements"]').exists('Supplements step is displayed');
         assert.dom('[data-test-preprint-submission-step="Review"]').exists('Review step is displayed');
+    });
+
+    test('Preprint submit page with no assertions', async function(this: PreprintIndexTestContext, assert) {
+        const osfProvider = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProviderModel>;
+        osfProvider.update({ assertionsEnabled: false });
+        await visit('/preprints/osf/submit');
+        assert.equal(currentRouteName(), 'preprints.submit', 'Current route is preprints submit page');
+
+        // Check leftnav items
+        assert.dom('[data-test-preprint-submission-step="Title and Abstract"]')
+            .exists('Title and Abstract step is displayed');
+        assert.dom('[data-test-preprint-submission-step="File"]').exists('File step is displayed');
+        assert.dom('[data-test-preprint-submission-step="Metadata"]').exists('Metadata step is displayed');
+        assert.dom('[data-test-preprint-submission-step="Author Assertions"]')
+            .doesNotExist('Author Assertions step is NOT displayed');
+        assert.dom('[data-test-preprint-submission-step="Supplements"]').exists('Supplements step is displayed');
+        assert.dom('[data-test-preprint-submission-step="Review"]').exists('Review step is displayed');
+    });
+
+    test('Preprint submit page: Title and abstract', async function(this: PreprintIndexTestContext, assert) {
+        await visit('/preprints/osf/submit');
         assert.dom('[data-test-preprint-submission-step="Title and Abstract"] [data-test-icon]')
             .hasClass('fa-dot-circle', 'Title and Abstract step has selected icon');
         assert.dom('[data-test-preprint-submission-step="File"] [data-test-icon]')
