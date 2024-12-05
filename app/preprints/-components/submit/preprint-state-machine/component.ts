@@ -59,6 +59,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     displayAuthorAssertions = false;
     @tracked statusFlowIndex = 1;
     @tracked isEditFlow = false;
+    @tracked displayFileUploadStep = true;
     affiliatedInstitutions = [] as InstitutionModel[];
 
     constructor(owner: unknown, args: StateMachineArgs) {
@@ -68,11 +69,17 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.preprint = this.args.preprint;
             this.setValidationForEditFlow();
             this.isEditFlow = true;
+            if (this.args.preprint.reviewsState === ReviewsState.REJECTED) {
+                this.displayFileUploadStep = true;
+            } else {
+                this.displayFileUploadStep = false;
+            }
             this.isDeleteButtonDisplayed = false;
             taskFor(this.canDisplayWitdrawalButton).perform();
         } else {
             this.isDeleteButtonDisplayed = true;
             this.isWithdrawalButtonDisplayed = false;
+            this.displayFileUploadStep = true;
             this.preprint = this.store.createRecord('preprint', {
                 provider: this.provider,
             });
@@ -249,8 +256,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.titleAndAbstractValidation
         ) {
             await this.saveOnStep();
-            await this.preprint.files;
-            this.isNextButtonDisabled = !this.fileValidation;
+            if (this.displayFileUploadStep) {
+                await this.preprint.files;
+                this.isNextButtonDisabled = !this.fileValidation;
+            } else {
+                this.isNextButtonDisabled = !this.metadataValidation;
+            }
             return;
         } else if (
             this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
@@ -499,24 +510,44 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     private getTypeIndex(type: string): number {
-        if (type === PreprintStatusTypeEnum.titleAndAbstract) {
-            return 1;
-        } else if (type === PreprintStatusTypeEnum.file) {
-            return 2;
-        } else if (type === PreprintStatusTypeEnum.metadata) {
-            return 3;
-        } else if (type === PreprintStatusTypeEnum.authorAssertions) {
-            return 4;
-        } else if (type === PreprintStatusTypeEnum.supplements &&  this.displayAuthorAssertions) {
-            return 5;
-        }  else if (type === PreprintStatusTypeEnum.supplements &&  !this.displayAuthorAssertions) {
-            return 4;
-        } else if (type === PreprintStatusTypeEnum.review &&  this.displayAuthorAssertions) {
-            return 6;
-        }  else if (type === PreprintStatusTypeEnum.review &&  !this.displayAuthorAssertions) {
-            return 5;
+        if (this.displayFileUploadStep) {
+            if (type === PreprintStatusTypeEnum.titleAndAbstract) {
+                return 1;
+            } else if (type === PreprintStatusTypeEnum.file) {
+                return 2;
+            } else if (type === PreprintStatusTypeEnum.metadata) {
+                return 3;
+            } else if (type === PreprintStatusTypeEnum.authorAssertions) {
+                return 4;
+            } else if (type === PreprintStatusTypeEnum.supplements && this.displayAuthorAssertions) {
+                return 5;
+            } else if (type === PreprintStatusTypeEnum.supplements && !this.displayAuthorAssertions) {
+                return 4;
+            } else if (type === PreprintStatusTypeEnum.review && this.displayAuthorAssertions) {
+                return 6;
+            } else if (type === PreprintStatusTypeEnum.review && !this.displayAuthorAssertions) {
+                return 5;
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            if (type === PreprintStatusTypeEnum.titleAndAbstract) {
+                return 1;
+            } else if (type === PreprintStatusTypeEnum.metadata) {
+                return 2;
+            } else if (type === PreprintStatusTypeEnum.authorAssertions) {
+                return 3;
+            } else if (type === PreprintStatusTypeEnum.supplements && this.displayAuthorAssertions) {
+                return 4;
+            } else if (type === PreprintStatusTypeEnum.supplements && !this.displayAuthorAssertions) {
+                return 3;
+            } else if (type === PreprintStatusTypeEnum.review && this.displayAuthorAssertions) {
+                return 5;
+            } else if (type === PreprintStatusTypeEnum.review && !this.displayAuthorAssertions) {
+                return 4;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -572,7 +603,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * @returns boolean
      */
     public shouldDisplayStatusType(type: string): boolean{
-        return type === PreprintStatusTypeEnum.authorAssertions ? this.displayAuthorAssertions : true;
+        if (type === PreprintStatusTypeEnum.file) {
+            return this.displayFileUploadStep;
+        } else if (type === PreprintStatusTypeEnum.authorAssertions) {
+            return this.displayAuthorAssertions;
+        }
+        return true;
     }
 
     /**
@@ -674,7 +710,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     public isAdmin(): boolean {
-        return this.preprint.currentUserPermissions.includes(Permission.Admin);
+        return this.preprint.currentUserPermissions?.includes(Permission.Admin);
     }
 
     public isElementDisabled(): boolean {
