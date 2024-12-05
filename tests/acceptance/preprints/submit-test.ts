@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 import { click, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
-interface PreprintIndexTestContext extends TestContext {
+interface PreprintSubmitTestContext extends TestContext {
     provider: ModelInstance<PreprintProviderModel>;
 }
 
@@ -15,12 +15,12 @@ module('Acceptance | preprints | submit', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    hooks.beforeEach(async function(this: PreprintIndexTestContext) {
+    hooks.beforeEach(async function(this: PreprintSubmitTestContext) {
         server.loadFixtures('preprint-providers');
         server.create('user', 'loggedIn');
     });
 
-    test('Select a provider workflow', async function(this: PreprintIndexTestContext, assert) {
+    test('Select a provider workflow', async function(this: PreprintSubmitTestContext, assert) {
         await visit('/preprints');
         assert.equal(currentRouteName(), 'preprints.index', 'Current route is preprints landing page');
 
@@ -46,7 +46,7 @@ module('Acceptance | preprints | submit', hooks => {
         assert.equal(currentRouteName(), 'preprints.submit', 'Current route is preprints submit page');
     });
 
-    test('Preprint submit page with assertions', async function(this: PreprintIndexTestContext, assert) {
+    test('Preprint submit page with assertions', async function(this: PreprintSubmitTestContext, assert) {
         await visit('/preprints/osf/submit');
         assert.equal(currentRouteName(), 'preprints.submit', 'Current route is preprints submit page');
 
@@ -61,7 +61,7 @@ module('Acceptance | preprints | submit', hooks => {
         assert.dom('[data-test-preprint-submission-step="Review"]').exists('Review step is displayed');
     });
 
-    test('Preprint submit page with no assertions', async function(this: PreprintIndexTestContext, assert) {
+    test('Preprint submit page with no assertions', async function(this: PreprintSubmitTestContext, assert) {
         const osfProvider = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProviderModel>;
         osfProvider.update({ assertionsEnabled: false });
         await visit('/preprints/osf/submit');
@@ -78,8 +78,12 @@ module('Acceptance | preprints | submit', hooks => {
         assert.dom('[data-test-preprint-submission-step="Review"]').exists('Review step is displayed');
     });
 
-    test('Preprint submit page: Title and abstract', async function(this: PreprintIndexTestContext, assert) {
+    test('Preprint submit page: Title and abstract', async function(this: PreprintSubmitTestContext, assert) {
         await visit('/preprints/osf/submit');
+        const pageTitle = document.getElementsByTagName('title')[0].innerText;
+        // TODO: Submit page title should have provider's preprintWord in title. Note the space after "New" in next line
+        assert.equal(pageTitle, 'OSF Preprints | New ', 'Provider select page title is correct');
+
         assert.dom('[data-test-preprint-submission-step="Title and Abstract"] [data-test-icon]')
             .hasClass('fa-dot-circle', 'Title and Abstract step has selected icon');
         assert.dom('[data-test-preprint-submission-step="File"] [data-test-icon]')
