@@ -21,6 +21,7 @@ module('Acceptance | preprints | detail', hooks => {
 
     hooks.beforeEach(async function(this: PreprintDetailTestContext) {
         server.loadFixtures('preprint-providers');
+        server.loadFixtures('citation-styles');
         const provider = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProviderModel>;
         provider.update({
             reviewsWorkflow: PreprintProviderReviewsWorkFlow.PRE_MODERATION,
