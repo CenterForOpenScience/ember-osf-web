@@ -63,6 +63,7 @@
         {{#if this.model.preprint.isWithdrawn}}
             <Preprints::-Components::PreprintTombstone
                 @preprint={{this.model.preprint}}
+                @versions={{this.model.versions}}
                 @provider={{this.model.provider}}
                 @subjects={{this.model.subjects}} />
         {{else}}
