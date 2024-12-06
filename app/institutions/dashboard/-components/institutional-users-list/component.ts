@@ -26,6 +26,8 @@ interface InstitutionalUsersListArgs {
 export default class InstitutionalUsersList extends Component<InstitutionalUsersListArgs> {
     @service analytics!: Analytics;
     @service intl!: Intl;
+    @service store;
+    @service currentUser!: CurrentUser;
 
     institution?: InstitutionModel;
 
@@ -36,6 +38,10 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @tracked sort = 'user_name';
     @tracked selectedDepartments: string[] = [];
     @tracked filteredUsers = [];
+    @tracked messageModalShown = false;
+    @tracked messageText = '';
+    @tracked selectedUserId = null;
+    @service toast!: Toast;
 
     @tracked columns: Column[] = [
         {
@@ -238,4 +244,37 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         this.hasOrcid = !hasOrcid;
     }
 
+    @action
+    openMessageModal(userId: string) {
+        this.selectedUserId = userId;
+        this.messageModalShown = true;
+    }
+
+    @action
+    updateMessageText(event: Event) {
+        this.messageText = (event.target as HTMLTextAreaElement).value;
+    }
+
+    @action
+    async sendMessage() {
+        if (!this.selectedUserId || !this.messageText.trim()) {
+            return;
+        }
+
+        try {
+            const userMessage = this.store.createRecord('user-message', {
+                messageText: this.messageText.trim(),
+                messageType: 'institutional_request',
+                institution: this.args.institution,
+                user: this.selectedUserId,
+            });
+            await userMessage.save();
+            this.toast.success(this.intl.t('institutions.dashboard.send_message_modal.message_sent_success'));
+        } catch (error) {
+            this.toast.error(this.intl.t('institutions.dashboard.send_message_modal.message_sent_failed'));
+        } finally {
+            this.messageModalShown = false;
+            this.messageText = '';
+        }
+    }
 }
