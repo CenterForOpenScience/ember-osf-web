@@ -158,6 +158,8 @@
                             </OsfLink>
                             <Button
                                 local-class='icon-message'
+                                aria-label={{t 'institutions.dashboard.send_message_modal.open_aira_label'}}
+
                                 {{on 'click' (fn this.openMessageModal institutionalUser.userGuid)}}
                             >
                                 <FaIcon @icon='comment' />
@@ -217,12 +219,14 @@
         </dialog.main>
         <dialog.footer>
             <Button
+                aria-label={{t 'institutions.dashboard.send_message_modal.close_aira_label'}}
                 @type='secondary'
                 {{on 'click' (fn (mut this.messageModalShown) false)}}
             >
                 {{t 'general.cancel'}}
             </Button>
             <Button
+                aria-label={{t 'institutions.dashboard.send_message_modal.send_aira_label'}}
                 @type='primary'
                 @disabled={{not this.messageText}}
                 {{on 'click' (queue this.sendMessage dialog.close)}}
