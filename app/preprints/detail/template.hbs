@@ -9,8 +9,8 @@
     <div local-class='header-container'>
         <div local-class='preprint-title-container'>
             <h1 data-test-preprint-title>{{this.displayTitle}}</h1>
-            {{#unless this.model.preprint.isWithdrawn}}
-                <div class='edit-preprint-button'>
+            <div>
+                {{#unless this.model.preprint.isWithdrawn}}
                     {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
                         <OsfLink
                             data-test-edit-preprint-button
@@ -23,21 +23,20 @@
 
                         </OsfLink>
                     {{/if}}
-                    {{#if this.model.preprint.canCreateNewVersion}}
-                        <OsfLink
-                            data-test-create-new-version-button
-                            data-analytics-name='Create new version'
-                            local-class='btn btn-primary'
-                            {{!-- TODO: Update when new version route is implemented --}}
-                            @route='preprints.edit'
-                            @models={{array this.model.provider.id this.model.preprint.id}}
-                        >
-                            {{t 'preprints.detail.create_new_version'}}
-                        </OsfLink>
-                    {{/if}}
-                    <br>
-                </div>
-            {{/unless}}
+                {{/unless}}
+                {{#if this.model.preprint.canCreateNewVersion}}
+                    <OsfLink
+                        data-test-create-new-version-button
+                        data-analytics-name='Create new version'
+                        local-class='btn btn-primary'
+                        {{!-- TODO: Update when new version route is implemented --}}
+                        @route='preprints.edit'
+                        @models={{array this.model.provider.id this.model.preprint.id}}
+                    >
+                        {{t 'preprints.detail.create_new_version'}}
+                    </OsfLink>
+                {{/if}}
+            </div>
         </div>
         <div local-class='preprint-author-container'>
             <h5 local-class='view-authors'>
