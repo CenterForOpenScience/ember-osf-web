@@ -8,7 +8,7 @@
         </div>
     {{/if}}
     <Preprints::-Components::PreprintAbstract @preprint={{@preprint}} />
-    <Preprints::-Components::PreprintDoi @preprint={{@preprint}} @provider={{@provider}} />
+    <Preprints::-Components::PreprintDoi @versions={{@versions}} @provider={{@provider}} />
     <Preprints::-Components::PreprintLicense @preprint={{@preprint}} />
     <Preprints::-Components::PreprintDiscipline @subjects={{@subjects}} />
     <Preprints::-Components::PreprintTag @preprint={{@preprint}} />

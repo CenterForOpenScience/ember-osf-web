@@ -71,10 +71,10 @@ export default class PrePrintsDetailController extends Controller {
     }
 
     get editButtonLabel(): string {
-        const editPreprint = 'preprints.detail.project_button.edit_preprint';
-        const editResubmitPreprint = 'preprints.detail.project_button.edit_resubmit_preprint';
+        const editPreprint = 'preprints.detail.edit_preprint';
+        const editResubmitPreprint = 'preprints.detail.edit_resubmit_preprint';
         const translation = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
-            && this.model.preprint.reviewsState === ReviewsState.REJECTED && this.isAdmin()
+            && this.model.preprint.reviewsState === ReviewsState.REJECTED && this.model.preprint.currentUserIsAdmin
             ? editResubmitPreprint : editPreprint;
         return this.intl.t(translation, {
             documentType: this.model.provider.documentType.singular,
@@ -90,11 +90,6 @@ export default class PrePrintsDetailController extends Controller {
         return this.model.preprint.title;
     }
 
-    private isAdmin(): boolean {
-        // True if the current user has admin permissions for the node that contains the preprint
-        return (this.model.preprint.currentUserPermissions).includes(Permission.Admin);
-    }
-
     private hasReadWriteAccess(): boolean {
         // True if the current user has write permissions for the node that contains the preprint
         return (this.model.preprint.currentUserPermissions.includes(Permission.Write));
@@ -102,7 +97,7 @@ export default class PrePrintsDetailController extends Controller {
 
 
     get userIsContrib(): boolean {
-        if (this.isAdmin()) {
+        if (this.model.preprint.currentUserIsAdmin) {
             return true;
         } else if (this.model.contributors.length) {
             const authorIds = [] as string[];

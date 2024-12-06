@@ -1437,9 +1437,9 @@ preprints:
         no_doi: 'No DOI'
         preprint_pending_doi_minted: 'DOIs are minted by a third party, and may take up to 24 hours to be registered.'
         private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
-        project_button:
-            edit_preprint: 'Edit {documentType}'
-            edit_resubmit_preprint: 'Edit and resubmit'
+        edit_preprint: 'Edit {documentType}'
+        edit_resubmit_preprint: 'Edit and resubmit'
+        create_new_version: 'Create new version'
         see_less: 'See less'
         see_more: 'See more'
         share:
