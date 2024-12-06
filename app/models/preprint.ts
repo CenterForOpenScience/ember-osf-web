@@ -41,12 +41,6 @@ export interface PreprintLicenseRecordModel {
     year: string;
 }
 
-const newVersionAllowedReviewsStates = [
-    ReviewsState.ACCEPTED,
-    ReviewsState.WITHDRAWAL_REJECTED,
-    ReviewsState.PENDING_WITHDRAWAL,
-];
-
 export default class PreprintModel extends AbstractNodeModel {
     @attr('fixstring') title!: string;
     @attr('date') dateCreated!: Date;
@@ -140,10 +134,7 @@ export default class PreprintModel extends AbstractNodeModel {
     }
 
     get canCreateNewVersion(): boolean {
-        const hasPermission = this.currentUserIsAdmin;
-        const isReviewStateValid = newVersionAllowedReviewsStates.includes(this.reviewsState);
-        const isVersionValid = this.isLatestVersion;
-        return hasPermission && isReviewStateValid && isVersionValid;
+        return this.currentUserIsAdmin && this.datePublished && this.isLatestVersion;
     }
 }
 
