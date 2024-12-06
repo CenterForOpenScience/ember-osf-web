@@ -804,7 +804,7 @@ institutions:
           opening_message_label: 'Comments:'
           closing_message_label: 'Sincerely Yours, {adminName}'
           message_sent_success: 'Message has been sent'
-          message_sent_failed: 'Message has failed to send of the issue persists contact your administrator'
+          message_sent_failed: 'Message has failed to send. If the issue persists contact your administrator'
           send: 'Send'
         tabs:
             summary: Summary
