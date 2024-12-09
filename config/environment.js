@@ -226,8 +226,8 @@ module.exports = function(environment) {
             },
         },
         signUpPolicy: {
-            termsLink: `${POLICY_URL_PREFIX}TERMS_OF_USE.md`,
-            privacyPolicyLink: `${POLICY_URL_PREFIX}PRIVACY_POLICY.md`,
+            termsLink: 'https://osf.io/terms_of_use/',
+            privacyPolicyLink: 'https://osf.io/privacy_policy/',
             cookiesLink: `${POLICY_URL_PREFIX}PRIVACY_POLICY.md#f-cookies`,
         },
         footerLinks: {
