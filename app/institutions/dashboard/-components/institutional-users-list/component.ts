@@ -1,3 +1,4 @@
+import { task } from 'ember-concurrency';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
@@ -255,7 +256,8 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         this.messageText = (event.target as HTMLTextAreaElement).value;
     }
 
-    @action
+    @task
+    @waitFor
     async sendMessage() {
         if (!this.selectedUserId || !this.messageText.trim()) {
             return;

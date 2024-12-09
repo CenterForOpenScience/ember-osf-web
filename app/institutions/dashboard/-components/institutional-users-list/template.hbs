@@ -203,7 +203,7 @@
         </dialog.heading>
         <dialog.main>
             <div >
-                <label for='message-text' local-class="message-label">
+                <label for='message-text' local-class='message-label'>
                     {{t 'institutions.dashboard.send_message_modal.opening_message_label'}}
                 </label>
                 <textarea
@@ -229,7 +229,7 @@
                 aria-label={{t 'institutions.dashboard.send_message_modal.send_aira_label'}}
                 @type='primary'
                 @disabled={{not this.messageText}}
-                {{on 'click' (queue this.sendMessage dialog.close)}}
+                {{on 'click' (queue (perform this.sendMessage) dialog.close)}}
             >
                 {{t 'institutions.dashboard.send_message_modal.send'}}
             </Button>
