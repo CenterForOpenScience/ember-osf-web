@@ -206,12 +206,12 @@
                 <label for='message-text' local-class='message-label'>
                     {{t 'institutions.dashboard.send_message_modal.opening_message_label'}}
                 </label>
-                <textarea
+                <Textarea
                     id='message-text'
                     local-class='message-textarea'
-                    value={{this.messageText}}
-                    {{on 'input' this.updateMessageText}}
-                ></textarea>
+                    @value={{this.messageText}}
+                >
+                </Textarea>
                 <div>
                     {{t 'institutions.dashboard.send_message_modal.closing_message_label' adminName=this.currentUser.user.fullName}}
                 </div>
