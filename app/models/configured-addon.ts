@@ -2,8 +2,7 @@ import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 
-import { ConnectedOperationNames, OperationKwargs } from './addon-operation-invocation';
-import ResourceReferenceModel from './resource-reference';
+import { ConnectedStorageOperationNames, OperationKwargs } from './addon-operation-invocation';
 import UserReferenceModel from './user-reference';
 import { ConnectedCapabilities } from './authorized-account';
 
@@ -21,22 +20,19 @@ export default class ConfiguredAddonModel extends Model {
     @attr('string') authorizedResourceUri?: string;
 
     @attr('array') connectedCapabilities!: ConnectedCapabilities[];
-    @attr('array') connectedOperationNames!: ConnectedOperationNames[];
+    @attr('array') connectedOperationNames!: ConnectedStorageOperationNames[];
     @attr('fixstring') rootFolder!: string;
 
 
     @belongsTo('user-reference', { inverse: null })
     accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 
-    @belongsTo('resource-reference', { inverse: 'configuredStorageAddons' })
-    authorizedResource!: AsyncBelongsTo<ResourceReferenceModel> & ResourceReferenceModel;
-
     @task
     @waitFor
     async getFolderItems(this: ConfiguredAddonModel, kwargs?: OperationKwargs) {
         const operationKwargs = kwargs || {};
-        const operationName = operationKwargs.itemId ? ConnectedOperationNames.ListChildItems :
-            ConnectedOperationNames.ListRootItems;
+        const operationName = operationKwargs.itemId ? ConnectedStorageOperationNames.ListChildItems :
+            ConnectedStorageOperationNames.ListRootItems;
         const newInvocation = this.store.createRecord('addon-operation-invocation', {
             operationName,
             operationKwargs,
@@ -49,7 +45,7 @@ export default class ConfiguredAddonModel extends Model {
     @waitFor
     async getItemInfo(this: ConfiguredAddonModel, itemId: string) {
         const newInvocation = this.store.createRecord('addon-operation-invocation', {
-            operationName: ConnectedOperationNames.GetItemInfo,
+            operationName: ConnectedStorageOperationNames.GetItemInfo,
             operationKwargs: { itemId },
             thruAddon: this,
         });

@@ -6,8 +6,8 @@ import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
-import { ConnectedOperationNames } from 'ember-osf-web/models/addon-operation-invocation';
 import { ConnectedCapabilities } from 'ember-osf-web/models/authorized-account';
+import { ConnectedStorageOperationNames } from 'ember-osf-web/models/addon-operation-invocation';
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -77,9 +77,9 @@ export default class ServiceFile {
         this.canMoveToThisProvider = false;
         this.getSupportedFeatures();
         this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOperationNames.HasRevisions);
+            .includes(ConnectedStorageOperationNames.HasRevisions);
         this.shouldShowRevisions = configuredStorageAddon.connectedOperationNames
-            .includes(ConnectedOperationNames.HasRevisions);
+            .includes(ConnectedStorageOperationNames.HasRevisions);
         this.parallelUploadsLimit = configuredStorageAddon.concurrentUploads;
     }
 

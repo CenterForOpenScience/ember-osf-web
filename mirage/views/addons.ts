@@ -1,7 +1,10 @@
 import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 import { timeout } from 'ember-concurrency';
 
-import { ConnectedOperationNames, InvocationStatus, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
+import {
+    ConnectedStorageOperationNames,
+    InvocationStatus, ItemType,
+} from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import { AddonCredentialFields} from 'ember-osf-web/models/authorized-account';
@@ -262,7 +265,7 @@ export function createAddonOperationInvocation(this: HandlerContext, schema: Sch
     const item_type = kwargs.item_type || ItemType.Folder;
     const fakePath = folderId.split('-')
         .map((folder: string) => ({ item_id: folder, item_name: folder, item_type: ItemType.Folder }));
-    if (attrs.operationName === ConnectedOperationNames.GetItemInfo) {
+    if (attrs.operationName === ConnectedStorageOperationNames.GetItemInfo) {
         result = {
             item_id: folderId,
             item_name: `Folder with ID ${folderId}`,
