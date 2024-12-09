@@ -326,3 +326,7 @@ input:checked + .slider::before {
     min-width: 450px;
     min-height: 280px;
 }
+
+.message-label {
+    display: block;
+}
