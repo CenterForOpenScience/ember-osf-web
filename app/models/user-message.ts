@@ -4,5 +4,5 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 export default class UserMessageModel extends Model {
     @attr('string') messageText;
     @attr('string') messageType;
-    @belongsTo('institution') institution;
+    @belongsTo('institution') institution: AsyncBelongsTo<InstitutionModel> & InstitutionModel;
 }
