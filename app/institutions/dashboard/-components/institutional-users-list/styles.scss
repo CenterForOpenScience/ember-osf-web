@@ -330,3 +330,17 @@ input:checked + .slider::before {
 .message-label {
     display: block;
 }
+
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}

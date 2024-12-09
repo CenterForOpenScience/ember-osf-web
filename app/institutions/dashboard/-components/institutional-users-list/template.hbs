@@ -193,25 +193,30 @@
             {{t 'institutions.dashboard.users_list.empty'}}
         </list.empty>
     </PaginatedList::HasMany>
-    <OsfDialog
-        @isOpen={{this.messageModalShown}}
-        @onClose={{fn (mut this.messageModalShown) false}}
-        as |dialog|
-    >
+    <OsfDialog @isOpen={{this.messageModalShown}} @onClose={{this.toggleMessageModal}} as |dialog|>
         <dialog.heading>
             {{t 'institutions.dashboard.send_message_modal.title'}}
         </dialog.heading>
         <dialog.main>
-            <div >
+            <div>
                 <label for='message-text' local-class='message-label'>
                     {{t 'institutions.dashboard.send_message_modal.opening_message_label'}}
                 </label>
                 <Textarea
-                    id='message-text'
-                    local-class='message-textarea'
-                    @value={{this.messageText}}
-                >
-                </Textarea>
+                  id='message-text'
+                  local-class='message-textarea'
+                  @value={{this.messageText}}
+                />
+                <div local-class='checkbox-container'>
+                    <label local-class='checkbox-item'>
+                        <input type='checkbox' checked={{this.cc}} {{on 'change' this.toggleCc}} />
+                        {{t 'institutions.dashboard.send_message_modal.cc_label'}}
+                    </label>
+                    <label local-class='checkbox-item'>
+                        <input type='checkbox' checked={{this.replyTo}} {{on 'change' this.toggleReplyTo}} />
+                        {{t 'institutions.dashboard.send_message_modal.reply_to_label'}}
+                    </label>
+                </div>
                 <div>
                     {{t 'institutions.dashboard.send_message_modal.closing_message_label' adminName=this.currentUser.user.fullName}}
                 </div>
@@ -219,16 +224,14 @@
         </dialog.main>
         <dialog.footer>
             <Button
-                aria-label={{t 'institutions.dashboard.send_message_modal.close_aira_label'}}
                 @type='secondary'
-                {{on 'click' (fn (mut this.messageModalShown) false)}}
+                {{on 'click' this.toggleMessageModal}}
             >
                 {{t 'general.cancel'}}
             </Button>
             <Button
-                aria-label={{t 'institutions.dashboard.send_message_modal.send_aira_label'}}
                 @type='primary'
-                @disabled={{not this.messageText}}
+                @disabled={{not this.messageText.trim}}
                 {{on 'click' (queue (perform this.sendMessage) dialog.close)}}
             >
                 {{t 'institutions.dashboard.send_message_modal.send'}}

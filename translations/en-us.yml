@@ -809,6 +809,8 @@ institutions:
           message_sent_success: 'Message has been sent'
           message_sent_failed: 'Message has failed to send. If the issue persists contact your administrator'
           send: 'Send'
+          cc_label: 'CC sender?'
+          reply_to_label: 'allow reply to sender address?'
         tabs:
             summary: Summary
             users: Users

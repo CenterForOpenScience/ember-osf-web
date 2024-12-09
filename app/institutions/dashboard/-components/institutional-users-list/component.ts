@@ -252,14 +252,40 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     }
 
     @action
+    toggleMessageModal(userId: string | null = null) {
+        this.messageModalShown = !this.messageModalShown;
+        this.selectedUserId = userId;
+        if (!this.messageModalShown) {
+            this.resetModalFields();
+        }
+    }
+
+    resetModalFields() {
+        this.messageText = '';
+        this.cc = false;
+        this.replyTo = false;
+    }
+
+    @action
     updateMessageText(event: Event) {
         this.messageText = (event.target as HTMLTextAreaElement).value;
+    }
+
+    @action
+    toggleCc() {
+        this.cc = !this.cc;
+    }
+
+    @action
+    toggleReplyTo() {
+        this.replyTo = !this.replyTo;
     }
 
     @task
     @waitFor
     async sendMessage() {
-        if (!this.selectedUserId || !this.messageText.trim()) {
+        if (!this.messageText.trim()) {
+            this.toast.error(this.intl.t('error.empty_message'));
             return;
         }
 
@@ -267,16 +293,18 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             const userMessage = this.store.createRecord('user-message', {
                 messageText: this.messageText.trim(),
                 messageType: 'institutional_request',
+                cc: this.cc,
+                replyTo: this.replyTo,
                 institution: this.args.institution,
                 user: this.selectedUserId,
             });
+
             await userMessage.save();
-            this.toast.success(this.intl.t('institutions.dashboard.send_message_modal.message_sent_success'));
+            this.toast.success(this.intl.t('success.message_sent'));
         } catch (error) {
-            this.toast.error(this.intl.t('institutions.dashboard.send_message_modal.message_sent_failed'));
+            this.toast.error(this.intl.t('error.message_failed'));
         } finally {
             this.messageModalShown = false;
-            this.messageText = '';
         }
     }
 }
