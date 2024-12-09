@@ -4,11 +4,16 @@ import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
 
-export enum ConnectedOperationNames {
+export enum ConnectedStorageOperationNames {
     HasRevisions = 'has_revisions',
     ListRootItems = 'list_root_items',
     ListChildItems = 'list_child_items',
     GetItemInfo = 'get_item_info',
+}
+
+export enum ConnectedCitationOperationNames {
+    ListRootCollections = 'list_root_collections',
+    ListCollectionItems = 'list_collection_items',
 }
 
 export interface OperationKwargs {
@@ -50,7 +55,7 @@ export interface Item {
 
 export default class AddonOperationInvocationModel extends Model {
     @attr('string') invocationStatus!: InvocationStatus;
-    @attr('string') operationName!: ConnectedOperationNames;
+    @attr('string') operationName!: ConnectedStorageOperationNames;
     @attr('object', {snakifyForApi: true}) operationKwargs!: Partial<OperationKwargs>;
     @attr('object', {snakifyForApi: true}) operationResult!: OperationResult;
     @attr('date') created!: Date;

@@ -1,7 +1,5 @@
 import Model, { attr } from '@ember-data/model';
-import { waitFor } from '@ember/test-waiters';
-import { task } from 'ember-concurrency';
-import { ConnectedOperationNames, OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
+import { OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
 
 export enum ConnectedCapabilities {
     Access = 'ACCESS',
@@ -33,28 +31,14 @@ export default class AuthorizedAccountModel extends Model {
     @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-xyz-accounts
     @attr('boolean') readonly credentialsAvailable!: boolean;
 
-    @task
-    @waitFor
-    async getFolderItems(this: AuthorizedAccountModel, kwargs?: OperationKwargs) {
-        const operationKwargs = kwargs || {};
-        const operationName = operationKwargs.itemId ? ConnectedOperationNames.ListChildItems :
-            ConnectedOperationNames.ListRootItems;
-        const newInvocation = this.store.createRecord('addon-operation-invocation', {
-            operationName,
-            operationKwargs,
-            thruAccount: this,
-        });
-        return await newInvocation.save();
+    async getFolderItems(this: AuthorizedAccountModel, _kwargs?: OperationKwargs) : Promise<any> {
+        // To be implemented in child classes
+        return;
     }
 
-    @task
-    @waitFor
-    async getItemInfo(this: AuthorizedAccountModel, itemId: string) {
-        const newInvocation = this.store.createRecord('addon-operation-invocation', {
-            operationName: ConnectedOperationNames.GetItemInfo,
-            operationKwargs: { itemId },
-            thruAccount: this,
-        });
-        return await newInvocation.save();
+
+    async getItemInfo(this: AuthorizedAccountModel, _itemId: string) : Promise<any> {
+        // To be implemented in child classes
+        return;
     }
 }
