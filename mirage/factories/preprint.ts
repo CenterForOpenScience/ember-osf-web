@@ -251,6 +251,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                     description: preprint.description,
                     provider: preprint.provider,
                     id: `${baseId}_v${version}`,
+                    reviewsState: preprint.reviewsState,
                     preprintVersion: version,
                     isLatestVersion: version === 3,
                 });

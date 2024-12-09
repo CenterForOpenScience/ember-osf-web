@@ -128,6 +128,14 @@ export default class PreprintModel extends AbstractNodeModel {
             .replace(/({{year}})/g, year)
             .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
     }
+
+    get currentUserIsAdmin(): boolean {
+        return this.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    get canCreateNewVersion(): boolean {
+        return this.currentUserIsAdmin && this.datePublished && this.isLatestVersion;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
