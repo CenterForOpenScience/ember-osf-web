@@ -1279,6 +1279,7 @@ preprints:
         edit-permission-error: 'User does not have permission to edit this {singularPreprintWord}'
         title-submit: 'New {documentType}'
         title-edit: 'Edit {documentType}'
+        title-new-version: 'New Version'
         step-title:
             title: 'Title and Abstract'
             title-input: 'Title'

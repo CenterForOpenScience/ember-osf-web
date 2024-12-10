@@ -3,6 +3,15 @@ import faker from 'faker';
 
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
+export interface TargetRelationship {
+    id: string | number;
+    type: 'registrations' | 'preprints';
+}
+export interface MirageReviewAction {
+    creatorId: string;
+    targetId: TargetRelationship;
+}
+
 export default Factory.extend<ReviewActionModel>({
     auto: false,
     visible: true,
