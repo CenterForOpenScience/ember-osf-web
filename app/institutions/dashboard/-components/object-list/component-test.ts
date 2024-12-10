@@ -5,6 +5,10 @@ import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
+import Service from '@ember/service';
+const featuresStub = Service.extend({
+    isEnabled: () => true,
+});
 
 import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
 
@@ -14,6 +18,7 @@ module('Integration | institutions | dashboard | -components | object-list', hoo
     setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
+        this.owner.register('service:features', featuresStub);
         this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         const columns = [
