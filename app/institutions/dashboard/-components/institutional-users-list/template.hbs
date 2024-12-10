@@ -207,6 +207,9 @@
                   local-class='message-textarea'
                   @value={{this.messageText}}
                 />
+                <div>
+                    {{t 'institutions.dashboard.send_message_modal.closing_message_label' adminName=this.currentUser.user.fullName htmlSafe=true}}
+                </div>
                 <div local-class='checkbox-container'>
                     <label local-class='checkbox-item'>
                         <input type='checkbox' checked={{this.cc}} {{on 'change' this.toggleCc}} />
@@ -216,9 +219,6 @@
                         <input type='checkbox' checked={{this.replyTo}} {{on 'change' this.toggleReplyTo}} />
                         {{t 'institutions.dashboard.send_message_modal.reply_to_label'}}
                     </label>
-                </div>
-                <div>
-                    {{t 'institutions.dashboard.send_message_modal.closing_message_label' adminName=this.currentUser.user.fullName}}
                 </div>
             </div>
         </dialog.main>
