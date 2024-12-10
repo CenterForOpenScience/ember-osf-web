@@ -237,11 +237,14 @@ function buildOSF(
     const versionedPreprint = server.create('preprint', {
         provider: osf,
         id: 'versioned-preprint',
-        title: 'Versioned Preprint',
+        title: '3 Versions Preprint',
         currentUserPermissions: Object.values(Permission),
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: true,
     }, 'withVersions');
+    const version1 = server.schema.preprints.find('versioned-preprint_v1');
+    const version2 = server.schema.preprints.find('versioned-preprint_v2');
+    const version3 = server.schema.preprints.find('versioned-preprint_v3');
 
     const subjects = server.createList('subject', 7);
 
@@ -274,6 +277,7 @@ function buildOSF(
             notContributorPreprint,
             publicDoiPreprint,
             versionedPreprint,
+            version1, version2, version3,
         ],
         description: 'This is the description for osf',
     });

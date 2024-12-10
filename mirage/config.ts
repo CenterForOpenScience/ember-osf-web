@@ -51,7 +51,7 @@ import {
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
-import { createPreprint, getPreprintVersions } from './views/preprint';
+import { createPreprint, getPreprintVersions, createPreprintVersion } from './views/preprint';
 
 const { OSF: { apiUrl, shareBaseUrl, url: osfUrl } } = config;
 
@@ -356,7 +356,7 @@ export default function(this: Server) {
     });
 
     this.get('/preprints/:id/versions', getPreprintVersions);
-    // TODO: add post view
+    this.post('/preprints/:id/versions', createPreprintVersion);
 
     osfNestedResource(this, 'preprint', 'contributors', {
         path: '/preprints/:parentID/contributors/',
@@ -416,6 +416,7 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'review-action',
     });
+    this.post('/preprints/:parentID/review_actions', createReviewAction);
 
     /**
      * Preprint Requests
