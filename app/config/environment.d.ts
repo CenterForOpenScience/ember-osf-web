@@ -196,6 +196,7 @@ declare const config: {
         registrationFilesPage: string;
         verifyEmailModals: string;
         egapAdmins: string;
+        shareDownload: string;
     };
     gReCaptcha: {
         siteKey: string;
