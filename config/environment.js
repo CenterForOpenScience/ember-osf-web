@@ -315,6 +315,7 @@ module.exports = function(environment) {
             },
             registrationFilesPage: 'ember_registration_files_page',
             egapAdmins: 'egap_admins',
+            shareDownload: 'share_download',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,

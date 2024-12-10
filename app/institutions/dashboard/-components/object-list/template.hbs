@@ -86,47 +86,49 @@ as |list|>
                                     </OsfLink>
                                 </div>
                             {{/if}}
-                            <ResponsiveDropdown @renderInPlace={{true}} @buttonStyling={{true}} as |dd| >
-                                <dd.trigger
-                                    data-test-download-dropdown
-                                    aria-label={{t 'institutions.dashboard.download_dropdown_label'}}
-                                    local-class='download-dropdown-trigger'
-                                >
-                                    <FaIcon @icon='download' />
-                                </dd.trigger>
-                                <dd.content local-class='download-dropdown-content'>
-                                    <OsfLink
-                                        data-test-download-csv-link
-                                        data-analytics-name='Download CSV'
-                                        local-class='download-link'
-                                        {{on 'click' dd.close}}
-                                        @href={{call (fn (action this.downloadCsvUrl list.latestIndexCardSearch))}}
-                                        @target='_blank'
+                            {{#if this.showDownloadButtons}}
+                                <ResponsiveDropdown @renderInPlace={{true}} @buttonStyling={{true}} as |dd| >
+                                    <dd.trigger
+                                        data-test-download-dropdown
+                                        aria-label={{t 'institutions.dashboard.download_dropdown_label'}}
+                                        local-class='download-dropdown-trigger'
                                     >
-                                        {{t 'institutions.dashboard.format_labels.csv'}}
-                                    </OsfLink>
-                                    <OsfLink
-                                        data-test-download-tsv-link
-                                        data-analytics-name='Download TSV'
-                                        local-class='download-link'
-                                        {{on 'click' dd.close}}
-                                        @href={{call (fn (action this.downloadTsvUrl list.latestIndexCardSearch))}}
-                                        @target='_blank'
-                                    >
-                                        {{t 'institutions.dashboard.format_labels.tsv'}}
-                                    </OsfLink>
-                                    <OsfLink
-                                        data-test-download-json-link
-                                        data-analytics-name='Download JSON'
-                                        local-class='download-link'
-                                        {{on 'click' dd.close}}
-                                        @href={{call (fn (action this.downloadJsonUrl list.latestIndexCardSearch))}}
-                                        @target='_blank'
-                                    >
-                                        {{t 'institutions.dashboard.format_labels.json'}}
-                                    </OsfLink>
-                                </dd.content>
-                            </ResponsiveDropdown>
+                                        <FaIcon @icon='download' />
+                                    </dd.trigger>
+                                    <dd.content local-class='download-dropdown-content'>
+                                        <OsfLink
+                                            data-test-download-csv-link
+                                            data-analytics-name='Download CSV'
+                                            local-class='download-link'
+                                            {{on 'click' dd.close}}
+                                            @href={{call (fn (action this.downloadCsvUrl list.latestIndexCardSearch))}}
+                                            @target='_blank'
+                                        >
+                                            {{t 'institutions.dashboard.format_labels.csv'}}
+                                        </OsfLink>
+                                        <OsfLink
+                                            data-test-download-tsv-link
+                                            data-analytics-name='Download TSV'
+                                            local-class='download-link'
+                                            {{on 'click' dd.close}}
+                                            @href={{call (fn (action this.downloadTsvUrl list.latestIndexCardSearch))}}
+                                            @target='_blank'
+                                        >
+                                            {{t 'institutions.dashboard.format_labels.tsv'}}
+                                        </OsfLink>
+                                        <OsfLink
+                                            data-test-download-json-link
+                                            data-analytics-name='Download JSON'
+                                            local-class='download-link'
+                                            {{on 'click' dd.close}}
+                                            @href={{call (fn (action this.downloadJsonUrl list.latestIndexCardSearch))}}
+                                            @target='_blank'
+                                        >
+                                            {{t 'institutions.dashboard.format_labels.json'}}
+                                        </OsfLink>
+                                    </dd.content>
+                                </ResponsiveDropdown>
+                            {{/if}}
                         </div>
                     </div>
                 </div>

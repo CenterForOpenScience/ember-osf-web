@@ -1,12 +1,17 @@
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import Features from 'ember-feature-flags/services/features';
 
 import IndexCardSearchModel from 'ember-osf-web/models/index-card-search';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { Filter } from 'osf-components/components/search-page/component';
+import config from 'ember-osf-web/config/environment';
+
+const shareDownloadFlag = config.featureFlagNames.shareDownload;
 
 interface Column {
     name: string;
@@ -37,6 +42,7 @@ interface InstitutionalObjectListArgs {
 }
 
 export default class InstitutionalObjectList extends Component<InstitutionalObjectListArgs> {
+    @service features!: Features;
     @tracked activeFilters: Filter[] = [];
     @tracked page = '';
     @tracked sort = '-dateModified';
@@ -72,6 +78,10 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         return {
             ...this.queryOptions.cardSearchFilter,
         };
+    }
+
+    get showDownloadButtons() {
+        return this.features.isEnabled(shareDownloadFlag);
     }
 
     downloadUrl(cardSearch: IndexCardSearchModel, format: string) {
