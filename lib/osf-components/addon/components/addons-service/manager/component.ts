@@ -21,6 +21,7 @@ import { ConfiguredAddonEditableAttrs } from 'ember-osf-web/models/configured-ad
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 import { AccountCreationArgs} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
+import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -244,7 +245,11 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
                 this.selectedConfiguration = await taskFor(this.selectedProvider.createConfiguredAddon)
                     .perform(this.selectedAccount);
             }
-            if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredStorageAddonModel) {
+
+            if (this.selectedConfiguration && (
+                this.selectedConfiguration instanceof ConfiguredStorageAddonModel ||
+                this.selectedConfiguration instanceof ConfiguredCitationAddonModel)
+            ) {
                 this.selectedConfiguration.rootFolder = (args as ConfiguredAddonEditableAttrs).rootFolder;
                 this.selectedConfiguration.displayName = args.displayName;
                 await this.selectedConfiguration.save();
