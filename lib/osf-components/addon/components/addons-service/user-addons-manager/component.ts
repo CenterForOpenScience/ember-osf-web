@@ -96,6 +96,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[type];
         if (activeFilterObject.list.length === 0) {
             activeFilterObject.fetchProvidersTask.perform();
+            activeFilterObject.getAuthorizedAccountsTask.perform();
         }
     }
 
