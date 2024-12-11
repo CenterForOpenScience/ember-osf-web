@@ -71,7 +71,7 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
                 chartType: 'doughnut',
             },
             {
-                title: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-registrations.title'),
+                title: this.intl.t('institutions.dashboard.kpi-chart.public-vs-embargoed-registrations.title'),
                 chartData: this.calculateRegistrations(metrics.summaryMetrics),
                 chartType: 'doughnut',
             },
@@ -133,11 +133,11 @@ export default class ChartKpiWrapperComponent extends Component<TotalCountChartW
     private calculateRegistrations(summaryMetrics: InstitutionSummaryMetricModel): ChartDataModel[] {
         return [
             {
-                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-registrations.public'),
+                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-embargoed-registrations.public'),
                 total: summaryMetrics.publicRegistrationCount,
             } as ChartDataModel,
             {
-                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-private-registrations.private'),
+                label: this.intl.t('institutions.dashboard.kpi-chart.public-vs-embargoed-registrations.embargoed'),
                 total: summaryMetrics.embargoedRegistrationCount,
             } as ChartDataModel,
         ];

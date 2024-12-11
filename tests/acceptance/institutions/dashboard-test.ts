@@ -31,6 +31,7 @@ module(moduleName, hooks => {
         // Summary tab
         await percySnapshot(`${moduleName} - summary`);
         assert.dom('[data-test-page-tab="summary"]').hasClass('active', 'Summary tab is active by default');
+        assert.dom('[data-test-summary-report-year-month]').exists('Report year month exists');
 
         // Users tab
         await click('[data-test-page-tab="users"]');
@@ -38,6 +39,7 @@ module(moduleName, hooks => {
         assert.dom('[data-test-page-tab="users"]').hasClass('active', 'Users tab is active');
         assert.dom('[data-test-link-to-reports-archive]').exists('Link to download prior reports exists');
         assert.dom('[data-test-download-dropdown]').exists('Link to download file formats');
+        assert.dom('[data-test-user-report-year-month]').exists('User report year month exists');
 
         // Projects tab
         await click('[data-test-page-tab="projects"]');

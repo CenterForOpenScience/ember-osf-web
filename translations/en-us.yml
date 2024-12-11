@@ -811,6 +811,7 @@ institutions:
             preprints: preprints
         content-placeholder: Content coming soon # Delete this eventually pls
         title: '{institutionName} Dashboard'
+        updated: 'Updated {date}'
         download_past_reports_label: 'Previous reports'
         download_dropdown_label: 'Download data'
         download_csv: 'Download CSV'
@@ -818,8 +819,7 @@ institutions:
         format_labels:
             csv: '.csv'
             tsv: '.tsv'
-            json_table: 'JSON (table)'
-            json_direct: 'JSON (direct)'
+            json: 'JSON'
         download: 'Download'
         select_default: 'All Departments'
         users_list:
@@ -830,7 +830,7 @@ institutions:
             private_projects: 'Private Projects'
             empty: 'No users found matching search criteria.'
             public_registration_count: 'Public Registrations'
-            private_registration_count: 'Private Registrations'
+            embargoed_registration_count: 'Embargoed Registrations'
             published_preprint_count: 'Preprints'
             orcid: ORCID
             osf_link: 'OSF Link'
@@ -861,10 +861,10 @@ institutions:
                 title: 'Public vs Private Projects'
                 public: 'Public Projects'
                 private: 'Private Projects'
-            public-vs-private-registrations:
-                title: 'Public vs Private Registrations'
+            public-vs-embargoed-registrations:
+                title: 'Public vs Embargoed Registrations'
                 public: 'Public Registrations'
-                private: 'Private Registrations'
+                embargoed: 'Embargoed Registrations'
             total-osf-objects:
                 title: 'Total OSF Objects'
                 preprints: 'Preprints'

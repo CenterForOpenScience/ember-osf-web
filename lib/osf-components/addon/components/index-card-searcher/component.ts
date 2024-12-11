@@ -9,6 +9,7 @@ import Toast from 'ember-toastr/services/toast';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { taskFor } from 'ember-concurrency-ts';
 import RelatedPropertyPathModel, { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
+import IndexCardSearchModel from 'ember-osf-web/models/index-card-search';
 
 interface IndexCardSearcherArgs {
     queryOptions: Record<string, any>;
@@ -27,6 +28,7 @@ export default class IndexCardSearcher extends Component<IndexCardSearcherArgs> 
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
     @tracked booleanFilters?: RelatedPropertyPathModel[] = [];
 
+    @tracked latestIndexCardSearch?: IndexCardSearchModel;
     @tracked firstPageCursor?: string;
     @tracked nextPageCursor?: string;
     @tracked prevPageCursor?: string;
@@ -64,6 +66,7 @@ export default class IndexCardSearcher extends Component<IndexCardSearcherArgs> 
                 (property: RelatedPropertyPathModel) =>
                     property.suggestedFilterOperator !== SuggestedFilterOperators.IsPresent, // AnyOf or AtDate
             );
+            this.latestIndexCardSearch = searchResult;
             this.firstPageCursor = searchResult.firstPageCursor;
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
