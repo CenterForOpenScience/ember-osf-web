@@ -32,14 +32,15 @@ export default class InstitutionsDashboardRoute extends Route {
             const summaryMetrics = await institution.summaryMetrics;
             const userMetricInfo: QueryHasManyResult<never> = await institution.queryHasMany(
                 'userMetrics',
-                { size: 0 },
+                { size: 1 },
             );
+            const userMetric = userMetricInfo.toArray()[0];
 
             return {
                 institution,
                 departmentMetrics,
                 summaryMetrics,
-                totalUsers: userMetricInfo.meta.total,
+                userMetric,
             };
         } catch (error) {
             captureException(error);

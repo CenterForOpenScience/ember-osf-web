@@ -13,7 +13,7 @@ export default class InstitutionSummaryMetricModel extends OsfModel {
     @attr('number') publicFileCount!: number;
     @attr('number') monthlyLoggedInUserCount!: number;
     @attr('number') monthlyActiveUserCount!: number;
-
+    @attr('string') reportYearmonth!: string;
 
     get convertedStorageCount(): string {
         return humanFileSize(parseFloat(this.storageByteCount.toFixed(1)));

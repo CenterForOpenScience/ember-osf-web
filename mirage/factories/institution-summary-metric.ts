@@ -34,6 +34,9 @@ export default Factory.extend<InstitutionSummaryMetricModel>({
     monthlyLoggedInUserCount() {
         return faker.random.number({ min: 10, max: 100 * 100 });
     },
+    reportYearmonth() {
+        return faker.date.past(1).toISOString().slice(0, 7);
+    },
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
