@@ -10,6 +10,7 @@ import Intl from 'ember-intl/services/intl';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 import Analytics from 'ember-osf-web/services/analytics';
+import { RelationshipWithLinks } from 'osf-api';
 
 interface Column {
     key: string;
@@ -97,7 +98,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         {
             key: 'embargoedRegistrationCount',
             sort_key: 'embargoed_registration_count',
-            label: this.intl.t('institutions.dashboard.users_list.private_registration_count'),
+            label: this.intl.t('institutions.dashboard.users_list.embargoed_registration_count'),
             selected: true,
             type: 'string',
         },
@@ -189,6 +190,30 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             query.sort = this.sort;
         }
         return query;
+    }
+
+    downloadUrl(format: string) {
+        const institutionRelationships = this.args.institution.links.relationships;
+        const usersLink = (institutionRelationships!.user_metrics as RelationshipWithLinks).links.related.href;
+        const userURL = new URL(usersLink!);
+        userURL.searchParams.set('format', format);
+        userURL.searchParams.set('page[size]', '10000');
+        Object.entries(this.queryUsers).forEach(([key, value]) => {
+            userURL.searchParams.set(key, value);
+        });
+        return userURL.toString();
+    }
+
+    get downloadCsvUrl() {
+        return this.downloadUrl('csv');
+    }
+
+    get downloadTsvUrl() {
+        return this.downloadUrl('tsv');
+    }
+
+    get downloadJsonUrl() {
+        return this.downloadUrl('json_report');
     }
 
     @restartableTask

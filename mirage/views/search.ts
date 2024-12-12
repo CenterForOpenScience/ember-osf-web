@@ -277,10 +277,11 @@ export function cardSearch(_: Schema, request: Request) {
         requestedResourceTypes = Object.keys(resourceMetadataByType) as OsfmapResourceTypes[];
     }
 
+    const indexCardSearchId = faker.random.uuid();
     const indexCardSearch = {
         data: {
             type: 'index-card-search',
-            id: faker.random.uuid(),
+            id:indexCardSearchId,
             attributes: {
                 cardSearchText: 'hello',
                 cardSearchFilter: [
@@ -324,6 +325,9 @@ export function cardSearch(_: Schema, request: Request) {
                     },
                 },
                 searchResultPage: {},
+            },
+            links: {
+                self: `https://share.osf.io/api/v2/index-card-search/${indexCardSearchId}`,
             },
         },
         included: [
