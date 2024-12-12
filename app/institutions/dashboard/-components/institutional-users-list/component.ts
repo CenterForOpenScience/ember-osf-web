@@ -260,10 +260,12 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
         }
     }
 
+    @action
     resetModalFields() {
         this.messageText = '';
         this.cc = false;
         this.replyTo = false;
+        this.selectedUserId = null;
     }
 
     @action
@@ -300,9 +302,9 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             });
 
             await userMessage.save();
-            this.toast.success(this.intl.t('success.message_sent'));
+            this.toast.success(this.intl.t('institutions.dashboard.send_message_modal.message_sent_success'));
         } catch (error) {
-            this.toast.error(this.intl.t('error.message_failed'));
+            this.toast.error(this.intl.t('institutions.dashboard.send_message_modal.message_sent_failed'));
         } finally {
             this.messageModalShown = false;
         }
