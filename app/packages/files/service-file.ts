@@ -54,6 +54,7 @@ export default class ServiceFile {
     @tracked waterButlerRevisions?: WaterButlerRevision[];
     @tracked userCanDownloadAsZip: boolean;
     @tracked canMoveToThisProvider: boolean;
+    @tracked canAddOrUpdate: boolean;
     shouldShowTags = false;
     shouldShowRevisions: boolean;
     providerHandlesVersioning: boolean;
@@ -75,6 +76,7 @@ export default class ServiceFile {
         this.configuredStorageAddon = configuredStorageAddon;
         this.userCanDownloadAsZip = false;
         this.canMoveToThisProvider = false;
+        this.canAddOrUpdate = false;
         this.getSupportedFeatures();
         this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
             .includes(ConnectedStorageOperationNames.HasRevisions);
@@ -89,6 +91,8 @@ export default class ServiceFile {
             .includes(ExternalServiceCapabilities.DOWNLOAD_AS_ZIP);
         this.canMoveToThisProvider = externalStorageService.get('supportedFeatures')
             .includes(ExternalServiceCapabilities.COPY_INTO);
+        this.canAddOrUpdate = externalStorageService.get('supportedFeatures')
+            .includes(ExternalServiceCapabilities.ADD_UPDATE_FILES);
     }
 
     get isFile() {
@@ -110,7 +114,8 @@ export default class ServiceFile {
     get currentUserPermission(): string {
         if (
             this.fileModel.target.get('currentUserPermissions').includes(Permission.Write) &&
-            this.configuredStorageAddon.connectedCapabilities.includes(ConnectedCapabilities.Update)
+            this.configuredStorageAddon.connectedCapabilities.includes(ConnectedCapabilities.Update) &&
+            this.canAddOrUpdate
         ) {
             return 'write';
         }

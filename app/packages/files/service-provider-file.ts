@@ -23,6 +23,7 @@ export default class ServiceProviderFile {
     @tracked totalFileCount = 0;
     @tracked userCanDownloadAsZip: boolean;
     @tracked canMoveToThisProvider: boolean;
+    @tracked canAddOrUpdate: boolean;
     providerHandlesVersioning: boolean;
     parallelUploadsLimit = 2;
 
@@ -41,6 +42,7 @@ export default class ServiceProviderFile {
         this.configuredStorageAddon = configuredStorageAddon;
         this.userCanDownloadAsZip = false;
         this.canMoveToThisProvider = false;
+        this.canAddOrUpdate = false;
         this.getSupportedFeatures();
         this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
             .includes(ConnectedStorageOperationNames.HasRevisions);
@@ -53,6 +55,8 @@ export default class ServiceProviderFile {
             .includes(ExternalServiceCapabilities.DOWNLOAD_AS_ZIP);
         this.canMoveToThisProvider = externalStorageService.get('supportedFeatures')
             .includes(ExternalServiceCapabilities.COPY_INTO);
+        this.canAddOrUpdate = externalStorageService.get('supportedFeatures')
+            .includes(ExternalServiceCapabilities.ADD_UPDATE_FILES);
     }
 
     get id() {
@@ -70,7 +74,8 @@ export default class ServiceProviderFile {
     get currentUserPermission(): string {
         if (
             this.fileModel.target.get('currentUserPermissions').includes(Permission.Write) &&
-            this.configuredStorageAddon.connectedCapabilities.includes(ConnectedCapabilities.Update)
+            this.configuredStorageAddon.connectedCapabilities.includes(ConnectedCapabilities.Update) &&
+            this.canAddOrUpdate
         ) {
             return 'write';
         }
