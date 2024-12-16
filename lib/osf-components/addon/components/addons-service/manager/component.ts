@@ -259,9 +259,16 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             }
             this.cancelSetup();
         } catch(e) {
-            this.toast.error(this.intl.t('addons.configure.error', {
+            const baseMessage = this.intl.t('addons.configure.error', {
                 configurationName: this.selectedConfiguration?.displayName,
-            }));
+            });
+            if (e.errors && e.errors[0].detail) {
+                const apiMessage = e.errors[0].detail;
+                this.toast.error(`${baseMessage}: ${apiMessage}`);
+            } else {
+                this.toast.error(baseMessage);
+            }
+
         }
     }
 
