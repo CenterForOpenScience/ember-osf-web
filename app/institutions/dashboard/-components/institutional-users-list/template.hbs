@@ -231,11 +231,11 @@
                 </div>
                 <div local-class='checkbox-container'>
                     <label local-class='checkbox-item'>
-                        <input type='checkbox' checked={{this.cc}} {{on 'change' this.toggleCc}} />
+                        <Input @type='checkbox' @checked={{this.bcc_sender}} />
                         {{t 'institutions.dashboard.send_message_modal.cc_label'}}
                     </label>
                     <label local-class='checkbox-item'>
-                        <input type='checkbox' checked={{this.replyTo}} {{on 'change' this.toggleReplyTo}} />
+                        <Input @type='checkbox' @checked={{this.replyTo}} />
                         {{t 'institutions.dashboard.send_message_modal.reply_to_label'}}
                     </label>
                 </div>
@@ -252,7 +252,6 @@
                 @type='primary'
                 @disabled={{not this.messageText.trim}}
                 {{on 'click' (queue (perform this.sendMessage))}}
-                {{on 'click' this.toggleMessageModal}}
 
             >
                 {{t 'institutions.dashboard.send_message_modal.send'}}

@@ -43,6 +43,8 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @tracked filteredUsers = [];
     @tracked messageModalShown = false;
     @tracked messageText = '';
+    @tracked bcc_sender = false;
+    @tracked replyTo = false;
     @tracked selectedUserId = null;
     @service toast!: Toast;
 
@@ -289,24 +291,9 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @action
     resetModalFields() {
         this.messageText = '';
-        this.cc = false;
+        this.bcc_sender = false;
         this.replyTo = false;
         this.selectedUserId = null;
-    }
-
-    @action
-    updateMessageText(event: Event) {
-        this.messageText = (event.target as HTMLTextAreaElement).value;
-    }
-
-    @action
-    toggleCc() {
-        this.cc = !this.cc;
-    }
-
-    @action
-    toggleReplyTo() {
-        this.replyTo = !this.replyTo;
     }
 
     @task
@@ -321,7 +308,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             const userMessage = this.store.createRecord('user-message', {
                 messageText: this.messageText.trim(),
                 messageType: MessageTypeChoices.InstitutionalRequest,
-                cc: this.cc,
+                bcc_sender: this.bcc_sender,
                 replyTo: this.replyTo,
                 institution: this.args.institution,
                 user: this.selectedUserId,
