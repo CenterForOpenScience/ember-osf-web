@@ -1406,12 +1406,24 @@ preprints:
             save-before-exit: 'Unsaved changes present. Are you sure you want to leave this page?'
             success: '{singularPreprintWord} saved.'
             success-withdrawal: 'Your {singularCapitalizedPreprintWord} has been successfully withdrawn.'
+
             submit: 'Submit'
             withdraw-button: 'Withdraw'
             withdrawal-input-error: '25 characters'
             withdrawal-label: 'Reason for withdrawal (required):'
             withdrawal-modal-title: 'Withdraw {singularPreprintWord}'
             withdrawal-placeholder: 'Comment'
+        new-version:
+            success: 'New version created.'
+            success-review: 'New version submitted for moderation.'
+            redirect:
+                title: 'Cannot create a new version'
+                permissions: 'You do not have permission to create a new version of this {preprintWord}.'
+                latest-published: 'A new version can only be created from the latest published version of a {preprintWord}.'
+            error:
+                title: 'Error creating a new version'
+                description: 'An error occurred while creating a new version of this {preprintWord}. Please try again.'
+                conflict: 'There is already a new version of this {preprintWord} in progress. Please wait for the current version to be completed.'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'

@@ -14,6 +14,9 @@ export default class PreprintNewVersionRoute extends Route {
     @service router!: RouterService;
     @service metaTags!: MetaTags;
     @service toast!: Toast;
+    @service intl!: Intl;
+
+
     headTags?: HeadTagDef[];
 
     buildRouteInfoMetadata() {
@@ -34,8 +37,14 @@ export default class PreprintNewVersionRoute extends Route {
 
             if (!preprint.canCreateNewVersion) {
                 // TODO: translate and add message body details
-                const message = 'This preprint is not versionable';
-                const title = 'Cannot create a new version';
+                let message = this.intl.t('prperints.submit.new-version.redirect.latest-published',
+                    { preprintWord: provider.documentType.singular });
+                if (!preprint.currentUserIsAdmin) {
+                    message = this.intl.t('prperints.submit.new-version.redirect.permission',
+                        { preprintWord: provider.documentType.singular });
+                }
+
+                const title = this.intl.t('prperints.submit.new-version.redirect.title');
                 this.toast.info(message, title);
                 this.router.transitionTo('preprints.detail', args.provider_id, args.guid);
                 return null;

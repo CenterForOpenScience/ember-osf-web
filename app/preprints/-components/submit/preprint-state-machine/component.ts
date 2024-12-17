@@ -256,8 +256,10 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                     });
                     this.store.pushPayload('preprint', savedVersionData);
                     const storedPreprintRecord = this.store.peekRecord('preprint', savedVersionData.data.id);
+                    let toastMessage = this.intl.t('preprints.submit.new-version.success');
 
                     if (this.provider.reviewsWorkflow) {
+                        toastMessage = this.intl.t('preprints.submit.new-version.success-review');
                         const reviewAction = this.store.createRecord('review-action', {
                             actionTrigger: ReviewActionTrigger.Submit,
                             target: storedPreprintRecord,
@@ -269,12 +271,17 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                     }
                     this.tempVersion.destroyRecord();
                     await this.preprint.reload(); // Refresh the original preprint as this is no longer latest version
+                    this.toast.success(toastMessage);
                     this.router.transitionTo('preprints.detail', this.provider.id, storedPreprintRecord.id);
                 }
             } catch (e) {
-                // TODO: ENG-6640 handle error
-                // eslint-disable-next-line no-console
-                console.error(e);
+                const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
+                let errorMessage = this.intl.t('preprints.submit.new-version.error.description',
+                    { preprintWord: this.provider.documentType.singular });
+                if (e.errors[0].status === 409) { // Conflict
+                    errorMessage = this.intl.t('preprints.submit.new-version.error.conflict');
+                }
+                this.toast.error(errorMessage, errorTitle);
             }
             return;
         }
