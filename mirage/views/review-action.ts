@@ -2,9 +2,8 @@ import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Schema 
 import { PreprintMirageModel } from 'ember-osf-web/mirage/factories/preprint';
 import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
 import { MirageReviewAction } from 'ember-osf-web/mirage/factories/review-action';
-import PreprintModel from 'ember-osf-web/models/preprint';
 import { ReviewsState } from 'ember-osf-web/models/provider';
-import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 
@@ -25,7 +24,7 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
             dateModified: new Date(),
             ...attrs,
         });
-        if (target instanceof PreprintModel) {
+        if (target.modelName === 'preprint') {
             switch (trigger) {
             case ReviewActionTrigger.Submit:
                 target.reviewsState = ReviewsState.PENDING;
@@ -40,7 +39,7 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
             default:
                 break;
             }
-        } else if (target instanceof RegistrationModel) {
+        } else if (target.modelName === 'registration') {
             switch (trigger) {
             case ReviewActionTrigger.AcceptSubmission:
             case ReviewActionTrigger.RejectWithdrawal:

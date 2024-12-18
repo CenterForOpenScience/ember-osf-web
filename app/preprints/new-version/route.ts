@@ -36,7 +36,6 @@ export default class PreprintNewVersionRoute extends Route {
             const preprint: PreprintModel = await this.store.findRecord('preprint', args.guid);
 
             if (!preprint.canCreateNewVersion) {
-                // TODO: translate and add message body details
                 let message = this.intl.t('prperints.submit.new-version.redirect.latest-published',
                     { preprintWord: provider.documentType.singular });
                 if (!preprint.currentUserIsAdmin) {
