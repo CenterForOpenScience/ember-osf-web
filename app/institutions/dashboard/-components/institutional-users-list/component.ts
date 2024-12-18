@@ -1,3 +1,4 @@
+import { task } from 'ember-concurrency';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
@@ -10,6 +11,7 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 import Analytics from 'ember-osf-web/services/analytics';
 import { RelationshipWithLinks } from 'osf-api';
+import {MessageTypeChoices} from 'ember-osf-web/models/user-message';
 
 interface Column {
     key: string;
@@ -27,6 +29,8 @@ interface InstitutionalUsersListArgs {
 export default class InstitutionalUsersList extends Component<InstitutionalUsersListArgs> {
     @service analytics!: Analytics;
     @service intl!: Intl;
+    @service store;
+    @service currentUser!: CurrentUser;
 
     institution?: InstitutionModel;
 
@@ -37,6 +41,12 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @tracked sort = 'user_name';
     @tracked selectedDepartments: string[] = [];
     @tracked filteredUsers = [];
+    @tracked messageModalShown = false;
+    @tracked messageText = '';
+    @tracked bcc_sender = false;
+    @tracked replyTo = false;
+    @tracked selectedUserId = null;
+    @service toast!: Toast;
 
     @tracked columns: Column[] = [
         {
@@ -261,5 +271,55 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @action
     clickToggleOrcidFilter(hasOrcid: boolean) {
         this.hasOrcid = !hasOrcid;
+    }
+
+    @action
+    openMessageModal(userId: string) {
+        this.selectedUserId = userId;
+        this.messageModalShown = true;
+    }
+
+    @action
+    toggleMessageModal(userId: string | null = null) {
+        this.messageModalShown = !this.messageModalShown;
+        this.selectedUserId = userId;
+        if (!this.messageModalShown) {
+            this.resetModalFields();
+        }
+    }
+
+    @action
+    resetModalFields() {
+        this.messageText = '';
+        this.bcc_sender = false;
+        this.replyTo = false;
+        this.selectedUserId = null;
+    }
+
+    @task
+    @waitFor
+    async sendMessage() {
+        if (!this.messageText.trim()) {
+            this.toast.error(this.intl.t('error.empty_message'));
+            return;
+        }
+
+        try {
+            const userMessage = this.store.createRecord('user-message', {
+                messageText: this.messageText.trim(),
+                messageType: MessageTypeChoices.InstitutionalRequest,
+                bcc_sender: this.bcc_sender,
+                replyTo: this.replyTo,
+                institution: this.args.institution,
+                user: this.selectedUserId,
+            });
+
+            await userMessage.save();
+            this.toast.success(this.intl.t('institutions.dashboard.send_message_modal.message_sent_success'));
+        } catch (error) {
+            this.toast.error(this.intl.t('institutions.dashboard.send_message_modal.message_sent_failed'));
+        } finally {
+            this.messageModalShown = false;
+        }
     }
 }

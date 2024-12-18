@@ -799,6 +799,18 @@ institutions:
     search_placeholder: 'Search institutions'
     load_more: 'Load more institutions'
     dashboard:
+        send_message_modal:
+          open_aira_label: 'Open User Message Modal Button'
+          close_aira_label: 'Close User Message Modal Button'
+          send_aira_label: 'Send User Message Button'
+          title: 'Send Email'
+          opening_message_label: 'Comments:'
+          closing_message_label: 'Sincerely Yours,<br> {adminName}'
+          message_sent_success: 'Message has been sent'
+          message_sent_failed: 'Message has failed to send. If the issue persists contact your administrator'
+          send: 'Send'
+          cc_label: 'CC sender'
+          reply_to_label: 'Allow reply to sender address'
         tabs:
             summary: Summary
             users: Users
