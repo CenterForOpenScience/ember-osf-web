@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import { action } from '@ember/object';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
 import SearchResultModel from 'ember-osf-web/models/search-result';
@@ -10,6 +11,7 @@ import { getOsfmapObjects, getSingleOsfmapValue, hasOsfmapValue } from 'ember-os
 interface ContributorsFieldArgs {
     searchResult: SearchResultModel;
     institution: InstitutionModel;
+    projectRequestModal: (contributor: any) => void;
 }
 
 const roleIriToTranslationKey: Record<AttributionRoleIris, string> = {
@@ -47,12 +49,23 @@ export default class InstitutionalObjectListContributorsField extends Component<
         return prioritizedAttributions.slice(0, 2).map(attribution => {
             const contributor = getContributorById(contributors, getSingleOsfmapValue(attribution, ['agent']));
             const roleIri: AttributionRoleIris = getSingleOsfmapValue(attribution, ['hadRole']);
+
+            const regex = /([^?#]+)$/; // Regex to extract the final part after the last slash
+            const contributorId = contributor?.['@id']?.match(regex)?.[1] || '';
+
             return {
-                name: getSingleOsfmapValue(contributor,['name']),
+                name: getSingleOsfmapValue(contributor, ['name']) || 'Unknown Contributor',
+                user_id: contributorId,
+                node_id: searchResult.indexCard.get('osfGuid'),
                 url: getSingleOsfmapValue(contributor, ['identifier']),
                 permissionLevel: this.intl.t(roleIriToTranslationKey[roleIri]),
             };
         });
+    }
+
+    @action
+    handleOpenModal(contributor: any) {
+        this.args.projectRequestModal(contributor);
     }
 }
 

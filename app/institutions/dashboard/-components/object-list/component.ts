@@ -9,6 +9,13 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 import { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { Filter } from 'osf-components/components/search-page/component';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import Toast from 'ember-toastr/services/toast';
+import Intl from 'ember-intl/services/intl';
+import Store from '@ember-data/store';
+import CurrentUser from 'ember-osf-web/services/current-user';
+
 import config from 'ember-osf-web/config/environment';
 
 const shareDownloadFlag = config.featureFlagNames.shareDownload;
@@ -49,6 +56,20 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     @tracked sortParam?: string;
     @tracked visibleColumns = this.args.columns.map(column => column.name);
     @tracked dirtyVisibleColumns = [...this.visibleColumns]; // track changes to visible columns before they are saved
+    @tracked selectedPermission = 'write';
+    @tracked projectRequestModalShown = false;
+    @tracked activeTab = 'request-access'; // Default tab
+    @tracked messageText = '';
+    @tracked bcc_sender = false;
+    @tracked replyTo = false;
+    @tracked selectedUserId = '';
+    @tracked selectedNodeId = '';
+    @tracked showSendMessagePrompt = false;
+    @service toast!: Toast;
+    @service intl!: Intl;
+    @service store!: Store;
+    @service currentUser!: CurrentUser;
+
 
     get queryOptions() {
         const options = {
@@ -127,6 +148,34 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     }
 
     @action
+    openProjectRequestModal(contributor: any) {
+        this.selectedUserId = contributor.user_id;
+        this.selectedNodeId = contributor.node_id;
+        this.projectRequestModalShown = true;
+    }
+
+    @action
+    handleBackToSendMessage() {
+        this.activeTab = 'send-message';
+        this.showSendMessagePrompt = false;
+        setTimeout(() => {
+            this.projectRequestModalShown = true; // Reopen the main modal
+        }, 200);
+
+    }
+
+    @action
+    closeSendMessagePrompt() {
+        this.showSendMessagePrompt = false; // Hide confirmation modal without reopening
+    }
+
+    @action
+    toggleProjectRequestModal() {
+        this.projectRequestModalShown = !this.projectRequestModalShown;
+    }
+
+
+    @action
     toggleFilter(property: Filter) {
         this.page = '';
         if (this.activeFilters.includes(property)) {
@@ -150,5 +199,81 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     @action
     updatePage(newPage: string) {
         this.page = newPage;
+    }
+
+    @action
+    updateSelectedPermission(event: Event) {
+        this.selectedPermission = (event.target as HTMLInputElement).value;
+    }
+
+    @action
+    setActiveTab(tabName: string) {
+        this.activeTab = tabName;
+    }
+
+
+    @action
+    resetFields() {
+        this.selectedPermission = 'read';
+        this.bcc_sender = false;
+        this.replyTo = false;
+    }
+
+    @task
+    @waitFor
+    async handleSend() {
+        try {
+            if (this.activeTab === 'send-message') {
+                await this._sendUserMessage();
+            } else if (this.activeTab === 'request-access') {
+                await this._sendNodeRequest();
+            }
+
+            this.toast.success(
+                this.intl.t('institutions.dashboard.object-list.request-project-message-modal.message_sent_success'),
+            );
+            this.resetFields();
+        } catch (error) {
+            const errorDetail = error?.errors?.[0]?.detail || '';
+
+            // Check for the specific error where access requests are disabled
+            if (error.status === 400 && errorDetail.includes('does not have Access Requests enabled')) {
+                setTimeout(() => {
+                    this.showSendMessagePrompt = true; //  timeout to allow the other to exit
+                }, 200);
+            } else {
+                this.toast.error(
+                    this.intl.t('institutions.dashboard.object-list.request-project-message-modal.message_sent_failed'),
+                );
+            }
+        } finally {
+            this.projectRequestModalShown = false; // Close the main modal
+        }
+    }
+
+    async _sendUserMessage() {
+        const userMessage = this.store.createRecord('user-message', {
+            messageText: this.messageText.trim(),
+            messageType: 'institutional_request',
+            bcc_sender: this.bcc_sender,
+            replyTo: this.replyTo,
+            institution: this.args.institution,
+            user: this.selectedUserId,
+        });
+        await userMessage.save();
+    }
+
+    async _sendNodeRequest() {
+        const nodeRequest = this.store.createRecord('node-request', {
+            comment: this.messageText.trim(),
+            requestType: 'institutional_access',
+            requestedPermission: this.selectedPermission,
+            bcc_sender: this.bcc_sender,
+            replyTo: this.replyTo,
+            institution: this.args.institution,
+            message_recipent: this.selectedUserId,
+            target: this.selectedNodeId,
+        });
+        await nodeRequest.save();
     }
 }
