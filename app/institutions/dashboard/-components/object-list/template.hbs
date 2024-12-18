@@ -184,6 +184,7 @@ as |list|>
                                                     <Institutions::Dashboard::-Components::ObjectList::ContributorsField
                                                         @searchResult={{result}}
                                                         @institution={{@institution}}
+                                                        @projectRequestModal={{this.openProjectRequestModal}}
                                                     />
                                                 {{else}}
                                                     {{call (fn column.getValue result)}}
@@ -277,3 +278,132 @@ as |list|>
         {{/if}}
     </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
 </IndexCardSearcher>
+<OsfDialog  local-class='request-modal' @isOpen={{this.projectRequestModalShown}} @onClose={{this.toggleProjectRequestModal}} as |dialog|>
+    <dialog.heading>
+        {{t 'institutions.dashboard.object-list.request-project-message-modal.title'}}
+    </dialog.heading>
+    <dialog.main>
+        <div local-class='tab-container'>
+            <Button
+                local-class='tab-button {{if (eq this.activeTab 'request-access') 'active'}}'
+                {{on 'click' (fn this.setActiveTab 'request-access')}}
+            >
+                {{t 'institutions.dashboard.object-list.request-project-message-modal.tabs.request_access'}}
+            </Button>
+            <Button
+                local-class='tab-button {{if (eq this.activeTab 'send-message') 'active'}}'
+                {{on 'click' (fn this.setActiveTab 'send-message')}}
+            >
+                {{t 'institutions.dashboard.object-list.request-project-message-modal.tabs.send_message'}}
+            </Button>
+        </div>
+
+        {{#if (eq this.activeTab 'request-access')}}
+            <div local-class='tab-pane'>
+                <p local-class='message-label'>
+                    {{t 'institutions.dashboard.object-list.request-project-message-modal.request_label'}}
+                </p>
+                <div local-class='radiobox-container'>
+                    <label local-class='radiobox-item'>
+                        <Input
+                            @type='radio'
+                            @name='permission'
+                            @value='admin'
+                            @checked={{eq this.selectedPermission 'admin'}}
+                        />
+                        {{t 'institutions.dashboard.object-list.request-project-message-modal.admin_permission_label'}}
+                    </label>
+                    <label local-class='radiobox-item'>
+                        <Input
+                            @type='radio'
+                            @name='permission'
+                            @value='write'
+                            @checked={{eq this.selectedPermission 'write'}}
+                        />
+                        {{t 'institutions.dashboard.object-list.request-project-message-modal.write_permission_label'}}
+                    </label>
+                    <Textarea
+                        local-class='message-textarea'
+                        @value={{this.messageText}}
+                    />
+                    <p local-class='message-label'>
+                        {{t 'institutions.dashboard.object-list.request-project-message-modal.closing_message_label' htmlSafe=true adminName=this.currentUser.user.fullName}}
+                    </p>
+                    <div local-class='checkbox-container'>
+                        <label local-class='checkbox-item'>
+                            <Input @type='checkbox' @checked={{this.bcc_sender}} />
+                            {{t 'institutions.dashboard.object-list.request-project-message-modal.cc_label'}}
+                        </label>
+                        <label local-class='checkbox-item'>
+                            <Input @type='checkbox' @checked={{this.replyTo}} />
+                            {{t 'institutions.dashboard.object-list.request-project-message-modal.reply_to_label'}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        {{/if}}
+
+        {{#if (eq this.activeTab 'send-message')}}
+            <div local-class='tab-pane'>
+                <p local-class='message-label'>
+                    {{t 'institutions.dashboard.object-list.request-project-message-modal.opening_message_label'}}
+                </p>
+                <Textarea
+                    local-class='message-textarea'
+                    @value={{this.messageText}}
+                />
+                <p local-class='message-label'>
+                    {{t 'institutions.dashboard.object-list.request-project-message-modal.closing_message_label' htmlSafe=true adminName=this.currentUser.user.fullName}}
+                </p>
+                <div local-class='checkbox-container'>
+                    <label local-class='checkbox-item'>
+                        <Input @type='checkbox' @checked={{this.bcc_sender}} />
+                        {{t 'institutions.dashboard.object-list.request-project-message-modal.cc_label'}}
+                    </label>
+                    <label local-class='checkbox-item'>
+                        <Input @type='checkbox' @checked={{this.replyTo}} />
+                        {{t 'institutions.dashboard.object-list.request-project-message-modal.reply_to_label'}}
+                    </label>
+                </div>
+            </div>
+        {{/if}}
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            @type='secondary'
+            {{on 'click' this.toggleProjectRequestModal}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            @type='primary'
+            @disabled={{not this.messageText.trim}}
+            {{on 'click' (queue (perform this.handleSend) dialog.close)}}
+        >
+            {{t 'institutions.dashboard.object-list.request-project-message-modal.send'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>
+<OsfDialog
+    @isOpen={{this.showSendMessagePrompt}}
+    @onClose={{this.closeSendMessagePrompt}}
+    local-class='confirmation-prompt'
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'institutions.dashboard.object-list.request-project-message-modal.send_message_prompt.title'}}
+    </dialog.heading>
+    <dialog.main>
+        <p local-class='confirmation-message'>
+            {{t 'institutions.dashboard.object-list.request-project-message-modal.send_message_prompt.message'}}
+        </p>
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            @type='primary'
+            {{on 'click' this.handleBackToSendMessage}}
+        >
+            {{t 'institutions.dashboard.object-list.request-project-message-modal.send_message_prompt.back'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>
