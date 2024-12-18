@@ -38,6 +38,7 @@ Router.map(function() {
         this.route('detail', { path: '/:provider_id/:guid' });
         this.route('submit', { path: '/:provider_id/submit' });
         this.route('edit', { path: '/:provider_id/edit/:guid' });
+        this.route('new-version', { path: '/:provider_id/new-version/:guid' });
         this.route('select');
         this.route('my-preprints');
     });

@@ -256,6 +256,11 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                     isLatestVersion: version === 3,
                 });
             });
+            preprint.update({
+                // A bit of a workaround since the API will return the latest version when getting baseId
+                preprintVersion: 3,
+                isLatestVersion: true,
+            });
             if (preprint.provider) {
                 preprint.provider.update({ preprints: versionedPreprints });
             }

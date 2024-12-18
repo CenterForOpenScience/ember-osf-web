@@ -29,8 +29,7 @@
                         data-test-create-new-version-button
                         data-analytics-name='Create new version'
                         local-class='btn btn-primary'
-                        {{!-- TODO: Update when new version route is implemented --}}
-                        @route='preprints.edit'
+                        @route='preprints.new-version'
                         @models={{array this.model.provider.id this.model.preprint.id}}
                     >
                         {{t 'preprints.detail.create_new_version'}}
