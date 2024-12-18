@@ -175,6 +175,14 @@
                             <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                                 {{institutionalUser.userName}}
                             </OsfLink>
+                            <Button
+                                local-class='icon-message'
+                                aria-label={{t 'institutions.dashboard.send_message_modal.open_aira_label'}}
+
+                                {{on 'click' (fn this.openMessageModal institutionalUser.userGuid)}}
+                            >
+                                <FaIcon @icon='comment' />
+                            </Button>
                         {{else if (eq column.type 'osf_link')}}
                             <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                                 {{institutionalUser.userGuid}}
@@ -204,4 +212,50 @@
             {{t 'institutions.dashboard.users_list.empty'}}
         </list.empty>
     </PaginatedList::HasMany>
+    <OsfDialog @isOpen={{this.messageModalShown}} @onClose={{this.toggleMessageModal}} as |dialog|>
+        <dialog.heading>
+            {{t 'institutions.dashboard.send_message_modal.title'}}
+        </dialog.heading>
+        <dialog.main>
+            <div>
+                <label for='message-text' local-class='message-label'>
+                    {{t 'institutions.dashboard.send_message_modal.opening_message_label'}}
+                </label>
+                <Textarea
+                  id='message-text'
+                  local-class='message-textarea'
+                  @value={{this.messageText}}
+                />
+                <div>
+                    {{t 'institutions.dashboard.send_message_modal.closing_message_label' adminName=this.currentUser.user.fullName htmlSafe=true}}
+                </div>
+                <div local-class='checkbox-container'>
+                    <label local-class='checkbox-item'>
+                        <Input @type='checkbox' @checked={{this.bcc_sender}} />
+                        {{t 'institutions.dashboard.send_message_modal.cc_label'}}
+                    </label>
+                    <label local-class='checkbox-item'>
+                        <Input @type='checkbox' @checked={{this.replyTo}} />
+                        {{t 'institutions.dashboard.send_message_modal.reply_to_label'}}
+                    </label>
+                </div>
+            </div>
+        </dialog.main>
+        <dialog.footer>
+            <Button
+                @type='secondary'
+                {{on 'click' this.toggleMessageModal}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                @type='primary'
+                @disabled={{not this.messageText.trim}}
+                {{on 'click' (queue (perform this.sendMessage))}}
+
+            >
+                {{t 'institutions.dashboard.send_message_modal.send'}}
+            </Button>
+        </dialog.footer>
+    </OsfDialog>
 {{/if}}
