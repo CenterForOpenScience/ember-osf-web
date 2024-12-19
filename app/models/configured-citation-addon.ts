@@ -35,7 +35,7 @@ export default class ConfiguredCitationAddonModel extends ConfiguredAddonModel {
         const newInvocation = this.store.createRecord('addon-operation-invocation', {
             operationName,
             operationKwargs,
-            thruAccount: this,
+            thruAddon: this,
         });
         return await newInvocation.save();
     }
