@@ -28,10 +28,14 @@ export default class ConfiguredCitationAddonModel extends ConfiguredAddonModel {
         const operationKwargs = kwargs || {};
         const operationName = operationKwargs.itemId ? ConnectedCitationOperationNames.ListCollectionItems :
             ConnectedCitationOperationNames.ListRootCollections;
+        // rename 'itemId' key to 'collectionId'
+        delete Object.assign(operationKwargs, { ['collectionId']: operationKwargs['itemId'] })['itemId'];
+        // gravyvalet doesn't like 'itemType' as a parameter
+        delete operationKwargs.itemType;
         const newInvocation = this.store.createRecord('addon-operation-invocation', {
             operationName,
             operationKwargs,
-            thruAddon: this,
+            thruAccount: this,
         });
         return await newInvocation.save();
     }
