@@ -14,6 +14,7 @@ export enum ConnectedStorageOperationNames {
 export enum ConnectedCitationOperationNames {
     ListRootCollections = 'list_root_collections',
     ListCollectionItems = 'list_collection_items',
+    GetItemInfo = 'get_item_info',
 }
 
 export interface OperationKwargs {
