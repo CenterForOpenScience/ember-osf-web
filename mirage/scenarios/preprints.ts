@@ -39,7 +39,7 @@ function buildOSF(
     const currentUserModerator = server.create('moderator',
         { id: currentUser.id, user: currentUser, provider: osf }, 'asAdmin');
 
-    const rejectedAdminPreprint = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-rejected-admin',
         title: 'Preprint RWF: Pre-moderation, Admin and Rejected with Review Actions comment',
@@ -74,7 +74,7 @@ function buildOSF(
 
     approvedAdminPreprint.update({ identifiers: [osfApprovedAdminIdentifier] });
 
-    const notContributorPreprint = server.create('preprint', Object({
+    server.create('preprint', Object({
         provider: osf,
         id: 'osf-not-contributor',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
@@ -88,7 +88,7 @@ function buildOSF(
         isPreprintDoi: false,
     }));
 
-    const rejectedPreprint = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-rejected',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Rejected',
@@ -99,7 +99,7 @@ function buildOSF(
         tags: [],
     }, 'isContributor');
 
-    const approvedPreprint = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-approved',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
@@ -120,7 +120,7 @@ function buildOSF(
         conflictOfInterestStatement: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(300)}`,
     }, 'isContributor');
 
-    const orphanedPreprint = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-orphan',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
@@ -129,7 +129,7 @@ function buildOSF(
         isPreprintOrphan: true,
     }, 'isContributor');
 
-    const privatePreprint = server.create('preprint', Object({
+    server.create('preprint', Object({
         provider: osf,
         id: 'osf-private',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
@@ -139,7 +139,7 @@ function buildOSF(
         isPreprintDoi: false,
     }), 'isContributor');
 
-    const publicDoiPreprint = server.create('preprint', Object({
+    server.create('preprint', Object({
         provider: osf,
         id: 'osf-public-doi',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
@@ -151,7 +151,7 @@ function buildOSF(
         isPublished: true,
     }), 'isContributor');
 
-    const notPublishedPreprint = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-not-published',
         title: 'Preprint RWF: Pre-moderation, Non-Admin and Approved',
@@ -160,7 +160,7 @@ function buildOSF(
         isPublished: false,
     }, 'isContributor');
 
-    const withdrawnPreprint = server.create('preprint', Object({
+    server.create('preprint', Object({
         provider: osf,
         id: 'osf-withdrawn',
         title: 'Preprint Non-Admin, Not Published and withdrawn - no license - no justification',
@@ -171,7 +171,7 @@ function buildOSF(
         addLicenseName: false,
     }), 'isContributor', 'withdrawn' );
 
-    const withdrawnLicensePreprint = server.create('preprint', Object({
+    server.create('preprint', Object({
         provider: osf,
         id: 'osf-withdrawn-license',
         title: 'Preprint Non-Admin, Not Published and withdrawn - license - justification - tombstone',
@@ -183,7 +183,7 @@ function buildOSF(
         description: `${faker.lorem.sentence(200)}\n${faker.lorem.sentence(100)}`,
     }), 'isContributor', 'withdrawn');
 
-    const pendingWithdrawalPreprint = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-pending-withdrawal',
         title: 'Preprint Non-Admin, Not Published and Pending Withdrawal',
@@ -192,7 +192,7 @@ function buildOSF(
         isPublished: false,
     }, 'pendingWithdrawal', 'isContributor');
 
-    const rejectedWithdrawalPreprintNoComment = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-rejected-withdrawal-no-comment',
         title: 'Preprint Non-Admin, Not Published and Rejected Withdrawal - No Comment',
@@ -201,7 +201,7 @@ function buildOSF(
         isPublished: false,
     }, 'rejectedWithdrawalNoComment', 'isContributor');
 
-    const rejectedWithdrawalPreprintComment = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-rejected-withdrawal-comment',
         title: 'Preprint Non-Admin, Not Published and Rejected Withdrawal - Comment - Reviews Allowed',
@@ -210,7 +210,7 @@ function buildOSF(
         isPublished: false,
     }, 'rejectedWithdrawalComment', 'isContributor');
 
-    const acceptedWithdrawalPreprintComment = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'osf-accepted-withdrawal-comment',
         title: 'Preprint Non-Admin, Not Published and Accepted Withdrawal - Comment - Reviews Allowed',
@@ -219,7 +219,7 @@ function buildOSF(
         isPublished: false,
     }, 'acceptedWithdrawalComment');
 
-    const examplePreprint = server.create('preprint', {
+    server.create('preprint', {
         provider: osf,
         id: 'khbvy',
         title: 'The "See Example" hard-coded preprint',
@@ -234,7 +234,8 @@ function buildOSF(
         hasPreregLinks: PreprintPreregLinksEnum.NOT_APPLICABLE,
     });
 
-    const versionedPreprint = server.create('preprint', {
+    // Accepted with versions
+    server.create('preprint', {
         provider: osf,
         id: 'versioned-preprint',
         title: '3 Versions Preprint',
@@ -242,9 +243,25 @@ function buildOSF(
         reviewsState: ReviewsState.ACCEPTED,
         isPublished: true,
     }, 'withVersions');
-    const version1 = server.schema.preprints.find('versioned-preprint_v1');
-    const version2 = server.schema.preprints.find('versioned-preprint_v2');
-    const version3 = server.schema.preprints.find('versioned-preprint_v3');
+    // Withdrawn with versions
+    server.create('preprint', {
+        provider: osf,
+        id: 'withdrawn-preprint',
+        title: 'ReviewsState: Withdrawn Preprint',
+        currentUserPermissions: Object.values(Permission),
+        reviewsState: ReviewsState.WITHDRAWN,
+        isPublished: true,
+        dateWithdrawn: new Date(),
+    }, 'withVersions');
+    // Rejected with versions
+    server.create('preprint', {
+        provider: osf,
+        id: 'rejected-preprint',
+        title: 'ReviewsState: Rejected Preprint',
+        currentUserPermissions: Object.values(Permission),
+        reviewsState: ReviewsState.REJECTED,
+        isPublished: true,
+    }, 'withVersions');
 
     const subjects = server.createList('subject', 7);
 
@@ -259,26 +276,6 @@ function buildOSF(
         footer_links: '',
         brand,
         moderators: [currentUserModerator],
-        preprints: [
-            examplePreprint,
-            rejectedAdminPreprint,
-            approvedAdminPreprint,
-            approvedPreprint,
-            rejectedPreprint,
-            orphanedPreprint,
-            privatePreprint,
-            notPublishedPreprint,
-            withdrawnPreprint,
-            withdrawnLicensePreprint,
-            pendingWithdrawalPreprint,
-            rejectedWithdrawalPreprintNoComment,
-            rejectedWithdrawalPreprintComment,
-            acceptedWithdrawalPreprintComment,
-            notContributorPreprint,
-            publicDoiPreprint,
-            versionedPreprint,
-            version1, version2, version3,
-        ],
         description: 'This is the description for osf',
     });
 }

@@ -61,7 +61,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
-    @tracked tempVersion?: PreprintModel;
     displayAuthorAssertions = false;
     @tracked statusFlowIndex = 1;
     @tracked isEditFlow = false;
@@ -73,9 +72,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         super(owner, args);
 
         if (this.args.newVersion) {
-            // Create ephemeral preprint to prevent the original preprint from being overwritten
-            // Also stores primary file for new version
-            this.tempVersion = this.store.createRecord('preprint');
             this.preprint = this.args.preprint;
             return;
         }
@@ -237,43 +233,22 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
 
         if (this.isNewVersionFlow) {
             try {
-                const url = this.preprint.links.preprint_versions as string;
-                if (url && this.tempVersion) {
-                    const savedVersionData = await this.currentUser.authenticatedAJAX({
-                        url,
-                        type: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        data: JSON.stringify({
-                            data: {
-                                type: 'preprints',
-                                attributes: {
-                                    primary_file: (await this.tempVersion.primaryFile)?.get('id'),
-                                },
-                            },
-                        }),
-                    });
-                    this.store.pushPayload('preprint', savedVersionData);
-                    const storedPreprintRecord = this.store.peekRecord('preprint', savedVersionData.data.id);
-                    let toastMessage = this.intl.t('preprints.submit.new-version.success');
+                await this.preprint.save();
+                let toastMessage = this.intl.t('preprints.submit.new-version.success');
 
-                    if (this.provider.reviewsWorkflow) {
-                        toastMessage = this.intl.t('preprints.submit.new-version.success-review');
-                        const reviewAction = this.store.createRecord('review-action', {
-                            actionTrigger: ReviewActionTrigger.Submit,
-                            target: storedPreprintRecord,
-                        });
-                        await reviewAction.save();
-                    } else {
-                        storedPreprintRecord.isPublished = true;
-                        await storedPreprintRecord.save();
-                    }
-                    this.tempVersion.destroyRecord();
-                    await this.preprint.reload(); // Refresh the original preprint as this is no longer latest version
-                    this.toast.success(toastMessage);
-                    this.router.transitionTo('preprints.detail', this.provider.id, storedPreprintRecord.id);
+                if (this.provider.reviewsWorkflow) {
+                    toastMessage = this.intl.t('preprints.submit.new-version.success-review');
+                    const reviewAction = this.store.createRecord('review-action', {
+                        actionTrigger: ReviewActionTrigger.Submit,
+                        target: this.preprint,
+                    });
+                    await reviewAction.save();
+                } else {
+                    this.preprint.isPublished = true;
+                    await this.preprint.save();
                 }
+                this.toast.success(toastMessage);
+                this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
             } catch (e) {
                 const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
                 let errorMessage = this.intl.t('preprints.submit.new-version.error.description',
@@ -771,7 +746,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async addProjectFile(file: FileModel): Promise<void>{
-        const target = (this.isNewVersionFlow ? this.tempVersion : this.preprint)  as PreprintModel;
+        const target = this.preprint;
         await file.copy(target, '/', 'osfstorage', {
             conflict: 'replace',
         });

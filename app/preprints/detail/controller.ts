@@ -11,6 +11,9 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState, PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
 import { tracked } from '@glimmer/tracking';
 import Media from 'ember-responsive';
+import Toast from 'ember-toastr/services/toast';
+import { task } from 'ember-concurrency';
+import { waitFor } from '@ember/test-waiters';
 
 
 /**
@@ -44,6 +47,7 @@ export default class PrePrintsDetailController extends Controller {
     @service features!: Features;
     @service intl!: Intl;
     @service media!: Media;
+    @service toast!: Toast;
 
     @tracked fullScreenMFR = false;
     @tracked plauditIsReady = false;
@@ -138,6 +142,27 @@ export default class PrePrintsDetailController extends Controller {
     @action
     trackNonContributors(category: string, label: string, url: string): void {
         this.send('click', category, label, url);
+    }
+
+    @task
+    @waitFor
+    async createNewVersion() {
+        try {
+            const url = this.model.preprint.links.preprint_versions as string;
+            const newVersion = await this.currentUser.authenticatedAJAX({
+                url,
+                type: 'POST',
+            });
+            this.transitionToRoute('preprints.new-version', this.model.provider.id, newVersion.id);
+        } catch (e) {
+            const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
+            let errorMessage = this.intl.t('preprints.submit.new-version.error.description',
+                { preprintWord: this.model.provider.documentType.singular });
+            if (e.errors[0].status === 409) { // Conflict
+                errorMessage = this.intl.t('preprints.submit.new-version.error.conflict');
+            }
+            this.toast.error(errorMessage, errorTitle);
+        }
     }
 
     get isMobile() {
