@@ -1,10 +1,8 @@
 import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
-import { waitFor } from '@ember/test-waiters';
-import { task } from 'ember-concurrency';
 
 import { ConnectedStorageOperationNames, OperationKwargs } from './addon-operation-invocation';
 import UserReferenceModel from './user-reference';
-import { ConnectedCapabilities } from './authorized-account';
+import AuthorizedAccountModel, { ConnectedCapabilities } from './authorized-account';
 
 export interface ConfiguredAddonEditableAttrs {
     displayName: string;
@@ -27,28 +25,14 @@ export default class ConfiguredAddonModel extends Model {
     @belongsTo('user-reference', { inverse: null })
     accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 
-    @task
-    @waitFor
-    async getFolderItems(this: ConfiguredAddonModel, kwargs?: OperationKwargs) {
-        const operationKwargs = kwargs || {};
-        const operationName = operationKwargs.itemId ? ConnectedStorageOperationNames.ListChildItems :
-            ConnectedStorageOperationNames.ListRootItems;
-        const newInvocation = this.store.createRecord('addon-operation-invocation', {
-            operationName,
-            operationKwargs,
-            thruAddon: this,
-        });
-        return await newInvocation.save();
+    async getFolderItems(this: AuthorizedAccountModel, _kwargs?: OperationKwargs) : Promise<any> {
+        // To be implemented in child classes
+        return;
     }
 
-    @task
-    @waitFor
-    async getItemInfo(this: ConfiguredAddonModel, itemId: string) {
-        const newInvocation = this.store.createRecord('addon-operation-invocation', {
-            operationName: ConnectedStorageOperationNames.GetItemInfo,
-            operationKwargs: { itemId },
-            thruAddon: this,
-        });
-        return await newInvocation.save();
+
+    async getItemInfo(this: AuthorizedAccountModel, _itemId: string) : Promise<any> {
+        // To be implemented in child classes
+        return;
     }
 }
