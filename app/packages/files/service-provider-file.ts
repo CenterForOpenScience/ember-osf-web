@@ -110,7 +110,7 @@ export default class ServiceProviderFile {
     }
 
     get iconLocation() {
-        return this.configuredStorageAddon.iconUrl;
+        return this.configuredStorageAddon.externalStorageService.get('iconUrl');
     }
 
     get path() {
