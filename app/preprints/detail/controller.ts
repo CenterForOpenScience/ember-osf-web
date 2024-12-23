@@ -153,7 +153,7 @@ export default class PrePrintsDetailController extends Controller {
                 url,
                 type: 'POST',
             });
-            this.transitionToRoute('preprints.new-version', this.model.provider.id, newVersion.id);
+            this.transitionToRoute('preprints.new-version', this.model.provider.id, newVersion.data.id);
         } catch (e) {
             const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
             let errorMessage = this.intl.t('preprints.submit.new-version.error.description',
