@@ -1453,6 +1453,9 @@ preprints:
         edit_preprint: 'Edit {documentType}'
         edit_resubmit_preprint: 'Edit and resubmit'
         create_new_version: 'Create new version'
+        other_versions: 'Other versions'
+        preprint_version_number: 'Version {number}'
+        no_other_versions: 'No other versions'
         see_less: 'See less'
         see_more: 'See more'
         share:

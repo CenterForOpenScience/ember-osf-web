@@ -76,7 +76,7 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
-        
+
         .withdrawn-container {
             padding: 0 15px;
             width: 100%;
@@ -257,5 +257,20 @@
                 }
             }
         }
+    }
+}
+
+.version-dropdown {
+    display: inline-block;
+}
+
+.version-picker-list {
+    list-style: none;
+    margin: 0;
+    padding-inline-start: 0;
+    padding: 10px;
+
+    .version:not(:first-child) {
+        padding-top: 10px;
     }
 }
