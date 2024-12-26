@@ -31,11 +31,11 @@
                                 {{#each this.model.versions as |version|}}
                                     <li local-class='version'>
                                         <OsfLink
-                                            data-test-version-link='{{version.preprintVersion}}'
+                                            data-test-version-link='{{version.version}}'
                                             @route='preprints.detail'
                                             @models={{array this.model.provider.id version.id}}
                                         >
-                                            {{t 'preprints.detail.preprint_version_number' number=version.preprintVersion}}
+                                            {{t 'preprints.detail.preprint_version_number' number=version.version}}
                                         </OsfLink>
                                     </li>
                                 {{else}}
