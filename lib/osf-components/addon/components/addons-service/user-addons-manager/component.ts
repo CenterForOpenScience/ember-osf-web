@@ -276,9 +276,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @waitFor
     async getCitationAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
-        const serviceCloudComputingProviders = await taskFor(this.getExternalProviders)
+        const serviceCitationProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalCitationServiceModel[];
-        activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter)
+        activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter)
             .map(provider => new Provider(
                 provider,
                 this.currentUser,

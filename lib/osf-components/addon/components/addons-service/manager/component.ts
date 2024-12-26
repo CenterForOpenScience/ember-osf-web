@@ -347,10 +347,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
-        const serviceCloudComputingProviders: Provider[] =
+        const serviceCitationProviders: Provider[] =
             await taskFor(this.getExternalProviders)
                 .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
-        activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter);
+        activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter);
     }
 
     providerSorter(a: Provider, b: Provider) {
