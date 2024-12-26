@@ -16,6 +16,8 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import { taskFor } from 'ember-concurrency-ts';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import CurrentUserService from 'ember-osf-web/services/current-user';
+import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -34,6 +36,7 @@ interface StateMachineArgs {
     preprint: PreprintModel;
     setPageDirty: () => void;
     resetPageDirty: () => void;
+    newVersion?: boolean;
 }
 
 /**
@@ -44,6 +47,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service router!: RouterService;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service currentUser!: CurrentUserService;
+
     titleAndAbstractValidation = false;
     fileValidation = false;
     metadataValidation = false;
@@ -60,11 +65,16 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @tracked statusFlowIndex = 1;
     @tracked isEditFlow = false;
     @tracked displayFileUploadStep = true;
+    @tracked isNewVersionFlow = this.args.newVersion;
     affiliatedInstitutions = [] as InstitutionModel[];
 
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
 
+        if (this.args.newVersion) {
+            this.preprint = this.args.preprint;
+            return;
+        }
         if (this.args.preprint) {
             this.preprint = this.args.preprint;
             this.setValidationForEditFlow();
@@ -221,11 +231,41 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public async onSubmit(): Promise<void> {
         this.args.resetPageDirty();
 
+        if (this.isNewVersionFlow) {
+            try {
+                await this.preprint.save();
+                let toastMessage = this.intl.t('preprints.submit.new-version.success');
+
+                if (this.provider.reviewsWorkflow) {
+                    toastMessage = this.intl.t('preprints.submit.new-version.success-review');
+                    const reviewAction = this.store.createRecord('review-action', {
+                        actionTrigger: ReviewActionTrigger.Submit,
+                        target: this.preprint,
+                    });
+                    await reviewAction.save();
+                } else {
+                    this.preprint.isPublished = true;
+                    await this.preprint.save();
+                }
+                this.toast.success(toastMessage);
+                this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
+            } catch (e) {
+                const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
+                let errorMessage = this.intl.t('preprints.submit.new-version.error.description',
+                    { preprintWord: this.provider.documentType.singular });
+                if (e.errors[0].status === 409) { // Conflict
+                    errorMessage = this.intl.t('preprints.submit.new-version.error.conflict');
+                }
+                this.toast.error(errorMessage, errorTitle);
+            }
+            return;
+        }
+
         if (this.preprint.reviewsState === ReviewsState.ACCEPTED) {
             await this.preprint.save();
         } else if (this.provider.reviewsWorkflow) {
             const reviewAction = this.store.createRecord('review-action', {
-                actionTrigger: 'submit',
+                actionTrigger: ReviewActionTrigger.Submit,
                 target: this.preprint,
             });
             await reviewAction.save();
@@ -244,6 +284,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onNext(): Promise<void> {
+        if (this.isNewVersionFlow) {
+            // no need to save original or new version on new version flow
+            this.statusFlowIndex++;
+            return;
+        }
+
         if (this.isEditFlow) {
             this.args.resetPageDirty();
         } else {
@@ -510,6 +556,16 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     private getTypeIndex(type: string): number {
+        if (this.isNewVersionFlow) {
+            if (type === PreprintStatusTypeEnum.file) {
+                return 1;
+            } else if (type === PreprintStatusTypeEnum.review) {
+                return 2;
+            } else {
+                return 0;
+            }
+        }
+
         if (this.displayFileUploadStep) {
             if (type === PreprintStatusTypeEnum.titleAndAbstract) {
                 return 1;
@@ -603,6 +659,16 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * @returns boolean
      */
     public shouldDisplayStatusType(type: string): boolean{
+        if (this.isNewVersionFlow) {
+            if (type === PreprintStatusTypeEnum.file) {
+                return true;
+            } else if (type === PreprintStatusTypeEnum.review) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         if (type === PreprintStatusTypeEnum.file) {
             return this.displayFileUploadStep;
         } else if (type === PreprintStatusTypeEnum.authorAssertions) {
@@ -680,13 +746,14 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async addProjectFile(file: FileModel): Promise<void>{
-        await file.copy(this.preprint, '/', 'osfstorage', {
+        const target = this.preprint;
+        await file.copy(target, '/', 'osfstorage', {
             conflict: 'replace',
         });
-        const theFiles = await this.preprint.files;
+        const theFiles = await target.files;
         const rootFolder = await theFiles.firstObject!.rootFolder;
         const primaryFile = await rootFolder!.files;
-        this.preprint.set('primaryFile', primaryFile.lastObject);
+        target.set('primaryFile', primaryFile.lastObject);
     }
 
     @action

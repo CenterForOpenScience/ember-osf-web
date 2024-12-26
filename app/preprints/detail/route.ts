@@ -91,7 +91,7 @@ export default class PreprintsDetail extends Route {
 
         } catch (error) {
             captureException(error);
-            this.router.transitionTo('not-found', 'preprints');
+            this.router.transitionTo('not-found', this.router.currentURL.slice(1));
             return null;
         }
     }

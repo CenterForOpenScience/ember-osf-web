@@ -1,6 +1,7 @@
 import { HandlerContext, ModelInstance, Request, Response, Schema } from 'ember-cli-mirage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import PreprintModel from 'ember-osf-web/models/preprint';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 import faker from 'faker';
 
 import { guid } from '../factories/utils';
@@ -93,4 +94,20 @@ export function getPreprintVersions(this: HandlerContext, schema: Schema) {
     const versions = preprints.sortBy('versionNumber').reverse();
     return process(schema, this.request, this,
         versions.map((version: ModelInstance) => this.serialize(version).data));
+}
+
+export function createPreprintVersion(this: HandlerContext, schema: Schema) {
+    const basePreprintId = this.request.params.id as string;
+    const basePreprint = schema.preprints.find(basePreprintId);
+    basePreprint.update({ isLatestVersion: false });
+    const baseVersionNumber = basePreprint.preprintVersion || 1;
+    const providerModeration = basePreprint.provider && basePreprint.provider.reviewsWorkflow;
+    const newVersion = schema.preprints.create({
+        ...basePreprint.attrs,
+        reviewsState: providerModeration ? ReviewsState.PENDING : ReviewsState.ACCEPTED,
+        id: basePreprintId.split('_v')[0] + '_v' + (baseVersionNumber + 1),
+        versionNumber: baseVersionNumber + 1,
+        isLatestVersion: true,
+    });
+    return this.serialize(newVersion);
 }

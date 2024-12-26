@@ -246,18 +246,25 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
         afterCreate(preprint, server) {
             const baseId = preprint.id;
             const versionedPreprints = [1, 2, 3].map((version: number) => {
-                server.create('preprint', {
+                const isLatestVersion = version === 3;
+                return server.create('preprint', {
                     title: preprint.title,
                     description: preprint.description,
                     provider: preprint.provider,
                     id: `${baseId}_v${version}`,
                     reviewsState: preprint.reviewsState,
                     preprintVersion: version,
-                    isLatestVersion: version === 3,
+                    isLatestVersion,
                 });
             });
+            preprint.update({
+                // A bit of a workaround since the API will return the latest version when getting baseId
+                preprintVersion: 3,
+                isLatestVersion: true,
+            });
+
             if (preprint.provider) {
-                preprint.provider.update({ preprints: versionedPreprints });
+                preprint.provider.preprints.models.pushObjects(versionedPreprints);
             }
         },
     }),
