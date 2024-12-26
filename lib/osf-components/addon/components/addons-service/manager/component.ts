@@ -77,7 +77,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         },
         [FilterTypes.CLOUD_COMPUTING]: {
             modelName: 'external-computing-service',
-            task: taskFor(this.getCloudComputingProviders),
+            task: taskFor(this.getComputingAddonProviders),
             list: A([]),
             configuredAddons: A([]),
         },
@@ -323,7 +323,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async getCloudComputingProviders() {
+    async getComputingAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
 
         if (this.addonServiceNode) {
@@ -331,10 +331,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
-        const cloudComputingProviders: Provider[] =
+        const serviceComputingProviders: Provider[] =
             await taskFor(this.getExternalProviders)
                 .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
-        activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter);
+        activeFilterObject.list = serviceComputingProviders.sort(this.providerSorter);
     }
 
     @task

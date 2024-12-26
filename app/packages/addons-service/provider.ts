@@ -19,7 +19,7 @@ import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-compu
 import { AccountCreationArgs } from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
-import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
+import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
@@ -33,7 +33,7 @@ export type AllProviderTypes =
 export type AllAuthorizedAccountTypes =
     AuthorizedStorageAccountModel |
     AuthorizedCitationAccountModel |
-    AuthorizedComputingAccount;
+    AuthorizedComputingAccountModel;
 export type AllConfiguredAddonTypes =
     ConfiguredStorageAddonModel |
     ConfiguredCitationAddonModel |
@@ -208,7 +208,7 @@ export default class Provider {
     async getAuthorizedComputingAccounts() {
         const authorizedComputingAccounts = await this.userReference.authorizedComputingAccounts;
         this.authorizedAccounts = authorizedComputingAccounts
-            .filterBy('computingService.id', this.provider.id).toArray();
+            .filterBy('externalComputingService.id', this.provider.id).toArray();
     }
 
     @task
@@ -269,7 +269,7 @@ export default class Provider {
             initiateOauth,
             externalUserId: this.currentUser.user?.id,
             scopes: [],
-            computingService: this.provider,
+            externalComputingService: this.provider,
             accountOwner: this.userReference,
             displayName,
         });
@@ -325,13 +325,15 @@ export default class Provider {
 
     @task
     @waitFor
-    private async createConfiguredComputingAddon(account: AuthorizedComputingAccount) {
+    private async createConfiguredComputingAddon(account: AuthorizedComputingAccountModel) {
         const configuredComputingAddon = this.store.createRecord('configured-computing-addon', {
-            rootFolder: '',
-            computingService: this.provider,
+            // rootFolder: '',
+            externalComputingService: this.provider,
             accountOwner: this.userReference,
-            authorizedResource: this.serviceNode,
+            // authorizedResource: this.serviceNode,
+            authorizedResourceUri: this.node!.links.iri,
             baseAccount: account,
+            connectedCapabilities: ['ACCESS', 'UPDATE'],
         });
         return await configuredComputingAddon.save();
     }
