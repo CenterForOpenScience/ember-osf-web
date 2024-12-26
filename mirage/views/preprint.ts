@@ -100,7 +100,7 @@ export function createPreprintVersion(this: HandlerContext, schema: Schema) {
     const basePreprintId = this.request.params.id as string;
     const basePreprint = schema.preprints.find(basePreprintId);
     basePreprint.update({ isLatestVersion: false });
-    const baseVersionNumber = basePreprint.preprintVersion || 1;
+    const baseVersionNumber = basePreprint.version || 1;
     const providerModeration = basePreprint.provider && basePreprint.provider.reviewsWorkflow;
     const newVersion = schema.preprints.create({
         ...basePreprint.attrs,
