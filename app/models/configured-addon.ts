@@ -1,5 +1,6 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
+import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import { ConnectedStorageOperationNames, OperationKwargs } from './addon-operation-invocation';
 import AuthorizedAccountModel, { ConnectedCapabilities } from './authorized-account';
 
@@ -19,6 +20,9 @@ export default class ConfiguredAddonModel extends Model {
     @attr('array') connectedCapabilities!: ConnectedCapabilities[];
     @attr('array') connectedOperationNames!: ConnectedStorageOperationNames[];
     @attr('fixstring') rootFolder!: string;
+
+    @belongsTo('user-reference', { inverse: null })
+    accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 
     @attr('boolean')
     currentUserIsOwner!: boolean;
