@@ -15,25 +15,26 @@
     >
         {{@addon.provider.displayName}}
     </div>
-    
-    <div local-class='buttons-wrapper'>
-        {{#if this.addonIsConfigured}}
-            <Button
-                data-test-addon-card-configure
-                data-analytics-name='Configure'
-                {{on 'click' (fn @manager.listProviderConfigurations @addon)}}
-            >
-                {{t 'osf-components.addon-card.configure'}}
-            </Button>
-        {{else}}
-            <Button
-                data-test-addon-card-connect
-                data-analytics-name='Connect'
-                {{on 'click' (fn @manager.beginAccountSetup @addon)}}
-            >
-                {{t 'osf-components.addon-card.connect'}}
-            </Button>
-        {{/if}}
-    </div>
+    {{#if this.addonIsOwned}}
+        <div local-class='buttons-wrapper'>
+            {{#if this.addonIsConfigured}}
+                <Button
+                    data-test-addon-card-configure
+                    data-analytics-name='Configure'
+                    {{on 'click' (fn @manager.listProviderConfigurations @addon)}}
+                >
+                    {{t 'osf-components.addon-card.configure'}}
+                </Button>
+            {{else}}
+                <Button
+                    data-test-addon-card-connect
+                    data-analytics-name='Connect'
+                    {{on 'click' (fn @manager.beginAccountSetup @addon)}}
+                >
+                    {{t 'osf-components.addon-card.connect'}}
+                </Button>
+            {{/if}}
+        </div>
+    {{/if}}
 </div>
 

@@ -1,7 +1,6 @@
-import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
+import Model, { attr } from '@ember-data/model';
 
 import { ConnectedStorageOperationNames, OperationKwargs } from './addon-operation-invocation';
-import UserReferenceModel from './user-reference';
 import AuthorizedAccountModel, { ConnectedCapabilities } from './authorized-account';
 
 export interface ConfiguredAddonEditableAttrs {
@@ -21,9 +20,8 @@ export default class ConfiguredAddonModel extends Model {
     @attr('array') connectedOperationNames!: ConnectedStorageOperationNames[];
     @attr('fixstring') rootFolder!: string;
 
-
-    @belongsTo('user-reference', { inverse: null })
-    accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
+    @attr('boolean')
+    currentUserIsOwner!: boolean;
 
     async getFolderItems(this: AuthorizedAccountModel, _kwargs?: OperationKwargs) : Promise<any> {
         // To be implemented in child classes
