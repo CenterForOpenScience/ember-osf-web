@@ -35,10 +35,10 @@ module('Integration | Component | addon-card', hooks => {
                 id: 'box',
                 displayName: 'Test Addon',
                 iconUrl: 'https://some.url/from/addons/service/box.png',
-                isOwned: true,
             },
             disableProjectAddon: sinon.stub(),
             nodeAddon: { configured: false },
+            isOwned: true,
         };
         this.manager ={
             node: { id: 'testnode' },
