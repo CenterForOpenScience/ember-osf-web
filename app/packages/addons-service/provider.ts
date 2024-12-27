@@ -99,7 +99,7 @@ export default class Provider {
         if (this.node?.userHasAdminPermission) {
             return true;
         }
-        if (!this.configuredAddons) {
+        if (!this.configuredAddons || this.configuredAddons.length === 0) {
             return true;
         }
         if (!this.userReference) {
