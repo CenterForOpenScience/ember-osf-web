@@ -23,7 +23,6 @@
                 {{/if}}
             {{else}}
                 <div local-class='oauth-wrapper'>
-                    {{t 'addons.accountCreate.oauth-description' providerName=@provider.name}}
                     {{#let (unique-id 'display-name-label') as |displayNameId|}}
                         <label for={{displayNameId}} local-class='auth-text-input-label'>
                             {{t 'addons.accountCreate.display-name-label'}}

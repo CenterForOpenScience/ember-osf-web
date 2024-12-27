@@ -241,7 +241,7 @@ addons:
         confirm-remove-connected-location: 'You are about to disconnect the addon below from the project.'
         connected-to-account: 'Connected to account'
         root-folder-not-set: 'Root folder not set'
-        sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.' 
+        sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.'
         sync-details-2: 'To manage all add-ons connected to your account, visit your profile settings.'
         filter-placeholder: 'Filter add-ons'
         filter:
@@ -308,9 +308,9 @@ addons:
         existing-account: 'Choose existing account'
         unnamed-account: 'Unnamed account'
     accountCreate:
-        display-name-label: 'Display name'
+        display-name-label: 'Account name'
         display-name-placeholder: 'Account name'
-        display-name-help: 'This is help text for the display name'
+        display-name-help: 'This will distinguish your account from others using the same addon.'
         url-label: 'Host URL'
         url-post-text: 'Please include <i>http</i> or <i>https</i>'
         username-label: 'Username'
@@ -337,7 +337,6 @@ addons:
         oauth-start: 'Start OAuth'
         oauth-error: 'Error connecting account. Please try again.'
         oauth-reconnect-error: 'Error reconnecting account'
-        oauth-description: 'Use OAuth to connect your {providerName} account'
         error: 'Error creating account'
         connect: Connect
         connect-success: 'Successfully connected account'
