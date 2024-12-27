@@ -31,6 +31,7 @@
                                 {{#each this.model.versions as |version|}}
                                     <li local-class='version'>
                                         <OsfLink
+                                            local-class={{if (eq version.version this.model.preprint.version) 'current-version'}}
                                             data-test-version-link='{{version.version}}'
                                             @route='preprints.detail'
                                             @models={{array this.model.provider.id version.id}}

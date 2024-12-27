@@ -273,4 +273,8 @@
     .version:not(:first-child) {
         padding-top: 10px;
     }
+
+    .current-version {
+        font-weight: bold;
+    }
 }
