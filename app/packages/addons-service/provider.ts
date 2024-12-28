@@ -268,6 +268,7 @@ export default class Provider {
             apiBaseUrl,
             initiateOauth,
             externalUserId: this.currentUser.user?.id,
+            authorizedCapabilities: ['ACCESS', 'UPDATE'],
             scopes: [],
             externalComputingService: this.provider,
             accountOwner: this.userReference,
