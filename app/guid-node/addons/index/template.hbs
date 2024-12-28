@@ -169,15 +169,17 @@
                                 >
                                     {{configuredAddon.displayName}}
                                     <span local-class='float-right'>
-                                        <Button
-                                            data-test-edit-connected-location={{configuredAddon.displayName}}
-                                            data-analytics-name='Edit connected location'
-                                            local-class='edit-connected-button'
-                                            aria-label={{t 'addons.list.edit-location' displayName=configuredAddon.displayName}}
-                                            {{on 'click' (fn manager.configureProvider manager.selectedProvider configuredAddon)}}
-                                        >
-                                            <FaIcon @icon='pencil-alt' />
-                                        </Button>
+                                        {{#if configuredAddon.currentUserIsOwner}}
+                                            <Button
+                                                data-test-edit-connected-location={{configuredAddon.displayName}}
+                                                data-analytics-name='Edit connected location'
+                                                local-class='edit-connected-button'
+                                                aria-label={{t 'addons.list.edit-location' displayName=configuredAddon.displayName}}
+                                                {{on 'click' (fn manager.configureProvider manager.selectedProvider configuredAddon)}}
+                                            >
+                                                <FaIcon @icon='pencil-alt' />
+                                            </Button>
+                                        {{/if}}
                                         <Button
                                             data-test-remove-connected-location={{configuredAddon.displayName}}
                                             data-analytics-name='Remove connected location'
