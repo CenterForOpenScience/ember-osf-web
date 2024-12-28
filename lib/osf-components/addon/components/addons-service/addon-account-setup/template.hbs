@@ -36,6 +36,7 @@
                             id={{displayNameId}}
                             placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
                             @value={{this.displayName}}
+                            @maxlength={{256}}
                         />
                     {{/let}}
                     <div local-class='button-wrapper'>
@@ -138,6 +139,7 @@
                         local-class='input'
                         placeholder={{t 'addons.accountCreate.display-name-placeholder'}}
                         @value={{this.displayName}}
+                        @maxlength={{256}}
                     />
                 {{/let}}
                 {{#if this.connectAccountError}}
