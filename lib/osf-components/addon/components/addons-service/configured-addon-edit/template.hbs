@@ -12,7 +12,7 @@
                 @maxlength={{256}}
             />
         </label>
-        {{#if this.invalidDisplayName}}
+        {{#if (and this.didAttemptSave this.invalidDisplayName)}}
             <span
                 data-test-display-name-error
                 local-class='display-name-error'
@@ -130,6 +130,7 @@
                 data-analytics-name='Save selected folder'
                 @type='primary'
                 disabled={{this.disableSave}}
+                {{on 'mousedown' this.setDidAttemptSave}}
                 {{on 'click' (fn @onSave this.onSaveArgs)}}
             >
                 {{t 'general.save'}}

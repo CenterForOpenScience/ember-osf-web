@@ -42,4 +42,9 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     selectFolder(folder: Item) {
         this.selectedFolder = folder.itemId;
     }
+
+    @action
+    setDidAttemptSave() {
+        this.didAttemptSave = true;
+    }
 }
