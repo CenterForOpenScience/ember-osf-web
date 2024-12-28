@@ -2350,7 +2350,7 @@ routes:
         institution: Institution
         email: Email
 osf-components:
-    addons-srvice:
+    addons-service:
         file-manager:
             get-item-error: 'Error fetching item'
             get-items-error: 'Error fetching items'
