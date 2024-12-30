@@ -5,6 +5,7 @@ import { TaskInstance } from 'ember-concurrency';
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
+import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 
 
@@ -23,12 +24,16 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         itemType: ItemType.Folder,
     };
 
+    get hasRootFolder() {
+        return !(this.args.authorizedAccount instanceof AuthorizedComputingAccountModel);
+    }
+
     get invalidDisplayName() {
         return !this.displayName || this.displayName?.trim().length === 0;
     }
 
     get disableSave() {
-        return !this.selectedFolder || this.invalidDisplayName || this.args.onSave.isRunning;
+        return this.hasRootFolder && (!this.selectedFolder || this.invalidDisplayName || this.args.onSave.isRunning);
     }
 
     get onSaveArgs() {
