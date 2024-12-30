@@ -36,7 +36,12 @@
                                             @route='preprints.detail'
                                             @models={{array this.model.provider.id version.id}}
                                         >
-                                            {{t 'preprints.detail.preprint_version_number' number=version.version}}
+                                            {{#let (get this.reviewStateLabelKeyMap version.reviewsState) as |reviewStateLabelKey|}}
+                                                {{t 'preprints.detail.preprint_version_number' number=version.version}}
+                                                {{#if reviewStateLabelKey}}
+                                                    {{t (get this.reviewStateLabelKeyMap version.reviewsState)}}
+                                                {{/if}}
+                                            {{/let}}
                                         </OsfLink>
                                     </li>
                                 {{else}}

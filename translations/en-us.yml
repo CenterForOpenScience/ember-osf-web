@@ -1445,6 +1445,10 @@ preprints:
         orphan_preprint: 'The user has removed this file.'
         preprint_doi: '{documentType} DOI'
         version_doi_title: 'Version {number}'
+        version_status:
+            pending: '(Pending)'
+            rejected: '(Rejected)'
+            withdrawn: '(Withdrawn)'
         preprint_pending_doi: 'DOI created after {documentType} is made public'
         preprint_pending_doi_moderation: 'DOI created after moderator approval'
         no_doi: 'No DOI'

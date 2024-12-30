@@ -36,6 +36,12 @@ export enum PreprintPreregLinkInfoEnum {
     PREREG_BOTH = 'prereg_both',
 }
 
+export const VersionStatusSimpleLabelKey = {
+    [ReviewsState.PENDING]: 'preprints.detail.version_status.pending',
+    [ReviewsState.REJECTED]: 'preprints.detail.version_status.rejected',
+    [ReviewsState.WITHDRAWN]: 'preprints.detail.version_status.withdrawn',
+};
+
 export interface PreprintLicenseRecordModel {
     copyright_holders: string[];
     year: string;

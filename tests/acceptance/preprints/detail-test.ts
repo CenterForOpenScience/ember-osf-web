@@ -148,6 +148,7 @@ module('Acceptance | preprints | detail', hooks => {
             dateWithdrawn: new Date(),
             currentUserPermissions: Object.values(Permission),
             title: 'Test Preprint',
+            reviewsState: ReviewsState.WITHDRAWN,
             description: 'This is a test preprint',
         }, 'withVersions');
         this.preprint.update({

@@ -8,6 +8,7 @@ import { ModelInstance } from 'ember-cli-mirage';
 
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import PreprintModel from 'ember-osf-web/models/preprint';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 
 module('Integration | Component | preprint-doi', function(hooks) {
     setupRenderingTest(hooks);
@@ -56,7 +57,7 @@ module('Integration | Component | preprint-doi', function(hooks) {
         // check dropdown exists
         assert.dom('[data-test-version-select-dropdown]').exists('Version select dropdown exists');
         assert.dom('[data-test-version-select-dropdown]')
-            .hasText('Version 3', 'Dropdown has latest version selected by default');
+            .hasText('Version 3 (Rejected)', 'Dropdown has latest version selected by default');
 
         // check version3 has no DOI
         assert.dom('[data-test-no-doi-text]').exists('No DOI text exists');
@@ -78,5 +79,43 @@ module('Integration | Component | preprint-doi', function(hooks) {
         assert.dom('[data-test-unlinked-doi-url]').doesNotExist('Unlinked preprint DOI URL does not exist');
         assert.dom('[data-test-unlinked-doi-description]').doesNotExist('Unlinked description does not exist');
         assert.dom('[data-test-linked-doi-url]').exists('Preprint DOI URL exists');
+    });
+
+    test('it renders statuses', async function(assert) {
+        this.store = this.owner.lookup('service:store');
+        server.loadFixtures('preprint-providers');
+        const mirageProvider = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProviderModel>;
+        const miragePreprint = server.create('preprint', {
+            id: 'doied',
+            provider: mirageProvider,
+        }, 'withVersions');
+        const version1 = server.schema.preprints.find('doied_v1') as ModelInstance<PreprintModel>;
+        version1.update({ reviewsState: ReviewsState.ACCEPTED });
+        const version2 = server.schema.preprints.find('doied_v2') as ModelInstance<PreprintModel>;
+        version2.update({ reviewsState: ReviewsState.PENDING });
+        const version3 = server.schema.preprints.find('doied_v3') as ModelInstance<PreprintModel>;
+        version3.update({ reviewsState: ReviewsState.WITHDRAWN });
+
+        const preprint = await this.store.findRecord('preprint', miragePreprint.id);
+        const versions = await preprint.queryHasMany('versions');
+
+        const provider = await this.store.findRecord('preprint-provider', mirageProvider.id);
+        this.set('versions', versions);
+        this.set('provider', provider);
+
+        await render(hbs`
+<Preprints::-Components::PreprintDoi
+    @versions={{this.versions}}
+    @provider={{this.provider}}
+/>
+        `);
+
+        await click('[data-test-version-select-dropdown]');
+        assert.dom('[data-test-preprint-version="1"]').exists('Version 1 exists');
+        assert.dom('[data-test-preprint-version="1"]').hasText('Version 1', 'Version 1 is accepted');
+        assert.dom('[data-test-preprint-version="2"]').exists('Version 2 exists');
+        assert.dom('[data-test-preprint-version="2"]').hasText('Version 2 (Pending)', 'Version 2 is pending');
+        assert.dom('[data-test-preprint-version="3"]').exists('Version 3 exists');
+        assert.dom('[data-test-preprint-version="3"]').hasText('Version 3 (Withdrawn)', 'Version 3 is withdrawn');
     });
 });

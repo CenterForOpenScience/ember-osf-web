@@ -14,7 +14,12 @@
             <span
                 data-test-preprint-version={{version.version}}
             >
-                {{t 'preprints.detail.version_doi_title' number=version.version}}
+                {{#let (get this.reviewStateLabelKeyMap version.reviewsState) as |reviewStateLabelKey|}}
+                    {{t 'preprints.detail.version_doi_title' number=version.version}}
+                    {{#if reviewStateLabelKey}}
+                        {{t (get this.reviewStateLabelKeyMap version.reviewsState)}}
+                    {{/if}}
+                {{/let}}
             </span>
         </PowerSelect>
     {{else}}
