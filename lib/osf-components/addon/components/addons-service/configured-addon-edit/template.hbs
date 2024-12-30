@@ -78,11 +78,13 @@
                                         aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
                                         {{on 'click' (fn fileManager.goToFolder folder)}}
                                     >
-                                        <FaIcon @icon='folder' />
-                                        {{folder.itemName}}
+                                        <span local-class='item-name'>
+                                            <FaIcon @icon='folder' />
+                                            {{folder.itemName}}
+                                        </span>
                                     </Button>
                                 {{else}}
-                                    <span>
+                                    <span local-class='item-name'>
                                         <FaIcon @icon='folder' />
                                         {{folder.itemName}}
                                     </span>
