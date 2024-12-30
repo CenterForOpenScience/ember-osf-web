@@ -38,6 +38,7 @@ module('Integration | Component | addon-card', hooks => {
             },
             disableProjectAddon: sinon.stub(),
             nodeAddon: { configured: false },
+            isOwned: true,
         };
         this.manager ={
             node: { id: 'testnode' },
@@ -78,6 +79,7 @@ module('Integration | Component | addon-card', hooks => {
             disableProjectAddon: { perform: sinon.stub() },
             nodeAddon: { configured: true },
             isConfigured: true,
+            isOwned: true,
         };
         this.addon = addonObj;
         this.manager = {

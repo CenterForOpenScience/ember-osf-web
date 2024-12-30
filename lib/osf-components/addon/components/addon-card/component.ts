@@ -17,4 +17,8 @@ export default class AddonsCardComponent extends Component<Args> {
     get addonIsConfigured() {
         return this.args.addon.isConfigured;
     }
+
+    get addonIsOwned() {
+        return this.args.addon.isOwned;
+    }
 }

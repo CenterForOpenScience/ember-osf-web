@@ -244,7 +244,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const serviceStorageProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalStorageServiceModel[];
         const list = serviceStorageProviders.sort(this.providerSorter)
-            .map(provider => new Provider(provider, this.currentUser));
+            .map(provider => new Provider(
+                provider,
+                this.currentUser,
+                undefined,
+                undefined,
+                undefined,
+                this.userReference,
+            ));
         activeFilterObject.list = list;
     }
 
@@ -255,7 +262,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const cloudComputingProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalComputingServiceModel[];
         activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter)
-            .map(provider => new Provider(provider, this.currentUser));
+            .map(provider => new Provider(
+                provider,
+                this.currentUser,
+                undefined,
+                undefined,
+                undefined,
+                this.userReference,
+            ));
     }
 
     @task
@@ -265,7 +279,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const serviceCloudComputingProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalCitationServiceModel[];
         activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter)
-            .map(provider => new Provider(provider, this.currentUser));
+            .map(provider => new Provider(
+                provider,
+                this.currentUser,
+                undefined,
+                undefined,
+                undefined,
+                this.userReference,
+            ));
     }
 
     @task

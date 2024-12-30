@@ -95,17 +95,38 @@ export default class Provider {
         return Boolean(this.configuredAddons?.length);
     }
 
+    get isOwned() {
+        if (this.node?.userHasAdminPermission) {
+            return true;
+        }
+        if (!this.configuredAddons || this.configuredAddons.length === 0) {
+            return true;
+        }
+        if (!this.userReference) {
+            return false;
+        }
+        return this.configuredAddons?.any(
+            addon => addon.currentUserIsOwner,
+        );
+    }
+
     constructor(
         provider: any,
         currentUser: CurrentUserService,
         node?: NodeModel,
         allConfiguredAddons?: EmberArray<AllConfiguredAddonTypes>,
+        resourceReference?: ResourceReferenceModel,
+        userReference?: UserReferenceModel,
     ) {
         setOwner(this, getOwner(provider));
         this.node = node;
         this.currentUser = currentUser;
         this.provider = provider;
         this.configuredAddons = allConfiguredAddons?.filter(addon => addon.externalServiceId === this.provider.id);
+        this.serviceNode = resourceReference;
+        if (userReference) {
+            this.userReference = userReference;
+        }
 
         if (provider instanceof ExternalStorageServiceModel) {
             this.providerMap = this.providerTypeMapper.externalStorageService;
@@ -144,6 +165,9 @@ export default class Provider {
     @task
     @waitFor
     async getUserReference() {
+        if (this.userReference){
+            return;
+        }
         const { user } = this.currentUser;
         const userReferences = await this.store.query('user-reference', {
             filter: {user_uri: user?.links.iri?.toString()},
@@ -155,7 +179,7 @@ export default class Provider {
     @task
     @waitFor
     async getResourceReference() {
-        if (this.node) {
+        if (this.node && !this.serviceNode) {
             const resourceRefs = await this.store.query('resource-reference', {
                 filter: {resource_uri: this.node.links.iri?.toString()},
             });

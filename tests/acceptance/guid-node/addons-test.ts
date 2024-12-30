@@ -124,6 +124,7 @@ module('Acceptance | guid-node/addons', hooks => {
             externalStorageService: box,
             accountOwner: userRef,
             authorizedResource: nodeRef,
+            currentUserIsOwner: true,
         });
         const s3AccountsDisplayNamesAndRootFolders = [{
             displayName: 'My Box Account',
@@ -139,6 +140,7 @@ module('Acceptance | guid-node/addons', hooks => {
             externalStorageService: s3,
             accountOwner: userRef,
             authorizedResource: nodeRef,
+            currentUserIsOwner: true,
         });
         server.create('configured-storage-addon', {
             displayName: s3AccountsDisplayNamesAndRootFolders[1].displayName,
@@ -147,6 +149,7 @@ module('Acceptance | guid-node/addons', hooks => {
             externalStorageService: s3,
             accountOwner: userRef,
             authorizedResource: nodeRef,
+            currentUserIsOwner: true,
         });
 
         const url = `/${node.id}/addons`;

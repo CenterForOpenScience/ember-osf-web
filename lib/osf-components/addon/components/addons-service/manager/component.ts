@@ -22,6 +22,7 @@ import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage
 import { AccountCreationArgs} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
+import UserReferenceModel from 'ember-osf-web/models/user-reference';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -58,6 +59,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     node = this.args.node;
     @tracked addonServiceNode?: ResourceReferenceModel;
+    @tracked userReference?: UserReferenceModel;
 
     possibleFilterTypes = Object.values(FilterTypes);
     mapper: Record<FilterTypes, FilterSpecificObject> = {
@@ -285,7 +287,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @task
     @waitFor
     async initialize() {
-        await taskFor(this.getServiceNode).perform();
+        await Promise.all([
+            taskFor(this.getUserReference).perform(),
+            taskFor(this.getServiceNode).perform(),
+        ]);
         await taskFor(this.getStorageAddonProviders).perform();
     }
 
@@ -385,7 +390,18 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         }
         return heading;
     }
-
+    @task
+    @waitFor
+    async getUserReference() {
+        if (this.userReference){
+            return;
+        }
+        const { user } = this.currentUser;
+        const userReferences = await this.store.query('user-reference', {
+            filter: {user_uri: user?.links.iri?.toString()},
+        });
+        this.userReference = userReferences.firstObject;
+    }
     // Service API Methods
 
     @task
@@ -394,7 +410,9 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const serviceProviderModels = (await this.store.findAll(providerType)).toArray();
         const serviceProviders = [] as Provider[];
         for (const provider of serviceProviderModels) {
-            serviceProviders.addObject(new Provider(provider, this.currentUser, this.node, configuredAddons));
+            serviceProviders.addObject(new Provider(
+                provider, this.currentUser, this.node, configuredAddons, this.addonServiceNode, this.userReference,
+            ));
         }
         return serviceProviders;
     }
