@@ -70,7 +70,7 @@ export default class PreprintModel extends AbstractNodeModel {
     @attr('string') whyNoData!: string | null;
     @attr('string') whyNoPrereg!: string | null;
     @attr('string') preregLinkInfo!: PreprintPreregLinkInfoEnum;
-    @attr('number') preprintVersion!: number;
+    @attr('number') version!: number;
     @attr('boolean') isLatestVersion!: boolean;
 
     @belongsTo('node', { inverse: 'preprints' })

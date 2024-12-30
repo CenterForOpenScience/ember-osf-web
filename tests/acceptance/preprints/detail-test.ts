@@ -9,6 +9,7 @@ import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import PreprintModel from 'ember-osf-web/models/preprint';
 import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/models/provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import { click } from 'ember-osf-web/tests/helpers';
 
 interface PreprintDetailTestContext extends TestContext {
     provider: ModelInstance<PreprintProviderModel>;
@@ -121,7 +122,7 @@ module('Acceptance | preprints | detail', hooks => {
     });
 
 
-    test('Withdrawn preprint, latest version detail page', async function(this: PreprintDetailTestContext, assert) {
+    test('Withdrawn preprint, only version detail page', async function(this: PreprintDetailTestContext, assert) {
         this.preprint.update({
             dateWithdrawn: new Date(),
         });
@@ -135,18 +136,34 @@ module('Acceptance | preprints | detail', hooks => {
         assert.dom('[data-test-edit-preprint-button]').doesNotExist('Edit button is not displayed');
         assert.dom('[data-test-create-new-version-button]')
             .exists('New version button is displayed for latest withdrawn preprint version');
+        assert.dom('[data-test-previous-versions-button]').exists('Previous versions button is displayed');
+        await click('[data-test-previous-versions-button]');
+        assert.dom('[data-test-no-other-versions]').exists({ count: 1 }, 'No other versions message is displayed');
+        assert.dom('[data-test-version-link]').doesNotExist('No links to previous versions are displayed');
     });
 
     test('Withdrawn preprint, prior version detail page', async function(this: PreprintDetailTestContext, assert) {
-        this.preprint.update({
+        this.preprint = server.create('preprint', {
+            id: 'test',
             dateWithdrawn: new Date(),
+            currentUserPermissions: Object.values(Permission),
+            title: 'Test Preprint',
+            description: 'This is a test preprint',
+        }, 'withVersions');
+        this.preprint.update({
             isLatestVersion: false,
+            provider: this.provider,
         });
+
         await visit('/preprints/osf/test');
 
         // Check no new version button and no edit button
         assert.dom('[data-test-edit-preprint-button]').doesNotExist('Edit button is not displayed');
         assert.dom('[data-test-create-new-version-button]')
             .doesNotExist('New version button is not displayed for prior withdrawn preprint version');
+        assert.dom('[data-test-previous-versions-button]').exists('Previous versions button is displayed');
+        await click('[data-test-previous-versions-button]');
+        assert.dom('[data-test-version-link]').exists({ count: 3 }, 'Link to previous version is displayed');
+        assert.dom('[data-test-no-other-versions]').doesNotExist('No other versions message is not displayed');
     });
 });

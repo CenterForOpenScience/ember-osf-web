@@ -10,7 +10,42 @@
         <div local-class='preprint-title-container'>
             <h1 data-test-preprint-title>{{this.displayTitle}}</h1>
             <div>
-                {{#unless this.model.preprint.isWithdrawn}}
+                {{#if this.model.preprint.isWithdrawn}}
+                    <ResponsiveDropdown
+                        local-class='version-dropdown'
+                        @renderInPlace={{true}}
+                        @horizontalPosition='left'
+                    as |dropdown|>
+                        <dropdown.trigger>
+                            <Button
+                                data-test-previous-versions-button
+                                data-analytics-name='View previous preprint versions'
+                                local-class='btn btn-primary'
+                                @type='default'
+                            >
+                                {{t 'preprints.detail.other_versions'}}
+                            </Button>
+                        </dropdown.trigger>
+                        <dropdown.content>
+                            <ul local-class='version-picker-list'>
+                                {{#each this.model.versions as |version|}}
+                                    <li local-class='version'>
+                                        <OsfLink
+                                            local-class={{if (eq version.version this.model.preprint.version) 'current-version'}}
+                                            data-test-version-link='{{version.version}}'
+                                            @route='preprints.detail'
+                                            @models={{array this.model.provider.id version.id}}
+                                        >
+                                            {{t 'preprints.detail.preprint_version_number' number=version.version}}
+                                        </OsfLink>
+                                    </li>
+                                {{else}}
+                                    <li data-test-no-other-versions>{{t 'preprints.detail.no_other_versions'}}</li>
+                                {{/each}}
+                            </ul>
+                        </dropdown.content>
+                    </ResponsiveDropdown>
+                {{else}}
                     {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
                         <OsfLink
                             data-test-edit-preprint-button
@@ -23,7 +58,7 @@
 
                         </OsfLink>
                     {{/if}}
-                {{/unless}}
+                {{/if}}
                 {{#if this.model.preprint.canCreateNewVersion}}
                     <Button
                         data-test-create-new-version-button

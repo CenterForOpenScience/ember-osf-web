@@ -78,7 +78,7 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     dateWithdrawn: null,
 
     doi: null,
-    preprintVersion: 1,
+    version: 1,
     isLatestVersion: true,
 
     tags() {
@@ -253,13 +253,13 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
                     provider: preprint.provider,
                     id: `${baseId}_v${version}`,
                     reviewsState: preprint.reviewsState,
-                    preprintVersion: version,
+                    version,
                     isLatestVersion,
                 });
             });
             preprint.update({
                 // A bit of a workaround since the API will return the latest version when getting baseId
-                preprintVersion: 3,
+                version: 3,
                 isLatestVersion: true,
             });
 

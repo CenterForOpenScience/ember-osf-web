@@ -12,9 +12,9 @@
             as |version|
         >
             <span
-                data-test-preprint-version={{version.preprintVersion}}
+                data-test-preprint-version={{version.version}}
             >
-                {{t 'preprints.detail.version_doi_title' number=version.preprintVersion}}
+                {{t 'preprints.detail.version_doi_title' number=version.version}}
             </span>
         </PowerSelect>
     {{else}}
