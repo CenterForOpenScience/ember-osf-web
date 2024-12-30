@@ -15,7 +15,7 @@ interface Args {
 }
 
 export default class ConfiguredAddonEdit extends Component<Args> {
-    @tracked displayName = this.args.configuredAddon?.displayName;
+    @tracked displayName = this.args.configuredAddon?.displayName || 'Default Account Name';
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
     @tracked currentItems: Item[] = [];
 
@@ -41,10 +41,5 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @action
     selectFolder(folder: Item) {
         this.selectedFolder = folder.itemId;
-    }
-
-    @action
-    setDidAttemptSave() {
-        this.didAttemptSave = true;
     }
 }
