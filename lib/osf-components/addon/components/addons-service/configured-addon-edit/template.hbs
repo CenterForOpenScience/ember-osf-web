@@ -21,14 +21,14 @@
             </span>
         {{/if}}
     </div>
-    <AddonsService::FileManager
-        @configuredAddon={{@configuredAddon}}
-        @authorizedAccount={{@authorizedAccount}}
-        @defaultKwargs={{this.defaultKwargs}}
-        @startingFolderId={{this.selectedFolder}}
-        as |fileManager|
-    >
-        {{#if this.hasRootFolder }}
+    {{#if this.hasRootFolder }}
+        <AddonsService::FileManager
+            @configuredAddon={{@configuredAddon}}
+            @authorizedAccount={{@authorizedAccount}}
+            @defaultKwargs={{this.defaultKwargs}}
+            @startingFolderId={{this.selectedFolder}}
+            as |fileManager|
+        >
             <div local-class='current-path'>
                 <Button
                     data-test-go-to-root
@@ -127,25 +127,25 @@
                     {{/if}}
                 </tbody>
             </table>
-        {{/if}}
-        <div local-class='footer-buttons-wrapper'>
-            <Button
-                data-test-root-folder-save
-                data-analytics-name='Save selected folder'
-                @type='primary'
-                disabled={{this.disableSave}}
-                {{on 'click' (fn @onSave this.onSaveArgs)}}
-            >
-                {{t 'general.save'}}
-            </Button>
-            <Button
-                data-test-root-folder-cancel
-                data-analytics-name='Cancel'
-                @type='secondary'
-                {{on 'click' @onCancel}}
-            >
-                {{t 'general.cancel'}}
-            </Button>
-        </div>
-    </AddonsService::FileManager>
+        </AddonsService::FileManager>
+    {{/if}}
+    <div local-class='footer-buttons-wrapper'>
+        <Button
+            data-test-root-folder-save
+            data-analytics-name='Save selected folder'
+            @type='primary'
+            disabled={{this.disableSave}}
+            {{on 'click' (fn @onSave this.onSaveArgs)}}
+        >
+            {{t 'general.save'}}
+        </Button>
+        <Button
+            data-test-root-folder-cancel
+            data-analytics-name='Cancel'
+            @type='secondary'
+            {{on 'click' @onCancel}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+    </div>
 </div>
