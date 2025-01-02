@@ -9,12 +9,15 @@ import { ModelInstance } from 'ember-cli-mirage';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import PreprintModel from 'ember-osf-web/models/preprint';
 import { ReviewsState } from 'ember-osf-web/models/provider';
+import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
 
 module('Integration | Component | preprint-doi', function(hooks) {
     setupRenderingTest(hooks);
     setupMirage(hooks);
 
     test('it renders', async function(assert) {
+        this.owner.unregister('service:router');
+        this.owner.register('service:router', OsfLinkRouterStub);
         this.store = this.owner.lookup('service:store');
         server.loadFixtures('preprint-providers');
         const mirageProvider = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProviderModel>;
@@ -62,6 +65,9 @@ module('Integration | Component | preprint-doi', function(hooks) {
             .hasText('Version 2 (Rejected)', 'Dropdown has passed in currentVersiom selected by default');
         assert.dom('[data-test-preprint-version="2"]').exists('Version 2 is shown');
 
+        assert.dom('[data-test-view-version-link]').exists('View in OSF button exists');
+        assert.dom('[data-test-view-version-link]').hasText('View version 2', 'View version link has correct text');
+
         // check version2 has DOI text
         assert.dom('[data-test-no-doi-text]').doesNotExist('No DOI text does not exist');
         assert.dom('[data-test-unlinked-doi-url]').exists('Preprint DOI URL exists');
@@ -86,6 +92,8 @@ module('Integration | Component | preprint-doi', function(hooks) {
     });
 
     test('it renders statuses', async function(assert) {
+        this.owner.unregister('service:router');
+        this.owner.register('service:router', OsfLinkRouterStub);
         this.store = this.owner.lookup('service:store');
         server.loadFixtures('preprint-providers');
         const mirageProvider = server.schema.preprintProviders.find('osf') as ModelInstance<PreprintProviderModel>;

@@ -27,6 +27,14 @@
         <p>{{t 'preprints.detail.no_versions'}}</p>
     {{/if}}
     {{#if this.selectedVersion}}
+        <OsfLink
+            data-test-view-version-link
+            data-analytics-name='View version link'
+            @route='preprints.detail'
+            @model={{this.selectedVersion}}
+        >
+            {{t 'preprints.detail.view_version' number=this.selectedVersion.version}}
+        </OsfLink>
         {{#if this.selectedVersion.preprintDoiUrl}}
             {{#if this.selectedVersion.preprintDoiCreated}}
                 <OsfLink
