@@ -10,12 +10,12 @@ import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 
 interface Args {
     configuredAddon?: ConfiguredAddonModel;
-    selectedAccount?: AuthorizedAccountModel;
+    authorizedAccount?: AuthorizedAccountModel;
     onSave: TaskInstance<void>;
 }
 
 export default class ConfiguredAddonEdit extends Component<Args> {
-    @tracked displayName = this.args.configuredAddon?.displayName;
+    @tracked displayName = this.args.configuredAddon?.displayName || this.args.authorizedAccount?.displayName;
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
     @tracked currentItems: Item[] = [];
 
