@@ -1,7 +1,10 @@
+import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import PreprintModel from 'ember-osf-web/models/preprint';
+import Intl from 'ember-intl/services/intl';
+
+import PreprintModel, { VersionStatusSimpleLabelKey } from 'ember-osf-web/models/preprint';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
 interface InputArgs {
@@ -10,10 +13,14 @@ interface InputArgs {
 }
 
 export default class PreprintAbstract extends Component<InputArgs> {
+    @service intl!: Intl;
+
     provider = this.args.provider;
     documentType = this.provider.documentType.singularCapitalized;
 
     @tracked selectedVersion = this.args.versions[0];
+
+    reviewStateLabelKeyMap = VersionStatusSimpleLabelKey;
 
     @action
     selectVersion(version: PreprintModel) {

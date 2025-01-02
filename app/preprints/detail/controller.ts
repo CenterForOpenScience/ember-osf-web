@@ -1,19 +1,21 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import config from 'ember-osf-web/config/environment';
-import Theme from 'ember-osf-web/services/theme';
-import CurrentUserService from 'ember-osf-web/services/current-user';
-import Features from 'ember-feature-flags';
-import ContributorModel from 'ember-osf-web/models/contributor';
-import Intl from 'ember-intl/services/intl';
-import { Permission } from 'ember-osf-web/models/osf-model';
-import { ReviewsState, PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency';
+import Features from 'ember-feature-flags';
+import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
-import { task } from 'ember-concurrency';
-import { waitFor } from '@ember/test-waiters';
+
+import config from 'ember-osf-web/config/environment';
+import ContributorModel from 'ember-osf-web/models/contributor';
+import { Permission } from 'ember-osf-web/models/osf-model';
+import { VersionStatusSimpleLabelKey } from 'ember-osf-web/models/preprint';
+import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/models/provider';
+import CurrentUserService from 'ember-osf-web/services/current-user';
+import Theme from 'ember-osf-web/services/theme';
 
 
 /**
@@ -53,6 +55,7 @@ export default class PrePrintsDetailController extends Controller {
     @tracked plauditIsReady = false;
 
     metricsStartDate = config.OSF.metricsStartDate;
+    reviewStateLabelKeyMap = VersionStatusSimpleLabelKey;
 
     get hyperlink(): string {
         return window.location.href;
