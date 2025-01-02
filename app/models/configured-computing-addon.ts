@@ -18,6 +18,11 @@ export default class ConfiguredComputingAddonModel extends ConfiguredAddonModel 
     get externalServiceId() {
         return (this as ConfiguredComputingAddonModel).belongsTo('externalComputingService').id();
     }
+
+    get hasRootFolder() {
+        return false;
+    }
+
 }
 
 declare module 'ember-data/types/registries/model' {

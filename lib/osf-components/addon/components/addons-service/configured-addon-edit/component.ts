@@ -7,6 +7,7 @@ import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation'
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
+import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
 
 
 interface Args {
@@ -25,7 +26,11 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     };
 
     get hasRootFolder() {
-        return !(this.args.authorizedAccount instanceof AuthorizedComputingAccountModel);
+        return !(
+            this.args.authorizedAccount instanceof AuthorizedComputingAccountModel
+            ||
+            this.args.configuredAddon instanceof ConfiguredComputingAddonModel
+        );
     }
 
     get invalidDisplayName() {
