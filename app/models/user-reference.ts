@@ -1,8 +1,8 @@
 import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 
 import AuthorizedStorageAccountModel from './authorized-storage-account';
-import AuthorizedCitationAccount from './authorized-citation-account';
-import AuthorizedComputingAccount from './authorized-computing-account';
+import AuthorizedCitationAccountModel from './authorized-citation-account';
+import AuthorizedComputingAccountModel from './authorized-computing-account';
 import ResourceReferenceModel from './resource-reference';
 
 export default class UserReferenceModel extends Model {
@@ -12,12 +12,12 @@ export default class UserReferenceModel extends Model {
     authorizedStorageAccounts!: AsyncHasMany<AuthorizedStorageAccountModel> & AuthorizedStorageAccountModel[];
 
     @hasMany('authorized-citation-account', { inverse: 'accountOwner' })
-    authorizedCitationAccounts!: AsyncHasMany<AuthorizedCitationAccount> &
-        AuthorizedCitationAccount[];
+    authorizedCitationAccounts!: AsyncHasMany<AuthorizedCitationAccountModel> &
+        AuthorizedCitationAccountModel[];
 
     @hasMany('authorized-computing-account', { inverse: 'accountOwner' })
-    authorizedComputingAccounts!: AsyncHasMany<AuthorizedComputingAccount>
-        & AuthorizedComputingAccount[];
+    authorizedComputingAccounts!: AsyncHasMany<AuthorizedComputingAccountModel>
+        & AuthorizedComputingAccountModel[];
 
     @hasMany('resource-reference')
     configuredResources!: AsyncHasMany<ResourceReferenceModel> & ResourceReferenceModel[];

@@ -16,7 +16,7 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import AuthorizedAccountModel, { AccountCreationArgs } from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
-import AuthorizedComputingAccount from 'ember-osf-web/models/authorized-computing-account';
+import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
 import UserModel from 'ember-osf-web/models/user';
 
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
@@ -67,10 +67,10 @@ export default class UserAddonManagerComponent extends Component<Args> {
         },
         [FilterTypes.CLOUD_COMPUTING]: {
             modelName: 'external-computing-service',
-            fetchProvidersTask: taskFor(this.getCloudComputingProviders),
+            fetchProvidersTask: taskFor(this.getComputingAddonProviders),
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedComputingAccounts),
-            authorizedAccounts: [] as AuthorizedComputingAccount[],
+            authorizedAccounts: [] as AuthorizedComputingAccountModel[],
             authorizedServiceIds: [] as string[],
         },
     };
@@ -156,7 +156,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
             providerId = (account as AuthorizedCitationAccountModel).externalCitationService.get('id');
             break;
         case 'authorized-computing-account':
-            providerId = (account as AuthorizedComputingAccount).computingService.get('id');
+            providerId = (account as AuthorizedComputingAccountModel).externalComputingService.get('id');
             break;
         default:
             break;
@@ -226,7 +226,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const mappedObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
         const accounts = (await userReference.authorizedComputingAccounts).toArray();
         mappedObject.authorizedAccounts = accounts;
-        mappedObject.authorizedServiceIds = accounts.map(account => account.computingService.get('id'));
+        mappedObject.authorizedServiceIds = accounts.map(account => account.externalComputingService.get('id'));
         notifyPropertyChange(this, 'filterTypeMapper');
     }
 
@@ -257,11 +257,11 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
-    async getCloudComputingProviders() {
+    async getComputingAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CLOUD_COMPUTING];
-        const cloudComputingProviders = await taskFor(this.getExternalProviders)
+        const serviceComputingProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalComputingServiceModel[];
-        activeFilterObject.list = cloudComputingProviders.sort(this.providerSorter)
+        activeFilterObject.list = serviceComputingProviders.sort(this.providerSorter)
             .map(provider => new Provider(
                 provider,
                 this.currentUser,
@@ -276,9 +276,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
     @waitFor
     async getCitationAddonProviders() {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
-        const serviceCloudComputingProviders = await taskFor(this.getExternalProviders)
+        const serviceCitationProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalCitationServiceModel[];
-        activeFilterObject.list = serviceCloudComputingProviders.sort(this.providerSorter)
+        activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter)
             .map(provider => new Provider(
                 provider,
                 this.currentUser,

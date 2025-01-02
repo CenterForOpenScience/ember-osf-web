@@ -37,4 +37,8 @@ export default class ConfiguredAddonModel extends Model {
         // To be implemented in child classes
         return;
     }
+
+    get hasRootFolder() {
+        return true;
+    }
 }

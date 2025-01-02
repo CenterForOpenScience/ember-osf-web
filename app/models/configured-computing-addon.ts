@@ -1,16 +1,16 @@
 import { AsyncBelongsTo, belongsTo } from '@ember-data/model';
 
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
-import AuthorizedComputingAccount from './authorized-computing-account';
-import ExternalComputingService from './external-computing-service';
+import AuthorizedComputingAccountModel from './authorized-computing-account';
+import ExternalComputingServiceModel from './external-computing-service';
 import ConfiguredAddonModel from './configured-addon';
 
 export default class ConfiguredComputingAddonModel extends ConfiguredAddonModel {
     @belongsTo('external-computing-service', { inverse: null })
-    externalComputingService!: AsyncBelongsTo<ExternalComputingService> & ExternalComputingService;
+    externalComputingService!: AsyncBelongsTo<ExternalComputingServiceModel> & ExternalComputingServiceModel;
 
     @belongsTo('authorized-computing-account')
-    baseAccount!: AsyncBelongsTo<AuthorizedComputingAccount> & AuthorizedComputingAccount;
+    baseAccount!: AsyncBelongsTo<AuthorizedComputingAccountModel> & AuthorizedComputingAccountModel;
 
     @belongsTo('resource-reference', { inverse: 'configuredComputingAddons' })
     authorizedResource!: AsyncBelongsTo<ResourceReferenceModel> & ResourceReferenceModel;
@@ -18,6 +18,11 @@ export default class ConfiguredComputingAddonModel extends ConfiguredAddonModel 
     get externalServiceId() {
         return (this as ConfiguredComputingAddonModel).belongsTo('externalComputingService').id();
     }
+
+    get hasRootFolder() {
+        return false;
+    }
+
 }
 
 declare module 'ember-data/types/registries/model' {
