@@ -1445,6 +1445,7 @@ preprints:
         orphan_preprint: 'The user has removed this file.'
         preprint_doi: '{documentType} DOI'
         version_doi_title: 'Version {number}'
+        view_version: 'View version {number}'
         version_status:
             pending: '(Pending)'
             rejected: '(Rejected)'
