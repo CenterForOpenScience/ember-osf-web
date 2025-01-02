@@ -12,6 +12,7 @@
             as |version|
         >
             <span
+                local-class={{if (eq version.version @currentVersion.version) 'current-version'}}
                 data-test-preprint-version={{version.version}}
             >
                 {{#let (get this.reviewStateLabelKeyMap version.reviewsState) as |reviewStateLabelKey|}}

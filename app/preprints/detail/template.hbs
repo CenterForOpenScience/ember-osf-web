@@ -233,6 +233,7 @@
                         </div>
                     {{/if}}
                     <Preprints::-Components::PreprintDoi
+                        @currentVersion={{this.model.preprint}}
                         @versions={{this.model.versions}}
                         @provider={{this.model.provider}}
                     />

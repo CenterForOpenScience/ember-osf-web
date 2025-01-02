@@ -10,6 +10,7 @@ import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 interface InputArgs {
     versions: PreprintModel[];
     provider: PreprintProviderModel;
+    currentVersion: PreprintModel;
 }
 
 export default class PreprintAbstract extends Component<InputArgs> {
@@ -18,7 +19,7 @@ export default class PreprintAbstract extends Component<InputArgs> {
     provider = this.args.provider;
     documentType = this.provider.documentType.singularCapitalized;
 
-    @tracked selectedVersion = this.args.versions[0];
+    @tracked selectedVersion = this.args.currentVersion;
 
     reviewStateLabelKeyMap = VersionStatusSimpleLabelKey;
 
