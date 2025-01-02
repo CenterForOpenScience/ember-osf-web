@@ -41,10 +41,12 @@ module('Integration | Component | preprint-doi', function(hooks) {
 
         const provider = await this.store.findRecord('preprint-provider', mirageProvider.id);
         this.set('versions', versions);
+        this.set('currentVersion', versions[1]);
         this.set('provider', provider);
 
         await render(hbs`
 <Preprints::-Components::PreprintDoi
+    @currentVersion={{this.currentVersion}}
     @versions={{this.versions}}
     @provider={{this.provider}}
 />
@@ -57,21 +59,23 @@ module('Integration | Component | preprint-doi', function(hooks) {
         // check dropdown exists
         assert.dom('[data-test-version-select-dropdown]').exists('Version select dropdown exists');
         assert.dom('[data-test-version-select-dropdown]')
-            .hasText('Version 3 (Rejected)', 'Dropdown has latest version selected by default');
+            .hasText('Version 2 (Rejected)', 'Dropdown has passed in currentVersiom selected by default');
+        assert.dom('[data-test-preprint-version="2"]').exists('Version 2 is shown');
 
-        // check version3 has no DOI
-        assert.dom('[data-test-no-doi-text]').exists('No DOI text exists');
-        assert.dom('[data-test-no-doi-text]').hasText('DOI created after moderator approval', 'No DOI text is correct');
-
-        // check version2 has DOI, but no preprintDoiCreated date
-        await click('[data-test-version-select-dropdown]');
-        await click('[data-test-preprint-version="2"]');
+        // check version2 has DOI text
         assert.dom('[data-test-no-doi-text]').doesNotExist('No DOI text does not exist');
         assert.dom('[data-test-unlinked-doi-url]').exists('Preprint DOI URL exists');
         assert.dom('[data-test-unlinked-doi-description]').exists('Preprint DOI description exists');
         assert.dom('[data-test-unlinked-doi-description]')
             // eslint-disable-next-line max-len
             .hasText('DOIs are minted by a third party, and may take up to 24 hours to be registered.', 'Description is correct');
+
+        // check version3 has DOI, but no preprintDoiCreated date
+        await click('[data-test-version-select-dropdown]');
+        await click('[data-test-preprint-version="3"]');
+        assert.dom('[data-test-unlinked-doi-url]').doesNotExist('Unlinked preprint DOI URL does not exist');
+        assert.dom('[data-test-no-doi-text]').exists('No DOI text exists');
+        assert.dom('[data-test-no-doi-text]').hasText('DOI created after moderator approval', 'No DOI text is correct');
 
         // check version1 has DOI and preprintDoiCreated date
         await click('[data-test-version-select-dropdown]');
@@ -100,11 +104,13 @@ module('Integration | Component | preprint-doi', function(hooks) {
         const versions = await preprint.queryHasMany('versions');
 
         const provider = await this.store.findRecord('preprint-provider', mirageProvider.id);
+        this.set('currentVersion', versions[0]);
         this.set('versions', versions);
         this.set('provider', provider);
 
         await render(hbs`
 <Preprints::-Components::PreprintDoi
+    @currentVersion={{this.currentVersion}}
     @versions={{this.versions}}
     @provider={{this.provider}}
 />
