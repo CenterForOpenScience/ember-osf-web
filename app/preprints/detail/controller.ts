@@ -16,6 +16,7 @@ import { VersionStatusSimpleLabelKey } from 'ember-osf-web/models/preprint';
 import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/models/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
+import captureException, { getApiError } from 'ember-osf-web/utils/capture-exception';
 
 
 /**
@@ -161,8 +162,11 @@ export default class PrePrintsDetailController extends Controller {
             const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
             let errorMessage = this.intl.t('preprints.submit.new-version.error.description',
                 { preprintWord: this.model.provider.documentType.singular });
-            if (e.errors[0].status === 409) { // Conflict
-                errorMessage = this.intl.t('preprints.submit.new-version.error.conflict');
+            captureException(e, { errorMessage });
+            const error = getApiError(e);
+            if (error?.status === '409') { // Conflict
+                errorMessage = this.intl.t('preprints.submit.new-version.error.conflict',
+                    { preprintWord: this.model.provider.documentType.singular });
             }
             this.toast.error(errorMessage, errorTitle);
         }

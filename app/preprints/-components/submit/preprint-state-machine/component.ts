@@ -11,7 +11,7 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import FileModel from 'ember-osf-web/models/file';
 import Toast from 'ember-toastr/services/toast';
-import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiError, getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import { taskFor } from 'ember-concurrency-ts';
@@ -253,7 +253,9 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                 const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
                 let errorMessage = this.intl.t('preprints.submit.new-version.error.description',
                     { preprintWord: this.provider.documentType.singular });
-                if (e.errors[0].status === 409) { // Conflict
+                captureException(e, { errorMessage });
+                const error = getApiError(e);
+                if (error?.status === '409') { // Conflict
                     errorMessage = this.intl.t('preprints.submit.new-version.error.conflict');
                 }
                 this.toast.error(errorMessage, errorTitle);
