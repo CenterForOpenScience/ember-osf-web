@@ -39,7 +39,7 @@ export default class InstitutionDashboardRegistrations extends Controller {
         { // DOI
             name: this.intl.t('institutions.dashboard.object-list.table-headers.doi'),
             type: 'doi',
-            propertyPathKey: 'resourceIdentifier',
+            propertyPathKey: 'sameAs',
         },
         { // Storage location
             name: this.intl.t('institutions.dashboard.object-list.table-headers.storage_location'),
