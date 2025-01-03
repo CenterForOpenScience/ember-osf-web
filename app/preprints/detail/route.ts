@@ -4,6 +4,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { taskFor } from 'ember-concurrency-ts';
+import Intl from 'ember-intl/services/intl';
 import { all, restartableTask } from 'ember-concurrency';
 import moment from 'moment-timezone';
 
@@ -16,8 +17,9 @@ import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import Theme from 'ember-osf-web/services/theme';
 import captureException from 'ember-osf-web/utils/capture-exception';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import Intl from 'ember-intl/services/intl';
+
 import PrePrintsDetailController from './controller';
 
 
@@ -91,7 +93,7 @@ export default class PreprintsDetail extends Route {
 
         } catch (error) {
             captureException(error);
-            this.router.transitionTo('not-found', this.router.currentURL.slice(1));
+            this.router.transitionTo('not-found', notFoundURL(window.location.pathname));
             return null;
         }
     }
