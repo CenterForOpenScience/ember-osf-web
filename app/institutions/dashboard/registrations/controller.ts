@@ -16,7 +16,7 @@ export default class InstitutionDashboardRegistrations extends Controller {
             type: 'link',
             getHref: searchResult => searchResult.indexCard.get('osfIdentifier'),
             getLinkText: searchResult => searchResult.displayTitle,
-            columnKey: 'title',
+            propertyPathKey: 'title',
         },
         { // Link
             name: this.intl.t('institutions.dashboard.object-list.table-headers.link'),
@@ -27,24 +27,24 @@ export default class InstitutionDashboardRegistrations extends Controller {
         { // Date created
             name: this.intl.t('institutions.dashboard.object-list.table-headers.created_date'),
             getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateCreated']),
-            sortKey: 'dateCreated',
-            columnKey: 'dateCreated',
+            isSortable: true,
+            propertyPathKey: 'dateCreated',
         },
         { // Date modified
             name: this.intl.t('institutions.dashboard.object-list.table-headers.modified_date'),
             getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateModified']),
-            sortKey: 'dateModified',
-            columnKey: 'dateModified',
+            isSortable: true,
+            propertyPathKey: 'dateModified',
         },
         { // DOI
             name: this.intl.t('institutions.dashboard.object-list.table-headers.doi'),
             type: 'doi',
-            columnKey: 'resourceIdentifier',
+            propertyPathKey: 'resourceIdentifier',
         },
         { // Storage location
             name: this.intl.t('institutions.dashboard.object-list.table-headers.storage_location'),
             getValue: searchResult => searchResult.storageRegion,
-            columnKey: 'storageRegion.prefLabel',
+            propertyPathKey: 'storageRegion.prefLabel',
         },
         { // Total data stored
             name: this.intl.t('institutions.dashboard.object-list.table-headers.total_data_stored'),
@@ -52,14 +52,14 @@ export default class InstitutionDashboardRegistrations extends Controller {
                 const byteCount = getSingleOsfmapValue(searchResult.resourceMetadata, ['storageByteCount']);
                 return byteCount ? humanFileSize(byteCount) : this.missingItemPlaceholder;
             },
-            sortKey: 'storageByteCount',
+            isSortable: true,
             sortParam: 'integer-value',
-            columnKey: 'storageByteCount',
+            propertyPathKey: 'storageByteCount',
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
             type: 'contributors',
-            columnKey: 'creator.name',
+            propertyPathKey: 'creator.name',
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
@@ -67,19 +67,19 @@ export default class InstitutionDashboardRegistrations extends Controller {
                 const metrics = searchResult.usageMetrics;
                 return metrics ? metrics.viewCount : this.missingItemPlaceholder;
             },
-            sortKey: 'usage.viewCount',
+            isSortable: true,
             sortParam: 'integer-value',
-            columnKey: 'usage.viewCount',
+            propertyPathKey: 'usage.viewCount',
         },
         { // Resource type
             name: this.intl.t('institutions.dashboard.object-list.table-headers.resource_nature'),
             getValue: searchResult => searchResult.resourceNature || this.missingItemPlaceholder,
-            columnKey: 'resourceNature.displayLabel',
+            propertyPathKey: 'resourceNature.displayLabel',
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
             getValue: searchResult => searchResult.license?.name || this.missingItemPlaceholder,
-            columnKey: 'rights.name',
+            propertyPathKey: 'rights.name',
         },
         { // Funder name
             name: this.intl.t('institutions.dashboard.object-list.table-headers.funder_name'),
@@ -89,12 +89,12 @@ export default class InstitutionDashboardRegistrations extends Controller {
                 }
                 return searchResult.funders.map((funder: { name: string }) => funder.name).join(', ');
             },
-            columnKey: 'funders.name',
+            propertyPathKey: 'funders.name',
         },
         { // schema
             name: this.intl.t('institutions.dashboard.object-list.table-headers.registration_schema'),
             getValue: searchResult => searchResult.registrationTemplate,
-            columnKey: 'conformsTo.title',
+            propertyPathKey: 'conformsTo.title',
         },
     ];
 
