@@ -47,6 +47,15 @@ export interface WaterButlerRevision {
     };
 }
 
+interface DataverseExtraInfo {
+    datasetVersion: 'latest-published' | 'latest';
+    fileId: string;
+    hasPublishedVersion: boolean;
+    hashes: {
+        md5: string,
+    };
+}
+
 export default class ServiceFile {
     @tracked fileModel: FileModel;
     @tracked configuredStorageAddon: ConfiguredStorageAddonModel;
@@ -55,6 +64,7 @@ export default class ServiceFile {
     @tracked userCanDownloadAsZip: boolean;
     @tracked canMoveToThisProvider: boolean;
     @tracked canAddOrUpdate: boolean;
+    @tracked isDataverse: boolean; // we have some special casing for Dataverse
     shouldShowTags = false;
     shouldShowRevisions: boolean;
     providerHandlesVersioning: boolean;
@@ -77,6 +87,7 @@ export default class ServiceFile {
         this.userCanDownloadAsZip = false;
         this.canMoveToThisProvider = false;
         this.canAddOrUpdate = false;
+        this.isDataverse = false;
         this.getSupportedFeatures();
         this.providerHandlesVersioning = configuredStorageAddon.connectedOperationNames
             .includes(ConnectedStorageOperationNames.HasRevisions);
@@ -87,6 +98,7 @@ export default class ServiceFile {
 
     async getSupportedFeatures() {
         const externalStorageService = await this.configuredStorageAddon.externalStorageService;
+        this.isDataverse = externalStorageService.get('wbKey') === 'dataverse';
         this.userCanDownloadAsZip = externalStorageService.get('supportedFeatures')
             .includes(ExternalServiceCapabilities.DOWNLOAD_AS_ZIP);
         this.canMoveToThisProvider = externalStorageService.get('supportedFeatures')
@@ -135,6 +147,12 @@ export default class ServiceFile {
     }
 
     get displayName() {
+        if (this.isDataverse) {
+            const fileExtra = this.fileModel.extra as DataverseExtraInfo;
+            const translationKeyPrefix = 'osf-components.file-browser.provider-specific-data.dataverse.';
+            const fileNameSuffix = ' ' + this.intl.t(translationKeyPrefix + fileExtra.datasetVersion);
+            return this.fileModel.name + fileNameSuffix;
+        }
         return this.fileModel.name;
     }
 
