@@ -87,7 +87,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @tracked activeFilterType: FilterTypes = FilterTypes.STORAGE;
 
     @tracked confirmRemoveConnectedLocation = false;
-    @tracked pageMode?: PageMode;
+    @tracked _pageMode?: PageMode;
+    @tracked _pageModeHistory: PageMode[] = [];
     @tracked selectedProvider?: Provider;
     @tracked selectedConfiguration?: AllConfiguredAddonTypes;
     @tracked selectedAccount?: AllAuthorizedAccountTypes;
@@ -103,6 +104,17 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             activeFilterObject.task.perform();
         }
     }
+    get pageMode(): PageMode | undefined {
+        return this._pageMode;
+    }
+
+    set pageMode(value: PageMode | undefined) {
+        if (this._pageMode){
+            this._pageModeHistory.push(this._pageMode);
+        }
+        this._pageMode = value;
+    }
+
     get filteredConfiguredProviders() {
         const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
         const possibleProviders = activeFilterObject.list;
@@ -137,6 +149,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.selectedConfiguration = configuredAddon;
         this.pageMode = PageMode.CONFIGURE;
     }
+
+    @action
+    back() {
+        this._pageMode = this._pageModeHistory.pop();
+    }
+
 
     @action
     listProviderConfigurations(provider: Provider) {
