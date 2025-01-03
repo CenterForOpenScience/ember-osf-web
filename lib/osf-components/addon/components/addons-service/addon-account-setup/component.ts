@@ -154,7 +154,7 @@ export default class AddonAccountSetupComponent extends Component<Args> {
                 {
                     name: 'access_token',
                     labelText: t('addons.accountCreate.personal-access-token-label'),
-                    inputType: 'text',
+                    inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.personal-access-token-placeholder'),
                 },
             ];
