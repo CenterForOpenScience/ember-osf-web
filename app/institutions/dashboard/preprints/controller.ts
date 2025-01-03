@@ -40,7 +40,7 @@ export default class InstitutionDashboardPreprints extends Controller {
         { // DOI
             name: this.intl.t('institutions.dashboard.object-list.table-headers.doi'),
             type: 'doi',
-            propertyPathKey: 'resourceIdentifier',
+            propertyPathKey: 'sameAs',
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
