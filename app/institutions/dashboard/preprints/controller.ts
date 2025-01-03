@@ -17,6 +17,7 @@ export default class InstitutionDashboardPreprints extends Controller {
             type: 'link',
             getHref: searchResult => searchResult.indexCard.get('osfIdentifier'),
             getLinkText: searchResult => searchResult.displayTitle,
+            columnKey: 'title',
         },
         { // Link
             name: this.intl.t('institutions.dashboard.object-list.table-headers.link'),
@@ -28,23 +29,28 @@ export default class InstitutionDashboardPreprints extends Controller {
             name: this.intl.t('institutions.dashboard.object-list.table-headers.created_date'),
             getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateCreated']),
             sortKey: 'dateCreated',
+            columnKey: 'dateCreated',
         },
         { // Date modified
             name: this.intl.t('institutions.dashboard.object-list.table-headers.modified_date'),
             getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateModified']),
             sortKey: 'dateModified',
+            columnKey: 'dateModified',
         },
         { // DOI
             name: this.intl.t('institutions.dashboard.object-list.table-headers.doi'),
             type: 'doi',
+            columnKey: 'resourceIdentifier',
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
             getValue: searchResult => searchResult.license?.name || this.missingItemPlaceholder,
+            columnKey: 'rights.name',
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
             type: 'contributors',
+            columnKey: 'creator.name',
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
@@ -54,6 +60,7 @@ export default class InstitutionDashboardPreprints extends Controller {
             },
             sortKey: 'usage.viewCount',
             sortParam: 'integer-value',
+            columnKey: 'usage.viewCount',
         },
         { // Download count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.download_count'),
@@ -63,6 +70,7 @@ export default class InstitutionDashboardPreprints extends Controller {
             },
             sortKey: 'usage.downloadCount',
             sortParam: 'integer-value',
+            columnKey: 'usage.downloadCount',
         },
     ];
 

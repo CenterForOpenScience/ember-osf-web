@@ -17,6 +17,7 @@ export default class InstitutionDashboardProjects extends Controller {
             type: 'link',
             getHref: searchResult => searchResult.indexCard.get('osfIdentifier'),
             getLinkText: searchResult => searchResult.displayTitle,
+            columnKey: 'title',
         },
         { // Link
             name: this.intl.t('institutions.dashboard.object-list.table-headers.link'),
@@ -28,19 +29,23 @@ export default class InstitutionDashboardProjects extends Controller {
             name: this.intl.t('institutions.dashboard.object-list.table-headers.created_date'),
             getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateCreated']),
             sortKey: 'dateCreated',
+            columnKey: 'dateCreated',
         },
         { // Date modified
             name: this.intl.t('institutions.dashboard.object-list.table-headers.modified_date'),
             getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateModified']),
             sortKey: 'dateModified',
+            columnKey: 'dateModified',
         },
         { // DOI
             name: this.intl.t('institutions.dashboard.object-list.table-headers.doi'),
             type: 'doi',
+            columnKey: 'resourceIdentifier',
         },
         { // Storage location
             name: this.intl.t('institutions.dashboard.object-list.table-headers.storage_location'),
             getValue: searchResult => searchResult.storageRegion,
+            columnKey: 'storageRegion.prefLabel',
         },
         { // Total data stored
             name: this.intl.t('institutions.dashboard.object-list.table-headers.total_data_stored'),
@@ -50,10 +55,12 @@ export default class InstitutionDashboardProjects extends Controller {
             },
             sortKey: 'storageByteCount',
             sortParam: 'integer-value',
+            columnKey: 'storageByteCount',
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
             type: 'contributors',
+            columnKey: 'creator.name',
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
@@ -63,19 +70,23 @@ export default class InstitutionDashboardProjects extends Controller {
             },
             sortKey: 'usage.viewCount',
             sortParam: 'integer-value',
+            columnKey: 'usage.viewCount',
         },
         { // Resource type
             name: this.intl.t('institutions.dashboard.object-list.table-headers.resource_nature'),
             getValue: searchResult => searchResult.resourceNature || this.missingItemPlaceholder,
+            columnKey: 'resourceNature.displayLabel',
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
             getValue: searchResult => searchResult.license?.name || this.missingItemPlaceholder,
+            columnKey: 'rights.name',
         },
         { // addons associated
             name: this.intl.t('institutions.dashboard.object-list.table-headers.addons'),
             getValue: searchResult => searchResult.configuredAddonNames.length ?  searchResult.configuredAddonNames :
                 this.missingItemPlaceholder,
+            columnKey: 'hasOsfAddon.prefLabel',
         },
         { // Funder name
             name: this.intl.t('institutions.dashboard.object-list.table-headers.funder_name'),
@@ -85,6 +96,7 @@ export default class InstitutionDashboardProjects extends Controller {
                 }
                 return searchResult.funders.map((funder: { name: string }) => funder.name).join(', ');
             },
+            columnKey: 'funder.name',
         },
     ];
 

@@ -17,6 +17,7 @@ interface Column {
     name: string;
     sortKey?: string;
     sortParam?: string;
+    columnKey?: string;
 }
 interface ValueColumn extends Column {
     getValue(searchResult: SearchResultModel): string;
@@ -92,6 +93,16 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         cardSearchUrl.searchParams.set('page[size]', '10000');
         cardSearchUrl.searchParams.set('acceptMediatype', format);
         cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results`);
+
+        const columnDownloadKeys = this.args.columns.map(column => {
+            if (column.columnKey && this.visibleColumns.includes(column.name)) {
+                return column.columnKey;
+            }
+            return null;
+        });
+        const { resourceType } = this.args.defaultQueryOptions.cardSearchFilter;
+
+        cardSearchUrl.searchParams.set(`fields[${resourceType}]`, columnDownloadKeys.filter(Boolean).join(','));
         return cardSearchUrl.toString();
     }
 
