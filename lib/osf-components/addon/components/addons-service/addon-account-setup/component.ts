@@ -55,7 +55,7 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     @tracked newAccount?: AllAuthorizedAccountTypes;
     @tracked pendingOauth = false;
     @tracked credentialsObject: AddonCredentialFields = {};
-    @tracked displayName = this.args.account?.displayName || '';
+    @tracked displayName = this.args.account?.displayName || this.args.provider.displayName;
     @tracked connectAccountError = false;
 
     get useOauth() {
@@ -64,6 +64,19 @@ export default class AddonAccountSetupComponent extends Component<Args> {
 
     get showUrlField() {
         return this.args.provider.configurableApiRoot;
+    }
+
+    get isConnectAvailable() {
+        return this.credentialValues.reduce<boolean>(
+            (previousValue, currentValue) => previousValue && Boolean(currentValue),
+            true,
+        ) && this.displayName && (!this.showUrlField || this.url);
+    }
+
+    get credentialValues() {
+        return this.inputFields.map(
+            field => this.credentialsObject[field.name as keyof AddonCredentialFields],
+        ).toArray();
     }
 
     otherRepoLabel = this.intl.t('addons.accountCreate.other-repo-label');
@@ -100,10 +113,10 @@ export default class AddonAccountSetupComponent extends Component<Args> {
     inputFieldChanged(event: Event) {
         const { name, value } = event.target as HTMLInputElement;
         this.credentialsObject[name as keyof AddonCredentialFields] = value;
+        this.credentialsObject = {...this.credentialsObject};
     }
 
     get inputFields(): InputFieldObject[] {
-        const credentials = this.credentialsObject;
         const t = this.intl.t.bind(this.intl);
         switch (this.args.provider.credentialsFormat) {
         case CredentialsFormat.USERNAME_PASSWORD: {
@@ -114,7 +127,6 @@ export default class AddonAccountSetupComponent extends Component<Args> {
                     labelText: t('addons.accountCreate.username-label'),
                     inputType: 'text',
                     inputPlaceholder: t('addons.accountCreate.username-placeholder'),
-                    inputValue: credentials.username,
                     autocomplete: 'username',
                 },
                 {
@@ -122,7 +134,6 @@ export default class AddonAccountSetupComponent extends Component<Args> {
                     labelText: t('addons.accountCreate.password-label'),
                     inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.password-placeholder'),
-                    inputValue: credentials.password,
                     autocomplete: 'current-password',
                     postText: passwordPostText,
                 },
@@ -135,7 +146,6 @@ export default class AddonAccountSetupComponent extends Component<Args> {
                     labelText: t('addons.accountCreate.api-token-label'),
                     inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.api-token-placeholder'),
-                    inputValue: credentials.access_token,
                 },
             ];
         }
@@ -144,9 +154,8 @@ export default class AddonAccountSetupComponent extends Component<Args> {
                 {
                     name: 'access_token',
                     labelText: t('addons.accountCreate.personal-access-token-label'),
-                    inputType: 'text',
+                    inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.personal-access-token-placeholder'),
-                    inputValue: credentials.access_token,
                 },
             ];
         }
@@ -157,14 +166,12 @@ export default class AddonAccountSetupComponent extends Component<Args> {
                     labelText: t('addons.accountCreate.access-key-label'),
                     inputType: 'text',
                     inputPlaceholder: t('addons.accountCreate.access-key-placeholder'),
-                    inputValue: credentials.access_key,
                 },
                 {
                     name: 'secret_key',
                     labelText: t('addons.accountCreate.secret-key-label'),
                     inputType: 'password',
                     inputPlaceholder: t('addons.accountCreate.secret-key-placeholder'),
-                    inputValue: credentials.secret_key,
                 },
             ];
         }

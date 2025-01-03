@@ -121,7 +121,6 @@
                             placeholder={{field.inputPlaceholder}}
                             autocomplete={{field.autocomplete}}
                             @type={{field.inputType}}
-                            @value={{field.inputValue}}
                             {{on 'input' this.inputFieldChanged}}
                         />
                     {{/let}}
@@ -160,7 +159,7 @@
                             data-test-addon-reconnect-account-button
                             data-analytics-name='Reconnect Account'
                             @type='primary'
-                            disabled={{@manager.reconnectAccount.isRunning}}
+                            disabled={{or @manager.connectAccount.isRunning (not this.isConnectAvailable)}}
                             {{on 'click' (perform this.reconnectAccount)}}
                         >
                             {{t 'addons.accountCreate.reconnect'}}
@@ -170,7 +169,7 @@
                             data-test-addon-connect-account-button
                             data-analytics-name='Connect Account'
                             @type='primary'
-                            disabled={{@manager.connectAccount.isRunning}}
+                            disabled={{or @manager.connectAccount.isRunning (not this.isConnectAvailable)}}
                             {{on 'click' (perform this.connectAccount)}}
                         >
                             {{t 'addons.accountCreate.connect'}}
