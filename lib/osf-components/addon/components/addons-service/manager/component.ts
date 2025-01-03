@@ -109,7 +109,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     set pageMode(value: PageMode | undefined) {
-        if (this._pageMode){
+        if (this._pageMode && value) {
             this._pageModeHistory.push(this._pageMode);
         }
         this._pageMode = value;
@@ -152,7 +152,29 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     back() {
-        this._pageMode = this._pageModeHistory.pop();
+        const previousPageMode = this._pageModeHistory.pop();
+        if (!previousPageMode) {
+            this.cancelSetup();
+            return;
+        }
+        this._pageMode = previousPageMode;
+        switch (previousPageMode) {
+        case PageMode.CONFIGURATION_LIST:
+            this.selectedProvider = this.selectedProvider || undefined;
+            break;
+        case PageMode.CONFIGURE:
+            if (!this.selectedProvider || !this.selectedConfiguration) {
+                this.cancelSetup();
+            }
+            break;
+        case PageMode.TERMS:
+            if (!this.selectedProvider) {
+                this.cancelSetup();
+            }
+            break;
+        default:
+            break;
+        }
     }
 
 
@@ -250,7 +272,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     cancelSetup() {
-        this.pageMode = undefined;
+        this._pageMode = undefined;
+        this._pageModeHistory = [];
         this.selectedProvider = undefined;
         this.selectedConfiguration = undefined;
         this.selectedAccount = undefined;
