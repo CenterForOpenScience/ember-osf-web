@@ -22,8 +22,9 @@ const shareDownloadFlag = config.featureFlagNames.shareDownload;
 
 interface Column {
     name: string;
-    sortKey?: string;
+    isSortable?: boolean;
     sortParam?: string;
+    propertyPathKey?: string;
 }
 interface ValueColumn extends Column {
     getValue(searchResult: SearchResultModel): string;
@@ -113,6 +114,16 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         cardSearchUrl.searchParams.set('page[size]', '10000');
         cardSearchUrl.searchParams.set('acceptMediatype', format);
         cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results`);
+
+        const columnDownloadKeys = this.args.columns.map(column => {
+            if (column.propertyPathKey && this.visibleColumns.includes(column.name)) {
+                return column.propertyPathKey;
+            }
+            return null;
+        });
+        const { resourceType } = this.args.defaultQueryOptions.cardSearchFilter;
+
+        cardSearchUrl.searchParams.set(`fields[${resourceType}]`, columnDownloadKeys.filter(Boolean).join(','));
         return cardSearchUrl.toString();
     }
 
