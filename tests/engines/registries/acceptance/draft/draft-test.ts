@@ -945,16 +945,6 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-validation-errors="description"]')
             .exists('error in description appears after removing valid string to blank string');
 
-        // Choose category and add a tag
-        await click('[data-test-metadata-category] > div');
-        await percySnapshot('Registries | Acceptance | draft form | metadata editing | metadata: categories opened');
-        assert.dom('[data-option-index="1"]').containsText('Other');
-        await click('[data-option-index="1"]');
-
-        await click('[data-test-metadata-tags]');
-        await fillIn('[data-test-metadata-tags] input', 'ragtagbag');
-        await triggerKeyEvent('[data-test-metadata-tags] input', 'keydown', 'Enter');
-
         // No errors for nodelicense fields
         assert.dom('[data-test-validation-errors="subjects"]')
             .doesNotExist('no error for required fields that user has yet to change: subjects');
@@ -969,12 +959,6 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-goto-register]').isDisabled();
         assert.dom('[data-test-validation-errors="subjects"]');
         assert.dom('[data-test-validation-errors="license"]');
-
-        // Category and tag added appear on review page
-        assert.dom('[data-test-review-response="category"]')
-            .containsText('Other', 'category that was selected in metadata page shows up in review');
-        assert.dom('[data-test-tags-widget-tag="ragtagbag"]')
-            .exists('tag added in metadata shows up in review page');
 
         // Return to Metadata page and address errors for subjects and license
         await click('[data-test-link="metadata"]');

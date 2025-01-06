@@ -1,0 +1,279 @@
+<IndexCardSearcher
+    @queryOptions={{this.queryOptions}}
+    @sort={{this.sort}}
+    @page={{this.page}}
+as |list|>
+    <Institutions::Dashboard::-Components::InstitutionalDashboardWrapper @institution={{@institution}} as |wrapper|>
+        <wrapper.main local-class='main-column' as |main|>
+            {{#if list.searchObjectsTask.isRunning}}
+                <LoadingIndicator @dark={{true}} />
+            {{else}}
+                <div local-class='top-bar-wrapper'>
+                    <span
+                        data-test-object-count
+                        local-class='total-object-count'
+                    >
+                        <span local-class='total-object-number'>{{list.totalResultCount}}</span>
+                        {{t 'institutions.dashboard.object-list.total-objects' objectType=@objectType}}
+                    </span>
+                    <div local-class='top-bar-button-wrapper'>
+                        <Button
+                            data-test-toggle-filter-button
+                            local-class='blue-text-button'
+                            {{on 'click' main.toggleMetadata}}
+                        >
+                            <FaIcon @icon='filter' />
+                            {{t 'institutions.dashboard.object-list.filter-button-label'}}
+                        </Button>
+                        <ResponsiveDropdown
+                            @renderInPlace={{true}}
+                            @buttonStyling={{true}}
+                            as |dd|
+                        >
+                            <dd.trigger
+                                data-test-customize-columns-button
+                                local-class='blue-text-button'
+                            >
+                                <FaIcon @icon='columns' />
+                                {{t 'institutions.dashboard.object-list.customize'}}
+                            </dd.trigger>
+                            <dd.content local-class='customize-menu-wrapper'>
+                                {{#each @columns as |column|}}
+                                    <label local-class='visibility-toggle-label'>
+                                        <Input
+                                            data-test-column-toggle-input={{column.name}}
+                                            @type='checkbox'
+                                            @checked={{includes column.name this.visibleColumns}}
+                                            {{on 'change' (fn this.toggleColumnVisibility column.name)}}
+                                        />
+                                        {{column.name}}
+                                    </label>
+                                {{/each}}
+                                <div local-class='customize-menu-button-wrapper'>
+                                    <Button
+                                        data-test-reset-columns-button
+                                        {{on 'click' (queue this.resetColumns dd.close)}}
+                                    >
+                                        {{t 'general.reset'}}
+                                    </Button>
+                                    <Button
+                                        data-test-save-columns-button
+                                        @type='primary'
+                                        {{on 'click' (queue this.updateVisibleColumns dd.close)}}
+                                    >
+                                        {{t 'general.save'}}
+                                    </Button>
+                                </div>
+                            </dd.content>
+                        </ResponsiveDropdown>
+                        <div local-class='download-button-group'>
+                            {{#if @institution.linkToExternalReportsArchive}}
+                                <div>
+                                    <OsfLink
+                                        data-test-link-to-reports-archive
+                                        data-analytics-name='Link to archived reports'
+                                        aria-label={{t 'institutions.dashboard.download_past_reports_label'}}
+                                        @target='_blank'
+                                        @fakeButton={{true}}
+                                        @href={{@institution.linkToExternalReportsArchive}}
+                                    >
+                                        <EmberTooltip @side='bottom'>
+                                            {{t 'institutions.dashboard.download_past_reports_label'}}
+                                        </EmberTooltip>
+                                        <FaIcon
+                                            @icon='chart-pie'
+                                        />
+                                    </OsfLink>
+                                </div>
+                            {{/if}}
+                            {{#if this.showDownloadButtons}}
+                                <ResponsiveDropdown @renderInPlace={{true}} @buttonStyling={{true}} as |dd| >
+                                    <dd.trigger
+                                        data-test-download-dropdown
+                                        aria-label={{t 'institutions.dashboard.download_dropdown_label'}}
+                                        local-class='download-dropdown-trigger'
+                                    >
+                                        <FaIcon @icon='download' />
+                                    </dd.trigger>
+                                    <dd.content local-class='download-dropdown-content'>
+                                        <OsfLink
+                                            data-test-download-csv-link
+                                            data-analytics-name='Download CSV'
+                                            local-class='download-link'
+                                            {{on 'click' dd.close}}
+                                            @href={{call (fn (action this.downloadCsvUrl list.latestIndexCardSearch))}}
+                                            @target='_blank'
+                                        >
+                                            {{t 'institutions.dashboard.format_labels.csv'}}
+                                        </OsfLink>
+                                        <OsfLink
+                                            data-test-download-tsv-link
+                                            data-analytics-name='Download TSV'
+                                            local-class='download-link'
+                                            {{on 'click' dd.close}}
+                                            @href={{call (fn (action this.downloadTsvUrl list.latestIndexCardSearch))}}
+                                            @target='_blank'
+                                        >
+                                            {{t 'institutions.dashboard.format_labels.tsv'}}
+                                        </OsfLink>
+                                        <OsfLink
+                                            data-test-download-json-link
+                                            data-analytics-name='Download JSON'
+                                            local-class='download-link'
+                                            {{on 'click' dd.close}}
+                                            @href={{call (fn (action this.downloadJsonUrl list.latestIndexCardSearch))}}
+                                            @target='_blank'
+                                        >
+                                            {{t 'institutions.dashboard.format_labels.json'}}
+                                        </OsfLink>
+                                    </dd.content>
+                                </ResponsiveDropdown>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                <div local-class='table-wrapper'>
+                    <table data-test-object-list-table local-class='object-table'>
+                        <thead local-class='object-table-head'>
+                            <tr>
+                                {{#let (component 'sort-arrow'
+                                    sort=this.sort
+                                    ) as |SortArrow|
+                                }}
+                                    {{#each @columns as |column|}}
+                                        {{#if (includes column.name this.visibleColumns)}}
+                                            <th
+                                                data-test-column-header={{column.name}}
+                                                title={{column.name}}
+                                                local-class='object-table-header'
+                                            >
+                                                <span>
+                                                    {{column.name}}
+                                                    {{#if column.isSortable}}
+                                                        <SortArrow
+                                                            @sortBy={{column.propertyPathKey}}
+                                                            @sortAction={{queue (fn this.updateSortKey column.propertyPathKey column.sortParam) (perform list.searchObjectsTask)}}
+                                                        />
+                                                    {{/if}}
+                                                </span>
+                                            </th>
+                                        {{/if}}
+                                    {{/each}}
+                                {{/let}}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {{#each list.searchResults as |result|}}
+                                <tr data-test-object-table-body-row>
+                                    {{#each @columns as |column|}}
+                                        {{#if (includes column.name this.visibleColumns)}}
+                                            <td>
+                                                {{#if (eq column.type 'link')}}
+                                                    <OsfLink
+                                                        @href={{call (fn column.getHref result)}}
+                                                        @target='_blank'
+                                                    >
+                                                        {{call (fn column.getLinkText result)}}
+                                                    </OsfLink>
+                                                {{else if (eq column.type 'doi')}}
+                                                    <Institutions::Dashboard::-Components::ObjectList::DoiField
+                                                        @searchResult={{result}}
+                                                    />
+                                                {{else if (eq column.type 'contributors')}}
+                                                    <Institutions::Dashboard::-Components::ObjectList::ContributorsField
+                                                        @searchResult={{result}}
+                                                        @institution={{@institution}}
+                                                    />
+                                                {{else}}
+                                                    {{call (fn column.getValue result)}}
+                                                {{/if}}
+                                            </td>
+                                        {{/if}}
+                                    {{/each}}
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <div local-class='bottom-bar-wrapper'>
+                    {{#if list.showFirstPageOption}}
+                        <Button {{on 'click' (queue (fn this.updatePage list.firtPageCursor) (perform list.searchObjectsTask))}}>
+                            {{t 'institutions.dashboard.object-list.first'}}
+                        </Button>
+                    {{/if}}
+                    {{#if list.hasPrevPage}}
+                        <Button {{on 'click' (queue (fn this.updatePage list.prevPageCursor) (perform list.searchObjectsTask))}}>
+                            {{t 'institutions.dashboard.object-list.prev'}}
+                        </Button>
+                    {{/if}}
+                    {{#if list.hasNextPage}}
+                        <Button {{on 'click' (queue (fn this.updatePage list.nextPageCursor) (perform list.searchObjectsTask))}}>
+                            {{t 'institutions.dashboard.object-list.next'}}
+                        </Button>
+                    {{/if}}
+                </div>
+            {{/if}}
+        </wrapper.main>
+        {{#if list.relatedProperties}}
+            <wrapper.right local-class='right-wrapper' as |right|>
+                <span local-class='right-panel-header'>
+                    {{t 'institutions.dashboard.object-list.filter-heading'}}
+                </span>
+                <Button
+                    aria-label={{t 'general.close'}}
+                    @layout='fake-link'
+                    @size='large'
+                    local-class='close-button'
+                    {{on 'click' right.toggleMetadata}}
+                >
+                    <FaIcon @icon='times' />
+                </Button>
+                {{#if this.activeFilters}}
+                    <ul
+                        data-test-active-filters-list
+                        local-class='active-filter-list'
+                    >
+                        {{#each this.activeFilters as |filter|}}
+                            <li
+                                data-test-active-filter='{{filter.propertyVisibleLabel}}-{{filter.value}}'
+                                local-class='active-filter-item'
+                            >
+                                <span>
+                                    {{filter.propertyVisibleLabel}}:
+                                    {{filter.label}}
+                                </span>
+                                <Button
+                                    data-analytics-name='remove filter'
+                                    data-test-remove-active-filter='{{filter.propertyVisibleLabel}}-{{filter.label}}'
+                                    aria-label={{t 'search.active-filters.remove-filter' property=filter.propertyVisibleLabel label=filter.label}}
+                                    @layout='fake-link'
+                                    {{on 'click' (queue (fn this.toggleFilter filter) (perform list.searchObjectsTask))}}
+                                >
+                                    <FaIcon @icon='times' />
+                                </Button>
+                            </li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+
+                {{#each list.relatedProperties as |property|}}
+                    <SearchPage::FilterFacet
+                        @cardSearchText={{this.cardSearchText}}
+                        @cardSearchFilter={{this.valueSearchQueryOptions}}
+                        @property={{property}}
+                        @toggleFilter={{queue this.toggleFilter (perform list.searchObjectsTask)}}
+                    />
+                {{/each}}
+                {{#if list.booleanFilters.length}}
+                    <SearchPage::BooleanFilters
+                        @cardSearchText={{this.cardSearchText}}
+                        @cardSearchFilter={{this.valueSearchQueryOptions}}
+                        @properties={{list.booleanFilters}}
+                        @toggleFilter={{queue this.toggleFilter (perform list.searchObjectsTask)}}
+                    />
+                {{/if}}
+            </wrapper.right>
+        {{/if}}
+    </Institutions::Dashboard::-Components::InstitutionalDashboardWrapper>
+</IndexCardSearcher>

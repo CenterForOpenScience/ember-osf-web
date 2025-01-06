@@ -80,7 +80,9 @@
                         {{/if}}
                     {{/if}}
 
-                    {{node-card/node-icon category=@node.category}}
+                    {{#unless @node.isRegistration}}
+                        {{node-card/node-icon category=@node.category}}
+                    {{/unless}}
                     <OsfLink
                         local-class='osf-link {{if this.isMobile 'mobile'}}'
                         data-analytics-name='Title'

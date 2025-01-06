@@ -1,0 +1,44 @@
+.institution-list-container {
+    width: 100%;
+
+    .institution-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-items: center;
+        align-items: flex-start;
+        margin-bottom: 5px;
+        height: 30px;
+
+        .institution-checkbox {
+            margin-right: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-items: center;
+            align-items: center;
+            padding-bottom: 4px;
+            height: 30px;
+        }
+
+        .label {
+            font-weight: normal;
+            font-size: 14px;
+            display: flex;
+            flex-direction: row;
+            justify-items: center;
+            align-items: center;
+            height: 30px;
+            width: 100%;
+        }
+    }
+
+    &.mobile {
+        .label {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 90%;
+        }
+
+    }
+}

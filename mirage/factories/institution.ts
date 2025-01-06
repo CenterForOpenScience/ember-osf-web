@@ -23,6 +23,7 @@ export default Factory.extend<Institution & InstitutionTraits>({
         };
     },
     currentUserIsAdmin: true,
+    linkToExternalReportsArchive: faker.internet.url,
     lastUpdated() {
         return faker.date.recent();
     },
@@ -33,16 +34,13 @@ export default Factory.extend<Institution & InstitutionTraits>({
     withMetrics: trait<Institution>({
         afterCreate(institution, server) {
             const userMetrics = server.createList('institution-user', 15);
-            const departmentMetrics = server.createList('institution-department', 12);
-            const userCount = userMetrics.length;
-            let publicProjectCount = 0;
-            let privateProjectCount = 0;
-            userMetrics.forEach(({ publicProjects, privateProjects }) => {
-                publicProjectCount += publicProjects;
-                privateProjectCount += privateProjects;
-            });
+            const departmentNames = ['Architecture', 'Biology', 'Psychology'];
+
+            const departmentMetrics = departmentNames.map(name =>
+                server.create('institution-department', { name }));
+
             const summaryMetrics = server.create('institution-summary-metric', { id: institution.id });
-            summaryMetrics.update({ publicProjectCount, privateProjectCount, userCount });
+
             institution.update({ userMetrics, departmentMetrics, summaryMetrics });
         },
     }),

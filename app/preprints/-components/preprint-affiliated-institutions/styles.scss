@@ -1,0 +1,50 @@
+.osf-institution-link-flex {
+    img {
+        width: 35px;
+        height: 35px;
+    }
+
+    a {
+        padding-bottom: 5px;
+    }
+
+    .img-circle {
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+
+    .img-responsive {
+        max-width: 100%;
+    }
+
+    .img-horizontal {
+        margin-top: 10px;
+    }
+
+    .link-horizontal {
+        display: inline;
+    }
+
+    .link-vertical {
+        display: block;
+    }
+
+}
+
+.title {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 10px;
+}
+
+.content-container {
+    width: 100%;
+    margin-top: 20px;
+
+    h4 {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+}

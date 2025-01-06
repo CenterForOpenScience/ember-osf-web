@@ -19,6 +19,8 @@ export default class RegistriesDraftMetadata extends Controller {
     categoryOptions = Object.values(NodeCategory);
     showAddContributorWidget = false;
 
+    hideCategories = true;
+
     @not('media.isDesktop') showMobileView!: boolean;
     osfUrl = config.OSF.url;
 

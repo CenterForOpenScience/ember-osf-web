@@ -2,6 +2,7 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import IntlService from 'ember-intl/services/intl';
+import { getOsfmapValues, getSingleOsfmapObject, getSingleOsfmapValue } from 'ember-osf-web/packages/osfmap/jsonld';
 import { languageFromLanguageCode } from 'osf-components/components/file-metadata-manager/component';
 
 import IndexCardModel from './index-card';
@@ -19,6 +20,17 @@ export interface TextMatchEvidence {
     matchingHighlight: string;
     osfmapPropertyPath: string[];
 }
+
+export const CardLabelTranslationKeys = {
+    project: 'osf-components.search-result-card.project',
+    project_component: 'osf-components.search-result-card.project_component',
+    registration: 'osf-components.search-result-card.registration',
+    registration_component: 'osf-components.search-result-card.registration_component',
+    preprint: 'osf-components.search-result-card.preprint',
+    file: 'osf-components.search-result-card.file',
+    user: 'osf-components.search-result-card.user',
+    unknown: 'osf-components.search-result-card.unknown',
+};
 
 export default class SearchResultModel extends Model {
     @service intl!: IntlService;
@@ -51,22 +63,22 @@ export default class SearchResultModel extends Model {
 
     get displayTitle() {
         if (this.resourceType === 'user') {
-            return this.resourceMetadata['name'][0]['@value'];
+            return getSingleOsfmapValue(this.resourceMetadata, ['name']);
         } else if (this.resourceType === 'file') {
-            return this.resourceMetadata['fileName'][0]['@value'];
+            return getSingleOsfmapValue(this.resourceMetadata, ['fileName']);
         }
-        return this.resourceMetadata['title']?.[0]['@value'];
+        return getSingleOsfmapValue(this.resourceMetadata, ['title']);
     }
 
     get fileTitle() {
         if (this.resourceType === 'file') {
-            return this.resourceMetadata.title?.[0]['@value'];
+            return getSingleOsfmapValue(this.resourceMetadata, ['title']);
         }
         return null;
     }
 
     get description() {
-        return this.resourceMetadata.description?.[0]?.['@value'];
+        return getSingleOsfmapValue(this.resourceMetadata, ['description']);
     }
 
     get absoluteUrl() {
@@ -75,19 +87,18 @@ export default class SearchResultModel extends Model {
 
     // returns list of affilated institutions for users
     // returns list of contributors for osf objects
-    // returns list of affiliated institutions for osf users
     get affiliatedEntities() {
         if (this.resourceType === 'user') {
             if (this.resourceMetadata.affiliation) {
                 return this.resourceMetadata.affiliation.map((item: any) =>
-                    ({ name: item.name[0]['@value'], absoluteUrl: item['@id'] }));
+                    ({ name: getSingleOsfmapValue(item, ['name']), absoluteUrl: item['@id'] }));
             }
         } else if (this.resourceMetadata.creator) {
             return this.resourceMetadata.creator?.map((item: any) =>
-                ({ name: item.name[0]['@value'], absoluteUrl: item['@id'] }));
+                ({ name: getSingleOsfmapValue(item, ['name']), absoluteUrl: item['@id'] }));
         } else if (this.isContainedBy?.[0]?.creator) {
             return this.isContainedBy[0].creator.map((item: any) =>
-                ({ name: item.name?.[0]?.['@value'], absoluteUrl: item['@id'] }));
+                ({ name: getSingleOsfmapValue(item, ['name']), absoluteUrl: item['@id'] }));
         }
     }
 
@@ -100,22 +111,22 @@ export default class SearchResultModel extends Model {
             return [
                 {
                     label: this.intl.t('osf-components.search-result-card.date_registered'),
-                    date: this.resourceMetadata.dateCreated?.[0]['@value'],
+                    date: getSingleOsfmapValue(this.resourceMetadata, ['dateCreated']),
                 },
                 {
                     label: this.intl.t('osf-components.search-result-card.date_modified'),
-                    date: this.resourceMetadata.dateModified?.[0]['@value'],
+                    date: getSingleOsfmapValue(this.resourceMetadata, ['dateModified']),
                 },
             ];
         default:
             return [
                 {
                     label: this.intl.t('osf-components.search-result-card.date_created'),
-                    date: this.resourceMetadata.dateCreated?.[0]['@value'],
+                    date: getSingleOsfmapValue(this.resourceMetadata, ['dateCreated']),
                 },
                 {
                     label: this.intl.t('osf-components.search-result-card.date_modified'),
-                    date: this.resourceMetadata.dateModified?.[0]['@value'],
+                    date: getSingleOsfmapValue(this.resourceMetadata, ['dateModified']),
                 },
             ];
         }
@@ -153,8 +164,8 @@ export default class SearchResultModel extends Model {
         const isPartOfCollection = this.resourceMetadata.isPartOfCollection;
         if (isPartOfCollection) {
             return {
-                title: this.resourceMetadata.isPartOfCollection?.[0]?.title?.[0]?.['@value'],
-                absoluteUrl: this.resourceMetadata.isPartOfCollection?.[0]?.['@id'],
+                title: getSingleOsfmapValue(this.resourceMetadata, ['isPartOfCollection', 'title']),
+                absoluteUrl: getSingleOsfmapValue(this.resourceMetadata, ['isPartOfCollection']),
             };
         }
         return null;
@@ -162,7 +173,8 @@ export default class SearchResultModel extends Model {
 
     get languageFromCode() {
         if (this.resourceMetadata.language) {
-            return languageFromLanguageCode(this.resourceMetadata.language[0]['@value']);
+            const language = getSingleOsfmapValue(this.resourceMetadata, ['language']);
+            return languageFromLanguageCode(language);
         }
         return null;
     }
@@ -170,8 +182,8 @@ export default class SearchResultModel extends Model {
     get funders() {
         if (this.resourceMetadata.funder) {
             return this.resourceMetadata.funder.map( (item: any) => ({
-                name: item.name[0]['@value'],
-                identifier: item.identifier?.[0]['@value'],
+                name: getSingleOsfmapValue(item, ['name']),
+                identifier: getSingleOsfmapValue(item, ['identifier']),
             }));
         }
         return null;
@@ -180,8 +192,8 @@ export default class SearchResultModel extends Model {
     get nodeFunders() {
         if (this.resourceMetadata.isContainedBy?.[0]?.funder) {
             return this.resourceMetadata.isContainedBy[0].funder.map( (item: any) => ({
-                name: item.name[0]['@value'],
-                identifier: item.identifier?.[0]['@value'],
+                name: getSingleOsfmapValue(item, ['name']),
+                identifier: getSingleOsfmapValue(item, ['identifier']),
             }));
         }
         return null;
@@ -190,8 +202,8 @@ export default class SearchResultModel extends Model {
     get provider() {
         if (this.resourceMetadata.publisher) {
             return {
-                name: this.resourceMetadata.publisher[0]?.name?.[0]['@value'],
-                identifier: this.resourceMetadata.publisher[0]['@id'],
+                name: getSingleOsfmapValue(this.resourceMetadata, ['publisher', 'name']),
+                identifier: getSingleOsfmapValue(this.resourceMetadata, ['publisher']),
             };
         }
         return null;
@@ -204,8 +216,8 @@ export default class SearchResultModel extends Model {
     get license() {
         if (this.resourceMetadata.rights) {
             return {
-                name: this.resourceMetadata.rights?.[0]?.name?.[0]?.['@value'],
-                identifier: this.resourceMetadata.rights?.[0]?.['@id'],
+                name: getSingleOsfmapValue(this.resourceMetadata, ['rights', 'name']),
+                identifier: getSingleOsfmapValue(this.resourceMetadata, ['rights']),
             };
         }
         return null;
@@ -214,9 +226,9 @@ export default class SearchResultModel extends Model {
     get nodeLicense() {
         if (this.resourceMetadata.isContainedBy?.[0]?.rights) {
             return {
-                name: this.resourceMetadata.isContainedBy[0].rights?.[0]?.name?.[0]?.['@value'],
-                identifier: this.resourceMetadata.rights?.[0]?.['@id'] ||
-                    this.resourceMetadata.isContainedBy[0].rights[0]?.['@id'],
+                name: getSingleOsfmapValue(this.resourceMetadata, ['isContainedBy', 'rights', 'name']),
+                identifier: getSingleOsfmapValue(this.resourceMetadata, ['rights']) ||
+                    getSingleOsfmapValue(this.resourceMetadata, ['isContainedBy', 'rights']),
             };
         }
         return null;
@@ -242,6 +254,10 @@ export default class SearchResultModel extends Model {
         return 'unknown';
     }
 
+    get intlResourceType() {
+        return this.intl.t(CardLabelTranslationKeys[this.resourceType]);
+    }
+
     get orcids() {
         if (this.resourceMetadata.identifier) {
             const orcids = this.resourceMetadata.identifier.filter(
@@ -253,7 +269,7 @@ export default class SearchResultModel extends Model {
     }
 
     get resourceNature() {
-        return this.resourceMetadata.resourceNature?.[0]?.displayLabel?.[0]?.['@value'];
+        return getSingleOsfmapValue(this.resourceMetadata, ['resourceNature','displayLabel']);
     }
 
     get hasDataResource() {
@@ -277,11 +293,31 @@ export default class SearchResultModel extends Model {
     }
 
     get registrationTemplate() {
-        return this.resourceMetadata.conformsTo?.[0]?.title?.[0]?.['@value'];
+        return getSingleOsfmapValue(this.resourceMetadata, ['conformsTo', 'title']);
     }
 
     get isWithdrawn() {
         return this.resourceMetadata.dateWithdrawn || this.resourceMetadata['https://osf.io/vocab/2022/withdrawal'];
+    }
+
+    get configuredAddonNames() {
+        return getOsfmapValues(this.resourceMetadata, ['hasOsfAddon', 'prefLabel']);
+    }
+
+    get storageRegion() {
+        return getSingleOsfmapValue(this.resourceMetadata, ['storageRegion', 'prefLabel']);
+    }
+
+    get usageMetrics() {
+        const usage = getSingleOsfmapObject(this.resourceMetadata, ['usage']);
+        if (!usage) {
+            return null;
+        }
+        return {
+            period: getSingleOsfmapValue(usage, ['temporalCoverage']),
+            viewCount: getSingleOsfmapValue(usage, ['viewCount']),
+            downloadCount: getSingleOsfmapValue(usage, ['downloadCount']),
+        };
     }
 }
 

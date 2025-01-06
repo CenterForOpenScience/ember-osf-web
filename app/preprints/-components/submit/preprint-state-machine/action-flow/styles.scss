@@ -9,6 +9,10 @@
     justify-content: flex-start;
     border-bottom: 1px solid $color-border-gray-darker;
 
+    &.edit {
+        height: 240px;
+    }
+
     .btn {
         width: 145px;
         display: flex;

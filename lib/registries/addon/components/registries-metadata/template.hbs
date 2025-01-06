@@ -102,7 +102,7 @@
                             <ProviderMetadataDisplay @field={{metadataField}} @manager={{providerMetadataManager}} />
                         </field.display>
                     {{/each}}
-                    
+
                 </EditableField>
             </EditableField::ProviderMetadataManager>
         </div>
@@ -122,24 +122,26 @@
         </div>
     {{/if}}
 
-    <div local-class='Field'>
-        <EditableField::CategoryManager @node={{this.registration}} as |categoryManager|>
-            <EditableField
-                data-analytics-scope='Category'
-                @manager={{categoryManager}}
-                @title={{t 'registries.registration_metadata.category'}}
-                @name='category'
-                as |field|
-            >
-                <field.edit>
-                    <NodeCategoryPicker @manager={{categoryManager}} />
-                </field.edit>
-                <field.display>
-                    <NodeCategory @category={{categoryManager.category}} />
-                </field.display>
-            </EditableField>
-        </EditableField::CategoryManager>
-    </div>
+    {{#unless this.hideCategories}}
+        <div local-class='Field'>
+            <EditableField::CategoryManager @node={{this.registration}} as |categoryManager|>
+                <EditableField
+                    data-analytics-scope='Category'
+                    @manager={{categoryManager}}
+                    @title={{t 'registries.registration_metadata.category'}}
+                    @name='category'
+                    as |field|
+                >
+                    <field.edit>
+                        <NodeCategoryPicker @manager={{categoryManager}} />
+                    </field.edit>
+                    <field.display>
+                        <NodeCategory @category={{categoryManager.category}} />
+                    </field.display>
+                </EditableField>
+            </EditableField::CategoryManager>
+        </div>
+    {{/unless}}
 
     {{#if @extendedFields}}
         {{#unless this.registration.isAnonymous}}

@@ -1,0 +1,85 @@
+<OsfLayout
+    @backgroundClass={{local-class 'container'}}
+    @forceMetadataGutterMode='drawer'
+    as |layout|
+>
+    <layout.heading
+        local-class='heading-wrapper'
+    >
+        <div local-class='banner'>
+            <img local-class='institution-banner' src='{{@institution.bannerUrl}}' alt='{{@institution.name}}'>
+        </div>
+        <ul
+            data-analytics-scope='Dashboard tabs'
+            local-class='tab-list'
+        >
+            <li
+                local-class='tab'
+            >
+                <OsfLink
+                    data-analytics-name='Summary'
+                    data-test-page-tab='summary'
+                    @route='institutions.dashboard.index'
+                    @model={{@institution}}
+                >
+                    {{t 'institutions.dashboard.tabs.summary'}}
+                </OsfLink>
+            </li>
+            <li
+                local-class='tab'
+            >
+                <OsfLink
+                    data-analytics-name='Users'
+                    data-test-page-tab='users'
+                    @route='institutions.dashboard.users'
+                    @model={{@institution}}
+                >
+                    {{t 'institutions.dashboard.tabs.users'}}
+                </OsfLink>
+            </li>
+            <li
+                local-class='tab'
+            >
+                <OsfLink
+                    data-analytics-name='Projects'
+                    data-test-page-tab='projects'
+                    @route='institutions.dashboard.projects'
+                    @model={{@institution}}
+                >
+                    {{t 'institutions.dashboard.tabs.projects'}}
+                </OsfLink>
+            </li>
+            <li
+                local-class='tab'
+            >
+                <OsfLink
+                    data-analytics-name='Registrations'
+                    data-test-page-tab='registrations'
+                    @route='institutions.dashboard.registrations'
+                    @model={{@institution}}
+                >
+                    {{t 'institutions.dashboard.tabs.registrations'}}
+                </OsfLink>
+            </li>
+            <li
+                local-class='tab'
+            >
+                <OsfLink
+                    data-analytics-name='Preprints'
+                    data-test-page-tab='preprints'
+                    @route='institutions.dashboard.preprints'
+                    @model={{@institution}}
+                >
+                    {{t 'institutions.dashboard.tabs.preprints'}}
+                </OsfLink>
+            </li>
+        </ul>
+    </layout.heading>
+    
+    {{yield (hash
+        left=layout.left
+        right=layout.right
+        top=layout.top
+        main=layout.main
+    )}}
+</OsfLayout>
