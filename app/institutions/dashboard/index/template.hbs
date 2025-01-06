@@ -1,7 +1,15 @@
-<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper 
+<Institutions::Dashboard::-Components::InstitutionalDashboardWrapper
     @institution={{this.model.institution}} as |wrapper|
 >
     <wrapper.main local-class='main-container {{if (is-mobile) 'mobile'}}'>
+        {{#if this.model.summaryMetrics.reportYearmonth}}
+            <div
+                data-test-summary-report-year-month
+                local-class='updated-at'
+            >
+                {{t 'institutions.dashboard.updated' date=this.model.summaryMetrics.reportYearmonth}}
+            </div>
+        {{/if}}
         <div local-class='kpi-container'>
             <Institutions::Dashboard::-Components::TotalCountKpiWrapper
                 @model={{this.model}}

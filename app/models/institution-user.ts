@@ -18,6 +18,7 @@ export default class InstitutionUserModel extends OsfModel {
     @attr('string') monthLastLogin!: string; // YYYY-MM
     @attr('string') monthLastActive!: string; // YYYY-MM
     @attr('string') accountCreationDate!: string; // YYYY-MM
+    @attr('string') reportYearmonth!: string;
     @attr('fixstring') orcidId?: string;
 
     @belongsTo('user', { async: true })

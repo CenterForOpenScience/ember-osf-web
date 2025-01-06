@@ -1,4 +1,5 @@
 import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
+import {Links} from 'jsonapi-typescript';
 
 import RelatedPropertyPathModel from './related-property-path';
 import SearchResultModel from './search-result';
@@ -15,6 +16,7 @@ export default class IndexCardSearchModel extends Model {
     @attr('string') cardSearchText!: string;
     @attr('array') cardSearchFilters!: SearchFilter[];
     @attr('string') totalResultCount!: number | typeof ShareMoreThanTenThousand;
+    @attr('object') links!: Links;
 
     @hasMany('search-result', { inverse: null })
     searchResultPage!: AsyncHasMany<SearchResultModel> & SearchResultModel[];

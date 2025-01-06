@@ -44,6 +44,9 @@ export default Factory.extend<InstitutionUser>({
     orcidId() {
         return faker.random.uuid(); // Simulate an ORCID ID
     },
+    reportYearmonth() {
+        return faker.date.past(1).toISOString().slice(0, 7);
+    },
     afterCreate(institutionUser, server) {
         if (!institutionUser.userName && !institutionUser.userGuid) {
             const user = server.create('user');

@@ -1,16 +1,23 @@
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import Features from 'ember-feature-flags/services/features';
 
+import IndexCardSearchModel from 'ember-osf-web/models/index-card-search';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { Filter } from 'osf-components/components/search-page/component';
+import config from 'ember-osf-web/config/environment';
+
+const shareDownloadFlag = config.featureFlagNames.shareDownload;
 
 interface Column {
     name: string;
-    sortKey?: string;
+    isSortable?: boolean;
     sortParam?: string;
+    propertyPathKey?: string;
 }
 interface ValueColumn extends Column {
     getValue(searchResult: SearchResultModel): string;
@@ -36,6 +43,7 @@ interface InstitutionalObjectListArgs {
 }
 
 export default class InstitutionalObjectList extends Component<InstitutionalObjectListArgs> {
+    @service features!: Features;
     @tracked activeFilters: Filter[] = [];
     @tracked page = '';
     @tracked sort = '-dateModified';
@@ -71,6 +79,43 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         return {
             ...this.queryOptions.cardSearchFilter,
         };
+    }
+
+    get showDownloadButtons() {
+        return this.features.isEnabled(shareDownloadFlag);
+    }
+
+    downloadUrl(cardSearch: IndexCardSearchModel, format: string) {
+        if (!cardSearch.links.self) {
+            return '';
+        }
+        const cardSearchUrl = new URL((cardSearch.links.self as string));
+        cardSearchUrl.searchParams.set('page[size]', '10000');
+        cardSearchUrl.searchParams.set('acceptMediatype', format);
+        cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results`);
+
+        const columnDownloadKeys = this.args.columns.map(column => {
+            if (column.propertyPathKey && this.visibleColumns.includes(column.name)) {
+                return column.propertyPathKey;
+            }
+            return null;
+        });
+        const { resourceType } = this.args.defaultQueryOptions.cardSearchFilter;
+
+        cardSearchUrl.searchParams.set(`fields[${resourceType}]`, columnDownloadKeys.filter(Boolean).join(','));
+        return cardSearchUrl.toString();
+    }
+
+    downloadCsvUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'text/csv');
+    }
+
+    downloadTsvUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'text/tab-separated-values');
+    }
+
+    downloadJsonUrl(cardSearch: IndexCardSearchModel) {
+        return this.downloadUrl(cardSearch, 'application/json');
     }
 
     @action
