@@ -69,6 +69,7 @@
                         data-test-create-new-version-button
                         data-analytics-name='Create new version'
                         local-class='btn btn-primary'
+                        disabled={{this.createNewVersion.isRunning}}
                         @layout='fake-link'
                         {{on 'click' (perform this.createNewVersion)}}
                     >

@@ -251,11 +251,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                 this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
             } catch (e) {
                 const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
-                let errorMessage = this.intl.t('preprints.submit.new-version.error.description',
-                    { preprintWord: this.provider.documentType.singular });
-                if (e.errors[0].status === 409) { // Conflict
-                    errorMessage = this.intl.t('preprints.submit.new-version.error.conflict');
-                }
+                const errorMessage = getApiErrorMessage(e);
+                captureException(e, { errorMessage });
                 this.toast.error(errorMessage, errorTitle);
             }
             return;

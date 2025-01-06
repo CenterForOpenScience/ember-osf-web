@@ -1422,8 +1422,6 @@ preprints:
                 latest-published: 'A new version can only be created from the latest published version of a {preprintWord}.'
             error:
                 title: 'Error creating a new version'
-                description: 'An error occurred while creating a new version of this {preprintWord}. Please try again.'
-                conflict: 'There is already a new version of this {preprintWord} in progress. Please wait for the current version to be completed.'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
