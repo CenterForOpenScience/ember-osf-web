@@ -149,10 +149,10 @@ as |list|>
                                             >
                                                 <span>
                                                     {{column.name}}
-                                                    {{#if column.sortKey}}
+                                                    {{#if column.isSortable}}
                                                         <SortArrow
-                                                            @sortBy={{column.sortKey}}
-                                                            @sortAction={{queue (fn this.updateSortKey column.sortKey column.sortParam) (perform list.searchObjectsTask)}}
+                                                            @sortBy={{column.propertyPathKey}}
+                                                            @sortAction={{queue (fn this.updateSortKey column.propertyPathKey column.sortParam) (perform list.searchObjectsTask)}}
                                                         />
                                                     {{/if}}
                                                 </span>
