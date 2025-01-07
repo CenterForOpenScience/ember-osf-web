@@ -1,13 +1,19 @@
 // app/models/node-request.js
 import Model, { attr, belongsTo } from '@ember-data/model';
 
+export enum RequestTypeChoices {
+    AccessRequest = 'access',
+    InstitutionalRequest = 'institutional_request',
+}
+
 export default class NodeRequestModel extends Model {
   @attr('string') comment;
-  @attr('string') request_type;
-  @attr('boolean') bcc_sender;
+  @attr('string') requestedPermission;
+  @attr('string') requestType;
+  @attr('boolean') bccSender;
   @attr('boolean') replyTo;
   @belongsTo('institution') institution;
-  @belongsTo('user') message_recipent;
+  @belongsTo('user') messageRecipent;
   @belongsTo('node') node;
 
 }

@@ -15,6 +15,8 @@ import Toast from 'ember-toastr/services/toast';
 import Intl from 'ember-intl/services/intl';
 import Store from '@ember-data/store';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import {MessageTypeChoices} from 'ember-osf-web/models/user-message';
+import {RequestTypeChoices} from 'ember-osf-web/models/node-request';
 
 import config from 'ember-osf-web/config/environment';
 
@@ -61,7 +63,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     @tracked projectRequestModalShown = false;
     @tracked activeTab = 'request-access'; // Default tab
     @tracked messageText = '';
-    @tracked bcc_sender = false;
+    @tracked bccSender = false;
     @tracked replyTo = false;
     @tracked selectedUserId = '';
     @tracked selectedNodeId = '';
@@ -160,8 +162,8 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
 
     @action
     openProjectRequestModal(contributor: any) {
-        this.selectedUserId = contributor.user_id;
-        this.selectedNodeId = contributor.node_id;
+        this.selectedUserId = contributor.userId;
+        this.selectedNodeId = contributor.nodeId;
         this.projectRequestModalShown = true;
     }
 
@@ -213,8 +215,8 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     }
 
     @action
-    updateSelectedPermission(event: Event) {
-        this.selectedPermission = (event.target as HTMLInputElement).value;
+    updateSelectedPermission(permission: string) {
+        this.selectedPermission = permission;
     }
 
     @action
@@ -225,8 +227,8 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
 
     @action
     resetFields() {
-        this.selectedPermission = 'read';
-        this.bcc_sender = false;
+        this.selectedPermission = 'write';
+        this.bccSender = false;
         this.replyTo = false;
     }
 
@@ -245,13 +247,20 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             );
             this.resetFields();
         } catch (error) {
-            const errorDetail = error?.errors?.[0]?.detail || '';
+            const errorDetail = error?.errors?.[0]?.detail.user || error?.errors?.[0]?.detail || '';
+            const errorCode = parseInt(error?.errors?.[0]?.status, 10);
 
-            // Check for the specific error where access requests are disabled
-            if (error.status === 400 && errorDetail.includes('does not have Access Requests enabled')) {
+            if (errorCode === 400 && errorDetail.includes('does not have Access Requests enabled')) {
                 setTimeout(() => {
-                    this.showSendMessagePrompt = true; //  timeout to allow the other to exit
+                    this.showSendMessagePrompt = true; // Timeout to allow the modal to exit
                 }, 200);
+            } else if ([409, 400, 403].includes(errorCode)) {
+                // Handle specific errors
+                this.toast.error(errorDetail);
+            } else if (errorDetail.includes('Request was throttled')) {
+                this.toast.error(errorDetail);
+            } else if (errorDetail === 'You cannot request access to a node you contribute to.') {
+                this.toast.error(errorDetail);
             } else {
                 this.toast.error(
                     this.intl.t('institutions.dashboard.object-list.request-project-message-modal.message_sent_failed'),
@@ -265,11 +274,11 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     async _sendUserMessage() {
         const userMessage = this.store.createRecord('user-message', {
             messageText: this.messageText.trim(),
-            messageType: 'institutional_request',
-            bcc_sender: this.bcc_sender,
+            messageType: MessageTypeChoices.InstitutionalRequest,
+            bccSender: this.bccSender,
             replyTo: this.replyTo,
             institution: this.args.institution,
-            user: this.selectedUserId,
+            messageRecipient: this.selectedUserOsfGuid,
         });
         await userMessage.save();
     }
@@ -277,14 +286,21 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     async _sendNodeRequest() {
         const nodeRequest = this.store.createRecord('node-request', {
             comment: this.messageText.trim(),
-            requestType: 'institutional_access',
+            requestType: RequestTypeChoices.InstitutionalRequest,
             requestedPermission: this.selectedPermission,
-            bcc_sender: this.bcc_sender,
+            bccSender: this.bccSender,
             replyTo: this.replyTo,
             institution: this.args.institution,
-            message_recipent: this.selectedUserId,
+            messageRecipient: this.selectedUserOsfGuid,
             target: this.selectedNodeId,
         });
         await nodeRequest.save();
     }
+
+    get selectedUserOsfGuid() {
+        const url = new URL(this.selectedUserId);
+        const pathSegments = url.pathname.split('/').filter(Boolean);
+        return pathSegments[pathSegments.length - 1] || ''; // Last non-empty segment
+    }
+
 }

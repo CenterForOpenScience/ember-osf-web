@@ -50,13 +50,10 @@ export default class InstitutionalObjectListContributorsField extends Component<
             const contributor = getContributorById(contributors, getSingleOsfmapValue(attribution, ['agent']));
             const roleIri: AttributionRoleIris = getSingleOsfmapValue(attribution, ['hadRole']);
 
-            const regex = /([^?#]+)$/; // Regex to extract the final part after the last slash
-            const contributorId = contributor?.['@id']?.match(regex)?.[1] || '';
-
             return {
                 name: getSingleOsfmapValue(contributor, ['name']) || 'Unknown Contributor',
-                user_id: contributorId,
-                node_id: searchResult.indexCard.get('osfGuid'),
+                userId: contributor['@id'],
+                nodeId: searchResult.indexCard.get('osfGuid'),
                 url: getSingleOsfmapValue(contributor, ['identifier']),
                 permissionLevel: this.intl.t(roleIriToTranslationKey[roleIri]),
             };

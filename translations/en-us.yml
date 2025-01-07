@@ -905,6 +905,7 @@ institutions:
               send_aira_label: 'Send Project Request Button'
               title: 'Contact'
               message_permission_label: 'Send Message'
+              duplicate_request_error: 'Users may not have more than one institutional_request request per node'
               write_permission_label: 'Read/Write'
               admin_permission_label: 'Administrative'
               request_label: 'I am an admin associated with [institution] and I would like to be added to your project as a non-bibliographic contributor in order to assist with metadata curation please add me with the following permissions.'

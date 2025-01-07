@@ -310,6 +310,7 @@ as |list|>
                             @name='permission'
                             @value='admin'
                             @checked={{eq this.selectedPermission 'admin'}}
+                            {{on 'change' (fn this.updateSelectedPermission 'admin')}}
                         />
                         {{t 'institutions.dashboard.object-list.request-project-message-modal.admin_permission_label'}}
                     </label>
@@ -319,6 +320,7 @@ as |list|>
                             @name='permission'
                             @value='write'
                             @checked={{eq this.selectedPermission 'write'}}
+                            {{on 'change' (fn this.updateSelectedPermission 'write')}}
                         />
                         {{t 'institutions.dashboard.object-list.request-project-message-modal.write_permission_label'}}
                     </label>
@@ -331,7 +333,7 @@ as |list|>
                     </p>
                     <div local-class='checkbox-container'>
                         <label local-class='checkbox-item'>
-                            <Input @type='checkbox' @checked={{this.bcc_sender}} />
+                            <Input @type='checkbox' @checked={{this.bccSender}} />
                             {{t 'institutions.dashboard.object-list.request-project-message-modal.cc_label'}}
                         </label>
                         <label local-class='checkbox-item'>
@@ -357,7 +359,7 @@ as |list|>
                 </p>
                 <div local-class='checkbox-container'>
                     <label local-class='checkbox-item'>
-                        <Input @type='checkbox' @checked={{this.bcc_sender}} />
+                        <Input @type='checkbox' @checked={{this.bccSender}} />
                         {{t 'institutions.dashboard.object-list.request-project-message-modal.cc_label'}}
                     </label>
                     <label local-class='checkbox-item'>

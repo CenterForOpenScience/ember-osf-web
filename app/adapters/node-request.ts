@@ -9,6 +9,6 @@ export default class NodeRequestAdapter extends OsfAdapter {
 
     urlForCreateRecord(modelName, snapshot) {
         const nodeId = snapshot.record.target;
-        return `${apiUrl}/v2/nodes/${nodeId}/request/`;
+        return `${apiUrl}/v2/nodes/${nodeId}/requests/`;
     }
 }
