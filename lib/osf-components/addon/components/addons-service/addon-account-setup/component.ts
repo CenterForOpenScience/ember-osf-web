@@ -16,17 +16,6 @@ import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-s
 import { AllAuthorizedAccountTypes } from 'ember-osf-web/packages/addons-service/provider';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
-// TODO: Get this from GravyValet??
-const repoOptionsObject: Record<string, string[]> = {
-    dataverse: [
-        'https://dataverse.harvard.edu',
-        'https://dataverse.lib.virginia.edu',
-    ],
-    gitlab: [
-        'https://gitlab.com',
-    ],
-};
-
 interface InputFieldObject {
     name: keyof AddonCredentialFields;
     labelText: string;
@@ -83,11 +72,11 @@ export default class AddonAccountSetupComponent extends Component<Args> {
 
     get showRepoOptions() {
         const { provider } = this.args;
-        return provider.credentialsFormat in [CredentialsFormat.REPO_TOKEN, CredentialsFormat.DATAVERSE_API_TOKEN];
+        return provider.apiBaseUrlOptions;
     }
 
     get repoOptions() {
-        const repoSpecificOptions = repoOptionsObject[this.args.provider.id] || [];
+        const repoSpecificOptions = this.args.provider.apiBaseUrlOptions || [];
         return [...repoSpecificOptions, this.otherRepoLabel];
     }
 
