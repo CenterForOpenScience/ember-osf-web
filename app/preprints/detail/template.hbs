@@ -51,7 +51,7 @@
                         </dropdown.content>
                     </ResponsiveDropdown>
                 {{else}}
-                    {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
+                    {{#if this.showEditButton}}
                         <OsfLink
                             data-test-edit-preprint-button
                             data-analytics-name='Edit preprint button'

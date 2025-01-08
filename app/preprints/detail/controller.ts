@@ -78,11 +78,25 @@ export default class PrePrintsDetailController extends Controller {
             DATE_LABEL.created;
     }
 
+    get showEditButton() {
+        const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
+        const preprintIsRejected = this.model.preprint.reviewsState === ReviewsState.REJECTED;
+        const preprintIsInitialVersion = this.model.preprint.version === 1;
+        if (this.userIsContrib && this.model.preprint.isLatestVersion) {
+            if (providerIsPremod && preprintIsRejected && !preprintIsInitialVersion) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
     get editButtonLabel(): string {
+        const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
+        const preprintIsRejected = this.model.preprint.reviewsState === ReviewsState.REJECTED;
+
         const editPreprint = 'preprints.detail.edit_preprint';
         const editResubmitPreprint = 'preprints.detail.edit_resubmit_preprint';
-        const translation = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
-            && this.model.preprint.reviewsState === ReviewsState.REJECTED && this.model.preprint.currentUserIsAdmin
+        const translation = providerIsPremod && preprintIsRejected && this.model.preprint.currentUserIsAdmin
             ? editResubmitPreprint : editPreprint;
         return this.intl.t(translation, {
             documentType: this.model.provider.documentType.singular,
