@@ -240,15 +240,15 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             const errorCode = parseInt(error?.errors?.[0]?.status, 10);
 
             if (errorCode === 400 && errorDetail.includes('does not have Access Requests enabled')) {
+                // Product wanted special handling for this error that involve a second pop-up modal
+                // Timeout to allow the modal to exit, can't have two OSFDialogs open at same time
                 setTimeout(() => {
                     this.showSendMessagePrompt = true; // Timeout to allow the modal to exit
                 }, 200);
-            } else if ([409, 400, 403].includes(errorCode)) {
-                // Handle specific errors
+            } else if ([400, 403].includes(errorCode)) {
+                // Handle more specific errors 403s could result due if a project quickly switches it's institution
                 this.toast.error(errorDetail);
-            } else if (errorDetail.includes('Request was throttled')) {
-                this.toast.error(errorDetail);
-            } else if (errorDetail === 'You cannot request access to a node you contribute to.') {
+            } else if (errorDetail.includes('Request was throttled')) {  // 429 response not in JSON payload.
                 this.toast.error(errorDetail);
             } else {
                 this.toast.error(
