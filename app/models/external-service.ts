@@ -33,4 +33,5 @@ export default class ExternalServiceModel extends Model {
     @attr('string') credentialsFormat!: CredentialsFormat;
     @attr('array') supportedFeatures!: ExternalServiceCapabilities[];
     @attr('boolean') configurableApiRoot!: boolean;
+    @attr('array') apiBaseUrlOptions!: string[];
 }
