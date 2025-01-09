@@ -82,10 +82,16 @@ export default class PrePrintsDetailController extends Controller {
         const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
         const preprintIsRejected = this.model.preprint.reviewsState === ReviewsState.REJECTED;
         const preprintIsInitialVersion = this.model.preprint.version === 1;
-        if (this.userIsContrib && this.model.preprint.isLatestVersion) {
+        if (!this.userIsContrib) {
+            return false;
+        }
+        if (this.model.preprint.isLatestVersion) {
             if (providerIsPremod && preprintIsRejected && !preprintIsInitialVersion) {
                 return false;
             }
+            return true;
+        }
+        if (providerIsPremod && this.model.preprint.reviewsState === ReviewsState.PENDING) {
             return true;
         }
         return false;
