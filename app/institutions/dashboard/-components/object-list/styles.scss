@@ -165,7 +165,7 @@
 
 .tab-container {
     display: flex;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $color-border-gray;
     margin-bottom: 1rem;
 }
 
@@ -174,23 +174,23 @@
     padding: 10px;
     text-align: center;
     cursor: pointer;
-    background: #f9f9f9;
+    background: $color-bg-gray;
     border: 0;
     border-bottom: 2px solid transparent;
 
     &.active {
-        border-bottom: 2px solid #007bff;
+        border-bottom: 2px solid $color-border-gray;
         font-weight: bold;
     }
 
     &:hover {
-        background: #f1f1f1;
+        background: $color-bg-gray;
     }
 }
 
 .tab-pane {
     padding: 1rem;
-    background: #fff;
+    background: $color-border-white;
 }
 
 .request-modal {
