@@ -1,4 +1,3 @@
-// app/adapters/user-message.js
 import { inject as service } from '@ember/service';
 import config from 'ember-osf-web/config/environment';
 const { OSF: { apiUrl } } = config;

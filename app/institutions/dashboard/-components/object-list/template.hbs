@@ -184,6 +184,7 @@ as |list|>
                                                     <Institutions::Dashboard::-Components::ObjectList::ContributorsField
                                                         @searchResult={{result}}
                                                         @institution={{@institution}}
+                                                        aria-label={{t 'institutions.dashboard.request-project-message-modal.open_aria_label'}}
                                                         @projectRequestModal={{this.openProjectRequestModal}}
                                                     />
                                                 {{else}}
@@ -301,7 +302,7 @@ as |list|>
         {{#if (eq this.activeTab 'request-access')}}
             <div local-class='tab-pane'>
                 <p local-class='message-label'>
-                    {{t 'institutions.dashboard.object-list.request-project-message-modal.request_label'}}
+                    {{t 'institutions.dashboard.object-list.request-project-message-modal.request_label' institution=@institution.name}}
                 </p>
                 <div local-class='radiobox-container'>
                     <label local-class='radiobox-item'>
