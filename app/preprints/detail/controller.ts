@@ -91,22 +91,20 @@ export default class PrePrintsDetailController extends Controller {
             return false;
         }
 
-        if (this.model.preprint.isLatestVersion) {
+        if (this.model.preprint.isLatestVersion || this.model.preprint.reviewsState === ReviewsState.INITIAL) {
             return true;
-        } else {
-            if (this.model.preprint.reviewsState === ReviewsState.INITIAL) {
-                return true;
-            }
-            if (providerIsPremod && this.model.preprint.reviewsState === ReviewsState.PENDING) {
+        }
+        if (providerIsPremod) {
+            if (this.model.preprint.reviewsState === ReviewsState.PENDING) {
                 return true;
             }
             // Edit and resubmit
-            if (providerIsPremod && preprintIsFirstVersion && preprintIsRejected
+            if (preprintIsFirstVersion && preprintIsRejected
                 && this.model.preprint.currentUserIsAdmin) {
                 return true;
             }
-            return false;
         }
+        return false;
     }
     get editButtonLabel(): string {
         const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
