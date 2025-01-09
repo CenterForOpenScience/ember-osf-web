@@ -78,8 +78,7 @@ module('Acceptance | preprints | detail', hooks => {
         await visit('/preprints/osf/test');
 
         // Check edit and new version buttons
-        assert.dom('[data-test-edit-preprint-button]').exists('Edit button is displayed');
-        assert.dom('[data-test-edit-preprint-button]').containsText('Edit', 'Edit button text is correct');
+        assert.dom('[data-test-edit-preprint-button]').doesNotExist('Edit button is not displayed for prior versions');
         assert.dom('[data-test-create-new-version-button]')
             .doesNotExist('New version button is not displayed for prior versions');
 
