@@ -11,6 +11,7 @@ import SearchResultModel from 'ember-osf-web/models/search-result';
 import { Filter } from 'osf-components/components/search-page/component';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Toast from 'ember-toastr/services/toast';
 import Intl from 'ember-intl/services/intl';
 import Store from '@ember-data/store';
@@ -225,9 +226,9 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     async handleSend() {
         try {
             if (this.activeTab === 'send-message') {
-                await this._sendUserMessage();
+                await taskFor(this._sendUserMessage).perform();
             } else if (this.activeTab === 'request-access') {
-                await this._sendNodeRequest();
+                await taskFor(this._sendNodeRequest).perform();
             }
 
             this.toast.success(
@@ -259,6 +260,8 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         }
     }
 
+    @task
+    @waitFor
     async _sendUserMessage() {
         const userMessage = this.store.createRecord('user-message', {
             messageText: this.messageText.trim(),
@@ -266,11 +269,13 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             bccSender: this.bccSender,
             replyTo: this.replyTo,
             institution: this.args.institution,
-            messageRecipient: this.selectedUserOsfGuid,
+            user: this.selectedUserOsfGuid,
         });
         await userMessage.save();
     }
 
+    @task
+    @waitFor
     async _sendNodeRequest() {
         const nodeRequest = this.store.createRecord('node-request', {
             comment: this.messageText.trim(),
