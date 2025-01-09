@@ -97,7 +97,10 @@
         />
     </div>
     {{#if (or this.showStatusBanner this.isWithdrawn)}}
-        <Preprints::-Components::PreprintStatusBanner @submission={{this.model.preprint}} />
+        <Preprints::-Components::PreprintStatusBanner
+            @submission={{this.model.preprint}}
+            @provider={{this.model.provider}}
+        />
     {{/if}}
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}

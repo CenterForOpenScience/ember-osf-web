@@ -1,4 +1,4 @@
-import { currentRouteName } from '@ember/test-helpers';
+import { currentRouteName, settled } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-test-helpers';
@@ -165,5 +165,88 @@ module('Acceptance | preprints | detail', hooks => {
         await click('[data-test-previous-versions-button]');
         assert.dom('[data-test-version-link]').exists({ count: 3 }, 'Link to previous version is displayed');
         assert.dom('[data-test-no-other-versions]').doesNotExist('No other versions message is not displayed');
+    });
+
+    test('Edit button visibility', async function(this: PreprintDetailTestContext, assert) {
+        // Read only
+        this.preprint.update({
+            currentUserPermissions: [Permission.Read],
+            reviewsState: ReviewsState.ACCEPTED,
+        });
+
+        const preprint: PreprintModel = this.owner.lookup('service:store').findRecord('preprint', 'test');
+        await visit('/preprints/osf/test');
+        assert.dom('[data-test-edit-preprint-button]').doesNotExist('Edit button is not displayed for read-only users');
+
+        // Non-latest
+        preprint.setProperties({
+            currentUserPermissions: Object.values(Permission),
+            reviewsState: ReviewsState.ACCEPTED,
+            isLatestVersion: false,
+        });
+        await settled();
+        assert.dom('[data-test-edit-preprint-button]')
+            .doesNotExist('Edit button is not displayed for non-latest versions');
+
+        // Not initial, pre-mod, rejected
+        preprint.setProperties({
+            reviewsState: ReviewsState.REJECTED,
+            version: 4,
+            isLatestVersion: false,
+            currentUserPermissions: Object.values(Permission),
+        });
+        await settled();
+        assert.dom('[data-test-edit-preprint-button]')
+            .doesNotExist('Edit button is not displayed for non-initial pre-mod rejected');
+
+        // Initial, pre-mod, rejected
+        preprint.setProperties({
+            reviewsState: ReviewsState.REJECTED,
+            version: 1,
+            isLatestVersion: false,
+            currentUserPermissions: Object.values(Permission),
+        });
+        await settled();
+        assert.dom('[data-test-edit-preprint-button]').exists('Edit button is displayed for initial pre-mod rejected');
+        assert.dom('[data-test-edit-preprint-button]')
+            .containsText('Edit and resubmit', 'Edit and resubmit option for initial pre-mod rejected');
+
+        // Pre-mod, pending
+        preprint.setProperties({
+            reviewsState: ReviewsState.PENDING,
+            isLatestVersion: false,
+            currentUserPermissions: Object.values(Permission),
+        });
+        await settled();
+        assert.dom('[data-test-edit-preprint-button]').exists('Edit button is displayed for pre-mod pending');
+        assert.dom('[data-test-edit-preprint-button]').containsText('Edit', 'Edit option for pre-mod pending');
+
+        // Withdrawn
+        preprint.setProperties({
+            dateWithdrawn: new Date(),
+            currentUserPermissions: Object.values(Permission),
+        });
+        await settled();
+        assert.dom('[data-test-edit-preprint-button]').doesNotExist('Edit button is not displayed for withdrawn');
+
+        // Latest
+        preprint.setProperties({
+            dateWithdrawn: null,
+            isLatestVersion: true,
+            currentUserPermissions: Object.values(Permission),
+        });
+        await settled();
+        assert.dom('[data-test-edit-preprint-button]').exists('Edit button is displayed for latest version');
+        assert.dom('[data-test-edit-preprint-button]').containsText('Edit', 'Edit option for latest version');
+
+        // Inital state
+        preprint.setProperties({
+            reviewsState: ReviewsState.INITIAL,
+            isLatestVersion: false,
+            currentUserPermissions: Object.values(Permission),
+        });
+        await settled();
+        assert.dom('[data-test-edit-preprint-button]').exists('Edit button is displayed for initial state');
+        assert.dom('[data-test-edit-preprint-button]').containsText('Edit', 'Edit option for initial state');
     });
 });

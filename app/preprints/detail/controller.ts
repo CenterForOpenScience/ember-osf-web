@@ -81,20 +81,32 @@ export default class PrePrintsDetailController extends Controller {
     get showEditButton() {
         const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
         const preprintIsRejected = this.model.preprint.reviewsState === ReviewsState.REJECTED;
-        const preprintIsInitialVersion = this.model.preprint.version === 1;
+        const preprintIsFirstVersion = this.model.preprint.version === 1;
+
         if (!this.userIsContrib) {
             return false;
         }
+
+        if (this.model.preprint.isWithdrawn) {
+            return false;
+        }
+
         if (this.model.preprint.isLatestVersion) {
-            if (providerIsPremod && preprintIsRejected && !preprintIsInitialVersion) {
-                return false;
+            return true;
+        } else {
+            if (this.model.preprint.reviewsState === ReviewsState.INITIAL) {
+                return true;
             }
-            return true;
+            if (providerIsPremod && this.model.preprint.reviewsState === ReviewsState.PENDING) {
+                return true;
+            }
+            // Edit and resubmit
+            if (providerIsPremod && preprintIsFirstVersion && preprintIsRejected
+                && this.model.preprint.currentUserIsAdmin) {
+                return true;
+            }
+            return false;
         }
-        if (providerIsPremod && this.model.preprint.reviewsState === ReviewsState.PENDING) {
-            return true;
-        }
-        return false;
     }
     get editButtonLabel(): string {
         const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
