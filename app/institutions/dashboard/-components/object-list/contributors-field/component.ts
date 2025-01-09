@@ -50,7 +50,7 @@ export default class InstitutionalObjectListContributorsField extends Component<
             const contributor = getContributorById(contributors, getSingleOsfmapValue(attribution, ['agent']));
             const roleIri: AttributionRoleIris = getSingleOsfmapValue(attribution, ['hadRole']);
             return {
-                name: getSingleOsfmapValue(contributor, ['name']) || 'Unknown Contributor',
+                name: getSingleOsfmapValue(contributor, ['name']) || this.intl.t('general.unknownContributor'),
                 userId: contributor['@id'],
                 nodeId: searchResult.indexCard.get('osfGuid'),
                 url: getSingleOsfmapValue(contributor, ['identifier']),
