@@ -9,18 +9,6 @@ import SearchResultModel from 'ember-osf-web/models/search-result';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import InstitutionModel from 'ember-osf-web/models/institution';
 
-
-const CardLabelTranslationKeys = {
-    project: 'osf-components.search-result-card.project',
-    project_component: 'osf-components.search-result-card.project_component',
-    registration: 'osf-components.search-result-card.registration',
-    registration_component: 'osf-components.search-result-card.registration_component',
-    preprint: 'osf-components.search-result-card.preprint',
-    file: 'osf-components.search-result-card.file',
-    user: 'osf-components.search-result-card.user',
-    unknown: 'osf-components.search-result-card.unknown',
-};
-
 interface Args {
     result: SearchResultModel;
     provider?: PreprintProviderModel;
@@ -39,8 +27,8 @@ export default class SearchResultCard extends Component<Args> {
     }
 
     get cardTypeLabel() {
-        const { provider, institution } = this.args;
-        const resourceType = this.args.result.resourceType;
+        const { provider, institution, result } = this.args;
+        const resourceType = result.resourceType;
         if (resourceType === 'preprint') {
             if (institution?.id === 'yls') {
                 return this.intl.t('documentType.paper.singularCapitalized');
@@ -49,7 +37,7 @@ export default class SearchResultCard extends Component<Args> {
                 return provider.documentType.singularCapitalized;
             }
         }
-        return this.intl.t(CardLabelTranslationKeys[resourceType]);
+        return result.intlResourceType;
     }
 
     get secondaryMetadataComponent() {

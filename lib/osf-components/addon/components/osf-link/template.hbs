@@ -3,7 +3,7 @@
     target={{this.target}}
     rel={{this.rel}}
     class='{{this.class}} {{if this.isActive 'active'}}'
-    local-class='OsfLink'
+    local-class='OsfLink {{if this.fakeButton 'Button'}}'
     onclick={{action this._onClick}}
     ...attributes
 >

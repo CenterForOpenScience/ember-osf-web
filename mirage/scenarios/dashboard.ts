@@ -154,6 +154,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     // Create a specific institution to test institutional dashboard with; should be ID 29 at this point
     server.create('institution', {
         id: 'has-users',
+        iris: ['http://ror.org/has-users'],
     }, 'withMetrics');
 }
 

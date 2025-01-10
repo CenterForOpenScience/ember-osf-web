@@ -29,6 +29,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') authUrl!: string;
     @attr('object') assets?: Assets;
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
+    @attr('fixstring') linkToExternalReportsArchive?: string; // only serialized when currentUserIsAdmin
     @attr('date') lastUpdated!: Date;
     @attr('fixstring') rorIri!: string;
     // identifier_domain in the admin app

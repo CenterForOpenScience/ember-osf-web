@@ -1,0 +1,31 @@
+.sort-arrow-container {
+    vertical-align: middle;
+
+    .selected {
+        color: $color-bg-gray-light;
+    }
+
+    .not-selected {
+        color: $color-bg-blue-dark;
+    }
+}
+
+
+.arrow-button,
+.arrow-button:active,
+.arrow-button:focus,
+.arrow-button:focus:active {
+    outline: none;
+    background: transparent;
+    border: 0;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    color: $color-bg-gray-light;
+    width: 100%;
+    height: 100%;
+}
+
+.arrow-button:hover {
+    color: $color-bg-gray-lighter;
+}

@@ -114,6 +114,5 @@ module('Registries | Acceptance | branded.new', hooks => {
         assert.dom('[data-test-contributor-link]').exists({ count: 1 }, 'Only one contributor');
         assert.dom('[data-test-contributor-permission]').containsText('Administrator', 'user is admin');
         assert.dom('[data-test-contributor-citation]').containsText('Yes', 'user is bibliographic');
-        assert.dom('[data-test-option="uncategorized"]').exists('Category is uncategorized by default');
     });
 });

@@ -69,13 +69,9 @@ export default function(this: Server) {
 
     // SHARE-powered search endpoints
     this.urlPrefix = shareBaseUrl;
-    this.namespace = '/api/v3/';
+    this.namespace = '/trove/'; // /api/v3/ works as well, but /trove/ is the preferred URL
     this.get('/index-card-search', cardSearch);
     this.get('/index-value-search', valueSearch);
-    // this.get('/index-card/:id', Detail);
-    this.get('/index-card-searches', cardSearch);
-    this.get('/index-value-searches', valueSearch);
-    // this.get('/index-cards/:id', Detail);
 
     this.urlPrefix = osfUrl;
     this.namespace = '/api/v1/';

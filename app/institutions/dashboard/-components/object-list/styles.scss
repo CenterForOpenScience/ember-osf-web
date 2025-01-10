@@ -1,0 +1,142 @@
+@import 'app/styles/layout';
+
+.top-bar-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.total-object-count {
+    align-self: center;
+    font-size: large;
+
+    .total-object-number {
+        font-weight: bold;
+    }
+}
+
+.top-bar-button-wrapper {
+    display: flex;
+
+    button {
+        margin-right: 0.5rem;
+    }
+}
+
+.customize-menu-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    border: 1px solid $color-border-gray;
+    width: 240px;
+
+    label {
+        text-wrap: nowrap;
+    }
+}
+
+.customize-menu-button-wrapper {
+    display: flex;
+    justify-content: end;
+}
+
+.table-wrapper {
+    overflow: auto;
+}
+
+.object-table {
+    border-collapse: collapse;
+    
+    th {
+        padding: 10px 15px;
+
+        span {
+            display: flex;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+
+    td {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 10px 15px;
+
+        border: 1px solid $color-border-gray;
+    }
+}
+
+.object-table-head {
+    background: $color-bg-gray-blue-dark;
+    color: $color-text-white;
+}
+
+.bottom-bar-wrapper {
+    display: flex;
+    justify-content: end;
+    margin: 1rem 0;
+
+    button {
+        margin-left: 0.5rem;
+    }
+}
+
+.right-wrapper {
+    min-width: 300px;
+    padding: 0.5rem;
+}
+
+.right-panel-header {
+    font-size: 1.5rem;
+}
+
+.close-button {
+    float: right;
+}
+
+.active-filter-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+    border-top: 1px solid $color-border-gray;
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.active-filter-item {
+    display: flex;
+    margin: 0.5rem 0.2rem;
+    justify-content: space-between;
+    
+    button {
+        margin-right: -5px;
+    }
+}
+
+.blue-text-button {
+    color: $color-link-dark;
+}
+
+.download-dropdown-trigger {
+    color: $color-bg-blue-dark;
+}
+
+.download-button-group {
+    align-content: center;
+    display: inline-flex;
+    padding-left: 10px;
+}
+
+.download-dropdown-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
+    width: max-content;
+}
+
+.download-link {
+    padding: 4px 8px;
+}
