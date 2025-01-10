@@ -78,11 +78,41 @@ export default class PrePrintsDetailController extends Controller {
             DATE_LABEL.created;
     }
 
+    get showEditButton() {
+        const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
+        const preprintIsRejected = this.model.preprint.reviewsState === ReviewsState.REJECTED;
+        const preprintIsFirstVersion = this.model.preprint.version === 1;
+
+        if (!this.userIsContrib) {
+            return false;
+        }
+
+        if (this.model.preprint.isWithdrawn) {
+            return false;
+        }
+
+        if (this.model.preprint.isLatestVersion || this.model.preprint.reviewsState === ReviewsState.INITIAL) {
+            return true;
+        }
+        if (providerIsPremod) {
+            if (this.model.preprint.reviewsState === ReviewsState.PENDING) {
+                return true;
+            }
+            // Edit and resubmit
+            if (preprintIsFirstVersion && preprintIsRejected
+                && this.model.preprint.currentUserIsAdmin) {
+                return true;
+            }
+        }
+        return false;
+    }
     get editButtonLabel(): string {
+        const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
+        const preprintIsRejected = this.model.preprint.reviewsState === ReviewsState.REJECTED;
+
         const editPreprint = 'preprints.detail.edit_preprint';
         const editResubmitPreprint = 'preprints.detail.edit_resubmit_preprint';
-        const translation = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
-            && this.model.preprint.reviewsState === ReviewsState.REJECTED && this.model.preprint.currentUserIsAdmin
+        const translation = providerIsPremod && preprintIsRejected && this.model.preprint.currentUserIsAdmin
             ? editResubmitPreprint : editPreprint;
         return this.intl.t(translation, {
             documentType: this.model.provider.documentType.singular,

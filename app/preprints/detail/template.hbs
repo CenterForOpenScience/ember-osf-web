@@ -51,7 +51,7 @@
                         </dropdown.content>
                     </ResponsiveDropdown>
                 {{else}}
-                    {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
+                    {{#if this.showEditButton}}
                         <OsfLink
                             data-test-edit-preprint-button
                             data-analytics-name='Edit preprint button'
@@ -97,7 +97,10 @@
         />
     </div>
     {{#if (or this.showStatusBanner this.isWithdrawn)}}
-        <Preprints::-Components::PreprintStatusBanner @submission={{this.model.preprint}} />
+        <Preprints::-Components::PreprintStatusBanner
+            @submission={{this.model.preprint}}
+            @provider={{this.model.provider}}
+        />
     {{/if}}
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}

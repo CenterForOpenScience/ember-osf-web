@@ -68,6 +68,7 @@ ICONS[UNKNOWN] = 'exclamation-triangle';
 
 interface InputArgs {
     submission: PreprintModel;
+    provider: PreprintProviderModel;
 }
 
 export default class PreprintStatusBanner extends Component<InputArgs>{
@@ -78,7 +79,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     submission = this.args.submission;
     isWithdrawn = this.args.submission.isWithdrawn;
 
-    provider: PreprintProviderModel | undefined;
+    provider = this.args.provider;
 
     @tracked displayComment = false;
     isPendingWithdrawal = false;
@@ -178,8 +179,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     @task
     @waitFor
     async loadPreprintState()  {
-        this.provider = await this.submission.provider;
-
         if (this.isWithdrawn) {
             return;
         }
