@@ -65,14 +65,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
             authorizedAccounts: [] as AuthorizedCitationAccountModel[],
             authorizedServiceIds: [] as string[],
         },
-        [FilterTypes.CLOUD_COMPUTING]: {
-            modelName: 'external-computing-service',
-            fetchProvidersTask: taskFor(this.getComputingAddonProviders),
-            list: A([]) as EmberArray<Provider>,
-            getAuthorizedAccountsTask: taskFor(this.getAuthorizedComputingAccounts),
-            authorizedAccounts: [] as AuthorizedComputingAccountModel[],
-            authorizedServiceIds: [] as string[],
-        },
+        // [FilterTypes.CLOUD_COMPUTING]: {
+        //     modelName: 'external-computing-service',
+        //     fetchProvidersTask: taskFor(this.getComputingAddonProviders),
+        //     list: A([]) as EmberArray<Provider>,
+        //     getAuthorizedAccountsTask: taskFor(this.getAuthorizedComputingAccounts),
+        //     authorizedAccounts: [] as AuthorizedComputingAccountModel[],
+        //     authorizedServiceIds: [] as string[],
+        // },
     };
     @tracked filterText = '';
     @tracked activeFilterType = FilterTypes.STORAGE;
