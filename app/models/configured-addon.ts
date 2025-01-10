@@ -24,6 +24,7 @@ export default class ConfiguredAddonModel extends Model {
     @attr('array') connectedCapabilities!: ConnectedCapabilities[];
     @attr('array') connectedOperationNames!: ConnectedStorageOperationNames[];
     @attr('fixstring') rootFolder!: string;
+    @attr('fixstring') externalServiceName!: string;
 
     @belongsTo('user-reference', { inverse: null })
     accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;

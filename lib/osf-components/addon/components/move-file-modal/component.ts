@@ -20,6 +20,7 @@ import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 
 interface MoveFileModalArgs {
     isOpen: boolean;
@@ -129,11 +130,16 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @task
     @waitFor
     async getResourceReference() {
-        const serviceNode = this.store.peekRecord('resource-reference', this.currentNode.id);
+        const serviceNode: ResourceReferenceModel = this.store.peekAll(
+            'resource-reference',
+        ).find(ref => ref.resourceUri === this.currentNode.links.iri);
         if (serviceNode) {
             return serviceNode;
         } else {
-            return await this.store.findRecord('resource-reference', this.currentNode.id);
+            const reference = await this.store.query('resource-reference', {
+                filter: {resource_uri: this.currentNode.links.iri},
+            }).first;
+            return reference;
         }
     }
 
@@ -154,8 +160,9 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
             fileList = fileList.map(
                 fileProviderModel => {
                     if(this.features.isEnabled('gravy_waffle') && fileProviderModel.name !== 'osfstorage') {
-                        const storageAddon = configuredStorageAddonsList.toArray()
-                            .find(configuredStorageAddon => configuredStorageAddon.name === fileProviderModel.provider);
+                        const storageAddon = configuredStorageAddonsList.find(
+                            addon => addon.externalServiceName === fileProviderModel.provider,
+                        );
                         if (storageAddon) {
                             return getServiceProviderFile(this.currentUser, fileProviderModel, storageAddon!);
                         } else {
