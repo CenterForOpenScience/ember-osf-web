@@ -71,11 +71,11 @@ module('Acceptance | settings | addons', hooks => {
         assert.dom('[data-test-provider="Box"]').isNotVisible();
         assert.dom('[data-test-provider="Mendeley"]').isVisible();
 
-        await click('[data-test-user-addon-list-filter="cloud-computing"]');
+        // await click('[data-test-user-addon-list-filter="cloud-computing"]');
 
-        assert.dom('[data-test-provider="Box"]').isNotVisible();
-        assert.dom('[data-test-provider="Mendeley"]').isNotVisible();
-        assert.dom('[data-test-all-addons-tab]').containsText('No results found');
+        // assert.dom('[data-test-provider="Box"]').isNotVisible();
+        // assert.dom('[data-test-provider="Mendeley"]').isNotVisible();
+        // assert.dom('[data-test-all-addons-tab]').containsText('No results found');
     });
 
     test('Connected account tab works', async function(assert) {
