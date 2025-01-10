@@ -902,8 +902,6 @@ institutions:
                 request_access: 'Request Access'
                 send_message: 'Send Message'
               open_aria_label: 'Open Project Request Modal Button'
-              close_aira_label: 'Close Project Request Modal Button'
-              send_aira_label: 'Send Project Request Button'
               title: 'Contact'
               message_permission_label: 'Send Message'
               duplicate_request_error: 'Users may not have more than one institutional_request request per node'
