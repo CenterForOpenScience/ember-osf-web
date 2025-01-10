@@ -44,7 +44,7 @@ enum PageMode {
 export enum FilterTypes {
     STORAGE = 'additional-storage',
     CITATION_MANAGER = 'citation-manager',
-    CLOUD_COMPUTING = 'cloud-computing',
+    // CLOUD_COMPUTING = 'cloud-computing', // disabled because BOA is down
 }
 
 interface Args {
@@ -75,12 +75,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             list: A([]),
             configuredAddons: A([]),
         },
-        [FilterTypes.CLOUD_COMPUTING]: {
-            modelName: 'external-computing-service',
-            task: taskFor(this.getComputingAddonProviders),
-            list: A([]),
-            configuredAddons: A([]),
-        },
+        // [FilterTypes.CLOUD_COMPUTING]: {
+        //     modelName: 'external-computing-service',
+        //     task: taskFor(this.getComputingAddonProviders),
+        //     list: A([]),
+        //     configuredAddons: A([]),
+        // },
     };
     filterTypeMapper = new TrackedObject(this.mapper);
     @tracked filterText = '';
