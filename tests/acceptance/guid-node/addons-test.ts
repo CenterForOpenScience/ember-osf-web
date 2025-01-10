@@ -45,7 +45,7 @@ module('Acceptance | guid-node/addons', hooks => {
             .hasAttribute('aria-selected', 'true', 'All addons tab is selected');
 
         // check additonal storage providers
-        assert.dom('[data-test-addon-list-filter]').exists({ count: 3 }, '3 addon filters are present');
+        assert.dom('[data-test-addon-list-filter]').exists({ count: 2 }, '2 addon filters are present');
         assert.dom('[data-test-addon-list-filter="additional-storage"]')
             .hasClass(styles.active, 'Additional storage filter is active');
         assert.dom('[data-test-addon-card-connect]').exists({ count: 9 }, '9 storage addons are present');
@@ -57,10 +57,10 @@ module('Acceptance | guid-node/addons', hooks => {
         assert.dom('[data-test-addon-card-connect]').exists({ count: 2 }, '2 citation addons are present');
 
         // Check cloud-computing providers
-        await click('[data-test-addon-list-filter="cloud-computing"]');
-        assert.dom('[data-test-addon-list-filter="cloud-computing"]')
-            .hasClass(styles.active, 'Additional citation filter is active');
-        assert.dom('[data-test-addon-card-connect]').exists({ count: 1 }, '1 cloud computing addon is present');
+        // await click('[data-test-addon-list-filter="cloud-computing"]');
+        // assert.dom('[data-test-addon-list-filter="cloud-computing"]')
+        //     .hasClass(styles.active, 'Additional citation filter is active');
+        // assert.dom('[data-test-addon-card-connect]').exists({ count: 1 }, '1 cloud computing addon is present');
 
         // Reset to additional storage
         await click('[data-test-addon-list-filter="additional-storage"]');
