@@ -269,7 +269,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             bccSender: this.bccSender,
             replyTo: this.replyTo,
             institution: this.args.institution,
-            user: this.selectedUserOsfGuid,
+            messageRecipient: this.selectedUserOsfGuid,
         });
         await userMessage.save();
     }

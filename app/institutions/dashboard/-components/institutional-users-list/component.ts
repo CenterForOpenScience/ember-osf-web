@@ -311,7 +311,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
                 bccSender: this.bccSender,
                 replyTo: this.replyTo,
                 institution: this.args.institution,
-                user: this.selectedUserId,
+                messageRecipient: this.selectedUserId,
             });
 
             await userMessage.save();
