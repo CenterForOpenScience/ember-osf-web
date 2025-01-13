@@ -175,14 +175,15 @@
                             <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                                 {{institutionalUser.userName}}
                             </OsfLink>
-                            <Button
-                                local-class='icon-message'
-                                aria-label={{t 'institutions.dashboard.send_message_modal.open_aira_label'}}
-
-                                {{on 'click' (fn this.openMessageModal institutionalUser.userGuid)}}
-                            >
-                                <FaIcon @icon='comment' />
-                            </Button>
+                            {{#if @institution.institutionalRequestAccessEnabled}}
+                                <Button
+                                    local-class='icon-message'
+                                    aria-label={{t 'institutions.dashboard.send_message_modal.open_aira_label'}}
+                                    {{on 'click' (fn this.openMessageModal institutionalUser.userGuid)}}
+                                >
+                                    <FaIcon @icon='comment' />
+                                </Button>
+                            {{/if}}
                         {{else if (eq column.type 'osf_link')}}
                             <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                                 {{institutionalUser.userGuid}}
