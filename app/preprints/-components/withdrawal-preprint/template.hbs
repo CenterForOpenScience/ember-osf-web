@@ -1,27 +1,14 @@
 <OsfDialog as |dialog|>
     <dialog.trigger>
-        {{#if (is-mobile)}}
-            <Button
-                data-test-withdrawal-button
-                data-analytics-name='Withdrawal Button'
-                local-class='withdrawal-button'
-                {{on 'click' dialog.open}}
-                @layout='fake-link'
-            >
-                <FaIcon @icon='minus-circle' />
-            </Button>
-        {{else}}
-            <Button
-                @layout='large'
-                @type='destroy'
-                local-class='btn'
-                data-analytics-name='Withdrawal Button'
-                data-test-withdrawal-button
-                {{on 'click' dialog.open}}
-            >
-                {{t 'preprints.submit.action-flow.withdraw-button'}}
-            </Button>
-        {{/if}}
+        <Button
+            @type='destroy'
+            local-class='withdrawal-button'
+            data-analytics-name='Withdrawal Button'
+            data-test-withdrawal-button
+            {{on 'click' dialog.open}}
+        >
+            {{t 'preprints.submit.action-flow.withdraw-button'}}
+        </Button>
     </dialog.trigger>
     <dialog.heading
         data-test-dialog-heading

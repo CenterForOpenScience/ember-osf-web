@@ -84,19 +84,24 @@ export default class PreprintsDetail extends Route {
             const preprintWithdrawableState = [ReviewsState.ACCEPTED, ReviewsState.PENDING]
                 .includes(preprint.reviewsState);
             let isWithdrawalRejected = false;
-            const withdrawalRequests = await preprint?.queryHasMany('requests');
-            if (withdrawalRequests.firstObject) {
-                const requestActions = await withdrawalRequests.firstObject?.queryHasMany('actions', {
-                    sort: '-modified',
-                });
-                const latestRequestAction = requestActions.firstObject;
-                // @ts-ignore: ActionTrigger is never
-                if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
-                    isWithdrawalRejected = true;
+            let hasPendingWithdrawal = false;
+            if (preprintWithdrawableState) {
+                const withdrawalRequests = await preprint?.queryHasMany('requests');
+                const latestWithdrawalRequest = withdrawalRequests.firstObject;
+                if (latestWithdrawalRequest) {
+                    hasPendingWithdrawal = latestWithdrawalRequest.machineState === 'pending';
+                    const requestActions = await withdrawalRequests.firstObject?.queryHasMany('actions', {
+                        sort: '-modified',
+                    });
+                    const latestRequestAction = requestActions.firstObject;
+                    // @ts-ignore: ActionTrigger is never
+                    if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
+                        isWithdrawalRejected = true;
+                    }
                 }
             }
             const canDisplayWithdrawalButton = preprint.currentUserIsAdmin && preprintWithdrawableState
-                && !isWithdrawalRejected;
+                && !isWithdrawalRejected && !hasPendingWithdrawal;
 
             return {
                 preprint,

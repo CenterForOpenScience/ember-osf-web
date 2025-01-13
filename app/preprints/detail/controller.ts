@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -18,6 +19,7 @@ import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/mod
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import { getOwner } from '@ember/application';
 
 
 /**
@@ -53,6 +55,7 @@ export default class PrePrintsDetailController extends Controller {
     @service intl!: Intl;
     @service media!: Media;
     @service toast!: Toast;
+    @service router!: RouterService;
 
     @tracked fullScreenMFR = false;
     @tracked plauditIsReady = false;
@@ -220,7 +223,8 @@ export default class PrePrintsDetailController extends Controller {
                     }),
             );
 
-            this.transitionToRoute('preprints.detail', this.model.provider.id, this.model.preprint.id);
+            const { currentRouteName } = this.router;
+            getOwner(this).lookup(`route:${currentRouteName}`).refresh();
         } catch (e) {
             const errorMessage = this.intl.t('preprints.submit.action-flow.error-withdrawal',
                 {
