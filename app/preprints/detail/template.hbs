@@ -76,6 +76,15 @@
                         {{t 'preprints.detail.create_new_version'}}
                     </Button>
                 {{/if}}
+                {{#if this.model.canDisplayWithdrawalButton}}
+                    <div local-class='{{if (is-mobile) 'mobile-button-container' 'desktop-button-container'}}'>
+                        <Preprints::-Components::Submit::WithdrawalPreprint
+                            @preprint={{this.model.preprint}}
+                            @provider={{this.model.provider}}
+                            @onWithdrawal={{this.onWithdrawal}}
+                        />
+                    </div>
+                {{/if}}
             </div>
         </div>
         <div local-class='preprint-author-container'>

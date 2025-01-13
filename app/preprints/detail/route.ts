@@ -12,6 +12,7 @@ import config from 'ember-osf-web/config/environment';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Identifier from 'ember-osf-web/models/identifier';
 import LicenseModel from 'ember-osf-web/models/license';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
@@ -80,6 +81,23 @@ export default class PreprintsDetail extends Route {
             const subjects = await preprint?.queryHasMany('subjects');
             const versions = await preprint?.queryHasMany('versions');
 
+            const preprintWithdrawableState = [ReviewsState.ACCEPTED, ReviewsState.PENDING]
+                .includes(preprint.reviewsState);
+            let isWithdrawalRejected = false;
+            const withdrawalRequests = await preprint?.queryHasMany('requests');
+            if (withdrawalRequests.firstObject) {
+                const requestActions = await withdrawalRequests.firstObject?.queryHasMany('actions', {
+                    sort: '-modified',
+                });
+                const latestRequestAction = requestActions.firstObject;
+                // @ts-ignore: ActionTrigger is never
+                if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
+                    isWithdrawalRejected = true;
+                }
+            }
+            const canDisplayWithdrawalButton = preprint.currentUserIsAdmin && preprintWithdrawableState
+                && !isWithdrawalRejected;
+
             return {
                 preprint,
                 brand: provider.brand.content,
@@ -89,6 +107,7 @@ export default class PreprintsDetail extends Route {
                 license,
                 subjects,
                 versions,
+                canDisplayWithdrawalButton,
             };
 
         } catch (error) {
