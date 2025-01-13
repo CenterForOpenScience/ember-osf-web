@@ -13,7 +13,7 @@
         {{else}}
             <Button
                 @layout='large'
-                @type='destroy' 
+                @type='destroy'
                 local-class='btn'
                 data-analytics-name='Withdrawal Button'
                 data-test-withdrawal-button
@@ -50,11 +50,11 @@
                     <form.textarea
                         data-test-comment-input
                         @valuePath={{'withdrawalJustification'}}
-                         {{on 'change' this.validate}}
+                        {{on 'change' this.validate}}
                         @isRequired={{true}}
                         local-class='input-container textarea-container'
                         @placeholder={{t 'preprints.submit.action-flow.withdrawal-placeholder'}}
-                        @uniqueID={{commentFieldId}} 
+                        @uniqueID={{commentFieldId}}
                         @onKeyUp={{this.validate}}
                     />
                 {{/let}}
