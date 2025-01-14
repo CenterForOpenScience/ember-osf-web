@@ -107,6 +107,8 @@
         <Preprints::-Components::PreprintStatusBanner
             @submission={{this.model.preprint}}
             @provider={{this.model.provider}}
+            @latestWithdrawalRequest={{this.model.latestWithdrawalRequest}}
+            @latestAction={{this.model.latestAction}}
         />
     {{/if}}
     <div local-class='data-container'>

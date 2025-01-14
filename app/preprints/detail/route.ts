@@ -83,28 +83,32 @@ export default class PreprintsDetail extends Route {
                 primaryFile.versions = await primaryFile?.versions;
             }
 
-            const contributors = await preprint?.queryHasMany('contributors');
+            const contributors = await preprint?.contributors;
 
             const license = await preprint?.get('license');
 
-            const subjects = await preprint?.queryHasMany('subjects');
+            const subjects = await preprint?.subjects;
             const versions = await preprint?.queryHasMany('versions');
 
             const preprintWithdrawableState = [ReviewsState.ACCEPTED, ReviewsState.PENDING]
                 .includes(preprint.reviewsState);
             let isWithdrawalRejected = false;
             let hasPendingWithdrawal = false;
-            if (preprintWithdrawableState) {
+            let latestWithdrawalRequest = null;
+            let latestAction = null;
+            if (preprintWithdrawableState && preprint.currentUserIsAdmin) {
+                const reviewActions = await preprint?.queryHasMany('reviewActions');
+                latestAction = reviewActions.firstObject;
                 const withdrawalRequests = await preprint?.queryHasMany('requests');
-                const latestWithdrawalRequest = withdrawalRequests.firstObject;
+                latestWithdrawalRequest = withdrawalRequests.firstObject;
                 if (latestWithdrawalRequest) {
                     hasPendingWithdrawal = latestWithdrawalRequest.machineState === 'pending';
                     const requestActions = await withdrawalRequests.firstObject?.queryHasMany('actions', {
                         sort: '-modified',
                     });
-                    const latestRequestAction = requestActions.firstObject;
+                    latestAction = requestActions.firstObject;
                     // @ts-ignore: ActionTrigger is never
-                    if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
+                    if (latestAction && latestAction.actionTrigger === 'reject') {
                         isWithdrawalRejected = true;
                     }
                 }
@@ -121,6 +125,8 @@ export default class PreprintsDetail extends Route {
                 license,
                 subjects,
                 versions,
+                latestWithdrawalRequest,
+                latestAction,
                 canDisplayWithdrawalButton,
             };
 

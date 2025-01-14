@@ -3,16 +3,13 @@ import { inject as service } from '@ember/service';
 import Theme from 'ember-osf-web/services/theme';
 import Intl from 'ember-intl/services/intl';
 import PreprintModel from 'ember-osf-web/models/preprint';
-import { task } from 'ember-concurrency';
-import { waitFor } from '@ember/test-waiters';
-import { alias } from '@ember/object/computed';
 import PreprintRequestActionModel from 'ember-osf-web/models/preprint-request-action';
-import { taskFor } from 'ember-concurrency-ts';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import { tracked } from '@glimmer/tracking';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 import Media from 'ember-responsive';
+import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
 
 const UNKNOWN = 'unknown';
 const PENDING = 'pending';
@@ -69,6 +66,8 @@ ICONS[UNKNOWN] = 'exclamation-triangle';
 interface InputArgs {
     submission: PreprintModel;
     provider: PreprintProviderModel;
+    latestWithdrawalRequest: PreprintRequestModel | null;
+    latestAction: PreprintRequestActionModel | ReviewActionModel | null;
 }
 
 export default class PreprintStatusBanner extends Component<InputArgs>{
@@ -77,23 +76,27 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     @service media!: Media;
 
     @tracked displayComment = false;
-    isPendingWithdrawal = false;
-    isWithdrawalRejected = false;
 
     // translations
     labelModeratorFeedback = 'preprints.detail.status_banner.feedback.moderator_feedback';
     moderator = 'preprints.detail.status_banner.feedback.moderator';
     baseMessage = 'preprints.detail.status_banner.message.base';
 
-    latestAction: PreprintRequestActionModel | ReviewActionModel |  undefined;
+    get isPendingWithdrawal(): boolean {
+        return Boolean(this.args.latestWithdrawalRequest) && !this.isWithdrawalRejected;
+    }
 
-    @alias('latestAction.comment') reviewerComment: string | undefined;
-    @alias('latestAction.creator.fullName') reviewerName: string | undefined;
+    get isWithdrawalRejected(): boolean {
+        const isPreprintRequestActionModel = this.args.latestAction instanceof PreprintRequestActionModel;
+        return isPreprintRequestActionModel && this.args.latestAction?.actionTrigger === 'reject';
+    }
 
-    constructor(owner: unknown, args: InputArgs) {
-        super(owner, args);
+    get reviewerComment(): string | undefined {
+        return this.args.latestAction?.comment;
+    }
 
-        taskFor(this.loadPreprintState).perform();
+    get reviewerName(): string | undefined {
+        return this.args.latestAction?.creator.fullName;
     }
 
     get isWithdrawn() {
@@ -174,40 +177,6 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
 
     private get workflow(): string {
         return WORKFLOW[this.args.provider.reviewsWorkflow || UNKNOWN];
-    }
-
-    @task
-    @waitFor
-    async loadPreprintState() {
-        if (this.isWithdrawn) {
-            return;
-        }
-        const submissionActions = await this.args.submission.reviewActions;
-        const latestSubmissionAction = submissionActions.firstObject;
-        const withdrawalRequests = await this.args.submission.requests;
-        const withdrawalRequest = withdrawalRequests.firstObject;
-        if (withdrawalRequest) {
-            const requestActions = await withdrawalRequest.queryHasMany('actions', {
-                sort: '-modified',
-            });
-
-            const latestRequestAction = requestActions.firstObject;
-            // @ts-ignore: ActionTrigger does not exist on type 'never'
-            if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
-                this.isWithdrawalRejected = true;
-                this.latestAction = latestRequestAction;
-                return;
-            } else {
-                this.isPendingWithdrawal = true;
-                return;
-            }
-        }
-
-        if (this.args.provider.reviewsCommentsPrivate) {
-            return;
-        }
-
-        this.latestAction = latestSubmissionAction;
     }
 
     get isMobile() {
