@@ -35,7 +35,7 @@ export default class InstitutionModel extends OsfModel {
     // identifier_domain in the admin app
     @attr('fixstring') iri!: string;
     @attr('fixstringarray') iris!: string[];
-    @attr('boolean', { defaultValue: false }) institutionalAccessRequestEnabled!: boolean;
+    @attr('boolean', { defaultValue: false }) institutionalRequestAccessEnabled!: boolean;
 
     // TODO Might want to replace calls to `users` with `institutionUsers.user`?
     @hasMany('user', { inverse: 'institutions' })
