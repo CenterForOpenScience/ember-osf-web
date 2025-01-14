@@ -80,13 +80,21 @@
                                             {{on 'click' (fn fileManager.goToFolder folder)}}
                                         >
                                             <span local-class='item-name'>
-                                                <FaIcon @icon='folder' />
+                                                {{#if (or (eq folder.itemType 'FOLDER') (eq folder.itemType 'COLLECTION'))}}
+                                                    <FaIcon @icon='folder' />
+                                                {{else}}
+                                                    <FaIcon @icon='file' />
+                                                {{/if}}
                                                 {{folder.itemName}}
                                             </span>
                                         </Button>
                                     {{else}}
                                         <span local-class='item-name'>
-                                            <FaIcon @icon='folder' />
+                                            {{#if (or (eq folder.itemType 'FOLDER') (eq folder.itemType 'COLLECTION'))}}
+                                                <FaIcon @icon='folder' />
+                                            {{else}}
+                                                <FaIcon @icon='file' />
+                                            {{/if}}
                                             {{folder.itemName}}
                                         </span>
                                     {{/if}}

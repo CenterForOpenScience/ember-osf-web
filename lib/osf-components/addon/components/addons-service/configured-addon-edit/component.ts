@@ -5,9 +5,13 @@ import { TaskInstance } from 'ember-concurrency';
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
+import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
+import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
+import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
+import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
 
 interface Args {
@@ -21,9 +25,27 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
     @tracked currentItems: Item[] = [];
 
-    defaultKwargs = {
-        itemType: ItemType.Folder,
-    };
+    defaultKwargs: any = {};
+
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
+        if (this.args.configuredAddon) {
+            if (this.args.configuredAddon instanceof ConfiguredStorageAddonModel) {
+                this.defaultKwargs['itemType'] = ItemType.Folder;
+            }
+            if (this.args.configuredAddon instanceof ConfiguredCitationAddonModel) {
+                this.defaultKwargs['filterItems'] = ItemType.Collection;
+            }
+        }
+        if (this.args.authorizedAccount) {
+            if (this.args.authorizedAccount instanceof AuthorizedStorageAccountModel) {
+                this.defaultKwargs['itemType'] = ItemType.Folder;
+            }
+            if (this.args.authorizedAccount instanceof AuthorizedCitationAccountModel) {
+                this.defaultKwargs['filterItems'] = ItemType.Collection;
+            }
+        }
+    }
 
     get hasRootFolder() {
         return !(

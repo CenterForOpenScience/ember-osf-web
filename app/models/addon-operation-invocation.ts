@@ -32,6 +32,8 @@ export enum InvocationStatus {
 export enum ItemType {
     Folder = 'FOLDER',
     File = 'FILE',
+    Collection = 'COLLECTION',
+    Document = 'DOCUMENT',
 }
 
 export type OperationResult = ListItemsResult | Item;
