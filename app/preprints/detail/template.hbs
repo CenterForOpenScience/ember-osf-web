@@ -76,6 +76,13 @@
                         {{t 'preprints.detail.create_new_version'}}
                     </Button>
                 {{/if}}
+                {{#if this.model.canDisplayWithdrawalButton}}
+                    <Preprints::-Components::WithdrawalPreprint
+                        @preprint={{this.model.preprint}}
+                        @provider={{this.model.provider}}
+                        @onWithdrawal={{this.onWithdrawal}}
+                    />
+                {{/if}}
             </div>
         </div>
         <div local-class='preprint-author-container'>
@@ -100,6 +107,8 @@
         <Preprints::-Components::PreprintStatusBanner
             @submission={{this.model.preprint}}
             @provider={{this.model.provider}}
+            @latestWithdrawalRequest={{this.model.latestWithdrawalRequest}}
+            @latestAction={{this.model.latestAction}}
         />
     {{/if}}
     <div local-class='data-container'>

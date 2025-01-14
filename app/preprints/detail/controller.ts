@@ -1,7 +1,9 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
+import Store from '@ember-data/store';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import Features from 'ember-feature-flags';
@@ -17,6 +19,7 @@ import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/mod
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import { getOwner } from '@ember/application';
 
 
 /**
@@ -45,12 +48,14 @@ const DATE_LABEL = {
  * @class Content Controller
  */
 export default class PrePrintsDetailController extends Controller {
+    @service store!: Store;
     @service theme!: Theme;
     @service currentUser!: CurrentUserService;
     @service features!: Features;
     @service intl!: Intl;
     @service media!: Media;
     @service toast!: Toast;
+    @service router!: RouterService;
 
     @tracked fullScreenMFR = false;
     @tracked plauditIsReady = false;
@@ -193,6 +198,40 @@ export default class PrePrintsDetailController extends Controller {
             const errorMessage = getApiErrorMessage(e);
             captureException(e, { errorMessage });
             this.toast.error(errorMessage, errorTitle);
+        }
+    }
+
+    /**
+     * Callback for the action-flow component
+     */
+    @task
+    @waitFor
+    public async onWithdrawal(): Promise<void> {
+        try {
+            const preprintRequest = await this.store.createRecord('preprint-request', {
+                comment: this.model.preprint.withdrawalJustification,
+                requestType: 'withdrawal',
+                target: this.model.preprint,
+            });
+
+            await preprintRequest.save();
+
+            this.toast.success(
+                this.intl.t('preprints.submit.action-flow.success-withdrawal',
+                    {
+                        singularCapitalizedPreprintWord: this.model.provider.documentType.singularCapitalized,
+                    }),
+            );
+
+            const { currentRouteName } = this.router;
+            getOwner(this).lookup(`route:${currentRouteName}`).refresh();
+        } catch (e) {
+            const errorMessage = this.intl.t('preprints.submit.action-flow.error-withdrawal',
+                {
+                    singularPreprintWord: this.model.provider.documentType.singular,
+                });
+            this.toast.error(errorMessage);
+            captureException(e, { errorMessage });
         }
     }
 

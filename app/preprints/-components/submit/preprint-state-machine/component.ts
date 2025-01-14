@@ -14,7 +14,6 @@ import Toast from 'ember-toastr/services/toast';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
-import { taskFor } from 'ember-concurrency-ts';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
@@ -57,7 +56,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @tracked isNextButtonDisabled = true;
     @tracked isPreviousButtonDisabled = true;
     @tracked isDeleteButtonDisplayed = false;
-    @tracked isWithdrawalButtonDisplayed = false;
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
@@ -85,10 +83,8 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
                 this.displayFileUploadStep = false;
             }
             this.isDeleteButtonDisplayed = false;
-            taskFor(this.canDisplayWitdrawalButton).perform();
         } else {
             this.isDeleteButtonDisplayed = true;
-            this.isWithdrawalButtonDisplayed = false;
             this.displayFileUploadStep = true;
             this.preprint = this.store.createRecord('preprint', {
                 provider: this.provider,
@@ -96,31 +92,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
         }
 
         this.displayAuthorAssertions = this.provider.assertionsEnabled;
-    }
-
-    @task
-    @waitFor
-    private async canDisplayWitdrawalButton(): Promise<void> {
-        let isWithdrawalRejected = false;
-
-        const withdrawalRequests = await this.preprint.requests;
-        const withdrawalRequest = withdrawalRequests.firstObject;
-        if (withdrawalRequest) {
-            const requestActions = await withdrawalRequest.queryHasMany('actions', {
-                sort: '-modified',
-            });
-
-            const latestRequestAction = requestActions.firstObject;
-            // @ts-ignore: ActionTrigger is never
-            if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
-                isWithdrawalRejected = true;
-            }
-        }
-
-        this.isWithdrawalButtonDisplayed = this.isAdmin() &&
-        (this.preprint.reviewsState === ReviewsState.ACCEPTED ||
-        this.preprint.reviewsState === ReviewsState.PENDING) && !isWithdrawalRejected;
-
     }
 
     private setValidationForEditFlow(): void {
@@ -150,41 +121,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public async onCancel(): Promise<void> {
         await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
     }
-
-
-    /**
-     * Callback for the action-flow component
-     */
-    @task
-    @waitFor
-    public async onWithdrawal(): Promise<void> {
-        try {
-            const preprintRequest = await this.store.createRecord('preprint-request', {
-                comment: this.preprint.withdrawalJustification,
-                requestType: 'withdrawal',
-                target: this.preprint,
-            });
-
-            await preprintRequest.save();
-
-            this.toast.success(
-                this.intl.t('preprints.submit.action-flow.success-withdrawal',
-                    {
-                        singularCapitalizedPreprintWord: this.provider.documentType.singularCapitalized,
-                    }),
-            );
-
-            await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
-        } catch (e) {
-            const errorMessage = this.intl.t('preprints.submit.action-flow.error-withdrawal',
-                {
-                    singularPreprintWord: this.provider.documentType.singular,
-                });
-            this.toast.error(errorMessage);
-            captureException(e, { errorMessage });
-        }
-    }
-
 
     /**
      * saveOnStep
