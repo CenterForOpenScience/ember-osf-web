@@ -49,11 +49,20 @@ export default class PreprintsDetail extends Route {
 
     headTags?: HeadTagDef[];
 
-    async model(params: { guid : string }) {
+    async model(params: { guid: string }) {
         try {
             const guid = params.guid;
 
+            const embeddableFields = [
+                'license',
+                'provider',
+                'bibliographic_contributors',
+                'contributors',
+                'identifiers',
+            ];
             const preprint = await this.store.findRecord('preprint', guid, {
+                reload: true,
+                include: embeddableFields,
                 adapterOptions: {
                     query: {
                         'metrics[views]': 'total',
