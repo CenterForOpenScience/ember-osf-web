@@ -89,7 +89,7 @@ export default class WithdrawalComponent extends Component<WithdrawalModalArgs> 
         ) {
             return this.intl.t('preprints.submit.action-flow.pre-moderation-notice-pending',
                 {
-                    singularPreprintWord: this.args.provider.documentType.singularCapitalized,
+                    singularPreprintWord: this.args.provider.documentType.singular,
                     htmlSafe: true,
                 }) as SafeString;
         } else if (this.args.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
