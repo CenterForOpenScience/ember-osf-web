@@ -245,7 +245,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
                 setTimeout(() => {
                     this.showSendMessagePrompt = true; // Timeout to allow the modal to exit
                 }, 200);
-            } else if ([400, 403].includes(errorCode)) {
+            } else if ([400, 403, 409].includes(errorCode)) {
                 // Handle more specific errors 403s could result due if a project quickly switches it's institution
                 this.toast.error(errorDetail);
             } else if (errorDetail.includes('Request was throttled')) {  // 429 response not in JSON payload.
