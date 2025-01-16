@@ -43,7 +43,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @tracked filteredUsers = [];
     @tracked messageModalShown = false;
     @tracked messageText = '';
-    @tracked bcc_sender = false;
+    @tracked bccSender = false;
     @tracked replyTo = false;
     @tracked selectedUserId = null;
     @service toast!: Toast;
@@ -291,7 +291,7 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
     @action
     resetModalFields() {
         this.messageText = '';
-        this.bcc_sender = false;
+        this.bccSender = false;
         this.replyTo = false;
         this.selectedUserId = null;
     }
@@ -308,10 +308,10 @@ export default class InstitutionalUsersList extends Component<InstitutionalUsers
             const userMessage = this.store.createRecord('user-message', {
                 messageText: this.messageText.trim(),
                 messageType: MessageTypeChoices.InstitutionalRequest,
-                bcc_sender: this.bcc_sender,
+                bccSender: this.bccSender,
                 replyTo: this.replyTo,
                 institution: this.args.institution,
-                user: this.selectedUserId,
+                messageRecipient: this.selectedUserId,
             });
 
             await userMessage.save();

@@ -17,7 +17,6 @@ export default class InstitutionDashboardPreprints extends Controller {
             type: 'link',
             getHref: searchResult => searchResult.indexCard.get('osfIdentifier'),
             getLinkText: searchResult => searchResult.displayTitle,
-            propertyPathKey: 'title',
         },
         { // Link
             name: this.intl.t('institutions.dashboard.object-list.table-headers.link'),
@@ -28,29 +27,24 @@ export default class InstitutionDashboardPreprints extends Controller {
         { // Date created
             name: this.intl.t('institutions.dashboard.object-list.table-headers.created_date'),
             getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateCreated']),
-            isSortable: true,
-            propertyPathKey: 'dateCreated',
+            sortKey: 'dateCreated',
         },
         { // Date modified
             name: this.intl.t('institutions.dashboard.object-list.table-headers.modified_date'),
             getValue: searchResult => getSingleOsfmapValue(searchResult.resourceMetadata, ['dateModified']),
-            isSortable: true,
-            propertyPathKey: 'dateModified',
+            sortKey: 'dateModified',
         },
         { // DOI
             name: this.intl.t('institutions.dashboard.object-list.table-headers.doi'),
             type: 'doi',
-            propertyPathKey: 'sameAs',
         },
         { // License
             name: this.intl.t('institutions.dashboard.object-list.table-headers.license'),
             getValue: searchResult => searchResult.license?.name || this.missingItemPlaceholder,
-            propertyPathKey: 'rights.name',
         },
         { // Contributor name + permissions
             name: this.intl.t('institutions.dashboard.object-list.table-headers.contributor_name'),
             type: 'contributors',
-            propertyPathKey: 'creator.name',
         },
         { // View count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.view_count'),
@@ -58,9 +52,8 @@ export default class InstitutionDashboardPreprints extends Controller {
                 const metrics = searchResult.usageMetrics;
                 return metrics ? metrics.viewCount : this.missingItemPlaceholder;
             },
-            isSortable: true,
+            sortKey: 'usage.viewCount',
             sortParam: 'integer-value',
-            propertyPathKey: 'usage.viewCount',
         },
         { // Download count
             name: this.intl.t('institutions.dashboard.object-list.table-headers.download_count'),
@@ -68,9 +61,8 @@ export default class InstitutionDashboardPreprints extends Controller {
                 const metrics = searchResult.usageMetrics;
                 return metrics ? metrics.downloadCount : this.missingItemPlaceholder;
             },
-            isSortable: true,
+            sortKey: 'usage.downloadCount',
             sortParam: 'integer-value',
-            propertyPathKey: 'usage.downloadCount',
         },
     ];
 

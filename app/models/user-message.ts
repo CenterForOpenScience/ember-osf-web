@@ -9,7 +9,7 @@ export enum MessageTypeChoices {
 export default class UserMessageModel extends Model {
   @attr('string') messageText;
   @attr('string') messageType: MessageTypeChoices;
-  @attr('boolean') bcc_sender;
+  @attr('boolean') bccSender;
   @attr('boolean') replyTo;
   @belongsTo('institution') institution;
 }

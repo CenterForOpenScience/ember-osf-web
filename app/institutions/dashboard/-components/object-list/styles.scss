@@ -129,6 +129,74 @@
     padding-left: 10px;
 }
 
+.message-textarea {
+    min-width: 450px;
+    min-height: 280px;
+}
+
+.message-label {
+    display: block;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.radiobox-container {
+    gap: 20px;
+}
+
+.radiobox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.tab-container {
+    display: flex;
+    border-bottom: 1px solid $color-border-gray;
+    margin-bottom: 1rem;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    background: $color-bg-gray;
+    border: 0;
+    border-bottom: 2px solid transparent;
+
+    &.active {
+        border-bottom: 2px solid $color-border-gray;
+        font-weight: bold;
+    }
+
+    &:hover {
+        background: $color-bg-gray;
+    }
+}
+
+.tab-pane {
+    padding: 1rem;
+    background: $color-border-white;
+}
+
+.request-modal {
+    max-width: min-content;
+}
+
 .download-dropdown-content {
     display: flex;
     flex-direction: column;

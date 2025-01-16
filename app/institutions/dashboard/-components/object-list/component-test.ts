@@ -24,9 +24,8 @@ module('Integration | institutions | dashboard | -components | object-list', hoo
         const columns = [
             {
                 name: 'Title',
-                isSortable: true,
+                sortKey: 'title',
                 getValue: () => 'Title of some object',
-                propertyPathKey: 'title',
             },
             {
                 name: 'Description',

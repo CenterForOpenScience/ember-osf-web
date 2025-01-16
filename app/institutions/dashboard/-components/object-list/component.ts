@@ -9,15 +9,24 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 import { SuggestedFilterOperators } from 'ember-osf-web/models/related-property-path';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import { Filter } from 'osf-components/components/search-page/component';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
+import Toast from 'ember-toastr/services/toast';
+import Intl from 'ember-intl/services/intl';
+import Store from '@ember-data/store';
+import CurrentUser from 'ember-osf-web/services/current-user';
+import {MessageTypeChoices} from 'ember-osf-web/models/user-message';
+import {RequestTypeChoices} from 'ember-osf-web/models/node-request';
+
 import config from 'ember-osf-web/config/environment';
 
 const shareDownloadFlag = config.featureFlagNames.shareDownload;
 
 interface Column {
     name: string;
-    isSortable?: boolean;
+    sortKey?: string;
     sortParam?: string;
-    propertyPathKey?: string;
 }
 interface ValueColumn extends Column {
     getValue(searchResult: SearchResultModel): string;
@@ -50,6 +59,20 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     @tracked sortParam?: string;
     @tracked visibleColumns = this.args.columns.map(column => column.name);
     @tracked dirtyVisibleColumns = [...this.visibleColumns]; // track changes to visible columns before they are saved
+    @tracked selectedPermissions = 'write';
+    @tracked projectRequestModalShown = false;
+    @tracked activeTab = 'request-access'; // Default tab
+    @tracked messageText = '';
+    @tracked bccSender = false;
+    @tracked replyTo = false;
+    @tracked selectedUserId = '';
+    @tracked selectedNodeId = '';
+    @tracked showSendMessagePrompt = false;
+    @service toast!: Toast;
+    @service intl!: Intl;
+    @service store!: Store;
+    @service currentUser!: CurrentUser;
+
 
     get queryOptions() {
         const options = {
@@ -93,16 +116,6 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         cardSearchUrl.searchParams.set('page[size]', '10000');
         cardSearchUrl.searchParams.set('acceptMediatype', format);
         cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results`);
-
-        const columnDownloadKeys = this.args.columns.map(column => {
-            if (column.propertyPathKey && this.visibleColumns.includes(column.name)) {
-                return column.propertyPathKey;
-            }
-            return null;
-        });
-        const { resourceType } = this.args.defaultQueryOptions.cardSearchFilter;
-
-        cardSearchUrl.searchParams.set(`fields[${resourceType}]`, columnDownloadKeys.filter(Boolean).join(','));
         return cardSearchUrl.toString();
     }
 
@@ -162,4 +175,125 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     updatePage(newPage: string) {
         this.page = newPage;
     }
+
+    @action
+    openProjectRequestModal(contributor: any) {
+        this.selectedUserId = contributor.userId;
+        this.selectedNodeId = contributor.nodeId;
+        this.projectRequestModalShown = true;
+    }
+
+    @action
+    handleBackToSendMessage() {
+        this.activeTab = 'send-message';
+        this.showSendMessagePrompt = false;
+        setTimeout(() => {
+            this.projectRequestModalShown = true; // Reopen the main modal
+        }, 200);
+
+    }
+
+    @action
+    closeSendMessagePrompt() {
+        this.showSendMessagePrompt = false; // Hide confirmation modal without reopening
+    }
+
+    @action
+    toggleProjectRequestModal() {
+        this.projectRequestModalShown = !this.projectRequestModalShown;
+    }
+
+    @action
+    updateselectedPermissions(permission: string) {
+        this.selectedPermissions = permission;
+    }
+
+    @action
+    setActiveTab(tabName: string) {
+        this.activeTab = tabName;
+    }
+
+
+    @action
+    resetFields() {
+        this.selectedPermissions = 'write';
+        this.bccSender = false;
+        this.replyTo = false;
+    }
+
+    @task
+    @waitFor
+    async handleSend() {
+        try {
+            if (this.activeTab === 'send-message') {
+                await taskFor(this._sendUserMessage).perform();
+            } else if (this.activeTab === 'request-access') {
+                await taskFor(this._sendNodeRequest).perform();
+            }
+
+            this.toast.success(
+                this.intl.t('institutions.dashboard.object-list.request-project-message-modal.message_sent_success'),
+            );
+            this.resetFields();
+        } catch (error) {
+            const errorDetail = error?.errors?.[0]?.detail.user || error?.errors?.[0]?.detail || '';
+            const errorCode = parseInt(error?.errors?.[0]?.status, 10);
+
+            if (errorCode === 400 && errorDetail.includes('does not have Access Requests enabled')) {
+                // Product wanted special handling for this error that involve a second pop-up modal
+                // Timeout to allow the modal to exit, can't have two OSFDialogs open at same time
+                setTimeout(() => {
+                    this.showSendMessagePrompt = true; // Timeout to allow the modal to exit
+                }, 200);
+            } else if ([400, 403].includes(errorCode)) {
+                // Handle more specific errors 403s could result due if a project quickly switches it's institution
+                this.toast.error(errorDetail);
+            } else if (errorDetail.includes('Request was throttled')) {  // 429 response not in JSON payload.
+                this.toast.error(errorDetail);
+            } else {
+                this.toast.error(
+                    this.intl.t('institutions.dashboard.object-list.request-project-message-modal.message_sent_failed'),
+                );
+            }
+        } finally {
+            this.projectRequestModalShown = false; // Close the main modal
+        }
+    }
+
+    @task
+    @waitFor
+    async _sendUserMessage() {
+        const userMessage = this.store.createRecord('user-message', {
+            messageText: this.messageText.trim(),
+            messageType: MessageTypeChoices.InstitutionalRequest,
+            bccSender: this.bccSender,
+            replyTo: this.replyTo,
+            institution: this.args.institution,
+            messageRecipient: this.selectedUserOsfGuid,
+        });
+        await userMessage.save();
+    }
+
+    @task
+    @waitFor
+    async _sendNodeRequest() {
+        const nodeRequest = this.store.createRecord('node-request', {
+            comment: this.messageText.trim(),
+            requestType: RequestTypeChoices.InstitutionalRequest,
+            requestedPermissions: this.selectedPermissions,
+            bccSender: this.bccSender,
+            replyTo: this.replyTo,
+            institution: this.args.institution,
+            messageRecipient: this.selectedUserOsfGuid,
+            target: this.selectedNodeId,
+        });
+        await nodeRequest.save();
+    }
+
+    get selectedUserOsfGuid() {
+        const url = new URL(this.selectedUserId);
+        const pathSegments = url.pathname.split('/').filter(Boolean);
+        return pathSegments[pathSegments.length - 1] || ''; // Last non-empty segment
+    }
+
 }
