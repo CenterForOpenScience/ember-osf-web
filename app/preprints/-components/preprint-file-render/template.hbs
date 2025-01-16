@@ -2,22 +2,22 @@
     <div local-class='file-container'>
         <FileRenderer
             @allowCommenting={{this.allowCommenting}}
-            @download={{this.primaryFile.links.download}}
+            @download={{@primaryFile.links.download}}
         />
     </div>
 
     <div local-class='details-container'>
         <div local-class='name-container'>
             <div data-test-selected-file-name local-class='name'>
-                {{this.primaryFile.name}}
+                {{@primaryFile.name}}
             </div>
             <div data-test-file-version local-class='version'>
-                {{t 'preprints.detail.file_renderer.version'}}: {{this.primaryFile.currentVersion}}
+                {{t 'preprints.detail.file_renderer.version'}}: {{@primaryFile.currentVersion}}
             </div>
         </div>
         <div local-class='version-container'>
-            {{#if this.primaryFileHasVersions}}
-                <ResponsiveDropdown 
+            {{#if @primaryFileHasVersions}}
+                <ResponsiveDropdown
                     @renderInPlace={{true}}
                     @buttonStyling={{true}}
                     as |dd|
