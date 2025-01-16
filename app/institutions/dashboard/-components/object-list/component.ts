@@ -277,6 +277,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
     @task
     @waitFor
     async _sendNodeRequest() {
+        const userRecord = await this.store.findRecord('user', this.selectedUserOsfGuid);
         const nodeRequest = this.store.createRecord('node-request', {
             comment: this.messageText.trim(),
             requestType: RequestTypeChoices.InstitutionalRequest,
@@ -284,7 +285,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             bccSender: this.bccSender,
             replyTo: this.replyTo,
             institution: this.args.institution,
-            messageRecipient: this.selectedUserOsfGuid,
+            messageRecipient: userRecord,
             target: this.selectedNodeId,
         });
         await nodeRequest.save();
