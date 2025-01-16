@@ -66,8 +66,8 @@ export default class InstitutionalObjectListContributorsField extends Component<
     }
 
     get shouldShowButton() {
-        const { searchResult} = this.args;
-        const {resourceMetadata} = searchResult;
+        const { searchResult } = this.args;
+        const { resourceMetadata } = searchResult;
         return resourceMetadata.resourceType[0]['@id'] === 'Project';
     }
 }
