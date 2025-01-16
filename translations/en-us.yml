@@ -2274,7 +2274,7 @@ meetings:
             subject: Subject
             message_body: 'Message body'
             attachment: Attachment
-            panel_footer_note: 'Once sent, we will follow-up by sending you the permanent identifier that others can use to cite your work; you can also login and make changes, such as uploading additional files, to your project at that URL.If you didn''t have an OSF account, one will be created automatically and a link to set your password will be emailed to you; if you do, we will simply create a new project in your account.By creating an account you agree to our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms</a> and that you have read our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>, including our information on <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md#f-cookies">Cookie Use</a>.'
+            panel_footer_note: 'Once sent, we will follow-up by sending you the permanent identifier that others can use to cite your work; you can also login and make changes, such as uploading additional files, to your project at that URL.If you didn''t have an OSF account, one will be created automatically and a link to set your password will be emailed to you; if you do, we will simply create a new project in your account.By creating an account you agree to our <a href="https://osf.io/terms_of_use/">Terms</a> and that you have read our <a href="https://osf.io/privacy_policy/">Privacy Policy</a>, including our information on <a href="https://osf.io/privacy_policy/#f-cookies">Cookie Use</a>.'
             conference_homepage: 'Conference homepage'
 analytics:
     pageTitle: '{nodeTitle} Analytics'
@@ -2311,7 +2311,7 @@ analytics:
         resources: Resources
     privateProject: "\n            <p>\n                Analytics are not available for private projects. To view Analytics, make your project public\n                by selecting Make Public from the project overview page. Public projects:\n            </p>\n            <ul>\n                <li>are discoverable</li>\n                <li>are citable</li>\n                <li>can be affiliated with OSF for Institutions partners</li>\n                <li>promote open practices among peers</li>\n            </ul>\n            <p>\n                Receive data on visitors to your project by enabling Analytics\n                and begin discovering the impact of your work.\n            </p>\n        "
 cookieBanner:
-    cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.'
+    cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://osf.io/privacy_policy/">Privacy Policy</a> and information on <a href="https://osf.io/privacy_policy/#8-types-of-information-we-collect">cookie use</a>.'
     accept: Accept
 discover:
     relevance: Relevance
