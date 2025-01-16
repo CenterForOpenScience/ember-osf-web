@@ -18,6 +18,6 @@ export default class NodeRequestModel extends Model {
   @attr('boolean') bccSender;
   @attr('boolean') replyTo;
   @belongsTo('institution') institution!: AsyncBelongsTo<InstitutionModel> & InstitutionModel;
-  @belongsTo('user') messageRecipent!: AsyncBelongsTo<UserModel> & UserModel;
+  @belongsTo('user') messageRecipient!: AsyncBelongsTo<UserModel> & UserModel;
   @belongsTo('node') node!: AsyncBelongsTo<NodeModel> & NodeModel;
 }
