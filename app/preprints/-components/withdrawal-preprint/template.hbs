@@ -18,7 +18,12 @@
         data-test-dialog-body
     >
         <div local-class='explanation-container'>
-            {{this.modalExplanation}}
+            <p>
+                {{t 'preprints.submit.action-flow.withdrawal-explanation' singularPreprintWord=@provider.documentType.singular}}
+            </p>
+            <p>
+                {{this.modalExplanation}}
+            </p>
         </div>
         <div local-class='form-container'>
             <FormControls
