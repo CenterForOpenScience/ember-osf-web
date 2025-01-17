@@ -74,7 +74,7 @@ export default class InstitutionalObjectListContributorsField extends Component<
 
 function hasInstitutionAffiliation(contributors: any[], attribution: any, institutionIris: string[]) {
     const attributedContributor = getContributorById(contributors, getSingleOsfmapValue(attribution, ['agent']));
-    return true;
+
     if (!attributedContributor.affiliation) {
         return false;
     }
