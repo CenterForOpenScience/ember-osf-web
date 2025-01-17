@@ -1,5 +1,5 @@
 {{#each this.topInstitutionAffiliatedContributors as |contributor|}}
-    <div>
+    <div local-class='contrib-field'>
         <OsfLink
             @href={{contributor.url}}
         >
@@ -7,6 +7,15 @@
         </OsfLink>
         {{t 'institutions.dashboard.object-list.table-items.permission-level' permissionLevel=contributor.permissionLevel}}
     </div>
+    {{#if (and @institution.institutionalRequestAccessEnabled  this.shouldShowButton)}}
+        <Button
+            local-class='icon-message'
+            aria-label={{t 'institutions.dashboard.request_project_message_modal.open_aria_label'}}
+            {{on 'click' (fn this.handleOpenModal contributor)}}
+        >
+            <FaIcon @icon='comment' />
+        </Button>
+    {{/if}}
 {{else}}
     <div>
         {{t 'institutions.dashboard.object-list.table-items.no-contributors'}}
