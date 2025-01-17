@@ -59,6 +59,7 @@ module('Acceptance | preprints | detail', hooks => {
         assert.dom('[data-test-edit-preprint-button]').exists('Edit button is displayed');
         assert.dom('[data-test-edit-preprint-button]').containsText('Edit', 'Edit button text is correct');
         assert.dom('[data-test-create-new-version-button]').exists('New version button is displayed');
+        assert.dom('[data-test-withdrawal-button]').exists('Withdraw button is displayed');
 
         // Check preprint authors
         assert.dom('[data-test-contributor-name]').exists('Authors are displayed');
@@ -68,6 +69,7 @@ module('Acceptance | preprints | detail', hooks => {
         // Check preprint status banner
         assert.dom('[data-test-status]').exists('Status banner is displayed');
         assert.dom('[data-test-status]').containsText('accepted', 'Status is correct');
+        await percySnapshot(assert);
     });
 
     test('Accepted preprint, prior version detail page', async function(this: PreprintDetailTestContext, assert) {
@@ -81,10 +83,12 @@ module('Acceptance | preprints | detail', hooks => {
         assert.dom('[data-test-edit-preprint-button]').doesNotExist('Edit button is not displayed for prior versions');
         assert.dom('[data-test-create-new-version-button]')
             .doesNotExist('New version button is not displayed for prior versions');
+        assert.dom('[data-test-withdrawal-button]').exists('Withdraw button is displayed for prior versions');
 
         // Check preprint status banner
         assert.dom('[data-test-status]').exists('Status banner is displayed');
         assert.dom('[data-test-status]').containsText('accepted', 'Status is correct');
+        await percySnapshot(assert);
     });
 
     test('Pre-mod: Rejected preprint detail page', async function(this: PreprintDetailTestContext, assert) {
@@ -111,6 +115,7 @@ module('Acceptance | preprints | detail', hooks => {
         assert.dom('[data-test-edit-preprint-button]')
             .hasText('Edit and resubmit', 'Edit button text indicates resubmission');
         assert.dom('[data-test-create-new-version-button]').doesNotExist('New version button is not displayed');
+        assert.dom('[data-test-withdrawal-button]').doesNotExist('Withdraw button is not displayed');
 
         // Check preprint authors
         assert.dom('[data-test-contributor-name]').exists('Authors are displayed');
@@ -118,6 +123,7 @@ module('Acceptance | preprints | detail', hooks => {
         // Check preprint status banner
         assert.dom('[data-test-status]').exists('Status banner is displayed');
         assert.dom('[data-test-status]').containsText('rejected', 'Status is correct');
+        await percySnapshot(assert);
     });
 
 
@@ -135,10 +141,12 @@ module('Acceptance | preprints | detail', hooks => {
         assert.dom('[data-test-edit-preprint-button]').doesNotExist('Edit button is not displayed');
         assert.dom('[data-test-create-new-version-button]')
             .exists('New version button is displayed for latest withdrawn preprint version');
+        assert.dom('[data-test-withdrawal-button]').doesNotExist('Withdraw button is not displayed');
         assert.dom('[data-test-previous-versions-button]').exists('Previous versions button is displayed');
         await click('[data-test-previous-versions-button]');
         assert.dom('[data-test-no-other-versions]').exists({ count: 1 }, 'No other versions message is displayed');
         assert.dom('[data-test-version-link]').doesNotExist('No links to previous versions are displayed');
+        await percySnapshot(assert);
     });
 
     test('Withdrawn preprint, prior version detail page', async function(this: PreprintDetailTestContext, assert) {
@@ -161,10 +169,12 @@ module('Acceptance | preprints | detail', hooks => {
         assert.dom('[data-test-edit-preprint-button]').doesNotExist('Edit button is not displayed');
         assert.dom('[data-test-create-new-version-button]')
             .doesNotExist('New version button is not displayed for prior withdrawn preprint version');
+        assert.dom('[data-test-withdrawal-button]').doesNotExist('Withdraw button is not displayed');
         assert.dom('[data-test-previous-versions-button]').exists('Previous versions button is displayed');
         await click('[data-test-previous-versions-button]');
         assert.dom('[data-test-version-link]').exists({ count: 3 }, 'Link to previous version is displayed');
         assert.dom('[data-test-no-other-versions]').doesNotExist('No other versions message is not displayed');
+        await percySnapshot(assert);
     });
 
     test('Edit button visibility', async function(this: PreprintDetailTestContext, assert) {
