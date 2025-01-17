@@ -917,7 +917,7 @@ institutions:
               reply_to_label: 'Allow reply to sender address'
               send_message_prompt:
                 title: "Can't Request Access"
-                message: "This user has their request access feature turned off.<br> Reach out to the user via the User tab by pressing the 'Back' button below."
+                message: "This user has their request access feature turned off. Reach out to the user via the User tab by pressing the 'Back' button below."
                 back: "Back"
             table-headers:
                 title: Title
