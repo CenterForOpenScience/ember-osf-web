@@ -11,7 +11,7 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 import Analytics from 'ember-osf-web/services/analytics';
 import { RelationshipWithLinks } from 'osf-api';
-import {MessageTypeChoices} from 'ember-osf-web/models/user-message';
+import { MessageTypeChoices } from 'ember-osf-web/models/user-message';
 
 interface Column {
     key: string;

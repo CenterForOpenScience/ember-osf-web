@@ -250,7 +250,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
             const errorDetail = error?.errors?.[0]?.detail.user || error?.errors?.[0]?.detail || '';
             const errorCode = parseInt(error?.errors?.[0]?.status, 10);
 
-            if (errorCode === 400 && errorDetail.includes('does not have Access Requests enabled')) {
+            if (errorCode === 403 && errorDetail.includes('does not have Access Requests enabled')) {
                 // Product wanted special handling for this error that involve a second pop-up modal
                 // Timeout to allow the modal to exit, can't have two OSFDialogs open at same time
                 setTimeout(() => {
