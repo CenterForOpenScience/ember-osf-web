@@ -96,22 +96,20 @@ export default class PreprintsDetail extends Route {
             let hasPendingWithdrawal = false;
             let latestWithdrawalRequest = null;
             let latestAction = null;
-            if (preprint.currentUserPermissions.length > 0) {
+            if (preprintWithdrawableState && preprint.currentUserIsAdmin) {
                 const reviewActions = await preprint?.queryHasMany('reviewActions');
                 latestAction = reviewActions.firstObject;
-                if (preprintWithdrawableState) {
-                    const withdrawalRequests = await preprint?.queryHasMany('requests');
-                    latestWithdrawalRequest = withdrawalRequests.firstObject;
-                    if (latestWithdrawalRequest) {
-                        hasPendingWithdrawal = latestWithdrawalRequest.machineState === 'pending';
-                        const requestActions = await withdrawalRequests.firstObject?.queryHasMany('actions', {
-                            sort: '-modified',
-                        });
-                        latestAction = requestActions.firstObject;
-                        // @ts-ignore: ActionTrigger is never
-                        if (latestAction && latestAction.actionTrigger === 'reject') {
-                            isWithdrawalRejected = true;
-                        }
+                const withdrawalRequests = await preprint?.queryHasMany('requests');
+                latestWithdrawalRequest = withdrawalRequests.firstObject;
+                if (latestWithdrawalRequest) {
+                    hasPendingWithdrawal = latestWithdrawalRequest.machineState === 'pending';
+                    const requestActions = await withdrawalRequests.firstObject?.queryHasMany('actions', {
+                        sort: '-modified',
+                    });
+                    latestAction = requestActions.firstObject;
+                    // @ts-ignore: ActionTrigger is never
+                    if (latestAction && latestAction.actionTrigger === 'reject') {
+                        isWithdrawalRejected = true;
                     }
                 }
             }
