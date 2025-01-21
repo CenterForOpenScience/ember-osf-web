@@ -5,19 +5,22 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import { waitFor } from '@ember/test-waiters';
-import { task } from 'ember-concurrency';
+import { Task, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import PreprintStateMachine from 'ember-osf-web/preprints/-components/submit/preprint-state-machine/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import config from 'ember-osf-web/config/environment';
 import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/models/provider';
 import { SafeString } from '@ember/template/-private/handlebars';
+import PreprintModel from 'ember-osf-web/models/preprint';
+import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 
 const { support: { supportEmail } } = config;
 
 interface WithdrawalModalArgs {
-    manager: PreprintStateMachine;
+    preprint: PreprintModel;
+    provider: PreprintProviderModel;
+    onWithdrawal: Task<void, []>;
 }
 
 interface WithdrawalFormFields {
@@ -40,7 +43,7 @@ export default class WithdrawalComponent extends Component<WithdrawalModalArgs> 
         }),
     };
 
-    withdrawalFormChangeset = buildChangeset(this.args.manager.preprint, this.withdrawalFormValidations);
+    withdrawalFormChangeset = buildChangeset(this.args.preprint, this.withdrawalFormValidations);
 
     /**
      * Calls the state machine delete method
@@ -53,7 +56,7 @@ export default class WithdrawalComponent extends Component<WithdrawalModalArgs> 
             return Promise.reject();
         }
         this.withdrawalFormChangeset.execute();
-        return taskFor(this.args.manager.onWithdrawal).perform();
+        return taskFor(this.args.onWithdrawal).perform();
     }
 
     @action
@@ -74,41 +77,41 @@ export default class WithdrawalComponent extends Component<WithdrawalModalArgs> 
      */
     public get modalTitle(): string {
         return this.intl.t('preprints.submit.action-flow.withdrawal-modal-title',
-            { singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized});
+            { singularPreprintWord: this.args.provider.documentType.singularCapitalized});
     }
 
     /**
      * internationalize the modal explanation
      */
     public get modalExplanation(): SafeString {
-        if (this.args.manager.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
-            && this.args.manager.preprint.reviewsState === ReviewsState.PENDING
+        if (this.args.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
+            && this.args.preprint.reviewsState === ReviewsState.PENDING
         ) {
             return this.intl.t('preprints.submit.action-flow.pre-moderation-notice-pending',
                 {
-                    singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized,
+                    singularPreprintWord: this.args.provider.documentType.singular,
                     htmlSafe: true,
                 }) as SafeString;
-        } else if (this.args.manager.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
+        } else if (this.args.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION
         ) {
             return this.intl.t('preprints.submit.action-flow.pre-moderation-notice-accepted',
                 {
-                    singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized,
-                    pluralCapitalizedPreprintWord: this.args.manager.provider.documentType.pluralCapitalized,
+                    singularPreprintWord: this.args.provider.documentType.singular,
+                    pluralCapitalizedPreprintWord: this.args.provider.documentType.pluralCapitalized,
                     htmlSafe: true,
                 }) as SafeString;
-        } else if (this.args.manager.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.POST_MODERATION) {
+        } else if (this.args.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.POST_MODERATION) {
             return this.intl.t('preprints.submit.action-flow.post-moderation-notice',
                 {
-                    singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized,
-                    pluralCapitalizedPreprintWord: this.args.manager.provider.documentType.pluralCapitalized,
+                    singularPreprintWord: this.args.provider.documentType.singular,
+                    pluralCapitalizedPreprintWord: this.args.provider.documentType.pluralCapitalized,
                     htmlSafe: true,
                 }) as SafeString;
         } else {
             return this.intl.t('preprints.submit.action-flow.no-moderation-notice',
                 {
-                    singularPreprintWord: this.args.manager.provider.documentType.singularCapitalized,
-                    pluralCapitalizedPreprintWord: this.args.manager.provider.documentType.pluralCapitalized,
+                    singularPreprintWord: this.args.provider.documentType.singular,
+                    pluralCapitalizedPreprintWord: this.args.provider.documentType.pluralCapitalized,
                     supportEmail,
                     htmlSafe: true,
                 }) as SafeString;

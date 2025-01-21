@@ -1,5 +1,7 @@
 {{#if this.shouldDisplayStatusType}}
-    <div local-class='status-container
+    <div
+        data-test-preprint-submission-step={{this.getStatusTitle}}
+        local-class='status-container
         {{if this.isSelected 'selected'}}
         {{if (is-mobile) 'mobile'}}'
     >

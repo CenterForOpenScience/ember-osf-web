@@ -32,6 +32,7 @@ export interface PreprintTraits {
     rejectedWithdrawalNoComment: Trait;
     reviewAction: Trait;
     withAffiliatedInstitutions: Trait;
+    withVersions: Trait;
 }
 
 export default Factory.extend<PreprintMirageModel & PreprintTraits>({
@@ -77,6 +78,8 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
     dateWithdrawn: null,
 
     doi: null,
+    version: 1,
+    isLatestVersion: true,
 
     tags() {
         return faker.lorem.words(5).split(' ');
@@ -236,6 +239,33 @@ export default Factory.extend<PreprintMirageModel & PreprintTraits>({
             institutions.models.push(osfInstitution);
             currentUser.update({institutions});
             preprint.update({ affiliatedInstitutions });
+        },
+    }),
+
+    withVersions: trait<PreprintModel>({
+        afterCreate(preprint, server) {
+            const baseId = preprint.id;
+            const versionedPreprints = [1, 2, 3].map((version: number) => {
+                const isLatestVersion = version === 3;
+                return server.create('preprint', {
+                    title: preprint.title,
+                    description: preprint.description,
+                    provider: preprint.provider,
+                    id: `${baseId}_v${version}`,
+                    reviewsState: preprint.reviewsState,
+                    version,
+                    isLatestVersion,
+                });
+            });
+            preprint.update({
+                // A bit of a workaround since the API will return the latest version when getting baseId
+                version: 3,
+                isLatestVersion: true,
+            });
+
+            if (preprint.provider) {
+                preprint.provider.preprints.models.pushObjects(versionedPreprints);
+            }
         },
     }),
 

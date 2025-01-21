@@ -1,9 +1,11 @@
 import { HandlerContext, ModelInstance, Request, Response, Schema } from 'ember-cli-mirage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import PreprintModel from 'ember-osf-web/models/preprint';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 import faker from 'faker';
 
 import { guid } from '../factories/utils';
+import { process } from './utils';
 
 
 export function createPreprint(this: HandlerContext, schema: Schema) {
@@ -35,6 +37,8 @@ export function createPreprint(this: HandlerContext, schema: Schema) {
         subjects: [],
         tags: [] as string[] ,
         currentUserPermission: [Permission.Admin, Permission.Read, Permission.Write],
+        versionNumber: 1,
+        isLatestVersion: true,
     };
     const preprint = schema.preprints.create(attrs) as ModelInstance<PreprintModel>;
 
@@ -80,4 +84,30 @@ export function updatePreprint(this: HandlerContext, schema: Schema, request: Re
     }
     resource.update(attributes);
     return this.serialize(resource);
+}
+
+export function getPreprintVersions(this: HandlerContext, schema: Schema) {
+    const preprintId = this.request.params.id as string;
+    const baseId = preprintId.split('_v')[0]; // assumes preprint id is of the form <baseId>_v<versionNumber>
+    const preprints = schema.preprints.all().models
+        .filter((preprint: ModelInstance<PreprintModel>) => preprint.id !== baseId && preprint.id.includes(baseId));
+    const versions = preprints.sortBy('versionNumber').reverse();
+    return process(schema, this.request, this,
+        versions.map((version: ModelInstance) => this.serialize(version).data));
+}
+
+export function createPreprintVersion(this: HandlerContext, schema: Schema) {
+    const basePreprintId = this.request.params.id as string;
+    const basePreprint = schema.preprints.find(basePreprintId);
+    basePreprint.update({ isLatestVersion: false });
+    const baseVersionNumber = basePreprint.version || 1;
+    const providerModeration = basePreprint.provider && basePreprint.provider.reviewsWorkflow;
+    const newVersion = schema.preprints.create({
+        ...basePreprint.attrs,
+        reviewsState: providerModeration ? ReviewsState.PENDING : ReviewsState.ACCEPTED,
+        id: basePreprintId.split('_v')[0] + '_v' + (baseVersionNumber + 1),
+        versionNumber: baseVersionNumber + 1,
+        isLatestVersion: true,
+    });
+    return this.serialize(newVersion);
 }

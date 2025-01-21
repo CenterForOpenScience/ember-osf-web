@@ -20,6 +20,10 @@
         &.long {
             height: 175px;
         }
+
+        &.short {
+            height: 40px;
+        }
     }
 
     &.mobile {
@@ -30,6 +34,10 @@
             display: none;
 
             &.long {
+                height: fit-content;
+            }
+
+            &.short {
                 height: fit-content;
             }
         }

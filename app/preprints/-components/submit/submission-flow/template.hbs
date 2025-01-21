@@ -1,17 +1,18 @@
 {{page-title (t @header documentType=this.provider.documentType)}}
 
-<Preprints::-Components::Submit::PreprintStateMachine 
+<Preprints::-Components::Submit::PreprintStateMachine
     @provider={{@provider}}
     @preprint={{@preprint}}
     @setPageDirty={{@setPageDirty}}
     @resetPageDirty={{@resetPageDirty}}
+    @newVersion={{@newVersion}}
 as |manager|>
     <OsfLayout @backgroundClass={{local-class 'submit-page-container'}} as |layout|>
         <layout.heading local-class='header-container'
-         {{with-branding @brand}}
+            {{with-branding @brand}}
         >
             <div local-class='header {{if (is-mobile) 'mobile'}}'>
-                {{t @header 
+                {{t @header
                     documentType = @provider.documentType.singularCapitalized
                 }}
             </div>

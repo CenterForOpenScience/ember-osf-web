@@ -13,13 +13,13 @@ import Media from 'ember-responsive';
 
 
 interface InputArgs {
-  preprint: PreprintModel;
-  provider: PreprintProviderModel;
-  primaryFile: FileModel;
+    preprint: PreprintModel;
+    provider: PreprintProviderModel;
+    primaryFile: FileModel;
 }
 
 export interface VersionModel extends FileVersionModel {
-  downloadUrl?: string;
+    downloadUrl?: string;
 }
 
 export default class PreprintFileRender extends Component<InputArgs> {
@@ -30,22 +30,19 @@ export default class PreprintFileRender extends Component<InputArgs> {
     @tracked primaryFileHasVersions = false;
     @tracked fileVersions: VersionModel[] = [];
 
-    primaryFile = this.args.primaryFile;
-    provider = this.args.provider;
-    preprint = this.args.preprint;
-
     constructor(owner: unknown, args: InputArgs) {
         super(owner, args);
 
         taskFor(this.loadPrimaryFileVersions).perform();
 
-        this.allowCommenting = this.provider.allowCommenting && this.preprint.isPublished && this.preprint.public;
+        this.allowCommenting = this.args.provider.allowCommenting
+            && this.args.preprint.isPublished && this.args.preprint.public;
     }
 
     @task
     @waitFor
     private async loadPrimaryFileVersions()  {
-        const primaryFileVersions = (await this.primaryFile.queryHasMany('versions', {
+        const primaryFileVersions = (await this.args.primaryFile.queryHasMany('versions', {
             sort: '-id', 'page[size]': 50,
         })).toArray();
         this.serializeVersions(primaryFileVersions);
@@ -53,19 +50,19 @@ export default class PreprintFileRender extends Component<InputArgs> {
     }
 
     private serializeVersions(versions: FileVersionModel[]) {
-        const downloadUrl = this.primaryFile.links.download as string || '';
+        const downloadUrl = this.args.primaryFile.links.download as string || '';
 
         versions.map((version: VersionModel) => {
             const dateFormatted = encodeURIComponent(version.dateCreated.toISOString());
             const displayName = version.name.replace(/(\.\w+)?$/, ext => `-${dateFormatted}${ext}`);
 
             this.fileVersions.push(
-              {
-                  name: version.name,
-                  id: version.id,
-                  dateCreated: version.dateCreated,
-                  downloadUrl: `${downloadUrl}?version=${version.id}&displayName=${displayName}`,
-              } as VersionModel,
+                {
+                    name: version.name,
+                    id: version.id,
+                    dateCreated: version.dateCreated,
+                    downloadUrl: `${downloadUrl}?version=${version.id}&displayName=${displayName}`,
+                } as VersionModel,
             );
             return version;
         });
