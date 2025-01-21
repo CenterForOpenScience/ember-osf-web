@@ -1,0 +1,21 @@
+{{page-title (t 'node.components.title')}}
+
+<div local-class='component-container'>
+    <h3 data-test-components-page-heading>
+        {{t 'node.components.title'}}
+    </h3>
+
+    {{#paginated-list/has-many
+        modelTaskInstance=this.model.taskInstance relationshipName='children'
+        as |list|
+    }}
+        {{#list.item as |child|}}
+            <NodeCard @node={{child}} />
+        {{/list.item}}
+        {{#list.empty}}
+            <p data-test-no-components>
+                {{t 'node.components.no_components'}}
+            </p>
+        {{/list.empty}}
+    {{/paginated-list/has-many}}
+</div>

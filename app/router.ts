@@ -2,10 +2,7 @@ import EmberRouter from '@ember/routing/router';
 import config from 'ember-osf-web/config/environment';
 
 const {
-    engines: {
-        collections,
-        registries,
-    },
+    engines: { collections, registries },
 } = config;
 
 const Router = EmberRouter.extend({
@@ -14,7 +11,6 @@ const Router = EmberRouter.extend({
 });
 
 /* eslint-disable array-callback-return */
-
 Router.map(function() {
     // All non-guid routes (except error routes) belong above "Guid Routing"
     this.route('home', { path: '/' });
@@ -23,12 +19,16 @@ Router.map(function() {
     this.route('search');
     this.route('institutions', function() {
         this.route('discover', { path: '/:institution_id' });
-        this.route('dashboard', { path: '/:institution_id/dashboard' }, function() {
-            this.route('projects');
-            this.route('registrations');
-            this.route('preprints');
-            this.route('users');
-        });
+        this.route(
+            'dashboard',
+            { path: '/:institution_id/dashboard' },
+            function() {
+                this.route('projects');
+                this.route('registrations');
+                this.route('preprints');
+                this.route('users');
+            },
+        );
     });
 
     this.route('preprints', function() {
@@ -42,7 +42,6 @@ Router.map(function() {
         this.route('select');
         this.route('my-preprints');
     });
-
 
     this.route('register');
     this.route('settings', function() {
@@ -76,7 +75,7 @@ Router.map(function() {
     }
 
     this.route('guid-file', { path: '--file/:guid' }, function() {
-        this.route('index', { path: '/'});
+        this.route('index', { path: '/' });
         this.route('metadata', function() {
             this.route('add');
         });
@@ -89,11 +88,12 @@ Router.map(function() {
             this.route('provider', { path: '/:providerId' });
         });
         this.route('metadata', function() {
-            this.route('index', { path: '/'});
+            this.route('index', { path: '/' });
             this.route('detail', { path: '/:recordId' });
             this.route('add');
         });
         this.route('registrations');
+        this.route('components');
         this.route('drafts', { path: '/drafts/:draftId' }, function() {
             this.route('register');
         });
@@ -108,12 +108,14 @@ Router.map(function() {
         });
     });
 
-
-    this.route('guid-registration', { path: '--registration/:guid' }, function() {
-        this.mount('analytics-page', { as: 'analytics' });
-        this.route('forks');
-    });
-
+    this.route(
+        'guid-registration',
+        { path: '--registration/:guid' },
+        function() {
+            this.mount('analytics-page', { as: 'analytics' });
+            this.route('forks');
+        },
+    );
 
     /*
      * Guid Routing
