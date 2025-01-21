@@ -96,7 +96,7 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     }
 
     get reviewerName(): string | undefined {
-        return this.args.latestAction?.creator.fullName;
+        return this.args.latestAction?.creator.get('fullName');
     }
 
     get isWithdrawn() {
