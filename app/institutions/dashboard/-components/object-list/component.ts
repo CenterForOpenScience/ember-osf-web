@@ -238,13 +238,18 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         try {
             if (this.activeTab === 'send-message') {
                 await taskFor(this._sendUserMessage).perform();
+                this.toast.success(
+                    this.intl.t('institutions.dashboard.object-list.' +
+                        'request-project-message-modal.message_sent_success'),
+                );
             } else if (this.activeTab === 'request-access') {
                 await taskFor(this._sendNodeRequest).perform();
+                this.toast.success(
+                    this.intl.t('institutions.dashboard.object-list.' +
+                        'request-project-message-modal.request_sent_success'),
+                );
             }
 
-            this.toast.success(
-                this.intl.t('institutions.dashboard.object-list.request-project-message-modal.message_sent_success'),
-            );
             this.resetFields();
         } catch (error) {
             const errorDetail = error?.errors?.[0]?.detail.user || error?.errors?.[0]?.detail || '';
