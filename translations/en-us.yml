@@ -826,6 +826,8 @@ institutions:
         title: '{institutionName} Dashboard'
         updated: 'Updated {date}'
         download_past_reports_label: 'Previous reports'
+        aira_label_project_request_textarea: 'Project Request Message Text Area'
+        aira_label_user_message_textarea: 'User Message Text Area'
         download_dropdown_label: 'Download data'
         download_csv: 'Download CSV'
         download_tsv: 'Download TSV'
