@@ -894,6 +894,7 @@ node:
         analytics: Analytics
         registrations: Registrations
         contributors: Contributors
+        components: Components
         add-ons: Add-ons
         settings: Settings
     projects:
@@ -902,6 +903,9 @@ node:
         load-more:
             loading: Loading…
             load-more: 'Load More Projects'
+    components: 
+        title: Components
+        no_components: 'This project has no components.'
     registrations:
         new_registration_modal:
             title: Register
