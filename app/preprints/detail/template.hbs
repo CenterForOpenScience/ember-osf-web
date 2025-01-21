@@ -16,15 +16,13 @@
                         @renderInPlace={{true}}
                         @horizontalPosition='left'
                     as |dropdown|>
-                        <dropdown.trigger>
-                            <Button
-                                data-test-previous-versions-button
-                                data-analytics-name='View previous preprint versions'
-                                local-class='btn btn-primary'
-                                @type='default'
-                            >
-                                {{t 'preprints.detail.other_versions'}}
-                            </Button>
+                        <dropdown.trigger
+                            data-test-previous-versions-button
+                            data-analytics-name='View previous preprint versions'
+                            local-class='btn btn-primary'
+                            @type='default'
+                        >
+                            {{t 'preprints.detail.other_versions'}}
                         </dropdown.trigger>
                         <dropdown.content>
                             <ul local-class='version-picker-list'>
