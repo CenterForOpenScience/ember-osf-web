@@ -21,6 +21,7 @@ import Intl from 'ember-intl/services/intl';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import { taskFor } from 'ember-concurrency-ts';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
 import { assert } from '@ember/debug';
 import Media from 'ember-responsive';
 import template from './template';
@@ -47,6 +48,7 @@ export default class NodeCard extends Component {
 
     // Private properties
     searchUrl = pathJoin(baseURL, 'search');
+    @tracked resourceType?: string;
     @tracked latestSchemaResponse!: SchemaResponseModel;
     @tracked showNewUpdateModal = false;
     @computed('readOnly', 'node', 'node.{nodeType,userHasWritePermission}')
@@ -75,9 +77,25 @@ export default class NodeCard extends Component {
         }
     }
 
+    @task
+    @waitFor
+    async getGuidMetadata() {
+        const guidRecord = await this.store.findRecord('guid', this.node?.id, {
+            include: 'custom_metadata',
+            resolve: false,
+        });
+
+        const metadataRecord = await guidRecord.customMetadata as CustomFileMetadataRecordModel;
+        this.resourceType = metadataRecord?.resourceTypeGeneral ||
+            this.intl.t('node_card.resource-type-none-selected') ;
+    }
+
     didReceiveAttrs() {
         if (this.node?.isRegistration) {
             taskFor(this.getLatestRevision).perform(this.node as Registration);
+        }
+        if (this.node?.isProject) {
+            taskFor(this.getGuidMetadata).perform();
         }
     }
 
@@ -93,6 +111,10 @@ export default class NodeCard extends Component {
             );
         }
         return false;
+    }
+
+    get displayIcon(): boolean {
+        return !(this.node?.isRegistration || this.node?.isProject);
     }
 
     get shouldShowViewChangesButton() {

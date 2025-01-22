@@ -80,9 +80,9 @@
                         {{/if}}
                     {{/if}}
 
-                    {{#unless @node.isRegistration}}
+                    {{#if this.displayIcon}}
                         {{node-card/node-icon category=@node.category}}
-                    {{/unless}}
+                    {{/if}}
                     <OsfLink
                         local-class='osf-link {{if this.isMobile 'mobile'}}'
                         data-analytics-name='Title'
@@ -201,6 +201,16 @@
                                 />
                             </dd>
                         </div>
+                        {{#if @node.isProject}}
+                            <div>
+                                <dt data-test-resource-type-label>
+                                    {{t 'node_card.resource-type'}}
+                                </dt>
+                                <dd data-test-resource-type>
+                                    {{this.resourceType}}
+                                </dd>
+                            </div>
+                        {{/if}}
                         <div>
                             <dt data-test-description-label>
                                 {{t 'node_card.description'}}
