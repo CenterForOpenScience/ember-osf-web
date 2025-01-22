@@ -833,13 +833,17 @@ join_osf:
     learn_more: 'learn more'
     hide_message: 'Hide this message'
 node_card:
-    generic:
-        private_tooltip: 'This project is private'
-        timestamp_label: 'Created:'
+    contributors: 'Contributors:'
+    description: 'Description:'
     fork:
         private_tooltip: 'This fork is private'
         timestamp_label: 'Forked:'
         manage_contributors: 'Manage contributors'
+    generic:
+        private_tooltip: 'This project is private'
+        timestamp_label: 'Created:'
+    last_updated: 'Last updated:'
+    options: Options
     registration:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
@@ -857,18 +861,15 @@ node_card:
             pending_withdraw: 'Pending withdrawal moderation'
             withdrawn: 'Withdrawn'
             archiving: 'Archiving'
-    tags: 'Tags:'
     registration_template: 'Registration template:'
-    contributors: 'Contributors:'
-    description: 'Description:'
-    last_updated: 'Last updated:'
     registry: 'Registry:'
-    options: Options
-    view_button: 'View'
-    update_button: 'Update'
-    view_changes_button: 'Continue update'
+    resource-type: 'Resource Type:'
+    resource-type-none-selected: 'None selected'
     schema_response_error: 'Updates irretreivable.'
-
+    tags: 'Tags:'
+    update_button: 'Update'
+    view_button: 'View'
+    view_changes_button: 'Continue update'
 forks:
     fork: Fork
     title: Forks
