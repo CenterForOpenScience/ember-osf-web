@@ -319,3 +319,41 @@ input:checked + .slider::before {
     justify-content: flex-end;
     margin-right: 15px;
 }
+
+
+.icon-message {
+    opacity: 0;
+    color: $color-text-blue-dark;
+    /* !important used to override ember Button border scripting  */
+    background-color: inherit !important;
+    border: 0 !important;
+    box-shadow: 0 !important;
+}
+
+.icon-message:hover {
+    opacity: 1;
+    background-color: inherit !important;
+}
+
+.message-textarea {
+    min-width: 450px;
+    min-height: 280px;
+}
+
+.message-label {
+    display: block;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}

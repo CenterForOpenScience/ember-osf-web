@@ -89,7 +89,7 @@ export default class InstitutionDashboardRegistrations extends Controller {
                 }
                 return searchResult.funders.map((funder: { name: string }) => funder.name).join(', ');
             },
-            propertyPathKey: 'funders.name',
+            propertyPathKey: 'funder.name',
         },
         { // schema
             name: this.intl.t('institutions.dashboard.object-list.table-headers.registration_schema'),
