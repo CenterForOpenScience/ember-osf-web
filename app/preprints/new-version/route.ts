@@ -2,8 +2,6 @@ import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import Toast from 'ember-toastr/services/toast';
-import Intl from 'ember-intl/services/intl';
 
 import Theme from 'ember-osf-web/services/theme';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
@@ -14,9 +12,6 @@ export default class PreprintNewVersionRoute extends Route {
     @service theme!: Theme;
     @service router!: RouterService;
     @service metaTags!: MetaTags;
-    @service toast!: Toast;
-    @service intl!: Intl;
-
 
     headTags?: HeadTagDef[];
 
@@ -35,21 +30,6 @@ export default class PreprintNewVersionRoute extends Route {
             this.theme.id = args.provider_id;
 
             const preprint: PreprintModel = await this.store.findRecord('preprint', args.guid);
-
-            // TODO: Re-evaluate if re-route logic is necessary
-            // if (!preprint.canCreateNewVersion) {
-            //     let message = this.intl.t('preprints.submit.new-version.redirect.latest-published',
-            //         { preprintWord: provider.documentType.singular });
-            //     if (!preprint.currentUserIsAdmin) {
-            //         message = this.intl.t('preprints.submit.new-version.redirect.permission',
-            //             { preprintWord: provider.documentType.singular });
-            //     }
-
-            //     const title = this.intl.t('preprints.submit.new-version.redirect.title');
-            //     this.toast.info(message, title);
-            //     this.router.transitionTo('preprints.detail', args.provider_id, args.guid);
-            //     return null;
-            // }
 
             return {
                 provider,
