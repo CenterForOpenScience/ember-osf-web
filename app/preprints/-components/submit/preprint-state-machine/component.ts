@@ -15,7 +15,6 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import InstitutionModel from 'ember-osf-web/models/institution';
-import CurrentUserService from 'ember-osf-web/services/current-user';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
 export enum PreprintStatusTypeEnum {
@@ -46,7 +45,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service router!: RouterService;
     @service intl!: Intl;
     @service toast!: Toast;
-    @service currentUser!: CurrentUserService;
 
     titleAndAbstractValidation = false;
     fileValidation = false;
