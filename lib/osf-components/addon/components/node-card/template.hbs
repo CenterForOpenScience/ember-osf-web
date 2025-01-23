@@ -305,10 +305,8 @@
                                 </dt>
                                 <dd
                                     data-test-resource-type
-                                    local-class='resource-type'
                                 >
                                     <CpPanel
-                                        local-class='cp-panel'
                                         id={{@node.id}}
                                         @open={{this.isOpenResourceType}}
                                         as |panel|
@@ -325,7 +323,6 @@
                                     </CpPanel>
                                     {{#unless this.isOpenResourceType}}
                                         <Button
-                                            local-class='cp-panel-button'
                                             {{on
                                                 'click'
                                                 this.toggleResourceType
