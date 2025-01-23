@@ -6,76 +6,154 @@
     <div local-class='card-contents'>
         <div
             local-class='
-            {{if @node.isRegistration 'card-body' 'node-body' }}
+            {{if @node.isRegistration 'card-body' 'node-body'}}
+            
             {{if (and @node.isRegistration this.isMobile) 'mobile'}}'
         >
-            <h4 local-class='list-group-item-heading heading' data-test-node-card-heading>
+            <h4
+                local-class='list-group-item-heading heading'
+                data-test-node-card-heading
+            >
                 {{#if @node}}
                     {{#unless @node.public}}
                         <span>
                             <FaIcon @icon='lock' />
                             <EmberTooltip>
-                                {{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}
+                                {{t
+                                    (concat
+                                        'node_card.'
+                                        @node.nodeType
+                                        '.private_tooltip'
+                                    )
+                                }}
                             </EmberTooltip>
-                        </span> |
+                        </span>
+                        |
                     {{/unless}}
                     {{#if @node.pendingRegistrationApproval}}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
+                            <span local-class='label label-info'>
+                                {{t
+                                    'node_card.registration.statuses.pending_registration_approval'
+                                }}
+                            </span>
+                            |
                         </span>
+
                     {{else if @node.pendingEmbargoApproval}}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
+                            <span local-class='label label-info'>
+                                {{t
+                                    'node_card.registration.statuses.pending_embargo_approval'
+                                }}
+                            </span>
+                            |
                         </span>
+
                     {{else if (eq @node.reviewsState 'pending')}}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
+
+                            <span local-class='label label-info'>
+                                {{t 'node_card.registration.statuses.pending'}}
+                            </span>
+                            |
                         </span>
+
                     {{else if (eq @node.reviewsState 'embargo')}}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
+                            <span local-class='label label-info'>
+                                {{t 'node_card.registration.statuses.embargo'}}
+                            </span>
+                            |
                         </span>
+
                     {{else if (eq @node.reviewsState 'rejected')}}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
+                            <span local-class='label label-info'>
+                                {{t
+                                    'node_card.registration.statuses.rejected'
+                                }}
+                            </span>
+                            |
                         </span>
-                    {{else if (eq @node.reviewsState 'pending_embargo_termination')}}
+
+                    {{else if (eq @node.reviewsState 'pending_embargo_termination') }}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
+                            <span local-class='label label-info'>
+                                {{ t
+                                    'node_card.registration.statuses.pending_embargo_termination'
+                                }}
+                            </span>
+                            |
                         </span>
-                    {{else if (eq @node.reviewsState 'pending_withdraw_request')}}
+                    {{else if (eq @node.reviewsState 'pending_withdraw_request') }}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
+                            <span local-class='label label-info'>
+                                {{t
+                                    'node_card.registration.statuses.pending_withdraw_request'
+                                }}
+                            </span>
+                            |
                         </span>
                     {{else if (eq @node.reviewsState 'pending_withdraw')}}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
+                            <span local-class='label label-info'>
+                                {{t
+                                    'node_card.registration.statuses.pending_withdraw'
+                                }}
+                            </span>
+                            |
                         </span>
                     {{else if @node.withdrawn}}
                         <span>
-                            <span local-class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
+                            <span local-class='label label-danger'>
+                                {{t
+                                    'node_card.registration.statuses.withdrawn'
+                                }}
+                            </span>
+                            |
                         </span>
                     {{/if}}
                     {{#if @node.archiving}}
                         <span>
-                            <span local-class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
+                            <span local-class='label label-primary'>
+                                {{t
+                                    'node_card.registration.statuses.archiving'
+                                }}
+                            </span>
+                            |
                         </span>
                     {{/if}}
 
                     {{#if (eq @node.revisionState 'unapproved')}}
                         {{#unless @node.pendingRegistrationApproval}}
                             <span>
-                                <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                                <span local-class='label label-info'>
+                                    {{t
+                                        'node_card.registration.statuses.revision_unapproved'
+                                    }}
+                                </span>
+                                |
                             </span>
                         {{/unless}}
                     {{else if (eq @node.revisionState 'in_progress')}}
                         <span>
-                            <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                            <span local-class='label label-info'>
+                                {{t
+                                    'node_card.registration.statuses.revision_in_progress'
+                                }}
+                            </span>
+                            |
                         </span>
                     {{else if (eq @node.revisionState 'pending_moderation')}}
                         {{#if (not-eq @node.reviewsState 'pending')}}
                             <span>
-                                <span local-class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                                <span local-class='label label-info'>
+                                    {{t
+                                        'node_card.registration.statuses.revision_pending_moderation'
+                                    }}
+                                </span>
+                                |
                             </span>
                         {{/if}}
                     {{/if}}
@@ -105,9 +183,14 @@
                         >
                             <ResponsiveDropdown @buttonStyling={{true}} as |dd|>
                                 <dd.trigger local-class='dropdown-button'>
-                                    <span aria-label={{t 'node_card.options'}}><FaIcon @icon='ellipsis-h' /></span>
+                                    <span aria-label={{t 'node_card.options'}}>
+                                        <FaIcon @icon='ellipsis-h' />
+                                    </span>
                                 </dd.trigger>
-                                <dd.content @align='right' local-class='dropdown-list'>
+                                <dd.content
+                                    @align='right'
+                                    local-class='dropdown-list'
+                                >
                                     <ul role='menu' tabindex='-1'>
                                         <li role='menuitem'>
                                             <OsfLink
@@ -115,7 +198,9 @@
                                                 local-class='dropdown-link'
                                                 @href='/{{@node.id}}/contributors/'
                                             >
-                                                {{t 'node_card.fork.manage_contributors'}}
+                                                {{t
+                                                    'node_card.fork.manage_contributors'
+                                                }}
                                             </OsfLink>
                                         </li>
                                         <li role='menuitem'>
@@ -132,7 +217,13 @@
                                                 data-analytics-scope='Delete'
                                                 local-class='dropdown-link'
                                                 @layout='fake-link'
-                                                {{on 'click' (queue (action dd.close) (action @delete @node))}}
+                                                {{on
+                                                    'click'
+                                                    (queue
+                                                        (action dd.close)
+                                                        (action @delete @node)
+                                                    )
+                                                }}
                                             >
                                                 {{t 'general.delete'}}
                                             </Button>
@@ -166,7 +257,11 @@
                             </div>
                             <div local-class='my-class'>
                                 <dt data-test-created-timestamp-label>
-                                    {{t (concat 'node_card.registration.timestamp_label')}}
+                                    {{t
+                                        (concat
+                                            'node_card.registration.timestamp_label'
+                                        )
+                                    }}
                                 </dt>
                                 <dd data-test-created-timestamp-value>
                                     {{moment @node.dateRegistered}}
@@ -175,7 +270,13 @@
                         {{else}}
                             <div>
                                 <dt data-test-created-timestamp-label>
-                                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}
+                                    {{t
+                                        (concat
+                                            'node_card.'
+                                            @node.nodeType
+                                            '.timestamp_label'
+                                        )
+                                    }}
                                 </dt>
                                 <dd data-test-created-timestamp-value>
                                     {{moment @node.dateCreated}}
@@ -204,10 +305,47 @@
                         {{#if @node.isProject}}
                             <div>
                                 <dt data-test-resource-type-label>
-                                    {{t 'node_card.resource-type'}}
+                                    {{t 'node_card.resource-type.title'}}
                                 </dt>
-                                <dd data-test-resource-type>
-                                    {{this.resourceType}}
+                                <dd
+                                    data-test-resource-type
+                                    local-class='resource-type'
+                                >
+                                    <CpPanel
+                                        local-class='cp-panel'
+                                        id={{@node.id}}
+                                        @open={{this.isOpenResourceType}}
+                                        as |panel|
+                                    >
+                                        <panel.body>
+                                            {{#if this.resourceType}}
+                                                {{this.resourceType}}
+                                            {{else}}
+                                                <LoadingIndicator
+                                                    @dark={{true}}
+                                                />
+                                            {{/if}}
+                                        </panel.body>
+                                    </CpPanel>
+                                    {{#unless this.isOpenResourceType}}
+                                        <Button
+                                            local-class='cp-panel-button'
+                                            {{on
+                                                'click'
+                                                this.toggleResourceType
+                                            }}
+                                            aria-label='{{t 'node_card.resource-type.show-resource-type' }}'
+                                            aria-controls={{@node.id}}
+                                            aria-expanded={{this.isOpenResourceType}}
+                                        >
+                                            <FaIcon @icon={{'angle-down'}} />
+                                            <EmberTooltip>
+                                                {{t
+                                                    'node_card.resource-type.show-resource-type'
+                                                }}
+                                            </EmberTooltip>
+                                        </Button>
+                                    {{/unless}}
                                 </dd>
                             </div>
                         {{/if}}
@@ -250,7 +388,9 @@
                                     data-analytics-name='View changes'
                                     data-test-view-changes-button={{@node.id}}
                                     @route='registries.edit-revision.review'
-                                    @models={{array this.latestSchemaResponse.id}}
+                                    @models={{array
+                                        this.latestSchemaResponse.id
+                                    }}
                                 >
                                     {{t 'node_card.view_changes_button'}}
                                 </OsfLink>
@@ -261,7 +401,10 @@
                                 data-test-update-button={{@node.id}}
                                 @type='secondary'
                                 local-class='update-button'
-                                {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
+                                {{on
+                                    'click'
+                                    (fn (mut this.showNewUpdateModal) true)
+                                }}
                             >
                                 {{t 'node_card.update_button'}}
                             </Button>
