@@ -863,8 +863,10 @@ node_card:
             archiving: 'Archiving'
     registration_template: 'Registration template:'
     registry: 'Registry:'
-    resource-type: 'Resource Type:'
-    resource-type-none-selected: 'None selected'
+    resource-type: 
+        title: 'Resource Type:'
+        none-selected: 'None selected'
+        show-resource-type: 'Show resource type'
     schema_response_error: 'Updates irretreivable.'
     tags: 'Tags:'
     update_button: 'Update'
