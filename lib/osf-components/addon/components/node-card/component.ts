@@ -27,7 +27,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import captureException, {
     getApiErrorMessage,
 } from 'ember-osf-web/utils/capture-exception';
-import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
+import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
 import { assert } from '@ember/debug';
 import Media from 'ember-responsive';
 import template from './template';
@@ -104,14 +104,14 @@ export default class NodeCard extends Component {
         });
 
         const metadataRecord =
-            (await guidRecord.customMetadata) as CustomFileMetadataRecordModel;
+            (await guidRecord.customMetadata) as CustomItemMetadataRecordModel;
         this.resourceType =
             metadataRecord?.resourceTypeGeneral ||
             this.intl.t('node_card.resource-type.none-selected');
     }
 
     @action
-    async toggleResourceType() {
+    toggleResourceType() {
         this.isOpenResourceType = !this.isOpenResourceType;
         if (this.isOpenResourceType) {
             taskFor(this.getGuidMetadata).perform();
