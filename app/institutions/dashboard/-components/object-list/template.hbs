@@ -383,7 +383,7 @@ as |list|>
         <Button
             @type='primary'
             @disabled={{not this.messageText.trim}}
-            {{on 'click' (queue (perform this.handleSend) dialog.close)}}
+            {{on 'click' (queue (perform this.handleSend) (fn (mut this.projectRequestModalShown) false))}}
         >
             {{t 'institutions.dashboard.object-list.request-project-message-modal.send'}}
         </Button>
