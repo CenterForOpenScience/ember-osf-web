@@ -138,10 +138,6 @@ export default class NodeCard extends Component {
         return false;
     }
 
-    get displayIcon(): boolean {
-        return !(this.node?.isRegistration || this.node?.isProject);
-    }
-
     get shouldShowViewChangesButton() {
         if (this.node instanceof RegistrationModel) {
             return (
