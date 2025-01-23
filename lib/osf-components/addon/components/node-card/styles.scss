@@ -82,21 +82,6 @@
 
                     dd {
                         flex: 1;
-
-                        .resource-type {
-                            display: flex;
-                            flex-direction: row;
-                            align-items: flex-start;
-                            justify-content: space-between;
-
-                            .cp-panel-button {
-                                width: 36px;
-                            }
-
-                            .cp-panel {
-                                width: calc(100% - 36px);
-                            }
-                        }
                     }
                 }
             }
