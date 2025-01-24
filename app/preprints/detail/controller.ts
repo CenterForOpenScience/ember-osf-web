@@ -14,12 +14,14 @@ import Toast from 'ember-toastr/services/toast';
 import config from 'ember-osf-web/config/environment';
 import ContributorModel from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
+
 import { VersionStatusSimpleLabelKey } from 'ember-osf-web/models/preprint';
 import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/models/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { getOwner } from '@ember/application';
+import Analytics from 'ember-osf-web/services/analytics';
 
 
 /**
@@ -56,6 +58,7 @@ export default class PrePrintsDetailController extends Controller {
     @service media!: Media;
     @service toast!: Toast;
     @service router!: RouterService;
+    @service analytics!: Analytics;
 
     @tracked fullScreenMFR = false;
     @tracked plauditIsReady = false;
