@@ -1,16 +1,19 @@
+import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import config from 'ember-osf-web/config/environment';
-import Theme from 'ember-osf-web/services/theme';
-import CurrentUserService from 'ember-osf-web/services/current-user';
+
 import Features from 'ember-feature-flags';
-import ContributorModel from 'ember-osf-web/models/contributor';
 import Intl from 'ember-intl/services/intl';
+import Media from 'ember-responsive';
+
+import config from 'ember-osf-web/config/environment';
+import ContributorModel from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState, PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
-import { tracked } from '@glimmer/tracking';
-import Media from 'ember-responsive';
+import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUserService from 'ember-osf-web/services/current-user';
+import Theme from 'ember-osf-web/services/theme';
 
 
 /**
@@ -44,6 +47,7 @@ export default class PrePrintsDetailController extends Controller {
     @service features!: Features;
     @service intl!: Intl;
     @service media!: Media;
+    @service analytics!: Analytics;
 
     @tracked fullScreenMFR = false;
     @tracked plauditIsReady = false;
@@ -147,5 +151,11 @@ export default class PrePrintsDetailController extends Controller {
 
     get isMobile() {
         return this.media.isMobile;
+    }
+
+    @action
+    trackDownload(): void {
+        const { preprint } = this.model;
+        this.analytics.trackDownload(preprint.id, preprint.verifiedDoi);
     }
 }

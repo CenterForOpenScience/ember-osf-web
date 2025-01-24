@@ -7,6 +7,7 @@ import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import { extractDoi } from 'ember-osf-web/utils/doi';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -112,6 +113,13 @@ export default class PreprintModel extends AbstractNodeModel {
 
     get isWithdrawn(): boolean{
         return this.dateWithdrawn !== null;
+    }
+
+    get verifiedDoi(): string {
+        if (this.preprintDoiCreated) {
+            return extractDoi(this.preprintDoiUrl) || '';
+        }
+        return '';
     }
 
     @computed('license', 'licenseRecord')

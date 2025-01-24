@@ -51,6 +51,7 @@ const {
     },
     CLIENT_ID: clientId,
     COLLECTIONS_ENABLED = false,
+    DATACITE_TRACKER_REPO_ID: dataciteTrackerRepoId = '',
     REGISTRIES_ENABLED = true,
     TESTS_ENABLED = false,
     FB_APP_ID,
@@ -219,6 +220,7 @@ module.exports = function(environment) {
                 action: 'data-analytics-action',
             },
             doiUrlPrefix: 'https://doi.org/',
+            dataciteTrackerRepoId,
         },
         social: {
             twitter: {

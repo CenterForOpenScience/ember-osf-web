@@ -5,6 +5,7 @@ import RouterService from '@ember/routing/router-service';
 import RouteInfo from '@ember/routing/-private/route-info';
 import Service, { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
+import Store from '@ember-data/store';
 import { restartableTask, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Cookies from 'ember-cookies/services/cookies';
@@ -13,6 +14,7 @@ import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
 import Toast from 'ember-toastr/services/toast';
 import moment from 'moment-timezone';
+import { DataCiteTracker } from '@datacite/datacite-tracker';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
@@ -26,6 +28,8 @@ const {
             cookieConsent: cookieConsentCookie,
             keenSessionId: sessionIdCookie,
         },
+        devMode,
+        dataciteTrackerRepoId,
     },
 } = config;
 
@@ -172,6 +176,7 @@ export default class Analytics extends Service {
     @service toast!: Toast;
     @service cookies!: Cookies;
     @service currentUser!: CurrentUser;
+    @service store!: Store;
 
     shouldToastOnEvent = false;
 
@@ -190,6 +195,9 @@ export default class Analytics extends Service {
 
         // osf metrics
         await this._sendCountedUsage(this._getPageviewPayload());
+
+        // datacite usage tracker
+        this._sendDataciteView();
 
         const eventParams = {
             page: this.router.currentURL,
@@ -243,6 +251,16 @@ export default class Analytics extends Service {
         });
     }
 
+    @restartableTask
+    @waitFor
+    async _trackDownloadTask(itemGuid: string, doi?: string) {
+        const _doi = doi || await this._getDoi(itemGuid);
+        if (_doi) {
+            this._sendDataciteUsage(_doi, DataCiteTracker.MetricType.Download);
+        }
+        // TODO: this._sendCountedUsage(...) with itemGuid? (or don't)
+    }
+
     @action
     click(category: string, label: string, extraInfo?: string | object) {
         let extra = extraInfo;
@@ -284,6 +302,10 @@ export default class Analytics extends Service {
         version = 'n/a',
     ) {
         taskFor(this.trackPageTask).perform(pagePublic, resourceType, withdrawn, version);
+    }
+
+    trackDownload(itemGuid: string, doi?: string) {
+        taskFor(this._trackDownloadTask).perform(itemGuid, doi);
     }
 
     trackFromElement(target: Element, initialInfo: InitialEventInfo) {
@@ -401,6 +423,39 @@ export default class Analytics extends Service {
         };
         const labels = Object.keys(actionLabelMap) as PageviewActionLabel[];
         return labels.filter(label => actionLabelMap[label]);
+    }
+
+    async _sendDataciteView(): Promise<void> {
+        const { itemGuid } = this._getRouteMetricsMetadata();
+        if (itemGuid) {
+            const doi = await this._getDoi(itemGuid);
+            this._sendDataciteUsage(doi, DataCiteTracker.MetricType.View);
+        }
+    }
+
+    _sendDataciteUsage(
+        doi: string,
+        metricType: DataCiteTracker.MetricType,
+    ) {
+        if (dataciteTrackerRepoId && doi) {
+            const { trackMetric } = DataCiteTracker.Tracker({
+                repoId: dataciteTrackerRepoId,
+                trackLocalhost: devMode,
+                // apiHost: 'https://analytics.datacite.org',
+            });
+            trackMetric(metricType, { doi });
+        }
+    }
+
+    async _getDoi(itemGuid: string): Promise<string> {
+        const _guid = await this.store.findRecord('guid', itemGuid);
+        const _item = await _guid.referent;
+        for (const _identifier of (await _item.identifiers)) {
+            if (_identifier.category === 'doi') {
+                return _identifier.value;
+            }
+        }
+        return '';
     }
 }
 
