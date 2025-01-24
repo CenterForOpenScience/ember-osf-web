@@ -180,6 +180,7 @@
                                 data-analytics-name='downloads'
                                 local-class='btn btn-primary'
                                 @href={{ this.fileDownloadUrl }}
+                                {{on 'click' this.trackDownload}}
                             >
                                 {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}
                             </OsfLink>

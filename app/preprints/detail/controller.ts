@@ -1,3 +1,4 @@
+import { getOwner } from '@ember/application';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
@@ -6,21 +7,23 @@ import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
+import Toast from 'ember-toastr/services/toast';
+
+
 import Features from 'ember-feature-flags';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
-import Toast from 'ember-toastr/services/toast';
 
 import config from 'ember-osf-web/config/environment';
 import ContributorModel from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
+
 import { VersionStatusSimpleLabelKey } from 'ember-osf-web/models/preprint';
 import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/models/provider';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import { getOwner } from '@ember/application';
-
 
 /**
  * Takes an object with query parameter name as the key and value,
@@ -56,6 +59,7 @@ export default class PrePrintsDetailController extends Controller {
     @service media!: Media;
     @service toast!: Toast;
     @service router!: RouterService;
+    @service analytics!: Analytics;
 
     @tracked fullScreenMFR = false;
     @tracked plauditIsReady = false;
@@ -237,5 +241,11 @@ export default class PrePrintsDetailController extends Controller {
 
     get isMobile() {
         return this.media.isMobile;
+    }
+
+    @action
+    trackDownload(): void {
+        const { preprint } = this.model;
+        this.analytics.trackDownload(preprint.id, preprint.verifiedDoi);
     }
 }

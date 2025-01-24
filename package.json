@@ -268,5 +268,7 @@
       "lib/registries"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "@datacite/datacite-tracker": "^0.0.5"
+  }
 }
