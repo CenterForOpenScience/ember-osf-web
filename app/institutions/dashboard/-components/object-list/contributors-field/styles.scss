@@ -1,0 +1,17 @@
+
+.icon-message {
+    opacity: 0;
+    color: $color-text-blue-dark;
+    background-color: inherit !important;
+    border: 0 !important;
+    box-shadow: 0 !important;
+}
+
+.icon-message:hover {
+    opacity: 1;
+    background-color: inherit !important;
+}
+
+.contrib-field {
+    display: inline;
+}

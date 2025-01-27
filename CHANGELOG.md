@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [25.03.0] - 2025-01-27
+### Added
+- Preprint DOI Versioning
+
+## [25.02.0] - 2025-01-21
+### Added
+- Institutional Access Curator - FE Release
+
 ## [25.01.2] - 2025-01-10
 ### Added
 - Update policy links
