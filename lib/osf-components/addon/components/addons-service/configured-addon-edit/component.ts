@@ -18,7 +18,7 @@ interface Args {
 
 export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked displayName = this.args.configuredAddon?.displayName || this.args.authorizedAccount?.displayName;
-    @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
+    @tracked selectedFolder = null;
     @tracked currentItems: Item[] = [];
 
     defaultKwargs = {
