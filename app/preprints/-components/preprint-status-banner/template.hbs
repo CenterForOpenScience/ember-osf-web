@@ -1,5 +1,5 @@
 <div local-class='preprint-banner-status-container  {{if this.isMobile 'mobile'}}'>
-    {{#if (or this.submission.provider?.isPending this.loadPreprintState.isRunning) }}
+    {{#if this.loadPreprintState.isRunning}}
         {{ t 'preprints.detail.status_banner.loading' }}
     {{else}}
         <div local-class='preprint-banner-status {{this.getClassName}}'>
@@ -15,7 +15,7 @@
                         <strong data-test-status>{{t this.status }}:</strong>
                         <span data-test-status-explanation>{{this.bannerContent}}</span>
                     </div>
-                    {{#if (and this.reviewerComment (not this.submission.provider.reviewsCommentsPrivate))}}
+                    {{#if (and this.reviewerComment (not @submission.provider.reviewsCommentsPrivate))}}
                         <div local-class='reviewer-feedback'>
                             <Button
                                 data-test-view-comments
@@ -23,7 +23,7 @@
                                 @type='default'
                                 {{on 'click' (action (mut this.displayComment) (not this.displayComment))}}
                             >
-                                {{t this.labelModeratorFeedback}} 
+                                {{t this.labelModeratorFeedback}}
                                 <FaIcon @icon='caret-down' @prefix='fas' aria-hidden='true'/>
                             </Button>
                             <OsfDialog
@@ -42,7 +42,7 @@
                                     </div>
                                     <div local-class='moderator-comment' aria-labelledby='moderator-feedback'>
                                         <p>{{this.reviewerComment}}</p>
-                                        {{#unless this.submission.provider.reviewsCommentsAnonymous}}
+                                        {{#unless @submission.provider.reviewsCommentsAnonymous}}
                                             <div>{{this.reviewerName}}</div>
                                         {{/unless}}
                                         {{if this.theme.isProvider this.theme.provider.name (t 'preprints.detail.status_banner.brand_name')}} {{t this.moderator}}

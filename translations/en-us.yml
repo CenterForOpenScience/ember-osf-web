@@ -43,6 +43,7 @@ general:
     component: component
     confirm: Confirm
     contributors: Contributors
+    unknownContributor: 'Unknown Contributor'
     copy: Copy
     cos: 'Center for Open Science'
     create: Create
@@ -943,6 +944,18 @@ institutions:
     search_placeholder: 'Search institutions'
     load_more: 'Load more institutions'
     dashboard:
+        send_message_modal:
+          open_aira_label: 'Open User Message Modal Button'
+          close_aira_label: 'Close User Message Modal Button'
+          send_aira_label: 'Send User Message Button'
+          title: 'Send Email'
+          opening_message_label: 'Comments:'
+          closing_message_label: 'Sincerely Yours,<br> {adminName}'
+          message_sent_success: 'Message has been sent'
+          message_sent_failed: 'Message has failed to send. If the issue persists contact your administrator'
+          send: 'Send'
+          cc_label: 'CC sender'
+          reply_to_label: 'Allow reply to sender address'
         tabs:
             summary: Summary
             users: Users
@@ -1028,6 +1041,28 @@ institutions:
             first: First
             prev: Prev
             next: Next
+            request-project-message-modal:
+              tabs:
+                request_access: 'Request Access'
+                send_message: 'Send Message'
+              open_aria_label: 'Open Project Request Modal Button'
+              title: 'Contact'
+              message_permission_label: 'Send Message'
+              duplicate_request_error: 'Users may not have more than one institutional_request request per node'
+              write_permission_label: 'Read/Write'
+              admin_permission_label: 'Administrative'
+              request_label: 'I am an admin associated with {institution} and I would like to be added to your project as a non-bibliographic contributor in order to assist with metadata curation please add me with the following permissions.'
+              opening_message_label: 'Comments:'
+              closing_message_label: 'Sincerely Yours,<br> {adminName}'
+              message_sent_success: 'Request has been sent'
+              message_sent_failed: 'Request has failed to send. If the issue persists contact your administrator'
+              send: 'Send'
+              cc_label: 'CC sender'
+              reply_to_label: 'Allow reply to sender address'
+              send_message_prompt:
+                title: "Can't Request Access"
+                message: "This user has their request access feature turned off. Reach out to the user via the User tab by pressing the 'Back' button below."
+                back: "Back"
             table-headers:
                 title: Title
                 link: Link
@@ -1423,6 +1458,7 @@ preprints:
         edit-permission-error: 'User does not have permission to edit this {singularPreprintWord}'
         title-submit: 'New {documentType}'
         title-edit: 'Edit {documentType}'
+        title-new-version: 'New Version'
         step-title:
             title: 'Title and Abstract'
             title-input: 'Title'
@@ -1541,20 +1577,30 @@ preprints:
             error-withdrawal: 'Error withdrawing the {singularPreprintWord}.'
             next: 'Next'
             next-disabled-tooltip: 'Fill in "Required *" fields to continue'
-            no-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This request will be submitted to
-            <a href="mailto:{supportEmail}" target="_blank">{supportEmail}</a> for review and removal. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
-            post-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This service uses post-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
-            pre-moderation-notice-accepted: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This service uses pre-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
-            pre-moderation-notice-pending: 'Your {singularPreprintword} is still pending approval and thus private, but can be withdrawn immediately. If you wish to provide a reason for withdrawal, it will be displayed only to service moderators. Once withdrawn, your preprint will never be made public.'
+            withdrawal-explanation: 'You are about to withdraw this version of your {singularPreprintWord}. Withdrawing a version will remove it from public view but will not affect other versions of this {singularPreprintWord}, if available.'
+            no-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} version removal and at the discretion of the moderators.</strong><br>This request will be submitted to <a href="mailto:{supportEmail}" target="_blank">{supportEmail}</a> for review and removal. If the request is approved, this {singularPreprintWord} version will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} version will still be searchable by other users after removal.'
+            post-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} version removal and at the discretion of the moderators.</strong><br>This service uses post-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} version will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} version will still be searchable by other users after removal.'
+            pre-moderation-notice-accepted: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} version removal and at the discretion of the moderators.</strong><br>This service uses pre-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} version will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} version will still be searchable by other users after removal.'
+            pre-moderation-notice-pending: 'Since this version is still pending approval and private, it can be withdrawn immediately. The reason of withdrawal will be visible to service moderators. Once withdrawn, the {singularPreprintWord} will remain private and never be made public.'
             save-before-exit: 'Unsaved changes present. Are you sure you want to leave this page?'
             success: '{singularPreprintWord} saved.'
             success-withdrawal: 'Your {singularCapitalizedPreprintWord} has been successfully withdrawn.'
+
             submit: 'Submit'
             withdraw-button: 'Withdraw'
             withdrawal-input-error: '25 characters'
             withdrawal-label: 'Reason for withdrawal (required):'
             withdrawal-modal-title: 'Withdraw {singularPreprintWord}'
             withdrawal-placeholder: 'Comment'
+        new-version:
+            success: 'New version created.'
+            success-review: 'New version submitted for moderation.'
+            redirect:
+                title: 'Cannot create a new version'
+                permissions: 'You do not have permission to create a new version of this {preprintWord}.'
+                latest-published: 'A new version can only be created from the latest published version of a {preprintWord}.'
+            error:
+                title: 'Error creating a new version'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
@@ -1575,13 +1621,23 @@ preprints:
         original_publication_date: 'Original Publication Date'
         orphan_preprint: 'The user has removed this file.'
         preprint_doi: '{documentType} DOI'
+        version_doi_title: 'Version {number}'
+        view_version: 'View version {number}'
+        version_status:
+            pending: '(Pending)'
+            rejected: '(Rejected)'
+            withdrawn: '(Withdrawn)'
         preprint_pending_doi: 'DOI created after {documentType} is made public'
         preprint_pending_doi_moderation: 'DOI created after moderator approval'
+        no_doi: 'No DOI'
         preprint_pending_doi_minted: 'DOIs are minted by a third party, and may take up to 24 hours to be registered.'
         private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
-        project_button:
-            edit_preprint: 'Edit {documentType}'
-            edit_resubmit_preprint: 'Edit and resubmit'
+        edit_preprint: 'Edit {documentType}'
+        edit_resubmit_preprint: 'Edit and resubmit'
+        create_new_version: 'Create new version'
+        other_versions: 'Other versions'
+        preprint_version_number: 'Version {number}'
+        no_other_versions: 'No other versions'
         see_less: 'See less'
         see_more: 'See more'
         share:
@@ -2383,7 +2439,7 @@ meetings:
             subject: Subject
             message_body: 'Message body'
             attachment: Attachment
-            panel_footer_note: 'Once sent, we will follow-up by sending you the permanent identifier that others can use to cite your work; you can also login and make changes, such as uploading additional files, to your project at that URL.If you didn''t have an OSF account, one will be created automatically and a link to set your password will be emailed to you; if you do, we will simply create a new project in your account.By creating an account you agree to our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms</a> and that you have read our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>, including our information on <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md#f-cookies">Cookie Use</a>.'
+            panel_footer_note: 'Once sent, we will follow-up by sending you the permanent identifier that others can use to cite your work; you can also login and make changes, such as uploading additional files, to your project at that URL.If you didn''t have an OSF account, one will be created automatically and a link to set your password will be emailed to you; if you do, we will simply create a new project in your account.By creating an account you agree to our <a href="https://osf.io/terms_of_use/">Terms</a> and that you have read our <a href="https://osf.io/privacy_policy/">Privacy Policy</a>, including our information on <a href="https://osf.io/privacy_policy/#f-cookies">Cookie Use</a>.'
             conference_homepage: 'Conference homepage'
 analytics:
     pageTitle: '{nodeTitle} Analytics'
@@ -2420,7 +2476,7 @@ analytics:
         resources: Resources
     privateProject: "\n            <p>\n                Analytics are not available for private projects. To view Analytics, make your project public\n                by selecting Make Public from the project overview page. Public projects:\n            </p>\n            <ul>\n                <li>are discoverable</li>\n                <li>are citable</li>\n                <li>can be affiliated with OSF for Institutions partners</li>\n                <li>promote open practices among peers</li>\n            </ul>\n            <p>\n                Receive data on visitors to your project by enabling Analytics\n                and begin discovering the impact of your work.\n            </p>\n        "
 cookieBanner:
-    cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.'
+    cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://osf.io/privacy_policy/">Privacy Policy</a> and information on <a href="https://osf.io/privacy_policy/#8-types-of-information-we-collect">cookie use</a>.'
     accept: Accept
 discover:
     relevance: Relevance
