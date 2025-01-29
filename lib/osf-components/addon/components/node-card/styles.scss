@@ -7,60 +7,74 @@
         display: flex;
         flex-direction: row;
 
-        .heading {
+        .header-container {
             display: flex;
             flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            align-items: flex-start;
+            
+            .h4-container {
+                width: 100%;
 
-            :global(.ember-content-placeholders-heading__title) {
-                height: 1em;
-                margin-top: 5px;
-                margin-bottom: 5px;
+                .heading {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    align-items: flex-start;
 
-                &:first-child {
-                    width: 100%;
+                    :global(.ember-content-placeholders-heading__title) {
+                        height: 1em;
+                        margin-top: 5px;
+                        margin-bottom: 5px;
+
+                        &:first-child {
+                            width: 100%;
+                        }
+                    }
+
+                    .label-danger {
+                        background-color: $brand-danger;
+                    }
+
+                    & > span {
+                        line-height: 1.5;
+                    }
+
+                    .label-info {
+                        background-color: darken($brand-info, 15%);
+                    }
+
+                    .label-primary {
+                        background-color: #337ab7;
+                    }
+
+                    .label {
+                        display: inline;
+                        padding: 0.2em 0.6em 0.3em;
+                        font-size: 75%;
+                        font-weight: 700;
+                        color: #fff;
+                        text-align: center;
+                        white-space: nowrap;
+                        vertical-align: baseline;
+                        border-radius: 0.25em;
+                    }
+
+                    .osf-link {
+                        margin-left: 5px;
+                        margin-top: 2px;
+
+                        &.mobile {
+                            margin-left: 0;
+
+                        }
+                    }
                 }
             }
 
-            .label-danger {
-                background-color: $brand-danger;
+            .component-triangle-container {
+                display: none;
             }
 
-            & > span {
-                line-height: 1.5;
-            }
-
-            .label-info {
-                background-color: darken($brand-info, 15%);
-            }
-
-            .label-primary {
-                background-color: #337ab7;
-            }
-
-            .label {
-                display: inline;
-                padding: 0.2em 0.6em 0.3em;
-                font-size: 75%;
-                font-weight: 700;
-                color: #fff;
-                text-align: center;
-                white-space: nowrap;
-                vertical-align: baseline;
-                border-radius: 0.25em;
-            }
-
-            .osf-link {
-                margin-left: 5px;
-                margin-top: 2px;
-
-                &.mobile {
-                    margin-left: 0;
-
-                }
-            }
         }
 
         .body {
@@ -108,6 +122,19 @@
 
         .node-body {
             width: 100%;
+
+            .h4-container {
+                width: calc(100% - 50px);
+                display: flex;
+                align-items: center;
+            }
+
+            .component-triangle-container {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                width: 50px;
+            }
         }
     }
 }

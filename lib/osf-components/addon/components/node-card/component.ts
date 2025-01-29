@@ -113,7 +113,7 @@ export default class NodeCard extends Component {
     @action
     toggleResourceType() {
         this.isOpenResourceType = !this.isOpenResourceType;
-        if (this.isOpenResourceType) {
+        if (this.isOpenResourceType && !this.resourceType) {
             taskFor(this.getGuidMetadata).perform();
         }
     }

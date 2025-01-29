@@ -867,6 +867,7 @@ node_card:
         title: 'Resource Type:'
         none-selected: 'None selected'
         show-resource-type: 'Show resource type'
+        hide-resource-type: 'Hide resource type'
     schema_response_error: 'Updates irretreivable.'
     tags: 'Tags:'
     update_button: 'Update'
