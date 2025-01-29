@@ -52,6 +52,7 @@ const {
     CLIENT_ID: clientId,
     COLLECTIONS_ENABLED = false,
     DATACITE_TRACKER_REPO_ID: dataciteTrackerRepoId = '',
+    DATACITE_TRACKER_URL: dataCiteTrackerUrl = 'https://analytics.datacite.org/api/metric',
     REGISTRIES_ENABLED = true,
     TESTS_ENABLED = false,
     FB_APP_ID,
@@ -221,6 +222,7 @@ module.exports = function(environment) {
             },
             doiUrlPrefix: 'https://doi.org/',
             dataciteTrackerRepoId,
+            dataCiteTrackerUrl,
         },
         social: {
             twitter: {

@@ -14,7 +14,6 @@ import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
 import Toast from 'ember-toastr/services/toast';
 import moment from 'moment-timezone';
-import { DataCiteTracker } from '@datacite/datacite-tracker';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
@@ -28,8 +27,8 @@ const {
             cookieConsent: cookieConsentCookie,
             keenSessionId: sessionIdCookie,
         },
-        devMode,
         dataciteTrackerRepoId,
+        dataCiteTrackerUrl,
     },
 } = config;
 
@@ -53,6 +52,11 @@ export interface RouteMetricsMetadata {
     itemGuid?: string;
     isSearch?: boolean;
     providerId?: string;
+}
+
+enum DataCiteMetricType {
+    View = 'view',
+    Download = 'download',
 }
 
 type PageviewActionLabel = 'web' | 'view' | 'search';
@@ -256,7 +260,7 @@ export default class Analytics extends Service {
     async _trackDownloadTask(itemGuid: string, doi?: string) {
         const _doi = doi || await this._getDoi(itemGuid);
         if (_doi) {
-            this._sendDataciteUsage(_doi, DataCiteTracker.MetricType.Download);
+            this._sendDataciteUsage(_doi, DataCiteMetricType.Download);
         }
         // TODO: this._sendCountedUsage(...) with itemGuid? (or don't)
     }
@@ -429,21 +433,29 @@ export default class Analytics extends Service {
         const { itemGuid } = this._getRouteMetricsMetadata();
         if (itemGuid) {
             const doi = await this._getDoi(itemGuid);
-            this._sendDataciteUsage(doi, DataCiteTracker.MetricType.View);
+            this._sendDataciteUsage(doi, DataCiteMetricType.View);
         }
     }
 
-    _sendDataciteUsage(
+    async _sendDataciteUsage(
         doi: string,
-        metricType: DataCiteTracker.MetricType,
+        metricType: DataCiteMetricType,
     ) {
         if (dataciteTrackerRepoId && doi) {
-            const { trackMetric } = DataCiteTracker.Tracker({
-                repoId: dataciteTrackerRepoId,
-                trackLocalhost: devMode,
-                // apiHost: 'https://analytics.datacite.org',
+            const payload = {
+                n: metricType,
+                u: location.href,
+                i: dataciteTrackerRepoId,
+                p: doi,
+            };
+            await fetch(dataCiteTrackerUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
             });
-            trackMetric(metricType, { doi });
+            // TODO: handle response
         }
     }
 

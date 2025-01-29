@@ -140,6 +140,7 @@ declare const config: {
         };
         doiUrlPrefix: string;
         dataciteTrackerRepoId: string;
+        dataCiteTrackerUrl: string;
     };
     social: {
         twitter: {
