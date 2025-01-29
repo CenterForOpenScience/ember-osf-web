@@ -10,227 +10,265 @@
             
             {{if (and @node.isRegistration this.isMobile) 'mobile'}}'
         >
-            <h4
-                local-class='list-group-item-heading heading'
-                data-test-node-card-heading
-            >
-                {{#if @node}}
-                    {{#unless @node.public}}
-                        <span>
-                            <FaIcon @icon='lock' />
-                            <EmberTooltip>
-                                {{t
-                                    (concat
-                                        'node_card.'
-                                        @node.nodeType
-                                        '.private_tooltip'
-                                    )
-                                }}
-                            </EmberTooltip>
-                        </span>
-                        |
-                    {{/unless}}
-                    {{#if @node.pendingRegistrationApproval}}
-                        <span>
-                            <span local-class='label label-info'>
-                                {{t
-                                    'node_card.registration.statuses.pending_registration_approval'
-                                }}
-                            </span>
-                            |
-                        </span>
-
-                    {{else if @node.pendingEmbargoApproval}}
-                        <span>
-                            <span local-class='label label-info'>
-                                {{t
-                                    'node_card.registration.statuses.pending_embargo_approval'
-                                }}
-                            </span>
-                            |
-                        </span>
-
-                    {{else if (eq @node.reviewsState 'pending')}}
-                        <span>
-
-                            <span local-class='label label-info'>
-                                {{t 'node_card.registration.statuses.pending'}}
-                            </span>
-                            |
-                        </span>
-
-                    {{else if (eq @node.reviewsState 'embargo')}}
-                        <span>
-                            <span local-class='label label-info'>
-                                {{t 'node_card.registration.statuses.embargo'}}
-                            </span>
-                            |
-                        </span>
-
-                    {{else if (eq @node.reviewsState 'rejected')}}
-                        <span>
-                            <span local-class='label label-info'>
-                                {{t
-                                    'node_card.registration.statuses.rejected'
-                                }}
-                            </span>
-                            |
-                        </span>
-
-                    {{else if (eq @node.reviewsState 'pending_embargo_termination') }}
-                        <span>
-                            <span local-class='label label-info'>
-                                {{ t
-                                    'node_card.registration.statuses.pending_embargo_termination'
-                                }}
-                            </span>
-                            |
-                        </span>
-                    {{else if (eq @node.reviewsState 'pending_withdraw_request') }}
-                        <span>
-                            <span local-class='label label-info'>
-                                {{t
-                                    'node_card.registration.statuses.pending_withdraw_request'
-                                }}
-                            </span>
-                            |
-                        </span>
-                    {{else if (eq @node.reviewsState 'pending_withdraw')}}
-                        <span>
-                            <span local-class='label label-info'>
-                                {{t
-                                    'node_card.registration.statuses.pending_withdraw'
-                                }}
-                            </span>
-                            |
-                        </span>
-                    {{else if @node.withdrawn}}
-                        <span>
-                            <span local-class='label label-danger'>
-                                {{t
-                                    'node_card.registration.statuses.withdrawn'
-                                }}
-                            </span>
-                            |
-                        </span>
-                    {{/if}}
-                    {{#if @node.archiving}}
-                        <span>
-                            <span local-class='label label-primary'>
-                                {{t
-                                    'node_card.registration.statuses.archiving'
-                                }}
-                            </span>
-                            |
-                        </span>
-                    {{/if}}
-
-                    {{#if (eq @node.revisionState 'unapproved')}}
-                        {{#unless @node.pendingRegistrationApproval}}
-                            <span>
-                                <span local-class='label label-info'>
-                                    {{t
-                                        'node_card.registration.statuses.revision_unapproved'
-                                    }}
-                                </span>
-                                |
-                            </span>
-                        {{/unless}}
-                    {{else if (eq @node.revisionState 'in_progress')}}
-                        <span>
-                            <span local-class='label label-info'>
-                                {{t
-                                    'node_card.registration.statuses.revision_in_progress'
-                                }}
-                            </span>
-                            |
-                        </span>
-                    {{else if (eq @node.revisionState 'pending_moderation')}}
-                        {{#if (not-eq @node.reviewsState 'pending')}}
-                            <span>
-                                <span local-class='label label-info'>
-                                    {{t
-                                        'node_card.registration.statuses.revision_pending_moderation'
-                                    }}
-                                </span>
-                                |
-                            </span>
-                        {{/if}}
-                    {{/if}}
-                    <OsfLink
-                        local-class='osf-link {{if this.isMobile 'mobile'}}'
-                        data-analytics-name='Title'
-                        data-test-node-title='{{@node.id}}'
-                        @route='resolve-guid'
-                        @models={{array @node.id}}
+            <div local-class='header-container'>
+                <div local-class='h4-container'>
+                    <h4
+                        local-class='list-group-item-heading heading'
+                        data-test-node-card-heading
                     >
-                        {{@node.title}}
-                    </OsfLink>
-                {{else}}
-                    <ContentPlaceholders as |placeholder|>
-                        <placeholder.heading @subtitle={{false}} />
-                    </ContentPlaceholders>
-                {{/if}}
-                {{#if @node}}
-                    {{#if this.showDropdown}}
-                        <div
-                            data-test-node-menu
-                            local-class='pull-right dropdown'
-                        >
-                            <ResponsiveDropdown @buttonStyling={{true}} as |dd|>
-                                <dd.trigger local-class='dropdown-button'>
-                                    <span aria-label={{t 'node_card.options'}}>
-                                        <FaIcon @icon='ellipsis-h' />
+                        {{#if @node}}
+                            {{#unless @node.public}}
+                                <span>
+                                    <FaIcon @icon='lock' />
+                                    <EmberTooltip>
+                                        {{t
+                                            (concat
+                                                'node_card.'
+                                                @node.nodeType
+                                                '.private_tooltip'
+                                            )
+                                        }}
+                                    </EmberTooltip>
+                                </span>
+                                |
+                            {{/unless}}
+                            {{#if @node.pendingRegistrationApproval}}
+                                <span>
+                                    <span local-class='label label-info'>
+                                        {{t
+                                            'node_card.registration.statuses.pending_registration_approval'
+                                        }}
                                     </span>
-                                </dd.trigger>
-                                <dd.content
-                                    @align='right'
-                                    local-class='dropdown-list'
+                                    |
+                                </span>
+
+                            {{else if @node.pendingEmbargoApproval}}
+                                <span>
+                                    <span local-class='label label-info'>
+                                        {{t
+                                            'node_card.registration.statuses.pending_embargo_approval'
+                                        }}
+                                    </span>
+                                    |
+                                </span>
+
+                            {{else if (eq @node.reviewsState 'pending')}}
+                                <span>
+
+                                    <span local-class='label label-info'>
+                                        {{t 'node_card.registration.statuses.pending'}}
+                                    </span>
+                                    |
+                                </span>
+
+                            {{else if (eq @node.reviewsState 'embargo')}}
+                                <span>
+                                    <span local-class='label label-info'>
+                                        {{t 'node_card.registration.statuses.embargo'}}
+                                    </span>
+                                    |
+                                </span>
+
+                            {{else if (eq @node.reviewsState 'rejected')}}
+                                <span>
+                                    <span local-class='label label-info'>
+                                        {{t
+                                            'node_card.registration.statuses.rejected'
+                                        }}
+                                    </span>
+                                    |
+                                </span>
+
+                            {{else if (eq @node.reviewsState 'pending_embargo_termination') }}
+                                <span>
+                                    <span local-class='label label-info'>
+                                        {{ t
+                                            'node_card.registration.statuses.pending_embargo_termination'
+                                        }}
+                                    </span>
+                                    |
+                                </span>
+                            {{else if (eq @node.reviewsState 'pending_withdraw_request') }}
+                                <span>
+                                    <span local-class='label label-info'>
+                                        {{t
+                                            'node_card.registration.statuses.pending_withdraw_request'
+                                        }}
+                                    </span>
+                                    |
+                                </span>
+                            {{else if (eq @node.reviewsState 'pending_withdraw')}}
+                                <span>
+                                    <span local-class='label label-info'>
+                                        {{t
+                                            'node_card.registration.statuses.pending_withdraw'
+                                        }}
+                                    </span>
+                                    |
+                                </span>
+                            {{else if @node.withdrawn}}
+                                <span>
+                                    <span local-class='label label-danger'>
+                                        {{t
+                                            'node_card.registration.statuses.withdrawn'
+                                        }}
+                                    </span>
+                                    |
+                                </span>
+                            {{/if}}
+                            {{#if @node.archiving}}
+                                <span>
+                                    <span local-class='label label-primary'>
+                                        {{t
+                                            'node_card.registration.statuses.archiving'
+                                        }}
+                                    </span>
+                                    |
+                                </span>
+                            {{/if}}
+
+                            {{#if (eq @node.revisionState 'unapproved')}}
+                                {{#unless @node.pendingRegistrationApproval}}
+                                    <span>
+                                        <span local-class='label label-info'>
+                                            {{t
+                                                'node_card.registration.statuses.revision_unapproved'
+                                            }}
+                                        </span>
+                                        |
+                                    </span>
+                                {{/unless}}
+                            {{else if (eq @node.revisionState 'in_progress')}}
+                                <span>
+                                    <span local-class='label label-info'>
+                                        {{t
+                                            'node_card.registration.statuses.revision_in_progress'
+                                        }}
+                                    </span>
+                                    |
+                                </span>
+                            {{else if (eq @node.revisionState 'pending_moderation')}}
+                                {{#if (not-eq @node.reviewsState 'pending')}}
+                                    <span>
+                                        <span local-class='label label-info'>
+                                            {{t
+                                                'node_card.registration.statuses.revision_pending_moderation'
+                                            }}
+                                        </span>
+                                        |
+                                    </span>
+                                {{/if}}
+                            {{/if}}
+                            <OsfLink
+                                local-class='osf-link {{if this.isMobile 'mobile'}}'
+                                data-analytics-name='Title'
+                                data-test-node-title='{{@node.id}}'
+                                @route='resolve-guid'
+                                @models={{array @node.id}}
+                            >
+                                {{@node.title}}
+                            </OsfLink>
+                        {{else}}
+                            <ContentPlaceholders as |placeholder|>
+                                <placeholder.heading @subtitle={{false}} />
+                            </ContentPlaceholders>
+                        {{/if}}
+                        {{#if @node}}
+                            {{#if this.showDropdown}}
+                                <div
+                                    data-test-node-menu
+                                    local-class='pull-right dropdown'
                                 >
-                                    <ul role='menu' tabindex='-1'>
-                                        <li role='menuitem'>
-                                            <OsfLink
-                                                data-analytics-name='Manage Contributors'
-                                                local-class='dropdown-link'
-                                                @href='/{{@node.id}}/contributors/'
-                                            >
-                                                {{t
-                                                    'node_card.fork.manage_contributors'
-                                                }}
-                                            </OsfLink>
-                                        </li>
-                                        <li role='menuitem'>
-                                            <OsfLink
-                                                data-analytics-name='Settings'
-                                                local-class='dropdown-link'
-                                                @href='/{{@node.id}}/settings/'
-                                            >
-                                                {{t 'general.settings'}}
-                                            </OsfLink>
-                                        </li>
-                                        <li role='menuitem'>
-                                            <Button
-                                                data-analytics-scope='Delete'
-                                                local-class='dropdown-link'
-                                                @layout='fake-link'
-                                                {{on
-                                                    'click'
-                                                    (queue
-                                                        (action dd.close)
-                                                        (action @delete @node)
-                                                    )
-                                                }}
-                                            >
-                                                {{t 'general.delete'}}
-                                            </Button>
-                                        </li>
-                                    </ul>
-                                </dd.content>
-                            </ResponsiveDropdown>
-                        </div>
-                    {{/if}}
+                                    <ResponsiveDropdown @buttonStyling={{true}} as |dd|>
+                                        <dd.trigger local-class='dropdown-button'>
+                                            <span aria-label={{t 'node_card.options'}}>
+                                                <FaIcon @icon='ellipsis-h' />
+                                            </span>
+                                        </dd.trigger>
+                                        <dd.content
+                                            @align='right'
+                                            local-class='dropdown-list'
+                                        >
+                                            <ul role='menu' tabindex='-1'>
+                                                <li role='menuitem'>
+                                                    <OsfLink
+                                                        data-analytics-name='Manage Contributors'
+                                                        local-class='dropdown-link'
+                                                        @href='/{{@node.id}}/contributors/'
+                                                    >
+                                                        {{t
+                                                            'node_card.fork.manage_contributors'
+                                                        }}
+                                                    </OsfLink>
+                                                </li>
+                                                <li role='menuitem'>
+                                                    <OsfLink
+                                                        data-analytics-name='Settings'
+                                                        local-class='dropdown-link'
+                                                        @href='/{{@node.id}}/settings/'
+                                                    >
+                                                        {{t 'general.settings'}}
+                                                    </OsfLink>
+                                                </li>
+                                                <li role='menuitem'>
+                                                    <Button
+                                                        data-analytics-scope='Delete'
+                                                        local-class='dropdown-link'
+                                                        @layout='fake-link'
+                                                        {{on
+                                                            'click'
+                                                            (queue
+                                                                (action dd.close)
+                                                                (action @delete @node)
+                                                            )
+                                                        }}
+                                                    >
+                                                        {{t 'general.delete'}}
+                                                    </Button>
+                                                </li>
+                                            </ul>
+                                        </dd.content>
+                                    </ResponsiveDropdown>
+                                </div>
+                            {{/if}}
+                        {{/if}}
+                    </h4>
+            
+                </div>
+                {{#if @node.isProject}}
+                    <div local-class='component-triangle-container'>
+                        <Button
+                            {{on 'click' this.toggleResourceType}}
+                            aria-label={{if this.isOpenResourceType
+                                (t 'node_card.resource-type.show-resource-type')
+                                (t 'node_card.resource-type.hide-resource-type')
+                            }}
+                            aria-controls={{@node.id}}
+                            aria-expanded={{this.isOpenResourceType}}
+                        >
+                            {{#if this.isOpenResourceType}}
+                                <FaIcon
+                                    @icon={{'angle-up'}}
+                                />
+                                <EmberTooltip>
+                                    {{t
+                                        'node_card.resource-type.hide-resource-type'
+                                    }}
+                                </EmberTooltip>
+                            {{else}}
+                                <FaIcon
+                                    @icon={{'angle-down'}}
+                                />
+                                <EmberTooltip>
+                                    {{t
+                                        'node_card.resource-type.show-resource-type'
+                                    }}
+                                </EmberTooltip>
+                            {{/if}}
+                        </Button>
+                    </div>
                 {{/if}}
-            </h4>
+            </div>
             <div data-test-node-card-body local-class='body'>
                 {{#if @node}}
                     <dl>
@@ -299,19 +337,19 @@
                             </dd>
                         </div>
                         {{#if @node.isProject}}
-                            <div>
-                                <dt data-test-resource-type-label>
-                                    {{t 'node_card.resource-type.title'}}
-                                </dt>
-                                <dd
-                                    data-test-resource-type
-                                >
-                                    <CpPanel
-                                        id={{@node.id}}
-                                        @open={{this.isOpenResourceType}}
-                                        as |panel|
-                                    >
-                                        <panel.body>
+                            <CpPanel
+                                id={{@node.id}}
+                                @open={{this.isOpenResourceType}}
+                                as |panel|
+                            >
+                                <panel.body>
+                                    <div>
+                                        <dt data-test-resource-type-label>
+                                            {{t 'node_card.resource-type.title'}}
+                                        </dt>
+                                        <dd
+                                            data-test-resource-type
+                                        >
                                             {{#if this.resourceType}}
                                                 {{this.resourceType}}
                                             {{else}}
@@ -319,37 +357,20 @@
                                                     @dark={{true}}
                                                 />
                                             {{/if}}
-                                        </panel.body>
-                                    </CpPanel>
-                                    {{#unless this.isOpenResourceType}}
-                                        <Button
-                                            {{on
-                                                'click'
-                                                this.toggleResourceType
-                                            }}
-                                            aria-label='{{t 'node_card.resource-type.show-resource-type' }}'
-                                            aria-controls={{@node.id}}
-                                            aria-expanded={{this.isOpenResourceType}}
-                                        >
-                                            <FaIcon @icon={{'angle-down'}} />
-                                            <EmberTooltip>
-                                                {{t
-                                                    'node_card.resource-type.show-resource-type'
-                                                }}
-                                            </EmberTooltip>
-                                        </Button>
-                                    {{/unless}}
+                                        </dd>
+                                    </div>
+                                </panel.body>
+                            </CpPanel>
+                        {{else}}
+                            <div>
+                                <dt data-test-description-label>
+                                    {{t 'node_card.description'}}
+                                </dt>
+                                <dd data-test-description local-class='description'>
+                                    {{@node.description}}
                                 </dd>
                             </div>
                         {{/if}}
-                        <div>
-                            <dt data-test-description-label>
-                                {{t 'node_card.description'}}
-                            </dt>
-                            <dd data-test-description local-class='description'>
-                                {{@node.description}}
-                            </dd>
-                        </div>
                         {{#if (and this.showTags @node.tags)}}
                             <div>
                                 <dt local-class='tags' data-test-tags-label>
