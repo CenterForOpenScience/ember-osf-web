@@ -10,6 +10,7 @@ const {
         navigation,
         storageI18n,
         verifyEmailModals,
+        gravyWaffle,
         shareDownload,
     },
 } = config;
@@ -36,6 +37,7 @@ export const defaultRootAttrs = {
         ...Object.values(navigation),
         storageI18n,
         verifyEmailModals,
+        gravyWaffle,
         shareDownload,
     ])],
     message: 'Welcome to the OSF API.',

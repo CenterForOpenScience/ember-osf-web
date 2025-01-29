@@ -1,0 +1,126 @@
+.addon-page-wrapper {
+    margin: 20px;
+}
+
+.page-heading {
+    font-weight: bold;
+}
+
+.addons-list-wrapper {
+    display: flex;
+    margin-top: 20px;
+
+    &.mobile {
+        flex-wrap: wrap;
+    }
+}
+
+.filter-wrapper {
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+
+    &.mobile {
+        max-width: 100%;
+        width: 100%;
+        margin-right: 20px;
+    }
+}
+
+.filter-button {
+    width: 100%;
+    height: 40px;
+    text-align: left;
+    padding: 0 10px;
+
+    &.active {
+        background-color: $color-light;
+    }
+}
+
+.addon-cards-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+
+.float-right {
+    float: right;
+}
+
+.account-select {
+    margin: 20px 0;
+}
+
+.tab-list {
+    margin-bottom: 10px;
+    border-bottom: 1px solid $color-border-gray;
+    box-sizing: border-box;
+    color: $color-grey;
+    display: block;
+    line-height: 20px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    height: 41px;
+    padding: 0;
+}
+
+.tab-list {
+    li {
+        cursor: pointer;
+        display: block;
+        position: relative;
+        margin-bottom: -1px;
+        float: left;
+        height: 41px;
+        padding: 10px 15px;
+    }
+
+    li:global(.ember-tabs__tab--selected) {
+        background-color: $bg-light;
+        border-bottom: 2px solid $color-blue;
+    }
+
+    li:hover {
+        text-decoration: none;
+        background-color: $bg-light;
+        color: var(--primary-color);
+    }
+}
+
+.configured-addons {
+    border: 1px solid $color-border-gray;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.configured-addons-heading {
+    border-bottom: 1px solid $color-border-gray;
+    box-sizing: border-box;
+}
+
+.configured-addon-display-name {
+    margin-top: 10px;
+    font-size: large;
+}
+
+.configured-addon-connected-to {
+    border-bottom: 1px solid $color-border-gray;
+    box-sizing: border-box;
+}
+
+.remove-connected-button {
+    border: 0;
+    color: $brand-danger;
+}
+
+.edit-connected-button {
+    border: 0;
+}
+
+.add-location-button {
+    margin-top: 10px;
+}

@@ -5,6 +5,7 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { tracked } from '@glimmer/tracking';
+import config from 'ember-osf-web/config/environment';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
@@ -12,12 +13,15 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { ErrorDocument } from 'osf-api';
 
+
 export default abstract class ProviderFile {
     @tracked fileModel: FileProviderModel;
     @tracked totalFileCount = 0;
     userCanDownloadAsZip = true;
     providerHandlesVersioning = true;
     parallelUploadsLimit = 2;
+    assetsPrefix = config.assetsPrefix;
+
 
     currentUser: CurrentUserService;
     @service intl!: Intl;
@@ -72,6 +76,10 @@ export default abstract class ProviderFile {
 
     get name() {
         return this.fileModel.name;
+    }
+
+    get iconLocation() {
+        return `${this.assetsPrefix}assets/images/addons/icons/${this.name}.png`;
     }
 
     get path() {

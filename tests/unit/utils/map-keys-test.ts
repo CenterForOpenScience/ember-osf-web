@@ -33,6 +33,28 @@ const caseCases = [
         snakified: { foo_bar: 1, bar_baz: 2 },
     },
     {
+        input: { fo_o: 1, bAr: {baRb: 2, bar_c: 3, bArd: {bar_do: 1}}},
+        camelized: { foO: 1, bAr: {baRb: 2, bar_c: 3, bArd: {bar_do: 1}}},
+        snakified: { fo_o: 1, b_ar: {baRb: 2, bar_c: 3, bArd: {bar_do: 1}}},
+    },
+    {
+        input: { fo_o: 1, bAr: {baRb: 2, bar_c: 3, bArd: {bar_do: 1}}},
+        recursive: true,
+        camelized: { foO: 1, bAr: {baRb: 2, barC: 3, bArd: {barDo: 1}}},
+        snakified: { fo_o: 1, b_ar: {ba_rb: 2, bar_c: 3, b_ard: {bar_do: 1}}},
+    },
+    {
+        input: { fo_o: 1, bAr: [{bla: 1}, {bLa: 2}]},
+        camelized: { foO: 1, bAr: [{bla: 1}, {bLa: 2}]},
+        snakified: { fo_o: 1, b_ar: [{bla: 1}, {bLa: 2}]},
+    },
+    {
+        input: { fo_o: 1, bAr: [{bla: 1}, {bLa: 2}]},
+        recursive: true,
+        camelized: { foO: 1, bAr: [{bla: 1}, {bLa: 2}]},
+        snakified: { fo_o: 1, b_ar: [{bla: 1}, {b_la: 2}]},
+    },
+    {
         input: { fooBar: 1, foo_bar: 2 },
         camelized: new Error('Mapping keys causes duplicate key: "fooBar"'),
         snakified: new Error('Mapping keys causes duplicate key: "foo_bar"'),
@@ -85,7 +107,7 @@ module('Unit | Utility | map-keys', () => {
         caseCases.forEach(testCase => {
             assertPasses(
                 assert,
-                () => camelizeKeys(testCase.input),
+                () => camelizeKeys(testCase.input, testCase.recursive),
                 testCase.camelized,
             );
         });
@@ -96,7 +118,7 @@ module('Unit | Utility | map-keys', () => {
         caseCases.forEach(testCase => {
             assertPasses(
                 assert,
-                () => snakifyKeys(testCase.input),
+                () => snakifyKeys(testCase.input, testCase.recursive),
                 testCase.snakified,
             );
         });

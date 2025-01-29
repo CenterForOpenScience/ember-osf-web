@@ -1,0 +1,119 @@
+.configured-addons-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-inline-start: 0;
+}
+
+.addons-list-wrapper {
+    display: flex;
+
+    &.mobile {
+        width: 100%;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+}
+
+.filter-wrapper {
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+
+    &.mobile {
+        max-width: 100%;
+        width: 100%;
+        margin-right: 20px;
+    }
+}
+
+.filter-button {
+    width: 100%;
+    height: 40px;
+    text-align: left;
+    padding: 0 10px;
+
+    &.active {
+        background-color: $color-light;
+    }
+}
+
+.addons-card-wrapper {
+    padding-inline-start: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+
+.provider-list-item {
+    padding: 15px 10px;
+    border-bottom: solid 1px $color-border-gray;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    &:last-child {
+        border-bottom: 0;
+    }
+}
+
+.button-wrapper {
+    text-align: right;
+    min-width: fit-content;
+}
+
+.float-right {
+    float: right;
+}
+
+.tab-wrapper {
+    display: flex;
+
+    &.mobile {
+        flex-direction: column;
+    }
+
+    :global(.ember-tabs) {
+        flex-grow: 1;
+    }
+}
+
+.tab-list {
+    margin-bottom: 10px;
+    border-bottom: 1px solid $color-border-gray;
+    box-sizing: border-box;
+    color: $color-grey;
+    display: block;
+    line-height: 20px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    height: 41px;
+    padding: 0;
+}
+
+.tab-list {
+    li {
+        cursor: pointer;
+        display: block;
+        position: relative;
+        margin-bottom: -1px;
+        float: left;
+        height: 41px;
+        padding: 10px 15px;
+    }
+
+    li:global(.ember-tabs__tab--selected) {
+        background-color: $bg-light;
+        border-bottom: 2px solid $color-blue;
+    }
+
+    li:hover {
+        text-decoration: none;
+        background-color: $bg-light;
+        color: var(--primary-color);
+    }
+}

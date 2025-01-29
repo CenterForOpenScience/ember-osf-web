@@ -5,13 +5,16 @@ import { MirageNode } from 'ember-osf-web/mirage/factories/node';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import User from 'ember-osf-web/models/user';
+import { ConnectedOperationNames, ConnectedCapabilities } from 'ember-osf-web/models/configured-addon';
 
 const {
     dashboard: {
         noteworthyNode,
         popularNode,
     },
+    assetsPrefix,
 } = config;
 
 export function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
@@ -67,11 +70,79 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         parentFolder: filesNodeOsfStorage.rootFolder,
     });
 
+    server.create('file-provider', {
+        id: 'box1',
+        name: 'Box',
+        provider: 'box',
+        target: filesNode,
+    });
+    // const boxFiles = server.createList('file', 3, { target: filesNode });
+    // filesNodeBoxStorage.rootFolder.update({ boxFiles });
+
     server.create('contributor', {
         node: filesNode,
         users: currentUser,
         permission: Permission.Admin,
         index: 0,
+    });
+
+    // Box using Addons Service
+    const boxAddon = server.schema.externalStorageServices
+        .find('box') as ModelInstance<ExternalStorageServiceModel>;
+    const dropboxAddon = server.schema.externalStorageServices
+        .find('dropbox') as ModelInstance<ExternalStorageServiceModel>;
+    const s3Addon = server.schema.externalStorageServices
+        .find('s3') as ModelInstance<ExternalStorageServiceModel>;
+    const addonUser = server.create('user-reference', { id: currentUser.id });
+    const addonFile5 = server.create('resource-reference', { id: filesNode.id });
+    addonUser.update({
+        configuredResources: [addonFile5],
+    });
+
+    const boxAccount = server.create('authorized-storage-account', {
+        displayName: 'My Box Account',
+        authorizedCapabilities: ['write'], // TODO: This should be a from an enum?
+        externalStorageService: boxAddon,
+        accountOwner: addonUser,
+        credentialsAvailable: true,
+    });
+
+    server.create('authorized-storage-account', {
+        displayName: 'My Dropbox Account',
+        authorizedCapabilities: ['write'], // TODO: This should be a from an enum?
+        externalStorageService: dropboxAddon,
+        accountOwner: addonUser,
+        credentialsAvailable: true,
+    });
+    server.create('authorized-storage-account', {
+        id: 'dropbox2',
+        displayName: 'My Secret Dropbox Account',
+        authorizedCapabilities: ['write'], // TODO: This should be a from an enum?
+        externalStorageService: dropboxAddon,
+        accountOwner: addonUser,
+        credentialsAvailable: false,
+        authUrl: 'http://fake.com',
+    });
+    server.create('authorized-storage-account', {
+        displayName: 'My AmazonS3 Account',
+        authorizedCapabilities: ['write'], // TODO: This should be a from an enum?
+        externalStorageService: s3Addon,
+        accountOwner: addonUser,
+        credentialsAvailable: false,
+    });
+
+    server.create('configured-storage-addon', {
+        id: 'box1',
+        displayName: 'Boxed Data',
+        rootFolder: '/woot/',
+        authorizedResourceUri: 'http://localhost:5000/file5',
+        externalStorageService: boxAddon,
+        accountOwner: addonUser,
+        authorizedResource: addonFile5,
+        baseAccount: boxAccount,
+        connectedCapabilities: [ConnectedCapabilities.Access, ConnectedCapabilities.Update],
+        connectedOperationNames: [ConnectedOperationNames.CopyInto],
+        iconUrl: `${assetsPrefix}assets/images/addons/icons/box.png`,
     });
 
     create0CedarMetadataFile(server, currentUser, filesNode, filesNodeOsfStorage);
