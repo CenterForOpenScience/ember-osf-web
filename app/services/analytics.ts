@@ -437,6 +437,10 @@ export default class Analytics extends Service {
         }
     }
 
+    /*
+        * Reimplements Datacite's usage tracking API.
+        * https://github.com/datacite/datacite-tracker/blob/main/src/lib/request.ts
+    */
     async _sendDataciteUsage(
         doi: string,
         metricType: DataCiteMetricType,
