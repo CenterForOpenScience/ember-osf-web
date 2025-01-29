@@ -126,7 +126,7 @@
     "ember-ajax": "^5.0.0",
     "ember-angle-bracket-invocation-polyfill": "^2.0.2",
     "ember-animated": "^0.11.0",
-    "ember-aria-tabs": "^4.0.0",
+    "ember-aria-tabs": "^7.0.0",
     "ember-auto-import": "^2.6.3",
     "ember-changeset": "^4.1.2",
     "ember-changeset-validations": "^4.1.1",

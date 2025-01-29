@@ -1,0 +1,394 @@
+{{page-title (t 'addons.heading')}}
+
+<div local-class='addon-page-wrapper'>
+    <AddonsService::Manager
+        @node={{this.model}}
+        as |manager|
+    >
+        {{#if manager.selectedProvider}}
+            <Button
+                data-test-addon-back-button
+                data-analytics-name='Back'
+                local-class='float-right'
+                @layout='fake-link'
+                {{on 'click' manager.back}}
+            >
+                {{t 'general.back'}}
+            </Button>
+        {{/if}}
+        <h3 local-class='page-heading'>{{manager.headingText}}</h3>
+        {{#if manager.selectedProvider}}
+            {{#let manager.selectedProvider as |provider|}}
+                <div
+                    data-test-addon={{provider.provider.displayName}}
+                    data-analytics-scope='Addon - {{provider.provider.displayName}}'
+                >
+                    {{#if (eq manager.pageMode 'terms')}}
+                        <AddonsService::TermsOfService
+                            @provider={{provider.provider}}
+                        />
+                        <div
+                            data-analytics-scope='Addon terms'
+                            local-class='float-right'
+                        >
+                            <Button
+                                data-test-addon-cancel-button
+                                data-analytics-name='Cancel'
+                                {{on 'click' manager.cancelSetup}}
+                            >
+                                {{t 'general.cancel'}}
+                            </Button>
+                            <Button
+                                data-test-addon-accept-terms-button
+                                data-analytics-name='Accept Terms'
+                                @type='primary'
+                                {{on 'click' manager.acceptTerms}}
+                                disabled={{provider.getAuthorizedAccounts.isRunning}}
+                            >
+                                {{#if provider.getAuthorizedAccounts.isRunning}}
+                                    {{t 'addons.terms.accepting'}}
+                                {{else}}
+                                    {{t 'general.confirm'}}
+                                {{/if}}
+                            </Button>
+                        </div>
+                    {{else if (eq manager.pageMode 'newOrExistingAccount')}}
+                        <Button
+                            data-test-addon-existing-account-button
+                            data-analytics-name='Choose existing account'
+                            {{on 'click' manager.chooseExistingAccount}}
+                        >
+                            {{t 'addons.accountSelect.existing-account'}}
+                        </Button>
+                        <Button
+                            data-test-addon-new-account-button
+                            data-analytics-name='Create new account'
+                            {{on 'click' manager.createNewAccount}}
+                        >
+                            {{t 'addons.accountSelect.new-account'}}
+                        </Button>
+                    {{else if (eq manager.pageMode 'accountSelect')}}
+                        <fieldset>
+                            {{#each provider.authorizedAccounts as |account| }}
+                                <div local-class='account-select'>
+                                    <label>
+                                        <Input
+                                            data-test-existing-authorized-accounts-input
+                                            name='account-select'
+                                            @value={{account.id}}
+                                            @type='radio'
+                                            @checked={{eq manager.selectedAccount.id account.id}}
+                                            {{on 'change' (fn manager.selectAccount account)}}
+                                        />
+                                        {{#if account.displayName}}
+                                            {{account.displayName}}
+                                        {{else}}
+                                            {{t 'addons.accountSelect.unnamed-account'}}
+                                        {{/if}}
+                                    </label>
+                                </div>
+                            {{else}}
+                                {{t 'addons.accountSelect.no-accounts'}}
+                            {{/each}}
+                        </fieldset>
+                        <div
+                            data-analytics-scope='Account select'
+                            local-class='float-right'
+                        >
+                            <Button
+                                data-test-addon-cancel-button
+                                data-analytics-name='Cancel'
+                                {{on 'click' manager.cancelSetup}}
+                            >
+                                {{t 'general.cancel'}}
+                            </Button>
+                            {{#if manager.selectedAccount}}
+                                <Button
+                                    data-test-addon-authorize-button
+                                    data-analytics-name='Authorize'
+                                    disabled={{not manager.selectedAccount.id}}
+                                    @type='primary'
+                                    {{on 'click' manager.authorizeSelectedAccount}}
+                                >
+                                    {{t 'general.authorize'}}
+                                </Button>
+                            {{else if (and manager.selectedAccount (not manager.selectedAccount.credentialsAvailable))}}
+                                <Button
+                                    data-test-addon-authenticate-button
+                                    data-analytics-name='Authenticate'
+                                    disabled={{not manager.selectedAccount.id}}
+                                    @type='primary'
+                                    {{on 'click' manager.createNewAccount}}
+                                >
+                                    {{t 'general.authenticate'}}
+                                </Button>
+                            {{/if}}
+                        </div>
+                    {{else if (eq manager.pageMode 'accountCreate')}}
+                        <AddonsService::AddonAccountSetup
+                            @provider={{provider.provider}}
+                            @manager={{manager}}
+                            @account={{manager.selectedAccount}}
+                            @onConnect={{manager.connectAccount}}
+                        />
+                    {{else if (eq manager.pageMode 'confirm')}}
+                        {{t 'addons.confirm.verify'}}
+                        {{manager.selectedAccount.displayName}}
+                        <div
+                            data-analytics-scope='Confirm account setup'
+                            local-class='float-right'
+                        >
+                            <Button
+                                data-test-addon-cancel-button
+                                data-analytics-name='Cancel'
+                                {{on 'click' manager.cancelSetup}}
+                            >
+                                {{t 'general.cancel'}}
+                            </Button>
+                            <Button
+                                data-test-addon-confirm-setup-button
+                                data-analytics-name='Confirm Setup'
+                                @type='primary'
+                                {{on 'click' manager.confirmAccountSetup}}
+                            >
+                                {{t 'general.confirm'}}
+                            </Button>
+                        </div>
+                    {{else if (eq manager.pageMode 'configurationList')}}
+                        <div
+                            data-analytics-scope='Configured Addons List'
+                            local-class='configured-addons'
+                        >
+                            <div local-class='configured-addons-heading'>
+                                <h4>{{t 'addons.list.connected-locations'}}</h4>
+                            </div>
+                            {{#each provider.configuredAddons as |configuredAddon|}}
+                                <div
+                                    data-test-configured-addon-name
+                                    local-class='configured-addon-display-name'
+                                    {{did-insert (perform configuredAddon.getRootFolderName)}}
+                                >
+                                    <span>{{configuredAddon.displayName}}</span>
+                                    <span local-class='float-right'>
+                                        {{#if configuredAddon.currentUserIsOwner}}
+                                            <Button
+                                                data-test-edit-connected-location={{configuredAddon.displayName}}
+                                                data-analytics-name='Edit connected location'
+                                                local-class='edit-connected-button'
+                                                aria-label={{t 'addons.list.edit-location' displayName=configuredAddon.displayName}}
+                                                {{on 'click' (fn manager.configureProvider manager.selectedProvider configuredAddon)}}
+                                            >
+                                                <FaIcon @icon='pencil-alt' />
+                                            </Button>
+                                        {{/if}}
+                                        <Button
+                                            data-test-remove-connected-location={{configuredAddon.displayName}}
+                                            data-analytics-name='Remove connected location'
+                                            local-class='remove-connected-button'
+                                            aria-label={{t 'addons.list.remove-location' displayName=configuredAddon.displayName}}
+                                            {{on 'click' (queue
+                                                (action (mut manager.selectedConfiguration) configuredAddon)
+                                                (action (mut manager.confirmRemoveConnectedLocation) true)
+                                            )}}
+                                        >
+                                            <FaIcon @icon='times' />
+                                        </Button>
+                                    </span>
+                                </div>
+                                {{#if configuredAddon.hasRootFolder}}
+                                    <div
+                                        data-test-configured-addon-root-folder
+                                        local-class='configured-addon-root-folder'
+                                    >
+                                        {{#if configuredAddon.rootFolder}}
+                                            {{configuredAddon.rootFolderName}}
+                                        {{else}}
+                                            {{t 'addons.list.root-folder-not-set'}}
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                                <div local-class='configured-addon-connected-to'>
+                                    {{t 'addons.list.connected-to-account'}} {{configuredAddon.baseAccount.displayName}}
+                                </div>
+                            {{/each}}
+                        </div>
+                        {{!-- Remove ability to add a new configured addon for now --}}
+                        {{!-- <div local-class='float-right'>
+                            <Button
+                                data-test-add-another-location-button
+                                data-analytics-name='Add another location'
+                                local-class='add-location-button'
+                                {{on 'click' (queue
+                                    (perform provider.getAuthorizedAccounts)
+                                    (action manager.beginAccountSetup manager.selectedProvider)
+                                )}}
+                            >
+                                {{t 'addons.list.add-another-location'}}
+                            </Button>
+                        </div> --}}
+                        <OsfDialog
+                            @isOpen={{manager.confirmRemoveConnectedLocation}}
+                            @onClose={{action (mut manager.confirmRemoveConnectedLocation) false}}
+                            as |dialog|
+                        >
+                            <dialog.heading>
+                                {{t 'addons.list.disconnect'}} {{provider.provider.displayName}}
+                            </dialog.heading>
+                            <dialog.main>
+                                {{t 'addons.list.confirm-remove-connected-location'}}
+                                <div local-class='configured-addon-display-name'>
+                                    {{manager.selectedConfiguration.displayName}}
+                                </div>
+                                <div>
+                                    {{#if manager.selectedConfiguration.rootFolder}}
+                                        {{manager.selectedConfiguration.rootFolderName}}
+                                    {{else}}
+                                        {{t 'addons.list.root-folder-not-set'}}
+                                    {{/if}}
+                                </div>
+                                <div>
+                                    {{t 'addons.list.connected-to-account'}} {{manager.selectedConfiguration.baseAccount.displayName}}
+                                </div>
+                            </dialog.main>
+                            <dialog.footer>
+                                <div local-class='float-right'>
+                                    <Button
+                                        data-test-cancel-remove-connected-location-button
+                                        data-analytics-name='Cancel remove connected location'
+                                        {{on 'click' (action (mut manager.confirmRemoveConnectedLocation) false)}}
+                                    >
+                                        {{t 'general.back'}}
+                                    </Button>
+                                    <Button
+                                        data-test-confirm-remove-connected-location-button
+                                        data-analytics-name='Confirm remove connected location'
+                                        @type='destroy'
+                                        {{on 'click' (perform provider.removeConfiguredAddon manager.selectedConfiguration)}}
+                                    >
+                                        {{t 'addons.list.disconnect'}}
+                                    </Button>
+                                </div>
+                            </dialog.footer>
+                        </OsfDialog>
+                    {{else if (eq manager.pageMode 'configure')}}
+                        <AddonsService::ConfiguredAddonEdit
+                            @configuredAddon={{manager.selectedConfiguration}}
+                            @authorizedAccount={{manager.selectedAccount}}
+                            @onSave={{perform manager.saveOrCreateConfiguration}}
+                            @onCancel={{manager.cancelSetup}}
+                        />
+                    {{/if}}
+                </div>
+            {{/let}}
+        {{else}}
+            <AriaTabs
+                @defaultIndex={{0}}
+                local-class='tabs'
+                as |tab|
+            >
+                <tab.tabList
+                    local-class='tab-list'
+                    as |tablist|
+                >
+                    <tablist.tab
+                        data-test-addons-tab-all-addons
+                        data-analytics-name='Select All Addons tab'
+                    >
+                        {{t 'addons.list.all-addons'}}
+                    </tablist.tab>
+                    <tablist.tab
+                        data-test-addons-tab-connected-accounts
+                        data-analytics-name='Select Connected Accounts tab'
+                    >
+                        {{t 'addons.list.connected-accounts'}}
+                    </tablist.tab>
+                </tab.tabList>
+                <tab.tabPanel
+                    data-test-all-addons-tab
+                    data-analytics-scope='All addons tab'
+                >
+                    {{t 'addons.list.sync-details-1'}}
+                    {{t 'addons.list.sync-details-2'}}
+                    <div local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'>
+                        <div
+                            data-analytics-scope='Addon List Filter'
+                            local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+                        >
+                            <Input
+                                data-test-addon-list-filter-input
+                                placeholder='{{t 'addons.list.filter-placeholder'}}'
+                                @type='text'
+                                @value={{manager.filterText}}
+                            />
+                            {{#each manager.possibleFilterTypes as |type|}}
+                                <Button
+                                    data-test-addon-list-filter={{type}}
+                                    data-analytics-name={{t (concat 'addons.list.filter.' type)}}
+                                    local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                                    @layout='fake-link'
+                                    {{on 'click' (fn manager.filterByAddonType type)}}
+                                >
+                                    {{t (concat 'addons.list.filter.' type)}}
+                                </Button>
+                            {{/each}}
+                        </div>
+                        <div local-class='addon-cards-wrapper'>
+                            {{#if manager.currentListIsLoading}}
+                                <LoadingIndicator @dark={{true}} />
+                            {{else}}
+                                {{#each manager.filteredAddonProviders as |addon|}}
+                                    <AddonCard @addon={{addon}} @manager={{manager}} />
+                                {{else}}
+                                    {{t 'addons.list.no-results'}}
+                                {{/each}}
+                            {{/if}}
+                        </div>
+                    </div>
+                </tab.tabPanel>
+                <tab.tabPanel
+                    data-test-configured-addons-tab
+                    data-analytics-scope='Connected accounts tab'
+                >
+                    <div local-class='addons-list-wrapper {{if this.isMobile 'mobile'}}'>
+                        <div
+                            data-analytics-scope='Addon List Filter'
+                            local-class='filter-wrapper {{if this.isMobile 'mobile'}}'
+                        >
+                            <Input
+                                data-test-addon-list-filter-input
+                                placeholder='{{t 'addons.list.filter-placeholder'}}'
+                                @type='text'
+                                @value={{manager.filterText}}
+                            />
+                            {{#each manager.possibleFilterTypes as |type|}}
+                                <Button
+                                    data-test-addon-list-filter={{type}}
+                                    data-analytics-name={{t (concat 'addons.list.filter.' type)}}
+                                    local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                                    @layout='fake-link'
+                                    {{on 'click' (fn manager.filterByAddonType type)}}
+                                >
+                                    {{t (concat 'addons.list.filter.' type)}}
+                                </Button>
+                            {{/each}}
+                        </div>
+                        <div
+                            data-test-configured-provider-list
+                            local-class='addon-cards-wrapper'
+                        >
+                            {{#if manager.currentListIsLoading}}
+                                <LoadingIndicator @dark={{true}} />
+                            {{else}}
+                                {{#each manager.filteredConfiguredProviders as |addon|}}
+                                    <AddonCard @addon={{addon}} @manager={{manager}} />
+                                {{else}}
+                                    {{t 'addons.list.no-results'}}
+                                {{/each}}
+                            {{/if}}
+                        </div>
+                    </div>
+                </tab.tabPanel>
+            </AriaTabs>
+        {{/if}}
+    </AddonsService::Manager>
+</div>

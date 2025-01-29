@@ -7,17 +7,20 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { allSettled, task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import Features from 'ember-feature-flags/services/features';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import NodeModel from 'ember-osf-web/models/node';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
-import StorageManager, { getStorageProviderFile }
+import StorageManager, { getStorageProviderFile, getServiceProviderFile }
     from 'osf-components/components/storage-provider-manager/storage-manager/component';
 import File from 'ember-osf-web/packages/files/file';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException from 'ember-osf-web/utils/capture-exception';
+import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 
 interface MoveFileModalArgs {
     isOpen: boolean;
@@ -32,6 +35,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service features!: Features;
 
     @tracked currentNode!: NodeModel;
     @tracked childNodeList: NodeModel[] = [];
@@ -125,15 +129,50 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @task
     @waitFor
+    async getResourceReference() {
+        const serviceNode: ResourceReferenceModel = this.store.peekAll(
+            'resource-reference',
+        ).find(ref => ref.resourceUri === this.currentNode.links.iri);
+        if (serviceNode) {
+            return serviceNode;
+        } else {
+            const reference = await this.store.query('resource-reference', {
+                filter: {resource_uri: this.currentNode.links.iri},
+            }).first;
+            return reference;
+        }
+    }
+
+    @task
+    @waitFor
     async loadFiles() {
         let fileList;
+        let configuredStorageAddonsList: ConfiguredStorageAddonModel[];
         if (!this.currentFolder) {
             fileList = await this.currentNode!.queryHasMany('files', {
                 page: this.folderPage,
                 'page[size]': 20,
             });
+            if(this.features.isEnabled('gravy_waffle')) {
+                const resourceReference = await taskFor(this.getResourceReference).perform();
+                configuredStorageAddonsList = await resourceReference.configuredStorageAddons.toArray();
+            }
             fileList = fileList.map(
-                fileProviderModel => getStorageProviderFile(this.currentUser, fileProviderModel),
+                fileProviderModel => {
+                    if(this.features.isEnabled('gravy_waffle') && fileProviderModel.name !== 'osfstorage') {
+                        const storageAddon = configuredStorageAddonsList.find(
+                            addon => addon.externalServiceName === fileProviderModel.provider,
+                        );
+                        if (storageAddon) {
+                            return getServiceProviderFile(this.currentUser, fileProviderModel, storageAddon!);
+                        } else {
+                            // This shouldn't happen
+                            this.toast.error(this.intl.t('osf-components.move_file_modal.no_csa'));
+                            return undefined;
+                        }
+                    }
+                    return getStorageProviderFile(this.currentUser, fileProviderModel);
+                },
             );
         } else {
             fileList = await this.currentFolder.getFolderItems(this.folderPage, FileSortKey.AscName, '');

@@ -1,17 +1,19 @@
 import Transform from '@ember-data/serializer/transform';
 import $ from 'jquery';
 
+import { camelizeKeys, snakifyKeys } from 'ember-osf-web/utils/map-keys';
+
 export default class ObjectTransform extends Transform {
-    deserialize(value: any) {
+    deserialize(value: any, options?: any) {
         if ($.isPlainObject(value)) {
-            return value;
+            return options?.snakifyForApi ? camelizeKeys(value, true) : value;
         }
         return {};
     }
 
-    serialize(value: any) {
+    serialize(value: any, options?: any) {
         if ($.isPlainObject(value)) {
-            return value;
+            return options?.snakifyForApi ? snakifyKeys(value, true) : value;
         }
         return {};
     }
