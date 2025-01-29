@@ -970,6 +970,8 @@ institutions:
         title: '{institutionName} Dashboard'
         updated: 'Updated {date}'
         download_past_reports_label: 'Previous reports'
+        aira_label_project_request_textarea: 'Project Request Message Text Area'
+        aira_label_user_message_textarea: 'User Message Text Area'
         download_dropdown_label: 'Download data'
         download_csv: 'Download CSV'
         download_tsv: 'Download TSV'
@@ -1061,7 +1063,7 @@ institutions:
               reply_to_label: 'Allow reply to sender address'
               send_message_prompt:
                 title: "Can't Request Access"
-                message: "This user has their request access feature turned off. Reach out to the user via the User tab by pressing the 'Back' button below."
+                message: 'The user has their request access feature turned off. Reach out to the user by sending an email message by pressing the “Back" button below.'
                 back: "Back"
             table-headers:
                 title: Title
