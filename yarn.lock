@@ -3483,11 +3483,6 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@datacite/datacite-tracker@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@datacite/datacite-tracker/-/datacite-tracker-0.0.5.tgz#7be86bbd02b39427eb87e43c5dc843f2fb9c637e"
-  integrity sha512-6F2YAHCLWnRiHEQdHz/0btRTlfgXIFbUEXAK0SyPV2+J2dVZK3fBCjXqsA1p/WAErRfIOvnH+eDqAT+9kNRb0w==
-
 "@ember-data/adapter@3.28.13":
   version "3.28.13"
   resolved "https://registry.yarnpkg.com/@ember-data/adapter/-/adapter-3.28.13.tgz#3b921365046a329f3eb1c72fc4964c6aff06e53b"
