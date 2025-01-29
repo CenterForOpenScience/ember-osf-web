@@ -110,17 +110,16 @@ export default class FileManager extends Component<Args> {
     @task
     @waitFor
     async getItems() {
-        const kwargs = this.args.defaultKwargs || {};
+        const kwargs = !this.currentFolderId ? {} : this.args.defaultKwargs || {};
         kwargs.itemId = this.currentFolderId;
         kwargs.pageCursor = this.cursor;
         try {
-            const getFolderArgs = !this.currentFolderId ? {} : kwargs;
+            const getFolderArgs = Object.fromEntries(
+                Object.entries(kwargs).filter(([_, v]) => v !== null && v !== undefined),
+            );
             const invocation = await taskFor(this.operationInvocableModel.getFolderItems).perform(getFolderArgs);
             this.lastInvocation = invocation;
             const operationResult = invocation.operationResult as ListItemsResult;
-            if (!this.currentFolderId) {
-                this.currentFolderId = operationResult.items[0].itemId;
-            }
             this.currentItems = this.cursor ? [...this.currentItems, ...operationResult.items] : operationResult.items;
             this.hasMore = Boolean(operationResult.nextSampleCursor);
         } catch (e) {
