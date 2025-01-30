@@ -14,9 +14,10 @@ module('Integration | Component | file-version', hooks => {
     setupIntl(hooks);
 
     const changeVersionStub = sinon.stub();
-    const downloadUrl = 'https://download.com';
+    const mirageFile = server.create('file');
     const date = '2020-02-02T02:02:02.000Z';
     test('it renders', async function(assert) {
+        const file = await this.store.findRecord('file', mirageFile.id);
         const version = {
             id: '1',
             attributes: {
@@ -40,12 +41,12 @@ module('Integration | Component | file-version', hooks => {
         this.setProperties({
             version,
             changeVersion: changeVersionStub,
-            downloadUrl,
+            file,
         });
 
         await render(hbs`
         <FileVersion
-            @version={{this.version}} @downloadUrl={{this.downloadUrl}} @changeVersion={{this.changeVersion}}
+            @version={{this.version}} @file={{this.file}} @changeVersion={{this.changeVersion}}
         />
         `);
         assert.dom('[data-test-file-version-date]').hasText(moment(date).format('YYYY-MM-DD hh:mm A'));

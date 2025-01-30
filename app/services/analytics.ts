@@ -15,6 +15,7 @@ import Session from 'ember-simple-auth/services/session';
 import Toast from 'ember-toastr/services/toast';
 import moment from 'moment-timezone';
 
+import FileModel from 'ember-osf-web/models/file';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 
@@ -258,7 +259,7 @@ export default class Analytics extends Service {
     @restartableTask
     @waitFor
     async _trackDownloadTask(itemGuid: string, doi?: string) {
-        const _doi = doi || await this._getDoi(itemGuid);
+        const _doi = doi || await this._getDoiForGuid(itemGuid);
         if (_doi) {
             this._sendDataciteUsage(_doi, DataCiteMetricType.Download);
         }
@@ -432,7 +433,7 @@ export default class Analytics extends Service {
     async _sendDataciteView(): Promise<void> {
         const { itemGuid } = this._getRouteMetricsMetadata();
         if (itemGuid) {
-            const doi = await this._getDoi(itemGuid);
+            const doi = await this._getDoiForGuid(itemGuid);
             this._sendDataciteUsage(doi, DataCiteMetricType.View);
         }
     }
@@ -463,15 +464,25 @@ export default class Analytics extends Service {
         }
     }
 
-    async _getDoi(itemGuid: string): Promise<string> {
+    async _getDoiForGuid(itemGuid: string): Promise<string> {
         const _guid = await this.store.findRecord('guid', itemGuid);
         const _item = await _guid.resolve();
-        const _identifiers = (await _item.identifiers)?.toArray();
+        return this._getDoiForItem(_item);
+    }
+
+    async _getDoiForItem(item: any): Promise<string> {
+        const _identifiers = (await item.identifiers)?.toArray();
         if (_identifiers) {
             for (const _identifier of _identifiers) {
                 if (_identifier.category === 'doi') {
                     return _identifier.value;
                 }
+            }
+        }
+        if (item instanceof FileModel) {
+            const _fileContainer = await item.target;
+            if (_fileContainer) {
+                return this._getDoiForItem(_fileContainer);
             }
         }
         return '';

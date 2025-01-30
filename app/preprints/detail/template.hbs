@@ -179,8 +179,9 @@
                                 data-test-download-button
                                 data-analytics-name='downloads'
                                 local-class='btn btn-primary'
+                                target='_blank'
                                 @href={{ this.fileDownloadUrl }}
-                                {{on 'click' this.trackDownload}}
+                                {{track-download this.model.preprint.id doi=this.model.preprint.verifiedDoi}}
                             >
                                 {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}
                             </OsfLink>

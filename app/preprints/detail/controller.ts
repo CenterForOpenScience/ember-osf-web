@@ -17,7 +17,6 @@ import config from 'ember-osf-web/config/environment';
 import ContributorModel from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState, PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
-import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import { VersionStatusSimpleLabelKey } from 'ember-osf-web/models/preprint';
@@ -56,7 +55,6 @@ export default class PrePrintsDetailController extends Controller {
     @service features!: Features;
     @service intl!: Intl;
     @service media!: Media;
-    @service analytics!: Analytics;
     @service toast!: Toast;
     @service router!: RouterService;
 
@@ -240,11 +238,5 @@ export default class PrePrintsDetailController extends Controller {
 
     get isMobile() {
         return this.media.isMobile;
-    }
-
-    @action
-    trackDownload(): void {
-        const { preprint } = this.model;
-        this.analytics.trackDownload(preprint.id, preprint.verifiedDoi);
     }
 }
