@@ -14,7 +14,7 @@ import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
 import Toast from 'ember-toastr/services/toast';
 import moment from 'moment-timezone';
-import { DataCiteTracker } from '@datacite/datacite-tracker';
+import { Tracker, MetricType } from 'datacite-tracker/src';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
@@ -256,7 +256,7 @@ export default class Analytics extends Service {
     async _trackDownloadTask(itemGuid: string, doi?: string) {
         const _doi = doi || await this._getDoi(itemGuid);
         if (_doi) {
-            this._sendDataciteUsage(_doi, DataCiteTracker.MetricType.Download);
+            this._sendDataciteUsage(_doi, MetricType.Download);
         }
         // TODO: this._sendCountedUsage(...) with itemGuid? (or don't)
     }
@@ -429,16 +429,16 @@ export default class Analytics extends Service {
         const { itemGuid } = this._getRouteMetricsMetadata();
         if (itemGuid) {
             const doi = await this._getDoi(itemGuid);
-            this._sendDataciteUsage(doi, DataCiteTracker.MetricType.View);
+            this._sendDataciteUsage(doi, MetricType.View);
         }
     }
 
     _sendDataciteUsage(
         doi: string,
-        metricType: DataCiteTracker.MetricType,
+        metricType: MetricType,
     ) {
         if (dataciteTrackerRepoId && doi) {
-            const { trackMetric } = DataCiteTracker.Tracker({
+            const { trackMetric } = Tracker({
                 repoId: dataciteTrackerRepoId,
                 trackLocalhost: devMode,
                 // apiHost: 'https://analytics.datacite.org',
