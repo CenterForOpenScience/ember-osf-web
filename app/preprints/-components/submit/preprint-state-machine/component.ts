@@ -14,8 +14,8 @@ import Toast from 'ember-toastr/services/toast';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { ReviewsState } from 'ember-osf-web/models/provider';
-import { taskFor } from 'ember-concurrency-ts';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
 export enum PreprintStatusTypeEnum {
     titleAndAbstract = 'titleAndAbstract',
@@ -34,6 +34,7 @@ interface StateMachineArgs {
     preprint: PreprintModel;
     setPageDirty: () => void;
     resetPageDirty: () => void;
+    newVersion?: boolean;
 }
 
 /**
@@ -44,6 +45,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @service router!: RouterService;
     @service intl!: Intl;
     @service toast!: Toast;
+
     titleAndAbstractValidation = false;
     fileValidation = false;
     metadataValidation = false;
@@ -52,58 +54,42 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @tracked isNextButtonDisabled = true;
     @tracked isPreviousButtonDisabled = true;
     @tracked isDeleteButtonDisplayed = false;
-    @tracked isWithdrawalButtonDisplayed = false;
 
     provider = this.args.provider;
     @tracked preprint: PreprintModel;
     displayAuthorAssertions = false;
     @tracked statusFlowIndex = 1;
     @tracked isEditFlow = false;
+    @tracked displayFileUploadStep = true;
+    @tracked isNewVersionFlow = this.args.newVersion;
     affiliatedInstitutions = [] as InstitutionModel[];
 
     constructor(owner: unknown, args: StateMachineArgs) {
         super(owner, args);
 
+        if (this.args.newVersion) {
+            this.preprint = this.args.preprint;
+            return;
+        }
         if (this.args.preprint) {
             this.preprint = this.args.preprint;
             this.setValidationForEditFlow();
             this.isEditFlow = true;
+            if (this.args.preprint.reviewsState === ReviewsState.REJECTED) {
+                this.displayFileUploadStep = true;
+            } else {
+                this.displayFileUploadStep = false;
+            }
             this.isDeleteButtonDisplayed = false;
-            taskFor(this.canDisplayWitdrawalButton).perform();
         } else {
             this.isDeleteButtonDisplayed = true;
-            this.isWithdrawalButtonDisplayed = false;
+            this.displayFileUploadStep = true;
             this.preprint = this.store.createRecord('preprint', {
                 provider: this.provider,
             });
         }
 
         this.displayAuthorAssertions = this.provider.assertionsEnabled;
-    }
-
-    @task
-    @waitFor
-    private async canDisplayWitdrawalButton(): Promise<void> {
-        let isWithdrawalRejected = false;
-
-        const withdrawalRequests = await this.preprint.requests;
-        const withdrawalRequest = withdrawalRequests.firstObject;
-        if (withdrawalRequest) {
-            const requestActions = await withdrawalRequest.queryHasMany('actions', {
-                sort: '-modified',
-            });
-
-            const latestRequestAction = requestActions.firstObject;
-            // @ts-ignore: ActionTrigger is never
-            if (latestRequestAction && latestRequestAction.actionTrigger === 'reject') {
-                isWithdrawalRejected = true;
-            }
-        }
-
-        this.isWithdrawalButtonDisplayed = this.isAdmin() &&
-        (this.preprint.reviewsState === ReviewsState.ACCEPTED ||
-        this.preprint.reviewsState === ReviewsState.PENDING) && !isWithdrawalRejected;
-
     }
 
     private setValidationForEditFlow(): void {
@@ -133,41 +119,6 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public async onCancel(): Promise<void> {
         await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
     }
-
-
-    /**
-     * Callback for the action-flow component
-     */
-    @task
-    @waitFor
-    public async onWithdrawal(): Promise<void> {
-        try {
-            const preprintRequest = await this.store.createRecord('preprint-request', {
-                comment: this.preprint.withdrawalJustification,
-                requestType: 'withdrawal',
-                target: this.preprint,
-            });
-
-            await preprintRequest.save();
-
-            this.toast.success(
-                this.intl.t('preprints.submit.action-flow.success-withdrawal',
-                    {
-                        singularCapitalizedPreprintWord: this.provider.documentType.singularCapitalized,
-                    }),
-            );
-
-            await this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
-        } catch (e) {
-            const errorMessage = this.intl.t('preprints.submit.action-flow.error-withdrawal',
-                {
-                    singularPreprintWord: this.provider.documentType.singular,
-                });
-            this.toast.error(errorMessage);
-            captureException(e, { errorMessage });
-        }
-    }
-
 
     /**
      * saveOnStep
@@ -214,11 +165,38 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     public async onSubmit(): Promise<void> {
         this.args.resetPageDirty();
 
+        if (this.isNewVersionFlow) {
+            try {
+                await this.preprint.save();
+                let toastMessage = this.intl.t('preprints.submit.new-version.success');
+
+                if (this.provider.reviewsWorkflow) {
+                    toastMessage = this.intl.t('preprints.submit.new-version.success-review');
+                    const reviewAction = this.store.createRecord('review-action', {
+                        actionTrigger: ReviewActionTrigger.Submit,
+                        target: this.preprint,
+                    });
+                    await reviewAction.save();
+                } else {
+                    this.preprint.isPublished = true;
+                    await this.preprint.save();
+                }
+                this.toast.success(toastMessage);
+                this.router.transitionTo('preprints.detail', this.provider.id, this.preprint.id);
+            } catch (e) {
+                const errorTitle = this.intl.t('preprints.submit.new-version.error.title');
+                const errorMessage = getApiErrorMessage(e);
+                captureException(e, { errorMessage });
+                this.toast.error(errorMessage, errorTitle);
+            }
+            return;
+        }
+
         if (this.preprint.reviewsState === ReviewsState.ACCEPTED) {
             await this.preprint.save();
         } else if (this.provider.reviewsWorkflow) {
             const reviewAction = this.store.createRecord('review-action', {
-                actionTrigger: 'submit',
+                actionTrigger: ReviewActionTrigger.Submit,
                 target: this.preprint,
             });
             await reviewAction.save();
@@ -237,6 +215,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async onNext(): Promise<void> {
+        if (this.isNewVersionFlow) {
+            // no need to save original or new version on new version flow
+            this.statusFlowIndex++;
+            return;
+        }
+
         if (this.isEditFlow) {
             this.args.resetPageDirty();
         } else {
@@ -249,8 +233,12 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
             this.titleAndAbstractValidation
         ) {
             await this.saveOnStep();
-            await this.preprint.files;
-            this.isNextButtonDisabled = !this.fileValidation;
+            if (this.displayFileUploadStep) {
+                await this.preprint.files;
+                this.isNextButtonDisabled = !this.fileValidation;
+            } else {
+                this.isNextButtonDisabled = !this.metadataValidation;
+            }
             return;
         } else if (
             this.statusFlowIndex === this.getTypeIndex(PreprintStatusTypeEnum.file) &&
@@ -499,24 +487,54 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     private getTypeIndex(type: string): number {
-        if (type === PreprintStatusTypeEnum.titleAndAbstract) {
-            return 1;
-        } else if (type === PreprintStatusTypeEnum.file) {
-            return 2;
-        } else if (type === PreprintStatusTypeEnum.metadata) {
-            return 3;
-        } else if (type === PreprintStatusTypeEnum.authorAssertions) {
-            return 4;
-        } else if (type === PreprintStatusTypeEnum.supplements &&  this.displayAuthorAssertions) {
-            return 5;
-        }  else if (type === PreprintStatusTypeEnum.supplements &&  !this.displayAuthorAssertions) {
-            return 4;
-        } else if (type === PreprintStatusTypeEnum.review &&  this.displayAuthorAssertions) {
-            return 6;
-        }  else if (type === PreprintStatusTypeEnum.review &&  !this.displayAuthorAssertions) {
-            return 5;
+        if (this.isNewVersionFlow) {
+            if (type === PreprintStatusTypeEnum.file) {
+                return 1;
+            } else if (type === PreprintStatusTypeEnum.review) {
+                return 2;
+            } else {
+                return 0;
+            }
+        }
+
+        if (this.displayFileUploadStep) {
+            if (type === PreprintStatusTypeEnum.titleAndAbstract) {
+                return 1;
+            } else if (type === PreprintStatusTypeEnum.file) {
+                return 2;
+            } else if (type === PreprintStatusTypeEnum.metadata) {
+                return 3;
+            } else if (type === PreprintStatusTypeEnum.authorAssertions) {
+                return 4;
+            } else if (type === PreprintStatusTypeEnum.supplements && this.displayAuthorAssertions) {
+                return 5;
+            } else if (type === PreprintStatusTypeEnum.supplements && !this.displayAuthorAssertions) {
+                return 4;
+            } else if (type === PreprintStatusTypeEnum.review && this.displayAuthorAssertions) {
+                return 6;
+            } else if (type === PreprintStatusTypeEnum.review && !this.displayAuthorAssertions) {
+                return 5;
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            if (type === PreprintStatusTypeEnum.titleAndAbstract) {
+                return 1;
+            } else if (type === PreprintStatusTypeEnum.metadata) {
+                return 2;
+            } else if (type === PreprintStatusTypeEnum.authorAssertions) {
+                return 3;
+            } else if (type === PreprintStatusTypeEnum.supplements && this.displayAuthorAssertions) {
+                return 4;
+            } else if (type === PreprintStatusTypeEnum.supplements && !this.displayAuthorAssertions) {
+                return 3;
+            } else if (type === PreprintStatusTypeEnum.review && this.displayAuthorAssertions) {
+                return 5;
+            } else if (type === PreprintStatusTypeEnum.review && !this.displayAuthorAssertions) {
+                return 4;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -572,7 +590,22 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
      * @returns boolean
      */
     public shouldDisplayStatusType(type: string): boolean{
-        return type === PreprintStatusTypeEnum.authorAssertions ? this.displayAuthorAssertions : true;
+        if (this.isNewVersionFlow) {
+            if (type === PreprintStatusTypeEnum.file) {
+                return true;
+            } else if (type === PreprintStatusTypeEnum.review) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        if (type === PreprintStatusTypeEnum.file) {
+            return this.displayFileUploadStep;
+        } else if (type === PreprintStatusTypeEnum.authorAssertions) {
+            return this.displayAuthorAssertions;
+        }
+        return true;
     }
 
     /**
@@ -644,13 +677,14 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     @task
     @waitFor
     public async addProjectFile(file: FileModel): Promise<void>{
-        await file.copy(this.preprint, '/', 'osfstorage', {
+        const target = this.preprint;
+        await file.copy(target, '/', 'osfstorage', {
             conflict: 'replace',
         });
-        const theFiles = await this.preprint.files;
+        const theFiles = await target.files;
         const rootFolder = await theFiles.firstObject!.rootFolder;
         const primaryFile = await rootFolder!.files;
-        this.preprint.set('primaryFile', primaryFile.lastObject);
+        target.set('primaryFile', primaryFile.lastObject);
     }
 
     @action
@@ -674,7 +708,7 @@ export default class PreprintStateMachine extends Component<StateMachineArgs>{
     }
 
     public isAdmin(): boolean {
-        return this.preprint.currentUserPermissions.includes(Permission.Admin);
+        return this.preprint.currentUserPermissions?.includes(Permission.Admin);
     }
 
     public isElementDisabled(): boolean {

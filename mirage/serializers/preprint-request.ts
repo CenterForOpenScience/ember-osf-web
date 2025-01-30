@@ -14,14 +14,6 @@ export default class PreprintRequestSerializer extends ApplicationSerializer<Pre
 
     buildRelationships(model: ModelInstance<PreprintRequestModel>) {
         const relationships: SerializedRelationships<PreprintRequestModel> = {
-            creator: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/users/${model.creator.id}`,
-                        meta: {},
-                    },
-                },
-            },
             target: {
                 links: {
                     related: {
@@ -39,6 +31,16 @@ export default class PreprintRequestSerializer extends ApplicationSerializer<Pre
                 },
             },
         };
+        if (model.creator) {
+            relationships.creator = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.creator.id}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
         return relationships;
     }
 }

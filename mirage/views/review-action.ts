@@ -1,39 +1,61 @@
-import { HandlerContext, NormalizedRequestAttrs, Request, Schema } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Schema } from 'ember-cli-mirage';
+import { PreprintMirageModel } from 'ember-osf-web/mirage/factories/preprint';
+import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
+import { MirageReviewAction } from 'ember-osf-web/mirage/factories/review-action';
+import { ReviewsState } from 'ember-osf-web/models/provider';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
+import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 
 export function createReviewAction(this: HandlerContext, schema: Schema, request: Request) {
-    const attrs = this.normalizedRequestAttrs('review-action') as Partial<NormalizedRequestAttrs<ReviewActionModel>>;
-    const registrationId = request.params.parentID;
+    const attrs = this.normalizedRequestAttrs('review-action') as Partial<NormalizedRequestAttrs<MirageReviewAction>>;
+    const targetId = request.params.parentID;
     const userId = schema.roots.first().currentUserId;
     let reviewAction;
-    if (userId && registrationId) {
+    if (userId && targetId) {
         const currentUser = schema.users.find(userId);
-        const registration = schema.registrations.find(registrationId);
+        const target = schema[attrs.targetId!.type].find(targetId) as
+            ModelInstance<MirageRegistration | PreprintMirageModel>;
         const { trigger } = attrs as any; // have to cast attrs to any because `actionTrigger` does not exist on type
         reviewAction = schema.reviewActions.create({
             creator: currentUser,
-            target: registration,
+            target,
             dateCreated: new Date(),
             dateModified: new Date(),
             ...attrs,
         });
-        switch (trigger) {
-        case ReviewActionTrigger.AcceptSubmission:
-        case ReviewActionTrigger.RejectWithdrawal:
-            registration.reviewsState = RegistrationReviewStates.Accepted;
-            registration.revisionState = RevisionReviewStates.Approved;
-            break;
-        case ReviewActionTrigger.RejectSubmission:
-            registration.reviewsState = RegistrationReviewStates.Rejected;
-            break;
-        case ReviewActionTrigger.ForceWithdraw:
-        case ReviewActionTrigger.AcceptWithdrawal:
-            registration.reviewsState = RegistrationReviewStates.Withdrawn;
-            break;
-        default:
-            break;
+        if (target.modelName === 'preprint') {
+            switch (trigger) {
+            case ReviewActionTrigger.Submit:
+                target.reviewsState = ReviewsState.PENDING;
+                break;
+            case ReviewActionTrigger.RejectSubmission:
+                target.reviewsState = ReviewsState.REJECTED;
+                break;
+            case ReviewActionTrigger.ForceWithdraw:
+            case ReviewActionTrigger.AcceptWithdrawal:
+                target.reviewsState = ReviewsState.WITHDRAWN;
+                break;
+            default:
+                break;
+            }
+        } else if (target.modelName === 'registration') {
+            switch (trigger) {
+            case ReviewActionTrigger.AcceptSubmission:
+            case ReviewActionTrigger.RejectWithdrawal:
+                target.reviewsState = RegistrationReviewStates.Accepted;
+                target.revisionState = RevisionReviewStates.Approved;
+                break;
+            case ReviewActionTrigger.RejectSubmission:
+                target.reviewsState = RegistrationReviewStates.Rejected;
+                break;
+            case ReviewActionTrigger.ForceWithdraw:
+            case ReviewActionTrigger.AcceptWithdrawal:
+                target.reviewsState = RegistrationReviewStates.Withdrawn;
+                break;
+            default:
+                break;
+            }
         }
     }
     return reviewAction;

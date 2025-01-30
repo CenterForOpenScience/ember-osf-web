@@ -4,7 +4,11 @@
             <li>
                 {{#if (eq breadcrumb @currentFolder)}}
                     <span data-test-breadcrumb={{breadcrumb.name}}>
-                        <FileBrowser::Breadcrumbs::Crumb @name={{breadcrumb.name}} @isProvider={{eq index 0}} />
+                        <FileBrowser::Breadcrumbs::Crumb
+                            @name={{breadcrumb.name}}
+                            @icon={{breadcrumb.iconLocation}}
+                            @isProvider={{eq index 0}}
+                        />
                     </span>
                 {{else}}
                     <OsfLink
@@ -13,7 +17,11 @@
                         @href='#'
                         {{on 'click' (fn @goToFolder breadcrumb)}}
                     >
-                        <FileBrowser::Breadcrumbs::Crumb @name={{breadcrumb.name}} @isProvider={{eq index 0}} />
+                        <FileBrowser::Breadcrumbs::Crumb
+                            @name={{breadcrumb.name}}
+                            @icon={{breadcrumb.iconLocation}}
+                            @isProvider={{eq index 0}}
+                        />
                     </OsfLink>
                 {{/if}}
             </li>

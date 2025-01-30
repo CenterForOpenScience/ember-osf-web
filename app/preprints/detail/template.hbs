@@ -9,9 +9,47 @@
     <div local-class='header-container'>
         <div local-class='preprint-title-container'>
             <h1 data-test-preprint-title>{{this.displayTitle}}</h1>
-            {{#unless this.model.preprint.isWithdrawn}}
-                <div class='edit-preprint-button'>
-                    {{#if (and this.userIsContrib (not this.isPendingWithdrawal))}}
+            <div>
+                {{#if this.model.preprint.isWithdrawn}}
+                    <ResponsiveDropdown
+                        local-class='version-dropdown'
+                        @renderInPlace={{true}}
+                        @horizontalPosition='left'
+                    as |dropdown|>
+                        <dropdown.trigger
+                            data-test-previous-versions-button
+                            data-analytics-name='View previous preprint versions'
+                            local-class='btn btn-primary'
+                            @type='default'
+                        >
+                            {{t 'preprints.detail.other_versions'}}
+                        </dropdown.trigger>
+                        <dropdown.content>
+                            <ul local-class='version-picker-list'>
+                                {{#each this.model.versions as |version|}}
+                                    <li local-class='version'>
+                                        <OsfLink
+                                            local-class={{if (eq version.version this.model.preprint.version) 'current-version'}}
+                                            data-test-version-link='{{version.version}}'
+                                            @route='preprints.detail'
+                                            @models={{array this.model.provider.id version.id}}
+                                        >
+                                            {{#let (get this.reviewStateLabelKeyMap version.reviewsState) as |reviewStateLabelKey|}}
+                                                {{t 'preprints.detail.preprint_version_number' number=version.version}}
+                                                {{#if reviewStateLabelKey}}
+                                                    {{t (get this.reviewStateLabelKeyMap version.reviewsState)}}
+                                                {{/if}}
+                                            {{/let}}
+                                        </OsfLink>
+                                    </li>
+                                {{else}}
+                                    <li data-test-no-other-versions>{{t 'preprints.detail.no_other_versions'}}</li>
+                                {{/each}}
+                            </ul>
+                        </dropdown.content>
+                    </ResponsiveDropdown>
+                {{else}}
+                    {{#if this.showEditButton}}
                         <OsfLink
                             data-test-edit-preprint-button
                             data-analytics-name='Edit preprint button'
@@ -23,9 +61,27 @@
 
                         </OsfLink>
                     {{/if}}
-                    <br>
-                </div>
-            {{/unless}}
+                {{/if}}
+                {{#if this.model.preprint.canCreateNewVersion}}
+                    <Button
+                        data-test-create-new-version-button
+                        data-analytics-name='Create new version'
+                        local-class='btn btn-primary'
+                        disabled={{this.createNewVersion.isRunning}}
+                        @layout='fake-link'
+                        {{on 'click' (perform this.createNewVersion)}}
+                    >
+                        {{t 'preprints.detail.create_new_version'}}
+                    </Button>
+                {{/if}}
+                {{#if this.model.canDisplayWithdrawalButton}}
+                    <Preprints::-Components::WithdrawalPreprint
+                        @preprint={{this.model.preprint}}
+                        @provider={{this.model.provider}}
+                        @onWithdrawal={{this.onWithdrawal}}
+                    />
+                {{/if}}
+            </div>
         </div>
         <div local-class='preprint-author-container'>
             <h5 local-class='view-authors'>
@@ -46,12 +102,18 @@
         />
     </div>
     {{#if (or this.showStatusBanner this.isWithdrawn)}}
-        <Preprints::-Components::PreprintStatusBanner @submission={{this.model.preprint}} />
+        <Preprints::-Components::PreprintStatusBanner
+            @submission={{this.model.preprint}}
+            @provider={{this.model.provider}}
+            @latestWithdrawalRequest={{this.model.latestWithdrawalRequest}}
+            @latestAction={{this.model.latestAction}}
+        />
     {{/if}}
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}
             <Preprints::-Components::PreprintTombstone
                 @preprint={{this.model.preprint}}
+                @versions={{this.model.versions}}
                 @provider={{this.model.provider}}
                 @subjects={{this.model.subjects}} />
         {{else}}
@@ -182,7 +244,11 @@
                             </OsfLink>
                         </div>
                     {{/if}}
-                    <Preprints::-Components::PreprintDoi @preprint={{this.model.preprint}} @provider={{this.model.provider}} />
+                    <Preprints::-Components::PreprintDoi
+                        @currentVersion={{this.model.preprint}}
+                        @versions={{this.model.versions}}
+                        @provider={{this.model.provider}}
+                    />
                     {{#if this.model.preprint.articleDoiUrl}}
                         <div>
                             <h4>{{t 'preprints.detail.article_doi'}}</h4>

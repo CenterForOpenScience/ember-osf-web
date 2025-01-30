@@ -97,26 +97,22 @@
                             data-test-file-providers-list
                             local-class='FileProvidersList'
                         >
-                            {{#each this.registration.files as |provider|}}
-                                <div local-class='FileProvider'>
-                                    {{t (concat 'osf-components.file-browser.storage_providers.' provider.name)}}
-                                    {{#if (eq provider.name 'osfstorage')}}
-                                        <span>
-                                            <FaIcon
-                                                local-class='FileProviderIcon'
-                                                @icon='globe'
-                                            >
-                                            </FaIcon>
-                                            <EmberTooltip
-                                                @side='right'
-                                            >
-                                                {{t 'osf-components.file-browser.storage_location'}}
-                                                {{this.registration.region.name}}
-                                            </EmberTooltip>
-                                        </span>
-                                    {{/if}}
-                                </div>
-                            {{/each}}
+                            <div local-class='FileProvider'>
+                                {{t 'osf-components.file-browser.storage_providers.osfstorage'}}
+                                <span>
+                                    <FaIcon
+                                        local-class='FileProviderIcon'
+                                        @icon='globe'
+                                    >
+                                    </FaIcon>
+                                    <EmberTooltip
+                                        @side='right'
+                                    >
+                                        {{t 'osf-components.file-browser.storage_location'}}
+                                        {{this.registration.region.name}}
+                                    </EmberTooltip>
+                                </span>
+                            </div>
                         </div>
                     {{/if}}
                     {{#if this.registration.resourcesVisible}}

@@ -1,9 +1,10 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
+import { addonServiceNamespace } from 'ember-osf-web/adapters/addon-service';
+import { addonsList } from 'ember-osf-web/mirage/views/addons';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
-import { addonsList } from './views/addons';
 import { getCitation } from './views/citation';
 import { createCollectionSubmission, getCollectionSubmissions } from './views/collection-submission';
 import { createSubmissionAction } from './views/collection-submission-action';
@@ -50,17 +51,19 @@ import {
 } from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
+import * as addons from './views/addons';
 import * as wb from './views/wb';
-import { createPreprint } from './views/preprint';
+import { createPreprint, getPreprintVersions, createPreprintVersion } from './views/preprint';
 
-const { OSF: { apiUrl, shareBaseUrl, url: osfUrl } } = config;
+const { OSF: { addonServiceUrl, apiUrl, shareBaseUrl, url: osfUrl } } = config;
+
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
     this.passthrough('https://api.crossref.org/*');
 
-    // SHARE-powered registration discover endpoint
-    this.urlPrefix = 'https://share.osf.io';
+    // SHARE search
+    this.urlPrefix = shareBaseUrl;
     this.namespace = '/api/v2/';
     this.post('/search/creativeworks/_search', shareSearch);
 
@@ -79,9 +82,12 @@ export default function(this: Server) {
 
     this.get('/', rootDetail);
 
+    osfResource(this, 'addon', { only: ['index']});
     osfResource(this, 'developer-app', { path: 'applications', except: ['create', 'update'] });
     this.post('/applications', createDeveloperApp);
     this.patch('/applications/:id', updateDeveloperApp);
+
+    osfResource(this, 'external-account', {only: ['index', 'show', 'create']});
 
     osfResource(this, 'file', { only: ['show', 'update'] });
     osfNestedResource(this, 'file', 'versions', {
@@ -123,8 +129,8 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         onCreate: createBibliographicContributor,
     });
+    this.get('/nodes/:parentID/addons/', addonsList);
 
-    this.get('/nodes/:parentID/addons', addonsList);
     this.get('/nodes/:parentID/files', nodeFileProviderList); // Node file providers list
     this.get('/nodes/:parentID/files/:fileProviderId', nodeFilesListForProvider); // Node files list for file provider
     this.get('/nodes/:parentID/files/:fileProviderId/:folderId', folderFilesList); // Node folder detail view
@@ -355,6 +361,9 @@ export default function(this: Server) {
         return schema.preprints.find(id);
     });
 
+    this.get('/preprints/:id/versions', getPreprintVersions);
+    this.post('/preprints/:id/versions', createPreprintVersion);
+
     osfNestedResource(this, 'preprint', 'contributors', {
         path: '/preprints/:parentID/contributors/',
         defaultSortKey: 'index',
@@ -413,6 +422,7 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         relatedModelName: 'review-action',
     });
+    this.post('/preprints/:parentID/review_actions', createReviewAction);
 
     /**
      * Preprint Requests
@@ -552,4 +562,50 @@ export default function(this: Server) {
 
     // node analytics
     this.get('/metrics/query/node_analytics/:nodeID/:timespan', getNodeAnalytics);
+
+
+    // Addon service
+    this.urlPrefix = addonServiceUrl;
+    this.namespace = addonServiceNamespace;
+    this.resource('external-storage-services', { only: ['index', 'show'] });
+    this.resource('external-citation-services', { only: ['index', 'show'] });
+    this.resource('external-computing-services', { only: ['index', 'show'] });
+    this.resource('user-references', { only: ['index', 'show'] });
+    this.get('/user-references/:userGuid/authorized_storage_accounts/',
+        addons.userReferenceAuthorizedStorageAccountList);
+    this.get('/user-references/:userGuid/authorized_citation_accounts/',
+        addons.userAuthorizedCitationAccountList);
+    this.get('/user-references/:userGuid/authorized_computing_accounts/',
+        addons.userAuthorizedComputingAccountList);
+    this.get('/resource-references/', addons.resourceReferencesList);
+    this.resource('resource-references', { only: ['index', 'show'] });
+    this.get('/resource-references/:nodeGuid/configured_storage_addons',
+        addons.resourceReferenceConfiguredStorageAddonList);
+    this.get('/resource-references/:nodeGuid/configured_citation_addons',
+        addons.resourceConfiguredCitationAddonList);
+    this.get('/resource-references/:nodeGuid/configured_computing_addons',
+        addons.resourceConfiguredComputingAddonList);
+    this.resource('authorized-storage-accounts', { except: ['index', 'update'] });
+    this.patch('authorized-storage-accounts/:id', addons.updateAuthorizedStorageAccount);
+    this.post('authorized-storage-accounts', addons.createAuthorizedStorageAccount);
+    this.resource('authorized-citation-accounts', { except: ['index', 'update'] });
+    this.patch('authorized-citation-accounts/:id', addons.updateAuthorizedCitationAccount);
+    this.post('authorized-citation-accounts', addons.createAuthorizedCitationAccount);
+    this.resource('authorized-computing-accounts', { except: ['index', 'update'] });
+    this.patch('authorized-computing-accounts/:id', addons.updateAuthorizedComputingAccount);
+    this.post('authorized-computing-accounts', addons.createAuthorizedComputingAccount);
+    this.resource('configured-storage-addons', { only: ['show', 'update', 'delete'] });
+    this.get('/configured-storage-addons/', addons.configuredStorageAddonList);
+    this.resource('configured-citation-addons', { only: ['show', 'update', 'delete'] });
+    this.get('/configured-citation-addons/', addons.configuredCitationAddonList);
+    this.resource('configured-computing-addons', { only: ['show', 'update', 'delete'] });
+    this.get('/configured-computing-addons/', addons.configuredComputingAddonList);
+    this.post('configured-storage-addons', addons.createConfiguredStorageAddon);
+    this.post('configured-citation-addons', addons.createConfiguredCitationAddon);
+    this.post('configured-computing-addons', addons.createConfiguredComputingAddon);
+    this.post('addon-operation-invocations', addons.createAddonOperationInvocation);
+
+    // Reset API url and namespace to use v2 endpoints for tests
+    this.urlPrefix = apiUrl;
+    this.namespace = '/v2';
 }

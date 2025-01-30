@@ -87,7 +87,7 @@ export default class PreprintFile extends Component<FileArgs>{
     }
 
     @action
-    public async addNewfile(): Promise<void> {
+    public addNewfile(): void {
         this.file = null;
         this.isFileAttached = false;
         this.isFileUploadDisplayed = false;

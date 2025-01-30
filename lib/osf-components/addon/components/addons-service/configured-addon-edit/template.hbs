@@ -1,0 +1,159 @@
+<div
+    local-class='configured-addon-edit-wrapper'
+    data-analytics-scope='Configured Addon Edit'
+>
+    <div local-class='display-name-wrapper'>
+        <label>
+            {{t 'addons.configure.display-name'}}
+            <Input
+                data-test-display-name-input
+                @type='text'
+                @value={{this.displayName}}
+                @maxlength={{256}}
+            />
+        </label>
+        {{#if this.invalidDisplayName}}
+            <span
+                data-test-display-name-error
+                local-class='display-name-error'
+            >
+                {{t 'validationErrors.blank'}}
+            </span>
+        {{/if}}
+    </div>
+    {{#if this.hasRootFolder }}
+        <AddonsService::FileManager
+            @configuredAddon={{@configuredAddon}}
+            @authorizedAccount={{@authorizedAccount}}
+            @defaultKwargs={{this.defaultKwargs}}
+            @startingFolderId={{this.selectedFolder}}
+            as |fileManager|
+        >
+            <div local-class='current-path'>
+                <Button
+                    data-test-go-to-root
+                    data-analytics-name='Go to root folder'
+                    @layout='fake-link'
+                    aria-label={{t 'addons.configure.go-to-root'}}
+                    {{on 'click' fileManager.goToRoot}}
+                >
+                    <FaIcon @icon='home' />
+                    {{t 'general.home'}}
+                </Button>
+                {{#each fileManager.currentPath as |pathItem|}}
+                    <Button
+                        data-test-folder-path-option='{{pathItem.itemName}}'
+                        data-analytics-name='Go to ancestor folder'
+                        @layout='fake-link'
+                        aria-label={{t 'addons.configure.go-to-folder' folderName=pathItem.itemName}}
+                        {{on 'click' (fn fileManager.goToFolder pathItem)}}
+                    >
+                        <FaIcon @icon='chevron-right' />
+                        {{pathItem.itemName}}
+                    </Button>
+                {{/each}}
+            </div>
+            <table local-class='file-tree-table'>
+                <thead>
+                    <tr>
+                        <th>{{t 'addons.configure.table-headings.folder-name'}}</th>
+                        <th>{{t 'addons.configure.table-headings.select'}}</th>
+                    </tr>
+                </thead>
+                <tbody local-class='table-body'>
+                    {{#if fileManager.isLoading}}
+                        <LoadingIndicator @dark={{true}} />
+                    {{else if fileManager.isError}}
+                        <tr>
+                            <td colspan='2'>{{t 'addons.configure.error-loading-items'}}</td>
+                        </tr>
+                    {{else}}
+                        {{#each fileManager.currentItems as |folder|}}
+                            <tr>
+                                <td>
+                                    {{#if folder.mayContainRootCandidates}}
+                                        <Button
+                                            data-test-folder-link='{{folder.itemName}}'
+                                            data-analytics-name='Go to folder'
+                                            @layout='fake-link'
+                                            aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
+                                            {{on 'click' (fn fileManager.goToFolder folder)}}
+                                        >
+                                            <span local-class='item-name'>
+                                                {{#if (or (eq folder.itemType 'FOLDER') (eq folder.itemType 'COLLECTION'))}}
+                                                    <FaIcon @icon='folder' />
+                                                {{else}}
+                                                    <FaIcon @icon='file' />
+                                                {{/if}}
+                                                {{folder.itemName}}
+                                            </span>
+                                        </Button>
+                                    {{else}}
+                                        <span local-class='item-name'>
+                                            {{#if (or (eq folder.itemType 'FOLDER') (eq folder.itemType 'COLLECTION'))}}
+                                                <FaIcon @icon='folder' />
+                                            {{else}}
+                                                <FaIcon @icon='file' />
+                                            {{/if}}
+                                            {{folder.itemName}}
+                                        </span>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if folder.canBeRoot}}
+                                        <input
+                                            data-test-root-folder-option='{{folder.itemName}}'
+                                            data-analytics-name='Select folder'
+                                            type='radio'
+                                            name='folder'
+                                            value={{folder.itemName}}
+                                            aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
+                                            {{on 'change'(fn this.selectFolder folder)}}
+                                        >
+                                    {{/if}}
+                                </td>
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td colspan='2'>{{t 'addons.configure.no-folders'}}</td>
+                            </tr>
+                        {{/each}}
+                        {{#if fileManager.hasMore}}
+                            <tr>
+                                <td colspan='2'>
+                                    <Button
+                                        data-test-load-more-folders
+                                        data-analytics-name='Load more folders'
+                                        @layout='fake-link'
+                                        {{on 'click' fileManager.getMore}}
+                                    >
+                                        {{t 'general.load_more'}}
+                                    </Button>
+                                </td>
+                            </tr>
+                        {{/if}}
+                    {{/if}}
+                </tbody>
+            </table>
+        </AddonsService::FileManager>
+    {{/if}}
+    <div local-class='footer-buttons-wrapper'>
+        <Button
+            data-test-root-folder-save
+            data-analytics-name='Save selected folder'
+            @type='primary'
+            disabled={{this.disableSave}}
+            {{on 'click' (fn @onSave this.onSaveArgs)}}
+        >
+            {{t 'general.save'}}
+        </Button>
+        <Button
+            data-test-root-folder-cancel
+            data-analytics-name='Cancel'
+            @type='secondary'
+            {{on 'click' @onCancel}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+    </div>
+</div>

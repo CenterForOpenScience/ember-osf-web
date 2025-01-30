@@ -32,6 +32,8 @@ general:
     api: API
     apply: Apply
     asc_paren: (asc)
+    authenticate: Authenticate
+    authorize: Authorize
     available: 'Available'
     back: Back
     bookmark: Bookmark
@@ -39,6 +41,7 @@ general:
     caution: Caution
     close: Close
     component: component
+    confirm: Confirm
     contributors: Contributors
     unknownContributor: 'Unknown Contributor'
     copy: Copy
@@ -62,6 +65,7 @@ general:
     hosted_on_the_osf: 'Hosted on OSF'
     last_modified: 'Last modified'
     loading: Loading...
+    load_more: 'Load more'
     md5: MD5
     modified: Modified
     more: more
@@ -226,6 +230,145 @@ dashboard:
         registries: 'OSF Registries'
         preprints: 'OSF Preprints'
         institutions: 'OSF Institutions'
+
+addons:
+    heading: 'Add-ons'
+    provider:
+        remove-configured-addon-success: 'You have successfully removed this addon'
+        remove-configured-addon-error: 'There was a problem removing this addon'
+    list:
+        connected-accounts-for-provider: 'Connected accounts for {providerName}'
+        connected-accounts: 'Connected Accounts'
+        connected-locations: 'Connected locations'
+        edit-location: 'Edit {displayName}'
+        remove-location: 'Remove {displayName}'
+        add-another-location: 'Add another location'
+        all-addons: 'All Add-ons'
+        confirm-remove-connected-location: 'You are about to disconnect the addon below from the project.'
+        connected-to-account: 'Connected to account'
+        root-folder-not-set: 'Root folder not set'
+        sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.'
+        sync-details-2: 'To manage all add-ons connected to your account, visit your profile settings.'
+        filter-placeholder: 'Filter add-ons'
+        filter:
+            all: 'All'
+            additional-storage: 'Additional Storage'
+            citation-manager: 'Citation Manager'
+            cloud-computing: 'Cloud Computing'
+        no-results: 'No results found'
+        no-connected-accounts: 'No connected accounts'
+        connect: 'Connect'
+        disconnect: 'Disconnect'
+        reconnect: 'Reconnect'
+        configure: 'Configure'
+        disable: 'Disable'
+        disable-account-header: 'Disable Account'
+        disable-confirmation: 'Are you sure you want to disable this account? All projects connected to this account will be affected.'
+    terms:
+        heading: '{providerName} Terms'
+        accepting: 'Accepting terms…'
+        table-headings:
+            function: 'Function'
+            status: 'Status'
+        footer:
+            generic-label: 'This add-on connects your OSF project to an external service. Use of this service is bound by its terms and conditions. The OSF is not responsible for the service or for your use thereof.'
+            storage-label: 'This add-on allows you to store files using an external service. Files added to this add-on are not stored within the OSF.'
+
+        labels:
+            add-update-files: 'Add / update files'
+            delete-files: 'Delete files'
+            forking: 'Forking'
+            logs: 'Logs'
+            permissions: 'Permissions'
+            registering: 'Registering'
+            file-versions: 'View / download file versions'
+        storage:
+            add-update-files-true: 'Adding/updating files within OSF will be reflected in {provider}.'
+            add-update-files-false: 'You cannot add or update files for {provider} within OSF.'
+            add-update-files-partial: 'Files can be added but not updated.'
+            delete-files-true: 'Files deleted in OSF will be deleted in {provider}.'
+            delete-files-false: 'You cannot delete files for {provider} within OSF.'
+            delete-files-partial: '{provider} has limitations on which files can be deleted within OSF.'
+            forking-true: 'Only the user who first authorized the {provider} add-on within source project can transfer its authorization to a forked project or component.'
+            logs-true: 'OSF tracks changes you make to your {provider} content within OSF, but not changes made directly within {provider}.'
+            logs-false: 'OSF does not keep track of changes made using {provider} directly.'
+            permissions-true: 'The OSF does not change permissions for linked {provider} files. Privacy changes made to an OSF project or component will not affect those set in {provider}.'
+            registering-true: '{provider} content will be registered, but version history will not be copied to the registration.'
+            file-versions-true: '{provider} files and their versions can be viewed/downloaded in OSF.'
+            file-versions-false: '{provider} files can be viewed/downloaded in OSF, but version history is not supported.'
+        citation:
+            forking-partial: 'Forking a project or component does not copy {provider} authorization unless the user forking the project is the same user who authorized the {provider} add-on in the source project being forked.'
+            permissions-partial: 'Making an OSF project public or private is independent of making a {provider} folder public or private. The OSF does not alter the permissions of a linked {provider} folder.'
+            registering-false: '{provider} content will not be registered.'
+        computing:
+            add-update-files-partial: 'Results generated by {provider} will be downloaded and stored in OSF Storage.'
+            forking-partial: '{provider} authorization will only copy to a forked project/component if the contributor that authorized the add-on is the same contributor that forked the project/component.'
+            logs-partial: 'The OSF tracks {provider}-generated results that were copied to OSF Storage.'
+            permissions-partial: "An OSF project's privacy is independent of {provider} privacy."
+            registering-partial: '{provider}-generated results will be registered as they are stored in OSF Storage.'
+    accountSelect:
+        heading: 'Log in to {providerName} or select an account'
+        no-accounts: 'No accounts available'
+        new-account: 'Setup new account'
+        reconnect-account: 'Reconnect account'
+        existing-account: 'Choose existing account'
+        unnamed-account: 'Unnamed account'
+    accountCreate:
+        display-name-label: 'Account name'
+        display-name-placeholder: 'Account name'
+        display-name-help: 'This will distinguish your account from others using the same addon.'
+        url-label: 'Host URL'
+        url-post-text: 'Please include <i>http</i> or <i>https</i>'
+        username-label: 'Username'
+        password-label: 'Password'
+        username-placeholder: 'Username'
+        password-placeholder: 'Password'
+        password-post-text: 'These credentials will be encrypted.'
+        api-token-label: 'API Token'
+        api-token-placeholder: 'API Token'
+        personal-access-token-label: 'Personal Access Token'
+        personal-access-token-placeholder: 'Personal Access Token'
+        repo-label: 'Repository'
+        repo-placeholder: 'Select a repository'
+        repo-other-placeholder: 'Enter the URL of the repository'
+        dataverse-repo-other-post-text: 'Only Dataverse repositories v4.0 or higher are supported.'
+        gitlab-repo-other-post-text: 'Only GitLab repositories v4.0 or higher are supported.'
+        other-repo-label: 'Other (Please specify)'
+        access-key-label: 'Access Key'
+        access-key-placeholder: 'Access Key'
+        secret-key-label: 'Secret Key'
+        secret-key-placeholder: 'Secret Key'
+        oauth-pending: 'Complete the OAuth process in the new window before returning to this page.'
+        oauth-pending-secondary: 'If you do not see a new window, please click the <b>Start Oauth</b> link below.'
+        oauth-start: 'Start OAuth'
+        oauth-error: 'Error connecting account. Please try again.'
+        oauth-reconnect-error: 'Error reconnecting account'
+        error: 'Error creating account'
+        connect: Connect
+        connect-success: 'Successfully connected account'
+        reconnect: Reconnect
+        reconnect-success: 'Successfully reconnected account'
+        reconnect-error: 'Error reconnecting account'
+        disconnect-success: 'Successfully disconnected account'
+        disconnect-error: 'Error disconnecting account'
+    confirm:
+        heading: 'Confirm {providerName} Account'
+        verify: 'Connect the following account:'
+        authorizing: 'Connecting…'
+    configure:
+        heading: 'Configure {providerName}'
+        display-name: 'Display name'
+        go-to-root: 'Go to home folder'
+        go-to-folder: 'Go to folder {folderName}'
+        select-folder: 'Select {folderName} as root folder'
+        table-headings:
+            folder-name: 'Folder Name'
+            select: 'Select'
+        no-folders: 'No folders'
+        error-loading-items: 'Error loading items'
+        success: 'Successfully updated {configurationName}'
+        error: 'Error updating {configurationName}'
+
 metadata:
     tab-title: 'Metadata'
     main-tab: 'OSF'
@@ -258,6 +401,7 @@ cedar:
         draft: 'Draft'
         draft-explanation: "This metadata has a status of 'Draft' and is not publicly viewable. To 'Publish' this metadata please fill in all required fields and resubmit the data."
         published-explanation: "This metadata has a status of 'Published' and is publicly viewable."
+
 search:
     page-title: 'Search'
     index-card:
@@ -1314,6 +1458,7 @@ preprints:
         edit-permission-error: 'User does not have permission to edit this {singularPreprintWord}'
         title-submit: 'New {documentType}'
         title-edit: 'Edit {documentType}'
+        title-new-version: 'New Version'
         step-title:
             title: 'Title and Abstract'
             title-input: 'Title'
@@ -1432,20 +1577,30 @@ preprints:
             error-withdrawal: 'Error withdrawing the {singularPreprintWord}.'
             next: 'Next'
             next-disabled-tooltip: 'Fill in "Required *" fields to continue'
-            no-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This request will be submitted to
-            <a href="mailto:{supportEmail}" target="_blank">{supportEmail}</a> for review and removal. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
-            post-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This service uses post-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
-            pre-moderation-notice-accepted: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} removal and at the discretion of the moderators.</strong><br>This service uses pre-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} will still be searchable by other users after removal.'
-            pre-moderation-notice-pending: 'Your {singularPreprintword} is still pending approval and thus private, but can be withdrawn immediately. If you wish to provide a reason for withdrawal, it will be displayed only to service moderators. Once withdrawn, your preprint will never be made public.'
+            withdrawal-explanation: 'You are about to withdraw this version of your {singularPreprintWord}. Withdrawing a version will remove it from public view but will not affect other versions of this {singularPreprintWord}, if available.'
+            no-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} version removal and at the discretion of the moderators.</strong><br>This request will be submitted to <a href="mailto:{supportEmail}" target="_blank">{supportEmail}</a> for review and removal. If the request is approved, this {singularPreprintWord} version will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} version will still be searchable by other users after removal.'
+            post-moderation-notice: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} version removal and at the discretion of the moderators.</strong><br>This service uses post-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} version will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} version will still be searchable by other users after removal.'
+            pre-moderation-notice-accepted: '<strong>{pluralCapitalizedPreprintWord} are a permanent part of the scholarly record. Withdrawal requests are subject to this service’s policy on {singularPreprintWord} version removal and at the discretion of the moderators.</strong><br>This service uses pre-moderation. This request will be submitted to service moderators for review. If the request is approved, this {singularPreprintWord} version will be replaced by a tombstone page with metadata and the reason for withdrawal. This {singularPreprintWord} version will still be searchable by other users after removal.'
+            pre-moderation-notice-pending: 'Since this version is still pending approval and private, it can be withdrawn immediately. The reason of withdrawal will be visible to service moderators. Once withdrawn, the {singularPreprintWord} will remain private and never be made public.'
             save-before-exit: 'Unsaved changes present. Are you sure you want to leave this page?'
             success: '{singularPreprintWord} saved.'
             success-withdrawal: 'Your {singularCapitalizedPreprintWord} has been successfully withdrawn.'
+
             submit: 'Submit'
             withdraw-button: 'Withdraw'
             withdrawal-input-error: '25 characters'
             withdrawal-label: 'Reason for withdrawal (required):'
             withdrawal-modal-title: 'Withdraw {singularPreprintWord}'
             withdrawal-placeholder: 'Comment'
+        new-version:
+            success: 'New version created.'
+            success-review: 'New version submitted for moderation.'
+            redirect:
+                title: 'Cannot create a new version'
+                permissions: 'You do not have permission to create a new version of this {preprintWord}.'
+                latest-published: 'A new version can only be created from the latest published version of a {preprintWord}.'
+            error:
+                title: 'Error creating a new version'
     detail:
         abstract: 'Abstract'
         article_doi: 'Peer-reviewed Publication DOI'
@@ -1466,13 +1621,23 @@ preprints:
         original_publication_date: 'Original Publication Date'
         orphan_preprint: 'The user has removed this file.'
         preprint_doi: '{documentType} DOI'
+        version_doi_title: 'Version {number}'
+        view_version: 'View version {number}'
+        version_status:
+            pending: '(Pending)'
+            rejected: '(Rejected)'
+            withdrawn: '(Withdrawn)'
         preprint_pending_doi: 'DOI created after {documentType} is made public'
         preprint_pending_doi_moderation: 'DOI created after moderator approval'
+        no_doi: 'No DOI'
         preprint_pending_doi_minted: 'DOIs are minted by a third party, and may take up to 24 hours to be registered.'
         private_preprint_warning: 'This {documentType} is private. Contact {supportEmail} if this is in error.'
-        project_button:
-            edit_preprint: 'Edit {documentType}'
-            edit_resubmit_preprint: 'Edit and resubmit'
+        edit_preprint: 'Edit {documentType}'
+        edit_resubmit_preprint: 'Edit and resubmit'
+        create_new_version: 'Create new version'
+        other_versions: 'Other versions'
+        preprint_version_number: 'Version {number}'
+        no_other_versions: 'No other versions'
         see_less: 'See less'
         see_more: 'See more'
         share:
@@ -2338,6 +2503,14 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    addons-service:
+        file-manager:
+            get-item-error: 'Error fetching item'
+            get-items-error: 'Error fetching items'
+    addon-card:
+        connect: Connect
+        configure: Configure
+        provider-logo-alt: '{provider} logo'
     search-result-card:
         show_additional_metadata: 'Show additional metadata'
         hide_additional_metadata: 'Hide additional metadata'
@@ -2605,6 +2778,7 @@ osf-components:
         select_provider: 'Please select a file provider'
         no_children: 'No children'
         no_folders: 'No files or folders'
+        no_csa: 'Could not find a matching Configured Storage Addon'
         read_only_provider: '- Cannot move or copy to this file provider'
         is_being_moved: '- This folder is being moved'
         is_being_copied: '- This folder is being copied'
@@ -2637,6 +2811,7 @@ osf-components:
         delete_folder: 'Delete folder'
         delete_fail: 'Failed to delete "{fileName}"'
         errors:
+            load_configured_storage_addon: 'Failed to load configured storage addon'
             load_file_list: 'Failed to load files'
             load_file_provider: 'Failed to load the file provider'
             load_file_provider_title: 'Provider error'
@@ -3063,6 +3238,7 @@ settings:
             error: 'Could not update SHARE indexing preference. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
             button-label: 'Update'
     addons:
+        page-title: 'Add-ons'
         title: 'Configure add-on accounts'
     notifications:
         title: Notifications

@@ -37,6 +37,12 @@ export enum PreprintPreregLinkInfoEnum {
     PREREG_BOTH = 'prereg_both',
 }
 
+export const VersionStatusSimpleLabelKey = {
+    [ReviewsState.PENDING]: 'preprints.detail.version_status.pending',
+    [ReviewsState.REJECTED]: 'preprints.detail.version_status.rejected',
+    [ReviewsState.WITHDRAWN]: 'preprints.detail.version_status.withdrawn',
+};
+
 export interface PreprintLicenseRecordModel {
     copyright_holders: string[];
     year: string;
@@ -71,6 +77,8 @@ export default class PreprintModel extends AbstractNodeModel {
     @attr('string') whyNoData!: string | null;
     @attr('string') whyNoPrereg!: string | null;
     @attr('string') preregLinkInfo!: PreprintPreregLinkInfoEnum;
+    @attr('number') version!: number;
+    @attr('boolean') isLatestVersion!: boolean;
 
     @belongsTo('node', { inverse: 'preprints' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
@@ -108,6 +116,9 @@ export default class PreprintModel extends AbstractNodeModel {
     @hasMany('identifiers')
     identifiers!: AsyncHasMany<IdentifierModel>;
 
+    @hasMany('preprint', { inverse: null })
+    versions!: AsyncHasMany<PreprintModel>;
+
     @alias('links.doi') articleDoiUrl!: string | null;
     @alias('links.preprint_doi') preprintDoiUrl!: string;
 
@@ -130,6 +141,14 @@ export default class PreprintModel extends AbstractNodeModel {
         return text
             .replace(/({{year}})/g, year)
             .replace(/({{copyrightHolders}})/g, copyright_holders.join(', '));
+    }
+
+    get currentUserIsAdmin(): boolean {
+        return this.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    get canCreateNewVersion(): boolean {
+        return this.currentUserIsAdmin && this.datePublished && this.isLatestVersion;
     }
 }
 

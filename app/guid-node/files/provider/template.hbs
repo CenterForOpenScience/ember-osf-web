@@ -1,21 +1,16 @@
 {{#unless this.model.providerTask.isRunning}}
-    <StorageProviderManager::ProviderMapper
-        as |mapper|
+    <StorageProviderManager::StorageManager
+        @provider={{this.model.providerTask.value.provider}}
+        @isViewOnly={{this.model.providerTask.value.currentUser.viewOnlyToken}}
+        @configuredStorageAddon={{this.model.configuredStorageAddonTask.value}}
+        as |manager|
     >
-        {{#let (get mapper this.model.providerName) as |ProviderManager|}}
-            <ProviderManager
-                @provider={{this.model.providerTask.value.provider}}
-                @isViewOnly={{this.model.providerTask.value.currentUser.viewOnlyToken}}
-                as |manager|
-            >
-                <div local-class='FileBrowser'>
-                    <FileBrowser
-                        @manager={{manager}}
-                        @selectable={{not this.model.providerTask.value.currentUser.viewOnlyToken}}
-                        @enableUpload={{true}}
-                    />
-                </div>
-            </ProviderManager>
-        {{/let}}
-    </StorageProviderManager::ProviderMapper>
+        <div local-class='FileBrowser'>
+            <FileBrowser
+                @manager={{manager}}
+                @selectable={{not this.model.providerTask.value.currentUser.viewOnlyToken}}
+                @enableUpload={{true}}
+            />
+        </div>
+    </StorageProviderManager::StorageManager>
 {{/unless}}
