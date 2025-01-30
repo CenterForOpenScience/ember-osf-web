@@ -466,10 +466,12 @@ export default class Analytics extends Service {
     async _getDoi(itemGuid: string): Promise<string> {
         const _guid = await this.store.findRecord('guid', itemGuid);
         const _item = await _guid.resolve();
-        const _identifiers = (await _item.identifiers).toArray();
-        for (const _identifier of _identifiers) {
-            if (_identifier.category === 'doi') {
-                return _identifier.value;
+        const _identifiers = (await _item.identifiers)?.toArray();
+        if (_identifiers) {
+            for (const _identifier of _identifiers) {
+                if (_identifier.category === 'doi') {
+                    return _identifier.value;
+                }
             }
         }
         return '';
