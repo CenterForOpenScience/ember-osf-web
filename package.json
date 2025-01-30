@@ -208,6 +208,7 @@
     "ember-tooltips": "^3.6.0",
     "ember-wormhole": "^0.6.0",
     "eslint": "^7.32.0",
+    "@datacite/datacite-tracker": "^0.0.5",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-ember": "^10.5.8",
@@ -269,6 +270,5 @@
     ]
   },
   "dependencies": {
-    "@datacite/datacite-tracker": "^0.0.5"
   }
 }
