@@ -55,6 +55,7 @@
                 @label={{t 'node.left_nav.files'}}
             />
             {{#if this.onFilesRoute}}
+                <FileProviderMenu @node={{this.model.taskInstance.value}} />
                 <div
                     data-test-file-providers-list
                     local-class='FileProvidersList'
