@@ -10,13 +10,14 @@ interface Options {
     acceptedProtocols?: string[];
     translationArgs?: {
         description: string,
+        validationType?: string,
     };
 }
 
 export function validateUrlWithProtocols(options?: Options) {
     return (key: string, newValue: string, _: any, __: any, ___: any) => {
         const acceptedProtocols = options?.acceptedProtocols || [Protocols.http, Protocols.https];
-        const translationArgs = options?.translationArgs || { description: '' };
+        const translationArgs = options?.translationArgs || { description: '', validationType: 'url' };
 
         let url;
         try {
@@ -25,7 +26,7 @@ export function validateUrlWithProtocols(options?: Options) {
             return buildMessage(key, {
                 type: 'url',
                 context: {
-                    type: 'url',
+                    type: translationArgs.validationType || 'url',
                     translationArgs,
                 },
             });
@@ -35,7 +36,7 @@ export function validateUrlWithProtocols(options?: Options) {
             return buildMessage(key, {
                 type: 'url',
                 context: {
-                    type: 'url',
+                    type: translationArgs.validationType || 'url',
                     translationArgs,
                 },
             });
