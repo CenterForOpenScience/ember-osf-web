@@ -51,7 +51,7 @@
                 <div
                     data-test-contributor-caret={{@contributor.id}}
                     data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
-                    aria-label={{if this.showDropdown  
+                    aria-label={{if this.showDropdown
                         (t 'osf-components.contributors.educationAndEmployment.collapse')
                         (t 'osf-components.contributors.educationAndEmployment.expand')
                     }}
@@ -71,7 +71,7 @@
                             @noBackground={{true}}
                             @delete={{fn @manager.removeContributor @contributor}}
                             @modalTitle={{t 'contributor_list.remove_contributor.confirm_remove.title'}}
-                            @modalBody={{t 'contributor_list.remove_contributor.confirm_remove.body'}}
+                            @modalBody={{t 'contributor_list.remove_contributor.confirm_remove.body' type=this.modelName}}
                             @confirmButtonText={{t 'contributor_list.remove_contributor.confirm_remove.button'}}
                         />
                     {{/if}}
@@ -94,7 +94,7 @@
                     {{/each}}
                 {{else}}
                     <li>
-                        {{t 'osf-components.contributors.noEmployment'}}    
+                        {{t 'osf-components.contributors.noEmployment'}}
                     </li>
                 {{/if}}
                 {{#if @contributor.users.education}}
@@ -108,7 +108,7 @@
                         </li>
                     {{/each}}
                 {{else}}
-                    <li>    
+                    <li>
                         {{t 'osf-components.contributors.noEducation'}}
                     </li>
                 {{/if}}
