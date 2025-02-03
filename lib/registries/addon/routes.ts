@@ -49,6 +49,7 @@ export default buildRoutes(function() {
             this.route('detail', { path: '/:recordId' });
             this.route('add');
         });
+        this.route('recent-activity');
     });
 
 
