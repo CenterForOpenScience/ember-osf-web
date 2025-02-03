@@ -31,6 +31,23 @@
             }
         }
     }
+
+    dl {
+        margin-bottom: 10px;
+
+        div {
+            display: flex;
+
+            dt {
+                width: 110px;
+                margin-right: 5px;
+            }
+
+            dd {
+                flex: 1;
+            }
+        }
+    }
 }
 
 .label-danger {
@@ -77,23 +94,6 @@
 
     &.mobile {
         width: 90%;
-    }
-}
-
-dl {
-    margin-bottom: 10px;
-
-    div {
-        display: flex;
-
-        dt {
-            width: 110px;
-            margin-right: 5px;
-        }
-
-        dd {
-            flex: 1;
-        }
     }
 }
 
