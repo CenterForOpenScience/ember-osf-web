@@ -171,7 +171,8 @@ module('Integration | Preprint | Component | author-assertions | link-widget | l
             assert.dom(inputElement).hasValue('');
 
             // And the required text is visible
-            assert.dom('[data-test-validation-errors="value"] p').hasText('This field must be a valid url.');
+            assert.dom('[data-test-validation-errors="value"] p')
+                .hasText('This field must start with http:// or https:// to be a valid url.');
         });
 
 });

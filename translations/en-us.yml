@@ -788,6 +788,7 @@ validationErrors:
     tooLong: '{description} is too long (maximum is {max} characters).'
     tooShort: '{description} is too short (minimum is {min} characters).'
     url: '{description} must be a valid url.'
+    urlPrefix: '{description} must start with http:// or https:// to be a valid url.'
     wrongDateFormat: '{description} must be in the format of {format}.'
     wrongLength: '{description} is the wrong length (should be {is} characters).'
     year_format: 'Please specify a valid year format (YYYY).'
