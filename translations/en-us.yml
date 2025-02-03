@@ -833,13 +833,17 @@ join_osf:
     learn_more: 'learn more'
     hide_message: 'Hide this message'
 node_card:
-    generic:
-        private_tooltip: 'This project is private'
-        timestamp_label: 'Created:'
+    contributors: 'Contributors:'
+    description: 'Description:'
     fork:
         private_tooltip: 'This fork is private'
         timestamp_label: 'Forked:'
         manage_contributors: 'Manage contributors'
+    generic:
+        private_tooltip: 'This project is private'
+        timestamp_label: 'Created:'
+    last_updated: 'Last updated:'
+    options: Options
     registration:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
@@ -857,18 +861,18 @@ node_card:
             pending_withdraw: 'Pending withdrawal moderation'
             withdrawn: 'Withdrawn'
             archiving: 'Archiving'
-    tags: 'Tags:'
     registration_template: 'Registration template:'
-    contributors: 'Contributors:'
-    description: 'Description:'
-    last_updated: 'Last updated:'
     registry: 'Registry:'
-    options: Options
-    view_button: 'View'
-    update_button: 'Update'
-    view_changes_button: 'Continue update'
+    resource-type: 
+        title: 'Resource Type:'
+        none-selected: 'None selected'
+        show-resource-type: 'Show resource type'
+        hide-resource-type: 'Hide resource type'
     schema_response_error: 'Updates irretreivable.'
-
+    tags: 'Tags:'
+    update_button: 'Update'
+    view_button: 'View'
+    view_changes_button: 'Continue update'
 forks:
     fork: Fork
     title: Forks
@@ -894,6 +898,7 @@ node:
         analytics: Analytics
         registrations: Registrations
         contributors: Contributors
+        components: Components
         add-ons: Add-ons
         settings: Settings
     projects:
@@ -902,6 +907,9 @@ node:
         load-more:
             loading: Loading…
             load-more: 'Load More Projects'
+    components: 
+        title: Components
+        no_components: 'This project has no components.'
     registrations:
         new_registration_modal:
             title: Register
@@ -970,6 +978,8 @@ institutions:
         title: '{institutionName} Dashboard'
         updated: 'Updated {date}'
         download_past_reports_label: 'Previous reports'
+        aira_label_project_request_textarea: 'Project Request Message Text Area'
+        aira_label_user_message_textarea: 'User Message Text Area'
         download_dropdown_label: 'Download data'
         download_csv: 'Download CSV'
         download_tsv: 'Download TSV'
@@ -1054,14 +1064,15 @@ institutions:
               request_label: 'I am an admin associated with {institution} and I would like to be added to your project as a non-bibliographic contributor in order to assist with metadata curation please add me with the following permissions.'
               opening_message_label: 'Comments:'
               closing_message_label: 'Sincerely Yours,<br> {adminName}'
-              message_sent_success: 'Request has been sent'
+              message_sent_success: 'Message has been sent'
+              request_sent_success: 'Request has been sent or updated'
               message_sent_failed: 'Request has failed to send. If the issue persists contact your administrator'
               send: 'Send'
               cc_label: 'CC sender'
               reply_to_label: 'Allow reply to sender address'
               send_message_prompt:
                 title: "Can't Request Access"
-                message: "This user has their request access feature turned off. Reach out to the user via the User tab by pressing the 'Back' button below."
+                message: 'The user has their request access feature turned off. Reach out to the user by sending an email message by pressing the “Back" button below.'
                 back: "Back"
             table-headers:
                 title: Title
@@ -2051,6 +2062,7 @@ registries:
         add_license: 'Add license'
         license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/article/148-licensing" target="_blank" rel="noopener noreferrer">help guide</a>.'
         affiliated_institutions: 'Affiliated institutions'
+        affiliated_institutions_context: 'This is a service provided by the OSF and is automatically applied to your registration. If you are not sure if your institution has signed up for this service, you can look for their name in this list.'
         category: Category
         choose_license: 'Choose a License'
         citation: Citation
@@ -2060,6 +2072,7 @@ registries:
         date_registered: 'Date registered'
         embargo_end_date: 'Date embargo ends'
         description: Description
+        description_context: 'Write a detailed description of your research project, including its purpose and any expected outcomes. This should give readers a comprehensive overview of your work.'
         disciplines: Disciplines
         edit_field: 'Edit {field}'
         license: License
@@ -2086,8 +2099,11 @@ registries:
         show_less: 'Show less'
         show_more: 'Show more'
         subjects: Subjects
+        subjects_context: 'Identify the main subject areas that your research pertains to. This helps categorize your work and makes it easier for others in your field to find and reference it.'
         tags: Tags
+        tags_context: 'Enter specific keywords that describe the key elements and concepts of your research. These keywords will improve the discoverability of your registration in search results and databases.'
         title: Title
+        title_context: 'Provide a concise and descriptive title for your registration that accurately reflects the main focus of your research. A clear and specific title will help others quickly understand the essence of your study.'
         edit_description:
             success: 'Description successfully updated.'
             error: 'Unable to save description.'
