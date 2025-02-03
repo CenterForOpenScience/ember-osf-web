@@ -1,0 +1,8 @@
+{{t 'registries.overview.recent-activity.title'}}
+
+
+{{#each this.model.logs as |log| }}
+    <div>
+        {{log.action}}
+    </div>
+{{/each}}
