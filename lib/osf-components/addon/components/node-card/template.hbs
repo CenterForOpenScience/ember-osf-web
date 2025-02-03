@@ -361,16 +361,15 @@
                                     </div>
                                 </panel.body>
                             </CpPanel>
-                        {{else}}
-                            <div>
-                                <dt data-test-description-label>
-                                    {{t 'node_card.description'}}
-                                </dt>
-                                <dd data-test-description local-class='description'>
-                                    {{@node.description}}
-                                </dd>
-                            </div>
                         {{/if}}
+                        <div>
+                            <dt data-test-description-label>
+                                {{t 'node_card.description'}}
+                            </dt>
+                            <dd data-test-description local-class='description'>
+                                {{@node.description}}
+                            </dd>
+                        </div>
                         {{#if (and this.showTags @node.tags)}}
                             <div>
                                 <dt local-class='tags' data-test-tags-label>
