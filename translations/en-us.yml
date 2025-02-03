@@ -2214,6 +2214,8 @@ registries:
             no_linked_nodes: 'This registration has no linked projects or components.'
             linked_registrations: 'Linked registrations'
             no_linked_registrations: 'This registration has no linked registrations.'
+        recent-activity:
+            title: 'Recent Activity'
         contributors:
             title: Contributors
             gravatar_alt: 'Gravatar for {name}'
