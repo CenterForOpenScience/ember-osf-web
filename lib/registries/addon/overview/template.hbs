@@ -144,6 +144,11 @@
                     <leftNav.link data-analytics-name='Analytics' @route='registries.overview.analytics'
                         @models={{array this.registration.id}} @icon='chart-bar'
                         @label={{t 'registries.overview.external_links.analytics'}} />
+
+                    <leftNav.link data-analytics-name='Recent Activity' @route='registries.overview.recent-activity'
+                        @models={{array this.registration.id}} @icon='clock'
+                        @label={{t 'registries.overview.recent-activity.title'}} />
+
                     <leftNav.link data-analytics-name='Comments' @route='registries.overview.comments'
                         @models={{array this.registration.id}} @icon='comments'
                         @label={{t 'registries.overview.comments.title'}} @count={{this.commentsCount}} />
