@@ -6,7 +6,7 @@ import RouteInfo from '@ember/routing/-private/route-info';
 import Service, { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
-import { restartableTask, waitForQueue } from 'ember-concurrency';
+import { restartableTask, task, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-osf-web/config/environment';
@@ -18,6 +18,7 @@ import moment from 'moment-timezone';
 import FileModel from 'ember-osf-web/models/file';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 const {
     metricsAdapters,
@@ -254,14 +255,13 @@ export default class Analytics extends Service {
         });
     }
 
-    @restartableTask
+    @task
     @waitFor
     async _trackDownloadTask(itemGuid: string, doi?: string) {
         const _doi = doi || await this._getDoiForGuid(itemGuid);
         if (_doi) {
             this._sendDataciteUsage(_doi, DataCiteMetricType.Download);
         }
-        // TODO: this._sendCountedUsage(...) with itemGuid? (or don't)
     }
 
     @action
@@ -444,23 +444,26 @@ export default class Analytics extends Service {
         doi: string,
         metricType: DataCiteMetricType,
     ) {
-        const { dataCiteTrackerUrl, dataciteTrackerRepoId } = config.OSF;
-        if (dataciteTrackerRepoId && doi) {
-            const payload = {
-                n: metricType,
-                u: location.href,
-                i: dataciteTrackerRepoId,
-                p: doi,
-            };
+        try {
+            const { dataCiteTrackerUrl, dataciteTrackerRepoId } = config.OSF;
+            if (dataciteTrackerRepoId && doi) {
+                const payload = {
+                    n: metricType,
+                    u: location.href,
+                    i: dataciteTrackerRepoId,
+                    p: doi,
+                };
 
-            await fetch(dataCiteTrackerUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-            // TODO: handle response
+                await fetch(dataCiteTrackerUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+            }
+        } catch (e) {
+            captureException(e);
         }
     }
 
