@@ -28,8 +28,6 @@ const {
             cookieConsent: cookieConsentCookie,
             keenSessionId: sessionIdCookie,
         },
-        dataciteTrackerRepoId,
-        dataCiteTrackerUrl,
     },
 } = config;
 
@@ -446,6 +444,7 @@ export default class Analytics extends Service {
         doi: string,
         metricType: DataCiteMetricType,
     ) {
+        const { dataCiteTrackerUrl, dataciteTrackerRepoId } = config.OSF;
         if (dataciteTrackerRepoId && doi) {
             const payload = {
                 n: metricType,
@@ -453,6 +452,7 @@ export default class Analytics extends Service {
                 i: dataciteTrackerRepoId,
                 p: doi,
             };
+
             await fetch(dataCiteTrackerUrl, {
                 method: 'POST',
                 headers: {
