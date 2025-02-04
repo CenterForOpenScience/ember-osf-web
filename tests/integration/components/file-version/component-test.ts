@@ -19,7 +19,7 @@ module('Integration | Component | file-version', hooks => {
     const date = '2020-02-02T02:02:02.000Z';
     test('it renders', async function(assert) {
         const mirageFile = server.create('file');
-        const file = await this.store.findRecord('file', mirageFile.id);
+        const file = await this.owner.lookup('service:store').findRecord('file', mirageFile.id);
         const version = {
             id: '1',
             attributes: {
