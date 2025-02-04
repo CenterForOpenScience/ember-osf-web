@@ -1,5 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
@@ -11,13 +12,14 @@ import { click } from 'ember-osf-web/tests/helpers';
 
 module('Integration | Component | file-version', hooks => {
     setupRenderingTest(hooks);
+    setupMirage(hooks);
     setupIntl(hooks);
 
     const changeVersionStub = sinon.stub();
-    const mirageFile = server.create('file');
     const date = '2020-02-02T02:02:02.000Z';
     test('it renders', async function(assert) {
-        const file = await this.store.findRecord('file', mirageFile.id);
+        const mirageFile = server.create('file');
+        const file = await this.owner.lookup('service:store').findRecord('file', mirageFile.id);
         const version = {
             id: '1',
             attributes: {
