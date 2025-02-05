@@ -1,1 +1,8 @@
+<div local-class='activity-log-container'>
+    <div local-class='activity'>
         {{@log.action}}
+    </div>
+    <div local-class='timestamp'>
+        {{if @log.date (moment-format @log.date 'YYYY-MM-DD HH:MM A' timeZone='Europe/London')}}
+    </div>
+</div>
