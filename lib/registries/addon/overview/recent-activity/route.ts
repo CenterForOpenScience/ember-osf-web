@@ -6,23 +6,9 @@ export default class RecentActivityRoute extends Route {
     @service store!: Store;
     @service router!: RouterService;
 
-    // async model(params: { recordId: string}) {
     async model() {
-        const overview = this.modelFor('overview');
-        const registration = await overview.taskInstance;
-
-        const logs = await registration.queryHasMany('logs', {
-            'page[size]': 20,
-        });
-
-        /*
-        for(const log of logs) {
-            console.log(log.params);
-        }
-            */
-
         return {
-            logs,
+            registration: this.modelFor('overview'),
         };
     }
 }
