@@ -1,18 +1,20 @@
-<h3 >
-    {{t 'activity-log.title'}}
-</h3>
+<section local-class='activity-log-container'>
+    <h3 >
+        {{t 'activity-log.title'}}
+    </h3>
 
-{{#paginated-list/has-many
-    modelTaskInstance=@registration.taskInstance relationshipName='logs'
-    as |list|
-}}
+    {{#paginated-list/has-many
+        modelTaskInstance=@registration.taskInstance relationshipName='logs'
+        as |list|
+    }}
 
-    {{#list.item as |log|}}
-        <ActivityLog::-Components::ActivityLogDisplay @log={{log}} />
-    {{/list.item}}
-    {{#list.empty}}
-        <p data-test-no-components>
-            {{t 'activity-log.no_logs'}}
-        </p>
-    {{/list.empty}}
-{{/paginated-list/has-many}}
+        {{#list.item as |log|}}
+            <ActivityLog::-Components::ActivityLogDisplay @log={{log}} />
+        {{/list.item}}
+        {{#list.empty}}
+            <p data-test-no-components>
+                {{t 'activity-log.no_logs'}}
+            </p>
+        {{/list.empty}}
+    {{/paginated-list/has-many}}
+</section>

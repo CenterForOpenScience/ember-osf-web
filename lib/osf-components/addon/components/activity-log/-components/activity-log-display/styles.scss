@@ -1,13 +1,28 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors
 
-.recent-activity-container {
-    margin: 30px;
-    padding: 30px;
-    padding-top: 0;
+.activity-log-container {
+    width: 100%;
+    height: 50px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
+
+    .activity {
+        height: 50px;
+        width: calc(100% - 150px);
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .timestamp {
+        height: 50px;
+        width: 150px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+    }
 
     &.mobile {
         margin-top: 0;
