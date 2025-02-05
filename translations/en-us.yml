@@ -403,6 +403,11 @@ cedar:
         draft-explanation: "This metadata has a status of 'Draft' and is not publicly viewable. To 'Publish' this metadata please fill in all required fields and resubmit the data."
         published-explanation: "This metadata has a status of 'Published' and is publicly viewable."
 
+activity-log:
+    title: 'Recent Activity'
+    no_logs: 'This {parent} has no activity logs.'
+    registration: 'Registration'
+
 search:
     page-title: 'Search'
     index-card:
