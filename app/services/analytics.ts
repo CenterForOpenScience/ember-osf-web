@@ -307,8 +307,8 @@ export default class Analytics extends Service {
         taskFor(this.trackPageTask).perform(pagePublic, resourceType, withdrawn, version);
     }
 
-    trackDownload(_: string, __?: string) {
-        // taskFor(this._trackDownloadTask).perform(itemGuid, doi);
+    trackDownload(itemGuid: string, doi?: string) {
+        taskFor(this._trackDownloadTask).perform(itemGuid, doi);
     }
 
     trackFromElement(target: Element, initialInfo: InitialEventInfo) {
