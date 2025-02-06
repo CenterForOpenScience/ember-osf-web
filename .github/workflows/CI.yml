@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
@@ -36,7 +36,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
@@ -54,7 +54,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
@@ -72,7 +72,7 @@ jobs:
         name: dist
         path: ./dist
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
@@ -96,7 +96,7 @@ jobs:
         name: dist
         path: ./dist
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
@@ -120,7 +120,7 @@ jobs:
         name: dist
         path: ./dist
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
@@ -144,7 +144,7 @@ jobs:
         name: dist
         path: ./dist
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
@@ -164,7 +164,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
@@ -182,7 +182,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
     - id: cache-node-modules
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./node_modules
         key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
