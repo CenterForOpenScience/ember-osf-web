@@ -431,8 +431,13 @@ export default class Analytics extends Service {
     async _sendDataciteView(): Promise<void> {
         const { itemGuid } = this._getRouteMetricsMetadata();
         if (itemGuid) {
-            const doi = await this._getDoiForGuid(itemGuid);
-            this._sendDataciteUsage(doi, DataCiteMetricType.View);
+            try {
+                const doi = await this._getDoiForGuid(itemGuid);
+                this._sendDataciteUsage(doi, DataCiteMetricType.View);
+            } catch (e) {
+                // eslint-disable-next-line no-console
+                console.error(e);
+            }
         }
     }
 
