@@ -45,6 +45,12 @@ export default class ContributorsManager extends Component {
         return this.currentPage <= this.totalPage;
     }
 
+    get modelName() {
+        const modelName = (this.node || this.draftRegistration)?.modelName
+            || this.preprint?.provider.get('documentType')?.singular || '';
+        return modelName.replace('-', ' ');
+    }
+
     @computed('fetchContributors.isRunning', 'hasMore', 'isDragging')
     get shouldShowLoadMore() {
         return !taskFor(this.fetchContributors).isRunning

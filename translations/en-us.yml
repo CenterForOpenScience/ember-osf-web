@@ -1118,7 +1118,7 @@ contributor_list:
     remove_contributor:
         confirm_remove:
             title: 'Remove me'
-            body: 'Are you sure you want to remove yourself as a contributor on this draft registration?'
+            body: 'Are you sure you want to remove yourself as a contributor on this {type}?'
             button: 'Remove me'
         button_label: 'Remove me'
         success: 'You have successfully removed yourself as a contributor.'
