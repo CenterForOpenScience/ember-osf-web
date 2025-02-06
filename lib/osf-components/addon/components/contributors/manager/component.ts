@@ -46,7 +46,8 @@ export default class ContributorsManager extends Component {
     }
 
     get modelName() {
-        const modelName = (this.node || this.draftRegistration || this.preprint || {}).modelName || '';
+        const modelName = (this.node || this.draftRegistration)?.modelName
+            || this.preprint?.provider.get('documentType')?.singular || '';
         return modelName.replace('-', ' ');
     }
 
