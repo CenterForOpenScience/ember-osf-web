@@ -201,7 +201,7 @@ export default class Analytics extends Service {
         await this._sendCountedUsage(this._getPageviewPayload());
 
         // datacite usage tracker
-        // this._sendDataciteView();
+        this._sendDataciteView();
 
         const eventParams = {
             page: this.router.currentURL,
