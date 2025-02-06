@@ -201,7 +201,7 @@ export default class Analytics extends Service {
         await this._sendCountedUsage(this._getPageviewPayload());
 
         // datacite usage tracker
-        this._sendDataciteView();
+        // this._sendDataciteView();
 
         const eventParams = {
             page: this.router.currentURL,
@@ -307,8 +307,8 @@ export default class Analytics extends Service {
         taskFor(this.trackPageTask).perform(pagePublic, resourceType, withdrawn, version);
     }
 
-    trackDownload(itemGuid: string, doi?: string) {
-        taskFor(this._trackDownloadTask).perform(itemGuid, doi);
+    trackDownload(_: string, __?: string) {
+        // taskFor(this._trackDownloadTask).perform(itemGuid, doi);
     }
 
     trackFromElement(target: Element, initialInfo: InitialEventInfo) {
