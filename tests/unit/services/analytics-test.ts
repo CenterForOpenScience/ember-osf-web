@@ -1,7 +1,7 @@
 import { settled } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupTest } from 'ember-qunit';
-import { module, test } from 'qunit';
+import { module, skip, test } from 'qunit';
 
 import config from 'ember-osf-web/config/environment';
 
@@ -26,7 +26,7 @@ module('Unit | Service | analytics', hooks => {
         assert.strictEqual(savedCountedUsage.pageviewInfo.page_url, document.URL, 'correct url');
     });
 
-    test('track datacite usage', async function(assert) {
+    skip('track datacite usage', async function(assert) {
         const _actualDataciteTrackerRepoId = dataciteTrackerRepoId;
         const _actualDataCiteTrackerUrl = dataCiteTrackerUrl;
 

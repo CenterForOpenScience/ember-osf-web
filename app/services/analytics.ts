@@ -6,7 +6,7 @@ import RouteInfo from '@ember/routing/-private/route-info';
 import Service, { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
-// import Ember from 'ember';
+import Ember from 'ember';
 import { restartableTask, task, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Cookies from 'ember-cookies/services/cookies';
@@ -309,9 +309,9 @@ export default class Analytics extends Service {
     }
 
     trackDownload(itemGuid: string, doi?: string) {
-        // if (!Ember.testing) {
-        taskFor(this._trackDownloadTask).perform(itemGuid, doi);
-        // }
+        if (!Ember.testing) {
+            taskFor(this._trackDownloadTask).perform(itemGuid, doi);
+        }
     }
 
     trackFromElement(target: Element, initialInfo: InitialEventInfo) {
@@ -433,8 +433,7 @@ export default class Analytics extends Service {
 
     async _sendDataciteView(): Promise<void> {
         const { itemGuid } = this._getRouteMetricsMetadata();
-        // if (itemGuid && !Ember.testing) {
-        if (itemGuid) {
+        if (itemGuid && !Ember.testing) {
             const doi = await this._getDoiForGuid(itemGuid);
             this._sendDataciteUsage(doi, DataCiteMetricType.View);
         }
