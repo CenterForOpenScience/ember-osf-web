@@ -1,8 +1,12 @@
-<div local-class='activity-log-container'>
-    <div local-class='activity'>
-        {{@log.action}}
+{{#if this.log}}
+    <div local-class='activity-log-container'>
+        <div local-class='activity' data-test-action-text>
+            {{this.activity}}
+        </div>
+        <div local-class='timestamp' data-test-action-date>
+            {{if @log.date (moment-format @log.date 'YYYY-MM-DD HH:MM A' timeZone='Europe/London')}}
+        </div>
     </div>
-    <div local-class='timestamp'>
-        {{if @log.date (moment-format @log.date 'YYYY-MM-DD HH:MM A' timeZone='Europe/London')}}
-    </div>
-</div>
+{{else}}
+    <LoadingIndicator @dark={{true}} @inline={{true}} />
+{{/if}}
