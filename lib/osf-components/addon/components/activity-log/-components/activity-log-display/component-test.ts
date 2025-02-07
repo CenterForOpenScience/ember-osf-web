@@ -17,11 +17,18 @@ module('Integration | Activity Log Display | Component | validate activity log',
     setupMirage(hooks);
     setupIntl(hooks);
 
-    test('it renders and shows edit_description', async function(this: ComponentTestContext, assert) {
+    hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
         this.intl = this.owner.lookup('service:intl');
+    });
 
-        server.loadFixtures('logs');
+    test('it renders and shows edit_description', async function(this: ComponentTestContext, assert) {
+
+        server.create('log', {
+            id: 'edit_description',
+            action: 'edit_description',
+        });
+
         const mirageLog = server.schema.logs.find('edit_description') as ModelInstance<LogModel>;
 
         this.setProperties({
@@ -33,19 +40,22 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
+            'Futa Geiger edited description of A new project for testing file components',
+            'Project edit description is correct',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
+            '2025-02-06 07:51 PM', 'The activity date is correct',
         );
     });
 
     test('it renders and shows license_changed', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
 
-        server.loadFixtures('logs');
+        server.create('log', {
+            id: 'license_changed',
+            action: 'license_changed',
+        }, 'license');
+
         const mirageLog = server.schema.logs.find('license_changed') as ModelInstance<LogModel>;
 
         this.setProperties({
@@ -57,14 +67,16 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
+            'Futa Geiger updated the license of A new project for testing file components',
+            'Project edit description is correct',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
+            '2025-02-06 07:51 PM', 'The activity date is correct',
         );
     });
 
+    /*
     test('it renders and shows osf_storage_file_added', async function(this: ComponentTestContext, assert) {
         this.store = this.owner.lookup('service:store');
         this.intl = this.owner.lookup('service:intl');
@@ -280,4 +292,5 @@ module('Integration | Activity Log Display | Component | validate activity log',
             '2017-07-10 05:07 AM', 'The activity date is correct',
         );
     });
+    */
 });

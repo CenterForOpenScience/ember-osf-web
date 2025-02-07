@@ -502,7 +502,6 @@ activity-log:
         addon_removed:    '{user} removed addon {addon} from {node}'
         checked_in:   '{user} checked in {kind} {path} to {node}'
         checked_out:  '{user} checked out {kind} {path} from {node}'
-        coi_statement_updated: '{user} changed the conflict of interest statement for {preprint}.'
         comment_added:    '{user} added a comment {comment_location} in {node}'
         comment_removed:  '{user} deleted a comment {comment_location} in {node}'
         comment_restored:  '{user} restored a comment {comment_location}  in {node}'
@@ -511,6 +510,9 @@ activity-log:
         contributor_removed:  '{user} removed {contributors} as contributor(s) from {node}'
         edit_title:   '{user} changed the title from {title_original} to {title_new}'
         file_removed:     '{user} removed {path_type} {path} from {node}'
+
+
+        coi_statement_updated: '{user} changed the conflict of interest statement for {preprint}.'
         group_added:    '{user} added {group} to {node}'
         group_removed:  '{user} removed {group} from {node}'
         group_updated:   '{user} changed {group} permissions to {node}'

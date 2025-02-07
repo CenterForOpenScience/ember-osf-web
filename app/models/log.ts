@@ -17,19 +17,20 @@ export interface LogParamUrls {
 
 export interface LogParamModel {
     contributors: string[];
-    comment_location: string;
-    // @attr('object', {snakifyForApi: true}) operationResult!: OperationResult;
-    params_node: LogParamNodeModel;
-    params_project: string;
+    commentLocation: string;
+    paramsNode: LogParamNodeModel;
+    paramsProject: string;
     pointer: string;
-    preprint_provider: string;
+    preprintProvider: string;
+    license: string;
+    tag: string;
     urls: UserLinks;
 }
 
 export default class LogModel extends OsfModel {
     @attr('date') date!: Date;
     @attr('fixstring') action!: string;
-    @attr('object') params!: LogParamModel;
+    @attr('object', {snakifyForApi: true}) params!: LogParamModel;
 
     @belongsTo('node', { inverse: null })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
