@@ -26,7 +26,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
 
     private buildParam(log: LogModel): ParamModel {
         return {
-            node: log.params.params_node.title,
+            node: log.params.paramsNode.title,
             fullName: this.log.user.get('fullName'),
         };
     }
