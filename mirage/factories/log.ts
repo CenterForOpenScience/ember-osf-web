@@ -1,8 +1,7 @@
 import { Factory, trait, Trait } from 'ember-cli-mirage';
-import faker from 'faker';
 import LogModel from 'ember-osf-web/models/log';
 
-import { guid, guidAfterCreate } from './utils';
+import { guidAfterCreate } from './utils';
 
 export interface LogsTraits {
     license: Trait;
@@ -11,45 +10,45 @@ export interface LogsTraits {
 }
 
 export default Factory.extend<LogModel & LogsTraits>({
-    id: guid('log'),
-    afterCreate: guidAfterCreate,
-    action: faker.lorem.sentence(),
-    date: faker.date.past(2, new Date(2019, 0, 0)),
+    id: 'unknown',
+    action: 'unknown',
+    date: new Date('2025-02-06T19:51:35.017269Z'),
     params: Object({
         contributors: [],
-        params_node: {
+        paramsNode: {
             id: 'c2het',
             title: 'A new project for testing file components',
         },
-        params_project: null,
+        paramsProject: null,
         path: '/hat.jpg',
         pointer: null,
-        preprint_provider: null,
+        preprintProvider: null,
         urls: {
             view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
             download: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het?action=download',
         },
     }),
 
+
+    afterCreate(log, server) {
+        guidAfterCreate(log, server);
+
+        const user = server.create('user', {
+            givenName: 'Futa',
+            familyName: 'Geiger',
+        });
+
+        log.update({
+            user,
+        });
+    },
+
     license: trait<LogModel>({
         afterCreate(log) {
+            const params = log.params;
+            params.license = 'Apache License 2.0';
             log.update({
-                params: {
-                    contributors: [],
-                    license: 'Apache License 2.0',
-                    params_node: {
-                        id: 'c2het',
-                        title: 'A new project for testing file components',
-                    },
-                    params_project: null,
-                    path: '/hat.jpg',
-                    pointer: null,
-                    preprint_provider: null,
-                    urls: {
-                        view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
-                        download: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het?action=download',
-                    },
-                },
+                params,
             });
         },
     }),
@@ -103,12 +102,12 @@ export default Factory.extend<LogModel & LogsTraits>({
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        logs: LogModel;
+        log: LogModel;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        logs: LogModel;
+        log: LogModel;
     } // eslint-disable-line semi
 }

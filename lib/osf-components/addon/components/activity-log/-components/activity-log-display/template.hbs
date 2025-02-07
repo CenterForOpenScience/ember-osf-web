@@ -4,7 +4,7 @@
             {{this.activity}}
         </div>
         <div local-class='timestamp' data-test-action-date>
-            {{if @log.date (moment-format @log.date 'YYYY-MM-DD HH:MM A' timeZone='Europe/London')}}
+            {{if @log.date (moment-format @log.date 'YYYY-MM-DD hh:mm A' timeZone='Europe/London')}}
         </div>
     </div>
 {{else}}
