@@ -23,7 +23,7 @@ export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
     @waitFor
     async fileProviderTask(guidRouteModel: GuidRouteModel<NodeModel>, fileProviderId: string) {
         const node = await guidRouteModel.taskInstance;
-        await taskFor(node.getEnabledAddons).perform();
+        // await taskFor(node.getEnabledAddons).perform();
         try {
             const fileProviders = await node.queryHasMany(
                 'files',
@@ -61,12 +61,12 @@ export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
         }
     }
 
-    model(params: { providerId: string }) {
+    async model(params: { providerId: string }) {
         const node = this.modelFor('guid-node');
-        let configuredStorageAddonTask;
+        let configuredStorageAddon;
         let fileProviderId = params.providerId;
         if(this.features.isEnabled('gravy_waffle')){
-            configuredStorageAddonTask = taskFor(this.configuredStorageAddonTask).perform(params.providerId);
+            configuredStorageAddon = await taskFor(this.configuredStorageAddonTask).perform(params.providerId);
             if (params.providerId === 'osfstorage'){
                 fileProviderId = node.guid + ':' + params.providerId;
             }
@@ -74,7 +74,7 @@ export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
             fileProviderId = node.guid + ':' + params.providerId;
         }
         return {
-            configuredStorageAddonTask,
+            configuredStorageAddon,
             node,
             providerName: params.providerId,
             providerTask: taskFor(this.fileProviderTask).perform(node, fileProviderId),
