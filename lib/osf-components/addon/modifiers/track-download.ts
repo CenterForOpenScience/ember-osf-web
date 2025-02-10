@@ -40,7 +40,7 @@ export default class TrackDownloadModifier extends Modifier<TrackDownloadModifie
 
     modify(element: any, [osfguid]: [string], {doi}: {doi?: string}): void {
         const doTrackDownload = () => this.analytics.trackDownload(osfguid, doi);
-        this.addEventListener(element, event, doTrackDownload);
+        this.addEventListener(element, 'click', doTrackDownload);
     }
 
     // methods for reuse
