@@ -18,13 +18,14 @@ export interface LogParamUrls {
 export interface LogParamModel {
     contributors: string[];
     commentLocation: string;
+    guid: string;
+    license: string;
     paramsNode: LogParamNodeModel;
     paramsProject: string;
     path: string;
     pathType: string;
     pointer: string;
     preprintProvider: string;
-    license: string;
     tag: string;
     urls: UserLinks;
 }

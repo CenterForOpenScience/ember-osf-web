@@ -9,6 +9,7 @@ export default Factory.extend<LogModel >({
     date: new Date('2025-02-06T19:51:35.017269Z'),
     params: Object({
         contributors: [],
+        guid: 'the guid',
         paramsNode: {
             id: 'c2het',
             title: 'A new project for testing file components',
