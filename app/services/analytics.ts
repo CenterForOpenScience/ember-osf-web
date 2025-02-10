@@ -51,6 +51,7 @@ export interface InitialEventInfo {
 
 export interface RouteMetricsMetadata {
     itemGuid?: string;
+    itemDoi?: string;
     isSearch?: boolean;
     providerId?: string;
 }
@@ -202,7 +203,9 @@ export default class Analytics extends Service {
         await this._sendCountedUsage(this._getPageviewPayload());
 
         // datacite usage tracker
-        this._sendDataciteView();
+        if (!Ember.testing) {
+            this._sendDataciteView();
+        }
 
         const eventParams = {
             page: this.router.currentURL,
@@ -432,10 +435,10 @@ export default class Analytics extends Service {
     }
 
     async _sendDataciteView(): Promise<void> {
-        const { itemGuid } = this._getRouteMetricsMetadata();
-        if (itemGuid && !Ember.testing) {
-            const doi = await this._getDoiForGuid(itemGuid);
-            this._sendDataciteUsage(doi, DataCiteMetricType.View);
+        const { itemGuid, itemDoi } = this._getRouteMetricsMetadata();
+        const _doi = itemDoi || await this._getDoiForGuid(itemGuid);
+        if (_doi) {
+            this._sendDataciteUsage(_doi, DataCiteMetricType.View);
         }
     }
 
@@ -470,17 +473,17 @@ export default class Analytics extends Service {
         }
     }
 
-    async _getDoiForGuid(itemGuid: string): Promise<string> {
-        const _guid = await this.store.findRecord('guid', itemGuid);
-        if (!_guid) {
-            return '';
+    async _getDoiForGuid(itemGuid?: string): Promise<string> {
+        if (itemGuid) {
+            const _guid = await this.store.findRecord('guid', itemGuid);
+            if (_guid) {
+                const _item = await _guid.resolve();
+                if (_item) {
+                    return this._getDoiForItem(_item);
+                }
+            }
         }
-
-        const _item = await _guid.resolve();
-        if (!_item) {
-            return '';
-        }
-        return this._getDoiForItem(_item);
+        return '';
     }
 
     async _getDoiForItem(item: any): Promise<string> {

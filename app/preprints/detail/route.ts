@@ -208,4 +208,14 @@ export default class PreprintsDetail extends Route {
             taskFor(this.setHeadTags).perform(model);
         }
     }
+
+    buildRouteInfoMetadata() {
+        const { preprint } = this.controller.model;
+        return {
+            osfMetrics: {
+                itemGuid: preprint.id,
+                itemDoi: preprint.verifiedDoi,
+            },
+        };
+    }
 }
