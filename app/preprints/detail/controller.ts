@@ -187,11 +187,7 @@ export default class PrePrintsDetailController extends Controller {
     @waitFor
     async createNewVersion() {
         try {
-            const url = this.model.preprint.links.preprint_versions as string;
-            const newVersion = await this.currentUser.authenticatedAJAX({
-                url,
-                type: 'POST',
-            });
+            const newVersion = await this.model.preprint.makeNewVersion();
             this.transitionToRoute('preprints.new-version', this.model.provider.id, newVersion.data.id);
         } catch (e) {
             const errorTitle = this.intl.t('preprints.submit.new-version.error.title');

@@ -1,6 +1,9 @@
 import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+
+import getRelatedHref from 'ember-osf-web/utils/get-related-href';
+
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CitationModel from 'ember-osf-web/models/citation';
 import PreprintRequestModel from 'ember-osf-web/models/preprint-request';
@@ -141,6 +144,14 @@ export default class PreprintModel extends AbstractNodeModel {
 
     get canCreateNewVersion(): boolean {
         return this.currentUserIsAdmin && this.datePublished && this.isLatestVersion;
+    }
+
+    makeNewVersion(): Promise<PreprintModel> {
+        const url = getRelatedHref(this.links.relationships!.versions);
+        return this.currentUser.authenticatedAJAX({
+            url,
+            type: 'POST',
+        });
     }
 }
 
