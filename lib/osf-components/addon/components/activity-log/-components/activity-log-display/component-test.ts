@@ -181,4 +181,30 @@ module('Integration | Activity Log Display | Component | validate activity log',
             '2025-02-06 07:51 PM',
         );
     });
+
+    test('it renders and shows guid_metadata_updated', async function(this: ComponentTestContext, assert) {
+        const action = 'guid_metadata_updated';
+        server.create('log', {
+            id: action,
+            action,
+        });
+
+        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasText(
+            'Futa Geiger updated metadata for the guid',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 07:51 PM',
+        );
+    });
 });

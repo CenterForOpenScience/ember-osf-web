@@ -10,6 +10,7 @@ interface ActivityLogDisplayArgs {
 }
 
 interface ParamModel {
+    guid: string;
     fullName: string;
     license: string;
     node: string;
@@ -30,6 +31,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
 
     private buildParam(log: LogModel): ParamModel {
         return {
+            guid: log.params.guid,
             fullName: this.log.user.get('fullName'),
             node: log.params.paramsNode.title,
             license: log.params.license,
@@ -46,6 +48,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         const logParams = this.buildParam(this.log);
 
         return this.intl.t(`activity-log.activities.${this.log?.action}`, {
+            guid: logParams.guid,
             license: logParams.license,
             node: logParams.node,
             path: logParams.path,
@@ -60,7 +63,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             destination: null,
             forked_from: null,
             group: null,
-            guid: null,
             identifiers: null,
             institution: null,
             kind: null,
