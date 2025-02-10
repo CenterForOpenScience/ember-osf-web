@@ -11,7 +11,11 @@ interface ActivityLogDisplayArgs {
 
 interface ParamModel {
     fullName: string;
+    license: string;
     node: string;
+    path: string;
+    pathType: string;
+    tag: string;
 }
 
 export default class ActivityLogDisplayComponent extends Component<ActivityLogDisplayArgs> {
@@ -26,8 +30,12 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
 
     private buildParam(log: LogModel): ParamModel {
         return {
-            node: log.params.paramsNode.title,
             fullName: this.log.user.get('fullName'),
+            node: log.params.paramsNode.title,
+            license: log.params.license,
+            path: log.params.path,
+            pathType: log.params.pathType,
+            tag: log.params.tag,
         };
     }
 
@@ -38,6 +46,13 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         const logParams = this.buildParam(this.log);
 
         return this.intl.t(`activity-log.activities.${this.log?.action}`, {
+            license: logParams.license,
+            node: logParams.node,
+            path: logParams.path,
+            path_type: logParams.pathType,
+            tag: logParams.tag,
+            user: logParams.fullName,
+            /*
             addon: null,
             anonymous_link: null,
             comment_location: null,
@@ -49,28 +64,24 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             identifiers: null,
             institution: null,
             kind: null,
-            license: null,
             new_identifier: null,
-            node: logParams.node,
             obsolete_identifier: null,
             old_page: null,
             page: null,
-            path: null,
-            path_type: null,
             pointer: null,
             pointer_category: null,
             preprint: null,
             preprint_provider: null,
             source: null,
-            tag: null,
-            template: 'The template',
+            template: null,
             title_new: null,
             title_original: null,
             updated_fields: null,
-            user: logParams.fullName,
             value: null,
             version: null,
+            */
             htmlSafe: true,
+
         }) as string;
     }
 }
