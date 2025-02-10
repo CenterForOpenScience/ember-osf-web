@@ -20,6 +20,8 @@ export interface LogParamModel {
     commentLocation: string;
     paramsNode: LogParamNodeModel;
     paramsProject: string;
+    path: string;
+    pathType: string;
     pointer: string;
     preprintProvider: string;
     license: string;

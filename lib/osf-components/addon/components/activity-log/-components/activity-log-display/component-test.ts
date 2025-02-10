@@ -23,14 +23,13 @@ module('Integration | Activity Log Display | Component | validate activity log',
     });
 
     test('it renders and shows edit_description', async function(this: ComponentTestContext, assert) {
-
+        const action = 'edit_description';
         server.create('log', {
-            id: 'edit_description',
-            action: 'edit_description',
+            id: action,
+            action,
         });
 
-        const mirageLog = server.schema.logs.find('edit_description') as ModelInstance<LogModel>;
-
+        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
         this.setProperties({
             mirageLog,
         });
@@ -49,14 +48,43 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
     });
 
+    /*
+     "action": "guid_metadata_updated",
+            "params": {
+                "contributors": [],
+                "guid": "8bxre",
+                "params_node": {
+                    "id": "8bxre",
+                    "title": "Into embargo"
+                },
+                "params_project": null,
+                "pointer": null,
+                "preprint_provider": null,
+                "title": "Into embargo",
+                "updated_fields": {
+                    "language": {
+                        "new": "abk",
+                        "old": ""
+                    },
+                    "resource_type_general": {
+                        "new": "Audiovisual",
+                        "old": ""
+                    }
+                },
+                "urls": {
+                    "view": "/8bxre"
+                }
+            }
+                */
+
     test('it renders and shows license_changed', async function(this: ComponentTestContext, assert) {
-
+        const action = 'license_changed';
         server.create('log', {
-            id: 'license_changed',
-            action: 'license_changed',
-        }, 'license');
+            id: action,
+            action,
+        });
 
-        const mirageLog = server.schema.logs.find('license_changed') as ModelInstance<LogModel>;
+        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
 
         this.setProperties({
             mirageLog,
@@ -67,7 +95,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger updated the license of A new project for testing file components',
+            'Futa Geiger updated the license of A new project for testing file components Apache License 2.0',
             'Project edit description is correct',
         );
 
@@ -76,13 +104,14 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
     });
 
-    /*
     test('it renders and shows osf_storage_file_added', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
+        const action = 'osf_storage_file_added';
+        server.create('log', {
+            id: action,
+            action,
+        });
 
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('osf_storage_file_added') as ModelInstance<LogModel>;
+        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
 
         this.setProperties({
             mirageLog,
@@ -93,44 +122,22 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
+            'Futa Geiger added file /hat.jpg to OSF Storage in A new project for testing file components',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
-        );
-    });
-
-    test('it renders and shows osf_storage_file_added', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
-
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('osf_storage_file_added') as ModelInstance<LogModel>;
-
-        this.setProperties({
-            mirageLog,
-        });
-        await render(hbs`
-<ActivityLog::-Components::ActivityLogDisplay
-    @log={{this.mirageLog}}
-/>
-`);
-        assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
-        );
-
-        assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
+            '2025-02-06 07:51 PM',
         );
     });
 
     test('it renders and shows osf_storage_file_removed', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
+        const action = 'osf_storage_file_removed';
+        server.create('log', {
+            id: action,
+            action,
+        });
 
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('osf_storage_file_removed') as ModelInstance<LogModel>;
+        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
 
         this.setProperties({
             mirageLog,
@@ -141,116 +148,22 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
+            'Futa Geiger removed file /hat.jpg from OSF Storage in A new project for testing file components',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
-        );
-    });
-
-    test('it renders and shows osf_storage_file_updated', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
-
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('osf_storage_file_updated') as ModelInstance<LogModel>;
-
-        this.setProperties({
-            mirageLog,
-        });
-        await render(hbs`
-<ActivityLog::-Components::ActivityLogDisplay
-    @log={{this.mirageLog}}
-/>
-`);
-        assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
-        );
-
-        assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
-        );
-    });
-
-    test('it renders and shows osf_storage_folder_created', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
-
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('osf_storage_folder_created') as ModelInstance<LogModel>;
-
-        this.setProperties({
-            mirageLog,
-        });
-        await render(hbs`
-<ActivityLog::-Components::ActivityLogDisplay
-    @log={{this.mirageLog}}
-/>
-`);
-        assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
-        );
-
-        assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
-        );
-    });
-
-    test('it renders and shows project_created', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
-
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('project_created') as ModelInstance<LogModel>;
-
-        this.setProperties({
-            mirageLog,
-        });
-        await render(hbs`
-<ActivityLog::-Components::ActivityLogDisplay
-    @log={{this.mirageLog}}
-/>
-`);
-        assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
-        );
-
-        assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
-        );
-    });
-
-    test('it renders and shows subjects_updated', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
-
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('subjects_updated') as ModelInstance<LogModel>;
-
-        this.setProperties({
-            mirageLog,
-        });
-        await render(hbs`
-<ActivityLog::-Components::ActivityLogDisplay
-    @log={{this.mirageLog}}
-/>
-`);
-        assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
-        );
-
-        assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
+            '2025-02-06 07:51 PM',
         );
     });
 
     test('it renders and shows tag_added', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
+        const action = 'tag_added';
+        server.create('log', {
+            id: action,
+            action,
+        });
 
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('project_created') as ModelInstance<LogModel>;
+        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
 
         this.setProperties({
             mirageLog,
@@ -261,36 +174,11 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
+            'Futa Geiger added tag Food to A new project for testing file components',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
+            '2025-02-06 07:51 PM',
         );
     });
-
-    test('it renders and shows tag_removed', async function(this: ComponentTestContext, assert) {
-        this.store = this.owner.lookup('service:store');
-        this.intl = this.owner.lookup('service:intl');
-
-        server.loadFixtures('logs');
-        const mirageLog = server.schema.logs.find('project_created') as ModelInstance<LogModel>;
-
-        this.setProperties({
-            mirageLog,
-        });
-        await render(hbs`
-<ActivityLog::-Components::ActivityLogDisplay
-    @log={{this.mirageLog}}
-/>
-`);
-        assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created The name of the node', 'Project created text is correct',
-        );
-
-        assert.dom('[data-test-action-date]').hasText(
-            '2017-07-10 05:07 AM', 'The activity date is correct',
-        );
-    });
-    */
 });
