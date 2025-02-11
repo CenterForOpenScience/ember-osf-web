@@ -65,6 +65,7 @@
                             <OsfLink
                                 @href={{@item.links.download}}
                                 data-test-download-button
+                                target='_blank'
                                 {{track-download (or @item.fileModel.guid @item.fileModel.target.id)}}
                             >
                                 <FaIcon @icon='download' />
