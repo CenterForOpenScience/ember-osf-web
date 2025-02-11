@@ -136,6 +136,8 @@
                         data-analytics-name='Download all files from current folder'
                         @href={{@manager.currentFolder.links.download}}
                         local-class='DownloadAllFromCurrent'
+                        target='_blank'
+                        {{track-download (or @manager.currentFolder.fileModel.guid @manager.currentFolder.fileModel.target.id)}}
                     >
                         <FaIcon @icon='download' />
                         {{t 'osf-components.file-browser.download_all'}}

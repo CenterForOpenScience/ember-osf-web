@@ -1,10 +1,12 @@
+import { tracked } from '@glimmer/tracking';
+import { getOwner } from '@ember/application';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
-import { tracked } from '@glimmer/tracking';
+
 import { task } from 'ember-concurrency';
 import Features from 'ember-feature-flags';
 import Intl from 'ember-intl/services/intl';
@@ -14,12 +16,11 @@ import Toast from 'ember-toastr/services/toast';
 import config from 'ember-osf-web/config/environment';
 import ContributorModel from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { VersionStatusSimpleLabelKey } from 'ember-osf-web/models/preprint';
-import { PreprintProviderReviewsWorkFlow, ReviewsState } from 'ember-osf-web/models/provider';
+import { ReviewsState, PreprintProviderReviewsWorkFlow } from 'ember-osf-web/models/provider';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
+import { VersionStatusSimpleLabelKey } from 'ember-osf-web/models/preprint';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import { getOwner } from '@ember/application';
 
 
 /**

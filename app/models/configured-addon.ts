@@ -6,6 +6,7 @@ import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import { tracked } from 'tracked-built-ins';
 import { taskFor } from 'ember-concurrency-ts';
 import { ConnectedStorageOperationNames, OperationKwargs } from './addon-operation-invocation';
+import { ConnectedCapabilities } from './authorized-account';
 
 
 export interface ConfiguredAddonEditableAttrs {

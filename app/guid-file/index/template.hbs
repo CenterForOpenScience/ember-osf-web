@@ -32,8 +32,8 @@
                     {{else}}
                         {{#each this.model.file.waterButlerRevisions as |version|}}
                             <FileVersion
+                                @file={{this.model.file}}
                                 @version={{version}}
-                                @downloadUrl={{this.model.file.links.download}}
                                 @changeVersion={{this.changeVersion}}
                             />
                             <hr aria-hidden='true'>

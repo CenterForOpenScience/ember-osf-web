@@ -5,11 +5,12 @@ import { tracked } from '@glimmer/tracking';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
+import FileModel from 'ember-osf-web/models/file';
 import { WaterButlerRevision } from 'ember-osf-web/packages/files/file';
 
 interface Args {
+    file: FileModel;
     version: WaterButlerRevision;
-    downloadUrl: string;
     changeVersion: (version: number) => void;
 }
 
@@ -19,12 +20,12 @@ export default class FileVersionComponent extends Component<Args> {
 
     @tracked dropdownOpen = false;
 
-    @action toggleDropdown() {
-        this.dropdownOpen = !this.dropdownOpen;
+    get versionDownloadUrl() {
+        return `${this.args.file.links.download}?revision=${this.args.version.id}`;
     }
 
-    @action downloadVersion(version: number) {
-        window.location.href = `${this.args.downloadUrl}?revision=${version}`;
+    @action toggleDropdown() {
+        this.dropdownOpen = !this.dropdownOpen;
     }
 
     @action copySuccess() {
