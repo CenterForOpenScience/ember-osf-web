@@ -11,7 +11,6 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
             self: `${apiUrl}/v2/preprints/${model.id}/`,
             doi: model.doi ?  `https://doi.org/${model.doi}` : null,
             preprint_doi: model.isPreprintDoi ? `https://doi.org/10.31219/osf.io/${model.id}` : null,
-            preprint_versions: `${apiUrl}/v2/preprints/${model.id}/versions/`,
         };
     }
 
@@ -168,6 +167,17 @@ export default class PreprintSerializer extends ApplicationSerializer<PreprintMi
                     related: {
                         href: `${apiUrl}/v2/licenses/${id}`,
                         meta: {},
+                    },
+                },
+            };
+        }
+
+        if (model.versions) {
+            relationships.versions = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/preprints/${model.id}/versions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'versions'),
                     },
                 },
             };
