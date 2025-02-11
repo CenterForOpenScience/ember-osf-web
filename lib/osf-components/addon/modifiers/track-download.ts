@@ -10,49 +10,35 @@ interface TrackDownloadModifierArgs {
         Positional: [string],
         Named: {
             doi?: string,
+            event?: string,
         },
     };
-}
-
-function cleanup(instance: TrackDownloadModifier) {
-    const { element, event, handler } = instance;
-
-    if (element && event && handler) {
-        element.removeEventListener(event, handler);
-
-        instance.element = undefined;
-        instance.event = null;
-        instance.handler = null;
-    }
 }
 
 export default class TrackDownloadModifier extends Modifier<TrackDownloadModifierArgs> {
     @service analytics!: Analytics;
 
-    element?: Element;
-    event?: any;
-    handler?: any;
+    _destructors: Array<() => void> = [];
 
     constructor(owner: any, args: any) {
         super(owner, args);
-        registerDestructor(this, cleanup);
+        registerDestructor(this, () => this._run_destructors());
     }
 
     modify(element: any, [osfguid]: [string], {doi, event = 'click'}: {doi?: string, event?: string}): void {
-        const doTrackDownload = () => this.analytics.trackDownload(osfguid, doi);
-        this.addEventListener(element, event, doTrackDownload);
+        this._run_destructors();
+        const _eventHandler = () => this.analytics.trackDownload(osfguid, doi);
+        this._addEventListenerWithDestructor(element, event, _eventHandler);
     }
 
-    // methods for reuse
-    addEventListener = (element: any, event: any, handler: any) => {
-        // Store the current element, event, and handler for when we need to remove
-        // them during cleanup.
-        this.element = element;
-        this.event = event;
-        this.handler = handler;
-
+    _addEventListenerWithDestructor(element: any, event: any, handler: any) {
         element.addEventListener(event, handler);
-    };
+        const _destructor = () => element.removeEventListener(event, handler);
+        this._destructors.push(_destructor);
+    }
 
+    _run_destructors() {
+        this._destructors.forEach(_destruct => _destruct());
+        this._destructors.clear();
+    }
 }
-
