@@ -137,7 +137,7 @@
                         @href={{@manager.currentFolder.links.download}}
                         local-class='DownloadAllFromCurrent'
                         target='_blank'
-                        {{track-download (or @manager.currentFolder.guid @manager.currentFolder.target.id)}}
+                        {{track-download (or @manager.currentFolder.fileModel.guid @manager.currentFolder.fileModel.target.id)}}
                     >
                         <FaIcon @icon='download' />
                         {{t 'osf-components.file-browser.download_all'}}
