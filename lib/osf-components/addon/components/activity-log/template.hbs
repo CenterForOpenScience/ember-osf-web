@@ -9,16 +9,10 @@
         relationshipName='logs'
         as |list|
     }}
-
-
-
         {{#list.item as |log|}}
-            {{log.id}}
             {{#if log.id}}
-                {{log.id}}
                 <ActivityLog::-Components::ActivityLogDisplay @log={{log}} />
             {{else}}
-                {{log.guid}}
                 <LoadingIndicator @dark={{true}} @inline={{true}} />
             {{/if}}
         {{/list.item}}
