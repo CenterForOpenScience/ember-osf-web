@@ -22,7 +22,6 @@ interface ActivityLogDisplayArgs {
  * The Param Model
  */
 interface ParamModel {
-    guid: string;
     fullName: string;
     license: string;
     node: string;
@@ -99,9 +98,8 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         return {
             anonymousLink: this.log.params.anonymousLink ? 'an anonymous' : 'a',
             fullName:  this.buildFullNameUrl(),
-            guid: this.log.params.guid,
             license: this.log.params.license,
-            node: this.log.params.paramsNode.title,
+            node:  this.buildNodeUrl(),
             path: this.log.params.path,
             pathType: this.log.params.pathType,
             tag: this.log.params.tag,
@@ -139,7 +137,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
 
         const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
             anonymous_link: logParams.anonymousLink,
-            guid: logParams.guid,
             license: logParams.license,
             node: logParams.node,
             path: logParams.path,
@@ -177,6 +174,20 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
 
         return `<span>${translation}</span>`;
 
+    }
+
+    /**
+     * buildNodeUrl
+     *
+     * @description Abstracted method to build the node ahref
+     *
+     * @returns a formatted string
+     */
+    private buildNodeUrl(): string {
+        if (this.log?.params?.paramsNode) {
+            return this.buildAHrefElement(`/${this.log.params.paramsNode.id}`, this.log.params.paramsNode.title);
+        }
+        return '';
     }
 
     /**
