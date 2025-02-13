@@ -1,10 +1,20 @@
 import { Factory } from 'ember-cli-mirage';
 import LogModel from 'ember-osf-web/models/log';
+import { NodeCategory } from 'ember-osf-web/models/node';
 
-import { guidAfterCreate } from './utils';
+import { guid, guidAfterCreate } from './utils';
 
-export default Factory.extend<LogModel >({
-    id: 'unknown',
+export interface MirageLogModel extends LogModel {
+    anonymousLink: boolean;
+    nodeId: number;
+    userId: number;
+    linkedNodeId:number;
+    originalNodeId: number;
+    targetType: string;
+}
+
+export default Factory.extend<MirageLogModel>({
+    id: guid('log'),
     action: 'unknown',
     date: new Date('2025-02-06T19:51:35.017269Z'),
     params: Object({
@@ -21,6 +31,7 @@ export default Factory.extend<LogModel >({
         pointer: null,
         license: 'Apache License 2.0',
         preprintProvider: null,
+        anonymousLink: true,
         urls: {
             view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
             download: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het?action=download',
@@ -36,8 +47,15 @@ export default Factory.extend<LogModel >({
             familyName: 'Geiger',
         });
 
+        const linkedNode = server.create('node', {
+            description: 'This is the node description',
+            title: 'The linked node for testing',
+            category: NodeCategory.Analysis,
+        });
+
         log.update({
             user,
+            linkedNode,
         });
     },
 });

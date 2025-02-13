@@ -1,38 +1,54 @@
 import { ModelInstance } from 'ember-cli-mirage';
-import LogModel from 'ember-osf-web/models/log';
 import config from 'ember-osf-web/config/environment';
+import { MirageLogModel } from 'ember-osf-web/mirage/factories/log';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
 
-export default class LogSerializer extends ApplicationSerializer<LogModel> {
+export default class LogSerializer extends ApplicationSerializer<MirageLogModel> {
     buildNormalLinks(model: ModelInstance) {
         return {
-            self: `${apiUrl}/v2/registrations/${model.id}/`,
+            self: `${apiUrl}/v2/logs/${model.id}/`,
+            iri: `${apiUrl}/v2/logs/${model.id}/`,
         };
     }
 
-    buildRelationships(model: ModelInstance<LogModel>) {
-        const relationships: SerializedRelationships<LogModel> = {
-            node: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/nodes/${model.id}`,
-                        meta: this.buildRelatedLinkMeta(model, 'node'),
-                    },
-                },
-            },
+    buildRelationships(model: ModelInstance<MirageLogModel>) {
+        const relationships: SerializedRelationships<MirageLogModel> = {
             user: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/users/${model.user.id}`,
+                        href: `${apiUrl}/v2/users/${model.userId}`,
                         meta: {},
                     },
                 },
             },
 
         };
+
+        if (model.linkedNode) {
+            relationships.linkedNode = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.linkedNodeId}`,
+                        meta: {},
+                        // meta: this.buildRelatedLinkMeta(model, 'node'),
+                    },
+                },
+            };
+        }
+
+        if (model.node) {
+            relationships.node = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.nodeId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
 
         return relationships;
     }

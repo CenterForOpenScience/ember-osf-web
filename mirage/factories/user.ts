@@ -31,6 +31,7 @@ export default Factory.extend<MirageUser & UserTraits>({
         }
     },
 
+    /*
     get() {
         return (key: string): string => {
             if (key === 'fullName') {
@@ -40,6 +41,7 @@ export default Factory.extend<MirageUser & UserTraits>({
             }
         };
     },
+    */
 
     givenName() {
         return faker.name.firstName();

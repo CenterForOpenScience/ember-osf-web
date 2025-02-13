@@ -5,13 +5,22 @@
 
     {{#paginated-list/has-many
         modelTaskInstance=@registration.taskInstance
-        query=this.loadUser
+        query=this.loadEmbeds
         relationshipName='logs'
         as |list|
     }}
 
+
+
         {{#list.item as |log|}}
-            <ActivityLog::-Components::ActivityLogDisplay @log={{log}} />
+            {{log.id}}
+            {{#if log.id}}
+                {{log.id}}
+                <ActivityLog::-Components::ActivityLogDisplay @log={{log}} />
+            {{else}}
+                {{log.guid}}
+                <LoadingIndicator @dark={{true}} @inline={{true}} />
+            {{/if}}
         {{/list.item}}
         {{#list.empty}}
             <p data-test-no-components>
