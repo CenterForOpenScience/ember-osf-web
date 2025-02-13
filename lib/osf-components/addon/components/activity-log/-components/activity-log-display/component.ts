@@ -9,6 +9,8 @@ import { waitFor } from '@ember/test-waiters';
 import UserModel from 'ember-osf-web/models/user';
 import NodeModel from 'ember-osf-web/models/node';
 import RegistrationModel from 'ember-osf-web/models/registration';
+import { htmlSafe } from '@ember/template';
+import { SafeString } from '@ember/template/-private/handlebars';
 
 
 /**
@@ -134,10 +136,10 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      *
      * @returns A formatted translated string for display
      */
-    get activity(): string {
+    get activity(): SafeString {
         const logParams = this.buildParam();
 
-        return this.intl.t(`activity-log.activities.${this.log?.action}`, {
+        const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
             anonymous_link: logParams.anonymousLink,
             guid: logParams.guid,
             license: logParams.license,
@@ -172,9 +174,11 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             value: null,
             version: null,
             */
-            htmlSafe: true,
 
         }) as string;
+
+        return htmlSafe(`<span>${translation}</span>`);
+
     }
 
     /**
