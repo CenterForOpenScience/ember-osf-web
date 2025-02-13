@@ -1531,7 +1531,7 @@ preprints:
             A preregistration is a description of the research design and/or analysis plan that is created and registered before researchers collected data or before they have seen/interacted with preexisting data. The description should appear in a public registry (e.g., clinicaltrials.gov, OSF, AEA registry).'
             public-preregistration-link-placeholder: 'Link to preregistration'
             public-preregistration-no-placeholder: 'Describe'
-            public-preregistration-na-placeholder: 'Author asserted there is no preregistration associated with this {singularPreprintWord}.'
+            public-preregistration-na-placeholder: 'The author asserts that a preregistration is not applicable because no data collection, extraction, or analysis is reported in the {singularPreprintWord}.'
 
             public-preregistration-link-info-placeholder: 'Choose one'
             public-preregistration-link-info-designs: 'Study Design'
