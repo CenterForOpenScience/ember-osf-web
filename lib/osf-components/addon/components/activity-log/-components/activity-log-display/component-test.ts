@@ -38,7 +38,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> edited description of A new project for testing file components',
+            '<span><a href="/utu98/">Futa Geiger</a> edited description of A new project for testing file components</span>',
             'Project edit description is correct',
         );
 
@@ -92,7 +92,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> updated the license of A new project for testing file components Apache License 2.0',
+            '<span><a href="/utu98/">Futa Geiger</a> updated the license of A new project for testing file components Apache License 2.0</span>',
             'Project edit description is correct',
         );
 
