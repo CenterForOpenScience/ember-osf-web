@@ -6,12 +6,21 @@ import { tracked } from '@glimmer/tracking';
 import { taskFor } from 'ember-concurrency-ts';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
+import UserModel from 'ember-osf-web/models/user';
+import NodeModel from 'ember-osf-web/models/node';
+import RegistrationModel from 'ember-osf-web/models/registration';
 
 
+/**
+ * The Activity Log Display Args
+ */
 interface ActivityLogDisplayArgs {
     log: LogModel;
 }
 
+/**
+ * The Param Model
+ */
 interface ParamModel {
     guid: string;
     fullName: string;
@@ -30,27 +39,45 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     @tracked activityDisplay = '';
     @tracked isLoading = true;
     @tracked log!: LogModel;
-    hasLinkedNode = false;
-    hasNode = false;
+    user!: UserModel;
+    linkedNode!: NodeModel;
+    linkedRegistration!: RegistrationModel;
+    node!: NodeModel;
 
+    /**
+     * constructor
+     *
+     * @param owner The owner
+     * @param args The injected args
+     */
     constructor(owner: unknown, args: ActivityLogDisplayArgs) {
         super(owner, args);
         this.log = args.log;
-        taskFor(this.loadLog).perform();
+        taskFor(this.loadModels).perform();
     }
 
-    private buildAHrefElement(url: string, value: string): string {
+    /**
+     * buildAHrefElement
+     *
+     * @description Abstracted method to build an "a" element
+     *
+     * @param url The url for the href
+     * @param value The text to appear as clickable
+     * @returns An ahref formatted string
+     */
+    private buildAHrefElement(url: string | undefined, value: string): string {
+        url = url || '';
         return `<a href="${this.toRelativeUrl(url)}">${value}</a>`;
     }
 
     /**
- * Utility function to convert absolute URLs to relative urls
- * See:
- *      http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
- * This method have no effect on external urls.
- * @param url {string} url to be converted
- * @returns {string} converted relative url
- */
+     * Utility function to convert absolute URLs to relative urls
+     * See:
+     *      http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+     * This method have no effect on external urls.
+     * @param url {string} url to be converted
+     * @returns {string} converted relative url
+     */
     private toRelativeUrl(url: string): string {
         const parser = document.createElement('a');
         parser.href = url;
@@ -61,93 +88,54 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         return relative_url;
     }
 
-    private buildParam(log: LogModel): ParamModel {
-        /*
-        if ( this.hasLinkedNode) {
-            console.log(2, this.log.linkedNode);
-        }
-        if ( this.hasNode) {
-            console.log(3, this.log.node);
-        }
-        console.log(4, this.log.user);
-        // console.log(this.log?.linkedNode?.get('title'));
-        // console.log(this.log?.linkedNode?.get('links'));
-        */
+    /**
+     * buildParam
+     *
+     * @description Abstracted method to build (assembly) all of the necessary translation variables
+     *
+     * @returns A Param model
+     */
+    private buildParam(): ParamModel {
         return {
-            anonymousLink: log.params.anonymousLink ? 'an anonymous' : 'a',
-            fullName: this.log.user?.get('fullName'),
-            guid: log.params.guid,
-            license: log.params.license,
-            node: log.params.paramsNode.title,
-            path: log.params.path,
-            pathType: log.params.pathType,
-            tag: log.params.tag,
-            pointer: 'pointer',
-            pointerCategory: 'hello', // this.getPointerCategory(this.log),
+            anonymousLink: this.log.params.anonymousLink ? 'an anonymous' : 'a',
+            fullName:  this.buildFullNameUrl(),
+            guid: this.log.params.guid,
+            license: this.log.params.license,
+            node: this.log.params.paramsNode.title,
+            path: this.log.params.path,
+            pathType: this.log.params.pathType,
+            tag: this.log.params.tag,
+            pointer: this.getPointer(),
+            pointerCategory: this.getPointerCategory(),
         };
     }
 
+    /**
+     * loadModels
+     *
+     * @description Hydrates all the models before displaying the component
+     *
+     * @returns a void promise
+     */
     @task
     @waitFor
-    private async loadLog(): Promise<void> {
-        // console.log('loadLog', this.log);
-        await this.log;
-        // console.log('loadLog - 2', this.log);
-        await this.log.user;
-        /*
-        console.log('loadLog - 3', this.log?.user);
-        console.log('loadLog - 41', this.log?.linkedNode);
-
-        if (this.log?.linkedNode ) {
-            await this.log.linkedNode;
-            console.log('loadLog - 4', this.log?.linkedNode);
-        }
-        if (this.log?.node)  {
-            await this.log.node;
-            console.log('loadLog - 5', this.log?.node);
-        }
-            */
-        //  console.log(3);
-        try {
-        // console.log(31);
-            if (this.log?.linkedNode ) {
-            // console.log(32);
-                await this.log.linkedNode;
-                // console.log(33);
-                this.hasLinkedNode = true;
-                // console.log('loadLog - 4', this.log?.linkedNode);
-            }
-        } catch (_) {
-            this.hasLinkedNode = false;
-        // console.log(35, _);
-        }
-        // console.log(36);
-        try {
-        // console.log(50);
-            if (this.log?.node)  {
-                // console.log(51);
-                await this.log.node;
-                // console.log(52);
-                this.hasNode = true;
-                // console.log(53, this.log?.node);
-            }
-        } catch (_) {
-            this.hasNode = false;
-            // console.log(55, _);
-        }
-        // console.log(56, this.hasLinkedNode, this.hasNode);
+    private async loadModels(): Promise<void> {
+        this.user = await this.log.user;
+        this.linkedNode = await this.log.linkedNode;
+        this.linkedRegistration = await this.log.linkedRegistration;
+        this.node = await this.log.node;
         this.isLoading = false;
     }
 
     /**
-     * Get the activity
+     * activity
+     *
+     * @description The html to display for the log
+     *
+     * @returns A formatted translated string for display
      */
     get activity(): string {
-        // console.log('activity', this.log);
-
-        // this.loadLog();
-
-        const logParams = this.buildParam(this.log);
+        const logParams = this.buildParam();
 
         return this.intl.t(`activity-log.activities.${this.log?.action}`, {
             anonymous_link: logParams.anonymousLink,
@@ -190,48 +178,51 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     }
 
     /**
-     * getPointer
+     * buildFullNameUrl
      *
-     * @description The pointer can exist on a linkedNode or registrationNode
+     * @description Abstracted method to build the full name ahref
      *
-     * @param log The log model
-     *
-     * @returns the category if it exists
+     * @returns a formatted string
      */
-    /*
-    private getPointerCategory(log: LogModel): string {
-        /*
-        if (log?.linkedNode) {
-            return log.linkedNode?.get('category');
-        } else if (log?.linkedRegistration) {
-            return log.linkedRegistration?.get('category');
-        } else {
-            return '';
+    private buildFullNameUrl(): string {
+        if (this.user) {
+            return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
         }
-            * /
-            return '';
+        return '';
     }
-    */
 
     /**
      * getPointerCategory
      *
-     * @description The pointer category can exist on a linkedNode or registrationNode
-     * @param log The log model
+     * @description The pointer can exist on a linkedNode or registrationNode
      *
      * @returns the category if it exists
-     * /
-    private getPointer(log: LogModel): string {
-        /*
-        if (log?.linkedNode) {
-            return log.linkedNode?.get('category');
-        } else if (log?.linkedRegistration) {
-            return log.linkedRegistration?.get('category');
+     */
+    private getPointerCategory(): string {
+        if (this.linkedNode) {
+            return this.linkedNode?.category;
+        } else if (this.linkedRegistration) {
+            return this.linkedRegistration?.category;
         } else {
             return '';
         }
-            * /
-            return '';
     }
-            */
+
+    /**
+     * getPointer
+     *
+     * @description The pointer can exist on a linkedNode or registrationNode
+     *
+     * @returns the href if it exists
+     */
+    private getPointer(): string {
+        if (this.linkedNode) {
+            return this.buildAHrefElement(this.linkedNode?.links?.html?.toString(), this.linkedNode?.title);
+        } else if (this.linkedRegistration) {
+            return this.buildAHrefElement(this.linkedRegistration?.links?.html?.toString(),
+                this.linkedRegistration?.title);
+        } else {
+            return '';
+        }
+    }
 }

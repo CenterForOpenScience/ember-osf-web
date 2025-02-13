@@ -62,7 +62,7 @@ export default Factory.extend<MirageLogModel>({
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        log: LogModel;
+        log: MirageLogModel;
     } // eslint-disable-line semi
 }
 

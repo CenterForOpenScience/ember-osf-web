@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -37,7 +38,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger edited description of A new project for testing file components',
+            '<a href="/utu98/">Futa Geiger</a> edited description of A new project for testing file components',
             'Project edit description is correct',
         );
 
@@ -75,7 +76,6 @@ module('Integration | Activity Log Display | Component | validate activity log',
             }
                 */
 
-/*
     test('it renders and shows license_changed', async function(this: ComponentTestContext, assert) {
         const action = 'license_changed';
         const log = server.create('log', {
@@ -92,7 +92,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger updated the license of A new project for testing file components Apache License 2.0',
+            '<a href="/utu98/">Futa Geiger</a> updated the license of A new project for testing file components Apache License 2.0',
             'Project edit description is correct',
         );
 
@@ -117,7 +117,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger added file /hat.jpg to OSF Storage in A new project for testing file components',
+            '<a href="/utu98/">Futa Geiger</a> added file /hat.jpg to OSF Storage in A new project for testing file components',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -141,7 +141,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger removed file /hat.jpg from OSF Storage in A new project for testing file components',
+            '<a href="/utu98/">Futa Geiger</a> removed file /hat.jpg from OSF Storage in A new project for testing file components',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -165,7 +165,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger added tag Food to A new project for testing file components',
+            '<a href="/utu98/">Futa Geiger</a> added tag Food to A new project for testing file components',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -189,7 +189,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger updated metadata for the guid',
+            '<a href="/utu98/">Futa Geiger</a> updated metadata for the guid',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -214,7 +214,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger removed an anonymous view-only link to A new project for testing file components',
+            '<a href="/utu98/">Futa Geiger</a> removed an anonymous view-only link to A new project for testing file components',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -239,7 +239,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created an anonymous view-only link to A new project for testing file components',
+            '<a href="/utu98/">Futa Geiger</a> created an anonymous view-only link to A new project for testing file components',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -263,13 +263,12 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasText(
-            'Futa Geiger created a link to analysis pointer',
+            '<a href="/utu98/">Futa Geiger</a> created a link to analysis <a href="/ww3a2/">The linked node for testing</a>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
             '2025-02-06 07:51 PM',
         );
     });
-    */
 });
 
