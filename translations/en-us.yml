@@ -432,8 +432,8 @@ activity-log:
         file_tag_removed: '{user} removed tag {tag} from {path} in OSF Storage in {node}'
         file_updated:     '{user} updated file in {node}'
         folder_created:   '{user} created a folder in {node}'
-        guid_metadata_updated: '{user} updated metadata for {guid}'
-        license_changed: '{user} updated the license of {node} {license}'
+        guid_metadata_updated: '{user} updated metadata for {node}'
+        license_changed: '{user} updated the license of {node} to {license}'
         made_private:     '{user} made {node} private'
         made_public:  '{user} made {node} public'
         made_public_no_user:  '{node} made public'
@@ -449,6 +449,9 @@ activity-log:
         osf_storage_file_updated: '{user} updated file {path} in OSF Storage in {node}'
         osf_storage_folder_created: '{user} created folder {path} in OSF Storage in {node}'
         permissions_updated:   '{user} changed permissions for {node}'
+        pointer_created:  '{user} created a link to {pointer_category} {pointer}'
+        pointer_forked:   '{user} forked a link to {pointer_category} {pointer}'
+        pointer_removed:  '{user} removed a link to {pointer_category} {pointer}'
         prereg_links_updated: '{user} has updated their preregistration data links'
         prereg_registration_initiated: '{user} submitted for review to the Preregistration Challenge a registration of {node}'
         project_created:  '{user} created {node}'
@@ -476,9 +479,6 @@ activity-log:
 
 
 
-        pointer_created:  '{user} created a link to {pointer_category} {pointer}'
-        pointer_forked:   '{user} forked a link to {pointer_category} {pointer}'
-        pointer_removed:  '{user} removed a link to {pointer_category} {pointer}'
         preprint_file_updated: '{user} updated the primary file of this {preprint} on {preprint_provider} Preprints'
         preprint_initiated: '{user} made {node} a {preprint} on {preprint_provider} Preprints'
         preprint_license_updated: '{user} updated the license of this {preprint} on {preprint_provider} Preprints {license}'
