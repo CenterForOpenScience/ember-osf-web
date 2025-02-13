@@ -5,7 +5,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import {TestContext} from 'ember-intl/test-support';
 import { module, test } from 'qunit';
 import { setupIntl } from 'ember-intl/test-support';
-import { ModelInstance } from 'ember-cli-mirage';
 import LogModel from 'ember-osf-web/models/log';
 
 interface ComponentTestContext extends TestContext {
@@ -24,12 +23,11 @@ module('Integration | Activity Log Display | Component | validate activity log',
 
     test('it renders and shows edit_description', async function(this: ComponentTestContext, assert) {
         const action = 'edit_description';
-        server.create('log', {
-            id: action,
+        const log = server.create('log', {
             action,
         });
+        const mirageLog = await this.store.findRecord('log', log.id);
 
-        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
         this.setProperties({
             mirageLog,
         });
@@ -49,42 +47,41 @@ module('Integration | Activity Log Display | Component | validate activity log',
     });
 
     /*
-     "action": "guid_metadata_updated",
-            "params": {
-                "contributors": [],
-                "guid": "8bxre",
-                "params_node": {
-                    "id": "8bxre",
-                    "title": "Into embargo"
+     'action': 'guid_metadata_updated',
+            'params': {
+                'contributors': [],
+                'guid': '8bxre',
+                'params_node': {
+                    'id': '8bxre',
+                    'title': 'Into embargo'
                 },
-                "params_project": null,
-                "pointer": null,
-                "preprint_provider": null,
-                "title": "Into embargo",
-                "updated_fields": {
-                    "language": {
-                        "new": "abk",
-                        "old": ""
+                'params_project': null,
+                'pointer': null,
+                'preprint_provider': null,
+                'title': 'Into embargo',
+                'updated_fields': {
+                    'language': {
+                        'new': 'abk',
+                        'old': ''
                     },
-                    "resource_type_general": {
-                        "new": "Audiovisual",
-                        "old": ""
+                    'resource_type_general': {
+                        'new': 'Audiovisual',
+                        'old': ''
                     }
                 },
-                "urls": {
-                    "view": "/8bxre"
+                'urls': {
+                    'view': '/8bxre'
                 }
             }
                 */
 
+/*
     test('it renders and shows license_changed', async function(this: ComponentTestContext, assert) {
         const action = 'license_changed';
-        server.create('log', {
-            id: action,
+        const log = server.create('log', {
             action,
         });
-
-        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
+        const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
             mirageLog,
@@ -106,12 +103,10 @@ module('Integration | Activity Log Display | Component | validate activity log',
 
     test('it renders and shows osf_storage_file_added', async function(this: ComponentTestContext, assert) {
         const action = 'osf_storage_file_added';
-        server.create('log', {
-            id: action,
+        const log = server.create('log', {
             action,
         });
-
-        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
+        const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
             mirageLog,
@@ -132,12 +127,10 @@ module('Integration | Activity Log Display | Component | validate activity log',
 
     test('it renders and shows osf_storage_file_removed', async function(this: ComponentTestContext, assert) {
         const action = 'osf_storage_file_removed';
-        server.create('log', {
-            id: action,
+        const log = server.create('log', {
             action,
         });
-
-        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
+        const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
             mirageLog,
@@ -158,12 +151,10 @@ module('Integration | Activity Log Display | Component | validate activity log',
 
     test('it renders and shows tag_added', async function(this: ComponentTestContext, assert) {
         const action = 'tag_added';
-        server.create('log', {
-            id: action,
+        const log = server.create('log', {
             action,
         });
-
-        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
+        const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
             mirageLog,
@@ -184,12 +175,10 @@ module('Integration | Activity Log Display | Component | validate activity log',
 
     test('it renders and shows guid_metadata_updated', async function(this: ComponentTestContext, assert) {
         const action = 'guid_metadata_updated';
-        server.create('log', {
-            id: action,
+        const log = server.create('log', {
             action,
         });
-
-        const mirageLog = server.schema.logs.find(action) as ModelInstance<LogModel>;
+        const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
             mirageLog,
@@ -207,4 +196,80 @@ module('Integration | Activity Log Display | Component | validate activity log',
             '2025-02-06 07:51 PM',
         );
     });
+
+    test('it renders and shows view_only_link_removed', async function(this: ComponentTestContext, assert) {
+        const action = 'view_only_link_removed';
+        const log = server.create('log', {
+            action,
+            anonymousLink: false,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasText(
+            'Futa Geiger removed an anonymous view-only link to A new project for testing file components',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 07:51 PM',
+        );
+    });
+
+    test('it renders and shows view_only_link_added', async function(this: ComponentTestContext, assert) {
+        const action = 'view_only_link_added';
+        const log = server.create('log', {
+            action,
+            anonymousLink: true,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasText(
+            'Futa Geiger created an anonymous view-only link to A new project for testing file components',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 07:51 PM',
+        );
+    });
+
+    test('it renders and shows pointer and pointer category', async function(this: ComponentTestContext, assert) {
+        const action = 'pointer_created';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasText(
+            'Futa Geiger created a link to analysis pointer',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 07:51 PM',
+        );
+    });
+    */
 });
+
