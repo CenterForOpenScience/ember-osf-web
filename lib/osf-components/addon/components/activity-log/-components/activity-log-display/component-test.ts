@@ -37,7 +37,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
+        assert.dom('[data-test-action-text]').hasHtml(
             '<span><a href="/utu98/">Futa Geiger</a> edited description of A new project for testing file components</span>',
             'Project edit description is correct',
         );
@@ -91,7 +91,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
+        assert.dom('[data-test-action-text]').hasHtml(
             '<span><a href="/utu98/">Futa Geiger</a> updated the license of A new project for testing file components Apache License 2.0</span>',
             'Project edit description is correct',
         );
@@ -116,8 +116,8 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> added file /hat.jpg to OSF Storage in A new project for testing file components',
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> added file /hat.jpg to OSF Storage in A new project for testing file components</span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -140,8 +140,8 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> removed file /hat.jpg from OSF Storage in A new project for testing file components',
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> removed file /hat.jpg from OSF Storage in A new project for testing file components</span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -164,8 +164,8 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> added tag Food to A new project for testing file components',
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> added tag Food to A new project for testing file components</span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -188,8 +188,8 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> updated metadata for the guid',
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> updated metadata for the guid</span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -213,8 +213,8 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> removed an anonymous view-only link to A new project for testing file components',
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> removed an anonymous view-only link to A new project for testing file components</span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -238,8 +238,8 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> created an anonymous view-only link to A new project for testing file components',
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> created an anonymous view-only link to A new project for testing file components</span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -262,8 +262,8 @@ module('Integration | Activity Log Display | Component | validate activity log',
     @log={{this.mirageLog}}
 />
 `);
-        assert.dom('[data-test-action-text]').hasText(
-            '<a href="/utu98/">Futa Geiger</a> created a link to analysis <a href="/ww3a2/">The linked node for testing</a>',
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> created a link to analysis <a href="/ww3a2/">The linked node for testing</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
