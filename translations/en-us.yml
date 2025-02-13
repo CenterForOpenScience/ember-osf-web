@@ -468,8 +468,13 @@ activity-log:
         subjects_updated: '{user} updated the subjects on {node}'
         tag_added:    '{user} added tag {tag} to {node}'
         tag_removed:  '{user} removed tag {tag} from {node}'
+        view_only_link_added: '{user} created {anonymous_link} view-only link to {node}'
+        view_only_link_removed: '{user} removed {anonymous_link} view-only link to {node}'
         why_no_data_updated: '{user} has updated their data statement'
         why_no_prereg_updated: '{user} has updated their preregistration data availability statement'
+
+
+
 
         pointer_created:  '{user} created a link to {pointer_category} {pointer}'
         pointer_forked:   '{user} forked a link to {pointer_category} {pointer}'
@@ -487,8 +492,8 @@ activity-log:
         resource_identifier_added: '{user} has added a Resource with DOI {new_identifier} to Registration {node}'
         resource_identifier_removed: '{user} has removed a Resource with DOI {obsolete_identifier} to Registration {node}'
         resource_identifier_updated: '{user} has updated a Resource DOI on Registration {node} from {obsolete_identifier} to {new_identifier}'
-        view_only_link_added: '{user} created {anonymous_link} view-only link to {node}'
-        view_only_link_removed: '{user} removed {anonymous_link} view-only link to {node}'
+
+
         wiki_deleted:     '{user} deleted wiki page {page} of {node}'
         wiki_renamed:     '{user} renamed wiki page {old_page} to {page} of {node}'
         wiki_updated:     '{user} updated wiki page {page} to version {version} of {node}'
