@@ -418,6 +418,7 @@ activity-log:
         category_updated: '{user} changed the category of {node}'
         coi_statement_updated: '{user} changed the conflict of interest statement for {preprint}.'
         contributors_reordered:   '{user} reordered contributors for {node}'
+        created_from:     '{user} created {node} based on {template}'
         custom_citation_added: '{user} created a custom citation for {node}'
         custom_citation_edited: '{user} edited a custom citation for {node}'
         custom_citation_removed: '{user} removed a custom citation from {node}'
@@ -493,7 +494,6 @@ activity-log:
 
 
 
-        created_from:     '{user} created {node} based on {template}'
 
         external_ids_added:   '{user} created external identifier(s) {identifiers} on {node}'
 

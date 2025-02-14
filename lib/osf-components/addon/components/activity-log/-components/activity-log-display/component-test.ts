@@ -253,7 +253,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'pointer_created';
         const log = server.create('log', {
             action,
-        });
+        }, 'linkedNode');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -338,6 +338,30 @@ module('Integration | Activity Log Display | Component | validate activity log',
 `);
         assert.dom('[data-test-action-text]').hasHtml(
             '<span><a href="/utu98/">Futa Geiger</a> updated the license of this <a href="/3s8sfsl">Preprint</a> on <a href="/preprint-provider-url">Preprint Provider</a> Preprints Apache License 2.0</span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows template', async function(this: ComponentTestContext, assert) {
+        const action = 'created_from';
+        const log = server.create('log', {
+            action,
+        }, 'templateNode');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> created <a href="/c2het">A new project for testing file components</a> based on <a href="/ww3a2/">The template node for testing</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(

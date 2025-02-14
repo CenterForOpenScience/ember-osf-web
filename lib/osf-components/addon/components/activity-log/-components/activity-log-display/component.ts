@@ -24,6 +24,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     @tracked log!: LogModel;
     user!: UserModel;
     linkedNode!: NodeModel;
+    templateNode!: NodeModel;
     linkedRegistration!: RegistrationModel;
     node!: NodeModel;
 
@@ -81,10 +82,11 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     @task
     @waitFor
     public async loadModels(): Promise<void> {
-        this.user = await this.log.user;
         this.linkedNode = await this.log.linkedNode;
         this.linkedRegistration = await this.log.linkedRegistration;
         this.node = await this.log.node;
+        this.templateNode = await this.log.templateNode;
+        this.user = await this.log.user;
     }
 
     /**
@@ -102,13 +104,14 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             node: this.buildNodeUrl(),
             path: this.log?.params?.path,
             path_type: this.log?.params?.pathType,
-            pointer: this.getPointer(),
+            pointer: this.getEmbeddedUrl(),
             pointer_category: this.getPointerCategory(),
             preprint: this.buildPreprintUrl(),
             preprint_provider: this.buildPreprintProviderUrl(),
             preprint_word: this.intl.t('activity-log.defaults.preprint'),
             preprint_word_plural: this.intl.t('activity-log.defaults.preprint-plural'),
             tag: this.buildTagUrl(),
+            template: this.getEmbeddedUrl(),
             user: this.buildFullNameUrl(),
             /*
             addon: null,
@@ -124,7 +127,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             old_page: null,
             page: null,
             source: null,
-            template: null,
             title_new: null,
             title_original: null,
             updated_fields: null,
@@ -260,18 +262,21 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     }
 
     /**
-     * getPointer
+     * getEmbeddedUrl
      *
      * @description The pointer can exist on a linkedNode or registrationNode
      *
      * @returns the href if it exists
      */
-    private getPointer(): string {
+    private getEmbeddedUrl(): string {
         if (this.linkedNode?.links?.html) {
             return this.buildAHrefElement(this.linkedNode.links.html.toString(), this.linkedNode.title);
         } else if (this.linkedRegistration?.links?.html) {
             return this.buildAHrefElement(this.linkedRegistration.links.html.toString(),
                 this.linkedRegistration.title);
+        } else if (this.templateNode?.links?.html) {
+            return this.buildAHrefElement(this.templateNode.links.html.toString(),
+                this.templateNode.title);
         } else {
             return '';
         }
