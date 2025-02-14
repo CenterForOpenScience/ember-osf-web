@@ -392,5 +392,77 @@ module('Integration | Activity Log Display | Component | validate activity log',
             '2025-02-06 01:51 PM',
         );
     });
+
+    test('it renders and shows external ids added doi and ark', async function(this: ComponentTestContext, assert) {
+        const action = 'external_ids_added';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> created external identifier(s) doi:doi and ark:ark on <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows external ids added doi and no ark', async function(this: ComponentTestContext, assert) {
+        const action = 'external_ids_added';
+        const log = server.create('log', {
+            action,
+        }, 'identifiersNoArk');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> created external identifier(s) doi:doi on <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows external ids added ark and no doi', async function(this: ComponentTestContext, assert) {
+        const action = 'external_ids_added';
+        const log = server.create('log', {
+            action,
+        }, 'identifiersNoDoi');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> created external identifier(s) ark:ark on <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
 });
 

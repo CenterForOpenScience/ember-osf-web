@@ -100,6 +100,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
             anonymous_link: this.buildAnonymous(),
             forked_from: this.buildNodeUrl(),
+            identifiers: this.buildIdentifiers(),
             institution: this.buildInstitutionUrl(),
             license: this.log?.params?.license,
             node: this.buildNodeUrl(),
@@ -120,7 +121,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             contributors: null,
             destination: null,
             group: null,
-            identifiers: null,
             kind: null,
             new_identifier: null,
             obsolete_identifier: null,
@@ -179,6 +179,28 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     private buildNodeUrl(): string {
         if (this.log?.params?.paramsNode) {
             return this.buildAHrefElement(`/${this.log.params.paramsNode.id}`, this.log.params.paramsNode.title);
+        }
+        return '';
+    }
+
+    /**
+     * buildIdentifiersUrl
+     *
+     * @description Abstracted method to build the identifiers ahref
+     *
+     * @returns a formatted string
+     */
+    private buildIdentifiers(): string {
+        if (this.log?.params?.identifiers) {
+            const doi = this.log.params.identifiers.doi;
+            const ark = this.log.params.identifiers.ark;
+            if (doi && ark) {
+                return `doi:${doi} and ark:${ark}`;
+            } else if (doi) {
+                return `doi:${doi}`;
+            } else if (ark) {
+                return `ark:${ark}`;
+            }
         }
         return '';
     }
