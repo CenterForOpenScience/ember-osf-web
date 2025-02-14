@@ -33,7 +33,6 @@ export default class LogSerializer extends ApplicationSerializer<MirageLogModel>
                     related: {
                         href: `${apiUrl}/v2/nodes/${model.linkedNodeId}`,
                         meta: {},
-                        // meta: this.buildRelatedLinkMeta(model, 'node'),
                     },
                 },
             };

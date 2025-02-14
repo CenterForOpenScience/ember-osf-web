@@ -1,4 +1,4 @@
-{{#if this.isLoading}}
+{{#if this.loadModels.isRunning }}
     <LoadingIndicator @dark={{true}} @inline={{true}} />
 {{else}}
     <div local-class='activity-log-container'>
@@ -7,7 +7,7 @@
             {{{this.activity}}}
         </div>
         <div local-class='timestamp' data-test-action-date>
-            {{if @log.date (moment-format @log.date 'YYYY-MM-DD hh:mm A' timeZone='Europe/London')}}
+            {{if @log.date (moment-format @log.date 'YYYY-MM-DD hh:mm A')}}
         </div>
     </div>
 {{/if}}

@@ -47,35 +47,6 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
     });
 
-    /*
-     'action': 'guid_metadata_updated',
-            'params': {
-                'contributors': [],
-                'guid': '8bxre',
-                'params_node': {
-                    'id': '8bxre',
-                    'title': 'Into embargo'
-                },
-                'params_project': null,
-                'pointer': null,
-                'preprint_provider': null,
-                'title': 'Into embargo',
-                'updated_fields': {
-                    'language': {
-                        'new': 'abk',
-                        'old': ''
-                    },
-                    'resource_type_general': {
-                        'new': 'Audiovisual',
-                        'old': ''
-                    }
-                },
-                'urls': {
-                    'view': '/8bxre'
-                }
-            }
-                */
-
     test('it renders and shows license_changed', async function(this: ComponentTestContext, assert) {
         const action = 'license_changed';
         const log = server.create('log', {
