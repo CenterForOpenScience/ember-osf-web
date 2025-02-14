@@ -22,6 +22,31 @@ module('Integration | Activity Log Display | Component | validate activity log',
         this.intl = this.owner.lookup('service:intl');
     });
 
+    test('it renders and shows nothing with an empty object', async function(this: ComponentTestContext, assert) {
+        const action = 'edit_description';
+        const log = server.create('log', {
+            action,
+        }, 'empty');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> edited description of </span>',
+            'Project edit description is correct',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM', 'The activity date is correct',
+        );
+    });
+
     test('it renders and shows edit_description', async function(this: ComponentTestContext, assert) {
         const action = 'edit_description';
         const log = server.create('log', {
@@ -136,7 +161,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasHtml(
-            '<span><a href="/utu98/">Futa Geiger</a> added tag Food to <a href="/c2het">A new project for testing file components</a></span>',
+            '<span><a href="/utu98/">Futa Geiger</a> added tag <a href="/search?q=%22Food%22">Food</a> to <a href="/c2het">A new project for testing file components</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -283,6 +308,30 @@ module('Integration | Activity Log Display | Component | validate activity log',
 `);
         assert.dom('[data-test-action-text]').hasHtml(
             '<span><a href="/utu98/">Futa Geiger</a> updated the license of this <a href="/3s8sfsl">Preprint</a> on <a href="/preprint-provider-url">Preprint Provider</a> Preprints to Apache License 2.0</span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows affiliated institution added', async function(this: ComponentTestContext, assert) {
+        const action = 'affiliated_institution_added';
+        const log = server.create('log', {
+            action,
+        }, 'institution');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> added <a href="/institutions/guid">Institution Name</a> affiliation to <a href="/c2het">A new project for testing file components</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(

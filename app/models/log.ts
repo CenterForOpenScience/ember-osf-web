@@ -21,10 +21,18 @@ export interface LogParamPreprintProviderModel {
     url: string;
 }
 
+export interface LogParamInstitutionModel {
+    id: string;
+    name: string;
+}
+
+
 export interface LogParamModel {
-    contributors: string[];
+    anonymousLink: boolean;
     commentLocation: string;
+    contributors: string[];
     guid: string;
+    institution: LogParamInstitutionModel;
     license: string;
     paramsNode: LogParamNodeModel;
     paramsProject: string;
@@ -34,7 +42,6 @@ export interface LogParamModel {
     preprint: string;
     preprintProvider: LogParamPreprintProviderModel;
     tag: string;
-    anonymousLink: boolean;
     urls: UserLinks;
 }
 

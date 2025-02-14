@@ -18,21 +18,6 @@ interface ActivityLogDisplayArgs {
     log: LogModel;
 }
 
-/**
- * The Param Model
- */
-interface ParamModel {
-    fullName: string;
-    license: string;
-    node: string;
-    path: string;
-    pathType: string;
-    pointer: string;
-    pointerCategory: string;
-    tag: string;
-    anonymousLink: string;
-}
-
 export default class ActivityLogDisplayComponent extends Component<ActivityLogDisplayArgs> {
     @service intl!: Intl;
     @tracked activityDisplay = '';
@@ -87,27 +72,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     }
 
     /**
-     * buildParam
-     *
-     * @description Abstracted method to build (assembly) all of the necessary translation variables
-     *
-     * @returns A Param model
-     */
-    private buildParam(): ParamModel {
-        return {
-            anonymousLink: this.log.params.anonymousLink ? 'an anonymous' : 'a',
-            fullName:  this.buildFullNameUrl(),
-            license: this.log.params.license,
-            node:  this.buildNodeUrl(),
-            path: this.log.params.path,
-            pathType: this.log.params.pathType,
-            tag: this.log.params.tag,
-            pointer: this.getPointer(),
-            pointerCategory: this.getPointerCategory(),
-        };
-    }
-
-    /**
      * loadModels
      *
      * @description Hydrates all the models before displaying the component
@@ -131,21 +95,20 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      * @returns A formatted translated string for display
      */
     get activity(): string {
-        const logParams = this.buildParam();
-
         const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
             anonymous_link: this.buildAnonymous(),
-            license: logParams.license,
+            institution: this.buildInstitutionUrl(),
+            license: this.log?.params?.license,
             node: this.buildNodeUrl(),
-            path: logParams.path,
-            path_type: logParams.pathType,
+            path: this.log?.params?.path,
+            path_type: this.log?.params?.pathType,
             pointer: this.getPointer(),
             pointer_category: this.getPointerCategory(),
             preprint: this.buildPreprintUrl(),
             preprint_provider: this.buildPreprintProviderUrl(),
             preprint_word: this.intl.t('activity-log.defaults.preprint'),
             preprint_word_plural: this.intl.t('activity-log.defaults.preprint-plural'),
-            tag: logParams.tag,
+            tag: this.buildTagUrl(),
             user: this.buildFullNameUrl(),
             /*
             addon: null,
@@ -155,7 +118,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             forked_from: null,
             group: null,
             identifiers: null,
-            institution: null,
             kind: null,
             new_identifier: null,
             obsolete_identifier: null,
@@ -189,6 +151,21 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             this.intl.t('activity-log.defaults.anonymous_a') ;
     }
 
+    /**
+     * buildInstitutionUrl
+     *
+     * @description Abstracted method to build the institution ahref
+     *
+     * @returns a formatted string
+     */
+    private buildInstitutionUrl(): string {
+        if (this.log?.params?.institution) {
+            return this.buildAHrefElement(
+                `/institutions/${this.log.params.institution.id}`, this.log.params.institution.name,
+            );
+        }
+        return '';
+    }
 
     /**
      * buildNodeUrl
@@ -228,12 +205,28 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      */
     private buildPreprintProviderUrl(): string {
         if (this.log?.params?.preprintProvider) {
-            return this.buildAHrefElement(`/${this.log?.params?.preprintProvider?.url}`,
-                this.log?.params?.preprintProvider?.name);
+            return this.buildAHrefElement(`/${this.log.params.preprintProvider.url}`,
+                this.log.params.preprintProvider.name);
         }
         return '';
     }
 
+
+    /**
+     * buildTagUrl
+     *
+     * @description Abstracted method to build the tag ahref
+     *
+     * @returns a formatted string
+     */
+    private buildTagUrl(): string {
+        if(this.log?.params?.tag) {
+            return this.buildAHrefElement(
+                `/search?q=%22${this.log.params.tag}%22`, this.log.params.tag,
+            );
+        }
+        return '';
+    }
 
     /**
      * buildFullNameUrl
@@ -243,7 +236,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      * @returns a formatted string
      */
     private buildFullNameUrl(): string {
-        if (this.user) {
+        if (this.user?.links) {
             return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
         }
         return '';
@@ -258,9 +251,9 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      */
     private getPointerCategory(): string {
         if (this.linkedNode) {
-            return this.linkedNode?.category;
+            return this.linkedNode.category;
         } else if (this.linkedRegistration) {
-            return this.linkedRegistration?.category;
+            return this.linkedRegistration.category;
         } else {
             return '';
         }
@@ -274,11 +267,11 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      * @returns the href if it exists
      */
     private getPointer(): string {
-        if (this.linkedNode) {
-            return this.buildAHrefElement(this.linkedNode?.links?.html?.toString(), this.linkedNode?.title);
-        } else if (this.linkedRegistration) {
-            return this.buildAHrefElement(this.linkedRegistration?.links?.html?.toString(),
-                this.linkedRegistration?.title);
+        if (this.linkedNode?.links?.html) {
+            return this.buildAHrefElement(this.linkedNode.links.html.toString(), this.linkedNode.title);
+        } else if (this.linkedRegistration?.links?.html) {
+            return this.buildAHrefElement(this.linkedRegistration.links.html.toString(),
+                this.linkedRegistration.title);
         } else {
             return '';
         }
