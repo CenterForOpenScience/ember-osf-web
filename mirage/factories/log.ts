@@ -14,6 +14,8 @@ export interface MirageLogModel extends LogModel {
 
 interface LogTraits {
     empty: Trait;
+    identifiersNoArk: Trait;
+    identifiersNoDoi: Trait;
     institution: Trait;
     linkedNode: Trait;
     preprint: Trait;
@@ -33,6 +35,10 @@ export default Factory.extend<MirageLogModel & LogTraits>({
         paramsNode: {
             id: 'c2het',
             title: 'A new project for testing file components',
+        },
+        identifiers: {
+            doi: 'doi',
+            ark: 'ark',
         },
         paramsProject: null,
         path: '/hat.jpg',
@@ -70,6 +76,26 @@ export default Factory.extend<MirageLogModel & LogTraits>({
 
 
             log.save();
+        },
+    }),
+
+    identifiersNoArk: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.identifiers = {
+                doi: 'doi',
+            };
+            log.update({ params});
+        },
+    }),
+
+    identifiersNoDoi: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.identifiers = {
+                ark: 'ark',
+            };
+            log.update({ params});
         },
     }),
 

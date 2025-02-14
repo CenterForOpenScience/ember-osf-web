@@ -16,6 +16,11 @@ export interface LogParamUrls {
     download: Link;
 }
 
+export interface LogParamIdentifiersModel {
+    doi?: string;
+    ark?: string;
+}
+
 export interface LogParamPreprintProviderModel {
     name: string;
     url: string;
@@ -32,6 +37,7 @@ export interface LogParamModel {
     commentLocation: string;
     contributors: string[];
     guid: string;
+    identifiers: LogParamIdentifiersModel;
     institution: LogParamInstitutionModel;
     license: string;
     paramsNode: LogParamNodeModel;
