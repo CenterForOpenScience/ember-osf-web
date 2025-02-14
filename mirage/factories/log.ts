@@ -10,32 +10,35 @@ export interface MirageLogModel extends LogModel {
     userId: number;
     linkedNodeId:number;
     originalNodeId: number;
-    preprint: string;
 }
 
 interface LogTraits {
+    empty: Trait;
+    institution: Trait;
     preprint: Trait;
 }
 
+export default Factory.extend<MirageLogModel & LogTraits>({
 export default Factory.extend<MirageLogModel & LogTraits>({
     id: guid('log'),
     action: 'unknown',
     date: new Date('2025-02-06T19:51:35.017269Z'),
     params: Object({
+        anonymousLink: true,
         contributors: [],
         guid: 'the guid',
+        institution: null,
+        license: 'Apache License 2.0',
         paramsNode: {
             id: 'c2het',
             title: 'A new project for testing file components',
         },
         paramsProject: null,
         path: '/hat.jpg',
-        tag: 'Food',
         pathType: 'file',
         preprint: null,
-        license: 'Apache License 2.0',
         preprintProvider: null,
-        anonymousLink: true,
+        tag: 'Food',
         urls: {
             view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
             download: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het?action=download',
@@ -63,6 +66,30 @@ export default Factory.extend<MirageLogModel & LogTraits>({
         });
     },
 
+    empty: trait<MirageLogModel>({
+        afterCreate(log) {
+            log.update({
+                user: undefined,
+                linkedNode: undefined,
+                params: undefined,
+            });
+
+
+            log.save();
+        },
+    }),
+
+    institution: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.institution = {
+                name: 'Institution Name',
+                id: 'guid',
+            };
+            log.update({ params});
+        },
+    }),
+
     preprint: trait<MirageLogModel>({
         afterCreate(log) {
             const params = log.params;
@@ -74,6 +101,7 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             log.update({ params});
         },
     }),
+
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

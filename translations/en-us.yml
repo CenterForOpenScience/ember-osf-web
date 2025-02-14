@@ -413,8 +413,11 @@ activity-log:
         preprint: 'Preprint'
         preprint-plural: 'Preprints'
     activities:
+        affiliated_institution_added: '{user} added {institution} affiliation to {node}'
+        affiliated_institution_removed: '{user} removed {institution} affiliation from {node}'
         article_doi_updated: '{user} changed the article_doi of {node}'
         category_updated: '{user} changed the category of {node}'
+        coi_statement_updated: '{user} changed the conflict of interest statement for {preprint}.'
         contributors_reordered:   '{user} reordered contributors for {node}'
         custom_citation_added: '{user} created a custom citation for {node}'
         custom_citation_edited: '{user} edited a custom citation for {node}'
@@ -439,6 +442,7 @@ activity-log:
         file_updated:     '{user} updated file in {node}'
         folder_created:   '{user} created a folder in {node}'
         guid_metadata_updated: '{user} updated metadata for {node}'
+        has_coi_updated: '{user} changed the conflict of interest statement availability for {preprint}.'
         license_changed: '{user} updated the license of {node} to {license}'
         made_private:     '{user} made {node} private'
         made_public:  '{user} made {node} public'
@@ -490,13 +494,16 @@ activity-log:
 
 
 
-        affiliated_institution_added: '{user} added {institution} affiliation to {node}'
-        affiliated_institution_removed: '{user} removed {institution} affiliation from {node}'
         created_from:     '{user} created {node} based on {template}'
+
         external_ids_added:   '{user} created external identifier(s) {identifiers} on {node}'
+
         node_forked:  '{user} created fork from {forked_from}'
+
         resource_identifier_added: '{user} has added a Resource with DOI {new_identifier} to Registration {node}'
+
         resource_identifier_removed: '{user} has removed a Resource with DOI {obsolete_identifier} to Registration {node}'
+
         resource_identifier_updated: '{user} has updated a Resource DOI on Registration {node} from {obsolete_identifier} to {new_identifier}'
 
 
@@ -509,30 +516,38 @@ activity-log:
 
 
         addon_added:  '{user} added addon {addon} to {node}'
+
         addon_file_copied:    '{user} copied {source} to {destination} in {node}'
         addon_file_moved:     '{user} moved {source} to {destination} in {node}'
         addon_file_renamed:   '{user} renamed {source} to {destination} in {node}'
+
         addon_removed:    '{user} removed addon {addon} from {node}'
+
         checked_in:   '{user} checked in {kind} {path} to {node}'
         checked_out:  '{user} checked out {kind} {path} from {node}'
+        
         comment_added:    '{user} added a comment {comment_location} in {node}'
         comment_removed:  '{user} deleted a comment {comment_location} in {node}'
         comment_restored:  '{user} restored a comment {comment_location}  in {node}'
         comment_updated:  '{user} updated a comment {comment_location} in {node}'
+
         contributor_added:    '{user} added {contributors} as contributor(s) to {node}'
         contributor_removed:  '{user} removed {contributors} as contributor(s) from {node}'
+
         edit_title:   '{user} changed the title from {title_original} to {title_new}'
 
 
-        coi_statement_updated: '{user} changed the conflict of interest statement for {preprint}.'
         group_added:    '{user} added {group} to {node}'
         group_removed:  '{user} removed {group} from {node}'
         group_updated:   '{user} changed {group} permissions to {node}'
-        has_coi_updated: '{user} changed the conflict of interest statement availability for {preprint}.'
+
+
         has_data_links_updated: '{user} has updated the has links to data field to {value}'
         has_prereg_links_updated: '{user} has updated their preregistration data link availability to {value}'
+
         made_contributor_invisible:   '{user} made bibliographic contributor {contributors} a non-bibliographic contributor on {node}'
         made_contributor_visible:     '{user} made non-bibliographic contributor {contributors} a bibliographic contributor on {node}'
+
         prereg_links_info_updated: '{user} has updated their preregistration links to {value}'
 
 search:
