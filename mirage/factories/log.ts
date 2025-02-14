@@ -15,10 +15,11 @@ export interface MirageLogModel extends LogModel {
 interface LogTraits {
     empty: Trait;
     institution: Trait;
+    linkedNode: Trait;
     preprint: Trait;
+    templateNode: Trait;
 }
 
-export default Factory.extend<MirageLogModel & LogTraits>({
 export default Factory.extend<MirageLogModel & LogTraits>({
     id: guid('log'),
     action: 'unknown',
@@ -54,15 +55,8 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             familyName: 'Geiger',
         });
 
-        const linkedNode = server.create('node', {
-            description: 'This is the node description',
-            title: 'The linked node for testing',
-            category: NodeCategory.Analysis,
-        });
-
         log.update({
             user,
-            linkedNode,
         });
     },
 
@@ -90,6 +84,21 @@ export default Factory.extend<MirageLogModel & LogTraits>({
         },
     }),
 
+    linkedNode: trait<MirageLogModel>({
+        afterCreate(log, server) {
+            const linkedNode = server.create('node', {
+                description: 'This is the node description',
+                title: 'The linked node for testing',
+                category: NodeCategory.Analysis,
+            });
+
+            log.update({
+                linkedNode,
+            });
+        },
+    }),
+
+
     preprint: trait<MirageLogModel>({
         afterCreate(log) {
             const params = log.params;
@@ -99,6 +108,20 @@ export default Factory.extend<MirageLogModel & LogTraits>({
                 url: 'preprint-provider-url',
             };
             log.update({ params});
+        },
+    }),
+
+    templateNode: trait<MirageLogModel>({
+        afterCreate(log, server) {
+            const templateNode = server.create('node', {
+                description: 'This is the template node description',
+                title: 'The template node for testing',
+                category: NodeCategory.Analysis,
+            });
+
+            log.update({
+                linkedNode: templateNode,
+            });
         },
     }),
 
