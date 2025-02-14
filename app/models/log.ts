@@ -1,15 +1,49 @@
 import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
+import RegistrationModel from 'ember-osf-web/models/registration';
+import { Link } from 'jsonapi-typescript';
 
 import NodeModel from './node';
 import OsfModel from './osf-model';
-import UserModel from './user';
+import UserModel, { UserLinks } from './user';
+
+export interface LogParamNodeModel {
+    id: string;
+    title: string;
+}
+
+export interface LogParamUrls {
+    view: Link;
+    download: Link;
+}
+
+export interface LogParamPreprintProviderModel {
+    name: string;
+    url: string;
+}
+
+export interface LogParamModel {
+    contributors: string[];
+    commentLocation: string;
+    guid: string;
+    license: string;
+    paramsNode: LogParamNodeModel;
+    paramsProject: string;
+    path: string;
+    pathType: string;
+    pointer: string;
+    preprint: string;
+    preprintProvider: LogParamPreprintProviderModel;
+    tag: string;
+    anonymousLink: boolean;
+    urls: UserLinks;
+}
 
 export default class LogModel extends OsfModel {
     @attr('date') date!: Date;
     @attr('fixstring') action!: string;
-    @attr('object') params!: any;
+    @attr('object', {snakifyForApi: true}) params!: LogParamModel;
 
-    @belongsTo('node', { inverse: null })
+    @belongsTo('node', { inverse: null})
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('node', { polymorphic: true, inverse: 'logs' })
@@ -23,6 +57,9 @@ export default class LogModel extends OsfModel {
 
     @belongsTo('node', { inverse: null })
     templateNode!: AsyncBelongsTo<NodeModel> & NodeModel;
+
+    @belongsTo('registration', { inverse: null })
+    linkedRegistration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
 }
 
 declare module 'ember-data/types/registries/model' {

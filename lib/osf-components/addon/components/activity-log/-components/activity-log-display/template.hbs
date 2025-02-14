@@ -1,0 +1,13 @@
+{{#if this.loadModels.isRunning }}
+    <LoadingIndicator @dark={{true}} @inline={{true}} />
+{{else}}
+    <div local-class='activity-log-container'>
+        <div local-class='activity' data-test-action-text>
+            {{!-- template-lint-disable no-triple-curlies --}}
+            {{{this.activity}}}
+        </div>
+        <div local-class='timestamp' data-test-action-date>
+            {{if @log.date (moment-format @log.date 'YYYY-MM-DD hh:mm A')}}
+        </div>
+    </div>
+{{/if}}
