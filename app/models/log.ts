@@ -48,6 +48,8 @@ export interface LogParamModel {
 export default class LogModel extends OsfModel {
     @attr('date') date!: Date;
     @attr('fixstring') action!: string;
+    // eslint-disable-next-line
+    // @ts-ignore
     @attr('object', {snakifyForApi: true}) params!: LogParamModel;
 
     @belongsTo('node', { inverse: null})
