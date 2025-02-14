@@ -454,6 +454,7 @@ activity-log:
         node_access_requests_disabled: '{user} disabled access requests for {node}'
         node_access_requests_enabled: '{user} enabled access requests for {node}'
         node_created:     '{user} created {node}'
+        node_forked:  '{user} created fork from {forked_from}'
         node_removed:  '{user} removed {node}'
         osf_storage_file_added: '{user} added file {path} to OSF Storage in {node}'
         osf_storage_file_removed: '{user} removed {path_type} {path} from OSF Storage in {node}'
@@ -498,7 +499,6 @@ activity-log:
 
         external_ids_added:   '{user} created external identifier(s) {identifiers} on {node}'
 
-        node_forked:  '{user} created fork from {forked_from}'
 
         resource_identifier_added: '{user} has added a Resource with DOI {new_identifier} to Registration {node}'
 
