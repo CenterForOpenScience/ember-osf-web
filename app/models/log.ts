@@ -53,7 +53,7 @@ export default class LogModel extends OsfModel {
     templateNode!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('registration', { inverse: null })
-    linkedRegistration!: AsyncBelongsTo<RegistrationModel> & NodeModel ;
+    linkedRegistration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
 }
 
 declare module 'ember-data/types/registries/model' {
