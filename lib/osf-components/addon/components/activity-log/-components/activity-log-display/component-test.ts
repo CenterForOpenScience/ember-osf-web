@@ -43,7 +43,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM', 'The activity date is correct',
+            '2025-02-06 01:51 PM', 'The activity date is correct',
         );
     });
 
@@ -68,7 +68,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM', 'The activity date is correct',
+            '2025-02-06 01:51 PM', 'The activity date is correct',
         );
     });
 
@@ -92,7 +92,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM',
+            '2025-02-06 01:51 PM',
         );
     });
 
@@ -116,7 +116,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM',
+            '2025-02-06 01:51 PM',
         );
     });
 
@@ -140,7 +140,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM',
+            '2025-02-06 01:51 PM',
         );
     });
 
@@ -164,7 +164,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM',
+            '2025-02-06 01:51 PM',
         );
     });
 
@@ -189,7 +189,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM',
+            '2025-02-06 01:51 PM',
         );
     });
 
@@ -214,7 +214,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM',
+            '2025-02-06 01:51 PM',
         );
     });
 
@@ -238,7 +238,55 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
 
         assert.dom('[data-test-action-date]').hasText(
-            '2025-02-06 07:51 PM',
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows preprint and preprint provider', async function(this: ComponentTestContext, assert) {
+        const action = 'preprint_file_updated';
+        const log = server.create('log', {
+            action,
+        }, 'preprint');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> updated the primary file of this <a href="/3s8sfsl">Preprint</a> on <a href="/preprint-provider-url">Preprint Provider</a> Preprint</span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows preprint license updated', async function(this: ComponentTestContext, assert) {
+        const action = 'preprint_license_updated';
+        const log = server.create('log', {
+            action,
+        }, 'preprint');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> updated the license of this <a href="/3s8sfsl">Preprint</a> on <a href="/preprint-provider-url">Preprint Provider</a> Preprints to Apache License 2.0</span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
         );
     });
 });

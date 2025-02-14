@@ -16,6 +16,11 @@ export interface LogParamUrls {
     download: Link;
 }
 
+export interface LogParamPreprintProviderModel {
+    name: string;
+    url: string;
+}
+
 export interface LogParamModel {
     contributors: string[];
     commentLocation: string;
@@ -26,7 +31,8 @@ export interface LogParamModel {
     path: string;
     pathType: string;
     pointer: string;
-    preprintProvider: string;
+    preprint: string;
+    preprintProvider: LogParamPreprintProviderModel;
     tag: string;
     anonymousLink: boolean;
     urls: UserLinks;
