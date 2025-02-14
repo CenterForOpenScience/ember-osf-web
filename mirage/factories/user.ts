@@ -31,18 +31,6 @@ export default Factory.extend<MirageUser & UserTraits>({
         }
     },
 
-    /*
-    get() {
-        return (key: string): string => {
-            if (key === 'fullName') {
-                return `${this.givenName} ${this.familyName}`;
-            } else {
-                return 'undefined in the user factory';
-            }
-        };
-    },
-    */
-
     givenName() {
         return faker.name.firstName();
     },

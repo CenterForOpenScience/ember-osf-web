@@ -36,7 +36,6 @@ interface ParamModel {
 export default class ActivityLogDisplayComponent extends Component<ActivityLogDisplayArgs> {
     @service intl!: Intl;
     @tracked activityDisplay = '';
-    @tracked isLoading = true;
     @tracked log!: LogModel;
     user!: UserModel;
     linkedNode!: NodeModel;
@@ -117,12 +116,11 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      */
     @task
     @waitFor
-    private async loadModels(): Promise<void> {
+    public async loadModels(): Promise<void> {
         this.user = await this.log.user;
         this.linkedNode = await this.log.linkedNode;
         this.linkedRegistration = await this.log.linkedRegistration;
         this.node = await this.log.node;
-        this.isLoading = false;
     }
 
     /**
