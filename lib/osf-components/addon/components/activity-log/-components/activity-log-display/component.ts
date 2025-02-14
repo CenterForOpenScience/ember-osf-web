@@ -99,6 +99,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     get activity(): string {
         const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
             anonymous_link: this.buildAnonymous(),
+            forked_from: this.buildNodeUrl(),
             institution: this.buildInstitutionUrl(),
             license: this.log?.params?.license,
             node: this.buildNodeUrl(),
@@ -118,7 +119,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             comment_location: null,
             contributors: null,
             destination: null,
-            forked_from: null,
             group: null,
             identifiers: null,
             kind: null,
