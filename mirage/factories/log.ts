@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, trait, Trait } from 'ember-cli-mirage';
 import LogModel from 'ember-osf-web/models/log';
 import { NodeCategory } from 'ember-osf-web/models/node';
 
@@ -10,10 +10,14 @@ export interface MirageLogModel extends LogModel {
     userId: number;
     linkedNodeId:number;
     originalNodeId: number;
-    targetType: string;
+    preprint: string;
 }
 
-export default Factory.extend<MirageLogModel>({
+interface LogTraits {
+    preprint: Trait;
+}
+
+export default Factory.extend<MirageLogModel & LogTraits>({
     id: guid('log'),
     action: 'unknown',
     date: new Date('2025-02-06T19:51:35.017269Z'),
@@ -28,7 +32,7 @@ export default Factory.extend<MirageLogModel>({
         path: '/hat.jpg',
         tag: 'Food',
         pathType: 'file',
-        pointer: null,
+        preprint: null,
         license: 'Apache License 2.0',
         preprintProvider: null,
         anonymousLink: true,
@@ -58,6 +62,18 @@ export default Factory.extend<MirageLogModel>({
             linkedNode,
         });
     },
+
+    preprint: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.preprint = '3s8sfsl';
+            params.preprintProvider = {
+                name: 'Preprint Provider',
+                url: 'preprint-provider-url',
+            };
+            log.update({ params});
+        },
+    }),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

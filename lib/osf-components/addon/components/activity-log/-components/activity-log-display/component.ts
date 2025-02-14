@@ -134,15 +134,19 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         const logParams = this.buildParam();
 
         const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
-            anonymous_link: logParams.anonymousLink,
+            anonymous_link: this.buildAnonymous(),
             license: logParams.license,
-            node: logParams.node,
+            node: this.buildNodeUrl(),
             path: logParams.path,
             path_type: logParams.pathType,
-            pointer: logParams.pointer,
-            pointer_category: logParams.pointerCategory,
+            pointer: this.getPointer(),
+            pointer_category: this.getPointerCategory(),
+            preprint: this.buildPreprintUrl(),
+            preprint_provider: this.buildPreprintProviderUrl(),
+            preprint_word: this.intl.t('activity-log.defaults.preprint'),
+            preprint_word_plural: this.intl.t('activity-log.defaults.preprint-plural'),
             tag: logParams.tag,
-            user: logParams.fullName,
+            user: this.buildFullNameUrl(),
             /*
             addon: null,
             comment_location: null,
@@ -157,8 +161,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             obsolete_identifier: null,
             old_page: null,
             page: null,
-            preprint: null,
-            preprint_provider: null,
             source: null,
             template: null,
             title_new: null,
@@ -175,6 +177,20 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     }
 
     /**
+     * buildAnonymous
+     *
+     * @description Abstracted method to build the anonymous string
+     *
+     * @returns a formatted string
+     */
+    private buildAnonymous(): string {
+        return this.log?.params?.anonymousLink ?
+            this.intl.t('activity-log.defaults.anonymous_an') :
+            this.intl.t('activity-log.defaults.anonymous_a') ;
+    }
+
+
+    /**
      * buildNodeUrl
      *
      * @description Abstracted method to build the node ahref
@@ -187,6 +203,37 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         }
         return '';
     }
+
+    /**
+     * buildPreprintUrl
+     *
+     * @description Abstracted method to build the preprint ahref
+     *
+     * @returns a formatted string
+     */
+    private buildPreprintUrl(): string {
+        if (this.log?.params?.preprint) {
+            return this.buildAHrefElement(`/${this.log.params.preprint}`,
+                this.intl.t('activity-log.defaults.preprint'));
+        }
+        return '';
+    }
+
+    /**
+     * buildPreprintProviderUrl
+     *
+     * @description Abstracted method to build the preprint provider ahref
+     *
+     * @returns a formatted string
+     */
+    private buildPreprintProviderUrl(): string {
+        if (this.log?.params?.preprintProvider) {
+            return this.buildAHrefElement(`/${this.log?.params?.preprintProvider?.url}`,
+                this.log?.params?.preprintProvider?.name);
+        }
+        return '';
+    }
+
 
     /**
      * buildFullNameUrl
