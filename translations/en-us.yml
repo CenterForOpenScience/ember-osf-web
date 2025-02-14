@@ -432,6 +432,7 @@ activity-log:
         embargo_completed_no_user: 'Embargo for {node} completed'
         embargo_initiated:    '{user} initiated an embargoed registration of {node}'
         embargo_terminated: 'Embargo for {node} ended'
+        external_ids_added:   '{user} created external identifier(s) {identifiers} on {node}'
         external_registration_created:    'A registration of {node} was created on an external registry.'
         external_registration_imported:   'A registration of {node} was imported to OSF from an external registry.'
         file_added:   '{user} added file {path} to {node}'
@@ -497,13 +498,8 @@ activity-log:
 
 
 
-        external_ids_added:   '{user} created external identifier(s) {identifiers} on {node}'
-
-
         resource_identifier_added: '{user} has added a Resource with DOI {new_identifier} to Registration {node}'
-
         resource_identifier_removed: '{user} has removed a Resource with DOI {obsolete_identifier} to Registration {node}'
-
         resource_identifier_updated: '{user} has updated a Resource DOI on Registration {node} from {obsolete_identifier} to {new_identifier}'
 
 
