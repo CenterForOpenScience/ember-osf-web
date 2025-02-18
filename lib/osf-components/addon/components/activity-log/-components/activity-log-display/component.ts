@@ -100,6 +100,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
             addon: this.log?.params?.addon,
             anonymous_link: this.buildAnonymous(),
+            destination: this.buildDestination(),
             forked_from: this.buildNodeUrl(),
             identifiers: this.buildIdentifiers(),
             institution: this.buildInstitutionUrl(),
@@ -116,6 +117,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             preprint_provider: this.buildPreprintProviderUrl(),
             preprint_word: this.intl.t('activity-log.defaults.preprint'),
             preprint_word_plural: this.intl.t('activity-log.defaults.preprint-plural'),
+            source: this.buildSource(),
             tag: this.buildTagUrl(),
             template: this.getEmbeddedUrl(),
             user: this.buildFullNameUrl(),
@@ -123,11 +125,9 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             /*
             comment_location: null,
             contributors: null,
-            destination: null,
             group: null,
             new_identifier: null,
             obsolete_identifier: null,
-            source: null,
             title_new: null,
             title_original: null,
             updated_fields: null,
@@ -151,6 +151,35 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         return this.log?.params?.anonymousLink ?
             this.intl.t('activity-log.defaults.anonymous_an') :
             this.intl.t('activity-log.defaults.anonymous_a') ;
+    }
+
+    /**
+     * buildDestination
+     *
+     * @description Abstracted method to build the destination
+     *
+     * @returns a formatted string
+     */
+    private buildDestination(): string {
+        if (this.log?.params?.destination) {
+            const destination = this.log.params.destination;
+            let materialized = destination.materialized;
+
+            if (materialized.endsWith('/')) {
+                materialized = this.replaceSlash(destination.materialized);
+                return this.intl.t('activity-log.defaults.materialized', {
+                    materialized,
+                    addon: destination.addon,
+                });
+            } else {
+                return this.intl.t('activity-log.defaults.materialized', {
+                    materialized: this.buildAHrefElement(destination.url, materialized),
+                    addon: destination.addon,
+                });
+            }
+
+        }
+        return this.intl.t('activity-log.defaults.a_new_name_location');
     }
 
     /**
@@ -282,7 +311,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      */
     private buildPath(): string {
         if (this.log?.params?.path) {
-            const path = this.log.params.path.replace(/^\/|\/$/g, '');
+            const path = this.replaceSlash(this.log.params.path);
 
             const action = this.log.action;
             const acceptableLinkedItems = ['osf_storage_file_added', 'osf_storage_file_updated',
@@ -367,6 +396,26 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     }
 
     /**
+     * buildSource
+     *
+     * @description Abstracted method to build the source
+     *
+     * @returns a formatted string
+     */
+    private buildSource(): string {
+        if (this.log?.params?.source) {
+            const source = this.log.params.source;
+            const materialized = this.replaceSlash(source.materialized);
+
+            return this.intl.t('activity-log.defaults.materialized', {
+                materialized,
+                addon: source.addon,
+            });
+        }
+        return this.intl.t('activity-log.defaults.a_name_location');
+    }
+
+    /**
      * buildTagUrl
      *
      * @description Abstracted method to build the tag ahref
@@ -389,5 +438,18 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      */
     private buildVersion(): string {
         return this.log?.params?.version ? this.log.params.version : '#';
+    }
+
+    /**
+     * replaceSlash
+     *
+     * @description Abstracted method to remove the start and end / on a path
+     *
+     * @param path the path to format
+     *
+     * @returns a string without a / on the front or back
+     */
+    private replaceSlash(path: string): string {
+        return path.replace(/^\/|\/$/g, '');
     }
 }
