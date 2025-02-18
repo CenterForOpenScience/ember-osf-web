@@ -33,13 +33,18 @@ export interface LogParamInstitutionModel {
 
 
 export interface LogParamModel {
+    addon: string;
     anonymousLink: boolean;
     commentLocation: string;
     contributors: string[];
     guid: string;
     identifiers: LogParamIdentifiersModel;
     institution: LogParamInstitutionModel;
+    kind: string;
     license: string;
+    pageId: string;
+    page: string;
+    oldPage: string;
     paramsNode: LogParamNodeModel;
     paramsProject: string;
     path: string;
@@ -49,6 +54,7 @@ export interface LogParamModel {
     preprintProvider: LogParamPreprintProviderModel;
     tag: string;
     urls: UserLinks;
+    version: string;
 }
 
 export default class LogModel extends OsfModel {

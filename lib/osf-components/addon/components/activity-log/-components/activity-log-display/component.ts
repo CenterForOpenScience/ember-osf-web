@@ -98,14 +98,18 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      */
     get activity(): string {
         const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
+            addon: this.log?.params?.addon,
             anonymous_link: this.buildAnonymous(),
             forked_from: this.buildNodeUrl(),
             identifiers: this.buildIdentifiers(),
             institution: this.buildInstitutionUrl(),
+            kind: this.log?.params?.kind,
             license: this.log?.params?.license,
             node: this.buildNodeUrl(),
-            path: this.log?.params?.path,
-            path_type: this.log?.params?.pathType,
+            old_page: this.buildOldPage(),
+            page: this.buildPage(),
+            path: this.buildPath(),
+            path_type: this.buildPathType(),
             pointer: this.getEmbeddedUrl(),
             pointer_category: this.getPointerCategory(),
             preprint: this.buildPreprintUrl(),
@@ -115,23 +119,19 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             tag: this.buildTagUrl(),
             template: this.getEmbeddedUrl(),
             user: this.buildFullNameUrl(),
+            version: this.buildVersion(),
             /*
-            addon: null,
             comment_location: null,
             contributors: null,
             destination: null,
             group: null,
-            kind: null,
             new_identifier: null,
             obsolete_identifier: null,
-            old_page: null,
-            page: null,
             source: null,
             title_new: null,
             title_original: null,
             updated_fields: null,
             value: null,
-            version: null,
             */
 
         }) as string;
@@ -151,6 +151,64 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         return this.log?.params?.anonymousLink ?
             this.intl.t('activity-log.defaults.anonymous_an') :
             this.intl.t('activity-log.defaults.anonymous_a') ;
+    }
+
+    /**
+     * getEmbeddedUrl
+     *
+     * @description The pointer can exist on a linkedNode or registrationNode
+     *
+     * @returns the href if it exists
+     */
+    private getEmbeddedUrl(): string {
+        if (this.linkedNode?.links?.html) {
+            return this.buildAHrefElement(this.linkedNode.links.html.toString(), this.linkedNode.title);
+        } else if (this.linkedRegistration?.links?.html) {
+            return this.buildAHrefElement(this.linkedRegistration.links.html.toString(),
+                this.linkedRegistration.title);
+        } else if (this.templateNode?.links?.html) {
+            return this.buildAHrefElement(this.templateNode.links.html.toString(),
+                this.templateNode.title);
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * buildFullNameUrl
+     *
+     * @description Abstracted method to build the full name ahref
+     *
+     * @returns a formatted string
+     */
+    private buildFullNameUrl(): string {
+        if (this.user?.links) {
+            return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
+        }
+        return '';
+    }
+
+
+    /**
+     * buildIdentifiersUrl
+     *
+     * @description Abstracted method to build the identifiers ahref
+     *
+     * @returns a formatted string
+     */
+    private buildIdentifiers(): string {
+        if (this.log?.params?.identifiers) {
+            const doi = this.log.params.identifiers.doi;
+            const ark = this.log.params.identifiers.ark;
+            if (doi && ark) {
+                return `doi:${doi} and ark:${ark}`;
+            } else if (doi) {
+                return `doi:${doi}`;
+            } else if (ark) {
+                return `ark:${ark}`;
+            }
+        }
+        return '';
     }
 
     /**
@@ -184,25 +242,98 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     }
 
     /**
-     * buildIdentifiersUrl
+     * buildOldPage
      *
-     * @description Abstracted method to build the identifiers ahref
+     * @description Abstracted method to build the old page string
      *
      * @returns a formatted string
      */
-    private buildIdentifiers(): string {
-        if (this.log?.params?.identifiers) {
-            const doi = this.log.params.identifiers.doi;
-            const ark = this.log.params.identifiers.ark;
-            if (doi && ark) {
-                return `doi:${doi} and ark:${ark}`;
-            } else if (doi) {
-                return `doi:${doi}`;
-            } else if (ark) {
-                return `ark:${ark}`;
+    private buildOldPage(): string {
+        return this.log?.params?.oldPage ?
+            this.log.params.oldPage :
+            this.intl.t('activity-log.defaults.pageTitle');
+    }
+
+    /**
+     * buildPage
+     *
+     * @description Abstracted method to build the page string
+     *
+     * @returns a formatted string
+     */
+    private buildPage(): string {
+        if (this.log?.params?.page) {
+            const acceptableLinkedItems = ['wiki_updated', 'wiki_renamed'];
+            if (acceptableLinkedItems.indexOf(this.log.action) !== -1) {
+                return this.buildAHrefElement(`/${this.log.params.pageId}`, this.log.params.page);
             }
+            return this.log.params.page;
         }
-        return '';
+
+        return this.intl.t('activity-log.defaults.pageTitle');
+    }
+
+    /**
+     * buildPath
+     *
+     * @description Abstracted method to build the path string
+     *
+     * @returns a formatted string
+     */
+    private buildPath(): string {
+        if (this.log?.params?.path) {
+            const path = this.log.params.path.replace(/^\/|\/$/g, '');
+
+            const action = this.log.action;
+            const acceptableLinkedItems = ['osf_storage_file_added', 'osf_storage_file_updated',
+                'file_tag_added', 'file_tag_removed', 'github_file_added', 'github_file_updated',
+                'box_file_added', 'box_file_updated', 'dropbox_file_added', 'dropbox_file_updated',
+                's3_file_added', 's3_file_updated', 'figshare_file_added', 'checked_in',
+                'checked_out', 'file_metadata_updated'];
+
+            if (acceptableLinkedItems.indexOf(action) !== -1 && this.log.params.urls) {
+                return this.buildAHrefElement(this.log.params.urls.view, path);
+            } else {
+                return path;
+            }
+
+        }
+
+        return this.intl.t('activity-log.defaults.a_file') ;
+    }
+
+    /**
+     * buildPathType
+     *
+     * @description Abstracted method to build the path type string
+     *
+     * @returns a formatted string
+     */
+
+    private buildPathType(): string {
+        if (this.log?.params?.path) {
+            return this.log.params.path[0] === '/' ?  this.intl.t('activity-log.defaults.folder') :
+                this.intl.t('activity-log.defaults.file') ;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * getPointerCategory
+     *
+     * @description The pointer can exist on a linkedNode or registrationNode
+     *
+     * @returns the category if it exists
+     */
+    private getPointerCategory(): string {
+        if (this.linkedNode) {
+            return this.linkedNode.category;
+        } else if (this.linkedRegistration) {
+            return this.linkedRegistration.category;
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -235,7 +366,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         return '';
     }
 
-
     /**
      * buildTagUrl
      *
@@ -244,63 +374,20 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
      * @returns a formatted string
      */
     private buildTagUrl(): string {
-        if(this.log?.params?.tag) {
-            return this.buildAHrefElement(
+        return this.log?.params?.tag ?
+            this.buildAHrefElement(
                 `/search?q=%22${this.log.params.tag}%22`, this.log.params.tag,
-            );
-        }
-        return '';
+            ) : '';
     }
 
     /**
-     * buildFullNameUrl
+     * buildVersion
      *
-     * @description Abstracted method to build the full name ahref
+     * @description Abstracted method to build the version
      *
      * @returns a formatted string
      */
-    private buildFullNameUrl(): string {
-        if (this.user?.links) {
-            return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
-        }
-        return '';
-    }
-
-    /**
-     * getPointerCategory
-     *
-     * @description The pointer can exist on a linkedNode or registrationNode
-     *
-     * @returns the category if it exists
-     */
-    private getPointerCategory(): string {
-        if (this.linkedNode) {
-            return this.linkedNode.category;
-        } else if (this.linkedRegistration) {
-            return this.linkedRegistration.category;
-        } else {
-            return '';
-        }
-    }
-
-    /**
-     * getEmbeddedUrl
-     *
-     * @description The pointer can exist on a linkedNode or registrationNode
-     *
-     * @returns the href if it exists
-     */
-    private getEmbeddedUrl(): string {
-        if (this.linkedNode?.links?.html) {
-            return this.buildAHrefElement(this.linkedNode.links.html.toString(), this.linkedNode.title);
-        } else if (this.linkedRegistration?.links?.html) {
-            return this.buildAHrefElement(this.linkedRegistration.links.html.toString(),
-                this.linkedRegistration.title);
-        } else if (this.templateNode?.links?.html) {
-            return this.buildAHrefElement(this.templateNode.links.html.toString(),
-                this.templateNode.title);
-        } else {
-            return '';
-        }
+    private buildVersion(): string {
+        return this.log?.params?.version ? this.log.params.version : '#';
     }
 }
