@@ -31,12 +31,19 @@ export interface LogParamInstitutionModel {
     name: string;
 }
 
+export interface LogParamSourceModel {
+    materialized: string;
+    addon: string;
+    url: string;
+}
+
 
 export interface LogParamModel {
     addon: string;
     anonymousLink: boolean;
     commentLocation: string;
     contributors: string[];
+    destination: LogParamSourceModel;
     guid: string;
     identifiers: LogParamIdentifiersModel;
     institution: LogParamInstitutionModel;
@@ -52,6 +59,7 @@ export interface LogParamModel {
     pointer: string;
     preprint: string;
     preprintProvider: LogParamPreprintProviderModel;
+    source: LogParamSourceModel;
     tag: string;
     urls: UserLinks;
     version: string;
