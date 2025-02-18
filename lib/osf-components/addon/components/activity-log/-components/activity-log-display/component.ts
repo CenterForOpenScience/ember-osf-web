@@ -100,6 +100,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
             addon: this.log?.params?.addon,
             anonymous_link: this.buildAnonymous(),
+            comment_location: this.buildCommentLocation(),
             destination: this.buildDestination(),
             forked_from: this.buildNodeUrl(),
             identifiers: this.buildIdentifiers(),
@@ -123,7 +124,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             user: this.buildFullNameUrl(),
             version: this.buildVersion(),
             /*
-            comment_location: null,
             contributors: null,
             group: null,
             new_identifier: null,
@@ -151,6 +151,32 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         return this.log?.params?.anonymousLink ?
             this.intl.t('activity-log.defaults.anonymous_an') :
             this.intl.t('activity-log.defaults.anonymous_a') ;
+    }
+
+    /**
+     * buildCommentLocation
+     *
+     * @description Abstracted method to build the comment location
+     *
+     * @returns a formatted string
+     */
+    private buildCommentLocation(): string {
+        const file = this.log?.params?.file;
+        const wiki = this.log?.params?.wiki;
+        if (file) {
+            return this.intl.t('activity-log.defaults.file_on', {
+                file: this.buildAHrefElement(file.url, file.name),
+            });
+        }
+
+        if (wiki) {
+            return this.intl.t('activity-log.defaults.wiki_on', {
+                wiki: this.buildAHrefElement(wiki.url, wiki.name),
+            });
+
+        }
+
+        return '';
     }
 
     /**

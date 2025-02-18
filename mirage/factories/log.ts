@@ -24,6 +24,7 @@ interface LogTraits {
     linkedNode: Trait;
     preprint: Trait;
     templateNode: Trait;
+    wiki: Trait;
 }
 
 export default Factory.extend<MirageLogModel & LogTraits>({
@@ -38,6 +39,10 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             materialized:  '/destination-materialized-link',
             addon: 'the destination addon',
             url: '/the-destination-url',
+        },
+        file: {
+            name: 'file name',
+            url: 'file-url',
         },
         guid: 'the guid',
         identifiers: {
@@ -202,6 +207,18 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             log.update({
                 linkedNode: templateNode,
             });
+        },
+    }),
+
+    wiki: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.wiki = {
+                name: 'wiki name',
+                url: 'wiki-url',
+            };
+            params.file = undefined as any;
+            log.update({ params});
         },
     }),
 
