@@ -754,5 +754,53 @@ module('Integration | Activity Log Display | Component | validate activity log',
             '2025-02-06 01:51 PM',
         );
     });
+
+    test('it renders and shows comment_added - file', async function(this: ComponentTestContext, assert) {
+        const action = 'comment_added';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> added a comment on <a href="/352376787103583/tests/file-url">file name</a> in <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows comment_added - wiki', async function(this: ComponentTestContext, assert) {
+        const action = 'comment_removed';
+        const log = server.create('log', {
+            action,
+        }, 'wiki');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> deleted a comment on wiki page <a href="/352376787103583/tests/wiki-url">wiki name</a> in <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
 });
 

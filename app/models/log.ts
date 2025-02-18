@@ -21,7 +21,7 @@ export interface LogParamIdentifiersModel {
     ark?: string;
 }
 
-export interface LogParamPreprintProviderModel {
+export interface LogParamNameUrlModel {
     name: string;
     url: string;
 }
@@ -41,9 +41,9 @@ export interface LogParamSourceModel {
 export interface LogParamModel {
     addon: string;
     anonymousLink: boolean;
-    commentLocation: string;
     contributors: string[];
     destination: LogParamSourceModel;
+    file: LogParamNameUrlModel;
     guid: string;
     identifiers: LogParamIdentifiersModel;
     institution: LogParamInstitutionModel;
@@ -58,11 +58,12 @@ export interface LogParamModel {
     pathType: string;
     pointer: string;
     preprint: string;
-    preprintProvider: LogParamPreprintProviderModel;
+    preprintProvider: LogParamNameUrlModel;
     source: LogParamSourceModel;
     tag: string;
     urls: UserLinks;
     version: string;
+    wiki: LogParamNameUrlModel;
 }
 
 export default class LogModel extends OsfModel {
