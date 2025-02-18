@@ -408,15 +408,21 @@ activity-log:
     registration: 'Registration'
     defaults:
         a_file: 'a file'
+        a_name_location: 'a name/location'
+        a_new_name_location: 'a new name/location'
         anonymous_a: 'a'
         anonymous_an: 'an anonymous'
         file: 'file'
         folder: 'folder'
+        materialized: '{materialized} in {addon}'
         pageTitle: 'a title'
         preprint: 'Preprint'
         preprint-plural: 'Preprints'
     activities:
         addon_added:  '{user} added addon {addon} to {node}'
+        addon_file_copied:    '{user} copied {source} to {destination} in {node}'
+        addon_file_moved:     '{user} moved {source} to {destination} in {node}'
+        addon_file_renamed:   '{user} renamed {source} to {destination} in {node}'
         addon_removed:    '{user} removed addon {addon} from {node}'
         affiliated_institution_added: '{user} added {institution} affiliation to {node}'
         affiliated_institution_removed: '{user} removed {institution} affiliation from {node}'
@@ -523,10 +529,6 @@ activity-log:
         updated_fields:   '{user} changed the {updated_fields} for {node}'
 
 
-
-        addon_file_copied:    '{user} copied {source} to {destination} in {node}'
-        addon_file_moved:     '{user} moved {source} to {destination} in {node}'
-        addon_file_renamed:   '{user} renamed {source} to {destination} in {node}'
 
 
         

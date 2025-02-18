@@ -15,10 +15,12 @@ export interface MirageLogModel extends LogModel {
 interface LogTraits {
     empty: Trait;
     addFile: Trait;
+    destinationSlash: Trait;
     identifiersNoArk: Trait;
     identifiersNoDoi: Trait;
     institution: Trait;
     noPage: Trait;
+    noSource: Trait;
     linkedNode: Trait;
     preprint: Trait;
     templateNode: Trait;
@@ -29,28 +31,37 @@ export default Factory.extend<MirageLogModel & LogTraits>({
     action: 'unknown',
     date: new Date('2025-02-06T19:51:35.017269Z'),
     params: Object({
-        anonymousLink: true,
         addon: 'The add on',
+        anonymousLink: true,
         contributors: [],
-        pageId: 'page-id-1',
-        page: 'the page name',
-        oldPage: 'the old page name',
-        guid: 'the guid',
-        institution: null,
-        kind: 'the kind',
-        license: 'Apache License 2.0',
-        paramsNode: {
-            id: 'c2het',
-            title: 'A new project for testing file components',
+        destination: {
+            materialized:  '/destination-materialized-link',
+            addon: 'the destination addon',
+            url: '/the-destination-url',
         },
+        guid: 'the guid',
         identifiers: {
             doi: 'doi',
             ark: 'ark',
+        },
+        institution: null,
+        kind: 'the kind',
+        license: 'Apache License 2.0',
+        oldPage: 'the old page name',
+        page: 'the page name',
+        pageId: 'page-id-1',
+        paramsNode: {
+            id: 'c2het',
+            title: 'A new project for testing file components',
         },
         paramsProject: null,
         path: '/the-folder',
         preprint: null,
         preprintProvider: null,
+        source: {
+            materialized:  '/source-materialized-link',
+            addon: 'the source addon',
+        },
         tag: 'Food',
         urls: {
             view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
@@ -93,6 +104,15 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             log.update({ params});
         },
     }),
+
+    destinationSlash: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.destination.materialized = 'a-trailing-slash/';
+            log.update({ params});
+        },
+    }),
+
 
     identifiersNoArk: trait<MirageLogModel>({
         afterCreate(log) {
@@ -146,6 +166,15 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             params.oldPage = undefined as any;
             params.pageId = undefined as any;
             params.version = undefined as any;
+            log.update({ params});
+        },
+    }),
+
+    noSource: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.source = undefined as any;
+            params.destination = undefined as any;
             log.update({ params});
         },
     }),
