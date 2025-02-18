@@ -414,11 +414,13 @@ activity-log:
         anonymous_a: 'a'
         anonymous_an: 'an anonymous'
         file: 'file'
+        file_on: 'on {file}'
         folder: 'folder'
         materialized: '{materialized} in {addon}'
         pageTitle: 'a title'
         preprint: 'Preprint'
         preprint-plural: 'Preprints'
+        wiki_on: 'on wiki page {wiki}'
     activities:
         addon_added:  '{user} added addon {addon} to {node}'
         addon_file_copied:    '{user} copied {source} to {destination} in {node}'
@@ -432,6 +434,10 @@ activity-log:
         checked_in:   '{user} checked in {kind} {path} to {node}'
         checked_out:  '{user} checked out {kind} {path} from {node}'
         coi_statement_updated: '{user} changed the conflict of interest statement for {preprint}.'
+        comment_added:    '{user} added a comment {comment_location} in {node}'
+        comment_removed:  '{user} deleted a comment {comment_location} in {node}'
+        comment_restored:  '{user} restored a comment {comment_location}  in {node}'
+        comment_updated:  '{user} updated a comment {comment_location} in {node}'
         contributors_reordered:   '{user} reordered contributors for {node}'
         created_from:     '{user} created {node} based on {template}'
         custom_citation_added: '{user} created a custom citation for {node}'
@@ -533,10 +539,6 @@ activity-log:
 
 
         
-        comment_added:    '{user} added a comment {comment_location} in {node}'
-        comment_removed:  '{user} deleted a comment {comment_location} in {node}'
-        comment_restored:  '{user} restored a comment {comment_location}  in {node}'
-        comment_updated:  '{user} updated a comment {comment_location} in {node}'
 
         contributor_added:    '{user} added {contributors} as contributor(s) to {node}'
         contributor_removed:  '{user} removed {contributors} as contributor(s) from {node}'
