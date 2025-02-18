@@ -408,15 +408,23 @@ activity-log:
     no_logs: 'This {parent} has no activity logs.'
     registration: 'Registration'
     defaults:
+        a_file: 'a file'
         anonymous_a: 'a'
         anonymous_an: 'an anonymous'
+        file: 'file'
+        folder: 'folder'
+        pageTitle: 'a title'
         preprint: 'Preprint'
         preprint-plural: 'Preprints'
     activities:
+        addon_added:  '{user} added addon {addon} to {node}'
+        addon_removed:    '{user} removed addon {addon} from {node}'
         affiliated_institution_added: '{user} added {institution} affiliation to {node}'
         affiliated_institution_removed: '{user} removed {institution} affiliation from {node}'
         article_doi_updated: '{user} changed the article_doi of {node}'
         category_updated: '{user} changed the category of {node}'
+        checked_in:   '{user} checked in {kind} {path} to {node}'
+        checked_out:  '{user} checked out {kind} {path} from {node}'
         coi_statement_updated: '{user} changed the conflict of interest statement for {preprint}.'
         contributors_reordered:   '{user} reordered contributors for {node}'
         created_from:     '{user} created {node} based on {template}'
@@ -443,6 +451,11 @@ activity-log:
         file_tag_removed: '{user} removed tag {tag} from {path} in OSF Storage in {node}'
         file_updated:     '{user} updated file in {node}'
         folder_created:   '{user} created a folder in {node}'
+
+        group_added:    '{user} added {group} to {node}'
+        group_removed:  '{user} removed {group} from {node}'
+        group_updated:   '{user} changed {group} permissions to {node}'
+
         guid_metadata_updated: '{user} updated metadata for {node}'
         has_coi_updated: '{user} changed the conflict of interest statement availability for {preprint}.'
         license_changed: '{user} updated the license of {node} to {license}'
@@ -491,6 +504,11 @@ activity-log:
         view_only_link_removed: '{user} removed {anonymous_link} view-only link to {node}'
         why_no_data_updated: '{user} has updated their data statement'
         why_no_prereg_updated: '{user} has updated their preregistration data availability statement'
+        wiki_deleted:     '{user} deleted wiki page {page} of {node}'
+        wiki_renamed:     '{user} renamed wiki page {old_page} to {page} of {node}'
+        wiki_updated:     '{user} updated wiki page {page} to version {version} of {node}'
+
+
 
 
 
@@ -503,24 +521,15 @@ activity-log:
         resource_identifier_updated: '{user} has updated a Resource DOI on Registration {node} from {obsolete_identifier} to {new_identifier}'
 
 
-        wiki_deleted:     '{user} deleted wiki page {page} of {node}'
-        wiki_renamed:     '{user} renamed wiki page {old_page} to {page} of {node}'
-        wiki_updated:     '{user} updated wiki page {page} to version {version} of {node}'
-
-
         updated_fields:   '{user} changed the {updated_fields} for {node}'
 
 
-        addon_added:  '{user} added addon {addon} to {node}'
 
         addon_file_copied:    '{user} copied {source} to {destination} in {node}'
         addon_file_moved:     '{user} moved {source} to {destination} in {node}'
         addon_file_renamed:   '{user} renamed {source} to {destination} in {node}'
 
-        addon_removed:    '{user} removed addon {addon} from {node}'
 
-        checked_in:   '{user} checked in {kind} {path} to {node}'
-        checked_out:  '{user} checked out {kind} {path} from {node}'
         
         comment_added:    '{user} added a comment {comment_location} in {node}'
         comment_removed:  '{user} deleted a comment {comment_location} in {node}'
@@ -531,11 +540,6 @@ activity-log:
         contributor_removed:  '{user} removed {contributors} as contributor(s) from {node}'
 
         edit_title:   '{user} changed the title from {title_original} to {title_new}'
-
-
-        group_added:    '{user} added {group} to {node}'
-        group_removed:  '{user} removed {group} from {node}'
-        group_updated:   '{user} changed {group} permissions to {node}'
 
 
         has_data_links_updated: '{user} has updated the has links to data field to {value}'

@@ -101,7 +101,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'osf_storage_file_added';
         const log = server.create('log', {
             action,
-        });
+        }, 'addFile');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -113,7 +113,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasHtml(
-            '<span><a href="/utu98/">Futa Geiger</a> added file /hat.jpg to OSF Storage in <a href="/c2het">A new project for testing file components</a></span>',
+            '<span><a href="/utu98/">Futa Geiger</a> added file <a href="/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het">hat.jpg</a> to OSF Storage in <a href="/c2het">A new project for testing file components</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -138,7 +138,32 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasHtml(
-            '<span><a href="/utu98/">Futa Geiger</a> removed file /hat.jpg from OSF Storage in <a href="/c2het">A new project for testing file components</a></span>',
+            '<span><a href="/utu98/">Futa Geiger</a> removed folder the-folder from OSF Storage in <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows file_removed', async function(this: ComponentTestContext, assert) {
+        const action = 'file_removed';
+        const log = server.create('log', {
+            action,
+        }, 'addFile');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> removed file hat.jpg from <a href="/c2het">A new project for testing file components</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -458,6 +483,199 @@ module('Integration | Activity Log Display | Component | validate activity log',
 `);
         assert.dom('[data-test-action-text]').hasHtml(
             '<span><a href="/utu98/">Futa Geiger</a> created external identifier(s) ark:ark on <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows addon added', async function(this: ComponentTestContext, assert) {
+        const action = 'addon_added';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> added addon The add on to <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows wiki deleted', async function(this: ComponentTestContext, assert) {
+        const action = 'wiki_deleted';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> deleted wiki page the page name of <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows wiki deleted - no pages', async function(this: ComponentTestContext, assert) {
+        const action = 'wiki_deleted';
+        const log = server.create('log', {
+            action,
+        }, 'noPage');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> deleted wiki page a title of <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows wiki renamed', async function(this: ComponentTestContext, assert) {
+        const action = 'wiki_renamed';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> renamed wiki page the old page name to <a href="/page-id-1">the page name</a> of <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows wiki renamed - no pages', async function(this: ComponentTestContext, assert) {
+        const action = 'wiki_renamed';
+        const log = server.create('log', {
+            action,
+        }, 'noPage');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> renamed wiki page a title to a title of <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows wiki updated', async function(this: ComponentTestContext, assert) {
+        const action = 'wiki_updated';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> updated wiki page <a href="/page-id-1">the page name</a> to version 348 of <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows wiki updated - no pages', async function(this: ComponentTestContext, assert) {
+        const action = 'wiki_updated';
+        const log = server.create('log', {
+            action,
+        }, 'noPage');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> updated wiki page a title to version # of <a href="/c2het">A new project for testing file components</a></span>'
+            ,
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows checked in', async function(this: ComponentTestContext, assert) {
+        const action = 'checked_in';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> checked in the kind <a href="/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het">the-folder</a> to <a href="/c2het">A new project for testing file components</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
