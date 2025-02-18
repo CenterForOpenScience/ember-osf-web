@@ -14,9 +14,11 @@ export interface MirageLogModel extends LogModel {
 
 interface LogTraits {
     empty: Trait;
+    addFile: Trait;
     identifiersNoArk: Trait;
     identifiersNoDoi: Trait;
     institution: Trait;
+    noPage: Trait;
     linkedNode: Trait;
     preprint: Trait;
     templateNode: Trait;
@@ -28,9 +30,14 @@ export default Factory.extend<MirageLogModel & LogTraits>({
     date: new Date('2025-02-06T19:51:35.017269Z'),
     params: Object({
         anonymousLink: true,
+        addon: 'The add on',
         contributors: [],
+        pageId: 'page-id-1',
+        page: 'the page name',
+        oldPage: 'the old page name',
         guid: 'the guid',
         institution: null,
+        kind: 'the kind',
         license: 'Apache License 2.0',
         paramsNode: {
             id: 'c2het',
@@ -41,8 +48,7 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             ark: 'ark',
         },
         paramsProject: null,
-        path: '/hat.jpg',
-        pathType: 'file',
+        path: '/the-folder',
         preprint: null,
         preprintProvider: null,
         tag: 'Food',
@@ -50,6 +56,7 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
             download: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het?action=download',
         },
+        version: '348',
     }),
 
 
@@ -76,6 +83,14 @@ export default Factory.extend<MirageLogModel & LogTraits>({
 
 
             log.save();
+        },
+    }),
+
+    addFile: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.path = 'hat.jpg/';
+            log.update({ params});
         },
     }),
 
@@ -124,6 +139,16 @@ export default Factory.extend<MirageLogModel & LogTraits>({
         },
     }),
 
+    noPage: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.page = undefined as any;
+            params.oldPage = undefined as any;
+            params.pageId = undefined as any;
+            params.version = undefined as any;
+            log.update({ params});
+        },
+    }),
 
     preprint: trait<MirageLogModel>({
         afterCreate(log) {
