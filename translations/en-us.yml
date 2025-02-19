@@ -411,6 +411,7 @@ activity-log:
         a_file: 'a file'
         a_name_location: 'a name/location'
         a_new_name_location: 'a new name/location'
+        a_user: 'A user'
         anonymous_a: 'a'
         anonymous_an: 'an anonymous'
         file: 'file'

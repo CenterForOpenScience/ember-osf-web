@@ -25,6 +25,7 @@ interface LogTraits {
     preprint: Trait;
     templateNode: Trait;
     wiki: Trait;
+    withUser: Trait;
 }
 
 export default Factory.extend<MirageLogModel & LogTraits>({
@@ -44,6 +45,7 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             name: 'file name',
             url: 'file-url',
         },
+        githubUser: 'The Github User',
         guid: 'the guid',
         identifiers: {
             doi: 'doi',
@@ -78,27 +80,14 @@ export default Factory.extend<MirageLogModel & LogTraits>({
 
     afterCreate(log, server) {
         guidAfterCreate(log, server);
-
-        const user = server.create('user', {
-            givenName: 'Futa',
-            familyName: 'Geiger',
-        });
-
-        log.update({
-            user,
-        });
     },
 
     empty: trait<MirageLogModel>({
         afterCreate(log) {
             log.update({
-                user: undefined,
                 linkedNode: undefined,
                 params: undefined,
             });
-
-
-            log.save();
         },
     }),
 
@@ -219,6 +208,19 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             };
             params.file = undefined as any;
             log.update({ params});
+        },
+    }),
+
+    withUser: trait<MirageLogModel>({
+        afterCreate(log, server) {
+            const user = server.create('user', {
+                givenName: 'Futa',
+                familyName: 'Geiger',
+            });
+
+            log.update({
+                user,
+            });
         },
     }),
 
