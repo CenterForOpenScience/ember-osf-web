@@ -15,17 +15,17 @@ export default class LogSerializer extends ApplicationSerializer<MirageLogModel>
     }
 
     buildRelationships(model: ModelInstance<MirageLogModel>) {
-        const relationships: SerializedRelationships<MirageLogModel> = {
-            user: {
+        const relationships: SerializedRelationships<MirageLogModel> = { };
+        if (model.userId) {
+            relationships.user = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/users/${model.userId}`,
                         meta: {},
                     },
                 },
-            },
-
-        };
+            };
+        }
 
         if (model.linkedNode) {
             relationships.linkedNode = {

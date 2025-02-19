@@ -121,7 +121,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             source: this.buildSource(),
             tag: this.buildTagUrl(),
             template: this.getEmbeddedUrl(),
-            user: this.buildFullNameUrl(),
+            user: this.buildUserUrl(),
             version: this.buildVersion(),
             /*
             contributors: null,
@@ -165,13 +165,13 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         const wiki = this.log?.params?.wiki;
         if (file) {
             return this.intl.t('activity-log.defaults.file_on', {
-                file: this.buildAHrefElement(file.url, file.name),
+                file: this.buildAHrefElement(`/${file.url}`, file.name),
             });
         }
 
         if (wiki) {
             return this.intl.t('activity-log.defaults.wiki_on', {
-                wiki: this.buildAHrefElement(wiki.url, wiki.name),
+                wiki: this.buildAHrefElement(`/${wiki.url}`, wiki.name),
             });
 
         }
@@ -227,20 +227,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         } else {
             return '';
         }
-    }
-
-    /**
-     * buildFullNameUrl
-     *
-     * @description Abstracted method to build the full name ahref
-     *
-     * @returns a formatted string
-     */
-    private buildFullNameUrl(): string {
-        if (this.user?.links) {
-            return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
-        }
-        return '';
     }
 
 
@@ -454,6 +440,31 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
                 `/search?q=%22${this.log.params.tag}%22`, this.log.params.tag,
             ) : '';
     }
+
+    /**
+     * buildFullNameUrl
+     *
+     * @description Abstracted method to build the full name ahref
+     *
+     * @returns a formatted string
+     */
+    private buildUserUrl(): string {
+        if (this.user || this.log?.params?.githubUser) {
+            const githubUser = this.log.params.githubUser;
+            if (this.user?.links) {
+                return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
+                /*
+            } else if (userObject && userObject.errors[0].meta) {
+                return m('span', userObject.errors[0].meta.full_name);
+            */
+            } else if (githubUser){ // paramIsReturned skipped b/c this is applicable in only a few situtations
+                return githubUser;
+                // return m('span', 'A user');
+            }
+        }
+        return this.intl.t('activity-log.defaults.a_user');
+    }
+
 
     /**
      * buildVersion

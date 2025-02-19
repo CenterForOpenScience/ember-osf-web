@@ -38,7 +38,32 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasHtml(
-            '<span><a href="/utu98/">Futa Geiger</a> edited description of </span>',
+            '<span>A user edited description of </span>',
+            'Project edit description is correct',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM', 'The activity date is correct',
+        );
+    });
+
+    test('it renders and shows github user', async function(this: ComponentTestContext, assert) {
+        const action = 'edit_description';
+        const log = server.create('log', {
+            action,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span>The Github User edited description of <a href="/c2het">A new project for testing file components</a></span>',
             'Project edit description is correct',
         );
 
@@ -51,7 +76,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'edit_description';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -76,7 +101,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'license_changed';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -101,7 +126,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'osf_storage_file_added';
         const log = server.create('log', {
             action,
-        }, 'addFile');
+        }, 'withUser', 'addFile');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -126,7 +151,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'osf_storage_file_removed';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -151,7 +176,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'file_removed';
         const log = server.create('log', {
             action,
-        }, 'addFile');
+        }, 'withUser', 'addFile');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -176,7 +201,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'tag_added';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -201,7 +226,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'guid_metadata_updated';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -227,7 +252,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const log = server.create('log', {
             action,
             anonymousLink: false,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -253,7 +278,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const log = server.create('log', {
             action,
             anonymousLink: true,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -278,7 +303,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'pointer_created';
         const log = server.create('log', {
             action,
-        }, 'linkedNode');
+        }, 'withUser', 'linkedNode');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -302,7 +327,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'affiliated_institution_added';
         const log = server.create('log', {
             action,
-        }, 'institution');
+        }, 'withUser', 'institution');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -326,7 +351,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'preprint_file_updated';
         const log = server.create('log', {
             action,
-        }, 'preprint');
+        }, 'withUser', 'preprint');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -350,7 +375,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'preprint_license_updated';
         const log = server.create('log', {
             action,
-        }, 'preprint');
+        }, 'withUser', 'preprint');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -374,7 +399,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'created_from';
         const log = server.create('log', {
             action,
-        }, 'templateNode');
+        }, 'withUser', 'templateNode');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -398,7 +423,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'node_forked';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -422,7 +447,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'external_ids_added';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -446,7 +471,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'external_ids_added';
         const log = server.create('log', {
             action,
-        }, 'identifiersNoArk');
+        }, 'withUser', 'identifiersNoArk');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -470,7 +495,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'external_ids_added';
         const log = server.create('log', {
             action,
-        }, 'identifiersNoDoi');
+        }, 'withUser', 'identifiersNoDoi');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -494,7 +519,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'addon_added';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -518,7 +543,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'wiki_deleted';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -542,7 +567,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'wiki_deleted';
         const log = server.create('log', {
             action,
-        }, 'noPage');
+        }, 'withUser', 'noPage');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -566,7 +591,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'wiki_renamed';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -590,7 +615,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'wiki_renamed';
         const log = server.create('log', {
             action,
-        }, 'noPage');
+        }, 'withUser', 'noPage');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -614,7 +639,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'wiki_updated';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -638,7 +663,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'wiki_updated';
         const log = server.create('log', {
             action,
-        }, 'noPage');
+        }, 'withUser', 'noPage');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -663,7 +688,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'checked_in';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -687,7 +712,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'addon_file_copied';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -711,7 +736,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'addon_file_copied';
         const log = server.create('log', {
             action,
-        }, 'noSource');
+        }, 'withUser', 'noSource');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -735,7 +760,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'addon_file_moved';
         const log = server.create('log', {
             action,
-        }, 'destinationSlash');
+        }, 'withUser', 'destinationSlash');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -759,7 +784,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'comment_added';
         const log = server.create('log', {
             action,
-        });
+        }, 'withUser');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -771,7 +796,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasHtml(
-            '<span><a href="/utu98/">Futa Geiger</a> added a comment on <a href="/352376787103583/tests/file-url">file name</a> in <a href="/c2het">A new project for testing file components</a></span>',
+            '<span><a href="/utu98/">Futa Geiger</a> added a comment on <a href="/file-url">file name</a> in <a href="/c2het">A new project for testing file components</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
@@ -783,7 +808,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
         const action = 'comment_removed';
         const log = server.create('log', {
             action,
-        }, 'wiki');
+        }, 'withUser', 'wiki');
         const mirageLog = await this.store.findRecord('log', log.id);
 
         this.setProperties({
@@ -795,7 +820,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasHtml(
-            '<span><a href="/utu98/">Futa Geiger</a> deleted a comment on wiki page <a href="/352376787103583/tests/wiki-url">wiki name</a> in <a href="/c2het">A new project for testing file components</a></span>',
+            '<span><a href="/utu98/">Futa Geiger</a> deleted a comment on wiki page <a href="/wiki-url">wiki name</a> in <a href="/c2het">A new project for testing file components</a></span>',
         );
 
         assert.dom('[data-test-action-date]').hasText(
