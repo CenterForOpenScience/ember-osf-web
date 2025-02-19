@@ -107,7 +107,7 @@ export default class SearchResultModel extends Model {
             base.qualifiedAttribution?.map((item: any) => [
                 getSingleOsfmapValue(item, ['agent']),
                 Number.parseInt(
-                    getSingleOsfmapValue(item, ['prov:qualifiedOrder']),
+                    getSingleOsfmapValue(item, ['osf:order']),
                     10,
                 ),
             ]) || [],
