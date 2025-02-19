@@ -44,6 +44,7 @@ export interface LogParamModel {
     contributors: string[];
     destination: LogParamSourceModel;
     file: LogParamNameUrlModel;
+    githubUser: string;
     guid: string;
     identifiers: LogParamIdentifiersModel;
     institution: LogParamInstitutionModel;
