@@ -22,6 +22,7 @@ interface LogTraits {
     noPage: Trait;
     noSource: Trait;
     linkedNode: Trait;
+    originalNode: Trait;
     preprint: Trait;
     templateNode: Trait;
     wiki: Trait;
@@ -70,6 +71,8 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             addon: 'the source addon',
         },
         tag: 'Food',
+        titleNew: 'The new title',
+        titleOriginal: 'The original title',
         urls: {
             view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
             download: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het?action=download',
@@ -142,13 +145,27 @@ export default Factory.extend<MirageLogModel & LogTraits>({
     linkedNode: trait<MirageLogModel>({
         afterCreate(log, server) {
             const linkedNode = server.create('node', {
-                description: 'This is the node description',
+                description: 'This is the linked node description',
                 title: 'The linked node for testing',
                 category: NodeCategory.Analysis,
             });
 
             log.update({
                 linkedNode,
+            });
+        },
+    }),
+
+    originalNode: trait<MirageLogModel>({
+        afterCreate(log, server) {
+            const originalNode = server.create('node', {
+                description: 'This is the original node description',
+                title: 'The original node for testing',
+                category: NodeCategory.Analysis,
+            });
+
+            log.update({
+                originalNode,
             });
         },
     }),
@@ -223,7 +240,6 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             });
         },
     }),
-
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

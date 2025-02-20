@@ -410,6 +410,7 @@ activity-log:
         a_file: 'a file'
         a_name_location: 'a name/location'
         a_new_name_location: 'a new name/location'
+        a_title: 'a title'
         a_user: 'A user'
         anonymous_a: 'a'
         anonymous_an: 'an anonymous'
@@ -445,6 +446,7 @@ activity-log:
         custom_citation_removed: '{user} removed a custom citation from {node}'
         data_links_updated: '{user} has updated their data links'
         edit_description: '{user} edited description of {node}'
+        edit_title:   '{user} changed the title from {title_original} to {title_new}'
         embargo_approved:     '{user} approved embargoed registration of {node}'
         embargo_approved_no_user: 'Embargo of registration of {node} approved'
         embargo_cancelled:    '{user} cancelled embargoed registration of {node}'
@@ -543,7 +545,6 @@ activity-log:
         contributor_added:    '{user} added {contributors} as contributor(s) to {node}'
         contributor_removed:  '{user} removed {contributors} as contributor(s) from {node}'
 
-        edit_title:   '{user} changed the title from {title_original} to {title_new}'
 
 
         has_data_links_updated: '{user} has updated the has links to data field to {value}'
