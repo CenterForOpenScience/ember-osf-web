@@ -25,6 +25,8 @@ interface LogTraits {
     originalNode: Trait;
     preprint: Trait;
     templateNode: Trait;
+    updatedFields: Trait;
+    updatedFieldsUnknown: Trait;
     wiki: Trait;
     withUser: Trait;
 }
@@ -79,6 +81,11 @@ export default Factory.extend<MirageLogModel & LogTraits>({
         tag: 'Food',
         titleNew: 'The new title',
         titleOriginal: 'The original title',
+        updatedFields: {
+            category: {
+                new: 'software',
+            },
+        },
         urls: {
             view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
             download: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het?action=download',
@@ -219,6 +226,32 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             log.update({
                 linkedNode: templateNode,
             });
+        },
+    }),
+
+    updatedFields: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.updatedFields = {
+                title: {
+                    new: 'New Blog Title',
+                },
+            };
+
+            log.update({ params});
+        },
+    }),
+
+    updatedFieldsUnknown: trait<MirageLogModel>({
+        afterCreate(log) {
+            const params = log.params;
+            params.updatedFields = {
+                category: {
+                    new: 'Unknown',
+                },
+            };
+
+            log.update({ params});
         },
     }),
 

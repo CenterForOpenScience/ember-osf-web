@@ -71,6 +71,7 @@ export interface LogParamModel {
     tag: string;
     titleNew: string;
     titleOriginal: string;
+    updatedFields: Object;
     urls: UserLinks;
     version: string;
     wiki: LogParamNameUrlModel;
