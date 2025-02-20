@@ -194,52 +194,38 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         if (this.log?.params?.contributors) {
             const contributors = this.log.params.contributors;
             const maxShown = 3;
-            // Initialize the list to store formatted contributor data
             const contribList: string[] = [];
 
-            // Determine if we're showing the second-to-last contributor
-            const justOneMore = contributors.length === maxShown + 1;
+            // Determine if we are showing the second-to-last contributor (just one more)
+            const isJustOneMore = contributors.length === maxShown + 1;
 
-            // Loop through each contributor and create a formatted string
+            // Loop through each contributor
             for (let i = 0; i < contributors.length; i++) {
-                const item = contributors[i];
+                const contributor = contributors[i];
+                let separator = '';
 
-                // Default the separator to a space
-                let comma = '';
-
-                // Handle the logic of adding commas or "and"
-                if (i !== contributors.length - 1) {
-                    // Add comma unless it's the last one or we are adding 'and'
-                    if (i !== maxShown - 1 || justOneMore) {
-                        comma = ', ';
-                    }
+                // Handle the separator logic for commas or "and"
+                if (i < contributors.length - 1) {
+                    separator = (i === maxShown - 1 && !isJustOneMore) ? ', and ' : ', ';
                 }
 
-                // Special handling for the last contributor with "and"
-                if (i === contributors.length - 2 || ((i === maxShown - 1) && !justOneMore)) {
-                    comma = contributors.length === 2 ? ' and ' : ', and ';
-                }
-
-                // If we have reached the maximum number of contributors to show,
-                // add the remaining contributors as 'others'
-                if (i === maxShown && !justOneMore) {
+                // If we have reached the maximum number of contributors to show, add 'others'
+                if (i === maxShown && !isJustOneMore) {
                     contribList.push(`${contributors.length - i} others`);
-                    return contribList.join(' ');
+                    break; // Exit early after adding 'others'
                 }
 
-                // Check if the contributor is active and add the appropriate HTML or name
-                if (item.active) {
-                    contribList.push(`<a href="/${item.id}/">${item.fullName}</a>${comma}`);
-                } else {
-                    // If contributor is not active, use the unregistered name if available
-                    const nameToDisplay = item.unregisteredName || item.fullName;
-                    contribList.push(`${nameToDisplay}${comma}`);
-                }
+                // Add active contributors with their link, inactive ones with their name
+                const displayName = contributor.active
+                    ? `<a href="/${contributor.id}/">${contributor.fullName}</a>`
+                    : contributor.unregisteredName || contributor.fullName;
+
+                contribList.push(`${displayName}${separator}`);
             }
 
             return contribList.join(' ');
-        }
 
+        }
         return this.intl.t('activity-log.defaults.some_users');
     }
 
