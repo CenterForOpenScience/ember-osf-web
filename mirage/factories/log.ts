@@ -36,7 +36,13 @@ export default Factory.extend<MirageLogModel & LogTraits>({
     params: Object({
         addon: 'The add on',
         anonymousLink: true,
-        contributors: [],
+        contributors: [
+            { id: '1', full_name: 'Alice Johnson', active: true },
+            { id: '2', full_name: 'Bob Smith', active: false, unregistered_name: 'GuestUser42' },
+            { id: '3', full_name: 'Charlie Brown', active: true },
+            { id: '4', full_name: 'Dana White', active: false }, // No unregistered name
+            { id: '5', full_name: 'Eve Black', active: true },
+        ],
         destination: {
             materialized:  '/destination-materialized-link',
             addon: 'the destination addon',
