@@ -8,10 +8,12 @@ import { guid, guidAfterCreate } from './utils';
 export interface MirageUser extends User {
     contributorIds: ID[];
     institutionIds: ID[];
+    noLinksMirage: boolean;
 }
 
 export interface UserTraits {
     loggedIn: Trait;
+    noLinks: Trait;
     withInstitutions: Trait;
     withSettings: Trait;
     withAlternateEmail: Trait;
@@ -107,6 +109,23 @@ export default Factory.extend<MirageUser & UserTraits>({
             } else {
                 server.create('root', { currentUser });
             }
+        },
+    }),
+
+    // This unused and I need help getting this to work
+    noLinks: trait<MirageUser>({
+        afterCreate(user) {
+            user.update({
+                noLinksMirage: true,
+                links: null,
+                errors: [
+                    Object({
+                        meta: {
+                            fullName: 'Full Name',
+                        },
+                    }),
+                ] as any,
+            });
         },
     }),
 
