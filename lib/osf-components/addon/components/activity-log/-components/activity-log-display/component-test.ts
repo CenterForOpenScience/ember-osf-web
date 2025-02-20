@@ -909,5 +909,77 @@ module('Integration | Activity Log Display | Component | validate activity log',
             '2025-02-06 01:51 PM',
         );
     });
+
+    test('it renders and shows updated_fields category', async function(this: ComponentTestContext, assert) {
+        const action = 'updated_fields';
+        const log = server.create('log', {
+            action,
+        }, 'withUser');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> changed the category to Software for <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows updated_fields non-category', async function(this: ComponentTestContext, assert) {
+        const action = 'updated_fields';
+        const log = server.create('log', {
+            action,
+        }, 'withUser', 'updatedFields');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> changed the title to New Blog Title for <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
+
+    test('it renders and shows updated_fields unknown', async function(this: ComponentTestContext, assert) {
+        const action = 'updated_fields';
+        const log = server.create('log', {
+            action,
+        }, 'withUser', 'updatedFieldsUnknown');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> changed the category to Uncategorized for <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
 });
 

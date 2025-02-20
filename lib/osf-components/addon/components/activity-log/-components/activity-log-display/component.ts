@@ -127,13 +127,13 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             template: this.getEmbeddedUrl(),
             title_new: this.buildTitleNew(),
             title_original: this.getEmbeddedUrl(),
+            updated_fields: this.buildUpdatedFields(),
             user: this.buildUserUrl(),
             version: this.buildVersion(),
             /*
             group: null,
             new_identifier: null,
             obsolete_identifier: null,
-            updated_fields: null,
             value: null,
             */
 
@@ -507,6 +507,51 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             this.buildAHrefElement(
                 `${this.originalNode.links.html}`, this.log.params.titleNew,
             ) : this.intl.t('activity-log.defaults.a_title');
+    }
+
+    /**
+     * buildUpdatedFields
+     *
+     * @description Abstracted method to build the updated fields
+     *
+     * @returns a formatted string
+     */
+    private buildUpdatedFields(): string {
+        if (this.log?.params?.updatedFields) {
+
+            const nodeCategories =  {
+                analysis: 'Analysis',
+                communication: 'Communication',
+                data: 'Data',
+                hypothesis: 'Hypothesis',
+                instrumentation: 'Instrumentation',
+                'methods and measures': 'Methods and Measures',
+                procedure: 'Procedure',
+                project: 'Project',
+                software: 'Software',
+                other: 'Other',
+            };
+
+            const updatedFieldsParam = this.log.params.updatedFields;
+            const updatedField = Object.keys(updatedFieldsParam)[0];
+            if (updatedField === 'category'){
+                return this.intl.t('activity-log.defaults.updated_fields', {
+                    old: updatedField,
+                    // eslint-disable-next-line
+                    // @ts-ignore
+                    new: nodeCategories[updatedFieldsParam[updatedField].new] ||
+                        this.intl.t('activity-log.defaults.uncategorized'),
+                });
+
+            }
+            return this.intl.t('activity-log.defaults.updated_fields', {
+                old: updatedField,
+                // eslint-disable-next-line
+                // @ts-ignore
+                new: updatedFieldsParam[updatedField].new,
+            });
+        }
+        return this.intl.t('activity-log.defaults.field');
     }
 
     /**
