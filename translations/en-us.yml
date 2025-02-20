@@ -421,6 +421,7 @@ activity-log:
         pageTitle: 'a title'
         preprint: 'Preprint'
         preprint-plural: 'Preprints'
+        some_users: 'some users'
         wiki_on: 'on wiki page {wiki}'
     activities:
         addon_added:  '{user} added addon {addon} to {node}'
@@ -439,6 +440,8 @@ activity-log:
         comment_removed:  '{user} deleted a comment {comment_location} in {node}'
         comment_restored:  '{user} restored a comment {comment_location}  in {node}'
         comment_updated:  '{user} updated a comment {comment_location} in {node}'
+        contributor_added:    '{user} added {contributors} as contributor(s) to {node}'
+        contributor_removed:  '{user} removed {contributors} as contributor(s) from {node}'
         contributors_reordered:   '{user} reordered contributors for {node}'
         created_from:     '{user} created {node} based on {template}'
         custom_citation_added: '{user} created a custom citation for {node}'
@@ -473,6 +476,8 @@ activity-log:
         guid_metadata_updated: '{user} updated metadata for {node}'
         has_coi_updated: '{user} changed the conflict of interest statement availability for {preprint}.'
         license_changed: '{user} updated the license of {node} to {license}'
+        made_contributor_invisible:   '{user} made bibliographic contributor {contributors} a non-bibliographic contributor on {node}'
+        made_contributor_visible:     '{user} made non-bibliographic contributor {contributors} a bibliographic contributor on {node}'
         made_private:     '{user} made {node} private'
         made_public:  '{user} made {node} public'
         made_public_no_user:  '{node} made public'
@@ -542,16 +547,13 @@ activity-log:
 
         
 
-        contributor_added:    '{user} added {contributors} as contributor(s) to {node}'
-        contributor_removed:  '{user} removed {contributors} as contributor(s) from {node}'
+
 
 
 
         has_data_links_updated: '{user} has updated the has links to data field to {value}'
         has_prereg_links_updated: '{user} has updated their preregistration data link availability to {value}'
 
-        made_contributor_invisible:   '{user} made bibliographic contributor {contributors} a non-bibliographic contributor on {node}'
-        made_contributor_visible:     '{user} made non-bibliographic contributor {contributors} a bibliographic contributor on {node}'
 
         prereg_links_info_updated: '{user} has updated their preregistration links to {value}'
 

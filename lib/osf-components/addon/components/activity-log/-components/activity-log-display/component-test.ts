@@ -885,5 +885,29 @@ module('Integration | Activity Log Display | Component | validate activity log',
             '2025-02-06 01:51 PM',
         );
     });
+
+    test('it renders and shows contributor_added', async function(this: ComponentTestContext, assert) {
+        const action = 'contributor_added';
+        const log = server.create('log', {
+            action,
+        }, 'withUser');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> added <a href="/1/">Alice Johnson</a>, GuestUser42, <a href="/3/">Charlie Brown</a>, and 2 others as contributor(s) to <a href="/c2het">A new project for testing file components</a></span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
 });
 

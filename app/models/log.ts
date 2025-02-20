@@ -11,6 +11,13 @@ export interface LogParamNodeModel {
     title: string;
 }
 
+export interface ContributorModel {
+    id: string;
+    fullName: string;
+    active: boolean;
+    unregisteredName?: string;
+  }
+
 export interface LogParamUrls {
     view: Link;
     download: Link;
@@ -41,7 +48,7 @@ export interface LogParamSourceModel {
 export interface LogParamModel {
     addon: string;
     anonymousLink: boolean;
-    contributors: string[];
+    contributors: ContributorModel[];
     destination: LogParamSourceModel;
     file: LogParamNameUrlModel;
     githubUser: string;

@@ -18,6 +18,7 @@ interface ActivityLogDisplayArgs {
     log: LogModel;
 }
 
+
 export default class ActivityLogDisplayComponent extends Component<ActivityLogDisplayArgs> {
     @service intl!: Intl;
     @tracked activityDisplay = '';
@@ -103,6 +104,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             addon: this.log?.params?.addon,
             anonymous_link: this.buildAnonymous(),
             comment_location: this.buildCommentLocation(),
+            contributors: this.buildContributorsList(),
             destination: this.buildDestination(),
             forked_from: this.buildNodeUrl(),
             identifiers: this.buildIdentifiers(),
@@ -128,7 +130,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             user: this.buildUserUrl(),
             version: this.buildVersion(),
             /*
-            contributors: null,
             group: null,
             new_identifier: null,
             obsolete_identifier: null,
@@ -180,6 +181,68 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
 
         return '';
     }
+
+
+    /**
+     * buildContributorlist
+     *
+     * @description Abstracted method to build the contributor list
+     *
+     * @returns a formatted string
+     */
+    private buildContributorsList(): string {
+        if (this.log?.params?.contributors) {
+            const contributors = this.log.params.contributors;
+            const maxShown = 3;
+            // Initialize the list to store formatted contributor data
+            const contribList: string[] = [];
+
+            // Determine if we're showing the second-to-last contributor
+            const justOneMore = contributors.length === maxShown + 1;
+
+            // Loop through each contributor and create a formatted string
+            for (let i = 0; i < contributors.length; i++) {
+                const item = contributors[i];
+
+                // Default the separator to a space
+                let comma = '';
+
+                // Handle the logic of adding commas or "and"
+                if (i !== contributors.length - 1) {
+                    // Add comma unless it's the last one or we are adding 'and'
+                    if (i !== maxShown - 1 || justOneMore) {
+                        comma = ', ';
+                    }
+                }
+
+                // Special handling for the last contributor with "and"
+                if (i === contributors.length - 2 || ((i === maxShown - 1) && !justOneMore)) {
+                    comma = contributors.length === 2 ? ' and ' : ', and ';
+                }
+
+                // If we have reached the maximum number of contributors to show,
+                // add the remaining contributors as 'others'
+                if (i === maxShown && !justOneMore) {
+                    contribList.push(`${contributors.length - i} others`);
+                    return contribList.join(' ');
+                }
+
+                // Check if the contributor is active and add the appropriate HTML or name
+                if (item.active) {
+                    contribList.push(`<a href="/${item.id}/">${item.fullName}</a>${comma}`);
+                } else {
+                    // If contributor is not active, use the unregistered name if available
+                    const nameToDisplay = item.unregisteredName || item.fullName;
+                    contribList.push(`${nameToDisplay}${comma}`);
+                }
+            }
+
+            return contribList.join(' ');
+        }
+
+        return this.intl.t('activity-log.defaults.some_users');
+    }
+
 
     /**
      * buildDestination
