@@ -38,6 +38,17 @@ export default class LogSerializer extends ApplicationSerializer<MirageLogModel>
             };
         }
 
+        if (model.originalNode ) {
+            relationships.originalNode = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.originalNodeId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+
         if (model.node) {
             relationships.node = {
                 links: {

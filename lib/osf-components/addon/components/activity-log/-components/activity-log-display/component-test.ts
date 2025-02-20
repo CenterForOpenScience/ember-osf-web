@@ -47,6 +47,39 @@ module('Integration | Activity Log Display | Component | validate activity log',
         );
     });
 
+    /*
+    TODO I need help getting this to work
+    test('it renders and shows user error', async function(this: ComponentTestContext, assert) {
+        const action = 'edit_description';
+        const user = server.create('user', {}, 'noLinks');
+        const log = server.create('log', {
+            action,
+        });
+        log.update({
+            user,
+        });
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            'done',
+            // '<span>The Github User edited description of <a href="/c2het">A new project for testing file components</a></span>',
+            'Project edit description is correct',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM', 'The activity date is correct',
+        );
+    });
+    */
+
     test('it renders and shows github user', async function(this: ComponentTestContext, assert) {
         const action = 'edit_description';
         const log = server.create('log', {
@@ -90,6 +123,31 @@ module('Integration | Activity Log Display | Component | validate activity log',
         assert.dom('[data-test-action-text]').hasHtml(
             '<span><a href="/utu98/">Futa Geiger</a> edited description of <a href="/c2het">A new project for testing file components</a></span>',
             'Project edit description is correct',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM', 'The activity date is correct',
+        );
+    });
+
+    test('it renders and shows edit_title', async function(this: ComponentTestContext, assert) {
+        const action = 'edit_title';
+        const log = server.create('log', {
+            action,
+        }, 'withUser', 'originalNode');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> changed the title from <a href="/ww3a2/">The original node for testing</a> to <a href="/ww3a2/">The new title</a></span>',
+            'Project edit title is correct',
         );
 
         assert.dom('[data-test-action-date]').hasText(

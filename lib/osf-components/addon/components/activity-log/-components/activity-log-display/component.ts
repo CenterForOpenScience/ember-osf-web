@@ -24,9 +24,10 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     @tracked log!: LogModel;
     user!: UserModel;
     linkedNode!: NodeModel;
-    templateNode!: NodeModel;
     linkedRegistration!: RegistrationModel;
     node!: NodeModel;
+    originalNode!: NodeModel;
+    templateNode!: NodeModel;
 
     /**
      * constructor
@@ -84,6 +85,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     public async loadModels(): Promise<void> {
         this.linkedNode = await this.log.linkedNode;
         this.linkedRegistration = await this.log.linkedRegistration;
+        this.originalNode = await this.log.originalNode;
         this.node = await this.log.node;
         this.templateNode = await this.log.templateNode;
         this.user = await this.log.user;
@@ -121,6 +123,8 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             source: this.buildSource(),
             tag: this.buildTagUrl(),
             template: this.getEmbeddedUrl(),
+            title_new: this.buildTitleNew(),
+            title_original: this.getEmbeddedUrl(),
             user: this.buildUserUrl(),
             version: this.buildVersion(),
             /*
@@ -128,8 +132,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             group: null,
             new_identifier: null,
             obsolete_identifier: null,
-            title_new: null,
-            title_original: null,
             updated_fields: null,
             value: null,
             */
@@ -224,8 +226,11 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         } else if (this.templateNode?.links?.html) {
             return this.buildAHrefElement(this.templateNode.links.html.toString(),
                 this.templateNode.title);
+        } else if (this.originalNode?.links?.html) {
+            return this.buildAHrefElement(this.originalNode.links.html.toString(),
+                this.originalNode.title);
         } else {
-            return '';
+            return this.intl.t('activity-log.defaults.a_title');
         }
     }
 
@@ -442,7 +447,21 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     }
 
     /**
-     * buildFullNameUrl
+     * buildTitleNew
+     *
+     * @description Abstracted method to build the new title
+     *
+     * @returns a formatted string
+     */
+    private buildTitleNew(): string {
+        return this.originalNode?.links ?
+            this.buildAHrefElement(
+                `${this.originalNode.links.html}`, this.log.params.titleNew,
+            ) : this.intl.t('activity-log.defaults.a_title');
+    }
+
+    /**
+     * buildUserUrl
      *
      * @description Abstracted method to build the full name ahref
      *
@@ -453,13 +472,10 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             const githubUser = this.log.params.githubUser;
             if (this.user?.links) {
                 return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
-                /*
-            } else if (userObject && userObject.errors[0].meta) {
-                return m('span', userObject.errors[0].meta.full_name);
-            */
+            } else if (this.user && this.user.errors[0].meta) {
+                return this.user.errors[0].meta.fullName;
             } else if (githubUser){ // paramIsReturned skipped b/c this is applicable in only a few situtations
                 return githubUser;
-                // return m('span', 'A user');
             }
         }
         return this.intl.t('activity-log.defaults.a_user');
