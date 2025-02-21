@@ -42,7 +42,7 @@ export default class LogSerializer extends ApplicationSerializer<MirageLogModel>
             relationships.originalNode = {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.originalNodeId}`,
+                        href: `${apiUrl}/v2/nodes/${model.originalNode.id}`,
                         meta: {},
                     },
                 },
