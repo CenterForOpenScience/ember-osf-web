@@ -47,6 +47,10 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked filterString = '';
     @tracked hasMoreValueOptions = false;
     @tracked nextPageCursor = '';
+    @tracked hasDescription = false;
+    @tracked description = '';
+    @tracked link_text = '';
+    @tracked link = '';
 
     get shouldShowTopValues() {
         const { args: { property: { propertyPathKey } } } = this;
@@ -56,6 +60,13 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @action
     toggleFacet() {
         if (this.shouldShowTopValues) {
+            const propertyPath = this.args.property.propertyPath || [];
+            this.hasDescription = propertyPath.length > 0 &&
+                Array.isArray(propertyPath[0]?.description) &&
+                propertyPath[0].description.length > 0;
+            this.description = propertyPath[0]?.description?.[0]?.['@value'] || '';
+            this.link_text = propertyPath[0]?.link_text?.[0]?.['@value'] || '';
+            this.link = propertyPath[0]?.link?.[0]?.['@value'] || '';
             if (this.filterableValues.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
                 taskFor(this.fetchFacetValues).perform();
             }
