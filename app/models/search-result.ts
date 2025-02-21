@@ -90,16 +90,33 @@ export default class SearchResultModel extends Model {
     get affiliatedEntities() {
         if (this.resourceType === 'user') {
             if (this.resourceMetadata.affiliation) {
-                return this.resourceMetadata.affiliation.map((item: any) =>
-                    ({ name: getSingleOsfmapValue(item, ['name']), absoluteUrl: item['@id'] }));
+                return this.resourceMetadata.affiliation.map((item: any) => ({
+                    name: getSingleOsfmapValue(item, ['name']),
+                    absoluteUrl: item['@id'],
+                }));
             }
         } else if (this.resourceMetadata.creator) {
-            return this.resourceMetadata.creator?.map((item: any) =>
-                ({ name: getSingleOsfmapValue(item, ['name']), absoluteUrl: item['@id'] }));
+            return this.getSortedContributors(this.resourceMetadata);
         } else if (this.isContainedBy?.[0]?.creator) {
-            return this.isContainedBy[0].creator.map((item: any) =>
-                ({ name: getSingleOsfmapValue(item, ['name']), absoluteUrl: item['@id'] }));
+            return this.getSortedContributors(this.isContainedBy?.[0]);
         }
+    }
+
+    private getSortedContributors(base) {
+        const objectOrder = Object.fromEntries(
+            base.qualifiedAttribution?.map((item: any) => [
+                getSingleOsfmapValue(item, ['agent']),
+                Number.parseInt(
+                    getSingleOsfmapValue(item, ['osf:order']),
+                    10,
+                ),
+            ]) || [],
+        );
+        return base.creator?.map((item: any) => ({
+            name: getSingleOsfmapValue(item, ['name']),
+            absoluteUrl: item['@id'],
+            index: objectOrder[item['@id']],
+        })).sortBy('index');
     }
 
     get dateFields() {
@@ -248,7 +265,7 @@ export default class SearchResultModel extends Model {
             return 'registration_component';
         } else if (types.includes('Person')) {
             return 'user';
-        } else if(types.includes('File')) {
+        } else if (types.includes('File')) {
             return 'file';
         }
         return 'unknown';
