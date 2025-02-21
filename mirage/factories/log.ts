@@ -90,6 +90,7 @@ export default Factory.extend<MirageLogModel & LogTraits>({
             view: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het',
             download: '/c2het/files/osfstorage/6786c8874fde462e7f1ec489/?pid=c2het?action=download',
         },
+        value: 'the new value',
         version: '348',
     }),
 
