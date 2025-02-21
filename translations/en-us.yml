@@ -479,6 +479,8 @@ activity-log:
 
         guid_metadata_updated: '{user} updated metadata for {node}'
         has_coi_updated: '{user} changed the conflict of interest statement availability for {preprint}.'
+        has_data_links_updated: '{user} has updated the has links to data field to {value}'
+        has_prereg_links_updated: '{user} has updated their preregistration data link availability to {value}'
         license_changed: '{user} updated the license of {node} to {license}'
         made_contributor_invisible:   '{user} made bibliographic contributor {contributors} a non-bibliographic contributor on {node}'
         made_contributor_visible:     '{user} made non-bibliographic contributor {contributors} a bibliographic contributor on {node}'
@@ -504,6 +506,7 @@ activity-log:
         preprint_file_updated: '{user} updated the primary file of this {preprint} on {preprint_provider} {preprint_word_plural}'
         preprint_initiated: '{user} made {node} a {preprint} on {preprint_provider} {preprint_word_plural}'
         preprint_license_updated: '{user} updated the license of this {preprint} on {preprint_provider} {preprint_word_plural} {license}'
+        prereg_links_info_updated: '{user} has updated their preregistration links to {value}'
         prereg_links_updated: '{user} has updated their preregistration data links'
         prereg_registration_initiated: '{user} submitted for review to the Preregistration Challenge a registration of {node}'
         project_created:  '{user} created {node}'
@@ -515,6 +518,9 @@ activity-log:
         registration_approved_no_user: 'Registration of {node} was approved'
         registration_cancelled:   '{user} cancelled a registration of {node}'
         registration_initiated:   '{user} initiated a registration of {node}'
+        resource_identifier_added: '{user} has added a Resource to Registration {node}'
+        resource_identifier_removed: '{user} has removed a Resource to Registration {node}'
+        resource_identifier_updated: '{user} has updated a Resource to Registration {node}'
         retraction_approved:  '{user} approved a withdrawal of a registration of {node}'
         retraction_approved_no_user:  'A withdrawal of a registration of {node} was approved'
         retraction_cancelled:     '{user} cancelled withdrawal of a registration of {node}'
@@ -532,13 +538,7 @@ activity-log:
         wiki_renamed:     '{user} renamed wiki page {old_page} to {page} of {node}'
         wiki_updated:     '{user} updated wiki page {page} to version {version} of {node}'
 
-        resource_identifier_added: '{user} has added a Resource with DOI {new_identifier} to Registration {node}'
-        resource_identifier_removed: '{user} has removed a Resource with DOI {obsolete_identifier} to Registration {node}'
-        resource_identifier_updated: '{user} has updated a Resource DOI on Registration {node} from {obsolete_identifier} to {new_identifier}'
 
-        has_data_links_updated: '{user} has updated the has links to data field to {value}'
-        has_prereg_links_updated: '{user} has updated their preregistration data link availability to {value}'
-        prereg_links_info_updated: '{user} has updated their preregistration links to {value}'
 
 search:
     page-title: 'Search'
