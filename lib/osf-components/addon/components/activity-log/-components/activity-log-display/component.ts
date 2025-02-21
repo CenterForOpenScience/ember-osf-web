@@ -129,12 +129,10 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             title_original: this.getEmbeddedUrl(),
             updated_fields: this.buildUpdatedFields(),
             user: this.buildUserUrl(),
+            value: this.log?.params?.value,
             version: this.buildVersion(),
             /*
             group: null,
-            new_identifier: null,
-            obsolete_identifier: null,
-            value: null,
             */
 
         }) as string;

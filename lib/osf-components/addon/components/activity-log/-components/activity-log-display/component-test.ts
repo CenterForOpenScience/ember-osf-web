@@ -981,5 +981,29 @@ module('Integration | Activity Log Display | Component | validate activity log',
             '2025-02-06 01:51 PM',
         );
     });
+
+    test('it renders and shows has_data_linked_updated', async function(this: ComponentTestContext, assert) {
+        const action = 'has_data_links_updated';
+        const log = server.create('log', {
+            action,
+        }, 'withUser');
+        const mirageLog = await this.store.findRecord('log', log.id);
+
+        this.setProperties({
+            mirageLog,
+        });
+        await render(hbs`
+<ActivityLog::-Components::ActivityLogDisplay
+    @log={{this.mirageLog}}
+/>
+`);
+        assert.dom('[data-test-action-text]').hasHtml(
+            '<span><a href="/utu98/">Futa Geiger</a> has updated the has links to data field to the new value</span>',
+        );
+
+        assert.dom('[data-test-action-date]').hasText(
+            '2025-02-06 01:51 PM',
+        );
+    });
 });
 
