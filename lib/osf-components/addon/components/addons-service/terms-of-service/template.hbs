@@ -1,0 +1,23 @@
+<table local-class='capabilities-table' data-test-capabilities-table>
+    <thead>
+        <tr>
+            <th>{{t 'addons.terms.table-headings.function'}}</th>
+            <th>{{t 'addons.terms.table-headings.status'}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each this.sections as |section|}}
+            <tr>
+                <td local-class='{{section.class}}'>{{section.title}}</td>
+                <td local-class='{{section.class}}'>{{section.text}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<ul local-class='footer-list'>
+    <li>{{t 'addons.terms.footer.generic-label'}}</li>
+    {{#if (eq this.baseTranslationKey 'storage')}}
+        <li>{{t 'addons.terms.footer.storage-label'}}</li>
+    {{/if}}
+</ul>

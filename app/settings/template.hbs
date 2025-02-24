@@ -39,14 +39,24 @@
                                     {{t 'settings.account.title'}}
                                 </OsfLink>
                             </li>
-                            <li>
-                                <OsfLink
-                                    data-analytics-name='Configure add-on accounts'
-                                    data-test-addons-link
-                                    @href='/settings/addons'
-                                >
-                                    {{t 'settings.addons.title'}}
-                                </OsfLink>
+                            <li local-class={{if (eq this.router.currentRouteName 'settings.addons') 'active'}}>
+                                {{#if (feature-flag 'gravy_waffle')}}
+                                    <OsfLink
+                                        data-analytics-name='Configure add-on accounts'
+                                        data-test-addons-link
+                                        @route='settings.addons'
+                                    >
+                                        {{t 'settings.addons.title'}}
+                                    </OsfLink>
+                                {{else}}
+                                    <OsfLink
+                                        data-analytics-name='Configure add-on accounts'
+                                        data-test-addons-link
+                                        @href='/settings/addons'
+                                    >
+                                        {{t 'settings.addons.title'}}
+                                    </OsfLink>
+                                {{/if}}
                             </li>
                             <li>
                                 <OsfLink

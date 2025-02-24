@@ -10,7 +10,6 @@ import { camelize } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
 import { keepLatestTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import config from 'ember-osf-web/config/environment';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -224,12 +223,6 @@ export default class DiscoverPage extends Component {
         // Total pages of search results, unless total is greater than the max pages allowed.
         const maxPages = Math.ceil(10000 / this.size);
         return this.totalPages < maxPages ? this.totalPages : maxPages;
-    }
-
-    @computed('currentUser.sessionKey')
-    get searchUrl() {
-        // Pulls SHARE search url from config file.
-        return `${config.OSF.shareSearchUrl}?preference=${this.currentUser.sessionKey}`;
     }
 
     // Total pages of search results

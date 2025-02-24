@@ -13,6 +13,7 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CitationModel from './citation';
@@ -333,20 +334,24 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @task
     @waitFor
     async getEnabledAddons() {
-        const endpoint = `${apiUrl}/${apiNamespace}/nodes/${this.id}/addons/`;
-        const response = await this.currentUser.authenticatedAJAX({
-            url: endpoint,
-            type: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            xhrFields: { withCredentials: true },
-        });
-        if (response.data) {
-            const addonList = response.data
-                .filter((addon: any) => addon.attributes.node_has_auth)
-                .map((addon: any) => addon.id);
-            this.set('addonsEnabled', addonList);
+        try {
+            const endpoint = `${apiUrl}/${apiNamespace}/nodes/${this.id}/addons/`;
+            const response = await this.currentUser.authenticatedAJAX({
+                url: endpoint,
+                type: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                xhrFields: { withCredentials: true },
+            });
+            if (response.data) {
+                const addonList = response.data
+                    .filter((addon: any) => addon.attributes.node_has_auth)
+                    .map((addon: any) => addon.id);
+                this.set('addonsEnabled', addonList);
+            }
+        } catch (e) {
+            captureException(e);
         }
     }
 }

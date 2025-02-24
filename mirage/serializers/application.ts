@@ -5,7 +5,7 @@ import { RelationshipsFor } from 'ember-data';
 import config from 'ember-osf-web/config/environment';
 import { BaseMeta, RelatedLinkMeta, Relationship } from 'osf-api';
 
-const { OSF: { apiUrl } } = config;
+const { OSF: { apiUrl, url } } = config;
 
 export type SerializedRelationships<T extends Model> = {
     [relName in Exclude<RelationshipsFor<T>, 'toString'>]?: Relationship;
@@ -37,6 +37,7 @@ export default class ApplicationSerializer<T extends Model> extends JSONAPISeria
     buildNormalLinks(model: ModelInstance<T>) {
         return {
             self: `${apiUrl}/v2/${this.typeKeyForModel(model)}/${model.id}/`,
+            iri: `${url}${model.id}`,
         };
     }
 

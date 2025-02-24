@@ -107,10 +107,10 @@ declare const config: {
         donateUrl: string;
         renderUrl: string;
         mfrUrl: string;
+        addonServiceUrl: string;
         waterbutlerUrl: string;
         helpUrl: string;
         shareBaseUrl: string;
-        shareApiUrl: string;
         shareSearchUrl: string;
         devMode: boolean;
         cookieDomain: string;
@@ -192,6 +192,7 @@ declare const config: {
             homePageHeroTextVersionB: string;
         };
         storageI18n: string;
+        gravyWaffle: string;
         enableInactiveSchemas: string;
         registrationFilesPage: string;
         verifyEmailModals: string;

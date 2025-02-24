@@ -20,18 +20,27 @@ export function mapKeysAndValues<Value, NewValue>(
     );
 }
 
-export function camelizeKeys<K extends string>(obj: Partial<Record<K, unknown>>) {
+export function camelizeKeys<K extends string>(obj: Partial<Record<K, unknown>>, recursive = false): any {
     return mapKeysAndValues(
         obj,
         key => camelize(key),
-        value => value,
+        value => recursive ? _recurseKeys(value, camelizeKeys) : value,
     );
 }
 
-export function snakifyKeys(obj: Record<string, unknown>) {
+export function snakifyKeys(obj: Partial<Record<string, unknown>>, recursive = false): any {
     return mapKeysAndValues(
         obj,
         key => underscore(key),
-        value => value,
+        value => recursive ? _recurseKeys(value, snakifyKeys) : value,
     );
+}
+
+function _recurseKeys(value: any, keyMap: typeof camelizeKeys | typeof snakifyKeys) {
+    if (Array.isArray(value)) {
+        return value.map(_item => keyMap(_item, true));
+    } else if (value !== null && typeof value === 'object') {
+        return keyMap(value, true);
+    }
+    return value;
 }

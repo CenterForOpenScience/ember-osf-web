@@ -127,7 +127,7 @@ export default class ShareSearch extends Search {
     osfProviders: SourceDescriptor[] = [];
 
     url(): string {
-        return `${config.shareSearchBaseURL}/creativeworks/_search`;
+        return config.shareSearchUrl;
     }
 
     extractTotal(response: any): number {
@@ -201,7 +201,7 @@ export default class ShareSearch extends Search {
             let mainLink: string | undefined;
             const infoLinks: Array<{ type: string, uri: string }> = [];
             const hyperLinks: string[] = [
-                `${config.shareBaseURL}/${r._source.type.replace(/ /g, '')}/${r._id}`,
+                `${config.shareBaseUrl}/${r._source.type.replace(/ /g, '')}/${r._id}`,
             ];
 
             for (const identifier of (r._source.identifiers as string[])) {

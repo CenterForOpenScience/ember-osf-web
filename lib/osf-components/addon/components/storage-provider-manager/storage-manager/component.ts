@@ -4,6 +4,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import Features from 'ember-feature-flags/services/features';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import File from 'ember-osf-web/packages/files/file';
@@ -26,9 +27,21 @@ import OneDriveProviderFile from 'ember-osf-web/packages/files/one-drive-provide
 import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
 import OwnCloudProviderFile from 'ember-osf-web/packages/files/own-cloud-provider-file';
 import S3ProviderFile from 'ember-osf-web/packages/files/s3-provider-file';
+import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import ServiceProviderFile from 'ember-osf-web/packages/files/service-provider-file';
 
 interface Args {
     provider: FileProviderModel;
+    configuredStorageAddon: ConfiguredStorageAddonModel;
+}
+
+export function getServiceProviderFile(
+    currentUser: CurrentUserService,
+    providerFileModel: FileProviderModel,
+    configuredStorageAddon: ConfiguredStorageAddonModel,
+) {
+    const providerFile = new ServiceProviderFile(currentUser, providerFileModel, configuredStorageAddon);
+    return providerFile as ProviderFile;
 }
 
 export function getStorageProviderFile(currentUser: CurrentUserService, providerFileModel: FileProviderModel) {
@@ -82,9 +95,10 @@ export default class StorageManager extends Component<Args> {
     @service router!: RouterService;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service features!: Features;
 
-    @tracked storageProvider?: FileProviderModel;
-    @tracked folderLineage: Array<File | ProviderFile> = [];
+    @tracked externalStorageService?: FileProviderModel;
+    @tracked folderLineage: Array<File | ProviderFile | ServiceProviderFile> = [];
     @tracked displayItems: File[] = [];
     @tracked filter = '';
     @tracked sort = FileSortKey.AscName;
@@ -94,7 +108,7 @@ export default class StorageManager extends Component<Args> {
     @tracked selectedFiles: File[] = [];
 
     get targetNode() {
-        return this.args.provider.target.content;
+        return this.args.provider?.target.content;
     }
     get rootFolder() {
         return this.folderLineage[0];
@@ -118,7 +132,7 @@ export default class StorageManager extends Component<Args> {
     @restartableTask
     @waitFor
     async getRootFolderItems() {
-        if(this.args.provider) {
+        if (this.args.provider) {
             await taskFor(this.getRootFolder).perform();
             await taskFor(this.getCurrentFolderItems).perform();
         } else {
@@ -132,8 +146,17 @@ export default class StorageManager extends Component<Args> {
     @waitFor
     async getRootFolder() {
         if (this.args.provider) {
-            this.storageProvider = this.args.provider;
-            const providerFile = getStorageProviderFile(this.currentUser, this.storageProvider);
+            this.externalStorageService = this.args.provider;
+            let providerFile;
+            if(this.features.isEnabled('gravy_waffle') && this.externalStorageService.name !== 'osfstorage') {
+                providerFile = getServiceProviderFile(
+                    this.currentUser,
+                    this.externalStorageService,
+                    this.args.configuredStorageAddon,
+                );
+            } else {
+                providerFile = getStorageProviderFile(this.currentUser, this.externalStorageService);
+            }
             if (!providerFile) {
                 // This should only be hit in development when we haven't set up a provider properly.
                 this.router.transitionTo('not-found');
