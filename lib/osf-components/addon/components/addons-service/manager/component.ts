@@ -58,7 +58,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @service toast!: Toast;
 
     node = this.args.node;
-    @tracked addonServiceNode?: ResourceReferenceModel;
+    @tracked addonServiceNode?: ResourceReferenceModel | null;
     @tracked userReference?: UserReferenceModel;
 
     possibleFilterTypes = Object.values(FilterTypes);
@@ -341,8 +341,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         const references = await this.store.query('resource-reference', {
             filter: {resource_uri: this.node.links.iri},
         });
-        if(references) {
-            this.addonServiceNode = references.firstObject;
+        if (references) {
+            this.addonServiceNode = references.firstObject || null;
+        } else {
+            this.addonServiceNode = null;
         }
     }
 
