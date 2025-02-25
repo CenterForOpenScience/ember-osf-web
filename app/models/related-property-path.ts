@@ -12,7 +12,7 @@ interface PropertyPath {
     displayLabel: LanguageText[];
     shortFormLabel: LanguageText[];
     description?: LanguageText[];
-    link_text?: LanguageText[];
+    linkText?: LanguageText[];
     link?: LanguageText[];
 }
 
