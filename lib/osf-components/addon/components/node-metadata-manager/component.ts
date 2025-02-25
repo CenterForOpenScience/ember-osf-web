@@ -70,11 +70,13 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @tracked changeset!: BufferedChangeset;
     @tracked nodeChangeset!: BufferedChangeset;
     @or(
+        'isEditingTitle',
         'isEditingDescription',
         'isEditingFunding',
         'isEditingResources',
         'isEditingInstitutions',
     ) inEditMode!: boolean;
+    @tracked isEditingTitle = false;
     @tracked isEditingDescription = false;
     @tracked isEditingFunding = false;
     @tracked isEditingResources = false;
@@ -149,6 +151,11 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     }
 
     @action
+    editTitle() {
+        this.isEditingTitle = true;
+    }
+
+    @action
     editDescription(){
         this.isEditingDescription = true;
     }
@@ -203,6 +210,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
             this.saveNodeErrored = false;
         }
         this.nodeChangeset.rollback();
+        this.isEditingTitle = false;
         this.isEditingDescription = false;
     }
 
@@ -242,6 +250,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     async saveNode(){
         try {
             await this.nodeChangeset.save();
+            this.isEditingTitle = false;
             this.isEditingDescription = false;
             this.saveNodeErrored = false;
         } catch (e) {

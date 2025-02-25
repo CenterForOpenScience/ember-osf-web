@@ -864,7 +864,7 @@ node_card:
             archiving: 'Archiving'
     registration_template: 'Registration template:'
     registry: 'Registry:'
-    resource-type: 
+    resource-type:
         title: 'Resource Type:'
         none-selected: 'None selected'
         show-resource-type: 'Show resource type'
@@ -908,7 +908,7 @@ node:
         load-more:
             loading: Loading…
             load-more: 'Load More Projects'
-    components: 
+    components:
         title: Components
         no_components: 'This project has no components.'
     registrations:
@@ -2679,6 +2679,7 @@ osf-components:
         next_slide: 'Next slide'
         go_to_slide: 'Go to slide {slideIndex}'
     node-metadata-form:
+        title: 'Title'
         description: 'Description'
         creation-date: 'Date created'
         modification-date: 'Date modified'

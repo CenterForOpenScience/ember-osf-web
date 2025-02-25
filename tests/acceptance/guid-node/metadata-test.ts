@@ -128,6 +128,18 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.dom('[data-test-contributors-list]').exists();
         assert.dom('[data-test-subjects-list]').exists('Subjects list is displayed for projects');
 
+        assert.dom('[data-test-edit-node-title-button]').exists();
+        await click('[data-test-edit-node-title-button]');
+        await fillIn('[data-test-title-field] textarea', 'New title');
+        await click('[data-test-cancel-editing-node-title-button]');
+        assert.dom('[data-test-display-node-title]')
+            .doesNotContainText('New title', 'Title is not incorrect after cancelling edit');
+        await click('[data-test-edit-node-title-button]');
+        await fillIn('[data-test-title-field] textarea', 'New title');
+        await click('[data-test-save-node-title-button]');
+        assert.dom('[data-test-display-node-title]')
+            .containsText('New title', 'Title is changed');
+
         assert.dom('[data-test-edit-node-description-button]').exists();
         await click('[data-test-edit-node-description-button]');
         await fillIn('[data-test-description-field] textarea', 'New description');

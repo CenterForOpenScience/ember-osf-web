@@ -1,5 +1,55 @@
 <div local-class='container'>
     <FormControls @changeset={{@manager.nodeChangeset}} as |form|>
+        {{#if @manager.isEditingTitle}}
+            <div local-class='edit-metadata-title'>
+                <form.textarea
+                    data-test-title-field
+                    @label={{t 'osf-components.node-metadata-form.title'}}
+                    @valuePath='title'
+                />
+                <Button
+                    data-analytics-name='Cancel editing node title'
+                    data-test-cancel-editing-node-title-button
+                    disabled={{@manager.isSaving}}
+                    {{on 'click' @manager.cancelNode}}
+                    @type='secondary'
+                >
+                    {{t 'general.cancel'}}
+                </Button>
+                <Button
+                    data-analytics-name='Save node title'
+                    data-test-save-node-title-button
+                    disabled={{or (not @manager.nodeChangeset.isDirty) @manager.isSaving}}
+                    {{on 'click' @manager.saveNode}}
+                    @type='primary'
+                >
+                    {{t 'general.save'}}
+                </Button>
+            </div>
+        {{else}}
+            <dl>
+                <dt>
+                    {{t 'osf-components.node-metadata-form.title'}}
+                    {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                        <Button
+                            aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                            data-analytics-name='Edit Node Title'
+                            data-test-edit-node-title-button
+                            {{on 'click' @manager.editTitle}}
+                            @layout='fake-link'
+                        >
+                            <FaIcon @icon='pencil-alt' />
+                        </Button>
+                    {{/if}}
+                </dt>
+                <dd
+                    data-test-display-node-title
+                    local-class='metadata-title-field'
+                >
+                    {{@manager.node.title}}
+                </dd>
+            </dl>
+        {{/if}}
         {{#if @manager.isEditingDescription}}
             <div local-class='edit-metadata-description'>
                 <form.textarea
@@ -242,7 +292,7 @@
                                 >
                                     <FaIcon @icon='pencil-alt' />
                                 </Button>
-                            {{/if}} 
+                            {{/if}}
                         </div>
                     {{/if}}
                 </div>
@@ -294,7 +344,7 @@
                             >
                                 <FaIcon @icon='pencil-alt' />
                             </Button>
-                        {{/if}} 
+                        {{/if}}
                     </div>
                     <InstitutionsList @manager={{@manager}} />
                 {{/if}}
