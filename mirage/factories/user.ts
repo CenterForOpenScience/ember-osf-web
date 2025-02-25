@@ -112,29 +112,6 @@ export default Factory.extend<MirageUser & UserTraits>({
         },
     }),
 
-    // This unused and I need help getting this to work
-    /*
-    TODO this will be used in the
-    TODO module('Integration | Activity Log Display | Component | validate activity log |
-    TODO it renders and shows user error' if someone figures out the logic in activity-log-display
-    TODO component.ts link 567
-    noLinks: trait<MirageUser>({
-        afterCreate(user) {
-            user.update({
-                noLinksMirage: true,
-                links: null,
-                errors: [
-                    Object({
-                        meta: {
-                            fullName: 'Full Name',
-                        },
-                    }),
-                ] as any,
-            });
-        },
-    }),
-    */
-
     withSettings: trait<MirageUser>({
         afterCreate(user, server) {
             server.create('user-setting', { user });

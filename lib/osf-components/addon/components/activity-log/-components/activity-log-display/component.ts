@@ -564,7 +564,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             const githubUser = this.log.params.githubUser;
             if (this.user?.links) {
                 return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
-                // TODO the this.user.errors[0].meta is never true
             } else if (this.user && this.user.errors[0].meta) {
                 return this.user.errors[0].meta.fullName;
             } else if (githubUser){ // paramIsReturned skipped b/c this is applicable in only a few situtations
