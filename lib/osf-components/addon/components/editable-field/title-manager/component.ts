@@ -22,7 +22,7 @@ export default class TitleManagerComponent extends Component<TitleManagerArgs> {
     @tracked currentTitle = this.args.node.title;
 
     get userCanEdit() {
-        return this.args.node.userHasWritePermission;
+        return this.args.node.userHasAdminPermission;
     }
 
     get fieldIsEmpty() {

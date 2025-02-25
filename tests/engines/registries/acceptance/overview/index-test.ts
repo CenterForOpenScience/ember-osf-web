@@ -9,6 +9,7 @@ import { module, test } from 'qunit';
 import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine, setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 interface OverviewTestContext extends TestContext {
     registration: ModelInstance<Registration>;
@@ -174,5 +175,10 @@ module('Registries | Acceptance | overview.index', hooks => {
 
         await click('[data-test-save-edits]');
         assert.dom('[data-test-registration-title]').hasText('New even flashier title', 'Correct title saved');
+
+        this.registration.currentUserPermissions = [Permission.Read, Permission.Write];
+        await visit(`/${this.registration.id}`);
+        assert.dom('[data-test-edit-registration-title]')
+            .doesNotExist('Editable title button not shown for non-admins');
     });
 });

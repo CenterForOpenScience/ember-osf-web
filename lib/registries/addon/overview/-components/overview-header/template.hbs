@@ -2,7 +2,7 @@
     <div local-class='HeaderContainer'>
         <div local-class='Header'>
             <h1 data-test-registration-title>{{@registration.title}}</h1>
-            {{#if @registration.userHasWritePermission}}
+            {{#if @registration.userHasAdminPermission}}
                 <div local-class='EditTitle'>
                     <EditableField::TitleManager @node={{this.registration}} />
                 </div>
