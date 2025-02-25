@@ -2105,6 +2105,10 @@ registries:
         tags_context: 'Enter specific keywords that describe the key elements and concepts of your research. These keywords will improve the discoverability of your registration in search results and databases.'
         title: Title
         title_context: 'Provide a concise and descriptive title for your registration that accurately reflects the main focus of your research. A clear and specific title will help others quickly understand the essence of your study.'
+        edit_title:
+            heading: 'Edit title'
+            success: 'Title successfully updated.'
+            error: 'Unable to save title.'
         edit_description:
             success: 'Description successfully updated.'
             error: 'Unable to save description.'

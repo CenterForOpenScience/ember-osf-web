@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { currentRouteName } from '@ember/test-helpers';
+import { currentRouteName, fillIn } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
@@ -156,5 +156,23 @@ module('Registries | Acceptance | overview.index', hooks => {
             'This registration is currently archiving, and no changes can be made at this time.',
             'Correct tombstone title',
         );
+    });
+
+    test('editable title', async function(this: OverviewTestContext, assert: Assert) {
+        this.set('registration', server.create('registration', {
+            title: 'Some flashy title',
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        }, 'withContributors', 'currentUserAdmin'));
+        await visit(`/${this.registration.id}`);
+
+        assert.dom('[data-test-registration-title]').hasText('Some flashy title', 'Correct title shown');
+        assert.dom('[data-test-edit-registration-title]').exists('Editable title button shown');
+        await click('[data-test-edit-registration-title]');
+        await fillIn('[data-test-registration-title-input]', '');
+        assert.dom('[data-test-save-edits]').isDisabled('Save button disabled when title is empty');
+        await fillIn('[data-test-registration-title-input]', 'New even flashier title');
+
+        await click('[data-test-save-edits]');
+        assert.dom('[data-test-registration-title]').hasText('New even flashier title', 'Correct title saved');
     });
 });
