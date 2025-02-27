@@ -15,7 +15,9 @@
     <dropdown.content local-class='DropdownList'>
         <OsfLink
             data-test-download-button
+            target='_blank'
             @href={{@item.links.download}}
+            {{track-download (or @item.fileModel.guid @item.fileModel.target.id)}}
         >
             <FaIcon @icon='download' />
             {{t 'general.download'}}

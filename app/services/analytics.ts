@@ -5,7 +5,9 @@ import RouterService from '@ember/routing/router-service';
 import RouteInfo from '@ember/routing/-private/route-info';
 import Service, { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
-import { restartableTask, waitForQueue } from 'ember-concurrency';
+import Store from '@ember-data/store';
+import Ember from 'ember';
+import { restartableTask, task, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-osf-web/config/environment';
@@ -14,8 +16,10 @@ import Session from 'ember-simple-auth/services/session';
 import Toast from 'ember-toastr/services/toast';
 import moment from 'moment-timezone';
 
+import FileModel from 'ember-osf-web/models/file';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 const {
     metricsAdapters,
@@ -47,8 +51,14 @@ export interface InitialEventInfo {
 
 export interface RouteMetricsMetadata {
     itemGuid?: string;
+    itemDoi?: string;
     isSearch?: boolean;
     providerId?: string;
+}
+
+enum DataCiteMetricType {
+    View = 'view',
+    Download = 'download',
 }
 
 type PageviewActionLabel = 'web' | 'view' | 'search';
@@ -172,6 +182,7 @@ export default class Analytics extends Service {
     @service toast!: Toast;
     @service cookies!: Cookies;
     @service currentUser!: CurrentUser;
+    @service store!: Store;
 
     shouldToastOnEvent = false;
 
@@ -190,6 +201,11 @@ export default class Analytics extends Service {
 
         // osf metrics
         await this._sendCountedUsage(this._getPageviewPayload());
+
+        // datacite usage tracker
+        if (!Ember.testing) {
+            this._sendDataciteView();
+        }
 
         const eventParams = {
             page: this.router.currentURL,
@@ -243,6 +259,15 @@ export default class Analytics extends Service {
         });
     }
 
+    @task
+    @waitFor
+    async _trackDownloadTask(itemGuid: string, doi?: string) {
+        const _doi = doi || await this._getDoiForGuid(itemGuid);
+        if (_doi) {
+            this._sendDataciteUsage(_doi, DataCiteMetricType.Download);
+        }
+    }
+
     @action
     click(category: string, label: string, extraInfo?: string | object) {
         let extra = extraInfo;
@@ -284,6 +309,12 @@ export default class Analytics extends Service {
         version = 'n/a',
     ) {
         taskFor(this.trackPageTask).perform(pagePublic, resourceType, withdrawn, version);
+    }
+
+    trackDownload(itemGuid: string, doi?: string) {
+        if (!Ember.testing) {
+            taskFor(this._trackDownloadTask).perform(itemGuid, doi);
+        }
     }
 
     trackFromElement(target: Element, initialInfo: InitialEventInfo) {
@@ -401,6 +432,76 @@ export default class Analytics extends Service {
         };
         const labels = Object.keys(actionLabelMap) as PageviewActionLabel[];
         return labels.filter(label => actionLabelMap[label]);
+    }
+
+    async _sendDataciteView(): Promise<void> {
+        const { itemGuid, itemDoi } = this._getRouteMetricsMetadata();
+        const _doi = itemDoi || await this._getDoiForGuid(itemGuid);
+        if (_doi) {
+            this._sendDataciteUsage(_doi, DataCiteMetricType.View);
+        }
+    }
+
+    /*
+        * Reimplements Datacite's usage tracking API.
+        * https://github.com/datacite/datacite-tracker/blob/main/src/lib/request.ts
+    */
+    async _sendDataciteUsage(
+        doi: string,
+        metricType: DataCiteMetricType,
+    ) {
+        try {
+            const { dataCiteTrackerUrl, dataciteTrackerRepoId } = config.OSF;
+            if (dataciteTrackerRepoId && doi) {
+                const payload = {
+                    n: metricType,
+                    u: location.href,
+                    i: dataciteTrackerRepoId,
+                    p: doi,
+                };
+
+                await fetch(dataCiteTrackerUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+            }
+        } catch (e) {
+            captureException(e);
+        }
+    }
+
+    async _getDoiForGuid(itemGuid?: string): Promise<string> {
+        if (itemGuid) {
+            const _guid = await this.store.findRecord('guid', itemGuid);
+            if (_guid) {
+                const _item = await _guid.resolve();
+                if (_item) {
+                    return this._getDoiForItem(_item);
+                }
+            }
+        }
+        return '';
+    }
+
+    async _getDoiForItem(item: any): Promise<string> {
+        const _identifiers = (await item.identifiers)?.toArray();
+        if (_identifiers) {
+            for (const _identifier of _identifiers) {
+                if (_identifier.category === 'doi') {
+                    return _identifier.value;
+                }
+            }
+        }
+        if (item instanceof FileModel) {
+            const _fileContainer = await item.target;
+            if (_fileContainer) {
+                return this._getDoiForItem(_fileContainer);
+            }
+        }
+        return '';
     }
 }
 

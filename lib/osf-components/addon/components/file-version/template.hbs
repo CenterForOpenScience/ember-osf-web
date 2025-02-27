@@ -72,19 +72,20 @@
                 </div>
             </div>
         {{/if}}
-        
+
         <div
             data-test-file-version-section='download'
             local-class='DropdownSection'
         >
-            <Button
+            <OsfLink
                 data-analytics-name='Download file version'
-                @layout='fake-link'
-                {{on 'click' (action this.downloadVersion @version.id)}}
+                target='_blank'
+                @href={{this.versionDownloadUrl}}
+                {{track-download (or @item.guid @item.target.id)}}
             >
                 <FaIcon @icon='download' />
                 {{t 'general.download'}}
-            </Button>
+            </OsfLink>
             {{@version.attributes.extra.downloads}}
         </div>
     {{/if}}
