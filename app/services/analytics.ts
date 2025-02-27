@@ -436,7 +436,9 @@ export default class Analytics extends Service {
 
     async _sendDataciteView(): Promise<void> {
         const { itemGuid, itemDoi } = this._getRouteMetricsMetadata();
-        const _doi = itemDoi || await this._getDoiForGuid(itemGuid);
+        // if itemDoi is undefined/null, try finding a DOI via the api based on itemGuid
+        // (if itemDoi is an empty string, assume there's no DOI; don't try to find one)
+        const _doi = itemDoi ?? await this._getDoiForGuid(itemGuid);
         if (_doi) {
             this._sendDataciteUsage(_doi, DataCiteMetricType.View);
         }
