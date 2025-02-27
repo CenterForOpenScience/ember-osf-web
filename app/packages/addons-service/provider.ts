@@ -51,7 +51,7 @@ export default class Provider {
     @service intl!: Intl;
 
     @tracked node?: NodeModel;
-    @tracked serviceNode?: ResourceReferenceModel;
+    @tracked serviceNode?: ResourceReferenceModel | null;
 
     currentUser: CurrentUserService;
     @tracked userReference!: UserReferenceModel;
@@ -115,7 +115,7 @@ export default class Provider {
         currentUser: CurrentUserService,
         node?: NodeModel,
         allConfiguredAddons?: EmberArray<AllConfiguredAddonTypes>,
-        resourceReference?: ResourceReferenceModel,
+        resourceReference?: ResourceReferenceModel | null,
         userReference?: UserReferenceModel,
     ) {
         setOwner(this, getOwner(provider));
@@ -179,7 +179,7 @@ export default class Provider {
     @task
     @waitFor
     async getResourceReference() {
-        if (this.node && !this.serviceNode) {
+        if (this.node && this.serviceNode === undefined) {
             const resourceRefs = await this.store.query('resource-reference', {
                 filter: {resource_uri: this.node.links.iri?.toString()},
             });
