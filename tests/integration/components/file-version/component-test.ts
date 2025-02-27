@@ -1,5 +1,6 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
@@ -11,12 +12,14 @@ import { click } from 'ember-osf-web/tests/helpers';
 
 module('Integration | Component | file-version', hooks => {
     setupRenderingTest(hooks);
+    setupMirage(hooks);
     setupIntl(hooks);
 
     const changeVersionStub = sinon.stub();
-    const downloadUrl = 'https://download.com';
     const date = '2020-02-02T02:02:02.000Z';
     test('it renders', async function(assert) {
+        const mirageFile = server.create('file');
+        const file = await this.owner.lookup('service:store').findRecord('file', mirageFile.id);
         const version = {
             id: '1',
             attributes: {
@@ -40,12 +43,12 @@ module('Integration | Component | file-version', hooks => {
         this.setProperties({
             version,
             changeVersion: changeVersionStub,
-            downloadUrl,
+            file,
         });
 
         await render(hbs`
         <FileVersion
-            @version={{this.version}} @downloadUrl={{this.downloadUrl}} @changeVersion={{this.changeVersion}}
+            @version={{this.version}} @file={{this.file}} @changeVersion={{this.changeVersion}}
         />
         `);
         assert.dom('[data-test-file-version-date]').hasText(moment(date).format('YYYY-MM-DD hh:mm A'));
