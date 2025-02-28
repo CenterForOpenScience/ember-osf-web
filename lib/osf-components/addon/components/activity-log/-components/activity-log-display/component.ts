@@ -1,0 +1,286 @@
+import Component from '@glimmer/component';
+import LogModel from 'ember-osf-web/models/log';
+import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
+import { tracked } from '@glimmer/tracking';
+import { taskFor } from 'ember-concurrency-ts';
+import { task } from 'ember-concurrency';
+import { waitFor } from '@ember/test-waiters';
+import UserModel from 'ember-osf-web/models/user';
+import NodeModel from 'ember-osf-web/models/node';
+import RegistrationModel from 'ember-osf-web/models/registration';
+
+
+/**
+ * The Activity Log Display Args
+ */
+interface ActivityLogDisplayArgs {
+    log: LogModel;
+}
+
+/**
+ * The Param Model
+ */
+interface ParamModel {
+    fullName: string;
+    license: string;
+    node: string;
+    path: string;
+    pathType: string;
+    pointer: string;
+    pointerCategory: string;
+    tag: string;
+    anonymousLink: string;
+}
+
+export default class ActivityLogDisplayComponent extends Component<ActivityLogDisplayArgs> {
+    @service intl!: Intl;
+    @tracked activityDisplay = '';
+    @tracked log!: LogModel;
+    user!: UserModel;
+    linkedNode!: NodeModel;
+    linkedRegistration!: RegistrationModel;
+    node!: NodeModel;
+
+    /**
+     * constructor
+     *
+     * @param owner The owner
+     * @param args The injected args
+     */
+    constructor(owner: unknown, args: ActivityLogDisplayArgs) {
+        super(owner, args);
+        this.log = args.log;
+        taskFor(this.loadModels).perform();
+    }
+
+    /**
+     * buildAHrefElement
+     *
+     * @description Abstracted method to build an "a" element
+     *
+     * @param url The url for the href
+     * @param value The text to appear as clickable
+     * @returns An ahref formatted string
+     */
+    private buildAHrefElement(url: string | undefined, value: string): string {
+        url = url || '';
+        return `<a href="${this.toRelativeUrl(url)}">${value}</a>`;
+    }
+
+    /**
+     * Utility function to convert absolute URLs to relative urls
+     * See:
+     *      http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+     * This method have no effect on external urls.
+     * @param url {string} url to be converted
+     * @returns {string} converted relative url
+     */
+    private toRelativeUrl(url: string): string {
+        const parser = document.createElement('a');
+        parser.href = url;
+        let relative_url = url;
+        if (window.location.hostname === parser.hostname){
+            relative_url = parser.pathname + parser.search + parser.hash;
+        }
+        return relative_url;
+    }
+
+    /**
+     * buildParam
+     *
+     * @description Abstracted method to build (assembly) all of the necessary translation variables
+     *
+     * @returns A Param model
+     */
+    private buildParam(): ParamModel {
+        return {
+            anonymousLink: this.log.params.anonymousLink ? 'an anonymous' : 'a',
+            fullName:  this.buildFullNameUrl(),
+            license: this.log.params.license,
+            node:  this.buildNodeUrl(),
+            path: this.log.params.path,
+            pathType: this.log.params.pathType,
+            tag: this.log.params.tag,
+            pointer: this.getPointer(),
+            pointerCategory: this.getPointerCategory(),
+        };
+    }
+
+    /**
+     * loadModels
+     *
+     * @description Hydrates all the models before displaying the component
+     *
+     * @returns a void promise
+     */
+    @task
+    @waitFor
+    public async loadModels(): Promise<void> {
+        this.user = await this.log.user;
+        this.linkedNode = await this.log.linkedNode;
+        this.linkedRegistration = await this.log.linkedRegistration;
+        this.node = await this.log.node;
+    }
+
+    /**
+     * activity
+     *
+     * @description The html to display for the log
+     *
+     * @returns A formatted translated string for display
+     */
+    get activity(): string {
+        const logParams = this.buildParam();
+
+        const translation = this.intl.t(`activity-log.activities.${this.log?.action}`, {
+            anonymous_link: this.buildAnonymous(),
+            license: logParams.license,
+            node: this.buildNodeUrl(),
+            path: logParams.path,
+            path_type: logParams.pathType,
+            pointer: this.getPointer(),
+            pointer_category: this.getPointerCategory(),
+            preprint: this.buildPreprintUrl(),
+            preprint_provider: this.buildPreprintProviderUrl(),
+            preprint_word: this.intl.t('activity-log.defaults.preprint'),
+            preprint_word_plural: this.intl.t('activity-log.defaults.preprint-plural'),
+            tag: logParams.tag,
+            user: this.buildFullNameUrl(),
+            /*
+            addon: null,
+            comment_location: null,
+            contributors: null,
+            destination: null,
+            forked_from: null,
+            group: null,
+            identifiers: null,
+            institution: null,
+            kind: null,
+            new_identifier: null,
+            obsolete_identifier: null,
+            old_page: null,
+            page: null,
+            source: null,
+            template: null,
+            title_new: null,
+            title_original: null,
+            updated_fields: null,
+            value: null,
+            version: null,
+            */
+
+        }) as string;
+
+        return `<span>${translation}</span>`;
+
+    }
+
+    /**
+     * buildAnonymous
+     *
+     * @description Abstracted method to build the anonymous string
+     *
+     * @returns a formatted string
+     */
+    private buildAnonymous(): string {
+        return this.log?.params?.anonymousLink ?
+            this.intl.t('activity-log.defaults.anonymous_an') :
+            this.intl.t('activity-log.defaults.anonymous_a') ;
+    }
+
+
+    /**
+     * buildNodeUrl
+     *
+     * @description Abstracted method to build the node ahref
+     *
+     * @returns a formatted string
+     */
+    private buildNodeUrl(): string {
+        if (this.log?.params?.paramsNode) {
+            return this.buildAHrefElement(`/${this.log.params.paramsNode.id}`, this.log.params.paramsNode.title);
+        }
+        return '';
+    }
+
+    /**
+     * buildPreprintUrl
+     *
+     * @description Abstracted method to build the preprint ahref
+     *
+     * @returns a formatted string
+     */
+    private buildPreprintUrl(): string {
+        if (this.log?.params?.preprint) {
+            return this.buildAHrefElement(`/${this.log.params.preprint}`,
+                this.intl.t('activity-log.defaults.preprint'));
+        }
+        return '';
+    }
+
+    /**
+     * buildPreprintProviderUrl
+     *
+     * @description Abstracted method to build the preprint provider ahref
+     *
+     * @returns a formatted string
+     */
+    private buildPreprintProviderUrl(): string {
+        if (this.log?.params?.preprintProvider) {
+            return this.buildAHrefElement(`/${this.log?.params?.preprintProvider?.url}`,
+                this.log?.params?.preprintProvider?.name);
+        }
+        return '';
+    }
+
+
+    /**
+     * buildFullNameUrl
+     *
+     * @description Abstracted method to build the full name ahref
+     *
+     * @returns a formatted string
+     */
+    private buildFullNameUrl(): string {
+        if (this.user) {
+            return this.buildAHrefElement(this.user.links.html?.toString(), this.user.fullName);
+        }
+        return '';
+    }
+
+    /**
+     * getPointerCategory
+     *
+     * @description The pointer can exist on a linkedNode or registrationNode
+     *
+     * @returns the category if it exists
+     */
+    private getPointerCategory(): string {
+        if (this.linkedNode) {
+            return this.linkedNode?.category;
+        } else if (this.linkedRegistration) {
+            return this.linkedRegistration?.category;
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * getPointer
+     *
+     * @description The pointer can exist on a linkedNode or registrationNode
+     *
+     * @returns the href if it exists
+     */
+    private getPointer(): string {
+        if (this.linkedNode) {
+            return this.buildAHrefElement(this.linkedNode?.links?.html?.toString(), this.linkedNode?.title);
+        } else if (this.linkedRegistration) {
+            return this.buildAHrefElement(this.linkedRegistration?.links?.html?.toString(),
+                this.linkedRegistration?.title);
+        } else {
+            return '';
+        }
+    }
+}
