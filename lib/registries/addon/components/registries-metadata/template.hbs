@@ -9,6 +9,14 @@
                     >
                         {{t 'registries.registration_metadata.contributors'}}
                     </OsfLink>
+                    <OsfLink
+                        aria-label={{t 'registries.registration_metadata.edit_contributors'}}
+                        local-class='float-right'
+                        @route='registries.overview.metadata'
+                        @models={{array this.registration.id}}
+                    >
+                        <FaIcon @icon='pencil-alt' />
+                    </OsfLink>
                 {{else}}
                     {{t 'registries.registration_metadata.contributors'}}
                 {{/if}}

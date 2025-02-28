@@ -73,6 +73,14 @@
     }
 }
 
+.edit-contributors {
+    margin-bottom: 8px;
+
+    .fake-label {
+        font-weight: bold;
+    }
+}
+
 .contributor-list {
     flex-direction: column;
 

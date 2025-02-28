@@ -50,7 +50,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.dom('[data-test-edit-node-description-button]').doesNotExist();
         assert.dom('[data-test-edit-resource-metadata-button]').doesNotExist();
         assert.dom('[data-test-edit-funding-metadata-button]').doesNotExist();
-        assert.dom('[data-test-edit-contributors]').doesNotExist();
+        assert.dom('[data-test-edit-node-contributors-button]').doesNotExist();
     });
 
     test('AVOL', async function(this: TestContext, assert) {
@@ -91,7 +91,7 @@ module('Acceptance | guid-node/metadata', hooks => {
         assert.dom('[data-test-edit-node-description-button]').doesNotExist();
         assert.dom('[data-test-edit-resource-metadata-button]').doesNotExist();
         assert.dom('[data-test-edit-funding-metadata-button]').doesNotExist();
-        assert.dom('[data-test-edit-contributors]').doesNotExist();
+        assert.dom('[data-test-edit-node-contributors-button]').doesNotExist();
     });
 
     test('Editable', async function(this: TestContext, assert) {
@@ -204,8 +204,13 @@ module('Acceptance | guid-node/metadata', hooks => {
         }
         // TODO: Test the edit-save flow with the new funding widget when it's in
 
-        assert.dom('[data-test-edit-contributors]').exists();
-        assert.dom('[data-test-edit-contributors]').hasAttribute('href', '/mtadt/contributors/');
+        assert.dom('[data-test-edit-node-contributors-button]').exists();
+        await click('[data-test-edit-node-contributors-button]');
+        assert.dom('[data-test-edit-node-contributors-button]').doesNotExist('Edit button is hidden when in edit mode');
+        assert.dom('[data-test-heading-name]').exists('Contributor name field exists');
+        assert.dom('[data-test-user-search-input]').exists('User search input exists');
+        await click('[data-test-finish-node-contributor-editing-button]');
+        assert.dom('[data-test-edit-node-contributors-button]').exists('Edit button is shown after saving');
         await percySnapshot(assert);
     });
 

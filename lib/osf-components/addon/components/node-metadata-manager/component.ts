@@ -72,12 +72,14 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @or(
         'isEditingTitle',
         'isEditingDescription',
+        'isEditingContributors',
         'isEditingFunding',
         'isEditingResources',
         'isEditingInstitutions',
     ) inEditMode!: boolean;
     @tracked isEditingTitle = false;
     @tracked isEditingDescription = false;
+    @tracked isEditingContributors = false;
     @tracked isEditingFunding = false;
     @tracked isEditingResources = false;
     @tracked isEditingInstitutions = false;
@@ -158,6 +160,19 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @action
     editDescription(){
         this.isEditingDescription = true;
+    }
+
+    @action
+    editContributors() {
+        this.isEditingContributors = true;
+    }
+
+    @task
+    @waitFor
+    async finishContributorEditing() {
+        await this.node.reload();
+        await this.node.hasMany('bibliographicContributors').reload();
+        this.isEditingContributors = false;
     }
 
     @action

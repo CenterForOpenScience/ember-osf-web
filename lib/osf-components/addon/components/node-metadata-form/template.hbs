@@ -105,30 +105,60 @@
         {{/if}}
     </FormControls>
     {{#unless @manager.node.isAnonymous}}
-        <div data-test-contributors-list local-class='contributor-list'>
-            <dl>
-                <dt>
+        {{#if @manager.isEditingContributors}}
+            <div local-class='edit-contributors'>
+                <span local-class='fake-label'>
                     {{t 'osf-components.node-metadata-form.contributors'}}
-                    {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
-                        <a
-                            aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
-                            data-test-edit-contributors
-                            href={{concat '/' @manager.nodeId '/contributors/'}}
-                        >
-                            <FaIcon @icon='pencil-alt' />
-                        </a>
+                </span>
+                <Contributors::Widget
+                    @node={{@manager.node}}
+                    @shouldShowAdd={{true}}
+                    @widgetMode={{'editable'}}
+                    @displayPermissionWarning={{false}}
+                />
+                <Button
+                    data-test-finish-node-contributor-editing-button
+                    data-analytics-name='Finish editing node contributors'
+                    aria-label={{if @manager.finishContributorEditing.isRunning (t 'general.loading') (t 'general.done')}}
+                    disabled={{@manager.finishContributorEditing.isRunning}}
+                    @type='primary'
+                    {{on 'click' (perform @manager.finishContributorEditing)}}
+                >
+                    {{#if @manager.finishContributorEditing.isRunning}}
+                        <LoadingIndicator @inline={{true}} />
+                    {{else}}
+                        {{t 'general.done'}}
                     {{/if}}
-                </dt>
-                <dd>
-                    <ContributorList
-                        data-test-target-contributors
-                        @model={{@manager.node}}
-                        @shouldLinkUsers={{true}}
-                        @shouldTruncate={{false}}
-                    />
-                </dd>
-            </dl>
-        </div>
+                </Button>
+            </div>
+        {{else}}
+            <div data-test-contributors-list local-class='contributor-list'>
+                <dl>
+                    <dt>
+                        {{t 'osf-components.node-metadata-form.contributors'}}
+                        {{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
+                            <Button
+                                data-test-edit-node-contributors-button
+                                data-analytics-name='Edit Contributors Metadata'
+                                aria-label={{t 'osf-components.node-metadata-form.edit-button'}}
+                                {{on 'click' @manager.editContributors}}
+                                @layout='fake-link'
+                            >
+                                <FaIcon @icon='pencil-alt' />
+                            </Button>
+                        {{/if}}
+                    </dt>
+                    <dd>
+                        <ContributorList
+                            data-test-target-contributors
+                            @model={{@manager.node}}
+                            @shouldLinkUsers={{true}}
+                            @shouldTruncate={{false}}
+                        />
+                    </dd>
+                </dl>
+            </div>
+        {{/if}}
     {{/unless}}
     <FormControls @changeset={{@manager.changeset}} as |form|>
         {{#if @manager.isEditingResources}}

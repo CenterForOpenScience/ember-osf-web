@@ -2047,6 +2047,7 @@ registries:
         sorted: 'Sorted by last updated'
     registration_metadata:
         add_description: 'Add description'
+        edit_contributors: 'Edit contributors'
         add_contributors:
             section_heading: 'Add Contributors'
             add_new_button: 'Add new contributors'
