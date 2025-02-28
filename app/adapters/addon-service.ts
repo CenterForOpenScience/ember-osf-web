@@ -28,8 +28,9 @@ export default class AddonServiceAdapter extends JSONAPIAdapter {
         if (!viewOnlyToken) {
             return url;
         }
-        const separator = url.includes('?') ? '&' : '?';
-        return `${url}${separator}view_only=${viewOnlyToken}`;
+        const returnUrl = new URL(url);
+        returnUrl.searchParams.set('view_only', viewOnlyToken);
+        return returnUrl.toString();
     }
 
 }
