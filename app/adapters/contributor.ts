@@ -18,12 +18,15 @@ export default class ContributorAdapter extends OsfAdapter {
         if (requestType === 'findRecord') {
             const [objectId, userId] = (id || '').split('-');
             const node = this.store.peekRecord('node', objectId);
+            const reg = this.store.peekRecord('registration', objectId);
             const preprint = this.store.peekRecord('preprint', objectId);
             const draft = this.store.peekRecord('draft-registration', objectId);
             let baseUrl;
             assert(`"contributorId" must be "objectId-userId": got ${objectId}-${userId}`, Boolean(objectId && userId));
             if (node) {
                 baseUrl = this.buildRelationshipURL((node as any)._internalModel.createSnapshot(), 'contributors');
+            } else if (reg) {
+                baseUrl = this.buildRelationshipURL((reg as any)._internalModel.createSnapshot(), 'contributors');
             } else if (preprint) {
                 baseUrl = this.buildRelationshipURL((preprint as any)._internalModel.createSnapshot(), 'contributors');
             } else {
