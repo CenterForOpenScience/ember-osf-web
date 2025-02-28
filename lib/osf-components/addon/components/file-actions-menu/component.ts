@@ -3,9 +3,10 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
+
 import File from 'ember-osf-web/packages/files/file';
-import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 import NodeModel from 'ember-osf-web/models/node';
+import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
 interface Args {
     item: File;
