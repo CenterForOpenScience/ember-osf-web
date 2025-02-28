@@ -33,7 +33,7 @@
             />
             <leftNav.link
                 data-test-metadata-link
-                data-analytics-name='Metadata' 
+                data-analytics-name='Metadata'
                 @route='guid-node.metadata'
                 @models={{array this.model.taskInstance.value.id}}
                 @icon='info-circle'
@@ -41,9 +41,9 @@
             />
             <leftNav.link
                 data-test-files-link
-                data-analytics-name='Files' 
+                data-analytics-name='Files'
                 @route='guid-node.files.provider'
-                @models={{array 
+                @models={{array
                     this.model.taskInstance.value.id
                     (if this.model.taskInstance.value.providerTask.value.provider this.model.taskInstance.value.providerTask.value.provider.name 'osfstorage')
                 }}
@@ -65,7 +65,7 @@
             {{#if (or this.model.taskInstance.value.public this.model.taskInstance.value.userHasReadPermission)}}
                 <leftNav.link
                     data-test-analytics-link
-                    data-analytics-name='Analytics' 
+                    data-analytics-name='Analytics'
                     @route='guid-node.analytics'
                     @models={{array this.model.taskInstance.value.id}}
                     @icon='chart-bar'
@@ -83,7 +83,7 @@
                 />
             {{/unless}}
             {{#unless this.currentUser.viewOnlyToken}}
-                {{#if this.model.taskInstance.value.userHasReadPermission}}
+                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
                     <leftNav.link
                         data-test-contributors-link
                         data-analytics-name='Contributors'
@@ -92,7 +92,7 @@
                         @label={{t 'node.left_nav.contributors'}}
                     />
                 {{/if}}
-                {{#if this.model.taskInstance.value.userHasWritePermission}}
+                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasWritePermission)}}
                     {{#if this.useGravyWaffle}}
                         <leftNav.link
                             data-test-addons-link
@@ -112,7 +112,7 @@
                         />
                     {{/if}}
                 {{/if}}
-                {{#if this.model.taskInstance.value.userHasReadPermission}}
+                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
                     <leftNav.link
                         data-test-settings-link
                         data-analytics-name='Settings'
