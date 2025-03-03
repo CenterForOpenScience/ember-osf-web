@@ -204,12 +204,16 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
 
                 // Handle the separator logic for commas or "and"
                 if (i < contributors.length - 1) {
-                    separator = (i === maxShown - 1 && !isJustOneMore) ? ', and ' : ', ';
+                    separator = (i === maxShown - 1 && !isJustOneMore) ?
+                        this.intl.t('activity-log.defaults.contributors_and') :
+                        ', ';
                 }
 
                 // If we have reached the maximum number of contributors to show, add 'others'
                 if (i === maxShown && !isJustOneMore) {
-                    contribList.push(`${contributors.length - i} others`);
+                    let outputString = `${contributors.length - i}`;
+                    outputString += this.intl.t('activity-log.defaults.contributors_others');
+                    contribList.push(outputString);
                     break; // Exit early after adding 'others'
                 }
 

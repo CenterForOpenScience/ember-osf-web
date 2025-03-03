@@ -415,6 +415,8 @@ activity-log:
         a_user: 'A user'
         anonymous_a: 'a'
         anonymous_an: 'an anonymous'
+        contributors_and: ', and '
+        contributors_others: ' others'
         field: 'field'
         file: 'file'
         file_on: 'on {file}'
