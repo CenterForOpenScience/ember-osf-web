@@ -1,0 +1,46 @@
+{{#if this.userCanEdit}}
+    <OsfDialog
+        @closeOnOutsideClick={{false}}
+        @onOpen={{this.onOpen}}
+    as |dialog|>
+        <dialog.trigger>
+            <Button
+                aria-label={{t 'registries.registration_metadata.edit_title.heading'}}
+                data-test-edit-registration-title
+                data-analytics-name='Edit title'
+                @layout='fake-link'
+                {{on 'click' dialog.open}}
+            >
+                <FaIcon @icon='pencil-alt' />
+            </Button>
+        </dialog.trigger>
+        <dialog.heading>
+            {{t 'registries.registration_metadata.edit_title.heading'}}
+        </dialog.heading>
+        <dialog.main>
+            <Textarea
+                data-test-registration-title-input
+                @value={{this.currentTitle}}
+            />
+        </dialog.main>
+        <dialog.footer>
+            <Button
+                data-test-discard-edits
+                data-analytics-name='Discard'
+                @type='secondary'
+                {{on 'click' dialog.close}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                data-test-save-edits
+                data-analytics-name='Save'
+                disabled={{this.disableSave}}
+                @type='primary'
+                {{on 'click' (queue (perform this.save) dialog.close)}}
+            >
+                {{t 'general.save'}}
+            </Button>
+        </dialog.footer>
+    </OsfDialog>
+{{/if}}

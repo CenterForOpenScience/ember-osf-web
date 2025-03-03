@@ -55,7 +55,7 @@ module('Registries | Acceptance | overview/metadata', hooks => {
         assert.dom('[data-test-edit-node-description-button]').doesNotExist();
         assert.dom('[data-test-edit-resource-metadata-button]').doesNotExist();
         assert.dom('[data-test-edit-funding-metadata-button]').doesNotExist();
-        assert.dom('[data-test-edit-contributors]').doesNotExist();
+        assert.dom('[data-test-edit-node-contributors-button]').doesNotExist();
         await percySnapshot(assert);
     });
 });

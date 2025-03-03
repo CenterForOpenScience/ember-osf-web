@@ -51,6 +51,10 @@
     }
 }
 
+.edit-metadata-title {
+    margin-bottom: 8px;
+}
+
 .edit-metadata-description {
     flex-direction: column;
 
@@ -66,6 +70,14 @@
         textarea {
             height: 125px;
         }
+    }
+}
+
+.edit-contributors {
+    margin-bottom: 8px;
+
+    .fake-label {
+        font-weight: bold;
     }
 }
 
