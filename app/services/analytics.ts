@@ -262,7 +262,9 @@ export default class Analytics extends Service {
     @task
     @waitFor
     async _trackDownloadTask(itemGuid: string, doi?: string) {
-        const _doi = doi || await this._getDoiForGuid(itemGuid);
+        // if doi is undefined/null, try finding a DOI via the api based on itemGuid
+        // (if doi is an empty string, assume there's no DOI; don't try to find one)
+        const _doi = doi ?? await this._getDoiForGuid(itemGuid);
         if (_doi) {
             this._sendDataciteUsage(_doi, DataCiteMetricType.Download);
         }
