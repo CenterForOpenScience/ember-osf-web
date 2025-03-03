@@ -11,6 +11,9 @@ interface PropertyPath {
     resourceType: Array<{ '@id': string }>;
     displayLabel: LanguageText[];
     shortFormLabel: LanguageText[];
+    description?: LanguageText[];
+    linkText?: LanguageText[];
+    link?: LanguageText[];
 }
 
 export enum SuggestedFilterOperators {

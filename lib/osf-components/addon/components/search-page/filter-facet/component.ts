@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import { getSingleOsfmapValue } from 'ember-osf-web/packages/osfmap/jsonld';
 import IntlService from 'ember-intl/services/intl';
 import RelatedPropertyPathModel from 'ember-osf-web/models/related-property-path';
 
@@ -47,6 +48,10 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @tracked filterString = '';
     @tracked hasMoreValueOptions = false;
     @tracked nextPageCursor = '';
+    @tracked hasDescription = false;
+    @tracked description = '';
+    @tracked linkText = '';
+    @tracked link = '';
 
     get shouldShowTopValues() {
         const { args: { property: { propertyPathKey } } } = this;
@@ -56,6 +61,13 @@ export default class FilterFacet extends Component<FilterFacetArgs> {
     @action
     toggleFacet() {
         if (this.shouldShowTopValues) {
+            const propertyPath = this.args.property.propertyPath || [];
+            this.hasDescription = propertyPath.length > 0 &&
+                Array.isArray(propertyPath[0]?.description) &&
+                propertyPath[0].description.length > 0;
+            this.description = getSingleOsfmapValue(propertyPath[0], ['description']) || '';
+            this.linkText = getSingleOsfmapValue(propertyPath[0], ['linkText']) || '';
+            this.link = getSingleOsfmapValue(propertyPath[0], ['link']) || '';
             if (this.filterableValues.length === 0 && !taskFor(this.fetchFacetValues).lastComplete) {
                 taskFor(this.fetchFacetValues).perform();
             }
