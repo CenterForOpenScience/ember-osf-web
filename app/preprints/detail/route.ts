@@ -214,7 +214,7 @@ export default class PreprintsDetail extends Route {
         return {
             osfMetrics: {
                 itemGuid: preprint.id,
-                itemDoi: preprint.verifiedDoi,
+                itemDoi: preprint.preprintDoi,
             },
         };
     }
