@@ -14,7 +14,7 @@ export default class UserSerializer extends ApplicationSerializer<User> {
         return {
             ...super.buildNormalLinks(model),
             profile_image: randomGravatar(),
-            html: randomGravatar(),
+            html: `/${model.id}/`,
         };
     }
 

@@ -1,0 +1,25 @@
+<section local-class='activity-log-container'>
+    <h3 >
+        {{t 'activity-log.title'}}
+    </h3>
+
+    {{#paginated-list/has-many
+        modelTaskInstance=@registration.taskInstance
+        query=this.loadEmbeds
+        relationshipName='logs'
+        as |list|
+    }}
+        {{#list.item as |log|}}
+            {{#if log.id}}
+                <ActivityLog::-Components::ActivityLogDisplay @log={{log}} />
+            {{else}}
+                <LoadingIndicator @dark={{true}} @inline={{true}} />
+            {{/if}}
+        {{/list.item}}
+        {{#list.empty}}
+            <p data-test-no-components>
+                {{t 'activity-log.no_logs'}}
+            </p>
+        {{/list.empty}}
+    {{/paginated-list/has-many}}
+</section>
