@@ -534,15 +534,22 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
                 other: 'Other',
             };
 
+
             const updatedFieldsParam = this.log.params.updatedFields;
             const updatedField = Object.keys(updatedFieldsParam)[0];
             if (updatedField === 'category'){
+
+                // eslint-disable-next-line
+                // @ts-ignore
+                const newText = nodeCategories[updatedFieldsParam[updatedField].new] ?
+                // eslint-disable-next-line
+                // @ts-ignore
+                    this.intl.t(`node_categories.${updatedFieldsParam[updatedField].new}`) :
+                    this.intl.t('activity-log.defaults.uncategorized');
+
                 return this.intl.t('activity-log.defaults.updated_fields', {
                     old: updatedField,
-                    // eslint-disable-next-line
-                    // @ts-ignore
-                    new: nodeCategories[updatedFieldsParam[updatedField].new] ||
-                        this.intl.t('activity-log.defaults.uncategorized'),
+                    new: newText,
                 });
 
             }
