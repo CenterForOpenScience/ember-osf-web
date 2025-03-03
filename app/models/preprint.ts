@@ -129,11 +129,8 @@ export default class PreprintModel extends AbstractNodeModel {
         return this.dateWithdrawn !== null;
     }
 
-    get verifiedDoi(): string {
-        if (this.preprintDoiCreated) {
-            return extractDoi(this.preprintDoiUrl) || '';
-        }
-        return '';
+    get extractedDoi(): string {
+        return extractDoi(this.preprintDoiUrl) || '';
     }
 
     @computed('license', 'licenseRecord')
