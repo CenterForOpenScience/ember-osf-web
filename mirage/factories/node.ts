@@ -63,6 +63,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
             faker.lorem.word,
         ])());
     },
+
     collection: false,
     registration: false,
     dateCreated() {
