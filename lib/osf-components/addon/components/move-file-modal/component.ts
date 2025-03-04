@@ -336,6 +336,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         this.startingFolder = this.args.manager.currentFolder;
         this.breadcrumbs = [...this.args.manager.folderLineage];
         taskFor(this.loadFiles).perform();
+        taskFor(this.loadChildNodes).perform();
     }
 
     @action
