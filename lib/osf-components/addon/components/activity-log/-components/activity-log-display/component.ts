@@ -521,18 +521,18 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
     private buildUpdatedFields(): string {
         if (this.log?.params?.updatedFields) {
 
-            const nodeCategories =  {
-                analysis: 'Analysis',
-                communication: 'Communication',
-                data: 'Data',
-                hypothesis: 'Hypothesis',
-                instrumentation: 'Instrumentation',
-                'methods and measures': 'Methods and Measures',
-                procedure: 'Procedure',
-                project: 'Project',
-                software: 'Software',
-                other: 'Other',
-            };
+            const nodeCategories =  [
+                'analysis',
+                'communication',
+                'data',
+                'hypothesis',
+                'instrumentation',
+                'methods and measures',
+                'procedure',
+                'project',
+                'software',
+                'other',
+            ];
 
 
             const updatedFieldsParam = this.log.params.updatedFields;
@@ -541,7 +541,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
 
                 // eslint-disable-next-line
                 // @ts-ignore
-                const newText = nodeCategories[updatedFieldsParam[updatedField].new] ?
+                const newText = nodeCategories.includes(updatedFieldsParam[updatedField].new) ?
                 // eslint-disable-next-line
                 // @ts-ignore
                     this.intl.t(`node_categories.${updatedFieldsParam[updatedField].new}`) :
