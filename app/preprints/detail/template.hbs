@@ -181,7 +181,7 @@
                                 local-class='btn btn-primary'
                                 target='_blank'
                                 @href={{ this.fileDownloadUrl }}
-                                {{track-download this.model.preprint.id doi=this.model.preprint.verifiedDoi}}
+                                {{track-download this.model.preprint.id doi=this.model.preprint.extractedDoi}}
                             >
                                 {{t 'preprints.detail.share.download' documentType=this.model.provider.documentType.singular}}
                             </OsfLink>
