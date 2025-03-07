@@ -53,7 +53,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @tracked fileActionTasks: Array<TaskInstance<null>> = [];
 
     get itemList() {
-        return [...(this.currentFolder ? []: this.childNodeList), ...this.filesList];
+        return [...this.filesList, ...this.childNodeList];
     }
 
     get hasMore() {
@@ -337,7 +337,6 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         this.startingFolder = this.args.manager.currentFolder;
         this.breadcrumbs = [...this.args.manager.folderLineage];
         taskFor(this.loadFiles).perform();
-        taskFor(this.loadChildNodes).perform();
     }
 
     @action
