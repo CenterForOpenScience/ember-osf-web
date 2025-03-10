@@ -12,10 +12,11 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import NodeModel from 'ember-osf-web/models/node';
-import { FileSortKey } from 'ember-osf-web/packages/files/file';
-import StorageManager, { getStorageProviderFile, getServiceProviderFile }
-    from 'osf-components/components/storage-provider-manager/storage-manager/component';
-import File from 'ember-osf-web/packages/files/file';
+import File, { FileSortKey } from 'ember-osf-web/packages/files/file';
+import StorageManager, {
+    getServiceProviderFile,
+    getStorageProviderFile,
+} from 'osf-components/components/storage-provider-manager/storage-manager/component';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException from 'ember-osf-web/utils/capture-exception';
@@ -136,10 +137,10 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         if (serviceNode) {
             return serviceNode;
         } else {
-            const reference = await this.store.query('resource-reference', {
-                filter: {resource_uri: this.currentNode.links.iri},
-            }).first;
-            return reference;
+            const references = await this.store.query('resource-reference', {
+                filter: { resource_uri: this.currentNode.links.iri },
+            });
+            return references.firstObject;
         }
     }
 
@@ -153,9 +154,9 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
                 page: this.folderPage,
                 'page[size]': 20,
             });
-            if(this.features.isEnabled('gravy_waffle')) {
+            if (this.features.isEnabled('gravy_waffle')) {
                 const resourceReference = await taskFor(this.getResourceReference).perform();
-                configuredStorageAddonsList = await resourceReference.configuredStorageAddons.toArray();
+                configuredStorageAddonsList = await resourceReference.hasMany('configuredStorageAddons').load();
             }
             fileList = fileList.map(
                 fileProviderModel => {
