@@ -142,7 +142,7 @@
                 />
             {{/unless}}
             {{#unless this.currentUser.viewOnlyToken}}
-                {{#if this.model.taskInstance.value.userHasReadPermission}}
+                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
                     <leftNav.link
                         data-test-contributors-link
                         data-analytics-name='Contributors'
@@ -151,7 +151,7 @@
                         @label={{t 'node.left_nav.contributors'}}
                     />
                 {{/if}}
-                {{#if this.model.taskInstance.value.userHasWritePermission}}
+                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasWritePermission)}}
                     {{#if this.useGravyWaffle}}
                         <leftNav.link
                             data-test-addons-link
@@ -171,7 +171,7 @@
                         />
                     {{/if}}
                 {{/if}}
-                {{#if this.model.taskInstance.value.userHasReadPermission}}
+                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
                     <leftNav.link
                         data-test-settings-link
                         data-analytics-name='Settings'
