@@ -17,6 +17,10 @@ export default class GuidNode extends Controller {
         );
     }
 
+    get viewOnly() {
+        return this.router.currentRoute.queryParams['view_only'];
+    }
+
     get isDesktop() {
         return this.media.isDesktop;
     }
