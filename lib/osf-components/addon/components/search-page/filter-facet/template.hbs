@@ -52,7 +52,7 @@
                             </span>
                         </li>
                     {{/each}}
-                    {{#if this.showSeeMoreButton}}
+                    {{#if (or this.showSeeMoreButton this.hasDescription)}}
                         <li>
                             <Button
                                 data-analytics-name='See more filterable values {{@property.displayLabel}}'
@@ -66,6 +66,7 @@
                     {{/if}}
                 </ul>
             {{/if}}
+
             <OsfDialog
                 data-analytics-scope='Search page filter facet modal'
                 @isOpen={{this.seeMoreModalShown}}
@@ -76,7 +77,11 @@
                     {{@property.displayLabel}}
                 </dialog.heading>
                 <dialog.main local-class='see-more-dialog'>
-                    {{t 'search.filter-facet.see-more-modal-text'}}
+                    {{#if this.hasDescription}}
+                        {{ this.description }} <a href={{this.link}}> {{ this.linkText }} </a>
+                    {{else}}
+                        {{t 'search.filter-facet.see-more-modal-text'}}
+                    {{/if}}
                     <PowerSelect
                         data-test-property-value-select
                         @options={{this.modalValueOptions}}

@@ -96,6 +96,5 @@ export interface NormalLinks extends JSONAPI.Links {
     self?: JSONAPI.Link;
     html?: JSONAPI.Link;
     iri?: JSONAPI.Link;
-    preprint_versions?: JSONAPI.Link;
 }
 /* eslint-enable camelcase */

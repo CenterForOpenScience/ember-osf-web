@@ -326,6 +326,7 @@ as |list|>
                         {{t 'institutions.dashboard.object-list.request-project-message-modal.write_permission_label'}}
                     </label>
                     <Textarea
+                        aria-label={{t 'institutions.dashboard.aira_label_project_request_textarea'}}
                         local-class='message-textarea'
                         @value={{this.messageText}}
                     />
@@ -352,6 +353,7 @@ as |list|>
                     {{t 'institutions.dashboard.object-list.request-project-message-modal.opening_message_label'}}
                 </p>
                 <Textarea
+                    aria-label={{t 'institutions.dashboard.aira_label_user_message_textarea'}}
                     local-class='message-textarea'
                     @value={{this.messageText}}
                 />
@@ -381,7 +383,7 @@ as |list|>
         <Button
             @type='primary'
             @disabled={{not this.messageText.trim}}
-            {{on 'click' (queue (perform this.handleSend) dialog.close)}}
+            {{on 'click' (queue (perform this.handleSend) (fn (mut this.projectRequestModalShown) false))}}
         >
             {{t 'institutions.dashboard.object-list.request-project-message-modal.send'}}
         </Button>

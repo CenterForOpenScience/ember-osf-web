@@ -34,7 +34,10 @@ export default class Link extends Component<LinkArgs>{
 
     linkFormValidation: ValidationObject<LinkForm> = {
         value: validateUrlWithProtocols({
-            translationArgs: { description: this.intl.t('validationErrors.description') },
+            translationArgs: {
+                description: this.intl.t('validationErrors.description'),
+                validationType: 'urlPrefix',
+            },
         }),
     };
 
