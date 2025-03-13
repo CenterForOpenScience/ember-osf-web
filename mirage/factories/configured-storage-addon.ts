@@ -7,6 +7,7 @@ export default Factory.extend<ConfiguredStorageAddonModel>({
     externalUserId: faker.random.uuid(),
     externalUserDisplayName: faker.name.findName(),
     rootFolder: faker.system.filePath(),
+    currentUserIsOwner: true,
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
