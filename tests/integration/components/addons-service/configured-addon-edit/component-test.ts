@@ -67,7 +67,7 @@ module('Integration | Component | addons-service | configured-addon-edit', funct
         // updating and reseting the display name
         assert.dom('[data-test-display-name-error]').doesNotExist('No error message initially');
         await fillIn('[data-test-display-name-input]', '');
-        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled');
+        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled when display name is empty');
         assert.dom('[data-test-display-name-error]').exists('Error message is shown when display name is empty');
         await fillIn('[data-test-display-name-input]', 'My configured addon');
         assert.dom('[data-test-display-name-error]').doesNotExist('No error message after display name is set');
