@@ -1692,6 +1692,7 @@ preprints:
             create-project: 'Create project'
             delete-modal-title: 'Disconnect supplemental material'
             delete-warning: 'This will disconnect the selected project. You can select new supplemental material or re-add the same supplemental material at a later date.'
+            failed-removal: 'Failed to disconnect the selected material.'
         step-review:
             agreement-provider: '{providerName} uses {moderationType}. If your preprint is accepted, it will be assigned a DOI and become publicly accessible via OSF. The preprint file cannot be deleted but it can be updated or modified.'
             agreement-provider-two: 'You can read more about <a href="https://help.osf.io/article/592-preprint-moderation" target="_blank">OSF preprints moderation policies on</a> the OSF support center.</p>'
