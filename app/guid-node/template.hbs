@@ -56,7 +56,7 @@
             />
             {{#if this.onFilesRoute}}
                 <FileProviderMenu @node={{this.model.taskInstance.value}} />
-                <div
+                {{!-- <div
                     data-test-file-providers-list
                     local-class='FileProvidersList'
                 >
@@ -97,7 +97,7 @@
                             {{/if}}
                         </div>
                     {{/each}}
-                </div>
+                </div> --}}
             {{/if}}
             {{#if this.model.taskInstance.value.wikiEnabled}}
                 <leftNav.link
