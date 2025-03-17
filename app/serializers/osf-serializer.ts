@@ -4,7 +4,7 @@ import Store from '@ember-data/store';
 import { camelize, underscore } from '@ember/string';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
-import { AttributesObject } from 'jsonapi-typescript';
+import { AttributesObject, DocWithErrors } from 'jsonapi-typescript';
 
 // This import will change with 4.12 of ember-data. It will instead be
 // import { peekGraph } from '@ember-data/graph/-private';
@@ -65,6 +65,22 @@ export default class OsfSerializer extends JSONAPISerializer {
                 continue;
             }
             if ('errors' in embeddedObj) {
+                if ((embeddedObj as DocWithErrors).errors[0].status === '410' && relName === 'users') {
+                    const meta = (embeddedObj as DocWithErrors).errors[0].meta;
+                    const metaWithCamelizedKeys = Object.fromEntries(
+                        Object.entries(meta!).map(([key, value], _) => [
+                            camelize(key), value,
+                        ]),
+                    );
+                    resourceHash.relationships[relName] = {
+                        data: {
+                            id: resourceHash.id.toString().split('-')[1],
+                            type: 'users',
+                            meta: metaWithCamelizedKeys,
+                        },
+                    };
+                    continue;
+                }
                 // Should already be logged elsewhere
                 continue;
             }
