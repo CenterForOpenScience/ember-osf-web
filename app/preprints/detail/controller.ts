@@ -87,7 +87,6 @@ export default class PrePrintsDetailController extends Controller {
     get showEditButton() {
         const providerIsPremod = this.model.provider.reviewsWorkflow === PreprintProviderReviewsWorkFlow.PRE_MODERATION;
         const preprintIsRejected = this.model.preprint.reviewsState === ReviewsState.REJECTED;
-        const preprintIsFirstVersion = this.model.preprint.version === 1;
 
         if (!this.userIsContrib) {
             return false;
@@ -105,8 +104,7 @@ export default class PrePrintsDetailController extends Controller {
                 return true;
             }
             // Edit and resubmit
-            if (preprintIsFirstVersion && preprintIsRejected
-                && this.model.preprint.currentUserIsAdmin) {
+            if (preprintIsRejected && this.model.preprint.currentUserIsAdmin) {
                 return true;
             }
         }
