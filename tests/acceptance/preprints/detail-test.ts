@@ -199,7 +199,7 @@ module('Acceptance | preprints | detail', hooks => {
         assert.dom('[data-test-edit-preprint-button]')
             .doesNotExist('Edit button is not displayed for non-latest versions');
 
-        // Not initial, pre-mod, rejected
+        // Not initial, pre-mod, rejected, not latest
         preprint.setProperties({
             reviewsState: ReviewsState.REJECTED,
             version: 4,
@@ -208,7 +208,18 @@ module('Acceptance | preprints | detail', hooks => {
         });
         await settled();
         assert.dom('[data-test-edit-preprint-button]')
-            .doesNotExist('Edit button is not displayed for non-initial pre-mod rejected');
+            .exists('Edit button is not displayed for non-initial pre-mod not latest rejected');
+
+        // Not initial, pre-mod, rejected, latest
+        preprint.setProperties({
+            reviewsState: ReviewsState.REJECTED,
+            version: 4,
+            isLatestVersion: true,
+            currentUserPermissions: Object.values(Permission),
+        });
+        await settled();
+        assert.dom('[data-test-edit-preprint-button]')
+            .exists('Edit button is not displayed for non-initial pre-mod latest rejected');
 
         // Initial, pre-mod, rejected
         preprint.setProperties({
