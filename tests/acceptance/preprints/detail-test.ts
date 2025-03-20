@@ -208,7 +208,7 @@ module('Acceptance | preprints | detail', hooks => {
         });
         await settled();
         assert.dom('[data-test-edit-preprint-button]')
-            .exists('Edit button is not displayed for non-initial pre-mod not latest rejected');
+            .exists('Edit button is displayed for non-initial pre-mod not latest rejected');
 
         // Not initial, pre-mod, rejected, latest
         preprint.setProperties({
@@ -219,7 +219,7 @@ module('Acceptance | preprints | detail', hooks => {
         });
         await settled();
         assert.dom('[data-test-edit-preprint-button]')
-            .exists('Edit button is not displayed for non-initial pre-mod latest rejected');
+            .exists('Edit button is displayed for non-initial pre-mod latest rejected');
 
         // Initial, pre-mod, rejected
         preprint.setProperties({
