@@ -109,7 +109,7 @@ module('Integration | Activity Log Display | Component | validate activity log',
 />
 `);
         assert.dom('[data-test-action-text]').hasHtml(
-            '<span><a href="/utu98/">Futa Geiger</a> changed the title from <a href="/ww3a2/">The original node for testing</a> to <a href="/ww3a2/">The new title</a></span>',
+            '<span><a href="/utu98/">Futa Geiger</a> changed the title from <a href="/ww3a2/">The original title</a> to <a href="/ww3a2/">The new title</a></span>',
             'Project edit title is correct',
         );
 
