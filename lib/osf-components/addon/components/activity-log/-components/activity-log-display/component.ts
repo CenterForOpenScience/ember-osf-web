@@ -126,7 +126,7 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
             tag: this.buildTagUrl(),
             template: this.getEmbeddedUrl(),
             title_new: this.buildTitleNew(),
-            title_original: this.getEmbeddedUrl(),
+            title_original: this.buildTitleOriginal(),
             updated_fields: this.buildUpdatedFields(),
             user: this.buildUserUrl(),
             value: this.log?.params?.value,
@@ -277,9 +277,6 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         } else if (this.templateNode?.links?.html) {
             return this.buildAHrefElement(this.templateNode.links.html.toString(),
                 this.templateNode.title);
-        } else if (this.originalNode?.links?.html) {
-            return this.buildAHrefElement(this.originalNode.links.html.toString(),
-                this.originalNode.title);
         } else {
             return this.intl.t('activity-log.defaults.a_title');
         }
@@ -508,6 +505,20 @@ export default class ActivityLogDisplayComponent extends Component<ActivityLogDi
         return this.originalNode?.links ?
             this.buildAHrefElement(
                 `${this.originalNode.links.html}`, this.log.params.titleNew,
+            ) : this.intl.t('activity-log.defaults.a_title');
+    }
+
+    /**
+     * buildTitleOriginal
+     *
+     * @description Abstracted method to build the original title
+     *
+     * @returns a formatted string
+     */
+    private buildTitleOriginal(): string {
+        return this.originalNode?.links ?
+            this.buildAHrefElement(
+                `${this.originalNode.links.html}`, this.log.params.titleOriginal,
             ) : this.intl.t('activity-log.defaults.a_title');
     }
 
