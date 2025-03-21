@@ -25,6 +25,8 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
     @tracked currentItems: Item[] = [];
 
+    originalName = this.displayName;
+    originalRootFolder = this.selectedFolder;
     defaultKwargs: any = {};
 
     constructor(owner: unknown, args: Args) {
@@ -60,7 +62,22 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get disableSave() {
-        return this.invalidDisplayName || this.args.onSave.isRunning || (this.hasRootFolder && !this.selectedFolder);
+        const displayNameUnchanged = this.displayName === this.originalName;
+        const rootFolderUnchanged = this.hasRootFolder && this.selectedFolder === this.originalRootFolder;
+        const needsRootFolder = this.hasRootFolder && !this.selectFolder;
+
+        if (this.invalidDisplayName || needsRootFolder) {
+            return true;
+        }
+        return (rootFolderUnchanged && displayNameUnchanged) || this.args.onSave.isRunning;
+    }
+
+    get nameValid() {
+        return !this.invalidDisplayName && this.displayName !== this.originalName;
+    }
+
+    get folderValid() {
+        return !this.hasRootFolder && this.selectedFolder && this.selectedFolder !== this.originalRootFolder;
     }
 
     get onSaveArgs() {
