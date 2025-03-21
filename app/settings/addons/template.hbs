@@ -119,6 +119,8 @@
                             data-analytics-scope='All addons tab'
                             local-class='addons-list-wrapper {{if (media 'isMobile') 'mobile'}}'
                         >
+                            {{t 'addons.list.sync-details-1'}}
+                            {{t 'addons.list.sync-details-2'}}
                             <ul local-class='addons-card-wrapper'>
                                 {{#each manager.filteredAddonProviders as |provider|}}
                                     <li
@@ -147,6 +149,7 @@
                             data-analytics-scope='Connected accounts tab'
                             local-class='addons-list-wrapper {{if (media 'isMobile') 'mobile'}}'
                         >
+                            {{t 'addons.list.sync-details-3'}}
                             <ul local-class='configured-addons-wrapper'>
                                 {{#each manager.currentTypeAuthorizedAccounts as |account|}}
                                     <li local-class='provider-list-item' data-test-provider-list-item={{account.displayName}}>
