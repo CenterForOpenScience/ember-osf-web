@@ -148,15 +148,21 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @waitFor
     async loadFiles() {
         let fileList;
-        let configuredStorageAddonsList: ConfiguredStorageAddonModel[];
+        let configuredStorageAddonsList: ConfiguredStorageAddonModel[] = [];
         if (!this.currentFolder) {
             fileList = await this.currentNode!.queryHasMany('files', {
                 page: this.folderPage,
                 'page[size]': 20,
             });
             if (this.features.isEnabled('gravy_waffle')) {
-                const resourceReference = await taskFor(this.getResourceReference).perform();
-                configuredStorageAddonsList = await resourceReference.hasMany('configuredStorageAddons').load();
+                try {
+                    const resourceReference = await taskFor(this.getResourceReference).perform();
+                    if (resourceReference) {
+                        configuredStorageAddonsList = await resourceReference.hasMany('configuredStorageAddons').load();
+                    }
+                } catch (e) {
+                    captureException(e, {errorMessage: 'GV request has failed'});
+                }
             }
             fileList = fileList.map(
                 fileProviderModel => {
