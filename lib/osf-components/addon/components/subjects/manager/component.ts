@@ -121,6 +121,7 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
+        this.model.set('subjects', savedSubjects);
         if (this.hasSubjects) {
             this.metadataChangeset?.validate('subjects');
             this.hasSubjects(savedSubjectIds.size > 0);

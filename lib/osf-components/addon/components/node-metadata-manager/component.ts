@@ -26,6 +26,7 @@ import LicenseModel from 'ember-osf-web/models/license';
 import IdentifierModel from 'ember-osf-web/models/identifier';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import UserModel from 'ember-osf-web/models/user';
+import SubjectModel from 'ember-osf-web/models/subject';
 
 interface Args {
     node: (NodeModel);
@@ -49,6 +50,7 @@ export interface NodeMetadataManager {
     inEditMode: boolean;
     isSaving: boolean;
     userCanEdit: boolean;
+    userIsAdmin: boolean;
     isDirty: boolean;
     isGatheringData: boolean;
     license: LicenseModel;
@@ -84,6 +86,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @tracked isEditingResources = false;
     @tracked isEditingInstitutions = false;
     @tracked userCanEdit!: boolean;
+    @tracked userIsAdmin!: boolean;
     @or(
         'getGuidMetadata.isRunning',
         'cancelMetadata.isRunning',
@@ -97,6 +100,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @tracked guidType!: string | undefined;
     @tracked affiliatedList!: InstitutionModel[];
     @tracked currentAffiliatedList!: InstitutionModel[];
+    @tracked subjects!: SubjectModel[];
     resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
     languageCodes: LanguageCode[] = languageCodes;
     saveErrored = false;
@@ -111,6 +115,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
         try {
             taskFor(this.getGuidMetadata).perform();
             this.userCanEdit = this.node.currentUserPermissions.includes(Permission.Write);
+            this.userIsAdmin = this.node.currentUserPermissions.includes(Permission.Admin);
         } catch (e) {
             const errorTitle = this.intl.t('osf-components.item-metadata-manager.error-getting-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
@@ -137,6 +142,7 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
             this.currentAffiliatedList = [...this.affiliatedList];
             this.license = await node.license;
             this.identifiers = await node.queryHasMany('identifiers');
+            this.subjects = await node.queryHasMany('subjects');
             this.changeset = buildChangeset(this.metadata, null);
             this.changeset.languageObject = {
                 code: this.metadata.language,
