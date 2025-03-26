@@ -31,8 +31,8 @@ export default class SparseNodeModel extends OsfModel {
     @belongsTo('node', { inverse: 'children' })
     parent!: AsyncBelongsTo<NodeModel> & NodeModel;
 
-    @belongsTo('node', { inverse: null })
-    root!: AsyncBelongsTo<NodeModel> & NodeModel;
+    @belongsTo('sparse-node', { inverse: null })
+    root!: AsyncBelongsTo<SparseNodeModel> & SparseNodeModel;
 
     @belongsTo('node', { inverse: null })
     detail!: AsyncBelongsTo<NodeModel> & NodeModel;
