@@ -7,10 +7,10 @@
 
 .addons-list-wrapper {
     display: flex;
+    flex-direction: column;
 
     &.mobile {
         width: 100%;
-        flex-direction: column;
         flex-wrap: wrap;
     }
 }
