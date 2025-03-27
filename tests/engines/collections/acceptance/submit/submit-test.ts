@@ -168,6 +168,14 @@ module('Collections | Acceptance | submit', hooks => {
             throw new Error('could not find volume option');
         }
 
+        await untrackedClick('[data-test-metadata-field="grade_levels"] .ember-power-select-trigger');
+        const firstGradeLevelsOption = document.querySelector('.ember-power-select-option');
+        if (firstGradeLevelsOption) {
+            await untrackedClick(firstGradeLevelsOption);
+        } else {
+            throw new Error('could not find grade levels option');
+        }
+
         // fields only available for Character Lab
         await untrackedClick('[data-test-metadata-field="school_type_label"] .ember-power-select-trigger');
         const firstSchoolTypeOption = document.querySelector('.ember-power-select-option');
@@ -247,6 +255,7 @@ module('Collections | Acceptance | submit', hooks => {
             issueChoices: [],
             statusChoices: [],
             programAreaChoices: [],
+            gradeLevelsChoices: [],
             studyDesignChoices: [],
             schoolTypeChoices: [],
             dataTypeChoices: [],

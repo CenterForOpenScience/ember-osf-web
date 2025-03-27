@@ -22,6 +22,7 @@ export default Factory.extend<MirageCollection>({
     issueChoices: [faker.lorem.word(), faker.lorem.word()],
     statusChoices: [faker.lorem.word(), faker.lorem.word()],
     programAreaChoices: [faker.lorem.word(), faker.lorem.word()],
+    gradeLevelsChoices: [faker.lorem.word(), faker.lorem.word()],
     studyDesignChoices: [faker.lorem.word(), faker.lorem.word()],
     schoolTypeChoices: [faker.lorem.word(), faker.lorem.word()],
     dataTypeChoices: [faker.lorem.word(), faker.lorem.word()],
