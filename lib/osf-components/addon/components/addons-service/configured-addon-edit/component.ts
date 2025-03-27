@@ -23,6 +23,7 @@ interface Args {
 export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked displayName = this.args.configuredAddon?.displayName || this.args.authorizedAccount?.displayName;
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
+    @tracked selectedFolderDisplayName = this.args.configuredAddon?.rootFolderName;
     @tracked currentItems: Item[] = [];
 
     originalName = this.displayName;
@@ -49,7 +50,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         }
     }
 
-    get hasRootFolder() {
+    get requiresRootFolder() {
         return !(
             this.args.authorizedAccount instanceof AuthorizedComputingAccountModel
             ||
@@ -63,8 +64,8 @@ export default class ConfiguredAddonEdit extends Component<Args> {
 
     get disableSave() {
         const displayNameUnchanged = this.displayName === this.originalName;
-        const rootFolderUnchanged = this.hasRootFolder && this.selectedFolder === this.originalRootFolder;
-        const needsRootFolder = this.hasRootFolder && !this.selectFolder;
+        const rootFolderUnchanged = this.requiresRootFolder && this.selectedFolder === this.originalRootFolder;
+        const needsRootFolder = this.requiresRootFolder && !this.selectedFolder;
 
         if (this.invalidDisplayName || needsRootFolder) {
             return true;
@@ -77,7 +78,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get folderValid() {
-        return !this.hasRootFolder && this.selectedFolder && this.selectedFolder !== this.originalRootFolder;
+        return !this.requiresRootFolder && this.selectedFolder && this.selectedFolder !== this.originalRootFolder;
     }
 
     get onSaveArgs() {
@@ -90,5 +91,6 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @action
     selectFolder(folder: Item) {
         this.selectedFolder = folder.itemId;
+        this.selectedFolderDisplayName = folder.itemName;
     }
 }

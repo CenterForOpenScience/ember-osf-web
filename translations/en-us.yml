@@ -359,6 +359,8 @@ addons:
     configure:
         heading: 'Configure {providerName}'
         display-name: 'Display name'
+        selected-folder: 'Selected folder:'
+        no-folder-selected: 'No folder selected'
         go-to-root: 'Go to home folder'
         go-to-folder: 'Go to folder {folderName}'
         select-folder: 'Select {folderName} as root folder'

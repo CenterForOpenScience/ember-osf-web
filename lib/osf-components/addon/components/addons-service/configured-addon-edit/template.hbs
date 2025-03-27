@@ -2,7 +2,7 @@
     local-class='configured-addon-edit-wrapper'
     data-analytics-scope='Configured Addon Edit'
 >
-    <div local-class='display-name-wrapper'>
+    <div local-class='input-wrapper'>
         <label>
             {{t 'addons.configure.display-name'}}
             <Input
@@ -21,7 +21,19 @@
             </span>
         {{/if}}
     </div>
-    {{#if this.hasRootFolder }}
+    {{#if this.requiresRootFolder }}
+        <div local-class='input-wrapper'>
+            <b>
+                {{t 'addons.configure.selected-folder'}}
+            </b>
+            <span>
+                {{#if this.selectedFolderDisplayName}}
+                    {{this.selectedFolderDisplayName}}
+                {{else}}
+                    {{t 'addons.configure.no-folder-selected'}}
+                {{/if}}
+            </span>
+        </div>
         <AddonsService::FileManager
             @configuredAddon={{@configuredAddon}}
             @authorizedAccount={{@authorizedAccount}}
@@ -29,6 +41,7 @@
             @startingFolderId={{this.selectedFolder}}
             as |fileManager|
         >
+
             <div local-class='current-path'>
                 <Button
                     data-test-go-to-root
@@ -107,6 +120,7 @@
                                             type='radio'
                                             name='folder'
                                             value={{folder.itemName}}
+                                            checked={{eq folder.itemId this.selectedFolder}}
                                             aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
                                             {{on 'change'(fn this.selectFolder folder)}}
                                         >
