@@ -13,6 +13,7 @@ export type ChoicesFields =
     'programAreaChoices' |
     'statusChoices' |
     'volumeChoices' |
+    'gradeLevelsChoices' |
     'studyDesignChoices' |
     'schoolTypeChoices' |
     'dataTypeChoices' |
@@ -32,6 +33,7 @@ export default class CollectionModel extends OsfModel {
     @attr('array') programAreaChoices!: string[];
     @attr('array') statusChoices!: string[];
     @attr('array') volumeChoices!: string[];
+    @attr('array') gradeLevelsChoices!: string[];
     @attr('array') studyDesignChoices!: string[]; // custom field for Character Lab
     @attr('array') schoolTypeChoices!: string[]; // custom field for Character Lab
     @attr('array') dataTypeChoices!: string[];

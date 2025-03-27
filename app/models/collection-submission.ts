@@ -19,6 +19,7 @@ export const choiceFields = tuple(
     'programArea',
     'status',
     'volume',
+    'gradeLevels',
     'studyDesign',
     'schoolType',
     'dataType',
@@ -78,6 +79,7 @@ export default class CollectionSubmissionModel extends OsfModel.extend(Validatio
     @attr('string') programArea?: string;
     @attr('string') status?: string;
     @attr('string') volume?: string;
+    @attr('string') gradeLevels?: string;
     @attr('string') studyDesign?: string; // custom field for Character Lab
     @attr('string') schoolType?: string; // custom field for Character Lab
     @attr('string') dataType?: string;
