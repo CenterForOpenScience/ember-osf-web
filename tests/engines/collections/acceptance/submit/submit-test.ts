@@ -168,7 +168,7 @@ module('Collections | Acceptance | submit', hooks => {
             throw new Error('could not find volume option');
         }
 
-        await untrackedClick('[data-test-metadata-field="grade_levels"] .ember-power-select-trigger');
+        await untrackedClick('[data-test-metadata-field="grade_levels_label"] .ember-power-select-trigger');
         const firstGradeLevelsOption = document.querySelector('.ember-power-select-option');
         if (firstGradeLevelsOption) {
             await untrackedClick(firstGradeLevelsOption);
