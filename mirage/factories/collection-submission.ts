@@ -72,6 +72,10 @@ export default Factory.extend<MirageCollectionSubmission>({
             const volume = faker.random.arrayElement(collectionSubmission.collection.volumeChoices);
             collectionSubmission.update({ volume });
         }
+        if (!collectionSubmission.gradeLevels) {
+            const gradeLevels = faker.random.arrayElement(collectionSubmission.collection.gradeLevelsChoices);
+            collectionSubmission.update({ gradeLevels });
+        }
         if (!collectionSubmission.studyDesign) {
             const studyDesign = faker.random.arrayElement(collectionSubmission.collection.studyDesignChoices);
             collectionSubmission.update({ studyDesign });
