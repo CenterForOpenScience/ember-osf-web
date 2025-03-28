@@ -18,6 +18,7 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
                 status,
                 volume,
                 schoolType,
+                gradeLevels,
                 studyDesign,
                 dataType,
                 disease,
@@ -75,6 +76,13 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
         collectionSubmissions = collectionSubmissions.filter(
             (item: ModelInstance<CollectionSubmission>) => schoolType.any(
                 (value: string) => item.attrs.schoolType === value,
+            ),
+        );
+    }
+    if (gradeLevels) {
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => gradeLevels.any(
+                (value: string) => item.attrs.gradeLevels === value,
             ),
         );
     }
