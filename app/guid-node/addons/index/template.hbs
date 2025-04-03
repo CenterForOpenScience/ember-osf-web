@@ -3,6 +3,8 @@
 <div local-class='addon-page-wrapper'>
     <AddonsService::Manager
         @node={{this.model}}
+        @activeFilterType={{this.activeFilterType}}
+        @updateActiveFilterType={{fn (mut this.activeFilterType)}}
         as |manager|
     >
         {{#if manager.selectedProvider}}
@@ -282,7 +284,8 @@
             {{/let}}
         {{else}}
             <AriaTabs
-                @defaultIndex={{0}}
+                @selectedIndex={{this.tabIndex}}
+                @onSelect={{action (mut this.tabIndex)}}
                 local-class='tabs'
                 as |tab|
             >
@@ -324,7 +327,7 @@
                                 <Button
                                     data-test-addon-list-filter={{type}}
                                     data-analytics-name={{t (concat 'addons.list.filter.' type)}}
-                                    local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                                    local-class='filter-button {{if (eq this.activeFilterType type) 'active'}}'
                                     @layout='fake-link'
                                     {{on 'click' (fn manager.filterByAddonType type)}}
                                 >
@@ -364,7 +367,7 @@
                                 <Button
                                     data-test-addon-list-filter={{type}}
                                     data-analytics-name={{t (concat 'addons.list.filter.' type)}}
-                                    local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                                    local-class='filter-button {{if (eq this.activeFilterType type) 'active'}}'
                                     @layout='fake-link'
                                     {{on 'click' (fn manager.filterByAddonType type)}}
                                 >
