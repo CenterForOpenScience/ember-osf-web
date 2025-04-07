@@ -8,10 +8,12 @@ import { guid, guidAfterCreate } from './utils';
 export interface MirageUser extends User {
     contributorIds: ID[];
     institutionIds: ID[];
+    noLinksMirage: boolean;
 }
 
 export interface UserTraits {
     loggedIn: Trait;
+    noLinks: Trait;
     withInstitutions: Trait;
     withSettings: Trait;
     withAlternateEmail: Trait;

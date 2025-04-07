@@ -1,7 +1,7 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-osf-web/config/environment';
 
-import User from 'ember-osf-web/models/user';
+import { MirageUser } from 'ember-osf-web/mirage/factories/user';
 
 import { randomGravatar } from '../utils';
 
@@ -9,17 +9,17 @@ import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class UserSerializer extends ApplicationSerializer<User> {
-    buildNormalLinks(model: ModelInstance<User>) {
+export default class UserSerializer extends ApplicationSerializer<MirageUser> {
+    buildNormalLinks(model: ModelInstance<MirageUser>) {
         return {
             ...super.buildNormalLinks(model),
             profile_image: randomGravatar(),
-            html: randomGravatar(),
+            html: `/${model.id}/`,
         };
     }
 
-    buildRelationships(model: ModelInstance<User>) {
-        const serializedRelationships: SerializedRelationships<User> = {
+    buildRelationships(model: ModelInstance<MirageUser>) {
+        const serializedRelationships: SerializedRelationships<MirageUser> = {
             emails: {
                 links: {
                     related: {

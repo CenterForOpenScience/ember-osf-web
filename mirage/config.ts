@@ -113,6 +113,8 @@ export default function(this: Server) {
     });
     this.get('/institutions/:id/metrics/summary', summaryMetrics);
 
+    osfResource(this, 'logs');
+
     osfResource(this, 'license', { only: ['index', 'show'] });
     osfResource(this, 'citation-style', {
         only: ['index'],

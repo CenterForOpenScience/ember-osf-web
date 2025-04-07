@@ -6,6 +6,9 @@ import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import { taskFor } from 'ember-concurrency-ts';
 import NodeModel from 'ember-osf-web/models/node';
+import Toast from 'ember-toastr/services/toast';
+import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
 
 /**
  * The Supplements Args
@@ -18,6 +21,8 @@ interface SupplementsArgs {
  * The Supplements Component
  */
 export default class Supplements extends Component<SupplementsArgs>{
+    @service toast!: Toast;
+    @service intl!: Intl;
     @tracked displayExistingNodeWidget = false;
     @tracked isSupplementAttached = false;
     @tracked isModalOpen = false;
@@ -63,10 +68,14 @@ export default class Supplements extends Component<SupplementsArgs>{
     @task
     @waitFor
     public async removeSelectedProject(): Promise<void> {
-        await this.args.manager.preprint.removeM2MRelationship('node');
-        await this.args.manager.preprint.reload();
-        this.isSupplementAttached = false;
-        this.validate();
+        try {
+            await this.args.manager.preprint.removeM2MRelationship('node'); // Remove relationship
+            this.args.manager.preprint.set('node', null); // Ensure local cache is updated
+            this.isSupplementAttached = false;
+            this.validate();
+        } catch (error) {
+            this.toast.error(this.intl.t('preprints.submit.step-supplements.failed-removal'));
+        }
     }
 
     @action

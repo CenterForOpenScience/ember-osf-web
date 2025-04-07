@@ -1,15 +1,91 @@
 import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
+import RegistrationModel from 'ember-osf-web/models/registration';
+import { Link } from 'jsonapi-typescript';
 
 import NodeModel from './node';
 import OsfModel from './osf-model';
-import UserModel from './user';
+import UserModel, { UserLinks } from './user';
+
+export interface LogParamNodeModel {
+    id: string;
+    title: string;
+}
+
+export interface ContributorModel {
+    id: string;
+    fullName: string;
+    active: boolean;
+    unregisteredName?: string;
+  }
+
+export interface LogParamUrls {
+    view: Link;
+    download: Link;
+}
+
+export interface LogParamIdentifiersModel {
+    doi?: string;
+    ark?: string;
+}
+
+export interface LogParamNameUrlModel {
+    name: string;
+    url: string;
+}
+
+export interface LogParamInstitutionModel {
+    id: string;
+    name: string;
+}
+
+export interface LogParamSourceModel {
+    materialized: string;
+    addon: string;
+    url: string;
+}
+
+
+export interface LogParamModel {
+    addon: string;
+    anonymousLink: boolean;
+    contributors: ContributorModel[];
+    destination: LogParamSourceModel;
+    file: LogParamNameUrlModel;
+    githubUser: string;
+    guid: string;
+    identifiers: LogParamIdentifiersModel;
+    institution: LogParamInstitutionModel;
+    kind: string;
+    license: string;
+    pageId: string;
+    page: string;
+    oldPage: string;
+    paramsNode: LogParamNodeModel;
+    paramsProject: string;
+    path: string;
+    pathType: string;
+    pointer: string;
+    preprint: string;
+    preprintProvider: LogParamNameUrlModel;
+    source: LogParamSourceModel;
+    tag: string;
+    titleNew: string;
+    titleOriginal: string;
+    updatedFields: Object;
+    urls: UserLinks;
+    value: string;
+    version: string;
+    wiki: LogParamNameUrlModel;
+}
 
 export default class LogModel extends OsfModel {
     @attr('date') date!: Date;
     @attr('fixstring') action!: string;
-    @attr('object') params!: any;
+    // eslint-disable-next-line
+    // @ts-ignore
+    @attr('object', {snakifyForApi: true}) params!: LogParamModel;
 
-    @belongsTo('node', { inverse: null })
+    @belongsTo('node', { inverse: null})
     node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('node', { polymorphic: true, inverse: 'logs' })
@@ -23,6 +99,9 @@ export default class LogModel extends OsfModel {
 
     @belongsTo('node', { inverse: null })
     templateNode!: AsyncBelongsTo<NodeModel> & NodeModel;
+
+    @belongsTo('registration', { inverse: null })
+    linkedRegistration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
 }
 
 declare module 'ember-data/types/registries/model' {
