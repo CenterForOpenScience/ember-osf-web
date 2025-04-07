@@ -28,4 +28,35 @@ module('Integration | Component | contributor-list/contributor', hooks => {
         assert.dom(this.element).hasText(fakeUser.fullName);
         assert.dom('a').exists({ count: 1 });
     });
+
+    test('it renders deleted users', async function(assert) {
+        const fakeUser = {
+            relationshipLinks: {
+                users: {
+                    data: {
+                        meta: {
+                            fullName: 'Gone User',
+                            familyName: 'User',
+                            givenName: 'Gone',
+                        },
+                        status: 410,
+                    },
+                },
+            },
+            users: null,
+        };
+        this.set('contrib', fakeUser);
+
+        await render(hbs`{{contributor-list/contributor contributor=this.contrib}}`);
+        assert.dom(this.element).hasText('Gone User');
+        assert.dom('a').doesNotExist();
+
+        await render(hbs`{{contributor-list/contributor contributor=this.contrib shouldShortenName=true}}`);
+        assert.dom(this.element).hasText('User');
+        assert.dom('a').doesNotExist();
+
+        await render(hbs`{{contributor-list/contributor contributor=this.contrib shouldLinkUser=true}}`);
+        assert.dom(this.element).hasText('Gone User');
+        assert.dom('a').doesNotExist('Deleted users should not be linked');
+    });
 });

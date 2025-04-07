@@ -23,8 +23,11 @@ interface Args {
 export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked displayName = this.args.configuredAddon?.displayName || this.args.authorizedAccount?.displayName;
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
+    @tracked selectedFolderDisplayName = this.args.configuredAddon?.rootFolderName;
     @tracked currentItems: Item[] = [];
 
+    originalName = this.displayName;
+    originalRootFolder = this.selectedFolder;
     defaultKwargs: any = {};
 
     constructor(owner: unknown, args: Args) {
@@ -47,7 +50,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         }
     }
 
-    get hasRootFolder() {
+    get requiresRootFolder() {
         return !(
             this.args.authorizedAccount instanceof AuthorizedComputingAccountModel
             ||
@@ -60,7 +63,22 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get disableSave() {
-        return this.invalidDisplayName || this.args.onSave.isRunning || (this.hasRootFolder && !this.selectedFolder);
+        const displayNameUnchanged = this.displayName === this.originalName;
+        const rootFolderUnchanged = this.requiresRootFolder && this.selectedFolder === this.originalRootFolder;
+        const needsRootFolder = this.requiresRootFolder && !this.selectedFolder;
+
+        if (this.invalidDisplayName || needsRootFolder) {
+            return true;
+        }
+        return (rootFolderUnchanged && displayNameUnchanged) || this.args.onSave.isRunning;
+    }
+
+    get nameValid() {
+        return !this.invalidDisplayName && this.displayName !== this.originalName;
+    }
+
+    get folderValid() {
+        return !this.requiresRootFolder && this.selectedFolder && this.selectedFolder !== this.originalRootFolder;
     }
 
     get onSaveArgs() {
@@ -73,5 +91,6 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @action
     selectFolder(folder: Item) {
         this.selectedFolder = folder.itemId;
+        this.selectedFolderDisplayName = folder.itemName;
     }
 }

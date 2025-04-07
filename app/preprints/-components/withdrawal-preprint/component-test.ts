@@ -10,7 +10,7 @@ import PreprintModel from 'ember-osf-web/models/preprint';
 import PreprintProviderModel from 'ember-osf-web/models/preprint-provider';
 import { ModelInstance } from 'ember-cli-mirage';
 
-interface ComopenntTestContext extends TestContext {
+interface ComponentTestContext extends TestContext {
     preprint: PreprintModel;
     provider: PreprintProviderModel;
     onWithdrawal: () => void;
@@ -21,7 +21,7 @@ module('Integration | Preprint | Component | withdrawal-preprint', hooks => {
     setupMirage(hooks);
     setupIntl(hooks);
 
-    test('it renders and shows appropriate text', async function(this: ComopenntTestContext, assert) {
+    test('it renders and shows appropriate text', async function(this: ComponentTestContext, assert) {
         this.store = this.owner.lookup('service:store');
         this.intl = this.owner.lookup('service:intl');
 

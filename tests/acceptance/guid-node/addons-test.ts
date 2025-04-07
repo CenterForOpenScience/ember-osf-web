@@ -197,7 +197,7 @@ module('Acceptance | guid-node/addons', hooks => {
             .hasValue(s3AccountsDisplayNamesAndRootFolders[0].displayName, 'Name input has correct value');
         assert.dom('[data-test-go-to-root]').exists('Go to root button is present');
         assert.dom('[data-test-folder-path-option]').exists({ count: 1 }, 'Folder path shown');
-        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled when name is present');
+        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is disabled when no changes are present');
         assert.dom('[data-test-root-folder-cancel]').exists('Cancel button is present');
         // Edit first account display name
         await fillIn('[data-test-display-name-input]', '');
@@ -205,7 +205,7 @@ module('Acceptance | guid-node/addons', hooks => {
         await fillIn('[data-test-display-name-input]', 'New S3 Account Display Name');
         assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled with displayName present');
         await fillIn('[data-test-display-name-input]', s3AccountsDisplayNamesAndRootFolders[0].displayName);
-        assert.dom('[data-test-root-folder-save]').isEnabled('Save button is enabled with original displayName');
+        assert.dom('[data-test-root-folder-save]').isDisabled('Save button is enabled when displayName is unchanged');
         // Edit first account root folder
         await click('[data-test-folder-link]:first-child');
         assert.dom('[data-test-folder-path-option]').exists({ count: 2 }, '2 folders in path');
