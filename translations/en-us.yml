@@ -1463,6 +1463,7 @@ collections:
             issue: Issue
             program_area: 'Program Area'
             volume: Volume
+            grade_levels: 'Grade Levels'
             study_design: 'Study Design'
             school_type: 'School Type'
             data_type: 'Data Type'
@@ -1518,6 +1519,7 @@ collections:
         program_area_label: 'Program Area:'
         status_label: 'Status:'
         volume_label: 'Volume:'
+        grade_levels_label: 'Grade Levels:'
         study_design_label: 'Study Design:'
         school_type_label: 'School Type:'
         data_type_label: 'Data Type:'
@@ -1535,6 +1537,7 @@ collections:
             remove_issue: 'Remove issue'
             remove_program_area: 'Remove program area'
             remove_school_type: 'Remove school type'
+            remove_grade_levels: 'Remove grade levels'
             remove_study_design: 'Remove study design'
             remove_volume: 'Remove volume'
             remove_data_type: 'Remove data type'

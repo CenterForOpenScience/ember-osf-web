@@ -71,6 +71,7 @@ export default class Discover extends Controller {
                     ['program-area', 'program-area'],
                     ['status', 'status'],
                     ['volume', 'volume'],
+                    ['grade-levels', 'grade-levels'],
                     ['study-design', 'study-design'],
                     ['school-type', 'school-type'],
                     ['data-type', 'data-type'],
@@ -105,6 +106,7 @@ export default class Discover extends Controller {
     programArea = '';
     status = '';
     volume = '';
+    gradeLevels = '';
     studyDesign = '';
     schoolType = '';
     dataType = '';
