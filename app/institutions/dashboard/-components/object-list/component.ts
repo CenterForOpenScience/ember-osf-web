@@ -115,6 +115,7 @@ export default class InstitutionalObjectList extends Component<InstitutionalObje
         }
         const cardSearchUrl = new URL((cardSearch.links.self as string));
         cardSearchUrl.searchParams.set('page[size]', '10000');
+        cardSearchUrl.searchParams.set('page[cursor]', '');
         cardSearchUrl.searchParams.set('acceptMediatype', format);
         cardSearchUrl.searchParams.set('withFileName', `${this.args.objectType}-search-results`);
 
