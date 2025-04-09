@@ -148,13 +148,6 @@ export default class Metadata extends Component<MetadataArgs>{
     }
 
     @action
-    public async hasSubjects(hasSubjects: boolean): Promise<void> {
-        if (hasSubjects) {
-            this.validate();
-        }
-    }
-
-    @action
     public validate(): void {
         this.setHasRequiredFields();
         this.metadataFormChangeset.validate();

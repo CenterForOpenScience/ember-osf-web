@@ -250,6 +250,7 @@ addons:
         sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.'
         sync-details-2: 'To manage all add-ons connected to your account, visit your profile settings.'
         sync-details-3: 'Manage your connected Add-ons, re-authorize, disconnect account, or disconnect project'
+        sync-details-4: 'Add-ons can also be linked directly from Project page.'
         filter-placeholder: 'Filter add-ons'
         filter:
             all: 'All'
