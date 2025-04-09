@@ -60,7 +60,6 @@ export default class SubjectManagerComponent extends Component {
     // optional
     metadataChangeset?: BufferedChangeset;
     onchange?: () => void;
-    hasSubjects?: (_: boolean) => void;
 
     // private
     @service intl!: Intl;
@@ -121,11 +120,6 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
-        this.model.set('subjects', savedSubjects);
-        if (this.hasSubjects) {
-            this.metadataChangeset?.validate('subjects');
-            this.hasSubjects(savedSubjectIds.size > 0);
-        }
     }
 
     @restartableTask

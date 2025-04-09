@@ -93,9 +93,8 @@
                         <Subjects::Manager
                             @model={{@manager.preprint}}
                             @provider={{@manager.provider}}
-                            @metadataChangeset={{this.metadataFormChangeset}} 
+                            @metadataChangeset={{this.metadataFormChangeset}}
                             @doesAutosave={{true}}
-                            @hasSubjects={{action this.hasSubjects}}
                             @onchange={{action this.validate}}
                             id={{subjectsFieldId}}
                             as |subjectsManager|
@@ -103,7 +102,7 @@
                             <Subjects::Widget
                                 @subjectsManager={{subjectsManager}}
                             />
-                            <ValidationErrors 
+                            <ValidationErrors
                             @changeset={{this.metadataFormChangeset}} @key='subjects'
                             @isValidating={{subjectsManager.isSaving}} />
                         </Subjects::Manager>
