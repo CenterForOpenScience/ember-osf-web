@@ -339,8 +339,9 @@ export function cardSearch(_: Schema, request: Request) {
                     propertyPathKey: 'rights',
                     matchEvidence: [
                         {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
-                            osfmapPropertyPath: 'resourceType',
+                            '@type': ['trove:IriMatchEvidence'],
+                            osfmapPropertyPath: ['resourceType'],
+                            propertyPathKey: 'resourceType',
                             matchingIri: 'rdf:Property',
                         },
                     ],
@@ -377,8 +378,9 @@ export function cardSearch(_: Schema, request: Request) {
                     propertyPathKey: 'datePublished',
                     matchEvidence: [
                         {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
-                            osfmapPropertyPath: 'resourceType',
+                            '@type': ['trove:IriMatchEvidence'],
+                            osfmapPropertyPath: ['resourceType'],
+                            propertyPathKey: 'resourceType',
                             matchingIri: 'rdf:Property',
                         },
                     ],
@@ -415,8 +417,9 @@ export function cardSearch(_: Schema, request: Request) {
                     propertyPathKey: 'funder',
                     matchEvidence: [
                         {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/IriMatchEvidence'],
-                            osfmapPropertyPath: 'resourceType',
+                            '@type': ['trove:IriMatchEvidence'],
+                            osfmapPropertyPath: ['resourceType'],
+                            propertyPathKey: 'resourceType',
                             matchingIri: 'rdf:Property',
                         },
                     ],
@@ -466,7 +469,7 @@ export function cardSearch(_: Schema, request: Request) {
             attributes: {
                 matchEvidence: [
                     {
-                        '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
+                        '@type': ['trove:TextMatchEvidence'],
                         evidenceCardIdentifier: indexCardURL,
                         matchingHighlight: [`...<em>${faker.lorem.word()}</em>...`],
                         osfmapPropertyPath: ['description'],
@@ -576,8 +579,9 @@ export function valueSearch(_: Schema, __: Request) {
                 attributes: {
                     matchEvidence: [
                         {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
-                            osfmapPropertyPath: 'title',
+                            '@type': ['trove:TextMatchEvidence'],
+                            osfmapPropertyPath: ['title'],
+                            propertyPathKey: 'title',
                             matchingHighlight: 'National <em>Institute of Health</em>',
                         },
                     ],
@@ -596,8 +600,9 @@ export function valueSearch(_: Schema, __: Request) {
                 attributes: {
                     matchEvidence: [
                         {
-                            '@type': ['https://share.osf.io/vocab/2023/trove/TextMatchEvidence'],
-                            osfmapPropertyPath: 'title',
+                            '@type': ['trove:TextMatchEvidence'],
+                            osfmapPropertyPath: ['title'],
+                            propertyPathKey: 'title',
                             matchingHighlight: 'Virginia <em>Institute of Health</em>',
                         },
                     ],
