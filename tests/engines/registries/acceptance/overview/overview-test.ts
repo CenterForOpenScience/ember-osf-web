@@ -270,6 +270,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await visit(`/${reg.id}/`);
 
+
         assertHeadMetaTags(assert, 'title', reg.title);
         assertHeadMetaTags(assert, 'description', reg.description);
         assertHeadMetaTags(assert, 'dateRegistered', moment(reg.dateRegistered).format('YYYY-MM-DD'));
@@ -278,7 +279,11 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assertHeadMetaTags(assert, 'image', 'engines-dist/registries/assets/img/osf-sharing.png');
         assertHeadMetaTags(assert, 'doi', reg.identifiers.models[0].value);
         assertHeadMetaTags(assert, 'tags', reg.tags);
-        assertHeadMetaTags(assert, 'contributors', reg.contributors.models.mapBy('users.fullName'));
+        assertHeadMetaTags(assert, 'contributors', reg.contributors.models.mapBy('users.fullName')
+            .map(fullName => {
+                const [first, last] = fullName.split(' ');
+                return `${last}, ${first}`;
+            }));
         assertHeadMetaTags(assert, 'affiliatedInstitutions', affiliatedInstitutions.mapBy('name'), true);
     });
 
