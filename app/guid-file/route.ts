@@ -26,7 +26,7 @@ import S3File from 'ember-osf-web/packages/files/s3-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
-import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
+import ContributorModel from 'ember-osf-web/models/contributor';
 
 export default class GuidFile extends Route {
     @service('head-tags') headTagsService!: HeadTagsService;
@@ -46,7 +46,7 @@ export default class GuidFile extends Route {
         const dateCreated = model.dateCreated;
         const dateModified = model.dateModified;
         const institutions = await model.target.get('affiliatedInstitutions');
-        const contributors = await model.target.get('contributors');
+        const contributors = await model.target.get('bibliographicContributors');
         const metaTagsData = {
             title: this.metadata.title ? this.metadata.title : model.name,
             identifier: model.guid,
@@ -57,8 +57,13 @@ export default class GuidFile extends Route {
                 this.metadata.description :
                 this.intl.t('general.presented_by_osf'),
             language: this.metadata.language ? this.metadata.language : undefined,
-            contributors: (contributors as SparseModel[]).map(
-                (contrib: SparseModel) => (contrib.users as { givenName: string, familyName: string }),
+            contributors: (contributors as ContributorModel[]).map(
+                (contrib: ContributorModel) => (
+                    {
+                        givenName: contrib.users.get('givenName'),
+                        familyName: contrib.users.get('familyName'),
+                    }
+                ),
             ),
         };
         this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
