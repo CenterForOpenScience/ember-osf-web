@@ -51,6 +51,7 @@ interface Args {
     node: NodeModel;
     activeFilterType: FilterTypes;
     updateActiveFilterType: (type: string) => void;
+    updateTabIndex: (type: number) => void;
 }
 
 export default class AddonsServiceManagerComponent extends Component<Args> {
@@ -86,7 +87,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     };
     filterTypeMapper = new TrackedObject(this.mapper);
     @tracked filterText = '';
-    // @tracked activeFilterType: FilterTypes = FilterTypes.STORAGE;
 
     @tracked confirmRemoveConnectedLocation = false;
     @tracked _pageMode?: PageMode;
@@ -280,6 +280,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.selectedConfiguration = undefined;
         this.selectedAccount = undefined;
         this.confirmRemoveConnectedLocation = false;
+        this.args.updateTabIndex(0);
     }
 
     @task

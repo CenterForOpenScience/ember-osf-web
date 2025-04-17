@@ -5,6 +5,7 @@
         @node={{this.model}}
         @activeFilterType={{this.activeFilterType}}
         @updateActiveFilterType={{fn (mut this.activeFilterType)}}
+        @updateTabIndex={{fn (mut this.tabIndex)}}
         as |manager|
     >
         {{#if manager.selectedProvider}}
