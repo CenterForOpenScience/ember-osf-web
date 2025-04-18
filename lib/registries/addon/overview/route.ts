@@ -13,7 +13,7 @@ import Registration from 'ember-osf-web/models/registration';
 import GuidRoute, { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
+import MetaTags, { HeadTagDef, MetaTagsData } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -74,11 +74,11 @@ export default class Overview extends GuidRoute {
                 keywords: registration.tags,
                 siteName: 'OSF',
                 license: license && (license as LicenseModel).name,
-                author: (contributors as SparseModel[]).map(
-                    contrib => (contrib.users as { fullName: string }).fullName,
+                contributors: (contributors as SparseModel[]).map(
+                    (contrib: SparseModel) => (contrib.users as { givenName: string, familyName: string }),
                 ),
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
-            };
+            } as MetaTagsData;
 
             const allTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
 

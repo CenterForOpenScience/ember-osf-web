@@ -5,9 +5,14 @@ import Intl from 'ember-intl/services/intl';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import toArray from 'ember-osf-web/utils/to-array';
 
-export type Content = string | number | null | undefined;
+interface MetaTagAuthor {
+    givenName: string;
+    familyName: string;
+}
 
-export type DataContent = Content | Content[];
+type Content = string | number | null | undefined | MetaTagAuthor;
+
+type DataContent = Content | Content[];
 
 export interface MetaTagsData {
     title?: DataContent;
@@ -30,22 +35,22 @@ export interface MetaTagsData {
     fbAppId?: DataContent;
     twitterSite?: DataContent;
     twitterCreator?: DataContent;
-    author?: DataContent;
+    contributors?: DataContent;
     keywords?: DataContent;
 }
 
-export interface MetaTagsDefs {
+interface MetaTagsDefs {
     [s: string]: DataContent;
 }
 
 export interface NameMetaTagAttrs {
     name: string;
-    content: Content;
+    content: DataContent;
 }
 
 export interface PropMetaTagAttrs {
     property: string;
-    content: Content;
+    content: DataContent;
 }
 
 export interface LinkMetaTagAttrs {
@@ -57,7 +62,7 @@ export interface ScriptTagAttrs {
     type: string;
 }
 
-export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs | ScriptTagAttrs;
+type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs | ScriptTagAttrs;
 
 export interface HeadTagDef {
     type: string;
@@ -71,13 +76,97 @@ export default class MetaTags extends Service {
     @service headTags!: HeadTagsService;
 
     /**
+     * buildPersonScriptTag
+     * ENG-6331 requested more granularity for authors
+     * This abstracted method get the granulatority required
+     *
+     * @param contributors The list of contributors
+     *
+     * @returns {HeadTagDef}
+     */
+    private buildPersonScriptTag(contributors: DataContent): HeadTagDef {
+        const contributor = [];
+        if(Array.isArray(contributors)) {
+            contributors.forEach((person: MetaTagAuthor) => {
+                contributor.push(Object({
+                    '@type': 'schema:Person',
+                    givenName: person.givenName,
+                    familyName: person.familyName,
+                }));
+            });
+        } else {
+            contributor.push(Object({
+                '@type': 'schema:Person',
+                givenName: (contributors as MetaTagAuthor).givenName,
+                familyName: (contributors as MetaTagAuthor).familyName,
+            }));
+        }
+
+        return {
+            type: 'script',
+            content: JSON.stringify({
+                '@context': {
+                    dc: 'http://purl.org/dc/elements/1.1/',
+                    schema: 'http://schema.org',
+                },
+                '@type': 'schema:CreativeWork',
+                contributor,
+            }),
+            attrs: {
+                type: 'application/ld+json',
+            },
+        };
+    }
+
+    /**
+     * Get head tag definitions suitable for the head-tags service.
+     *
+     * @method getHeadTags
+     * @param {MetaTagsData} metaTagsData Data values to use for meta tags.
+     * @return {MetaTagAttrs[]} Returns head tag defintions.
+     */
+    public getHeadTags(metaTagsData: MetaTagsData): HeadTagDef[] {
+        const metaTagsDefs = this.getMetaTags(metaTagsData);
+        // Morph MetaTagsDefs into an array of MetaTagAttrs.
+        const headTagsAttrs: MetaTagAttrs[] = Object.entries(metaTagsDefs)
+            .reduce(
+                (acc: MetaTagAttrs[], [name, content]) => acc.concat(
+                    toArray(content).map(contentMember => this.makeMetaTagAttrs(name, contentMember)),
+                ), [],
+            );
+
+
+        const headTags = headTagsAttrs
+            .filterBy('content') // Remove tags with no content.
+            .map(attrs => ({ type: 'meta', attrs }));
+
+        if (metaTagsData?.contributors) {
+            headTags.push(this.buildPersonScriptTag(metaTagsData.contributors));
+        }
+
+        return headTags;
+    }
+
+    public updateHeadTags() {
+        this.headTags.collectHeadTags();
+
+        // https://www.zotero.org/support/dev/exposing_metadata#force_zotero_to_refresh_metadata
+        const ev = new Event('ZoteroItemUpdated', {
+            bubbles: true,
+            cancelable: true,
+        });
+        document.dispatchEvent(ev);
+    }
+
+
+    /**
      * Get meta tag definitions.
      *
      * @method getMetaTags
      * @param {MetaTagsData} metaTagsOverrides Data values to override defaults.
      * @return {MetaTagsDefs} Returns meta tag definitions.
      */
-    getMetaTags(metaTagsOverrides: MetaTagsData): MetaTagsDefs {
+    private getMetaTags(metaTagsOverrides: MetaTagsData): MetaTagsDefs {
         // Default values.
         const currentUrl = window.location.href;
         const metaTagsData: MetaTagsData = {
@@ -109,7 +198,7 @@ export default class MetaTags extends Service {
             citation_doi: metaTagsData.doi,
             citation_publisher: metaTagsData.siteName,
             citation_author_institution: metaTagsData.institution,
-            citation_author: metaTagsData.author,
+            citation_author: metaTagsData.contributors,
             citation_description: metaTagsData.description,
             citation_public_url: metaTagsData.url,
             citation_publication_date: metaTagsData.publishedDate,
@@ -123,7 +212,7 @@ export default class MetaTags extends Service {
             'dct.created': metaTagsData.publishedDate,
             'dc.publisher': metaTagsData.siteName,
             'dc.language': metaTagsData.language,
-            'dc.contributor': metaTagsData.author,
+            'dc.contributor': metaTagsData.contributors,
             'dc.subject': metaTagsData.keywords,
             // Open Graph/Facebook
             'fb:app_id': metaTagsData.fbAppId,
@@ -151,45 +240,31 @@ export default class MetaTags extends Service {
     }
 
     /**
-     * Get head tag definitions suitable for the head-tags service.
+     * buildMetaTagContent
+     * ENG-6331 requested more granularity for authors
+     * This abstracted method get the granulatority required
      *
-     * @method getHeadTags
-     * @param {MetaTagsData} metaTagsData Data values to use for meta tags.
-     * @return {HeadTagDef[]} Returns head tag defintions.
+     * @param name The name of the attribute
+     * @param content The content
+     * @returns {Content}
      */
-    getHeadTags(metaTagsData: MetaTagsData): HeadTagDef[] {
-        const metaTagsDefs = this.getMetaTags(metaTagsData);
-        // Morph MetaTagsDefs into an array of MetaTagAttrs.
-        const headTagsAttrs: MetaTagAttrs[] = Object.entries(metaTagsDefs)
-            .reduce(
-                (acc: MetaTagAttrs[], [name, content]) => acc.concat(
-                    toArray(content).map(contentMember => this.makeMetaTagAttrs(name, contentMember)),
-                ), [],
-            );
-
-        return headTagsAttrs
-            .filterBy('content') // Remove tags with no content.
-            .map(attrs => ({ type: 'meta', attrs }));
-    }
-
-    makeMetaTagAttrs(name: string, content: Content): MetaTagAttrs {
-        // Open Graph/Facebook tags use 'property' instead of 'name'.
-        if (['fb:', 'og:'].includes(name.substring(0, 3))) {
-            return { property: name, content };
+    private buildMetaTagContent(name: string, content: Content): Content{
+        if (['citation_author', 'dc.contributor'].includes(name) && typeof content === 'object') {
+            return `${content?.familyName}, ${content?.givenName}`;
         }
-        return { name, content };
+
+        return content;
     }
 
-    updateHeadTags() {
-        this.headTags.collectHeadTags();
-
-        // https://www.zotero.org/support/dev/exposing_metadata#force_zotero_to_refresh_metadata
-        const ev = new Event('ZoteroItemUpdated', {
-            bubbles: true,
-            cancelable: true,
-        });
-        document.dispatchEvent(ev);
+    private makeMetaTagAttrs(name: string, content: Content): MetaTagAttrs {
+        // Open Graph/Facebook tags use 'property' instead of 'name'.
+        content = this.buildMetaTagContent(name, content);
+        if (['fb:', 'og:'].includes(name.substring(0, 3))) {
+            return { property: name, content};
+        }
+        return { name, content};
     }
+
 }
 
 declare module '@ember/service' {

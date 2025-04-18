@@ -14,7 +14,7 @@ import Identifier from 'ember-osf-web/models/identifier';
 import LicenseModel from 'ember-osf-web/models/license';
 import { ReviewsState } from 'ember-osf-web/models/provider';
 import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
-import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
+import MetaTags, { HeadTagDef, MetaTagsData } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import Theme from 'ember-osf-web/services/theme';
 import captureException from 'ember-osf-web/utils/capture-exception';
@@ -63,12 +63,14 @@ export default class PreprintsDetail extends Route {
             const preprint = await this.store.findRecord('preprint', guid, {
                 reload: true,
                 include: embeddableFields,
+                /*
                 adapterOptions: {
                     query: {
                         'metrics[views]': 'total',
                         'metrics[downloads]': 'total',
                     },
                 },
+                */
             });
 
             const provider = await preprint?.get('provider');
@@ -154,7 +156,7 @@ export default class PreprintsDetail extends Route {
             ] = await all([
                 preprint.sparseLoadAll(
                     'bibliographicContributors',
-                    { contributor: ['users', 'index'], user: ['fullName'] },
+                    { contributor: ['users', 'index'], user: ['given_name', 'family_name'] },
                 ),
                 preprint.license,
                 preprint.identifiers,
@@ -180,10 +182,10 @@ export default class PreprintsDetail extends Route {
                 keywords: preprint.tags,
                 siteName: 'OSF',
                 license: license && (license as LicenseModel).name,
-                author: (contributors as SparseModel[]).map(
-                    contrib => (contrib.users as { fullName: string }).fullName,
+                contributors: (contributors as SparseModel[]).map(
+                    (contrib: SparseModel) => (contrib.users as { givenName: string, familyName: string }),
                 ),
-            };
+            } as MetaTagsData;
 
             const allTags: HeadTagDef[] = this.metaTags.getHeadTags(metaTagsData);
 
