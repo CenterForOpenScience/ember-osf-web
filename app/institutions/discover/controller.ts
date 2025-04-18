@@ -22,9 +22,6 @@ export default class InstitutionDiscoverController extends Controller {
         let key = 'affiliation';
         const { resourceType } = this;
         switch (resourceType) {
-        case ResourceTypeFilterValue.Preprints:
-            key = 'creator.affiliation';
-            break;
         case ResourceTypeFilterValue.Files:
             key = 'isContainedBy.affiliation';
             break;
