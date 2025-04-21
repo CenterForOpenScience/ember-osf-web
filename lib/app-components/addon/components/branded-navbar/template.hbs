@@ -97,16 +97,18 @@
                                     </OsfLink>
                                 </li>
                             {{/if}}
-                            <li>
-                                <OsfLink
-                                    data-test-add-a-preprint-branded-navbar
-                                    data-analytics-name='{{this.provider.id}}: add a {{this.provider.preprintWord}} link'
-                                    @route='preprints.submit'
-                                    @models={{array this.provider.id}}
-                                >
-                                    <span role='button'>{{t 'navbar.add_a_preprint' preprintWord=this.provider.preprintWord}}</span>
-                                </OsfLink>
-                            </li>
+                            {{#if this.provider.allowSubmissions}}
+                                <li>
+                                    <OsfLink
+                                        data-test-add-a-preprint-branded-navbar
+                                        data-analytics-name='{{this.provider.id}}: add a {{this.provider.preprintWord}} link'
+                                        @route='preprints.submit'
+                                        @models={{array this.provider.id}}
+                                    >
+                                        <span role='button'>{{t 'navbar.add_a_preprint' preprintWord=this.provider.preprintWord}}</span>
+                                    </OsfLink>
+                                </li>
+                            {{/if}}
                         {{/if}}
                         <li>
                             <a

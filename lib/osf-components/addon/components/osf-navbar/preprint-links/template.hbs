@@ -18,16 +18,18 @@
         </OsfLink>
     </li>
 {{/if}}
-<li data-test-nav-submit-preprint-link>
-    <OsfLink
-        data-test-add-a-preprint-osf-navbar
-        data-analytics-name='Add a preprint'
-        @route='preprints.select'
-        {{on 'click' @onLinkClicked}}
-    >
-        {{t 'navbar.add_a_preprint' preprintWord=(t 'documentType.preprint.singularCapitalized')}}
-    </OsfLink>
-</li>
+{{#if this.theme.provider.allowSubmissions}}
+    <li data-test-nav-submit-preprint-link>
+        <OsfLink
+            data-test-add-a-preprint-osf-navbar
+            data-analytics-name='Add a preprint'
+            @route='preprints.select'
+            {{on 'click' @onLinkClicked}}
+        >
+            {{t 'navbar.add_a_preprint' preprintWord=(t 'documentType.preprint.singularCapitalized')}}
+        </OsfLink>
+    </li>
+{{/if}}
 <li data-test-nav-search-link>
     <OsfLink
         @route='search'
