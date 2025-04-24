@@ -358,6 +358,9 @@ addons:
         verify: 'Connect the following account:'
         authorizing: 'Connecting…'
     configure:
+        authorize: 'Authorize'
+        sign-out: 'Sign Out'
+        open: 'Open'
         heading: 'Configure {providerName}'
         display-name: 'Display name'
         selected-folder: 'Selected folder:'

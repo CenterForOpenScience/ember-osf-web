@@ -82,9 +82,12 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get onSaveArgs() {
+        // this.selectedFolder = '1pLCuPl2X9g3sgESTqhm8V1uvXufzdFUm';
+        // console.log(this.selectFolder);
         return {
             displayName: this.displayName,
-            rootFolder: this.selectedFolder,
+            rootFolder: '1GSs8EpzBcK2SMPfc-IQPIfi7sR_t6Feq',
+            // rootFolder: this.selectedFolder,
         };
     }
 
