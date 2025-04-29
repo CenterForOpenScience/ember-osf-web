@@ -70,7 +70,9 @@ export default class Supplements extends Component<SupplementsArgs>{
     public async removeSelectedProject(): Promise<void> {
         try {
             await this.args.manager.preprint.removeM2MRelationship('node'); // Remove relationship
-            this.args.manager.preprint.set('node', null); // Ensure local cache is updated
+            // Remove relationship on the node side, this only clears the cache locally
+            this.args.manager.preprint.node.get('preprints')
+                .removeObject(this.args.manager.preprint);
             this.isSupplementAttached = false;
             this.validate();
         } catch (error) {
