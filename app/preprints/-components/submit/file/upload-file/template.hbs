@@ -1,4 +1,4 @@
-{{#if (or this.preUrl.isRunning this.success.isRunning)}}
+{{#if (or this.preUrl.isRunning this.success.isRunning this.isUploadFileDisplayed)}}
     <LoadingIndicator data-test-loading-indicator @dark={{true}} />
 {{else}}
     <div ...attributes>
@@ -15,7 +15,7 @@
                 @enable={{@enable}}
                 @id={{id}}
                 @clickable={{this.clickableElementSelectors}}
-                @preUpload={{this.preUpload}}
+                @preUpload={{perform this.preUpload}}
                 @success={{perform this.success}}
             >
                 {{yield}}

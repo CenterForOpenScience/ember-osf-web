@@ -54,6 +54,10 @@
             height: 40px;
             width: 40px;
             border-radius: 0;
+            
+            svg {
+                color: $color-text-white !important;
+            }
         }
 
         .user-search-input {
