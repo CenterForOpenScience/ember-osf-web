@@ -23,6 +23,12 @@ const sessionStub = Service.extend({
     on: () => { /* stub */ },
 });
 
+const themeStub = Service.extend({
+    provider: {
+        allowSubmissions: true,
+    },
+});
+
 module('Integration | Component | osf-navbar', hooks => {
     setupRenderingTest(hooks);
     setupIntl(hooks);
@@ -32,6 +38,7 @@ module('Integration | Component | osf-navbar', hooks => {
         this.owner.unregister('service:router');
         this.owner.register('service:router', routerStub);
         this.owner.register('service:session', sessionStub);
+        this.owner.register('service:theme', themeStub);
     });
 
     test('it renders', async function(assert) {
@@ -78,7 +85,7 @@ module('Integration | Component | osf-navbar', hooks => {
         await percySnapshot(assert);
     });
 
-    test('osf-navbar: preprints, no moderation', async function(assert) {
+    test('osf-navbar: preprints, no moderation, allow submissions', async function(assert) {
         this.owner.lookup('service:session').set('isAuthenticated', true);
         this.owner.lookup('service:router').set('currentRouteName', 'preprints.place');
 
@@ -96,8 +103,27 @@ module('Integration | Component | osf-navbar', hooks => {
         assert.dom('[data-test-nav-my-projects-link]').doesNotExist();
     });
 
-    test('osf-navbar: preprints with moderation', async function(assert) {
+    test('osf-navbar: preprints, no moderation, submissions turned off', async function(assert) {
+        this.owner.lookup('service:theme').set('provider', { allowSubmissions: false});
         this.owner.lookup('service:session').set('isAuthenticated', true);
+        this.owner.lookup('service:router').set('currentRouteName', 'preprints.place');
+
+        await render(hbs`<OsfNavbar />`);
+
+        assert.dom('.service-name').includesText('OSF');
+        assert.dom('.current-service').hasText('PREPRINTS');
+        assert.dom('[data-test-nav-my-preprints-link]').exists();
+        assert.dom('[data-test-nav-submit-preprint-link]').doesNotExist();
+        assert.dom('[data-test-nav-reviews-link]').doesNotExist();
+
+        assert.dom('[data-test-nav-search-link]').exists();
+        assert.dom('[data-test-nav-donate-link]').hasClass('navbar-donate-button');
+
+        assert.dom('[data-test-nav-my-projects-link]').doesNotExist();
+    });
+
+    test('osf-navbar: preprints with moderation, allow submissions', async function(assert) {
+        this.owner.lookup('service:session').set('isauthenticated', true);
         this.owner.lookup('service:router').set('currentRouteName', 'preprints.somewhere');
         // this.owner.register('service:current-user', currentUserStub);
         this.owner.lookup('service:current-user').set('user', { canViewReviews: true });

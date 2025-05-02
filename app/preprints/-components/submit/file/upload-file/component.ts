@@ -9,6 +9,7 @@ import FileModel from 'ember-osf-web/models/file';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import { taskFor } from 'ember-concurrency-ts';
+import { tracked } from '@glimmer/tracking';
 
 interface PreprintUploadArgs {
     manager: PreprintStateMachine;
@@ -28,6 +29,7 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     url?: URL;
     rootFolder?: FileModel;
     primaryFile: FileModel | undefined;
+    @tracked isUploadFileDisplayed = false;
 
     constructor(owner: unknown, args: any) {
         super(owner, args);
@@ -99,4 +101,11 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
         }
         this.args.validate(file);
     }
+
+    @task
+    @waitFor
+    async preUpload(): Promise<void> {
+        this.isUploadFileDisplayed = true;
+    }
+
 }
