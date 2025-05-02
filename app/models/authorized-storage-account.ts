@@ -3,16 +3,12 @@ import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { ConnectedStorageOperationNames, OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
 
-import ExternalStorageServiceModel from './external-storage-service';
 import AuthorizedAccountModel from './authorized-account';
 import UserReferenceModel from './user-reference';
 
 export default class AuthorizedStorageAccountModel extends AuthorizedAccountModel {
     @belongsTo('user-reference', { inverse: 'authorizedStorageAccounts' })
     readonly accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
-
-    @belongsTo('external-storage-service')
-    externalStorageService!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
 
     @task
     @waitFor

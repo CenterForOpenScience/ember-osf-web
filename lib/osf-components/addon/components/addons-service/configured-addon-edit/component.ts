@@ -1,7 +1,9 @@
 import { action } from '@ember/object';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { TaskInstance } from 'ember-concurrency';
+import { task, TaskInstance } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
@@ -25,6 +27,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
     @tracked selectedFolderDisplayName = this.args.configuredAddon?.rootFolderName;
     @tracked currentItems: Item[] = [];
+    @tracked isWBGoogleDrive = false;
 
     originalName = this.displayName;
     originalRootFolder = this.selectedFolder;
@@ -42,6 +45,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         }
         if (this.args.authorizedAccount) {
             if (this.args.authorizedAccount instanceof AuthorizedStorageAccountModel) {
+                taskFor(this.loadExternalStorageService).perform();
                 this.defaultKwargs['itemType'] = ItemType.Folder;
             }
             if (this.args.authorizedAccount instanceof AuthorizedCitationAccountModel) {
@@ -50,12 +54,31 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         }
     }
 
+    /**
+     * This is called only to authorize because the current implementation will throw an
+     * error because the "root folder" is not yet set.
+     */
+    @task
+    @waitFor
+    async loadExternalStorageService() {
+        const external = await this.args.authorizedAccount?.externalStorageService;
+        this.isWBGoogleDrive = external?.wbKey === 'googledrive';
+    }
+
     get requiresRootFolder() {
         return !(
             this.args.authorizedAccount instanceof AuthorizedComputingAccountModel
             ||
             this.args.configuredAddon instanceof ConfiguredComputingAddonModel
         );
+    }
+
+    get isGoogleDrive(): boolean {
+        return this.isWBGoogleDrive;
+    }
+
+    get displayFileManager(): boolean {
+        return this.requiresRootFolder && !this.isGoogleDrive;
     }
 
     get invalidDisplayName() {
@@ -82,12 +105,9 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get onSaveArgs() {
-        // this.selectedFolder = '1pLCuPl2X9g3sgESTqhm8V1uvXufzdFUm';
-        // console.log(this.selectFolder);
         return {
             displayName: this.displayName,
-            rootFolder: '1GSs8EpzBcK2SMPfc-IQPIfi7sR_t6Feq',
-            // rootFolder: this.selectedFolder,
+            rootFolder: this.selectedFolder,
         };
     }
 
