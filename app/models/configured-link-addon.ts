@@ -15,7 +15,7 @@ export default class ConfiguredLinkAddonModel extends ConfiguredAddonModel {
     @belongsTo('external-link-service', { inverse: null })
     externalLinkService!: AsyncBelongsTo<ExternalLinkServiceModel> & ExternalLinkServiceModel;
 
-    @belongsTo('authorized-storage-account')
+    @belongsTo('authorized-link-account')
     baseAccount!: AsyncBelongsTo<AuthorizedLinkAccountModel> & AuthorizedLinkAccountModel;
 
     @belongsTo('resource-reference', { inverse: 'configuredLinkAddons' })

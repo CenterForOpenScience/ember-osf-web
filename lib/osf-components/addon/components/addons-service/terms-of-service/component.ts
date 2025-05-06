@@ -7,6 +7,7 @@ import { ExternalServiceCapabilities } from 'ember-osf-web/models/external-servi
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
+import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
 
 interface Args {
     provider: AllProviderTypes;
@@ -21,7 +22,7 @@ type CapabilityCategory =
     ExternalServiceCapabilities.REGISTERING |
     ExternalServiceCapabilities.FILE_VERSIONS;
 
-type ServiceTranslationKey = 'storage' | 'computing' | 'citation';
+type ServiceTranslationKey = 'storage' | 'computing' | 'citation' | 'link';
 
 
 const capabilitiesToLabelKeyMap: Record<CapabilityCategory, string> = {
@@ -92,6 +93,11 @@ const capabilitiesToTextKeyMap: Record<ServiceTranslationKey, Partial<Record<Cap
             partial: 'addons.terms.computing.registering-partial',
         },
     },
+    link: {
+        [ExternalServiceCapabilities.FORKING]: {
+            partial: 'addons.terms.computing.forking-partial',
+        },
+    },
 };
 
 
@@ -130,6 +136,11 @@ export default class TermsOfServiceComponent extends Component<Args> {
                 ExternalServiceCapabilities.REGISTERING,
             ];
             this.baseTranslationKey = 'citation';
+        } else if (args.provider instanceof ExternalLinkServiceModel) {
+            this.applicableCapabilities = [
+                ExternalServiceCapabilities.FORKING,
+            ];
+            this.baseTranslationKey = 'link';
         }
     }
 

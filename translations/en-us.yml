@@ -257,6 +257,7 @@ addons:
             additional-storage: 'Additional Storage'
             citation-manager: 'Citation Manager'
             cloud-computing: 'Cloud Computing'
+            verified-link: 'Linked Services'
         no-results: 'No results found'
         no-connected-accounts: 'No connected accounts'
         connect: 'Connect'

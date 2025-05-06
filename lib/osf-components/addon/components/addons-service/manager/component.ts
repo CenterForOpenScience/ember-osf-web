@@ -44,6 +44,7 @@ enum PageMode {
 export enum FilterTypes {
     STORAGE = 'additional-storage',
     CITATION_MANAGER = 'citation-manager',
+    VERIFIED_LINK = 'verified-link',
     // CLOUD_COMPUTING = 'cloud-computing', // disabled because BOA is down
 }
 
@@ -75,6 +76,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         [FilterTypes.CITATION_MANAGER]: {
             modelName: 'external-citation-service',
             task: taskFor(this.getCitationAddonProviders),
+            list: A([]),
+            configuredAddons: A([]),
+        },
+        [FilterTypes.VERIFIED_LINK]: {
+            modelName: 'external-link-service',
+            task: taskFor(this.getLinkAddonProviders),
             list: A([]),
             configuredAddons: A([]),
         },
@@ -394,6 +401,22 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
         if (this.addonServiceNode) {
             const configuredAddons = await this.addonServiceNode.configuredCitationAddons;
+            activeFilterObject.configuredAddons = A(configuredAddons.toArray());
+        }
+
+        const serviceCitationProviders: Provider[] =
+            await taskFor(this.getExternalProviders)
+                .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
+        activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter);
+    }
+
+    @task
+    @waitFor
+    async getLinkAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.VERIFIED_LINK];
+
+        if (this.addonServiceNode) {
+            const configuredAddons = await this.addonServiceNode.configuredLinkAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
