@@ -14,6 +14,7 @@ import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 
 
 interface Args {
@@ -37,6 +38,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         super(owner, args);
         if (this.args.configuredAddon) {
             if (this.args.configuredAddon instanceof ConfiguredStorageAddonModel) {
+                taskFor(this.loadExternalStorageService).perform();
                 this.defaultKwargs['itemType'] = ItemType.Folder;
             }
             if (this.args.configuredAddon instanceof ConfiguredCitationAddonModel) {
@@ -61,7 +63,14 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @task
     @waitFor
     async loadExternalStorageService() {
-        const external = await this.args.authorizedAccount?.externalStorageService;
+        let external!: ExternalStorageServiceModel;
+        if (this.args.configuredAddon && this.args.configuredAddon instanceof ConfiguredStorageAddonModel) {
+            external = await this.args.configuredAddon?.externalStorageService;
+        }
+        if (this.args.authorizedAccount && this.args.authorizedAccount instanceof AuthorizedStorageAccountModel) {
+            external = await this.args.authorizedAccount?.externalStorageService;
+        }
+
         this.isWBGoogleDrive = external?.wbKey === 'googledrive';
     }
 

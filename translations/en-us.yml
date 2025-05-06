@@ -367,6 +367,7 @@ addons:
                 line-five: 'When selecting the file, you also need to select all the folders above the file. For example: if the file is nested in "Root Folder" > "folder 1" > "folder 2" > "folder 3" > file, you will need to select all three folders (folder 1, folder 2, folder 3) and the file. Unfortunately, due to Google security policies, each time you make a selection the "file selection dialog box" will close. However, Google allows for "multi-file" selection within a folder.'
                 line-six: 'Due to Google security policies, every time you browse to the "Files Page" you will need to re-authenticate to Google using their flow. Once you are on the "Files Page" and authenticate, you will be able to add as many folders and files as you need without re-authenticating.'
             select-root-folder: 'Select Root Folder'
+            selected-folder: 'Selected Folder'
         heading: 'Configure {providerName}'
         display-name: 'Display name'
         selected-folder: 'Selected folder:'

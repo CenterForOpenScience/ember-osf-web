@@ -152,6 +152,7 @@
         </AddonsService::FileManager>
     {{else}}
         <GoogleFilePickerWidget
+            @selectedFolderName={{this.selectedFolderDisplayName}}
             @selectFolder={{action this.selectFolder}}
             @isFolderPicker={{true}}
         ></GoogleFilePickerWidget>

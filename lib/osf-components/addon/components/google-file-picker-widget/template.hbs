@@ -1,6 +1,16 @@
 <div local-class='google-file-picker-container {{if this.isMobile 'mobile'}}'
 >
     <div local-class='instruction-container'>
+        {{#if this.folderName}}
+            <p>
+                <b>
+                    {{~t 'addons.configure.google-file-picker.selected-folder'~}}:
+                </b>
+                <span>
+                    {{this.folderName}}
+                </span>
+            </p>
+        {{/if}}
         <p>
             {{~t 'addons.configure.google-file-picker.instructions.line-one'~}}
         </p>
@@ -21,25 +31,15 @@
         </p>
     </div>
     <div local-class='action-container'>
-        <button type='button' id='authorize_button' onclick='handleAuthClick()'>{{t 'addons.configure.google-file-picker.select-root-folder'}}</button>
-        {{!-- <button  type='button' id='signout_button' onclick='handleSignoutClick()'>{{t 'addons.configure.sign-out'}}</button> --}}
-        {{!-- <pre id='content' class='picker-style'></pre> --}}
+        <button class='btn btn-primary btn-medium' type='button' id='authorize_button' onclick='handleAuthClick()'>{{t 'addons.configure.google-file-picker.select-root-folder'}}</button>
 
         <script type='text/javascript'>
-            // const SCOPES = ''
-            // const CLIENT_ID = ''
-            // const API_KEY = '''
-            // const APP_ID = 
-
             let tokenClient;
             let accessToken;
             let pickerInited = false;
             let gisInited = false;
 
-
-
             document.getElementById('authorize_button').style.visibility = 'hidden';
-            // document.getElementById('signout_button').style.visibility = 'hidden';
 
             /**
             * Callback after api.js is loaded.
@@ -63,9 +63,9 @@
             */
             function gisLoaded() {
                 tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: SCOPES,
-                callback: '', // defined later
+                    client_id: CLIENT_ID,
+                    scope: SCOPES,
+                    callback: '', // defined later
                 })
                 gisInited = true;
                 maybeEnableButtons();
@@ -76,7 +76,7 @@
             */
             function maybeEnableButtons() {
                 if (pickerInited && gisInited) {
-                document.getElementById('authorize_button').style.visibility = 'visible';
+                    document.getElementById('authorize_button').style.visibility = 'visible';
                 }
             }
 
@@ -85,23 +85,20 @@
             */
             function handleAuthClick() {
                 tokenClient.callback = async (response) => {
-                if (response.error !== undefined) {
-                    throw (response);
-                }
-                accessToken = response.access_token;
-                console.log('handleAuthClick', accessToken)
-                // document.getElementById('signout_button').style.visibility = 'visible';
-                document.getElementById('authorize_button').innerText = 'Refresh';
-                await createPicker();
+                    if (response.error !== undefined) {
+                        throw (response);
+                    }
+                    accessToken = response.access_token;
+                    await createPicker();
                 };
 
                 if (accessToken === null) {
-                // Prompt the user to select a Google Account and ask for consent to share their data
-                // when establishing a new session.
-                tokenClient.requestAccessToken({prompt: 'consent'});
+                    // Prompt the user to select a Google Account and ask for consent to share their data
+                    // when establishing a new session.
+                    tokenClient.requestAccessToken({prompt: 'consent'});
                 } else {
-                // Skip display of account chooser and consent dialog for an existing session.
-                tokenClient.requestAccessToken({prompt: ''});
+                    // Skip display of account chooser and consent dialog for an existing session.
+                    tokenClient.requestAccessToken({prompt: ''});
                 }
             }
 
@@ -110,11 +107,8 @@
             */
             function handleSignoutClick() {
                 if (accessToken) {
-                google.accounts.oauth2.revoke(accessToken);
-                accessToken = null;
-                // document.getElementById('content').innerText = '';
-                document.getElementById('authorize_button').innerText = 'Authorize';
-                // document.getElementById('signout_button').style.visibility = 'hidden';
+                    google.accounts.oauth2.revoke(accessToken);
+                    accessToken = null;
                 }
             }
 
@@ -151,18 +145,14 @@
             */
             async function pickerCallback(data) {
                 if (data.action === google.picker.Action.PICKED) {
-                    // let text = `Picker response: \n${JSON.stringify(data, null, 2)}\n`;
                     const document = data[google.picker.Response.DOCUMENTS][0];
                     const fileId = document[google.picker.Document.ID];
-                    // console.log('fileId', fileId);
                     const res = await gapi.client.drive.files.get({
                         'fileId': fileId,
                         'fields': '*',
                     });
-                // 👇 Correctly call the Ember method
+                    // Correctly call the Ember method
                     window.GoogleFilePickerWidget.filePickerCallback(res.result);
-                    // text += `Drive API response for first document: \n${JSON.stringify(res.result, null, 2)}\n`;
-                    // window.document.getElementById('content').innerText = text;
                 }
             }
         </script>

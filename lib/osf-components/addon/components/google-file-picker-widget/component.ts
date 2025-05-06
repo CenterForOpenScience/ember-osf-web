@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import config from 'ember-osf-web/config/environment';
 import { Item } from 'ember-osf-web/models/addon-operation-invocation';
 
@@ -22,6 +23,7 @@ interface Args {
    * that accepts a partial Item object and handles it (e.g., selects a file).
    */
   selectFolder: (a: Partial<Item>) => void;
+  selectedFolderName: string;
   isFolderPicker: boolean;
 }
 
@@ -55,21 +57,22 @@ declare global {
 // can interact with it directly.
 //
 export default class GoogleFilePickerWidget extends Component<Args> {
-/**
- * Constructor
- *
- * @description
- * Initializes the GoogleFilePickerWidget component and exposes its key methods to the global `window` object
- * for integration with external JavaScript (e.g., Google Picker API).
- *
- * - Sets `window.GoogleFilePickerWidget` to the current component instance (`this`),
- *   allowing external scripts to call methods like `filePickerCallback()`.
- * - Captures the closure action `selectItem` from `this.args` and assigns it directly to `window.selectItem`,
- *   preserving the correct closure reference even outside of Ember's internal context.
- *
- * @param owner - The owner/context passed by Ember at component instantiation.
- * @param args - The arguments passed to the component, including closure actions like `selectItem`.
- */
+    @tracked folderName!: string;
+    /**
+     * Constructor
+     *
+     * @description
+     * Initializes the GoogleFilePickerWidget component and exposes its key methods to the global `window` object
+     * for integration with external JavaScript (e.g., Google Picker API).
+     *
+     * - Sets `window.GoogleFilePickerWidget` to the current component instance (`this`),
+     *   allowing external scripts to call methods like `filePickerCallback()`.
+     * - Captures the closure action `selectItem` from `this.args` and assigns it directly to `window.selectItem`,
+     *   preserving the correct closure reference even outside of Ember's internal context.
+     *
+     * @param owner - The owner/context passed by Ember at component instantiation.
+     * @param args - The arguments passed to the component, including closure actions like `selectItem`.
+     */
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         window.GoogleFilePickerWidget = this;
@@ -82,6 +85,8 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         window.PARENT_ID = this.args.isFolderPicker ? '': '10hkGp1TUz2HFG9ioDUWe7k6Eqytj7kWS';
         window.TITLE = this.args.isFolderPicker ? 'Select a root folder': 'Select files to display';
         window.IS_MULTIPLE_SELECT = !this.args.isFolderPicker;
+
+        this.folderName = this.args.selectedFolderName;
     }
 
     /**
@@ -96,6 +101,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     @action
     filePickerCallback(file: any) {
         if (window?.selectFolder !== undefined) {
+            this.folderName = file.name;
             window?.selectFolder({
                 itemName: file.name,
                 itemId: file.id,
