@@ -26,6 +26,7 @@ interface Args {
   onRegisterChild?: (a: GoogleFilePickerWidget) => void;
   selectedFolderName?: string;
   isFolderPicker: boolean;
+  rootFolderId: string;
 }
 
 //
@@ -87,10 +88,11 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         window.API_KEY= googleFilePickerApiKey;
         window.APP_ID= googleFilePickerAppId;
         window.MIME_TYPES = this.args.isFolderPicker ? 'application/vnd.google-apps.folder' : '';
-        window.PARENT_ID = this.args.isFolderPicker ? '': '10hkGp1TUz2HFG9ioDUWe7k6Eqytj7kWS';
+        window.PARENT_ID = this.args.isFolderPicker ? '': this.args.rootFolderId;
         window.TITLE = this.args.isFolderPicker ? 'Select a root folder': 'Select files to display';
         window.IS_MULTIPLE_SELECT = !this.args.isFolderPicker;
         window.isFolderPicker = this.args.isFolderPicker;
+        this.isFolderPicker = this.args.isFolderPicker;
 
         this.folderName = this.args.selectedFolderName;
     }

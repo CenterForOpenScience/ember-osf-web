@@ -109,15 +109,10 @@
             const googlePickerView = new google.picker.DocsView(google.picker.ViewId.DOCS);
             googlePickerView.setSelectFolderEnabled(true);
             googlePickerView.setMimeTypes(MIME_TYPES);
+            googlePickerView.setIncludeFolders(true);
             googlePickerView.setParent(PARENT_ID);
-            // viewFolder.setMimeTypes('application/vnd.google-apps.folder');
-            // const viewFiles = new google.picker.View(google.picker.ViewId.DOCS);
-            // viewFiles.setMimeTypes('image/png,image/jpeg,image/jpg');
-            // .addView(viewFiles)
 
             const picker = new google.picker.PickerBuilder()
-                // .enableFeature(google.picker.Feature.NAV_HIDDEN)
-                // .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
                 .enableFeature(IS_MULTIPLE_SELECT ? google.picker.Feature.MULTISELECT_ENABLED : '')
                 .setDeveloperKey(API_KEY)
                 .setAppId(APP_ID)

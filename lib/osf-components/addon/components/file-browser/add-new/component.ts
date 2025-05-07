@@ -19,6 +19,7 @@ export default class FileBrowser extends Component<Args> {
     @tracked googlePickerComponent: GoogleFilePickerWidget | null = null;
     @tracked dropzoneClickableElementId = '';
     @tracked isWBGoogleDrive = false;
+    @tracked googleFilePickerRootFolder!: string;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -33,6 +34,7 @@ export default class FileBrowser extends Component<Args> {
     @task
     @waitFor
     async loadExternalStorageService() {
+        this.googleFilePickerRootFolder = this.args.configuredStorageAddon.rootFolder;
         const external = await this.args.configuredStorageAddon?.externalStorageService;
         this.isWBGoogleDrive = external?.wbKey === 'googledrive';
     }
