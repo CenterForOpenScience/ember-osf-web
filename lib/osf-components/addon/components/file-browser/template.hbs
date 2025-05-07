@@ -160,7 +160,11 @@
                     @isRegistration={{@manager.targetNode.isRegistration}}
                 />
                 {{#if (and @manager.currentFolder.userCanUploadToHere @enableUpload)}}
-                    <FileBrowser::AddNew @manager={{@manager}} @setClickableElementId={{uploadWidget.setClickableElementId}} />
+                    <FileBrowser::AddNew 
+                        @manager={{@manager}}
+                        @setClickableElementId={{uploadWidget.setClickableElementId}}
+                        @configuredStorageAddon={{@configuredStorageAddon}}
+                    />
                 {{/if}}
             {{/if}}
         </div>

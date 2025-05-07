@@ -11,5 +11,9 @@
     .action-container {
         width: 100%;
         border: 1px solid blacl;
+
+        .authorize-button {
+            visibility: hidden;
+        }
     }
 }

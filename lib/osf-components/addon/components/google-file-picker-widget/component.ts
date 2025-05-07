@@ -22,8 +22,9 @@ interface Args {
    * A callback function passed into the component
    * that accepts a partial Item object and handles it (e.g., selects a file).
    */
-  selectFolder: (a: Partial<Item>) => void;
-  selectedFolderName: string;
+  selectFolder?: (a: Partial<Item>) => void;
+  onRegisterChild?: (a: GoogleFilePickerWidget) => void;
+  selectedFolderName?: string;
   isFolderPicker: boolean;
 }
 
@@ -37,6 +38,7 @@ declare global {
   interface Window {
     GoogleFilePickerWidget?: GoogleFilePickerWidget;
     selectFolder?: (a: Partial<Item>)=> void;
+    handleAuthClick?: ()=> void;
     SCOPES: string;
     CLIENT_ID: string;
     API_KEY: string;
@@ -45,6 +47,7 @@ declare global {
     PARENT_ID: string;
     TITLE: string;
     IS_MULTIPLE_SELECT: boolean;
+    isFolderPicker: boolean;
   }
 }
 
@@ -57,7 +60,9 @@ declare global {
 // can interact with it directly.
 //
 export default class GoogleFilePickerWidget extends Component<Args> {
-    @tracked folderName!: string;
+    @tracked folderName!: string | undefined;
+    @tracked isFolderPicker = false;
+    @tracked openGoogleFilePicker = false;
     /**
      * Constructor
      *
@@ -85,6 +90,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         window.PARENT_ID = this.args.isFolderPicker ? '': '10hkGp1TUz2HFG9ioDUWe7k6Eqytj7kWS';
         window.TITLE = this.args.isFolderPicker ? 'Select a root folder': 'Select files to display';
         window.IS_MULTIPLE_SELECT = !this.args.isFolderPicker;
+        window.isFolderPicker = this.args.isFolderPicker;
 
         this.folderName = this.args.selectedFolderName;
     }
@@ -109,17 +115,19 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         }
     }
 
-    /**
-     * willDestroy
-     *
-     * @description
-     * Lifecycle hook called before the component is destroyed.
-     * Cleans up by removing the global `window.GoogleFilePickerWidget` reference
-     * to prevent memory leaks and accidental reuse.
-     */
-    willDestroy() {
-        super.willDestroy();
-        delete window?.GoogleFilePickerWidget;
+    @action
+    openPicker() {
+        // Logic for opening Google File Picker here
+        if (window.handleAuthClick) {
+            window.handleAuthClick();
+        }
+    }
+
+    @action
+    registerComponent() {
+        if (this.args.onRegisterChild) {
+            this.args.onRegisterChild(this); // Pass the child's instance to the parent
+        }
     }
 }
 
