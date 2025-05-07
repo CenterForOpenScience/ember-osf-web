@@ -263,7 +263,7 @@ export default class SearchPage extends Component<SearchArgs> {
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
-            this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
+            this.totalResultCount = searchResult.totalResultCount['@id'] === ShareMoreThanTenThousand ? '10,000+' :
                 searchResult.totalResultCount;
         } catch (e) {
             this.toast.error(e);
