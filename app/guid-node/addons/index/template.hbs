@@ -277,6 +277,7 @@
                         <AddonsService::ConfiguredAddonEdit
                             @configuredAddon={{manager.selectedConfiguration}}
                             @authorizedAccount={{manager.selectedAccount}}
+                            @supportedResourceTypes={{manager.selectedProvider.provider.supportedResourceTypes}}
                             @onSave={{perform manager.saveOrCreateConfiguration}}
                             @onCancel={{manager.cancelSetup}}
                         />

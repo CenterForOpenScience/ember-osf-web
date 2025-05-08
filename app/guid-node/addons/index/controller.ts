@@ -6,6 +6,7 @@ import { tracked } from 'tracked-built-ins';
 enum FilterTypes {
     STORAGE = 'additional-storage',
     CITATION_MANAGER = 'citation-manager',
+    VERIFIED_LINK = 'verified-link',
     // CLOUD_COMPUTING = 'cloud-computing', // disabled because BOA is down
 }
 export default class GuidNodeAddonsController extends Controller {
