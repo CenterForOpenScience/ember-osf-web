@@ -314,7 +314,7 @@ export default class SearchResultModel extends Model {
     }
 
     get isWithdrawn() {
-        return this.resourceMetadata.dateWithdrawn || this.resourceMetadata['https://osf.io/vocab/2022/withdrawal'];
+        return this.resourceMetadata.dateWithdrawn || this.resourceMetadata['osf:withdrawal'];
     }
 
     get configuredAddonNames() {
