@@ -3,6 +3,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import config from 'ember-osf-web/config/environment';
 import { Item } from 'ember-osf-web/models/addon-operation-invocation';
+import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
 const {
     googleFilePickerScopes,
@@ -27,6 +28,7 @@ interface Args {
   selectedFolderName?: string;
   isFolderPicker: boolean;
   rootFolderId: string;
+  manager: StorageManager;
 }
 
 //
@@ -114,6 +116,8 @@ export default class GoogleFilePickerWidget extends Component<Args> {
                 itemName: file.name,
                 itemId: file.id,
             });
+        } else {
+            this.args.manager.reload();
         }
     }
 
