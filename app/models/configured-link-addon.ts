@@ -1,16 +1,19 @@
 import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import { ConnectedLinkOperationNames, OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
+import { ConnectedLinkOperationNames, Item, OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 
-import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
+import ExternalLinkServiceModel, { SupportedResourceTypes } from 'ember-osf-web/models/external-link-service';
 import AuthorizedLinkAccountModel from 'ember-osf-web/models/authorized-link-account';
+import { tracked } from 'tracked-built-ins';
+import { taskFor } from 'ember-concurrency-ts';
 import ConfiguredAddonModel from './configured-addon';
 
 
 export default class ConfiguredLinkAddonModel extends ConfiguredAddonModel {
-    @attr('number') concurrentUploads!: number;
+    @attr('string') targetId!: string;
+    @attr('string') resourceType!: SupportedResourceTypes;
 
     @belongsTo('external-link-service', { inverse: null })
     externalLinkService!: AsyncBelongsTo<ExternalLinkServiceModel> & ExternalLinkServiceModel;
@@ -48,6 +51,15 @@ export default class ConfiguredLinkAddonModel extends ConfiguredAddonModel {
             thruAddon: this,
         });
         return await newInvocation.save();
+    }
+
+    @tracked targetItemName = '';
+
+    @task
+    @waitFor
+    async getTargetItemName(this: ConfiguredLinkAddonModel) {
+        const response = await taskFor(this.getItemInfo).perform(this.targetId);
+        this.targetItemName = (response.operationResult as Item).itemName;
     }
 }
 

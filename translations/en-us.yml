@@ -362,6 +362,7 @@ addons:
         heading: 'Configure {providerName}'
         display-name: 'Display name'
         selected-folder: 'Selected folder:'
+        linked-item: 'Linked item:'
         no-folder-selected: 'No folder selected'
         go-to-root: 'Go to home folder'
         go-to-folder: 'Go to folder {folderName}'

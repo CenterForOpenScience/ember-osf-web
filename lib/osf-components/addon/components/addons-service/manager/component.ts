@@ -23,6 +23,7 @@ import { AccountCreationArgs} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
+import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -309,6 +310,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
                 this.toast.success(this.intl.t('addons.configure.success', {
                     configurationName: this.selectedConfiguration.displayName,
                 }));
+            } else if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredLinkAddonModel) {
+                this.selectedConfiguration.targetId = args.targetId;
+                this.selectedConfiguration.resourceType = args.resourceType;
+                await this.selectedConfiguration.save();
             }
             this.cancelSetup();
         } catch(e) {
