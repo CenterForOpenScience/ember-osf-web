@@ -162,6 +162,7 @@
             data-test-root-folder-save
             data-analytics-name='Save selected folder'
             @type='primary'
+            disabled={{this.disableSave}}
             {{on 'click' (fn @onSave this.onSaveArgs)}}
         >
             {{t 'general.save'}}
