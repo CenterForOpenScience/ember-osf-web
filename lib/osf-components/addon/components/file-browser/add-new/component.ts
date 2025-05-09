@@ -34,7 +34,7 @@ export default class FileBrowser extends Component<Args> {
     @task
     @waitFor
     async loadExternalStorageService() {
-        this.googleFilePickerRootFolder = this.args.configuredStorageAddon.rootFolder;
+        this.googleFilePickerRootFolder = this.args.configuredStorageAddon?.rootFolder;
         const external = await this.args.configuredStorageAddon?.externalStorageService;
         this.isWBGoogleDrive = external?.wbKey === 'googledrive';
     }
