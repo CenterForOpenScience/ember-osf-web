@@ -141,6 +141,12 @@ declare const config: {
         doiUrlPrefix: string;
         dataciteTrackerRepoId: string;
         dataCiteTrackerUrl: string;
+        googleFilePicker: {
+            googleFilePickerScopes: string;
+            googleFilePickerClientId: string;
+            googleFilePickerApiKey: string,
+            googleFilePickerAppId: number,
+        }
     };
     social: {
         twitter: {

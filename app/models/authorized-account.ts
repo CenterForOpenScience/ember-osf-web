@@ -1,5 +1,6 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { AsyncBelongsTo, attr, belongsTo} from '@ember-data/model';
 import { OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 
 export enum ConnectedCapabilities {
     Access = 'ACCESS',
@@ -31,11 +32,14 @@ export default class AuthorizedAccountModel extends Model {
     @attr('fixstring') readonly authUrl!: string; // Only returned when POSTing to /authorized-xyz-accounts
     @attr('boolean') readonly credentialsAvailable!: boolean;
 
+    @belongsTo('external-storage-service')
+    externalStorageService!: AsyncBelongsTo<ExternalStorageServiceModel> & ExternalStorageServiceModel;
+
+
     async getFolderItems(this: AuthorizedAccountModel, _kwargs?: OperationKwargs) : Promise<any> {
         // To be implemented in child classes
         return;
     }
-
 
     async getItemInfo(this: AuthorizedAccountModel, _itemId: string) : Promise<any> {
         // To be implemented in child classes
