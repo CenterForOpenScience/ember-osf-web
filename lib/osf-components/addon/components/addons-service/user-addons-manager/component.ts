@@ -25,6 +25,8 @@ import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import getHref from 'ember-osf-web/utils/get-href';
 
+import AuthorizedLinkAccountModel from 'ember-osf-web/models/authorized-link-account';
+import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
 import { FilterTypes } from '../manager/component';
 
 enum UserSettingPageModes {
@@ -63,6 +65,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedCitationAccounts),
             authorizedAccounts: [] as AuthorizedCitationAccountModel[],
+            authorizedServiceIds: [] as string[],
+        },
+        [FilterTypes.VERIFIED_LINK]: {
+            modelName: 'external-link-service',
+            fetchProvidersTask: taskFor(this.getLinkAddonProviders),
+            list: A([]) as EmberArray<Provider>,
+            getAuthorizedAccountsTask: taskFor(this.getAuthorizedLinkAccounts),
+            authorizedAccounts: [] as AuthorizedLinkAccountModel[],
             authorizedServiceIds: [] as string[],
         },
         // [FilterTypes.CLOUD_COMPUTING]: {
@@ -232,6 +242,17 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
+    async getAuthorizedLinkAccounts() {
+        const { userReference } = this;
+        const mappedObject = this.filterTypeMapper[FilterTypes.VERIFIED_LINK];
+        const accounts = (await userReference.authorizedLinkAccounts).toArray();
+        mappedObject.authorizedAccounts = accounts;
+        mappedObject.authorizedServiceIds = accounts.map(account => account.externalLinkService.get('id'));
+        notifyPropertyChange(this, 'filterTypeMapper');
+    }
+
+    @task
+    @waitFor
     async getAuthorizedAccounts() {
         const activeTypeMap = this.filterTypeMapper[this.activeFilterType];
         await taskFor(activeTypeMap.getAuthorizedAccountsTask).perform();
@@ -278,6 +299,23 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
         const serviceCitationProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalCitationServiceModel[];
+        activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter)
+            .map(provider => new Provider(
+                provider,
+                this.currentUser,
+                undefined,
+                undefined,
+                undefined,
+                this.userReference,
+            ));
+    }
+
+    @task
+    @waitFor
+    async getLinkAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.VERIFIED_LINK];
+        const serviceCitationProviders = await taskFor(this.getExternalProviders)
+            .perform(activeFilterObject.modelName) as ExternalLinkServiceModel[];
         activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter)
             .map(provider => new Provider(
                 provider,
