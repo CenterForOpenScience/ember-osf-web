@@ -383,10 +383,8 @@ export default class Provider {
     @waitFor
     private async createConfiguredLinkAddon(account: AuthorizedComputingAccountModel) {
         const configuredLinkAddon = this.store.createRecord('configured-link-addon', {
-            // rootFolder: '',
             externalLinkService: this.provider,
             accountOwner: this.userReference,
-            // authorizedResource: this.serviceNode,
             authorizedResourceUri: this.node!.links.iri,
             baseAccount: account,
             connectedCapabilities: ['ACCESS', 'UPDATE'],

@@ -28,6 +28,10 @@ export default class ConfiguredLinkAddonModel extends ConfiguredAddonModel {
         return (this as ConfiguredLinkAddonModel).belongsTo('externalLinkService').id();
     }
 
+    get hasRootFolder() {
+        return false;
+    }
+
     @task
     @waitFor
     async getFolderItems(this: ConfiguredAddonModel, kwargs?: OperationKwargs) {
