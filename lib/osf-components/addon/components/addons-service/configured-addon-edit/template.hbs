@@ -158,14 +158,18 @@
         </AddonsService::FileManager>
     {{/if}}
     {{#if this.isLinkAddon}}
-        <PowerSelect
-            @options={{@supportedResourceTypes}}
-            @selected={{this.selectedResourceType}}
-            @onChange={{action (mut this.selectedResourceType)}}
-            as |resourceType|
-        >
-            {{resourceType}}
-        </PowerSelect>
+        <label>
+            {{t 'addons.configure.resource-type'}}
+            <PowerSelect
+                @options={{@supportedResourceTypes}}
+                @selected={{this.selectedResourceType}}
+                @onChange={{action (mut this.selectedResourceType)}}
+                @placeholder={{t 'addons.configure.resource-type-placeholder'}}
+                as |resourceType|
+            >
+                {{resourceType}}
+            </PowerSelect>
+        </label>
     {{/if}}
     <div local-class='footer-buttons-wrapper'>
         <Button

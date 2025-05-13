@@ -360,6 +360,8 @@ addons:
         authorizing: 'Connecting…'
     configure:
         heading: 'Configure {providerName}'
+        resource-type: 'Resource type'
+        resource-type-placeholder: 'Choose a resource type'
         display-name: 'Display name'
         selected-folder: 'Selected folder:'
         linked-item: 'Linked item:'
