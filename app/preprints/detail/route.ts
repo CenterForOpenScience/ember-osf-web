@@ -63,14 +63,12 @@ export default class PreprintsDetail extends Route {
             const preprint = await this.store.findRecord('preprint', guid, {
                 reload: true,
                 include: embeddableFields,
-                /*
                 adapterOptions: {
                     query: {
                         'metrics[views]': 'total',
                         'metrics[downloads]': 'total',
                     },
                 },
-                */
             });
 
             const provider = await preprint?.get('provider');
