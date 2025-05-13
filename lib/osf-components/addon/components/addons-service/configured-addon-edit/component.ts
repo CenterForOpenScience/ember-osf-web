@@ -7,10 +7,12 @@ import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation'
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
+import AuthorizedLinkAccountModel from 'ember-osf-web/models/authorized-link-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
+import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
 
@@ -25,9 +27,15 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
     @tracked selectedFolderDisplayName = this.args.configuredAddon?.rootFolderName;
     @tracked currentItems: Item[] = [];
+    @tracked selectedItem = (this.args.configuredAddon as ConfiguredLinkAddonModel).targetId;
+    @tracked selectedItemDisplayName = (this.args.configuredAddon as ConfiguredLinkAddonModel).targetItemName;
+    @tracked selectedResourceType = (this.args.configuredAddon as ConfiguredLinkAddonModel).resourceType;
 
     originalName = this.displayName;
     originalRootFolder = this.selectedFolder;
+    originalSelectedItem = this.selectedItem;
+    originalResourceType = this.selectedResourceType;
+
     defaultKwargs: any = {};
 
     constructor(owner: unknown, args: Args) {
@@ -39,6 +47,9 @@ export default class ConfiguredAddonEdit extends Component<Args> {
             if (this.args.configuredAddon instanceof ConfiguredCitationAddonModel) {
                 this.defaultKwargs['filterItems'] = ItemType.Collection;
             }
+            if (this.args.configuredAddon instanceof ConfiguredLinkAddonModel) {
+                // noop
+            }
         }
         if (this.args.authorizedAccount) {
             if (this.args.authorizedAccount instanceof AuthorizedStorageAccountModel) {
@@ -47,10 +58,17 @@ export default class ConfiguredAddonEdit extends Component<Args> {
             if (this.args.authorizedAccount instanceof AuthorizedCitationAccountModel) {
                 this.defaultKwargs['filterItems'] = ItemType.Collection;
             }
+            if (this.args.authorizedAccount instanceof AuthorizedLinkAccountModel) {
+                // noop
+            }
         }
     }
 
-    get requiresRootFolder() {
+    get isLinkAddon() {
+        return this.args.configuredAddon instanceof ConfiguredLinkAddonModel;
+    }
+
+    get requiresFilesWidget() {
         return !(
             this.args.authorizedAccount instanceof AuthorizedComputingAccountModel
             ||
@@ -64,33 +82,40 @@ export default class ConfiguredAddonEdit extends Component<Args> {
 
     get disableSave() {
         const displayNameUnchanged = this.displayName === this.originalName;
-        const rootFolderUnchanged = this.requiresRootFolder && this.selectedFolder === this.originalRootFolder;
-        const needsRootFolder = this.requiresRootFolder && !this.selectedFolder;
+        const rootFolderUnchanged = this.requiresFilesWidget && !this.isLinkAddon
+            && this.selectedFolder === this.originalRootFolder;
+        const targetIdUnchanged = this.isLinkAddon && this.originalSelectedItem === this.selectedItem;
+        const resourceTypeUnchanged = this.originalResourceType === this.selectedResourceType;
+        const needsResourceType = this.isLinkAddon && !this.selectedResourceType;
+        const needsTargetId = this.isLinkAddon && !this.selectedItem;
+        const needsRootFolder = this.requiresFilesWidget && !this.isLinkAddon && !this.selectedFolder;
 
-        if (this.invalidDisplayName || needsRootFolder) {
+        if (this.invalidDisplayName || needsRootFolder || needsResourceType || needsTargetId) {
             return true;
         }
+        if (this.isLinkAddon) {
+            return targetIdUnchanged && resourceTypeUnchanged || this.args.onSave.isRunning;
+        }
         return (rootFolderUnchanged && displayNameUnchanged) || this.args.onSave.isRunning;
-    }
-
-    get nameValid() {
-        return !this.invalidDisplayName && this.displayName !== this.originalName;
-    }
-
-    get folderValid() {
-        return !this.requiresRootFolder && this.selectedFolder && this.selectedFolder !== this.originalRootFolder;
     }
 
     get onSaveArgs() {
         return {
             displayName: this.displayName,
             rootFolder: this.selectedFolder,
+            targetId: this.selectedItem,
+            resourceType: this.selectedResourceType,
         };
     }
 
     @action
-    selectFolder(folder: Item) {
-        this.selectedFolder = folder.itemId;
-        this.selectedFolderDisplayName = folder.itemName;
+    selectItem(item: Item) {
+        if (this.isLinkAddon) {
+            this.selectedItem = item.itemId;
+            this.selectedItemDisplayName = item.itemName;
+        } else {
+            this.selectedFolder = item.itemId;
+            this.selectedFolderDisplayName = item.itemName;
+        }
     }
 }

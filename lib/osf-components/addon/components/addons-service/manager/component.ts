@@ -23,6 +23,7 @@ import { AccountCreationArgs} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
+import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -44,6 +45,7 @@ enum PageMode {
 export enum FilterTypes {
     STORAGE = 'additional-storage',
     CITATION_MANAGER = 'citation-manager',
+    VERIFIED_LINK = 'verified-link',
     // CLOUD_COMPUTING = 'cloud-computing', // disabled because BOA is down
 }
 
@@ -75,6 +77,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         [FilterTypes.CITATION_MANAGER]: {
             modelName: 'external-citation-service',
             task: taskFor(this.getCitationAddonProviders),
+            list: A([]),
+            configuredAddons: A([]),
+        },
+        [FilterTypes.VERIFIED_LINK]: {
+            modelName: 'external-link-service',
+            task: taskFor(this.getLinkAddonProviders),
             list: A([]),
             configuredAddons: A([]),
         },
@@ -302,6 +310,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
                 this.toast.success(this.intl.t('addons.configure.success', {
                     configurationName: this.selectedConfiguration.displayName,
                 }));
+            } else if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredLinkAddonModel) {
+                this.selectedConfiguration.targetId = args.targetId;
+                this.selectedConfiguration.resourceType = args.resourceType;
+                await this.selectedConfiguration.save();
             }
             this.cancelSetup();
         } catch(e) {
@@ -394,6 +406,22 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
         if (this.addonServiceNode) {
             const configuredAddons = await this.addonServiceNode.configuredCitationAddons;
+            activeFilterObject.configuredAddons = A(configuredAddons.toArray());
+        }
+
+        const serviceCitationProviders: Provider[] =
+            await taskFor(this.getExternalProviders)
+                .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
+        activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter);
+    }
+
+    @task
+    @waitFor
+    async getLinkAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.VERIFIED_LINK];
+
+        if (this.addonServiceNode) {
+            const configuredAddons = await this.addonServiceNode.configuredLinkAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
