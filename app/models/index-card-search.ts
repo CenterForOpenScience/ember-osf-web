@@ -10,7 +10,7 @@ export interface SearchFilter {
     filterType?: string;
 }
 
-export const ShareMoreThanTenThousand = 'https://share.osf.io/vocab/2023/trove/ten-thousands-and-more';
+export const ShareMoreThanTenThousand = 'trove:ten-thousands-and-more';
 
 export default class IndexCardSearchModel extends Model {
     @attr('string') cardSearchText!: string;
