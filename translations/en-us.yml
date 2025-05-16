@@ -1049,6 +1049,7 @@ node:
         components: Components
         add-ons: Add-ons
         settings: Settings
+        links: Linked Services
     projects:
         search-placeholder: 'Find project by name'
         select-placeholder: 'Click to select project'
