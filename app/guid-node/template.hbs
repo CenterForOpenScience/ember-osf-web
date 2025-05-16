@@ -99,6 +99,13 @@
                     @label={{t 'node.left_nav.registrations'}}
                 />
             {{/unless}}
+            <leftNav.link
+                data-test-verified-links-link
+                data-analytics-name='Linked services'
+                @route='guid-node.links'
+                @icon='link'
+                @label={{t 'node.left_nav.links'}}
+            />
             {{#unless this.currentUser.viewOnlyToken}}
                 {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
                     <leftNav.link

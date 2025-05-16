@@ -25,19 +25,25 @@ import ExternalComputingServiceModel from 'ember-osf-web/models/external-computi
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 import { notifyPropertyChange } from '@ember/object';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
+import AuthorizedLinkAccountModel from 'ember-osf-web/models/authorized-link-account';
+import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
 
 export type AllProviderTypes =
     ExternalStorageServiceModel |
     ExternalComputingServiceModel |
-    ExternalCitationServiceModel;
+    ExternalCitationServiceModel |
+    ExternalLinkServiceModel;
 export type AllAuthorizedAccountTypes =
     AuthorizedStorageAccountModel |
     AuthorizedCitationAccountModel |
-    AuthorizedComputingAccountModel;
+    AuthorizedComputingAccountModel |
+    AuthorizedLinkAccountModel;
 export type AllConfiguredAddonTypes =
     ConfiguredStorageAddonModel |
     ConfiguredCitationAddonModel |
-    ConfiguredComputingAddonModel;
+    ConfiguredComputingAddonModel |
+    ConfiguredLinkAddonModel;
 
 interface ProviderTypeMapper {
     getAuthorizedAccounts: Task<any, any>;
@@ -81,6 +87,11 @@ export default class Provider {
             getAuthorizedAccounts: taskFor(this.getAuthorizedCitationAccounts),
             createAuthorizedAccount: taskFor(this.createAuthorizedCitationAccount),
             createConfiguredAddon: taskFor(this.createConfiguredCitationAddon),
+        },
+        externalLinkService: {
+            getAuthorizedAccounts: taskFor(this.getAuthorizedLinkAccounts),
+            createAuthorizedAccount: taskFor(this.createAuthorizedLinkAccount),
+            createConfiguredAddon: taskFor(this.createConfiguredLinkAddon),
         },
     };
 
@@ -134,6 +145,8 @@ export default class Provider {
             this.providerMap = this.providerTypeMapper.externalComputingService;
         } else if (provider instanceof ExternalCitationServiceModel) {
             this.providerMap = this.providerTypeMapper.externalCitationService;
+        } else if (provider instanceof ExternalLinkServiceModel) {
+            this.providerMap = this.providerTypeMapper.externalLinkService;
         }
         taskFor(this.initialize).perform();
     }
@@ -213,6 +226,14 @@ export default class Provider {
 
     @task
     @waitFor
+    async getAuthorizedLinkAccounts() {
+        const authorizedLinkAccounts = await this.userReference.authorizedLinkAccounts;
+        this.authorizedAccounts = authorizedLinkAccounts
+            .filterBy('externalLinkService.id', this.provider.id).toArray();
+    }
+
+    @task
+    @waitFor
     async getAuthorizedAccounts() {
         await this.providerMap?.getAuthorizedAccounts.perform();
     }
@@ -280,6 +301,25 @@ export default class Provider {
 
     @task
     @waitFor
+    private async createAuthorizedLinkAccount(arg: AccountCreationArgs) {
+        const { credentials, apiBaseUrl, displayName, initiateOauth } = arg;
+        const newAccount = this.store.createRecord('authorized-link-account', {
+            credentials,
+            apiBaseUrl,
+            initiateOauth,
+            externalUserId: this.currentUser.user?.id,
+            authorizedCapabilities: ['ACCESS', 'UPDATE'],
+            scopes: [],
+            externalLinkService: this.provider,
+            accountOwner: this.userReference,
+            displayName,
+        });
+        await newAccount.save();
+        return newAccount;
+    }
+
+    @task
+    @waitFor
     public async createAuthorizedAccount(arg: AccountCreationArgs) {
         return await taskFor(this.providerMap!.createAuthorizedAccount)
             .perform(arg);
@@ -338,6 +378,20 @@ export default class Provider {
         });
         return await configuredComputingAddon.save();
     }
+
+    @task
+    @waitFor
+    private async createConfiguredLinkAddon(account: AuthorizedComputingAccountModel) {
+        const configuredLinkAddon = this.store.createRecord('configured-link-addon', {
+            externalLinkService: this.provider,
+            accountOwner: this.userReference,
+            authorizedResourceUri: this.node!.links.iri,
+            baseAccount: account,
+            connectedCapabilities: ['ACCESS', 'UPDATE'],
+        });
+        return await configuredLinkAddon.save();
+    }
+
 
     @task
     @waitFor
