@@ -9,6 +9,7 @@ import config from 'ember-osf-web/config/environment';
 import { Item } from 'ember-osf-web/models/addon-operation-invocation';
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
 
 const {
     googleFilePickerScopes,
@@ -58,6 +59,9 @@ declare global {
     TITLE: string;
     IS_MULTIPLE_SELECT: boolean;
     isFolderPicker: boolean;
+    tokenClient: any;
+    pickerInited: boolean;
+    gisInited: boolean;
   }
 }
 
@@ -70,7 +74,8 @@ declare global {
 // can interact with it directly.
 //
 export default class GoogleFilePickerWidget extends Component<Args> {
-   @service store!: Store;
+    @service intl!: Intl;
+    @service store!: Store;
     @tracked folderName!: string | undefined;
     @tracked isFolderPicker = false;
     @tracked openGoogleFilePicker = false;
@@ -91,7 +96,6 @@ export default class GoogleFilePickerWidget extends Component<Args> {
      */
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        // console.log('constructor');
         window.GoogleFilePickerWidget = this;
         window.selectFolder = this.args.selectFolder;
         window.SCOPES = googleFilePickerScopes;
@@ -100,10 +104,15 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         window.APP_ID= googleFilePickerAppId;
         window.MIME_TYPES = this.args.isFolderPicker ? 'application/vnd.google-apps.folder' : '';
         window.PARENT_ID = this.args.isFolderPicker ? '': this.args.rootFolderId;
-        window.TITLE = this.args.isFolderPicker ? 'Select a root folder': 'Select files to display';
+        window.TITLE = this.args.isFolderPicker ?
+            this.intl.t('addons.configure.google-file-picker.root-folder-title') :
+            this.intl.t('addons.configure.google-file-picker.file-folder-title');
         window.IS_MULTIPLE_SELECT = !this.args.isFolderPicker;
         window.isFolderPicker = this.args.isFolderPicker;
         this.isFolderPicker = this.args.isFolderPicker;
+        window.tokenClient = undefined;
+        window.pickerInited = false;
+        window.gisInited = false;
 
         this.folderName = this.args.selectedFolderName;
 
@@ -157,6 +166,13 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         if (this.args.onRegisterChild) {
             this.args.onRegisterChild(this); // Pass the child's instance to the parent
         }
+    }
+
+    willDestroy() {
+        super.willDestroy();
+        delete window.tokenClient;
+        window.pickerInited = false;
+        window.gisInited = false;
     }
 }
 

@@ -13,35 +13,12 @@ local-class='google-file-picker-container {{if this.isMobile 'mobile'}}'
                     </span>
                 </p>
             {{/if}}
-            <p>
-                {{~t 'addons.configure.google-file-picker.instructions.line-one'~}}
-            </p>
-            <p>
-                {{~t 'addons.configure.google-file-picker.instructions.line-two'~}}
-            </p>
-            <p>
-                {{~t 'addons.configure.google-file-picker.instructions.line-three'~}}
-            </p>
-            <p>
-                {{~t 'addons.configure.google-file-picker.instructions.line-four'~}}
-            </p>
-            <p>
-                {{~t 'addons.configure.google-file-picker.instructions.line-five'~}}
-            </p>
-            <p>
-                {{~t 'addons.configure.google-file-picker.instructions.line-six'~}}
-            </p>
         </div>
         <div local-class='action-container'>
             <button class='btn btn-primary btn-medium' local-class='authorize-button' type='button' id='authorize_button' onclick='handleAuthClick()'>{{t 'addons.configure.google-file-picker.select-root-folder'}}</button>
         </div>
     {{/if}}
     <script type='text/javascript'>
-        let tokenClient;
-        // let accessToken;
-        let pickerInited = false;
-        let gisInited = false;
-
         /**
         * Callback after api.js is loaded.
         */
@@ -63,11 +40,13 @@ local-class='google-file-picker-container {{if this.isMobile 'mobile'}}'
         * Callback after Google Identity Services are loaded.
         */
         function gisLoaded() {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: SCOPES,
-                callback: '', // defined later
-            })
+            if (!tokenClient) {
+                tokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: CLIENT_ID,
+                    scope: SCOPES,
+                    callback: '', // defined later
+                })
+            }
             gisInited = true;
             maybeEnableButtons();
         }
@@ -89,8 +68,6 @@ local-class='google-file-picker-container {{if this.isMobile 'mobile'}}'
                 if (response.error !== undefined) {
                     throw (response);
                 }
-                accessToken = response.access_token;
-                console.log(accessToken);
                 await createPicker();
             };
 
