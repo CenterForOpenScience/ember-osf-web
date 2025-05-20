@@ -102,6 +102,13 @@ const {
     SHARE_SEARCH_URL: shareSearchUrl = 'http://localhost:8003/api/v2/search/creativeworks/_search',
     SOURCEMAPS_ENABLED: sourcemapsEnabled = true,
     SHOW_DEV_BANNER = false,
+
+    GOOGLE_FILE_PICKER_SCOPES: googleFilePickerScopes = 'https://www.googleapis.com/auth/drive.file',
+    /* eslint-disable-next-line max-len */
+    GOOGLE_FILE_PICKER_CLIENT_ID: googleFilePickerClientId = '610901277352-m5krehjdtu8skh2teq85fb7mvk411qa6.apps.googleusercontent.com',
+    GOOGLE_FILE_PICKER_API_KEY: googleFilePickerApiKey = 'AIzaSyA3EnD0pOv4v7sJt7BGuR1i2Gcj-Gju6C0',
+    GOOGLE_FILE_PICKER_APP_ID: googleFilePickerAppId = 610901277352,
+
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
@@ -224,6 +231,12 @@ module.exports = function(environment) {
             doiUrlPrefix: 'https://doi.org/',
             dataciteTrackerRepoId,
             dataCiteTrackerUrl,
+            googleFilePicker: {
+                googleFilePickerScopes,
+                googleFilePickerClientId,
+                googleFilePickerApiKey,
+                googleFilePickerAppId,
+            },
         },
         social: {
             twitter: {

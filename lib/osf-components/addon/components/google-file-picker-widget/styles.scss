@@ -1,0 +1,19 @@
+
+.google-file-picker-container {
+    width: 100%;
+    border: 1px solid blacl;
+
+    .instruction-container {
+        width: 100%;
+        border: 1px solid blacl;
+    }
+
+    .action-container {
+        width: 100%;
+        border: 1px solid blacl;
+
+        .authorize-button {
+            visibility: hidden;
+        }
+    }
+}
