@@ -1,4 +1,5 @@
-<div {{did-insert this.registerComponent}} local-class='google-file-picker-container {{if this.isMobile 'mobile'}}'
+<div {{did-insert this.registerComponent}} 
+local-class='google-file-picker-container {{if this.isMobile 'mobile'}}'
 >
     {{#if this.isFolderPicker}}
         <div local-class='instruction-container'>
@@ -37,7 +38,7 @@
     {{/if}}
     <script type='text/javascript'>
         let tokenClient;
-        let accessToken;
+        // let accessToken;
         let pickerInited = false;
         let gisInited = false;
 
@@ -89,6 +90,7 @@
                     throw (response);
                 }
                 accessToken = response.access_token;
+                console.log(accessToken);
                 await createPicker();
             };
 

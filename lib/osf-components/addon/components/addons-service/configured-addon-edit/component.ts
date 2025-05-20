@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
+
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
@@ -29,6 +30,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked selectedFolderDisplayName = this.args.configuredAddon?.rootFolderName;
     @tracked currentItems: Item[] = [];
     @tracked isWBGoogleDrive = false;
+    @tracked accountId!: string;
 
     originalName = this.displayName;
     originalRootFolder = this.selectedFolder;
@@ -65,10 +67,14 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     async loadExternalStorageService() {
         let external!: ExternalStorageServiceModel;
         if (this.args.configuredAddon && this.args.configuredAddon instanceof ConfiguredStorageAddonModel) {
+            const baseAccount = await this.args.configuredAddon?.baseAccount;
+            this.accountId = baseAccount.id;
             external = await this.args.configuredAddon?.externalStorageService;
         }
         if (this.args.authorizedAccount && this.args.authorizedAccount instanceof AuthorizedStorageAccountModel) {
             external = await this.args.authorizedAccount?.externalStorageService;
+
+            this.accountId =  this.args.authorizedAccount.id;
         }
 
         this.isWBGoogleDrive = external?.wbKey === 'googledrive';

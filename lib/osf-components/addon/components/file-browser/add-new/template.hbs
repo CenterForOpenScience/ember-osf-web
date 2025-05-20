@@ -50,6 +50,7 @@
     {{#if this.isGoogleDrive}}
         <GoogleFilePickerWidget
             @isFolderPicker={{false}}
+            @accountId={{this.accountId}}
             @onRegisterChild={{this.registerChild}}
             @rootFolderId={{this.googleFilePickerRootFolder}}
             @manager={{@manager}}

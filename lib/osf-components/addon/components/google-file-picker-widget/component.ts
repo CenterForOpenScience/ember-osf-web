@@ -1,9 +1,14 @@
+import Store from '@ember-data/store';
 import { action } from '@ember/object';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-osf-web/config/environment';
 import { Item } from 'ember-osf-web/models/addon-operation-invocation';
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
+import { inject as service } from '@ember/service';
 
 const {
     googleFilePickerScopes,
@@ -29,6 +34,7 @@ interface Args {
   isFolderPicker: boolean;
   rootFolderId: string;
   manager: StorageManager;
+  accountId: string;
 }
 
 //
@@ -46,6 +52,7 @@ declare global {
     CLIENT_ID: string;
     API_KEY: string;
     APP_ID: number;
+    accessToken: string;
     MIME_TYPES: string;
     PARENT_ID: string;
     TITLE: string;
@@ -55,7 +62,7 @@ declare global {
 }
 
 //
-// 🚀 GoogleFilePickerWidget Component
+// GoogleFilePickerWidget Component
 //
 // @description
 // An Ember Glimmer component that exposes itself to the global `window`
@@ -63,6 +70,7 @@ declare global {
 // can interact with it directly.
 //
 export default class GoogleFilePickerWidget extends Component<Args> {
+   @service store!: Store;
     @tracked folderName!: string | undefined;
     @tracked isFolderPicker = false;
     @tracked openGoogleFilePicker = false;
@@ -83,6 +91,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
      */
     constructor(owner: unknown, args: Args) {
         super(owner, args);
+        // console.log('constructor');
         window.GoogleFilePickerWidget = this;
         window.selectFolder = this.args.selectFolder;
         window.SCOPES = googleFilePickerScopes;
@@ -97,6 +106,20 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         this.isFolderPicker = this.args.isFolderPicker;
 
         this.folderName = this.args.selectedFolderName;
+
+        taskFor(this.loadOauthToken).perform();
+    }
+
+    @task
+    @waitFor
+    private async loadOauthToken(): Promise<void>{
+        if (this.args.accountId) {
+            const authorizedStorageAccount = await this.store.
+                findRecord('authorized-storage-account', this.args.accountId);
+            authorizedStorageAccount.serializeOauthToken = true;
+            const token = await authorizedStorageAccount.save();
+            window.accessToken = token.oauthToken;
+        }
     }
 
     /**
@@ -136,4 +159,5 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         }
     }
 }
+
 

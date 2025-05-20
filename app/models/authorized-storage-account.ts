@@ -1,4 +1,4 @@
-import { AsyncBelongsTo, belongsTo } from '@ember-data/model';
+import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { ConnectedStorageOperationNames, OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
@@ -7,6 +7,9 @@ import AuthorizedAccountModel from './authorized-account';
 import UserReferenceModel from './user-reference';
 
 export default class AuthorizedStorageAccountModel extends AuthorizedAccountModel {
+    @attr('fixstring') serializeOauthToken!: string;
+    @attr('fixstring') oauthToken!: string;
+
     @belongsTo('user-reference', { inverse: 'authorizedStorageAccounts' })
     readonly accountOwner!: AsyncBelongsTo<UserReferenceModel> & UserReferenceModel;
 
