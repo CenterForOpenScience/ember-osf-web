@@ -106,6 +106,7 @@ Router.map(function() {
                 this.route('configure');
             });
         });
+        this.route('links');
     });
 
     this.route(
