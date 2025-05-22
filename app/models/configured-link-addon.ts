@@ -13,6 +13,7 @@ import ConfiguredAddonModel from './configured-addon';
 
 export default class ConfiguredLinkAddonModel extends ConfiguredAddonModel {
     @attr('string') targetId!: string;
+    @attr('string') targetUrl!: string;
     @attr('string') resourceType!: SupportedResourceTypes;
 
     @belongsTo('external-link-service', { inverse: null })
