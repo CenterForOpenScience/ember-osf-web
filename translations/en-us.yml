@@ -382,6 +382,7 @@ links:
     display-name: 'Display Name'
     resource-type: 'Resource Type'
     link: 'Link'
+    edit: 'Edit'
     icon: '{addonName} icon'
 metadata:
     tab-title: 'Metadata'
