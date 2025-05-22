@@ -27,10 +27,9 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked selectedFolder = this.args.configuredAddon?.rootFolder;
     @tracked selectedFolderDisplayName = this.args.configuredAddon?.rootFolderName;
     @tracked currentItems: Item[] = [];
-    @tracked selectedItem = (this.args.configuredAddon as ConfiguredLinkAddonModel).targetId;
-    @tracked selectedItemDisplayName = (this.args.configuredAddon as ConfiguredLinkAddonModel).targetItemName;
-    @tracked selectedResourceType = (this.args.configuredAddon as ConfiguredLinkAddonModel).resourceType;
-
+    @tracked selectedItem = '';
+    @tracked selectedItemDisplayName = '';
+    @tracked selectedResourceType = '';
     originalName = this.displayName;
     originalRootFolder = this.selectedFolder;
     originalSelectedItem = this.selectedItem;
@@ -48,7 +47,9 @@ export default class ConfiguredAddonEdit extends Component<Args> {
                 this.defaultKwargs['filterItems'] = ItemType.Collection;
             }
             if (this.args.configuredAddon instanceof ConfiguredLinkAddonModel) {
-                // noop
+                this.selectedItem = (this.args.configuredAddon as ConfiguredLinkAddonModel).targetId;
+                this.selectedItemDisplayName = (this.args.configuredAddon as ConfiguredLinkAddonModel).targetItemName;
+                this.selectedResourceType = (this.args.configuredAddon as ConfiguredLinkAddonModel).resourceType;
             }
         }
         if (this.args.authorizedAccount) {
