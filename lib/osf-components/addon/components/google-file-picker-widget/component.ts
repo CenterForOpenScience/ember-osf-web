@@ -49,6 +49,8 @@ declare global {
     GoogleFilePickerWidget?: GoogleFilePickerWidget;
     selectFolder?: (a: Partial<Item>)=> void;
     handleAuthClick?: ()=> void;
+    gapi?: any;
+    google?: any;
     SCOPES: string;
     CLIENT_ID: string;
     API_KEY: string;
@@ -79,6 +81,21 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     @tracked folderName!: string | undefined;
     @tracked isFolderPicker = false;
     @tracked openGoogleFilePicker = false;
+    @tracked visible = false;
+    pickerInited = false;
+    gisInited = false;
+    selectFolder: any = undefined;
+    tokenClient: any = undefined;
+    accessToken!: string;
+    scopes = GOOGLE_FILE_PICKER_SCOPES;
+    clientId = GOOGLE_FILE_PICKER_CLIENT_ID;
+    apiKey = GOOGLE_FILE_PICKER_API_KEY;
+    appId = GOOGLE_FILE_PICKER_APP_ID;
+    mimeTypes = '';
+    parentId = '';
+    isMultipleSelect: boolean;
+    title!: string;
+
     /**
      * Constructor
      *
@@ -98,22 +115,32 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         super(owner, args);
 
         window.GoogleFilePickerWidget = this;
-        window.selectFolder = this.args.selectFolder;
-        window.SCOPES = GOOGLE_FILE_PICKER_SCOPES;
-        window.CLIENT_ID = GOOGLE_FILE_PICKER_CLIENT_ID;
-        window.API_KEY= GOOGLE_FILE_PICKER_API_KEY;
-        window.APP_ID= GOOGLE_FILE_PICKER_APP_ID;
-        window.MIME_TYPES = this.args.isFolderPicker ? 'application/vnd.google-apps.folder' : '';
-        window.PARENT_ID = this.args.isFolderPicker ? '': this.args.rootFolderId;
+        // window.selectFolder = this.args.selectFolder;
+        // window.SCOPES = GOOGLE_FILE_PICKER_SCOPES;
+        // window.CLIENT_ID = GOOGLE_FILE_PICKER_CLIENT_ID;
+        // window.API_KEY= GOOGLE_FILE_PICKER_API_KEY;
+        // window.APP_ID= GOOGLE_FILE_PICKER_APP_ID;
+        // window.MIME_TYPES = this.args.isFolderPicker ? 'application/vnd.google-apps.folder' : '';
+        // window.PARENT_ID = this.args.isFolderPicker ? '': this.args.rootFolderId;
+        // window.IS_MULTIPLE_SELECT = !this.args.isFolderPicker;
+        /*
         window.TITLE = this.args.isFolderPicker ?
             this.intl.t('addons.configure.google-file-picker.root-folder-title') :
             this.intl.t('addons.configure.google-file-picker.file-folder-title');
-        window.IS_MULTIPLE_SELECT = !this.args.isFolderPicker;
-        window.isFolderPicker = this.args.isFolderPicker;
+        */
+        this.selectFolder = this.args.selectFolder;
+        this.mimeTypes = this.args.isFolderPicker ? 'application/vnd.google-apps.folder' : '';
+        this.parentId = this.args.isFolderPicker ? '': this.args.rootFolderId;
+        this.title = this.args.isFolderPicker ?
+            this.intl.t('addons.configure.google-file-picker.root-folder-title') :
+            this.intl.t('addons.configure.google-file-picker.file-folder-title');
+        this.isMultipleSelect = !this.args.isFolderPicker;
+        // window.isFolderPicker = this.args.isFolderPicker;
         this.isFolderPicker = this.args.isFolderPicker;
-        window.tokenClient = undefined;
-        window.pickerInited = false;
-        window.gisInited = false;
+        // window.tokenClient = undefined;
+        // window.pickerInited = false;
+        // window.gisInited = false;
+
 
         this.folderName = this.args.selectedFolderName;
 
@@ -128,7 +155,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
                 findRecord('authorized-storage-account', this.args.accountId);
             authorizedStorageAccount.serializeOauthToken = true;
             const token = await authorizedStorageAccount.save();
-            window.accessToken = token.oauthToken;
+            this.accessToken = token.oauthToken;
         }
     }
 
@@ -143,9 +170,9 @@ export default class GoogleFilePickerWidget extends Component<Args> {
      */
     @action
     filePickerCallback(file: any) {
-        if (window?.selectFolder !== undefined) {
+        if (this.selectFolder !== undefined) {
             this.folderName = file.name;
-            window?.selectFolder({
+            this.selectFolder({
                 itemName: file.name,
                 itemId: file.id,
             });
@@ -157,8 +184,8 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     @action
     openPicker() {
         // Logic for opening Google File Picker here
-        if (window.handleAuthClick) {
-            window.handleAuthClick();
+        if (this.handleAuthClick) {
+            this.handleAuthClick();
         }
     }
 
@@ -171,9 +198,112 @@ export default class GoogleFilePickerWidget extends Component<Args> {
 
     willDestroy() {
         super.willDestroy();
-        delete window.tokenClient;
-        window.pickerInited = false;
-        window.gisInited = false;
+        delete this.tokenClient;
+        this.pickerInited = false;
+        this.gisInited = false;
+    }
+
+
+    /**
+    * Callback after api.js is loaded.
+    */
+    gapiLoaded() {
+        window.gapi.load('client:picker', this.initializePicker.bind(this));
+    }
+
+    /**
+    * Callback after the API client is loaded. Loads the
+    * discovery doc to initialize the API.
+    */
+    async initializePicker() {
+        await window.gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
+        this.pickerInited = true;
+        this.maybeEnableButtons();
+    }
+
+    /**
+    * Callback after Google Identity Services are loaded.
+    */
+    gisLoaded() {
+        if (!this.tokenClient) {
+            this.tokenClient = window.google?.accounts?.oauth2.initTokenClient({
+                client_id: this.clientId,
+                scope: this.scopes,
+                callback: '', // defined later
+            });
+        }
+        this.gisInited = true;
+        this.maybeEnableButtons();
+    }
+
+    /**
+    * Enables user interaction after all libraries are loaded.
+    */
+    maybeEnableButtons() {
+        if (this.pickerInited && this.gisInited && this.isFolderPicker) {
+            this.visible = true;
+        }
+    }
+
+    /**
+    *  Sign in the user upon button click.
+    */
+    @action
+    handleAuthClick() {
+        this.tokenClient.callback = async (response: any) => {
+            if (response.error !== undefined) {
+                throw (response);
+            }
+            await this.createPicker();
+        };
+
+        if (this.accessToken === null) {
+            // Prompt the user to select a Google Account and ask for consent to share their data
+            // when establishing a new session.
+            this.tokenClient?.requestAccessToken({prompt: 'consent'});
+        } else {
+            // Skip display of account chooser and consent dialog for an existing session.
+            this.tokenClient?.requestAccessToken({prompt: ''});
+        }
+    }
+
+    /**
+    *  Create and render a Picker object for searching images.
+    */
+    createPicker() {
+        const googlePickerView = new window.google.picker.DocsView(window.google.picker.ViewId.DOCS);
+        googlePickerView.setSelectFolderEnabled(true);
+        googlePickerView.setMimeTypes(this.mimeTypes);
+        googlePickerView.setIncludeFolders(true);
+        googlePickerView.setParent(this.parentId);
+
+        const picker = new window.google.picker.PickerBuilder()
+            .enableFeature(this.isMultipleSelect ? window.google.picker.Feature.MULTISELECT_ENABLED : '')
+            .setDeveloperKey(this.apiKey)
+            .setAppId(this.appId)
+            .addView(googlePickerView)
+            .setTitle(this.title)
+            .setOAuthToken(this.accessToken)
+            .setCallback(this.pickerCallback.bind(this))
+            .build();
+        picker.setVisible(true);
+    }
+
+    /**
+    * Displays the file details of the user's selection.
+    * @param {object} data - Containers the user selection from the picker
+    */
+    async pickerCallback(data: any) {
+        if (data.action === window.google.picker.Action.PICKED) {
+            const document = data[window.google.picker.Response.DOCUMENTS][0];
+            const fileId = document[window.google.picker.Document.ID];
+            const res = await window.gapi.client.drive.files.get({
+                fileId,
+                fields: '*',
+            });
+            // Correctly call the Ember method
+            this.filePickerCallback(res.result);
+        }
     }
 }
 
