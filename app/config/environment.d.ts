@@ -142,10 +142,10 @@ declare const config: {
         dataciteTrackerRepoId: string;
         dataCiteTrackerUrl: string;
         googleFilePicker: {
-            googleFilePickerScopes: string;
-            googleFilePickerClientId: string;
-            googleFilePickerApiKey: string,
-            googleFilePickerAppId: number,
+            GOOGLE_FILE_PICKER_SCOPES: string;
+            GOOGLE_FILE_PICKER_CLIENT_ID: string;
+            GOOGLE_FILE_PICKER_API_KEY: string;
+            GOOGLE_FILE_PICKER_APP_ID: number;
         }
     };
     social: {

@@ -67,12 +67,12 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     async loadExternalStorageService() {
         let external!: ExternalStorageServiceModel;
         if (this.args.configuredAddon && this.args.configuredAddon instanceof ConfiguredStorageAddonModel) {
-            const baseAccount = await this.args.configuredAddon?.baseAccount;
+            const baseAccount = await this.args.configuredAddon.baseAccount;
             this.accountId = baseAccount?.id;
-            external = await this.args.configuredAddon?.externalStorageService;
+            external = await this.args.configuredAddon.externalStorageService;
         }
         if (this.args.authorizedAccount && this.args.authorizedAccount instanceof AuthorizedStorageAccountModel) {
-            external = await this.args.authorizedAccount?.externalStorageService;
+            external = await this.args.authorizedAccount.externalStorageService;
 
             this.accountId =  this.args.authorizedAccount.id;
         }

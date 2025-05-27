@@ -12,10 +12,10 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 
 const {
-    googleFilePickerScopes,
-    googleFilePickerClientId,
-    googleFilePickerApiKey,
-    googleFilePickerAppId,
+    GOOGLE_FILE_PICKER_SCOPES,
+    GOOGLE_FILE_PICKER_CLIENT_ID,
+    GOOGLE_FILE_PICKER_API_KEY,
+    GOOGLE_FILE_PICKER_APP_ID,
 } = config.OSF.googleFilePicker;
 
 //
@@ -88,20 +88,21 @@ export default class GoogleFilePickerWidget extends Component<Args> {
      *
      * - Sets `window.GoogleFilePickerWidget` to the current component instance (`this`),
      *   allowing external scripts to call methods like `filePickerCallback()`.
-     * - Captures the closure action `selectItem` from `this.args` and assigns it directly to `window.selectItem`,
+     * - Captures the closure action `selectFolder` from `this.args` and assigns it directly to `window.selectFolder`,
      *   preserving the correct closure reference even outside of Ember's internal context.
      *
      * @param owner - The owner/context passed by Ember at component instantiation.
-     * @param args - The arguments passed to the component, including closure actions like `selectItem`.
+     * @param args - The arguments passed to the component, including closure actions like `selectFolder`.
      */
     constructor(owner: unknown, args: Args) {
         super(owner, args);
+
         window.GoogleFilePickerWidget = this;
         window.selectFolder = this.args.selectFolder;
-        window.SCOPES = googleFilePickerScopes;
-        window.CLIENT_ID = googleFilePickerClientId;
-        window.API_KEY= googleFilePickerApiKey;
-        window.APP_ID= googleFilePickerAppId;
+        window.SCOPES = GOOGLE_FILE_PICKER_SCOPES;
+        window.CLIENT_ID = GOOGLE_FILE_PICKER_CLIENT_ID;
+        window.API_KEY= GOOGLE_FILE_PICKER_API_KEY;
+        window.APP_ID= GOOGLE_FILE_PICKER_APP_ID;
         window.MIME_TYPES = this.args.isFolderPicker ? 'application/vnd.google-apps.folder' : '';
         window.PARENT_ID = this.args.isFolderPicker ? '': this.args.rootFolderId;
         window.TITLE = this.args.isFolderPicker ?
@@ -136,7 +137,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
      *
      * @description
      * Action triggered when a file is selected via an external picker.
-     * Logs the file data and notifies the parent system by calling `selectItem`.
+     * Logs the file data and notifies the parent system by calling `selectFolder`.
      *
      * @param file - The file object selected (format determined by external API)
      */
