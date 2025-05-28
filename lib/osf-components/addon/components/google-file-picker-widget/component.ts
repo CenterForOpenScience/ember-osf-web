@@ -47,23 +47,8 @@ interface Args {
 declare global {
   interface Window {
     GoogleFilePickerWidget?: GoogleFilePickerWidget;
-    selectFolder?: (a: Partial<Item>)=> void;
-    handleAuthClick?: ()=> void;
     gapi?: any;
     google?: any;
-    SCOPES: string;
-    CLIENT_ID: string;
-    API_KEY: string;
-    APP_ID: number;
-    accessToken: string;
-    MIME_TYPES: string;
-    PARENT_ID: string;
-    TITLE: string;
-    IS_MULTIPLE_SELECT: boolean;
-    isFolderPicker: boolean;
-    tokenClient: any;
-    pickerInited: boolean;
-    gisInited: boolean;
   }
 }
 
@@ -115,19 +100,6 @@ export default class GoogleFilePickerWidget extends Component<Args> {
         super(owner, args);
 
         window.GoogleFilePickerWidget = this;
-        // window.selectFolder = this.args.selectFolder;
-        // window.SCOPES = GOOGLE_FILE_PICKER_SCOPES;
-        // window.CLIENT_ID = GOOGLE_FILE_PICKER_CLIENT_ID;
-        // window.API_KEY= GOOGLE_FILE_PICKER_API_KEY;
-        // window.APP_ID= GOOGLE_FILE_PICKER_APP_ID;
-        // window.MIME_TYPES = this.args.isFolderPicker ? 'application/vnd.google-apps.folder' : '';
-        // window.PARENT_ID = this.args.isFolderPicker ? '': this.args.rootFolderId;
-        // window.IS_MULTIPLE_SELECT = !this.args.isFolderPicker;
-        /*
-        window.TITLE = this.args.isFolderPicker ?
-            this.intl.t('addons.configure.google-file-picker.root-folder-title') :
-            this.intl.t('addons.configure.google-file-picker.file-folder-title');
-        */
         this.selectFolder = this.args.selectFolder;
         this.mimeTypes = this.args.isFolderPicker ? 'application/vnd.google-apps.folder' : '';
         this.parentId = this.args.isFolderPicker ? '': this.args.rootFolderId;
@@ -135,11 +107,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
             this.intl.t('addons.configure.google-file-picker.root-folder-title') :
             this.intl.t('addons.configure.google-file-picker.file-folder-title');
         this.isMultipleSelect = !this.args.isFolderPicker;
-        // window.isFolderPicker = this.args.isFolderPicker;
         this.isFolderPicker = this.args.isFolderPicker;
-        // window.tokenClient = undefined;
-        // window.pickerInited = false;
-        // window.gisInited = false;
 
 
         this.folderName = this.args.selectedFolderName;
