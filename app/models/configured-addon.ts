@@ -5,6 +5,7 @@ import { task } from 'ember-concurrency';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import { tracked } from 'tracked-built-ins';
 import { taskFor } from 'ember-concurrency-ts';
+import { SupportedResourceTypes } from 'ember-osf-web/models/external-link-service';
 import { ConnectedStorageOperationNames, OperationKwargs } from './addon-operation-invocation';
 import { ConnectedCapabilities } from './authorized-account';
 
@@ -12,6 +13,8 @@ import { ConnectedCapabilities } from './authorized-account';
 export interface ConfiguredAddonEditableAttrs {
     displayName: string;
     rootFolder: string;
+    targetId: string;
+    resourceType: SupportedResourceTypes;
 }
 
 export default class ConfiguredAddonModel extends Model {

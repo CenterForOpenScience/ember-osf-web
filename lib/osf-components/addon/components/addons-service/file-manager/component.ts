@@ -13,6 +13,7 @@ import { Item, ListItemsResult, OperationKwargs } from 'ember-osf-web/models/add
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
 import ConfiguredAddonModel from 'ember-osf-web/models/configured-addon';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
 
 interface Args {
     configuredAddon?: ConfiguredAddonModel;
@@ -44,6 +45,10 @@ export default class FileManager extends Component<Args> {
     get isError() {
         return taskFor(this.operationInvocableModel.getFolderItems).lastPerformed?.error ||
             taskFor(this.getStartingFolder).lastPerformed?.error;
+    }
+
+    get isLinkAddon() {
+        return this.operationInvocableModel instanceof ConfiguredLinkAddonModel;
     }
 
     constructor(owner: unknown, args: Args) {

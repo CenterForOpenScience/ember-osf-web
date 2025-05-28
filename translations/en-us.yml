@@ -257,6 +257,7 @@ addons:
             additional-storage: 'Additional Storage'
             citation-manager: 'Citation Manager'
             cloud-computing: 'Cloud Computing'
+            verified-link: 'Linked Services'
         no-results: 'No results found'
         no-connected-accounts: 'No connected accounts'
         connect: 'Connect'
@@ -359,8 +360,11 @@ addons:
         authorizing: 'Connecting…'
     configure:
         heading: 'Configure {providerName}'
+        resource-type: 'Resource type'
+        resource-type-placeholder: 'Choose a resource type'
         display-name: 'Display name'
         selected-folder: 'Selected folder:'
+        linked-item: 'Linked item:'
         no-folder-selected: 'No folder selected'
         go-to-root: 'Go to home folder'
         go-to-folder: 'Go to folder {folderName}'
@@ -372,7 +376,14 @@ addons:
         error-loading-items: 'Error loading items'
         success: 'Successfully updated {configurationName}'
         error: 'Error updating {configurationName}'
-
+links:
+    linked-services: 'Linked Services'
+    linked-service: 'Linked Service'
+    display-name: 'Display Name'
+    resource-type: 'Resource Type'
+    link: 'Link'
+    edit: 'Edit'
+    icon: '{addonName} icon'
 metadata:
     tab-title: 'Metadata'
     main-tab: 'OSF'
@@ -1045,6 +1056,7 @@ node:
         components: Components
         add-ons: Add-ons
         settings: Settings
+        links: Linked Services
     projects:
         search-placeholder: 'Find project by name'
         select-placeholder: 'Click to select project'

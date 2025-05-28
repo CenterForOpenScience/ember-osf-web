@@ -1,0 +1,24 @@
+.table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.table-header {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.table-row {
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.table-cell {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.logo {
+    max-width: 50px;
+    max-height: 50px;
+}

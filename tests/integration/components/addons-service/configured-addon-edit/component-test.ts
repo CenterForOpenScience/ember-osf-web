@@ -92,8 +92,9 @@ module('Integration | Component | addons-service | configured-addon-edit', funct
         const args = {
             rootFolder: 'root-1-1',
             displayName: 'My configured addon',
+            resourceType: '',
+            targetId: '',
         };
-
         assert.ok(this.onSave.calledOnceWith(args), 'Save action was called with selected folder id');
     });
 });
