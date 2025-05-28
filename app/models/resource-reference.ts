@@ -6,7 +6,6 @@ import ConfiguredCitationAddonModel from './configured-citation-addon';
 import ConfiguredComputingAddonModel from './configured-computing-addon';
 
 export default class ResourceReferenceModel extends Model {
-
     @attr('fixstring') resourceUri!: string;
 
     @hasMany('configured-storage-addon', { inverse: 'authorizedResource' })

@@ -376,7 +376,14 @@ addons:
         error-loading-items: 'Error loading items'
         success: 'Successfully updated {configurationName}'
         error: 'Error updating {configurationName}'
-
+links:
+    linked-services: 'Linked Services'
+    linked-service: 'Linked Service'
+    display-name: 'Display Name'
+    resource-type: 'Resource Type'
+    link: 'Link'
+    edit: 'Edit'
+    icon: '{addonName} icon'
 metadata:
     tab-title: 'Metadata'
     main-tab: 'OSF'
