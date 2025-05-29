@@ -1,0 +1,24 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors, selector-no-qualifying-type
+
+.google-file-picker-container {
+    width: 100%;
+    border: 1px solid blacl;
+
+    .instruction-container {
+        width: 100%;
+        border: 1px solid blacl;
+    }
+
+    .action-container {
+        width: 100%;
+        border: 1px solid blacl;
+
+        .authorize-button {
+            visibility: hidden;
+
+            &.visible {
+                visibility: visible;
+            }
+        }
+    }
+}

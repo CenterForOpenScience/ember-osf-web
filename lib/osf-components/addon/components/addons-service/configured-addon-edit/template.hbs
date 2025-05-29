@@ -21,7 +21,7 @@
             </span>
         {{/if}}
     </div>
-    {{#if this.requiresRootFolder }}
+    {{#if this.displayFileManager}}
         <div local-class='input-wrapper'>
             <b>
                 {{t 'addons.configure.selected-folder'}}
@@ -150,6 +150,13 @@
                 </tbody>
             </table>
         </AddonsService::FileManager>
+    {{else}}
+        <GoogleFilePickerWidget
+            @selectedFolderName={{this.selectedFolderDisplayName}}
+            @selectFolder={{action this.selectFolder}}
+            @isFolderPicker={{true}}
+            @accountId={{this.accountId}}
+        ></GoogleFilePickerWidget>
     {{/if}}
     <div local-class='footer-buttons-wrapper'>
         <Button

@@ -1,0 +1,27 @@
+<div {{did-insert this.registerComponent}} 
+local-class='google-file-picker-container {{if this.isMobile 'mobile'}}'
+>
+    {{#if this.isFolderPicker}}
+        <div local-class='instruction-container'>
+            {{#if this.folderName}}
+                <p>
+                    <b>
+                        {{~t 'addons.configure.google-file-picker.selected-folder'~}}:
+                    </b>
+                    <span>
+                        {{this.folderName}}
+                    </span>
+                </p>
+            {{/if}}
+        </div>
+        <div local-class='action-container'>
+            <button class='btn btn-primary btn-medium' local-class='authorize-button {{if this.visible 'visible'}}' type='button' id='authorize_button' 
+                {{on 'click' (action this.handleAuthClick)}}
+            >
+                {{t 'addons.configure.google-file-picker.select-root-folder'}}
+            </button>
+        </div>
+    {{/if}}
+    <script async defer src='https://apis.google.com/js/api.js' onload='window.GoogleFilePickerWidget.gapiLoaded()'></script>
+    <script async defer src='https://accounts.google.com/gsi/client' onload='window.GoogleFilePickerWidget.gisLoaded()'></script>
+</div>
