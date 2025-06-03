@@ -43,6 +43,44 @@
                 />
             {{/if}}
         </div>
+        {{#if (feature-flag 'manual_doi_and_guid')}}
+            <FormControls
+                @changeset={{this.manager.guidAndDoiFormChangeset}}
+                data-test-form
+                as |form|
+            >
+                {{#let (unique-id 'manualDoi') as |manualDoiField|}}
+                    <label for={{manualDoiField}}
+                        data-test-manual-doi-label
+                    >
+                        {{t 'preprints.submit.step-title.doi'}}
+                    </label>
+                    <form.text
+                        data-test-manual-doi-input
+                        {{on 'change' this.manager.validateManualDoiAndGuid}}
+                        @valuePath={{'manualDoi'}}
+                        @isRequired={{false}}
+                        @uniqueID={{manualDoiField}} 
+                        @onKeyUp={{this.manager.validateManualDoiAndGuid}}
+                    />
+                {{/let}}
+                {{#let (unique-id 'manualGuid') as |manualGuidField|}}
+                    <label for={{manualGuidField}}
+                        data-test-manudal-guid-label
+                    >
+                        {{t 'preprints.submit.step-title.guid'}}
+                    </label>
+                    <form.text
+                        data-test-manual-guid-input
+                        {{on 'change' this.manager.validateManualDoiAndGuid}}
+                        @valuePath={{'manualGuid'}}
+                        @isRequired={{false}}
+                        @uniqueID={{manualGuidField}} 
+                        @onKeyUp={{this.manager.validateManualDoiAndGuid}}
+                    />
+                {{/let}}
+            </FormControls>
+        {{/if}}
     </dialog.main>
     <dialog.footer>
         <Button

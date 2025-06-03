@@ -48,6 +48,42 @@
                     @onKeyUp={{this.validate}}
                 />
             {{/let}}
+            {{#if (feature-flag 'manual_doi_and_guid')}}
+                {{#let (unique-id 'manualDoi') as |manualDoiField|}}
+                    <label for={{manualDoiField}}
+                        data-test-manual-doi-label
+                    >
+                        {{t 'preprints.submit.step-title.doi'}}
+                        <span local-class='required'>*</span>
+                    </label>
+                    <form.text
+                        data-test-manual-doi-input
+                        @valuePath={{'manualDoi'}}
+                        @isRequired={{false}}
+                        {{on 'change' this.validate}}
+                        local-class='input-container'
+                        @uniqueID={{manualDoiField}} 
+                        @onKeyUp={{this.validate}}
+                    />
+                {{/let}}
+                {{#let (unique-id 'manualGuid') as |manualGuidField|}}
+                    <label for={{manualGuidField}}
+                        data-test-manudal-guid-label
+                    >
+                        {{t 'preprints.submit.step-title.guid'}}
+                        <span local-class='required'>*</span>
+                    </label>
+                    <form.text
+                        data-test-manual-guid-input
+                        @valuePath={{'manualGuid'}}
+                        @isRequired={{false}}
+                        {{on 'change' this.validate}}
+                        local-class='input-container'
+                        @uniqueID={{manualGuidField}} 
+                        @onKeyUp={{this.validate}}
+                    />
+                {{/let}}
+            {{/if}}
         </FormControls>
     </div>
 </div>

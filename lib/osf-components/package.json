@@ -24,6 +24,7 @@
     "ember-intl": "*",
     "ember-radio-button": "*",
     "ember-responsive": "*",
-    "ember-in-viewport": "*"
+    "ember-in-viewport": "*",
+    "ember-feature-flags": "*"
   }
 }
