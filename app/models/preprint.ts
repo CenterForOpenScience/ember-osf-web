@@ -82,6 +82,8 @@ export default class PreprintModel extends AbstractNodeModel {
     @attr('string') preregLinkInfo!: PreprintPreregLinkInfoEnum;
     @attr('number') version!: number;
     @attr('boolean') isLatestVersion!: boolean;
+    @attr('string') manualDoi!: string;
+    @attr('string') manualGuid!: string;
 
     @belongsTo('node', { inverse: 'preprints' })
     node!: AsyncBelongsTo<NodeModel> & NodeModel;

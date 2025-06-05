@@ -1622,6 +1622,8 @@ preprints:
             title-input: 'Title'
             abstract-input: 'Abstract'
             abstract-input-error: '20 characters'
+            doi: 'DOI'
+            guid: 'Guid'
         step-file:
             delete-modal-button: 'Continue'
             delete-modal-button-tooltip: 'Version file'
