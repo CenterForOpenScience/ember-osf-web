@@ -13,7 +13,6 @@ import Intl from 'ember-intl/services/intl';
 
 const {
     GOOGLE_FILE_PICKER_SCOPES,
-    GOOGLE_FILE_PICKER_CLIENT_ID,
     GOOGLE_FILE_PICKER_API_KEY,
     GOOGLE_FILE_PICKER_APP_ID,
 } = config.OSF.googleFilePicker;
@@ -68,12 +67,9 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     @tracked openGoogleFilePicker = false;
     @tracked visible = false;
     pickerInited = false;
-    gisInited = false;
     selectFolder: any = undefined;
-    tokenClient: any = undefined;
     accessToken!: string;
     scopes = GOOGLE_FILE_PICKER_SCOPES;
-    clientId = GOOGLE_FILE_PICKER_CLIENT_ID;
     apiKey = GOOGLE_FILE_PICKER_API_KEY;
     appId = GOOGLE_FILE_PICKER_APP_ID;
     mimeTypes = '';
@@ -137,12 +133,12 @@ export default class GoogleFilePickerWidget extends Component<Args> {
      * @param file - The file object selected (format determined by external API)
      */
     @action
-    filePickerCallback(file: any) {
+    filePickerCallback(data: any) {
         if (this.selectFolder !== undefined) {
-            this.folderName = file.name;
+            this.folderName = data.name;
             this.selectFolder({
-                itemName: file.name,
-                itemId: file.id,
+                itemName: data.name,
+                itemId: data.id,
             });
         } else {
             this.args.manager.reload();
@@ -166,9 +162,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
 
     willDestroy() {
         super.willDestroy();
-        delete this.tokenClient;
         this.pickerInited = false;
-        this.gisInited = false;
     }
 
 
@@ -184,23 +178,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     * discovery doc to initialize the API.
     */
     async initializePicker() {
-        await window.gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
         this.pickerInited = true;
-        this.maybeEnableButtons();
-    }
-
-    /**
-    * Callback after Google Identity Services are loaded.
-    */
-    gisLoaded() {
-        if (!this.tokenClient) {
-            this.tokenClient = window.google?.accounts?.oauth2.initTokenClient({
-                client_id: this.clientId,
-                scope: this.scopes,
-                callback: '', // defined later
-            });
-        }
-        this.gisInited = true;
         this.maybeEnableButtons();
     }
 
@@ -208,7 +186,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     * Enables user interaction after all libraries are loaded.
     */
     maybeEnableButtons() {
-        if (this.pickerInited && this.gisInited && this.isFolderPicker) {
+        if (this.pickerInited && this.isFolderPicker) {
             this.visible = true;
         }
     }
@@ -218,21 +196,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     */
     @action
     handleAuthClick() {
-        this.tokenClient.callback = async (response: any) => {
-            if (response.error !== undefined) {
-                throw (response);
-            }
-            await this.createPicker();
-        };
-
-        if (this.accessToken === null) {
-            // Prompt the user to select a Google Account and ask for consent to share their data
-            // when establishing a new session.
-            this.tokenClient?.requestAccessToken({prompt: 'consent'});
-        } else {
-            // Skip display of account chooser and consent dialog for an existing session.
-            this.tokenClient?.requestAccessToken({prompt: ''});
-        }
+        this.createPicker();
     }
 
     /**
@@ -263,14 +227,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     */
     async pickerCallback(data: any) {
         if (data.action === window.google.picker.Action.PICKED) {
-            const document = data[window.google.picker.Response.DOCUMENTS][0];
-            const fileId = document[window.google.picker.Document.ID];
-            const res = await window.gapi.client.drive.files.get({
-                fileId,
-                fields: '*',
-            });
-            // Correctly call the Ember method
-            this.filePickerCallback(res.result);
+            this.filePickerCallback(data.docs[0]);
         }
     }
 }
