@@ -66,6 +66,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     @tracked isFolderPicker = false;
     @tracked openGoogleFilePicker = false;
     @tracked visible = false;
+    @tracked isGFPDisabled = true;
     pickerInited = false;
     selectFolder: any = undefined;
     accessToken!: string;
@@ -120,6 +121,7 @@ export default class GoogleFilePickerWidget extends Component<Args> {
             authorizedStorageAccount.serializeOauthToken = true;
             const token = await authorizedStorageAccount.save();
             this.accessToken = token.oauthToken;
+            this.isGFPDisabled = this.accessToken ? false : true;
         }
     }
 
@@ -142,14 +144,6 @@ export default class GoogleFilePickerWidget extends Component<Args> {
             });
         } else {
             this.args.manager.reload();
-        }
-    }
-
-    @action
-    openPicker() {
-        // Logic for opening Google File Picker here
-        if (this.handleAuthClick) {
-            this.handleAuthClick();
         }
     }
 
@@ -179,29 +173,15 @@ export default class GoogleFilePickerWidget extends Component<Args> {
     */
     async initializePicker() {
         this.pickerInited = true;
-        this.maybeEnableButtons();
-    }
-
-    /**
-    * Enables user interaction after all libraries are loaded.
-    */
-    maybeEnableButtons() {
-        if (this.pickerInited && this.isFolderPicker) {
+        if (this.isFolderPicker) {
             this.visible = true;
         }
     }
 
     /**
-    *  Sign in the user upon button click.
-    */
-    @action
-    handleAuthClick() {
-        this.createPicker();
-    }
-
-    /**
     *  Create and render a Picker object for searching images.
     */
+    @action
     createPicker() {
         const googlePickerView = new window.google.picker.DocsView(window.google.picker.ViewId.DOCS);
         googlePickerView.setSelectFolderEnabled(true);

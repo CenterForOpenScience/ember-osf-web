@@ -46,6 +46,10 @@ export default class FileBrowser extends Component<Args> {
         return this.isWBGoogleDrive;
     }
 
+    get isGoogleAuthorized(): boolean {
+        return this.googlePickerComponent?.isGFPDisabled || false;
+    }
+
     @action
     registerChild(child: GoogleFilePickerWidget) {
         this.googlePickerComponent = child; // Store the child's instance
@@ -55,7 +59,7 @@ export default class FileBrowser extends Component<Args> {
     openGoogleFilePicker(dropdown: any) {
         dropdown.close();
         if (this.googlePickerComponent) {
-            this.googlePickerComponent.openPicker();
+            this.googlePickerComponent.createPicker();
         }
     }
 }

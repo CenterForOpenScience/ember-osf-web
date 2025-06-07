@@ -40,6 +40,7 @@
                     data-test-add-google-drive
                     @layout='fake-link'
                     {{on 'click' (fn this.openGoogleFilePicker dropdown)}}
+                    disabled={{this.isGoogleAuthorized}}
                 >
                     {{t 'osf-components.file-browser.add-from-drive'}}
                 </Button>
