@@ -48,7 +48,7 @@
                     @onKeyUp={{this.validate}}
                 />
             {{/let}}
-            {{#if (feature-flag 'manual_doi_and_guid')}}
+            {{#if (and (feature-flag 'manual_doi_and_guid') (not @manager.isEditFlow))}}
                 {{#let (unique-id 'manualDoi') as |manualDoiField|}}
                     <label for={{manualDoiField}}
                         data-test-manual-doi-label
