@@ -316,6 +316,7 @@ module.exports = function(environment) {
             },
             storageI18n: 'storage_i18n',
             gravyWaffle: 'gravy_waffle',
+            manualDoiAndGuid: 'manual_doi_and_guid',
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
             ABTesting: {
