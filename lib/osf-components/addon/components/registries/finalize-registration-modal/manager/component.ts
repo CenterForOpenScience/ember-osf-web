@@ -14,6 +14,10 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import { ValidationObject } from 'ember-changeset-validations';
+import { validateFormat, validateLength } from 'ember-changeset-validations/validators';
+import { DOIRegex } from 'ember-osf-web/utils/doi';
 import template from './template';
 
 export interface FinalizeRegistrationModalManager {
@@ -25,6 +29,11 @@ export interface FinalizeRegistrationModalManager {
     draftManager: DraftRegistrationManager;
 }
 
+interface ManualDoiAndGuidForm {
+    manualDoi: string;
+    manualGuid: string;
+}
+
 @layout(template)
 @tagName('')
 export default class FinalizeRegistrationModalManagerComponent extends Component
@@ -32,9 +41,32 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
     @service intl!: Intl;
     @service toast!: Toast;
 
+    // validationFunction() {
+    //     debugger;
+    // }
+    manualDoiAndGuidFormChangesetValidation: ValidationObject<ManualDoiAndGuidForm> = {
+        manualDoi: validateFormat({
+            allowBlank: true,
+            allowNone: true,
+            ignoreBlank: true,
+            regex: DOIRegex,
+            type: 'invalid_doi',
+        }),
+        // manualDoi: this.validationFunction,
+        manualGuid: validateLength({
+            allowBlank: true,
+            min:5,
+            type: 'greaterThanOrEqualTo',
+            translationArgs: {
+                description: this.intl.t('preprints.submit.step-title.guid'),
+                gte: '5 characters',
+            },
+        }),
+    };
     // Required arguments
     registration!: RegistrationModel;
     draftManager!: DraftRegistrationManager;
+    guidAndDoiFormChangeset!: any;
 
     // Optional arguments
     onSubmitRegistration?: (registrationId: string) => void;
@@ -67,6 +99,14 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
 
     didReceiveAttrs() {
         assert('finalize-registration-modal::manager must have a registration', Boolean(this.registration));
+        this.guidAndDoiFormChangeset = buildChangeset(this.registration, this.manualDoiAndGuidFormChangesetValidation);
+    }
+
+    @action
+    validateManualDoiAndGuid() {
+        // debugger;
+        this.guidAndDoiFormChangeset.validate();
+        this.guidAndDoiFormChangeset.execute();
     }
 
     @action
