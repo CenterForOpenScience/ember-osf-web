@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr} from '@ember-data/model';
 import { OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
 
 export enum ConnectedCapabilities {
@@ -35,7 +35,6 @@ export default class AuthorizedAccountModel extends Model {
         // To be implemented in child classes
         return;
     }
-
 
     async getItemInfo(this: AuthorizedAccountModel, _itemId: string) : Promise<any> {
         // To be implemented in child classes

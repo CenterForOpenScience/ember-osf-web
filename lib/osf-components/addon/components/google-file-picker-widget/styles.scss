@@ -1,0 +1,25 @@
+// stylelint-disable max-nesting-depth, selector-max-compound-selectors, selector-no-qualifying-type
+
+.google-file-picker-container {
+    width: 100%;
+
+    &.file-picker {
+        width: 0;
+    }
+
+    .instruction-container {
+        width: 100%;
+    }
+
+    .action-container {
+        width: 100%;
+
+        .authorize-button {
+            visibility: hidden;
+
+            &.visible {
+                visibility: visible;
+            }
+        }
+    }
+}

@@ -237,6 +237,7 @@ export default class Provider {
             accountOwner: this.userReference,
         });
         await newAccount.save();
+        newAccount.initiateOauth = null;
         return newAccount;
     }
 
