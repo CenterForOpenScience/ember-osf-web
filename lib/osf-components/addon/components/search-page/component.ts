@@ -83,7 +83,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
     @tracked booleanFilters?: RelatedPropertyPathModel[] = [];
     @tracked page?: string = '';
-    @tracked totalResultCount?: string | number;
+    @tracked totalResultCount?: number | {'@id': string};
     @tracked firstPageCursor?: string | null;
     @tracked prevPageCursor?: string | null;
     @tracked nextPageCursor?: string | null;
@@ -263,7 +263,7 @@ export default class SearchPage extends Component<SearchArgs> {
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
-            this.totalResultCount = searchResult.totalResultCount === ShareMoreThanTenThousand ? '10,000+' :
+            this.totalResultCount = searchResult.totalResultCount?.['@id'] === ShareMoreThanTenThousand ? '10,000+' :
                 searchResult.totalResultCount;
         } catch (e) {
             this.toast.error(e);
