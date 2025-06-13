@@ -381,6 +381,8 @@ links:
     linked-service: 'Linked Service'
     display-name: 'Display Name'
     resource-type: 'Resource Type'
+    empty-screen-message: 'This project has no configured linked services at a moment '
+    point-to-addons-message: 'In order to add linked service visit'
     link: 'Link'
     edit: 'Edit'
     icon: '{addonName} icon'
