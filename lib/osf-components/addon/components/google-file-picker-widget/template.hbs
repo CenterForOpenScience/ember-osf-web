@@ -1,5 +1,5 @@
 <div {{did-insert this.registerComponent}} 
-local-class='google-file-picker-container {{if this.isMobile 'mobile'}}'
+local-class='google-file-picker-container {{if this.isMobile 'mobile'}} {{if this.isFolderPicker 'file-picker'}}'
 >
     {{#if this.isFolderPicker}}
         <div local-class='instruction-container'>

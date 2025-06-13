@@ -2,16 +2,17 @@
 
 .google-file-picker-container {
     width: 100%;
-    border: 1px solid blacl;
+
+    &.file-picker {
+        width: 0;
+    }
 
     .instruction-container {
         width: 100%;
-        border: 1px solid blacl;
     }
 
     .action-container {
         width: 100%;
-        border: 1px solid blacl;
 
         .authorize-button {
             visibility: hidden;
