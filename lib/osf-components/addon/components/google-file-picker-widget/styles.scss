@@ -1,10 +1,10 @@
 // stylelint-disable max-nesting-depth, selector-max-compound-selectors, selector-no-qualifying-type
 
 .google-file-picker-container {
-    width: 100%;
+    width: 0;
 
     &.file-picker {
-        width: 0;
+        width: 100%;
     }
 
     .instruction-container {
