@@ -94,8 +94,26 @@ const capabilitiesToTextKeyMap: Record<ServiceTranslationKey, Partial<Record<Cap
         },
     },
     link: {
+        [ExternalServiceCapabilities.ADD_UPDATE_FILES]: {
+            false: 'addons.terms.link.add-update-files-false',
+        },
+        [ExternalServiceCapabilities.DELETE_FILES]: {
+            false: 'addons.terms.link.delete-files-false',
+        },
         [ExternalServiceCapabilities.FORKING]: {
-            partial: 'addons.terms.computing.forking-partial',
+            partial: 'addons.terms.link.forking-partial',
+        },
+        [ExternalServiceCapabilities.LOGS]: {
+            partial: 'addons.terms.link.logs-partial',
+        },
+        [ExternalServiceCapabilities.PERMISSIONS]: {
+            true: 'addons.terms.link.permissions-true',
+        },
+        [ExternalServiceCapabilities.REGISTERING]: {
+            false: 'addons.terms.link.registering-false',
+        },
+        [ExternalServiceCapabilities.FILE_VERSIONS]: {
+            false: 'addons.terms.link.file-versions-false',
         },
     },
 };
@@ -138,7 +156,13 @@ export default class TermsOfServiceComponent extends Component<Args> {
             this.baseTranslationKey = 'citation';
         } else if (args.provider instanceof ExternalLinkServiceModel) {
             this.applicableCapabilities = [
+                ExternalServiceCapabilities.ADD_UPDATE_FILES,
+                ExternalServiceCapabilities.DELETE_FILES,
                 ExternalServiceCapabilities.FORKING,
+                ExternalServiceCapabilities.LOGS,
+                ExternalServiceCapabilities.PERMISSIONS,
+                ExternalServiceCapabilities.REGISTERING,
+                ExternalServiceCapabilities.FILE_VERSIONS,
             ];
             this.baseTranslationKey = 'link';
         }
