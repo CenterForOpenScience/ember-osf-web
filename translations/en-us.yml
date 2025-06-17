@@ -312,7 +312,7 @@ addons:
         link:
             add-update-files-false: 'You cannot add or update files for {provider} within OSF.'
             delete-files-false: 'You cannot delete files for {provider} within OSF.'
-            forking-partial: 'Forking a project or component does not copy {provider} authorization unless the user forking the project is the same user who authorized the <Provider> add-on in the source project being forked.'
+            forking-partial: 'Forking a project or component does not copy {provider} authorization unless the user forking the project is the same user who authorized the {provider} add-on in the source project being forked.'
             logs-partial: 'The OSF keeps track of changes you make to your {provider} content through the OSF, but not for changes made using {provider} directly.'
             permissions-true: 'The OSF does not change permissions for linked {provider} files. Privacy changes made to an OSF project or component will not affect those set in {provider}.'
             registering-false: '{provider} content will not be registered.'
