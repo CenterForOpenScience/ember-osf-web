@@ -3434,7 +3434,7 @@ settings:
             button-label: 'Update'
     addons:
         page-title: 'Add-ons'
-        title: 'Configure add-on accounts'
+        title: 'Configure Add-on & Link Services Accounts'
     notifications:
         title: Notifications
     developer-apps:
