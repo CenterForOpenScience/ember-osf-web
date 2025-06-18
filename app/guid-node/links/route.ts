@@ -10,8 +10,8 @@ export default class GuidNodeLinks extends Route {
         const resourceReferences = await this.store.query('resource-reference', {
             filter: {resource_uri: node.links.iri?.toString()},
         });
-        const resourceReference = resourceReferences.firstObject;
-        const configuredLinkAddons = await resourceReference.configuredLinkAddons;
+        const resourceReference = resourceReferences?.firstObject;
+        const configuredLinkAddons = await resourceReference?.configuredLinkAddons;
         return await {node, configuredLinkAddons};
     }
 }
