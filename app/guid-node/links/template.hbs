@@ -1,6 +1,11 @@
 <div local-class='links-page-wrapper'>
     <h2>{{t 'links.linked-services'}}</h2>
-    {{#if this.model.configuredLinkAddons}}
+    {{#if this.shouldShowEmptyPage}}
+        <p>{{t 'links.empty-screen-message'}}</p>
+        {{#if this.currentUserCanEdit}}
+            <p> {{t 'links.point-to-addons-message'}} <a href='/{{this.model.node.id}}/addons?activeFilterType=verified-link'>{{t 'addons.heading'}}</a></p>
+        {{/if}}
+    {{else}}
         <table local-class='table'>
             <thead>
                 <tr local-class='table-row'>
@@ -25,23 +30,20 @@
             </thead>
             <tbody>
                 {{#each this.model.configuredLinkAddons as |configuredLinkAddon|}}
-                    <tr local-class='table-row'>
-                        <td local-class='table-cell'>
-                            <img alt={{t 'links.logo'}} local-class='logo'
-                                 src={{configuredLinkAddon.externalLinkService.iconUrl}}>
-                            <span>{{configuredLinkAddon.externalLinkService.displayName}}</span>
-                        </td>
-                        <td local-class='table-cell'>{{configuredLinkAddon.displayName}}</td>
-                        <td local-class='table-cell'>{{configuredLinkAddon.resourceType}}</td>
-                        <td local-class='table-cell'><a href={{configuredLinkAddon.targetUrl}}>{{t 'links.link'}}</a></td>
-                    </tr>
+                    {{#if configuredLinkAddon.targetUrl}}
+                        <tr local-class='table-row'>
+                            <td local-class='table-cell'>
+                                <img alt={{t 'links.logo'}} local-class='logo'
+                                    src={{configuredLinkAddon.externalLinkService.iconUrl}}>
+                                <span>{{configuredLinkAddon.externalLinkService.displayName}}</span>
+                            </td>
+                            <td local-class='table-cell'>{{configuredLinkAddon.displayName}}</td>
+                            <td local-class='table-cell'>{{configuredLinkAddon.resourceType}}</td>
+                            <td local-class='table-cell'><a href={{configuredLinkAddon.targetUrl}}>{{t 'links.link'}}</a></td>
+                        </tr>
+                    {{/if}}
                 {{/each}}
             </tbody>
         </table>
-    {{else}}
-        <p>{{t 'links.empty-screen-message'}}</p>
-        {{#if this.currentUserCanEdit}}
-            <p> {{t 'links.point-to-addons-message'}} <a href='/{{this.model.node.id}}/addons?activeFilterType=verified-link'>{{t 'addons.heading'}}</a></p>
-        {{/if}}
     {{/if}}
 </div>
