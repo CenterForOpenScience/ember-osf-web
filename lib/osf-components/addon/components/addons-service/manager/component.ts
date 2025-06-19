@@ -313,6 +313,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             } else if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredLinkAddonModel) {
                 this.selectedConfiguration.targetId = args.targetId;
                 this.selectedConfiguration.resourceType = args.resourceType;
+                this.selectedConfiguration.displayName = args.displayName;
                 await this.selectedConfiguration.save();
             }
             this.cancelSetup();
