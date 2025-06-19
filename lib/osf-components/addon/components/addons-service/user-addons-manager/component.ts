@@ -10,23 +10,27 @@ import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import UserReferenceModel from 'ember-osf-web/models/user-reference';
-import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
-import CurrentUserService from 'ember-osf-web/services/current-user';
 import AuthorizedAccountModel, { AccountCreationArgs } from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
-import UserModel from 'ember-osf-web/models/user';
+import AuthorizedLinkAccountModel from 'ember-osf-web/models/authorized-link-account';
 
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
+import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
+
+import UserModel from 'ember-osf-web/models/user';
+import UserReferenceModel from 'ember-osf-web/models/user-reference';
+
+import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
+
+import CurrentUserService from 'ember-osf-web/services/current-user';
+
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import getHref from 'ember-osf-web/utils/get-href';
 
-import AuthorizedLinkAccountModel from 'ember-osf-web/models/authorized-link-account';
-import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
 import { FilterTypes } from '../manager/component';
 
 enum UserSettingPageModes {
@@ -167,6 +171,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
             break;
         case 'authorized-computing-account':
             providerId = (account as AuthorizedComputingAccountModel).externalComputingService.get('id');
+            break;
+        case 'authorized-link-account':
+            providerId = (account as AuthorizedLinkAccountModel).externalLinkService.get('id');
             break;
         default:
             break;
