@@ -66,7 +66,8 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get isLinkAddon() {
-        return this.args.configuredAddon instanceof ConfiguredLinkAddonModel;
+        return this.args.configuredAddon instanceof ConfiguredLinkAddonModel ||
+            this.args.authorizedAccount instanceof AuthorizedLinkAccountModel;
     }
 
     get requiresFilesWidget() {
