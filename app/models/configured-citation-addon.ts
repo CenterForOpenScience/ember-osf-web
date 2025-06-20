@@ -3,7 +3,10 @@ import { AsyncBelongsTo, belongsTo } from '@ember-data/model';
 import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
-import { ConnectedCitationOperationNames, OperationKwargs } from 'ember-osf-web/models/addon-operation-invocation';
+import {
+    ConnectedCitationOperationNames, Item, OperationKwargs,
+} from 'ember-osf-web/models/addon-operation-invocation';
+import { taskFor } from 'ember-concurrency-ts';
 import AuthorizedCitationAccountModel from './authorized-citation-account';
 import ExternalCitationServiceModel from './external-citation-service';
 import ConfiguredAddonModel from './configured-addon';
@@ -47,6 +50,13 @@ export default class ConfiguredCitationAddonModel extends ConfiguredAddonModel {
             thruAddon: this,
         });
         return await newInvocation.save();
+    }
+
+    @task
+    @waitFor
+    async getSelectedItemName(this: ConfiguredCitationAddonModel) {
+        const response = await taskFor(this.getItemInfo).perform(this.rootFolder);
+        this.rootFolderName = (response.operationResult as Item).itemName;
     }
 }
 
