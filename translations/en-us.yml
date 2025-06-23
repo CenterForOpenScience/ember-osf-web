@@ -374,6 +374,7 @@ addons:
         selected-folder: 'Selected folder:'
         linked-item: 'Linked item:'
         no-folder-selected: 'No folder selected'
+        no-item-selected: 'No item selected'
         go-to-root: 'Go to home folder'
         go-to-folder: 'Go to folder {folderName}'
         select-folder: 'Select {folderName} as root folder'
