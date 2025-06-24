@@ -247,6 +247,7 @@ addons:
         confirm-remove-connected-location: 'You are about to disconnect the addon below from the project.'
         connected-to-account: 'Connected to account'
         root-folder-not-set: 'Root folder not set'
+        target-not-set: 'Target not set'
         sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.'
         sync-details-2: 'To manage all add-ons connected to your account, visit your profile settings.'
         sync-details-3: 'Manage your connected Add-ons, re-authorize, disconnect account, or disconnect project'
