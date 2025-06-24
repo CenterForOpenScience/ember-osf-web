@@ -256,7 +256,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         if (this.selectedProvider) {
             const newAccount = await taskFor(this.createAuthorizedAccount).perform(arg);
             if (newAccount) {
-                await taskFor(this.createConfiguredAddon).perform(newAccount);
+                this.selectedAccount = newAccount;
                 this.pageMode = PageMode.CONFIGURE;
             }
         }
