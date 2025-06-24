@@ -35,6 +35,8 @@
                     {{this.selectedFolderDisplayName}}
                 {{else if this.selectedItemDisplayName}}
                     {{this.selectedItemDisplayName}}
+                {{else if this.isLinkAddon}}
+                    {{t 'addons.configure.no-item-selected'}}
                 {{else}}
                     {{t 'addons.configure.no-folder-selected'}}
                 {{/if}}
