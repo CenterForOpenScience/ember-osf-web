@@ -1,7 +1,10 @@
 import { action } from '@ember/object';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { TaskInstance } from 'ember-concurrency';
+import { task, TaskInstance } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
+
 
 import { Item, ItemType } from 'ember-osf-web/models/addon-operation-invocation';
 import AuthorizedAccountModel from 'ember-osf-web/models/authorized-account';
@@ -14,6 +17,7 @@ import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citati
 import ConfiguredComputingAddonModel from 'ember-osf-web/models/configured-computing-addon';
 import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
 import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
+import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 
 
 interface Args {
@@ -30,6 +34,9 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked selectedItem = '';
     @tracked selectedItemDisplayName = '';
     @tracked selectedResourceType = '';
+    @tracked isWBGoogleDrive = false;
+    @tracked accountId!: string;
+
     originalName = this.displayName;
     originalRootFolder = this.selectedFolder;
     originalSelectedItem = this.selectedItem;
@@ -41,6 +48,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         super(owner, args);
         if (this.args.configuredAddon) {
             if (this.args.configuredAddon instanceof ConfiguredStorageAddonModel) {
+                taskFor(this.loadExternalStorageService).perform();
                 this.defaultKwargs['itemType'] = ItemType.Folder;
             }
             if (this.args.configuredAddon instanceof ConfiguredCitationAddonModel) {
@@ -54,6 +62,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
         }
         if (this.args.authorizedAccount) {
             if (this.args.authorizedAccount instanceof AuthorizedStorageAccountModel) {
+                taskFor(this.loadExternalStorageService).perform();
                 this.defaultKwargs['itemType'] = ItemType.Folder;
             }
             if (this.args.authorizedAccount instanceof AuthorizedCitationAccountModel) {
@@ -71,11 +80,41 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     }
 
     get requiresFilesWidget() {
+    /**
+     * This is called only to authorize because the current implementation will throw an
+     * error because the "root folder" is not yet set.
+     */
         return !(
             this.args.authorizedAccount instanceof AuthorizedComputingAccountModel
             ||
             this.args.configuredAddon instanceof ConfiguredComputingAddonModel
         );
+    }
+
+    @task
+    @waitFor
+    async loadExternalStorageService() {
+        let external!: ExternalStorageServiceModel;
+        if (this.args.configuredAddon && this.args.configuredAddon instanceof ConfiguredStorageAddonModel) {
+            const baseAccount = await this.args.configuredAddon.baseAccount;
+            this.accountId = baseAccount?.id;
+            external = await this.args.configuredAddon.externalStorageService;
+        }
+        if (this.args.authorizedAccount && this.args.authorizedAccount instanceof AuthorizedStorageAccountModel) {
+            external = await this.args.authorizedAccount.externalStorageService;
+
+            this.accountId =  this.args.authorizedAccount.id;
+        }
+
+        this.isWBGoogleDrive = external?.wbKey === 'googledrive';
+    }
+
+    get isGoogleDrive(): boolean {
+        return this.isWBGoogleDrive;
+    }
+
+    get displayFileManager(): boolean {
+        return this.requiresFilesWidget && !this.isGoogleDrive;
     }
 
     get invalidDisplayName() {

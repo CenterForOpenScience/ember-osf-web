@@ -368,6 +368,11 @@ addons:
         verify: 'Connect the following account:'
         authorizing: 'Connecting…'
     configure:
+        google-file-picker: 
+            select-root-folder: 'Select Root Folder'
+            selected-folder: 'Selected Folder'
+            root-folder-title: 'Select a root folder'
+            file-folder-title: 'Select a file or folder to add'
         heading: 'Configure {providerName}'
         resource-type: 'Resource type'
         resource-type-placeholder: 'Choose a resource type'
@@ -1646,6 +1651,8 @@ preprints:
             title-input: 'Title'
             abstract-input: 'Abstract'
             abstract-input-error: '20 characters'
+            doi: 'DOI'
+            guid: 'Guid'
         step-file:
             delete-modal-button: 'Continue'
             delete-modal-button-tooltip: 'Version file'
@@ -3062,6 +3069,7 @@ osf-components:
             error_ends_with_dot: 'File name cannot end with period'
             error_forbidden_chars: 'Please remove special characters from the folder name.'
         add_button_aria: 'Add files or folders here'
+        add-from-drive: 'Add from Drive'
         upload_file: 'Upload file'
         uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
         upload_failed: '{fileCount, plural, one {# file} other {# files}} failed, click to try again'

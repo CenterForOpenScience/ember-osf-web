@@ -21,7 +21,7 @@
             </span>
         {{/if}}
     </div>
-    {{#if this.requiresFilesWidget }}
+    {{#if this.displayFileManager}}
         <div local-class='input-wrapper'>
             <b>
                 {{#if this.isLinkAddon}}
@@ -158,6 +158,13 @@
                 </tbody>
             </table>
         </AddonsService::FileManager>
+    {{else}}
+        <GoogleFilePickerWidget
+            @selectedFolderName={{this.selectedFolderDisplayName}}
+            @selectFolder={{action this.selectFolder}}
+            @isFolderPicker={{true}}
+            @accountId={{this.accountId}}
+        ></GoogleFilePickerWidget>
     {{/if}}
     {{#if this.isLinkAddon}}
         <label>

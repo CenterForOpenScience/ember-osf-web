@@ -34,7 +34,27 @@
             >
                 {{t 'osf-components.file-browser.upload_file'}}
             </Button>
+            {{#if this.isGoogleDrive}}
+                <Button
+                    data-analytics-name='Add a file from Google Drive'
+                    data-test-add-google-drive
+                    @layout='fake-link'
+                    {{on 'click' (fn this.openGoogleFilePicker dropdown)}}
+                    disabled={{this.isGoogleAuthorized}}
+                >
+                    {{t 'osf-components.file-browser.add-from-drive'}}
+                </Button>
+            {{/if}}
         </dropdown.content>
     </ResponsiveDropdown>
     <FileBrowser::AddNew::CreateFolderModal @isOpen={{this.createFolderModalOpen}} @manager={{@manager}} />
+    {{#if this.isGoogleDrive}}
+        <GoogleFilePickerWidget
+            @isFolderPicker={{false}}
+            @accountId={{this.accountId}}
+            @onRegisterChild={{this.registerChild}}
+            @rootFolderId={{this.googleFilePickerRootFolder}}
+            @manager={{@manager}}
+        ></GoogleFilePickerWidget>
+    {{/if}}
 {{/let}}

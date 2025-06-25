@@ -102,6 +102,13 @@ const {
     SHARE_SEARCH_URL: shareSearchUrl = 'http://localhost:8003/api/v2/search/creativeworks/_search',
     SOURCEMAPS_ENABLED: sourcemapsEnabled = true,
     SHOW_DEV_BANNER = false,
+
+    GOOGLE_FILE_PICKER_SCOPES,
+    /* eslint-disable-next-line max-len */
+    GOOGLE_FILE_PICKER_CLIENT_ID,
+    GOOGLE_FILE_PICKER_API_KEY,
+    GOOGLE_FILE_PICKER_APP_ID,
+
 } = { ...process.env, ...localConfig };
 
 module.exports = function(environment) {
@@ -224,6 +231,12 @@ module.exports = function(environment) {
             doiUrlPrefix: 'https://doi.org/',
             dataciteTrackerRepoId,
             dataCiteTrackerUrl,
+            googleFilePicker: {
+                GOOGLE_FILE_PICKER_SCOPES,
+                GOOGLE_FILE_PICKER_CLIENT_ID,
+                GOOGLE_FILE_PICKER_API_KEY,
+                GOOGLE_FILE_PICKER_APP_ID,
+            },
         },
         social: {
             twitter: {
@@ -316,6 +329,7 @@ module.exports = function(environment) {
             },
             storageI18n: 'storage_i18n',
             gravyWaffle: 'gravy_waffle',
+            manualDoiAndGuid: 'manual_doi_and_guid',
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
             ABTesting: {

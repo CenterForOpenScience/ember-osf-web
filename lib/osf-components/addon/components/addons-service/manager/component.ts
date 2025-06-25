@@ -235,9 +235,8 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     @waitFor
     async createAuthorizedAccount(arg: AccountCreationArgs) {
         if (this.selectedProvider) {
-            const newAccount = await taskFor(this.selectedProvider.createAuthorizedAccount)
+            return await taskFor(this.selectedProvider.createAuthorizedAccount)
                 .perform(arg);
-            return newAccount;
         }
         return undefined;
     }
