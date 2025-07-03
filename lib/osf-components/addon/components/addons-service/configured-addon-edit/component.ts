@@ -68,9 +68,6 @@ export default class ConfiguredAddonEdit extends Component<Args> {
             if (this.args.authorizedAccount instanceof AuthorizedCitationAccountModel) {
                 this.defaultKwargs['filterItems'] = ItemType.Collection;
             }
-            if (this.args.authorizedAccount instanceof AuthorizedLinkAccountModel) {
-                // noop
-            }
         }
     }
 

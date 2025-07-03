@@ -3,7 +3,6 @@ import Model, { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import { tracked } from 'tracked-built-ins';
 import { SupportedResourceTypes } from 'ember-osf-web/models/external-link-service';
-// import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
 import { ConnectedStorageOperationNames, OperationKwargs } from './addon-operation-invocation';
 import { ConnectedCapabilities } from './authorized-account';
 
