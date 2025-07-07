@@ -24,11 +24,19 @@
     {{#if this.displayFileManager}}
         <div local-class='input-wrapper'>
             <b>
-                {{t 'addons.configure.selected-folder'}}
+                {{#if this.isLinkAddon}}
+                    {{t 'addons.configure.linked-item'}}
+                {{else}}
+                    {{t 'addons.configure.selected-folder'}}
+                {{/if}}
             </b>
             <span>
                 {{#if this.selectedFolderDisplayName}}
                     {{this.selectedFolderDisplayName}}
+                {{else if this.selectedItemDisplayName}}
+                    {{this.selectedItemDisplayName}}
+                {{else if this.isLinkAddon}}
+                    {{t 'addons.configure.no-item-selected'}}
                 {{else}}
                     {{t 'addons.configure.no-folder-selected'}}
                 {{/if}}
@@ -81,48 +89,48 @@
                             <td colspan='2'>{{t 'addons.configure.error-loading-items'}}</td>
                         </tr>
                     {{else}}
-                        {{#each fileManager.currentItems as |folder|}}
+                        {{#each fileManager.currentItems as |item|}}
                             <tr>
                                 <td>
-                                    {{#if folder.mayContainRootCandidates}}
+                                    {{#if (or item.mayContainRootCandidates fileManager.isLinkAddon)}}
                                         <Button
-                                            data-test-folder-link='{{folder.itemName}}'
+                                            data-test-folder-link='{{item.itemName}}'
                                             data-analytics-name='Go to folder'
                                             @layout='fake-link'
-                                            aria-label={{t 'addons.configure.go-to-folder' folderName=folder.itemName}}
-                                            {{on 'click' (fn fileManager.goToFolder folder)}}
+                                            aria-label={{t 'addons.configure.go-to-folder' folderName=item.itemName}}
+                                            {{on 'click' (fn fileManager.goToFolder item)}}
                                         >
                                             <span local-class='item-name'>
-                                                {{#if (or (eq folder.itemType 'FOLDER') (eq folder.itemType 'COLLECTION'))}}
+                                                {{#if (or (eq item.itemType 'FOLDER') (eq item.itemType 'COLLECTION'))}}
                                                     <FaIcon @icon='folder' />
                                                 {{else}}
                                                     <FaIcon @icon='file' />
                                                 {{/if}}
-                                                {{folder.itemName}}
+                                                {{item.itemName}}
                                             </span>
                                         </Button>
                                     {{else}}
                                         <span local-class='item-name'>
-                                            {{#if (or (eq folder.itemType 'FOLDER') (eq folder.itemType 'COLLECTION'))}}
+                                            {{#if (or (eq item.itemType 'FOLDER') (eq item.itemType 'COLLECTION'))}}
                                                 <FaIcon @icon='folder' />
                                             {{else}}
                                                 <FaIcon @icon='file' />
                                             {{/if}}
-                                            {{folder.itemName}}
+                                            {{item.itemName}}
                                         </span>
                                     {{/if}}
                                 </td>
                                 <td>
-                                    {{#if folder.canBeRoot}}
+                                    {{#if (or item.canBeRoot fileManager.isLinkAddon)}}
                                         <input
-                                            data-test-root-folder-option='{{folder.itemName}}'
+                                            data-test-root-folder-option='{{item.itemName}}'
                                             data-analytics-name='Select folder'
                                             type='radio'
                                             name='folder'
-                                            value={{folder.itemName}}
-                                            checked={{eq folder.itemId this.selectedFolder}}
-                                            aria-label={{t 'addons.configure.select-folder' folderName=folder.itemName}}
-                                            {{on 'change'(fn this.selectFolder folder)}}
+                                            value={{item.itemName}}
+                                            checked={{eq item.itemId this.selectedFolder}}
+                                            aria-label={{t 'addons.configure.select-folder' folderName=item.itemName}}
+                                            {{on 'change'(fn this.selectItem item)}}
                                         >
                                     {{/if}}
                                 </td>
@@ -153,10 +161,24 @@
     {{else}}
         <GoogleFilePickerWidget
             @selectedFolderName={{this.selectedFolderDisplayName}}
-            @selectFolder={{action this.selectFolder}}
+            @selectFolder={{action this.selectItem}}
             @isFolderPicker={{true}}
             @accountId={{this.accountId}}
         ></GoogleFilePickerWidget>
+    {{/if}}
+    {{#if this.isLinkAddon}}
+        <label>
+            {{t 'addons.configure.resource-type'}}
+            <PowerSelect
+                @options={{@supportedResourceTypes}}
+                @selected={{this.selectedResourceType}}
+                @onChange={{action (mut this.selectedResourceType)}}
+                @placeholder={{t 'addons.configure.resource-type-placeholder'}}
+                as |resourceType|
+            >
+                {{resourceType}}
+            </PowerSelect>
+        </label>
     {{/if}}
     <div local-class='footer-buttons-wrapper'>
         <Button

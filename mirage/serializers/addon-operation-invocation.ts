@@ -23,8 +23,7 @@ export interface MirageAddonOperationInvocation extends AddonOperationInvocation
 
 export default class AddonOperationInvocationSerializer extends AddonServiceSerializer<MirageAddonOperationInvocation> {
     buildRelationships(model: ModelInstance<MirageAddonOperationInvocation>) {
-        const thruAddonType = model.thruAddonId.type;
-        return {
+        const relationships =  {
             byUser: {
                 links: {
                     related: {
@@ -36,7 +35,23 @@ export default class AddonOperationInvocationSerializer extends AddonServiceSeri
                     id: model.byUserId,
                 },
             },
-            thruAddon: {
+        };
+        if (model.thruAccountId) {
+            const thruAccountType = model.thruAccountId.type;
+            relationships.thruAccount =  {
+                links: {
+                    related: {
+                        href: `${addonServiceAPIUrl}${thruAccountType}/${model.thruAccountId}/`,
+                    },
+                },
+                data: {
+                    type: thruAccountType,
+                    id: model.thruAccountId,
+                },
+            };
+        } else {
+            const thruAddonType = model.thruAddonId.type;
+            relationships.thruAddon = {
                 links: {
                     related: {
                         href: `${addonServiceAPIUrl}${thruAddonType}/${model.thruAddonId}/`,
@@ -46,7 +61,8 @@ export default class AddonOperationInvocationSerializer extends AddonServiceSeri
                     type: thruAddonType,
                     id: model.thruAddonId,
                 },
-            },
-        };
+            };
+        }
+        return relationships;
     }
 }

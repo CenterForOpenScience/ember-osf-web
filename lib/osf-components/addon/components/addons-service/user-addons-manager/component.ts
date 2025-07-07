@@ -10,18 +10,24 @@ import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import UserReferenceModel from 'ember-osf-web/models/user-reference';
-import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
-import CurrentUserService from 'ember-osf-web/services/current-user';
 import AuthorizedAccountModel, { AccountCreationArgs } from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import AuthorizedCitationAccountModel from 'ember-osf-web/models/authorized-citation-account';
 import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-computing-account';
-import UserModel from 'ember-osf-web/models/user';
+import AuthorizedLinkAccountModel from 'ember-osf-web/models/authorized-link-account';
 
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
+import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
+
+import UserModel from 'ember-osf-web/models/user';
+import UserReferenceModel from 'ember-osf-web/models/user-reference';
+
+import Provider, {AllProviderTypes, AllAuthorizedAccountTypes} from 'ember-osf-web/packages/addons-service/provider';
+
+import CurrentUserService from 'ember-osf-web/services/current-user';
+
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import getHref from 'ember-osf-web/utils/get-href';
 
@@ -63,6 +69,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
             list: A([]) as EmberArray<Provider>,
             getAuthorizedAccountsTask: taskFor(this.getAuthorizedCitationAccounts),
             authorizedAccounts: [] as AuthorizedCitationAccountModel[],
+            authorizedServiceIds: [] as string[],
+        },
+        [FilterTypes.VERIFIED_LINK]: {
+            modelName: 'external-link-service',
+            fetchProvidersTask: taskFor(this.getLinkAddonProviders),
+            list: A([]) as EmberArray<Provider>,
+            getAuthorizedAccountsTask: taskFor(this.getAuthorizedLinkAccounts),
+            authorizedAccounts: [] as AuthorizedLinkAccountModel[],
             authorizedServiceIds: [] as string[],
         },
         // [FilterTypes.CLOUD_COMPUTING]: {
@@ -158,6 +172,9 @@ export default class UserAddonManagerComponent extends Component<Args> {
         case 'authorized-computing-account':
             providerId = (account as AuthorizedComputingAccountModel).externalComputingService.get('id');
             break;
+        case 'authorized-link-account':
+            providerId = (account as AuthorizedLinkAccountModel).externalLinkService.get('id');
+            break;
         default:
             break;
         }
@@ -232,6 +249,17 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
+    async getAuthorizedLinkAccounts() {
+        const { userReference } = this;
+        const mappedObject = this.filterTypeMapper[FilterTypes.VERIFIED_LINK];
+        const accounts = (await userReference.authorizedLinkAccounts).toArray();
+        mappedObject.authorizedAccounts = accounts;
+        mappedObject.authorizedServiceIds = accounts.map(account => account.externalLinkService.get('id'));
+        notifyPropertyChange(this, 'filterTypeMapper');
+    }
+
+    @task
+    @waitFor
     async getAuthorizedAccounts() {
         const activeTypeMap = this.filterTypeMapper[this.activeFilterType];
         await taskFor(activeTypeMap.getAuthorizedAccountsTask).perform();
@@ -278,6 +306,23 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const activeFilterObject = this.filterTypeMapper[FilterTypes.CITATION_MANAGER];
         const serviceCitationProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalCitationServiceModel[];
+        activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter)
+            .map(provider => new Provider(
+                provider,
+                this.currentUser,
+                undefined,
+                undefined,
+                undefined,
+                this.userReference,
+            ));
+    }
+
+    @task
+    @waitFor
+    async getLinkAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.VERIFIED_LINK];
+        const serviceCitationProviders = await taskFor(this.getExternalProviders)
+            .perform(activeFilterObject.modelName) as ExternalLinkServiceModel[];
         activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter)
             .map(provider => new Provider(
                 provider,

@@ -27,9 +27,14 @@ module('Integration | Component | addons-service | manager', hooks => {
             { id: mirageNode.id, configuredStorageAddons: [] });
         server.create('user-reference', { id: user.id });
         this.set('node', node);
+        this.set('activeFilterType', 'additional-storage');
+        this.set('tabIndex', 0);
         await render(hbs`
 <AddonsService::Manager
     @node={{this.node}}
+    @activeFilterType={{this.activeFilterType}}
+    @updateActiveFilterType={{fn (mut this.activeFilterType)}}
+    @updateTabIndex={{fn (mut this.tabIndex)}}
     as |manager|
 >
     {{#if manager.currentListIsLoading}}
