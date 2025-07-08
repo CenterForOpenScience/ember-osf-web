@@ -3,6 +3,9 @@
 <div local-class='addon-page-wrapper'>
     <AddonsService::Manager
         @node={{this.model}}
+        @activeFilterType={{this.activeFilterType}}
+        @updateActiveFilterType={{fn (mut this.activeFilterType)}}
+        @updateTabIndex={{fn (mut this.tabIndex)}}
         as |manager|
     >
         {{#if manager.selectedProvider}}
@@ -166,7 +169,7 @@
                                 <div
                                     data-test-configured-addon-name
                                     local-class='configured-addon-display-name'
-                                    {{did-insert (perform configuredAddon.getRootFolderName)}}
+                                    {{did-insert (perform configuredAddon.getSelectedItemName)}}
                                 >
                                     <span>{{configuredAddon.displayName}}</span>
                                     <span local-class='float-right'>
@@ -240,10 +243,18 @@
                                     {{manager.selectedConfiguration.displayName}}
                                 </div>
                                 <div>
-                                    {{#if manager.selectedConfiguration.rootFolder}}
-                                        {{manager.selectedConfiguration.rootFolderName}}
+                                    {{#if (instance-of manager.selectedConfiguration 'ConfiguredLinkAddon')}}
+                                        {{#if manager.selectedConfiguration.targetUrl}}
+                                            {{manager.selectedConfiguration.targetItemName}}
+                                        {{else}}
+                                            {{t 'addons.list.target-not-set'}}
+                                        {{/if}}
                                     {{else}}
-                                        {{t 'addons.list.root-folder-not-set'}}
+                                        {{#if manager.selectedConfiguration.rootFolder}}
+                                            {{manager.selectedConfiguration.rootFolderName}}
+                                        {{else}}
+                                            {{t 'addons.list.root-folder-not-set'}}
+                                        {{/if}}
                                     {{/if}}
                                 </div>
                                 <div>
@@ -274,6 +285,7 @@
                         <AddonsService::ConfiguredAddonEdit
                             @configuredAddon={{manager.selectedConfiguration}}
                             @authorizedAccount={{manager.selectedAccount}}
+                            @supportedResourceTypes={{manager.selectedProvider.provider.supportedResourceTypes}}
                             @onSave={{perform manager.saveOrCreateConfiguration}}
                             @onCancel={{manager.cancelSetup}}
                         />
@@ -282,7 +294,8 @@
             {{/let}}
         {{else}}
             <AriaTabs
-                @defaultIndex={{0}}
+                @selectedIndex={{this.tabIndex}}
+                @onSelect={{action (mut this.tabIndex)}}
                 local-class='tabs'
                 as |tab|
             >
@@ -324,7 +337,7 @@
                                 <Button
                                     data-test-addon-list-filter={{type}}
                                     data-analytics-name={{t (concat 'addons.list.filter.' type)}}
-                                    local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                                    local-class='filter-button {{if (eq this.activeFilterType type) 'active'}}'
                                     @layout='fake-link'
                                     {{on 'click' (fn manager.filterByAddonType type)}}
                                 >
@@ -364,7 +377,7 @@
                                 <Button
                                     data-test-addon-list-filter={{type}}
                                     data-analytics-name={{t (concat 'addons.list.filter.' type)}}
-                                    local-class='filter-button {{if (eq manager.activeFilterType type) 'active'}}'
+                                    local-class='filter-button {{if (eq this.activeFilterType type) 'active'}}'
                                     @layout='fake-link'
                                     {{on 'click' (fn manager.filterByAddonType type)}}
                                 >

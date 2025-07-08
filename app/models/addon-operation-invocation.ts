@@ -17,6 +17,12 @@ export enum ConnectedCitationOperationNames {
     GetItemInfo = 'get_item_info',
 }
 
+export enum ConnectedLinkOperationNames {
+    ListRootItems = 'list_root_items',
+    ListChildItems = 'list_child_items',
+    GetItemInfo = 'get_item_info',
+}
+
 export interface OperationKwargs {
     itemId?: string;
     itemType?: ItemType;

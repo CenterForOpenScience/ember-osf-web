@@ -23,6 +23,7 @@ import { AccountCreationArgs} from 'ember-osf-web/models/authorized-account';
 import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-storage-account';
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
+import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -44,11 +45,15 @@ enum PageMode {
 export enum FilterTypes {
     STORAGE = 'additional-storage',
     CITATION_MANAGER = 'citation-manager',
+    VERIFIED_LINK = 'verified-link',
     // CLOUD_COMPUTING = 'cloud-computing', // disabled because BOA is down
 }
 
 interface Args {
     node: NodeModel;
+    activeFilterType: FilterTypes;
+    updateActiveFilterType: (type: string) => void;
+    updateTabIndex: (type: number) => void;
 }
 
 export default class AddonsServiceManagerComponent extends Component<Args> {
@@ -75,6 +80,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             list: A([]),
             configuredAddons: A([]),
         },
+        [FilterTypes.VERIFIED_LINK]: {
+            modelName: 'external-link-service',
+            task: taskFor(this.getLinkAddonProviders),
+            list: A([]),
+            configuredAddons: A([]),
+        },
         // [FilterTypes.CLOUD_COMPUTING]: {
         //     modelName: 'external-computing-service',
         //     task: taskFor(this.getComputingAddonProviders),
@@ -84,7 +95,6 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     };
     filterTypeMapper = new TrackedObject(this.mapper);
     @tracked filterText = '';
-    @tracked activeFilterType: FilterTypes = FilterTypes.STORAGE;
 
     @tracked confirmRemoveConnectedLocation = false;
     @tracked _pageMode?: PageMode;
@@ -95,10 +105,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     filterByAddonType(type: FilterTypes) {
-        if (this.activeFilterType !== type) {
+        if (this.args.activeFilterType !== type) {
             this.filterText = '';
         }
-        this.activeFilterType = type;
+        this.args.updateActiveFilterType(type);
         const activeFilterObject = this.filterTypeMapper[type];
         if (activeFilterObject.list.length === 0) {
             activeFilterObject.task.perform();
@@ -116,7 +126,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     get filteredConfiguredProviders() {
-        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        const activeFilterObject = this.filterTypeMapper[this.args.activeFilterType];
         const possibleProviders = activeFilterObject.list;
         const textFilteredAddons = possibleProviders.filter(
             (provider: any) => provider.provider.displayName.toLowerCase().includes(this.filterText.toLowerCase()),
@@ -128,7 +138,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     get filteredAddonProviders() {
-        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        const activeFilterObject = this.filterTypeMapper[this.args.activeFilterType];
         const possibleProviders = activeFilterObject.list;
         const textFilteredAddons = possibleProviders.filter(
             (provider: any) => provider.provider.displayName.toLowerCase().includes(this.filterText.toLowerCase()),
@@ -138,7 +148,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
     }
 
     get currentListIsLoading() {
-        const activeFilterObject = this.filterTypeMapper[this.activeFilterType];
+        const activeFilterObject = this.filterTypeMapper[this.args.activeFilterType];
         return activeFilterObject.task.isRunning || taskFor(this.initialize).isRunning;
     }
 
@@ -245,7 +255,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         if (this.selectedProvider) {
             const newAccount = await taskFor(this.createAuthorizedAccount).perform(arg);
             if (newAccount) {
-                await taskFor(this.createConfiguredAddon).perform(newAccount);
+                this.selectedAccount = newAccount;
                 this.pageMode = PageMode.CONFIGURE;
             }
         }
@@ -277,6 +287,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         this.selectedConfiguration = undefined;
         this.selectedAccount = undefined;
         this.confirmRemoveConnectedLocation = false;
+        this.args.updateTabIndex(0);
     }
 
     @task
@@ -298,6 +309,11 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
                 this.toast.success(this.intl.t('addons.configure.success', {
                     configurationName: this.selectedConfiguration.displayName,
                 }));
+            } else if (this.selectedConfiguration && this.selectedConfiguration instanceof ConfiguredLinkAddonModel) {
+                this.selectedConfiguration.targetId = args.targetId;
+                this.selectedConfiguration.resourceType = args.resourceType;
+                this.selectedConfiguration.displayName = args.displayName;
+                await this.selectedConfiguration.save();
             }
             this.cancelSetup();
         } catch(e) {
@@ -332,6 +348,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             taskFor(this.getServiceNode).perform(),
         ]);
         await taskFor(this.getStorageAddonProviders).perform();
+        const activeFilterObject = this.filterTypeMapper[this.args.activeFilterType];
+        if (activeFilterObject.list.length === 0) {
+            activeFilterObject.task.perform();
+        }
     }
 
     @task
@@ -386,6 +406,22 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
         if (this.addonServiceNode) {
             const configuredAddons = await this.addonServiceNode.configuredCitationAddons;
+            activeFilterObject.configuredAddons = A(configuredAddons.toArray());
+        }
+
+        const serviceCitationProviders: Provider[] =
+            await taskFor(this.getExternalProviders)
+                .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
+        activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter);
+    }
+
+    @task
+    @waitFor
+    async getLinkAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.VERIFIED_LINK];
+
+        if (this.addonServiceNode) {
+            const configuredAddons = await this.addonServiceNode.configuredLinkAddons;
             activeFilterObject.configuredAddons = A(configuredAddons.toArray());
         }
 
