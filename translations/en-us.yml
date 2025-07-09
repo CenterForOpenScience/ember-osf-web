@@ -376,6 +376,8 @@ addons:
         heading: 'Configure {providerName}'
         resource-type: 'Resource type'
         resource-type-placeholder: 'Choose a resource type'
+        resource-type-helper-header: 'About resource type'
+        resource-type-helper-body: 'This helps others understand what kind of material you''re sharing. Choosing the right resource type makes it easier for search engines and research tools to find and share your work—both on OSF and in other scholarly indexes. For example, selecting <b>“Dataset”</b> tells tools and repositories that your files are research data, which helps your work appear in places that specialize in datasets. Pick the option that best describes most of the files you''re linking. OSF uses resource types from <b>DataCite</b>, a standard used by many research platforms. <a target="_blank" rel="noopener noreferrer" href="https://help.osf.io/article/570-resource-types-in-osf">(Learn more)</a>'
         display-name: 'Display name'
         selected-folder: 'Selected folder:'
         linked-item: 'Linked item:'

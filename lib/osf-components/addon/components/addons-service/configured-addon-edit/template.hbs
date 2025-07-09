@@ -169,6 +169,13 @@
     {{#if this.isLinkAddon}}
         <label>
             {{t 'addons.configure.resource-type'}}
+            <Button
+                aria-label={{t 'file-detail.resource-type-general-help'}}
+                @layout='fake-link'
+                {{on 'click' (fn (mut this.isResourceTypeDialogOpen) true)}}
+            >
+                <FaIcon @icon='question-circle' />
+            </Button>
             <PowerSelect
                 @options={{@supportedResourceTypes}}
                 @selected={{this.selectedResourceType}}
@@ -200,3 +207,27 @@
         </Button>
     </div>
 </div>
+
+<OsfDialog
+    @isOpen={{this.isResourceTypeDialogOpen}}
+    @onClose={{action (mut this.isResourceTypeDialogOpen) false}}
+    @closeOnOutsideClick={{true}}
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'addons.configure.resource-type-helper-header'}}
+    </dialog.heading>
+    <dialog.main tabindex='0'>
+        {{t 'addons.configure.resource-type-helper-body'
+            htmlSafe=true
+        }}
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            @type='secondary'
+            {{on 'click' dialog.close}}
+        >
+            {{t 'general.close'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>
