@@ -41,7 +41,7 @@
     {{else}}
         <p>{{t 'links.empty-screen-message'}}</p>
         {{#if this.currentUserCanEdit}}
-            <p> {{t 'links.point-to-addons-message'}} <a href='/{{this.model.node.id}}/addons?activeFilterType=verified-link'>{{t 'addons.heading'}}</a></p>
+            <p> {{t 'links.point-to-addons-message-1'}} <a href='/{{this.model.node.id}}/addons?activeFilterType=verified-link'>{{t 'addons.heading'}}</a>{{t 'links.point-to-addons-message-2'}}</p>
         {{/if}}
     {{/if}}
 </div>
