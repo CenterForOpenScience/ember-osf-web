@@ -36,6 +36,7 @@ export default class ConfiguredAddonEdit extends Component<Args> {
     @tracked selectedResourceType = '';
     @tracked isWBGoogleDrive = false;
     @tracked accountId!: string;
+    @tracked isResourceTypeDialogOpen = false;
 
     originalName = this.displayName;
     originalRootFolder = this.selectedFolder;
