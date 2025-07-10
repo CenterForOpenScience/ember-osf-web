@@ -167,25 +167,29 @@
         ></GoogleFilePickerWidget>
     {{/if}}
     {{#if this.isLinkAddon}}
-        <label>
-            {{t 'addons.configure.resource-type'}}
-            <Button
-                aria-label={{t 'addons.configure.resource-type-helper-aria-label'}}
-                @layout='fake-link'
-                {{on 'click' (fn (mut this.isResourceTypeDialogOpen) true)}}
-            >
-                <FaIcon @icon='question-circle' />
-            </Button>
+        {{#let (unique-id 'resource-type') as |resourceTypeId|}}
+            <label for={{resourceTypeId}}>
+                {{t 'addons.configure.resource-type'}}
+                <Button
+                    aria-label={{t 'addons.configure.resource-type-helper-aria-label'}}
+                    @layout='fake-link'
+                    {{on 'click' (fn (mut this.isResourceTypeDialogOpen) true)}}
+                >
+                    <FaIcon @icon='question-circle' />
+                </Button>
+            </label>
             <PowerSelect
+                id={{resourceTypeId}}
                 @options={{@supportedResourceTypes}}
                 @selected={{this.selectedResourceType}}
                 @onChange={{action (mut this.selectedResourceType)}}
+                @triggerClass={{local-class 'trigger'}}
                 @placeholder={{t 'addons.configure.resource-type-placeholder'}}
                 as |resourceType|
             >
                 {{resourceType}}
             </PowerSelect>
-        </label>
+        {{/let}}
     {{/if}}
     <div local-class='footer-buttons-wrapper'>
         <Button
