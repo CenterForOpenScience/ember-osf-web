@@ -19,6 +19,7 @@ export interface KeenConfig {
 
 declare const config: {
     WATER_BUTLER_ENABLED: boolean;
+    PREPRINT_ADAPTER_OPTIONS_ENABLED: boolean;
     plauditWidgetUrl: string,
     environment: any;
     cedarConfig: any;

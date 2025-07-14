@@ -152,6 +152,10 @@ export default class PrePrintsDetailController extends Controller {
         return false;
     }
 
+    get showOSFBanner(): boolean {
+        return  this.model.provider.id === 'osf';
+    }
+
     get showStatusBanner(): boolean {
         return (
             this.model.provider.reviewsWorkflow

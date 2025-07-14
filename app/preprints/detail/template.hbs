@@ -109,6 +109,13 @@
             @latestAction={{this.model.latestAction}}
         />
     {{/if}}
+    {{#if this.showOSFBanner}}
+        <Preprints::-Components::PreprintStatusBanner
+            @submission={{this.model.preprint}}
+            @provider={{this.model.provider}}
+            @isOSFBanner=true
+        />
+    {{/if}}
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}
             <Preprints::-Components::PreprintTombstone

@@ -62,6 +62,7 @@ const {
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
     WATER_BUTLER_ENABLED = true,
+    PREPRINT_ADAPTER_OPTIONS_ENABLED = true,
     MIRAGE_ENABLED = false,
     MIRAGE_SCENARIOS = [
         'cedar',
@@ -118,6 +119,7 @@ module.exports = function(environment) {
         modulePrefix: 'ember-osf-web',
         cedarConfig,
         WATER_BUTLER_ENABLED,
+        PREPRINT_ADAPTER_OPTIONS_ENABLED,
         plauditWidgetUrl,
         environment,
         lintOnBuild,
