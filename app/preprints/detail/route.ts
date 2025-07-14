@@ -60,15 +60,18 @@ export default class PreprintsDetail extends Route {
                 'contributors',
                 'identifiers',
             ];
+            const adapterOptions = config.PREPRINT_ADAPTER_OPTIONS_ENABLED ?  Object({
+                query: {
+                    'metrics[views]': 'total',
+                    'metrics[downloads]': 'total',
+                },
+            }) : undefined;
+
+
             const preprint = await this.store.findRecord('preprint', guid, {
                 reload: true,
                 include: embeddableFields,
-                adapterOptions: {
-                    query: {
-                        'metrics[views]': 'total',
-                        'metrics[downloads]': 'total',
-                    },
-                },
+                adapterOptions,
             });
 
             const provider = await preprint?.get('provider');
