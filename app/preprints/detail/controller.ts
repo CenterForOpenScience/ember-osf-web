@@ -153,7 +153,7 @@ export default class PrePrintsDetailController extends Controller {
     }
 
     get showOSFBanner(): boolean {
-        return  this.model.provider.id === 'osf';
+        return  this.model.provider.id === config.defaultProvider;
     }
 
     get showStatusBanner(): boolean {
