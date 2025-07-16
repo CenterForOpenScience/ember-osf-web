@@ -16,6 +16,7 @@ interface PreprintUploadArgs {
     preprint: PreprintModel;
     allowVersioning: boolean;
     isEdit: boolean;
+    enable: boolean;
     validate: (_: FileModel) => {};
     clickableElementId: string;
     dragEnter: () => {};
@@ -30,10 +31,12 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     rootFolder?: FileModel;
     primaryFile: FileModel | undefined;
     @tracked isUploadFileDisplayed = false;
+    @tracked isEnabled = this.args.enable;
 
     constructor(owner: unknown, args: any) {
         super(owner, args);
 
+        this.isEnabled = false;
         taskFor(this.prepUrl).perform();
     }
 
@@ -75,6 +78,7 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
 
         this.url = new URL( urlString );
         this.rootFolder = rootFolder;
+        this.isEnabled = true;
     }
 
     @action
