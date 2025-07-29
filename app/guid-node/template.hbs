@@ -99,46 +99,49 @@
                     @label={{t 'node.left_nav.registrations'}}
                 />
             {{/unless}}
-            {{#unless this.currentUser.viewOnlyToken}}
-                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
+            {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
+                <leftNav.link
+                    data-test-contributors-link
+                    data-analytics-name='Contributors'
+                    @href='/{{this.model.taskInstance.value.id}}/contributors/'
+                    @icon='users'
+                    @label={{t 'node.left_nav.contributors'}}
+                />
+                {{#if this.useGravyWaffle}}
                     <leftNav.link
-                        data-test-contributors-link
-                        data-analytics-name='Contributors'
-                        @href='/{{this.model.taskInstance.value.id}}/contributors/'
-                        @icon='users'
-                        @label={{t 'node.left_nav.contributors'}}
+                        data-test-addons-link
+                        data-analytics-name='Add-ons'
+                        @route='guid-node.addons'
+                        @models={{array this.model.taskInstance.value.id}}
+                        @icon='database'
+                        @label={{t 'node.left_nav.add-ons'}}
+                    />
+                {{else}}
+                    <leftNav.link
+                        data-test-addons-link
+                        data-analytics-name='Add-ons'
+                        @href='/{{this.model.taskInstance.value.id}}/addons/'
+                        @icon='database'
+                        @label={{t 'node.left_nav.add-ons'}}
                     />
                 {{/if}}
-                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasWritePermission)}}
-                    {{#if this.useGravyWaffle}}
-                        <leftNav.link
-                            data-test-addons-link
-                            data-analytics-name='Add-ons'
-                            @route='guid-node.addons'
-                            @models={{array this.model.taskInstance.value.id}}
-                            @icon='database'
-                            @label={{t 'node.left_nav.add-ons'}}
-                        />
-                    {{else}}
-                        <leftNav.link
-                            data-test-addons-link
-                            data-analytics-name='Add-ons'
-                            @href='/{{this.model.taskInstance.value.id}}/addons/'
-                            @icon='database'
-                            @label={{t 'node.left_nav.add-ons'}}
-                        />
-                    {{/if}}
-                {{/if}}
-                {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
-                    <leftNav.link
-                        data-test-settings-link
-                        data-analytics-name='Settings'
-                        @href='/{{this.model.taskInstance.value.id}}/settings/'
-                        @icon='cogs'
-                        @label={{t 'node.left_nav.settings'}}
-                    />
-                {{/if}}
-            {{/unless}}
+            {{/if}}
+            <leftNav.link
+                data-test-verified-links-link
+                data-analytics-name='Linked services'
+                @route='guid-node.links'
+                @icon='link'
+                @label={{t 'node.left_nav.links'}}
+            />
+            {{#if (and (not this.viewOnly) this.model.taskInstance.value.userHasReadPermission)}}
+                <leftNav.link
+                    data-test-settings-link
+                    data-analytics-name='Settings'
+                    @href='/{{this.model.taskInstance.value.id}}/settings/'
+                    @icon='cogs'
+                    @label={{t 'node.left_nav.settings'}}
+                />
+            {{/if}}
         </layout.leftNavOld>
         <layout.main local-class='OverviewBody'>
             <div data-analytics-scope='Node' role='main'>

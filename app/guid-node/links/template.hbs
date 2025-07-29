@@ -1,0 +1,47 @@
+<div local-class='links-page-wrapper'>
+    <h2>{{t 'links.linked-services'}}</h2>
+    {{#if this.model.configuredLinkAddons}}
+        <table local-class='table'>
+            <thead>
+                <tr local-class='table-row'>
+                    <th local-class='table-header'>{{t 'links.linked-service'}}</th>
+                    <th local-class='table-header'>{{t 'links.display-name'}}</th>
+                    <th local-class='table-header'>{{t 'links.resource-type'}}</th>
+                    <th local-class='table-header edit-header'>
+                        {{#if this.currentUserCanEdit}}
+                            <OsfLink
+                                @route='guid-node.addons'
+                                @queryParams={{hash
+                                    activeFilterType='verified-link'
+                                    tabIndex='1'
+                                }}
+                                @models={{array this.model.node.id}}
+                            >
+                                {{t 'links.edit'}}
+                            </OsfLink>
+                        {{/if}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.model.configuredLinkAddons as |configuredLinkAddon|}}
+                    <tr local-class='table-row'>
+                        <td local-class='table-cell'>
+                            <img alt={{t 'links.logo'}} local-class='logo'
+                                 src={{configuredLinkAddon.externalLinkService.iconUrl}}>
+                            <span>{{configuredLinkAddon.externalLinkService.displayName}}</span>
+                        </td>
+                        <td local-class='table-cell'>{{configuredLinkAddon.displayName}}</td>
+                        <td local-class='table-cell'>{{configuredLinkAddon.resourceType}}</td>
+                        <td local-class='table-cell'><a target='_blank' rel='noopener noreferrer' href={{configuredLinkAddon.targetUrl}}>{{t 'links.link'}}</a></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    {{else}}
+        <p>{{t 'links.empty-screen-message'}}</p>
+        {{#if this.currentUserCanEdit}}
+            <p> {{t 'links.point-to-addons-message-1'}} <a href='/{{this.model.node.id}}/addons?activeFilterType=verified-link'>{{t 'addons.heading'}}</a>{{t 'links.point-to-addons-message-2'}}</p>
+        {{/if}}
+    {{/if}}
+</div>

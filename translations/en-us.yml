@@ -247,6 +247,7 @@ addons:
         confirm-remove-connected-location: 'You are about to disconnect the addon below from the project.'
         connected-to-account: 'Connected to account'
         root-folder-not-set: 'Root folder not set'
+        target-not-set: 'Target not set'
         sync-details-1: 'Sync your projects with external services to help stay connected and organized. Select a category and browse the options.'
         sync-details-2: 'To manage all add-ons connected to your account, visit your profile settings.'
         sync-details-3: 'Manage your connected Add-ons, re-authorize, disconnect account, or disconnect project'
@@ -257,6 +258,7 @@ addons:
             additional-storage: 'Additional Storage'
             citation-manager: 'Citation Manager'
             cloud-computing: 'Cloud Computing'
+            verified-link: 'Linked Services'
         no-results: 'No results found'
         no-connected-accounts: 'No connected accounts'
         connect: 'Connect'
@@ -308,6 +310,14 @@ addons:
             logs-partial: 'The OSF tracks {provider}-generated results that were copied to OSF Storage.'
             permissions-partial: "An OSF project's privacy is independent of {provider} privacy."
             registering-partial: '{provider}-generated results will be registered as they are stored in OSF Storage.'
+        link:
+            add-update-files-false: 'You cannot add or update files for {provider} within OSF.'
+            delete-files-false: 'You cannot delete files for {provider} within OSF.'
+            forking-partial: 'Forking a project or component does not copy {provider} authorization unless the user forking the project is the same user who authorized the {provider} add-on in the source project being forked.'
+            logs-partial: 'The OSF keeps track of changes you make to your {provider} content through the OSF, but not for changes made using {provider} directly.'
+            permissions-true: 'The OSF does not change permissions for linked {provider} files. Privacy changes made to an OSF project or component will not affect those set in {provider}.'
+            registering-false: '{provider} content will not be registered.'
+            file-versions-false: '{provider} files can be viewed/downloaded outside OSF only. Version history is not supported.'
     accountSelect:
         heading: 'Log in to {providerName} or select an account'
         no-accounts: 'No accounts available'
@@ -364,9 +374,16 @@ addons:
             root-folder-title: 'Select a root folder'
             file-folder-title: 'Select a file or folder to add'
         heading: 'Configure {providerName}'
+        resource-type: 'Resource type'
+        resource-type-placeholder: 'Choose a resource type'
+        resource-type-helper-aria-label: 'More information about resource types'
+        resource-type-helper-header: 'About resource type'
+        resource-type-helper-body: 'This helps others understand what kind of material you''re sharing. Choosing the right resource type makes it easier for search engines and research tools to find and share your work—both on OSF and in other scholarly indexes.<br><br>For example, selecting <b>“Dataset”</b> tells tools and repositories that your files are research data, which helps your work appear in places that specialize in datasets.<br><br>Pick the option that best describes most of the files you''re linking.<br><br>OSF uses resource types from <b>DataCite</b>, a standard used by many research platforms. <a target="_blank" rel="noopener noreferrer" href="https://help.osf.io/article/570-resource-types-in-osf">(Learn more)</a>'
         display-name: 'Display name'
         selected-folder: 'Selected folder:'
+        linked-item: 'Linked item:'
         no-folder-selected: 'No folder selected'
+        no-item-selected: 'No item selected'
         go-to-root: 'Go to home folder'
         go-to-folder: 'Go to folder {folderName}'
         select-folder: 'Select {folderName} as root folder'
@@ -377,7 +394,17 @@ addons:
         error-loading-items: 'Error loading items'
         success: 'Successfully updated {configurationName}'
         error: 'Error updating {configurationName}'
-
+links:
+    linked-services: 'Linked Services'
+    linked-service: 'Linked Service'
+    display-name: 'Display Name'
+    resource-type: 'Resource Type'
+    empty-screen-message: 'This project has no configured linked services at the moment '
+    point-to-addons-message-1: 'Visit '
+    point-to-addons-message-2: ' to add a linked service.'
+    link: 'Link'
+    edit: 'Edit'
+    icon: '{addonName} icon'
 metadata:
     tab-title: 'Metadata'
     main-tab: 'OSF'
@@ -1050,6 +1077,7 @@ node:
         components: Components
         add-ons: Add-ons
         settings: Settings
+        links: Linked Services
     projects:
         search-placeholder: 'Find project by name'
         select-placeholder: 'Click to select project'
@@ -3421,7 +3449,7 @@ settings:
             button-label: 'Update'
     addons:
         page-title: 'Add-ons'
-        title: 'Configure add-on accounts'
+        title: 'Configure add-on & link service accounts'
     notifications:
         title: Notifications
     developer-apps:
