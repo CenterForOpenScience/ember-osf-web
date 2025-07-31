@@ -67,24 +67,6 @@ export default class PreprintsDetail extends Route {
                 include: embeddableFields,
             });
 
-            let apiMetrics;
-            try {
-                const adapterOptions = Object({
-                    query: {
-                        'metrics[views]': 'total',
-                        'metrics[downloads]': 'total',
-                    },
-                });
-
-                const preprintMetrics = await this.store.findRecord('preprint', guid, {
-                    reload: true,
-                    adapterOptions,
-                });
-
-                apiMetrics = preprintMetrics.apiMetrics;
-            // eslint-disable-next-line
-            } catch (_){ }
-
             const provider = await preprint?.get('provider');
 
             this.theme.set('providerType', 'preprint');
@@ -133,8 +115,8 @@ export default class PreprintsDetail extends Route {
                 && !isWithdrawalRejected && !hasPendingWithdrawal;
 
             return {
+                guid,
                 preprint,
-                apiMetrics,
                 brand: provider.brand.content,
                 contributors,
                 provider,
