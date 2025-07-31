@@ -197,11 +197,11 @@
                             <span data-test-view-count-label>
                                 {{t 'preprints.detail.share.views'}}:
                             </span>
-                            <span data-test-view-count> {{this.model.preprint.apiMeta.metrics.views}} </span> |
+                            <span data-test-view-count> {{this.model.apiMeta?.metrics?.views}} </span> |
                             <span data-test-download-count-label>
                                 {{t 'preprints.detail.share.downloads'}}:
                             </span>
-                            <span data-test-download-count>{{this.model.preprint.apiMeta.metrics.downloads}}</span>
+                            <span data-test-download-count>{{this.model.apiMeta?.metrics?.downloads}}</span>
                             <EmberTooltip>
                                 {{t 'preprints.detail.share.metrics_disclaimer'}} {{moment-format this.metricsStartDate 'YYYY-MM-DD'}}
                             </EmberTooltip>

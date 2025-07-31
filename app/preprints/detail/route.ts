@@ -60,19 +60,30 @@ export default class PreprintsDetail extends Route {
                 'contributors',
                 'identifiers',
             ];
-            const adapterOptions = config.PREPRINT_ADAPTER_OPTIONS_ENABLED ?  Object({
-                query: {
-                    'metrics[views]': 'total',
-                    'metrics[downloads]': 'total',
-                },
-            }) : undefined;
 
 
             const preprint = await this.store.findRecord('preprint', guid, {
                 reload: true,
                 include: embeddableFields,
-                adapterOptions,
             });
+
+            let apiMetrics;
+            try {
+                const adapterOptions = Object({
+                    query: {
+                        'metrics[views]': 'total',
+                        'metrics[downloads]': 'total',
+                    },
+                });
+
+                const preprintMetrics = await this.store.findRecord('preprint', guid, {
+                    reload: true,
+                    adapterOptions,
+                });
+
+                apiMetrics = preprintMetrics.apiMetrics;
+            // eslint-disable-next-line
+            } catch (_){ }
 
             const provider = await preprint?.get('provider');
 
@@ -123,6 +134,7 @@ export default class PreprintsDetail extends Route {
 
             return {
                 preprint,
+                apiMetrics,
                 brand: provider.brand.content,
                 contributors,
                 provider,
