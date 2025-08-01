@@ -69,6 +69,7 @@ export default class Supplements extends Component<SupplementsArgs>{
     @waitFor
     public async removeSelectedProject(): Promise<void> {
         try {
+            this.validate(false);
             await this.args.manager.preprint.removeM2MRelationship('node'); // Remove relationship
             // Remove relationship on the node side, this only clears the cache locally
             this.args.manager.preprint.node.get('preprints')
@@ -89,7 +90,7 @@ export default class Supplements extends Component<SupplementsArgs>{
     }
 
     @action
-    public validate(): void {
-        this.args.manager.validateSupplements(true);
+    public validate(isValid = true): void {
+        this.args.manager.validateSupplements(isValid);
     }
 }
