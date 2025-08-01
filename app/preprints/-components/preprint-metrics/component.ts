@@ -15,7 +15,7 @@ interface InputArgs {
 
 export default class PreprintMetrics extends Component<InputArgs> {
     @service store!: Store;
-    @tracked apiMetrics!: BaseMeta;
+    @tracked apiMeta!: BaseMeta;
 
     metricsStartDate = config.OSF.metricsStartDate;
 
@@ -41,7 +41,7 @@ export default class PreprintMetrics extends Component<InputArgs> {
                 adapterOptions,
             });
 
-            this.apiMetrics = preprintMetrics.apiMetrics;
+            this.apiMeta = preprintMetrics.apiMeta;
         // eslint-disable-next-line
         } catch (_){ }
     }
