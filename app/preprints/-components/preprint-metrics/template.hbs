@@ -1,0 +1,17 @@
+<div>
+    {{#if this.loadPreprintMetrics.isRunning}}
+        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+    {{else}} 
+        <span data-test-view-count-label>
+            {{t 'preprints.detail.share.views'}}:
+        </span>
+        <span data-test-view-count> {{this.apiMeta?.metrics?.views}} </span> |
+        <span data-test-download-count-label>
+            {{t 'preprints.detail.share.downloads'}}:
+        </span>
+        <span data-test-download-count>{{this.apiMeta?.metrics?.downloads}}</span>
+        <EmberTooltip>
+            {{t 'preprints.detail.share.metrics_disclaimer'}} {{moment-format this.metricsStartDate 'YYYY-MM-DD'}}
+        </EmberTooltip>
+    {{/if}}
+</div>

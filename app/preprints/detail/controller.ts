@@ -61,7 +61,6 @@ export default class PrePrintsDetailController extends Controller {
     @tracked fullScreenMFR = false;
     @tracked plauditIsReady = false;
 
-    metricsStartDate = config.OSF.metricsStartDate;
     reviewStateLabelKeyMap = VersionStatusSimpleLabelKey;
 
     get hyperlink(): string {
