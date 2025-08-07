@@ -4,10 +4,14 @@
     {{else}}
         <div local-class='preprint-banner-status {{this.getClassName}}'>
             <div local-class='display-container'>
-                {{#if this.isWithdrawn}}
+                {{#if @isOSFBanner}}
+                    <div>
+                        <strong>{{this.bannerContent}}</strong>
+                    </div>
+                {{else if this.isWithdrawn}}
                     <div>
                         <FaIcon @icon='{{this.icon}}' @prefix='fas' local-class='status-icon' aria-hidden='true'/>
-                        <span local-class='banner-content'>{{this.bannerContent}}</span>
+                        <span>{{this.bannerContent}}</span>
                     </div>
                 {{else}}
                     <div>

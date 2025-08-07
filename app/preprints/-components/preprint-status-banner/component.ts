@@ -22,6 +22,8 @@ const WITHDRAWN = 'withdrawn';
 const PRE_MODERATION = 'pre-moderation';
 const POST_MODERATION = 'post-moderation';
 
+const PROVIDER_OSF = 'provider-osf';
+
 const STATUS = Object({});
 STATUS[PENDING]= 'preprints.detail.status_banner.pending';
 STATUS[ACCEPTED]= 'preprints.detail.status_banner.accepted';
@@ -30,6 +32,7 @@ STATUS[PENDING_WITHDRAWAL]= 'preprints.detail.status_banner.pending_withdrawal';
 STATUS[WITHDRAWAL_REJECTED]= 'preprints.detail.status_banner.withdrawal_rejected';
 
 const MESSAGE = Object({});
+MESSAGE[PROVIDER_OSF] =  'preprints.detail.status_banner.message.provider_osf';
 MESSAGE[PRE_MODERATION] =  'preprints.detail.status_banner.message.pending_pre';
 MESSAGE[POST_MODERATION] =  'preprints.detail.status_banner.message.pending_post';
 MESSAGE[ACCEPTED] =  'preprints.detail.status_banner.message.accepted';
@@ -45,6 +48,7 @@ WORKFLOW[POST_MODERATION] = 'preprints.detail.status_banner.post_moderation';
 WORKFLOW[UNKNOWN] = 'preprints.detail.status_banner.post_moderation';
 
 const CLASS_NAMES = Object({});
+CLASS_NAMES[PROVIDER_OSF] = 'preprint-status-pending-pre';
 CLASS_NAMES[PRE_MODERATION] = 'preprint-status-pending-pre';
 CLASS_NAMES[POST_MODERATION] =  'preprint-status-pending-post';
 CLASS_NAMES[ACCEPTED] =  'preprint-status-accepted';
@@ -68,6 +72,7 @@ interface InputArgs {
     provider: PreprintProviderModel;
     latestWithdrawalRequest: PreprintRequestModel | null;
     latestAction: PreprintRequestActionModel | ReviewActionModel | null;
+    isOSFBanner: boolean | null;
 }
 
 export default class PreprintStatusBanner extends Component<InputArgs>{
@@ -104,7 +109,9 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
     }
 
     public get getClassName(): string {
-        if (this.isPendingWithdrawal) {
+        if (this.args.isOSFBanner) {
+            return CLASS_NAMES[PROVIDER_OSF];
+        } else if (this.isPendingWithdrawal) {
             return CLASS_NAMES[PENDING_WITHDRAWAL];
         } else if (this.isWithdrawn) {
             return CLASS_NAMES[WITHDRAWN];
@@ -119,7 +126,12 @@ export default class PreprintStatusBanner extends Component<InputArgs>{
 
     public get bannerContent(): string {
         const { provider } = this.args;
-        if (this.isPendingWithdrawal) {
+        if (this.args.isOSFBanner) {
+            return this.intl.t(MESSAGE[PROVIDER_OSF], {
+                name: 'OSF',
+                documentType: provider.documentType.plural,
+            });
+        } else if (this.isPendingWithdrawal) {
             return this.intl.t(this.statusExplanation, { documentType: provider.documentType.singular });
         } else if (this.isWithdrawn) {
             return this.intl.t(MESSAGE[WITHDRAWN], { documentType: provider.documentType.singular });

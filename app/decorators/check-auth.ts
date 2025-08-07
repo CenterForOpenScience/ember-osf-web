@@ -37,10 +37,12 @@ export default function checkAuth<T extends ConcreteSubclass<Route>>(
             // Need to handle view-only links before checking auth, and this is the only reasonable place to do it.
             // This limitation points toward replacing this decorator with a service method meant to be
             // called in Route.beforeModel. Decorator mixins should probably be considered an anti-pattern.
-            const { viewOnlyToken = '' } = this.paramsFor('application') as Record<string, string>;
+            let { viewOnlyToken = '' } = this.paramsFor('application') as Record<string, string>;
 
             try {
                 if (!this.session.isAuthenticated || this.currentUser.viewOnlyToken !== viewOnlyToken) {
+                    // This is for ENG-8174 where occasionally a %2F or / is at the end of the viewOnlyToken
+                    viewOnlyToken = viewOnlyToken.replace(/(%2[fF]|\/)$/g, '');
                     this.currentUser.setProperties({ viewOnlyToken });
 
                     // Check whether user is actually logged in.

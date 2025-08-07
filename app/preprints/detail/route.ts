@@ -60,15 +60,11 @@ export default class PreprintsDetail extends Route {
                 'contributors',
                 'identifiers',
             ];
+
+
             const preprint = await this.store.findRecord('preprint', guid, {
                 reload: true,
                 include: embeddableFields,
-                adapterOptions: {
-                    query: {
-                        'metrics[views]': 'total',
-                        'metrics[downloads]': 'total',
-                    },
-                },
             });
 
             const provider = await preprint?.get('provider');
@@ -119,6 +115,7 @@ export default class PreprintsDetail extends Route {
                 && !isWithdrawalRejected && !hasPendingWithdrawal;
 
             return {
+                guid,
                 preprint,
                 brand: provider.brand.content,
                 contributors,
