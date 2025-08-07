@@ -259,6 +259,7 @@ addons:
             citation-manager: 'Citation Manager'
             cloud-computing: 'Cloud Computing'
             verified-link: 'Linked Services'
+            redirect-service: 'Other Services'
         no-results: 'No results found'
         no-connected-accounts: 'No connected accounts'
         connect: 'Connect'
@@ -271,6 +272,7 @@ addons:
     terms:
         heading: '{providerName} Terms'
         accepting: 'Accepting terms…'
+        go-to-service: 'Go to {providerName}'
         table-headings:
             function: 'Function'
             status: 'Status'
@@ -318,6 +320,8 @@ addons:
             permissions-true: 'The OSF does not change permissions for linked {provider} files. Privacy changes made to an OSF project or component will not affect those set in {provider}.'
             registering-false: '{provider} content will not be registered.'
             file-versions-false: '{provider} files can be viewed/downloaded outside OSF only. Version history is not supported.'
+        redirect:
+            disclaimer: 'This add-on connects your OSF project to an external service. Use of this service is bound by its terms and conditions. The OSF is not responsible for the service. Danger ahead or something.'
     accountSelect:
         heading: 'Log in to {providerName} or select an account'
         no-accounts: 'No accounts available'
@@ -368,7 +372,7 @@ addons:
         verify: 'Connect the following account:'
         authorizing: 'Connecting…'
     configure:
-        google-file-picker: 
+        google-file-picker:
             select-root-folder: 'Select Root Folder'
             selected-folder: 'Selected Folder'
             root-folder-title: 'Select a root folder'

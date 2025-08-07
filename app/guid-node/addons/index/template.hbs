@@ -27,9 +27,13 @@
                     data-analytics-scope='Addon - {{provider.provider.displayName}}'
                 >
                     {{#if (eq manager.pageMode 'terms')}}
-                        <AddonsService::TermsOfService
-                            @provider={{provider.provider}}
-                        />
+                        {{#if manager.selectedProviderIsRedirectService}}
+                            {{t 'addons.terms.redirect.disclaimer'}}
+                        {{else}}
+                            <AddonsService::TermsOfService
+                                @provider={{provider.provider}}
+                            />
+                        {{/if}}
                         <div
                             data-analytics-scope='Addon terms'
                             local-class='float-right'
@@ -51,7 +55,11 @@
                                 {{#if provider.getAuthorizedAccounts.isRunning}}
                                     {{t 'addons.terms.accepting'}}
                                 {{else}}
-                                    {{t 'general.confirm'}}
+                                    {{#if manager.selectedProviderIsRedirectService}}
+                                        {{t 'addons.terms.go-to-service' providerName=provider.provider.displayName}}
+                                    {{else}}
+                                        {{t 'general.confirm'}}
+                                    {{/if}}
                                 {{/if}}
                             </Button>
                         </div>
