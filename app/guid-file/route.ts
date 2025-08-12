@@ -11,6 +11,7 @@ import moment from 'moment-timezone';
 import Institution from 'ember-osf-web/models/institution';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
+import Features from 'ember-feature-flags/services/features';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import BitbucketFile from 'ember-osf-web/packages/files/bitbucket-file';
 import BoxFile from 'ember-osf-web/packages/files/box-file';
@@ -27,6 +28,9 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
 import ContributorModel from 'ember-osf-web/models/contributor';
+import ServiceFile from 'ember-osf-web/packages/files/service-file';
+import ResourceReferenceModel from 'ember-osf-web/models/resource-reference';
+import ConfiguredStorageAddonModel from 'ember-osf-web/models/configured-storage-addon';
 
 export default class GuidFile extends Route {
     @service('head-tags') headTagsService!: HeadTagsService;
@@ -35,9 +39,26 @@ export default class GuidFile extends Route {
     @service ready!: Ready;
     @service currentUser!: CurrentUserService;
     @service store!: Store;
+    @service features!: Features;
 
     headTags?: HeadTagDef[];
     metadata!: CustomFileMetadataRecordModel;
+
+    @task
+    @waitFor
+    async getResourceReference(resource_uri: string) {
+        const serviceNode: ResourceReferenceModel = this.store.peekAll(
+            'resource-reference',
+        ).find((ref: ResourceReferenceModel) => ref.resourceUri === resource_uri);
+        if (serviceNode) {
+            return serviceNode;
+        } else {
+            const references = await this.store.query('resource-reference', {
+                filter: { resource_uri },
+            });
+            return references.firstObject;
+        }
+    }
 
     @task
     @waitFor
@@ -88,7 +109,27 @@ export default class GuidFile extends Route {
             const provider = file.provider;
             let storageFile;
 
-            switch(provider){
+            if (this.features.isEnabled('gravy_waffle') && provider !== 'osfstorage') {
+                let resourceReference;
+                const iri = target?.links?.iri?.toString();
+                if (iri) {
+                    resourceReference = await taskFor(this.getResourceReference).perform(iri);
+                }
+                if (resourceReference) {
+                    const configuredStorageAddonsList = await resourceReference
+                        .hasMany('configuredStorageAddons').load();
+                    const storageAddon = configuredStorageAddonsList.find(
+                        (addon: ConfiguredStorageAddonModel) => addon.externalServiceName === provider,
+                    );
+
+                    if (storageAddon) {
+                        storageFile = new ServiceFile(this.currentUser, file, storageAddon);
+                        return storageFile;
+                    }
+                }
+            }
+
+            switch (provider) {
             case 'osfstorage':
                 storageFile = new OsfStorageFile(this.currentUser, file);
                 break;
