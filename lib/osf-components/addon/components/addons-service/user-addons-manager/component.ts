@@ -53,6 +53,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     user = this.args.user;
     @tracked userReference!: UserReferenceModel;
     @tracked tabIndex = 0;
+    @tracked connectAccountsTabDisabled = false;
 
     possibleFilterTypes = Object.values(FilterTypes);
     @tracked filterTypeMapper = {
@@ -116,6 +117,11 @@ export default class UserAddonManagerComponent extends Component<Args> {
             this.filterText = '';
         }
         this.activeFilterType = type;
+        this.connectAccountsTabDisabled = false;
+        if (this.activeFilterType === FilterTypes.REDIRECT_SERVICE) {
+            this.changeTab(0);
+            this.connectAccountsTabDisabled = true;
+        }
         const activeFilterObject = this.filterTypeMapper[type];
         if (activeFilterObject.list.length === 0) {
             activeFilterObject.fetchProvidersTask.perform();
@@ -152,6 +158,10 @@ export default class UserAddonManagerComponent extends Component<Args> {
         return activeFilterObject.fetchProvidersTask.isRunning;
     }
 
+    get selectedProviderIsRedirectService() {
+        return this.selectedProvider?.provider instanceof ExternalRedirectServiceModel;
+    }
+
     @action
     connectNewProviderAccount(provider: Provider) {
         this.pageMode = UserSettingPageModes.TERMS;
@@ -160,6 +170,21 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @action
     acceptProviderTerms() {
+        if (this.selectedProviderIsRedirectService) {
+            const openURL = new URL((this.selectedProvider!.provider as ExternalRedirectServiceModel).redirectUrl);
+            const newWindow = window.open(
+                openURL.toString(),
+                '_blank', 'popup,width=600,height=600,scrollbars=yes,resizable=yes',
+            );
+            if (newWindow) {
+                newWindow.focus();
+            } else {
+                this.toast.error(this.intl.t('addons.redirect.pop-up-error'));
+            }
+
+            this.cancelSetup();
+            return;
+        }
         this.pageMode = UserSettingPageModes.ACCOUNT_CREATE;
     }
 

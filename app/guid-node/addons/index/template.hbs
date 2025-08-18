@@ -28,7 +28,14 @@
                 >
                     {{#if (eq manager.pageMode 'terms')}}
                         {{#if manager.selectedProviderIsRedirectService}}
-                            {{t 'addons.terms.redirect.disclaimer'}}
+                            <p>
+                                {{t 'addons.terms.redirect.disclaimer'}}
+                            </p>
+                            <p>
+                                <i>
+                                    {{t 'addons.terms.redirect.pop-up-tooltip'}}
+                                </i>
+                            </p>
                         {{else}}
                             <AddonsService::TermsOfService
                                 @provider={{provider.provider}}

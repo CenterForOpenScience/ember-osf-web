@@ -321,7 +321,9 @@ addons:
             registering-false: '{provider} content will not be registered.'
             file-versions-false: '{provider} files can be viewed/downloaded outside OSF only. Version history is not supported.'
         redirect:
-            disclaimer: 'This add-on connects your OSF project to an external service. Use of this service is bound by its terms and conditions. The OSF is not responsible for the service. Danger ahead or something.'
+            disclaimer: "Clicking the button below will redirect you outside of OSF. You will need to follow that service's permissions to continue."
+            pop-up-tooltip: 'Tip: If the page does not open, try disabling your pop-up blocker.'
+            pop-up-error: 'Unable to open pop-up window. Please disable your pop-up blocker and try again.'
     accountSelect:
         heading: 'Log in to {providerName} or select an account'
         no-accounts: 'No accounts available'
