@@ -226,8 +226,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             if (newWindow) {
                 newWindow.focus();
             } else {
-                // this.toast.error(this.intl.t('addons.redirect.error'));
-                this.toast.error('You got ad blockers on this thing?');
+                this.toast.error(this.intl.t('addons.redirect.pop-up-error'));
             }
 
             this.cancelSetup();
