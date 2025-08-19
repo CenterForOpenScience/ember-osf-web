@@ -23,9 +23,20 @@
                             <h3>
                                 {{t 'addons.terms.heading' providerName=manager.selectedProvider.provider.displayName}}
                             </h3>
-                            <AddonsService::TermsOfService
-                                @provider={{manager.selectedProvider.provider}}
-                            />
+                            {{#if manager.selectedProviderIsRedirectService}}
+                                <p>
+                                    {{t 'addons.terms.redirect.disclaimer'}}
+                                </p>
+                                <p>
+                                    <i>
+                                        {{t 'addons.terms.redirect.pop-up-tooltip'}}
+                                    </i>
+                                </p>
+                            {{else}}
+                                <AddonsService::TermsOfService
+                                    @provider={{manager.selectedProvider.provider}}
+                                />
+                            {{/if}}
                             <div local-class='float-right'>
                                 <Button
                                     data-test-addon-cancel-button
@@ -40,7 +51,11 @@
                                     @type='primary'
                                     {{on 'click' manager.acceptProviderTerms}}
                                 >
-                                    {{t 'general.confirm'}}
+                                    {{#if manager.selectedProviderIsRedirectService}}
+                                        {{t 'addons.terms.go-to-service' providerName=manager.selectedProvider.provider.displayName}}
+                                    {{else}}
+                                        {{t 'general.confirm'}}
+                                    {{/if}}
                                 </Button>
                             </div>
                         </div>
@@ -94,14 +109,14 @@
                         {{/each}}
                     </div>
                     <AriaTabs
-                        @selectedIndex={{manager.tabIndex}} @onSelect={{action manager.changeTab}} 
+                        @selectedIndex={{manager.tabIndex}} @onSelect={{action manager.changeTab}}
                         as |tab|
                     >
                         <tab.tabList
                             local-class='tab-list'
                             as |tablist|
                         >
-                            <tablist.tab 
+                            <tablist.tab
                                 data-analytics-name='All Addons Tab'
                                 data-test-all-addons-tab-control
                             >
@@ -110,6 +125,8 @@
                             <tablist.tab
                                 data-test-connected-accounts-tab-control
                                 data-analytics-name='Connected Accounts Tab'
+                                local-class='{{if manager.connectAccountsTabDisabled 'disabled'}}'
+                                @disabled={{manager.connectAccountsTabDisabled}}
                             >
                                 {{t 'addons.list.connected-accounts'}}
                             </tablist.tab>

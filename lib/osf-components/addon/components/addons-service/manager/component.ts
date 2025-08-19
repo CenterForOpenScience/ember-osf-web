@@ -24,6 +24,7 @@ import AuthorizedStorageAccountModel from 'ember-osf-web/models/authorized-stora
 import ConfiguredCitationAddonModel from 'ember-osf-web/models/configured-citation-addon';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
 import ConfiguredLinkAddonModel from 'ember-osf-web/models/configured-link-addon';
+import ExternalRedirectServiceModel from 'ember-osf-web/models/external-redirect-service';
 
 interface FilterSpecificObject {
     modelName: string;
@@ -47,6 +48,7 @@ export enum FilterTypes {
     CITATION_MANAGER = 'citation-manager',
     VERIFIED_LINK = 'verified-link',
     // CLOUD_COMPUTING = 'cloud-computing', // disabled because BOA is down
+    REDIRECT_SERVICE = 'redirect-service',
 }
 
 interface Args {
@@ -92,6 +94,12 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         //     list: A([]),
         //     configuredAddons: A([]),
         // },
+        [FilterTypes.REDIRECT_SERVICE]: {
+            modelName: 'external-redirect-service',
+            task: taskFor(this.getRedirectAddonProviders),
+            list: A([]),
+            // configuredAddons: A([]),
+        },
     };
     filterTypeMapper = new TrackedObject(this.mapper);
     @tracked filterText = '';
@@ -152,6 +160,10 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         return activeFilterObject.task.isRunning || taskFor(this.initialize).isRunning;
     }
 
+    get selectedProviderIsRedirectService() {
+        return this.selectedProvider?.provider instanceof ExternalRedirectServiceModel;
+    }
+
     @action
     async configureProvider(provider: Provider, configuredAddon: AllConfiguredAddonTypes) {
         this.cancelSetup();
@@ -204,6 +216,22 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
 
     @action
     async acceptTerms() {
+        if (this.selectedProviderIsRedirectService) {
+            const openURL = new URL((this.selectedProvider!.provider as ExternalRedirectServiceModel).redirectUrl);
+            openURL.searchParams.set('nodeIri', this.node.links.iri!.toString());
+            const newWindow = window.open(
+                openURL.toString(),
+                '_blank', 'popup,width=600,height=600,scrollbars=yes,resizable=yes',
+            );
+            if (newWindow) {
+                newWindow.focus();
+            } else {
+                this.toast.error(this.intl.t('addons.redirect.pop-up-error'));
+            }
+
+            this.cancelSetup();
+            return;
+        }
         await taskFor(this.selectedProvider!.getAuthorizedAccounts).perform();
         if(this.selectedProvider!.authorizedAccounts!.length > 0){
             this.pageMode = PageMode.NEW_OR_EXISTING_ACCOUNT;
@@ -429,6 +457,17 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
             await taskFor(this.getExternalProviders)
                 .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
         activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter);
+    }
+
+    @task
+    @waitFor
+    async getRedirectAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.REDIRECT_SERVICE];
+
+        const serviceRedirectProviders: Provider[] =
+            await taskFor(this.getExternalProviders)
+                .perform(activeFilterObject.modelName, activeFilterObject.configuredAddons);
+        activeFilterObject.list = serviceRedirectProviders.sort(this.providerSorter);
     }
 
     providerSorter(a: Provider, b: Provider) {
