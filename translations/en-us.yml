@@ -608,6 +608,7 @@ search:
     search-help-label: 'Help tutorial'
     total-results: '{count} {count, plural, one {result} other {results} }'
     no-results: 'No results found'
+    ten-thousand-plus: '10,000+'
     resource-type:
         search-by: 'Search by object type'
         all: 'All'

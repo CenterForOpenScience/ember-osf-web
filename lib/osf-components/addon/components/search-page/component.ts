@@ -11,7 +11,6 @@ import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Media from 'ember-responsive';
 
-import { ShareMoreThanTenThousand } from 'ember-osf-web/models/index-card-search';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import SearchResultModel from 'ember-osf-web/models/search-result';
 import ProviderModel from 'ember-osf-web/models/provider';
@@ -83,7 +82,7 @@ export default class SearchPage extends Component<SearchArgs> {
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
     @tracked booleanFilters?: RelatedPropertyPathModel[] = [];
     @tracked page?: string = '';
-    @tracked totalResultCount?: number | {'@id': string};
+    @tracked totalResultCount?: number | string;
     @tracked firstPageCursor?: string | null;
     @tracked prevPageCursor?: string | null;
     @tracked nextPageCursor?: string | null;
@@ -263,8 +262,7 @@ export default class SearchPage extends Component<SearchArgs> {
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
-            this.totalResultCount = searchResult.totalResultCount?.['@id'] === ShareMoreThanTenThousand ? '10,000+' :
-                searchResult.totalResultCount;
+            this.totalResultCount = searchResult.displayCount;
         } catch (e) {
             this.toast.error(e);
         }

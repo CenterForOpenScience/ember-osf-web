@@ -1,5 +1,7 @@
+import { inject as service } from '@ember/service';
 import Model, { AsyncHasMany, attr, hasMany } from '@ember-data/model';
 import {Links} from 'jsonapi-typescript';
+import Intl from 'ember-intl/services/intl';
 
 import RelatedPropertyPathModel from './related-property-path';
 import SearchResultModel from './search-result';
@@ -10,12 +12,12 @@ export interface SearchFilter {
     filterType?: string;
 }
 
-export const ShareMoreThanTenThousand = 'trove:ten-thousands-and-more';
-
 export default class IndexCardSearchModel extends Model {
+    @service intl!: Intl;
+
     @attr('string') cardSearchText!: string;
     @attr('array') cardSearchFilters!: SearchFilter[];
-    @attr('string') totalResultCount!: number | typeof ShareMoreThanTenThousand;
+    @attr totalResultCount!: number | object;
     @attr('object') links!: Links;
 
     @hasMany('search-result', { inverse: null })
@@ -46,6 +48,14 @@ export default class IndexCardSearchModel extends Model {
             return nextPageLinkUrl.searchParams.get('page[cursor]');
         }
         return null;
+    }
+
+    get displayCount(): number | string {
+        return (
+            typeof this.totalResultCount === 'number'
+                ? this.totalResultCount
+                : this.intl.t('search.ten-thousand-plus')
+        );
     }
 }
 
