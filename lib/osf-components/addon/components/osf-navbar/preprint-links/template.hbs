@@ -18,7 +18,7 @@
         </OsfLink>
     </li>
 {{/if}}
-{{#if this.theme.provider.allowSubmissions}}
+{{#if (or (eq this.theme.id 'osf') this.theme.provider.allowSubmissions)}}
     <li data-test-nav-submit-preprint-link>
         <OsfLink
             data-test-add-a-preprint-osf-navbar
