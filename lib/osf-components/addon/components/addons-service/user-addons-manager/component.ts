@@ -20,6 +20,7 @@ import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-s
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
 import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
+import ExternalRedirectServiceModel from 'ember-osf-web/models/external-redirect-service';
 
 import UserModel from 'ember-osf-web/models/user';
 import UserReferenceModel from 'ember-osf-web/models/user-reference';
@@ -52,6 +53,7 @@ export default class UserAddonManagerComponent extends Component<Args> {
     user = this.args.user;
     @tracked userReference!: UserReferenceModel;
     @tracked tabIndex = 0;
+    @tracked connectAccountsTabDisabled = false;
 
     possibleFilterTypes = Object.values(FilterTypes);
     @tracked filterTypeMapper = {
@@ -87,6 +89,14 @@ export default class UserAddonManagerComponent extends Component<Args> {
         //     authorizedAccounts: [] as AuthorizedComputingAccountModel[],
         //     authorizedServiceIds: [] as string[],
         // },
+        [FilterTypes.REDIRECT_SERVICE]: {
+            modelName: 'external-redirect-service',
+            fetchProvidersTask: taskFor(this.getRedirectAddonProviders),
+            list: A([]) as EmberArray<Provider>,
+            getAuthorizedAccountsTask: taskFor(this.getAuthorizedRedirectAccounts),
+            authorizedAccounts: [] as AllAuthorizedAccountTypes[],
+            authorizedServiceIds: [] as string[],
+        },
     };
     @tracked filterText = '';
     @tracked activeFilterType = FilterTypes.STORAGE;
@@ -107,6 +117,11 @@ export default class UserAddonManagerComponent extends Component<Args> {
             this.filterText = '';
         }
         this.activeFilterType = type;
+        this.connectAccountsTabDisabled = false;
+        if (this.activeFilterType === FilterTypes.REDIRECT_SERVICE) {
+            this.changeTab(0);
+            this.connectAccountsTabDisabled = true;
+        }
         const activeFilterObject = this.filterTypeMapper[type];
         if (activeFilterObject.list.length === 0) {
             activeFilterObject.fetchProvidersTask.perform();
@@ -143,6 +158,10 @@ export default class UserAddonManagerComponent extends Component<Args> {
         return activeFilterObject.fetchProvidersTask.isRunning;
     }
 
+    get selectedProviderIsRedirectService() {
+        return this.selectedProvider?.provider instanceof ExternalRedirectServiceModel;
+    }
+
     @action
     connectNewProviderAccount(provider: Provider) {
         this.pageMode = UserSettingPageModes.TERMS;
@@ -151,6 +170,21 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @action
     acceptProviderTerms() {
+        if (this.selectedProviderIsRedirectService) {
+            const openURL = new URL((this.selectedProvider!.provider as ExternalRedirectServiceModel).redirectUrl);
+            const newWindow = window.open(
+                openURL.toString(),
+                '_blank', 'popup,width=600,height=600,scrollbars=yes,resizable=yes',
+            );
+            if (newWindow) {
+                newWindow.focus();
+            } else {
+                this.toast.error(this.intl.t('addons.redirect.pop-up-error'));
+            }
+
+            this.cancelSetup();
+            return;
+        }
         this.pageMode = UserSettingPageModes.ACCOUNT_CREATE;
     }
 
@@ -260,6 +294,16 @@ export default class UserAddonManagerComponent extends Component<Args> {
 
     @task
     @waitFor
+    async getAuthorizedRedirectAccounts() {
+        // Redirect services do not have authorized accounts
+        const mappedObject = this.filterTypeMapper[FilterTypes.REDIRECT_SERVICE];
+        mappedObject.authorizedAccounts = [] as AllAuthorizedAccountTypes[];
+        mappedObject.authorizedServiceIds = [];
+        notifyPropertyChange(this, 'filterTypeMapper');
+    }
+
+    @task
+    @waitFor
     async getAuthorizedAccounts() {
         const activeTypeMap = this.filterTypeMapper[this.activeFilterType];
         await taskFor(activeTypeMap.getAuthorizedAccountsTask).perform();
@@ -324,6 +368,23 @@ export default class UserAddonManagerComponent extends Component<Args> {
         const serviceCitationProviders = await taskFor(this.getExternalProviders)
             .perform(activeFilterObject.modelName) as ExternalLinkServiceModel[];
         activeFilterObject.list = serviceCitationProviders.sort(this.providerSorter)
+            .map(provider => new Provider(
+                provider,
+                this.currentUser,
+                undefined,
+                undefined,
+                undefined,
+                this.userReference,
+            ));
+    }
+
+    @task
+    @waitFor
+    async getRedirectAddonProviders() {
+        const activeFilterObject = this.filterTypeMapper[FilterTypes.REDIRECT_SERVICE];
+        const serviceRedirectProviders = await taskFor(this.getExternalProviders)
+            .perform(activeFilterObject.modelName) as ExternalRedirectServiceModel[];
+        activeFilterObject.list = serviceRedirectProviders.sort(this.providerSorter)
             .map(provider => new Provider(
                 provider,
                 this.currentUser,
