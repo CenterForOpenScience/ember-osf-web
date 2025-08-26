@@ -1,6 +1,8 @@
 extends:
   - stylelint-config-css-modules
   - stylelint-config-sass-guidelines
+plugins:
+  - ./ember-osf-web-stylelint/no-unlocalized-selectors.js
 rules:
   indentation: 4
   max-nesting-depth: 2
@@ -13,3 +15,4 @@ rules:
     - ignoreProperties:
       - composes
       - compose-with
+  ember-osf-web-stylelint/no-unlocalized-selectors: true
