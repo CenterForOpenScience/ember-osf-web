@@ -219,6 +219,7 @@ export default class AddonsServiceManagerComponent extends Component<Args> {
         if (this.selectedProviderIsRedirectService) {
             const openURL = new URL((this.selectedProvider!.provider as ExternalRedirectServiceModel).redirectUrl);
             openURL.searchParams.set('nodeIri', this.node.links.iri!.toString());
+            openURL.searchParams.set('userIri', this.userReference!.userUri);
             const newWindow = window.open(
                 openURL.toString(),
                 '_blank', 'popup,width=600,height=600,scrollbars=yes,resizable=yes',
