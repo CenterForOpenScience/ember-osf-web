@@ -23,7 +23,7 @@ export default class IndexCardSearcher extends Component<IndexCardSearcherArgs> 
     debounceTime = this.args.debounceTime || 1000;
 
     @tracked searchResults: SearchResultModel[] = [];
-    @tracked totalResultCount = 0;
+    @tracked totalResultCount: number | string = 0;
 
     @tracked relatedProperties?: RelatedPropertyPathModel[] = [];
     @tracked booleanFilters?: RelatedPropertyPathModel[] = [];
@@ -71,7 +71,7 @@ export default class IndexCardSearcher extends Component<IndexCardSearcherArgs> 
             this.nextPageCursor = searchResult.nextPageCursor;
             this.prevPageCursor = searchResult.prevPageCursor;
             this.searchResults = searchResult.searchResultPage.toArray();
-            this.totalResultCount = searchResult.totalResultCount;
+            this.totalResultCount = searchResult.displayCount;
 
             return searchResult;
         } catch (error) {

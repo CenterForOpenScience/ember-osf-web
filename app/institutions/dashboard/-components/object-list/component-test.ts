@@ -71,7 +71,7 @@ module('Integration | institutions | dashboard | -components | object-list', hoo
         assert.dom('[data-test-page-tab="summary"]').exists('Summary tab exists');
 
         // Elements in the top bar are present
-        assert.dom('[data-test-object-count]').containsText('10 total thingies', 'Object count is correct');
+        assert.dom('[data-test-object-count]').containsText('10,000+ total thingies', 'Object count is correct');
         assert.dom('[data-test-toggle-filter-button]').exists('Filter button exists');
         assert.dom('[data-test-customize-columns-button]').exists('Columns button exists');
 

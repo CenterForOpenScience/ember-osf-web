@@ -61,7 +61,6 @@ export default class PrePrintsDetailController extends Controller {
     @tracked fullScreenMFR = false;
     @tracked plauditIsReady = false;
 
-    metricsStartDate = config.OSF.metricsStartDate;
     reviewStateLabelKeyMap = VersionStatusSimpleLabelKey;
 
     get hyperlink(): string {
@@ -150,6 +149,10 @@ export default class PrePrintsDetailController extends Controller {
             return this.currentUser.currentUserId ? authorIds.includes(authorId) && this.hasReadWriteAccess() : false;
         }
         return false;
+    }
+
+    get showOSFBanner(): boolean {
+        return  this.model.provider.id === config.defaultProvider;
     }
 
     get showStatusBanner(): boolean {

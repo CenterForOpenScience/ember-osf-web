@@ -602,6 +602,7 @@ search:
     search-help-label: 'Help tutorial'
     total-results: '{count} {count, plural, one {result} other {results} }'
     no-results: 'No results found'
+    ten-thousand-plus: '10,000+'
     resource-type:
         search-by: 'Search by object type'
         all: 'All'
@@ -1884,6 +1885,7 @@ preprints:
             close: 'Close'
             message:
                 base: '{name} uses {reviewsWorkflow}. This {documentType}'
+                provider_osf: '{name} {documentType} are not peer-reviewed and acceptance is not an indicator of scholarly merit.'
                 pending_pre: 'is not publicly available or searchable until approved by a moderator.'
                 pending_post: 'is publicly available and searchable but is subject to removal by a moderator.'
                 accepted: 'has been accepted by a moderator and is publicly available and searchable.'

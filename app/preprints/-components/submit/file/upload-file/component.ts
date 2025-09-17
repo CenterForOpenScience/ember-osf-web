@@ -30,6 +30,7 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
     rootFolder?: FileModel;
     primaryFile: FileModel | undefined;
     @tracked isUploadFileDisplayed = false;
+    @tracked isEnabled = false;
 
     constructor(owner: unknown, args: any) {
         super(owner, args);
@@ -75,6 +76,7 @@ export default class PreprintUpload extends Component<PreprintUploadArgs> {
 
         this.url = new URL( urlString );
         this.rootFolder = rootFolder;
+        this.isEnabled = true;
     }
 
     @action

@@ -109,6 +109,13 @@
             @latestAction={{this.model.latestAction}}
         />
     {{/if}}
+    {{#if this.showOSFBanner}}
+        <Preprints::-Components::PreprintStatusBanner
+            @submission={{this.model.preprint}}
+            @provider={{this.model.provider}}
+            @isOSFBanner={{true}}
+        />
+    {{/if}}
     <div local-class='data-container'>
         {{#if this.model.preprint.isWithdrawn}}
             <Preprints::-Components::PreprintTombstone
@@ -187,17 +194,9 @@
                             </OsfLink>
                         </div>
                         <div>
-                            <span data-test-view-count-label>
-                                {{t 'preprints.detail.share.views'}}:
-                            </span>
-                            <span data-test-view-count> {{this.model.preprint.apiMeta.metrics.views}} </span> |
-                            <span data-test-download-count-label>
-                                {{t 'preprints.detail.share.downloads'}}:
-                            </span>
-                            <span data-test-download-count>{{this.model.preprint.apiMeta.metrics.downloads}}</span>
-                            <EmberTooltip>
-                                {{t 'preprints.detail.share.metrics_disclaimer'}} {{moment-format this.metricsStartDate 'YYYY-MM-DD'}}
-                            </EmberTooltip>
+                            <Preprints::-Components::PreprintMetrics
+                                @guid={{this.model.guid}}
+                            ></Preprints::-Components::PreprintMetrics>
                         </div>
                     </div>
                     <div local-class='plaudit-container'>

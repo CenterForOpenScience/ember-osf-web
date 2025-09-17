@@ -478,7 +478,7 @@ function fakeCheckCredentials(
 async function emulateUserDoingOAuthFlow(authorizedAccount: ModelInstance<AllAuthorizedAccountTypes>, schema: Schema) {
     await timeout(1000);
     // eslint-disable-next-line no-console
-    console.log('Mirage addons view: emulateUserDoingOAuthFlow done');
+    console.info('Mirage addons view: emulateUserDoingOAuthFlow done');
     const currentUser = schema.roots.first().currentUser;
     authorizedAccount.update({
         credentialsAvailable: true,

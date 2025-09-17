@@ -300,7 +300,7 @@ export function cardSearch(_: Schema, request: Request) {
                         ],
                     },
                 ],
-                totalResultCount: 10,
+                totalResultCount: {'@id': 'trove:ten-thousands-and-more'},
             },
             relationships: {
                 relatedProperties: {
