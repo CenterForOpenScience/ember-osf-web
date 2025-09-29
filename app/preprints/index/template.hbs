@@ -48,6 +48,30 @@
                             </OsfLink>
                         </div>
                     </div>
+                {{else}}
+                    {{#if (eq this.theme.id 'osf')}}
+                        <div local-class='submit-container'>
+                            <div local-class='or-container'>{{t 'preprints.header.or'}}</div>
+                            <OsfLink
+                                data-test-submit-button
+                                data-analytics-name='submit button'
+                                local-class='btn btn-success btn-lg'
+                                @route='preprints.select'
+                            >
+                                {{t 'preprints.header.submit_label' documentType=this.theme.provider.documentType.singular}}
+                            </OsfLink>
+                            <div local-class='example-container'>
+                                <OsfLink
+                                    data-test-submission-see-submission-example
+                                    data-analytics-name='See Submission Example'
+                                    @route='resolve-guid'
+                                    @models={{array (if this.theme.provider.example this.theme.provider.example 'khbvy')}}
+                                >
+                                    {{t 'preprints.header.example'}}
+                                </OsfLink>
+                            </div>
+                        </div>
+                    {{/if}}
                 {{/if}}
             {{/branded-header.row}}
         </BrandedHeader>
