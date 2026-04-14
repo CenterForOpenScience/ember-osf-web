@@ -1,3 +1,13 @@
+# Repository Archived
+
+> [!WARNING]
+> **Archived Repository**
+>
+> This project is no longer maintained and is read-only.
+>
+>  Please see our new frontend repository instead at https://github.com/CenterForOpenScience/angular-osf/
+> 
+
 # ember-osf-web
 
 `master build`<a href="https://github.com/CenterForOpenScience/ember-osf-web/actions">
