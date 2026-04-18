@@ -572,6 +572,8 @@ export default function(this: Server) {
     this.resource('external-storage-services', { only: ['index', 'show'] });
     this.resource('external-citation-services', { only: ['index', 'show'] });
     this.resource('external-computing-services', { only: ['index', 'show'] });
+    this.resource('external-redirect-services', { only: ['index', 'show'] });
+    this.resource('external-link-services', { only: ['index', 'show'] });
     this.resource('user-references', { only: ['index', 'show'] });
     this.get('/user-references/:userGuid/authorized_storage_accounts/',
         addons.userReferenceAuthorizedStorageAccountList);

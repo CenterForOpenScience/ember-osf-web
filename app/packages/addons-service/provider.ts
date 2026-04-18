@@ -1,5 +1,6 @@
 import { getOwner, setOwner } from '@ember/application';
 import EmberArray from '@ember/array';
+import { notifyPropertyChange } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -23,7 +24,7 @@ import AuthorizedComputingAccountModel from 'ember-osf-web/models/authorized-com
 import ExternalStorageServiceModel from 'ember-osf-web/models/external-storage-service';
 import ExternalComputingServiceModel from 'ember-osf-web/models/external-computing-service';
 import ExternalCitationServiceModel from 'ember-osf-web/models/external-citation-service';
-import { notifyPropertyChange } from '@ember/object';
+import ExternalRedirectServiceModel from 'ember-osf-web/models/external-redirect-service';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import ExternalLinkServiceModel from 'ember-osf-web/models/external-link-service';
 import AuthorizedLinkAccountModel from 'ember-osf-web/models/authorized-link-account';
@@ -33,7 +34,8 @@ export type AllProviderTypes =
     ExternalStorageServiceModel |
     ExternalComputingServiceModel |
     ExternalCitationServiceModel |
-    ExternalLinkServiceModel;
+    ExternalLinkServiceModel |
+    ExternalRedirectServiceModel;
 export type AllAuthorizedAccountTypes =
     AuthorizedStorageAccountModel |
     AuthorizedCitationAccountModel |
