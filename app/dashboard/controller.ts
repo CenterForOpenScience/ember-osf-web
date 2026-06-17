@@ -1,5 +1,4 @@
 import Store from '@ember-data/store';
-import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
@@ -11,7 +10,6 @@ import config from 'ember-osf-web/config/environment';
 import $ from 'jquery';
 import Media from 'ember-responsive';
 
-import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
@@ -46,7 +44,7 @@ export default class Dashboard extends Controller {
     'failedLoading-noteworthy' = false;
     'failedLoading-popular' = false;
 
-    institutions: Institution[] = A([]);
+    // institutions: Institution[] = A([]);
     nodes?: QueryHasManyResult<Node>;
     noteworthy!: QueryHasManyResult<Node>;
     popular!: QueryHasManyResult<Node>;
@@ -65,16 +63,16 @@ export default class Dashboard extends Controller {
     async setupTask() {
         this.set('filter', null);
 
-        const institutions = this.store.findAll('institution');
+        // const institutions = this.store.findAll('institution');
 
         await all([
-            institutions,
+            // institutions,
             taskFor(this.findNodes).perform(),
             taskFor(this.getPopularAndNoteworthy).perform(popularNode, 'popular'),
             taskFor(this.getPopularAndNoteworthy).perform(noteworthyNode, 'noteworthy'),
         ]);
 
-        this.set('institutions', institutions.toArray());
+        // this.set('institutions', institutions.toArray());
     }
 
     @restartableTask
